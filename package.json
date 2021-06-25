@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@vue/composition-api": "^1.0.0-rc.12",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "install": "^0.13.0",
     "npm": "^7.19.0",
