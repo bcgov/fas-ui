@@ -1,15 +1,18 @@
 /* eslint-disable */
+
 import '@mdi/font/css/materialdesignicons.min.css' // icon library (https://materialdesignicons.com/)
 import 'core-js/stable' // to polyfill ECMAScript features
-import Vue from 'vue'
-import App from './App.vue'
 import './registerServiceWorker'
+
+import App from './App.vue'
+import ConfigHelper from '@/util/config-helper'
+import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
+import Vue from 'vue'
+import VueCompositionAPI from '@vue/composition-api'
+import i18n from './plugins/i18n'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
-import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
-import VueCompositionAPI from '@vue/composition-api'
-import ConfigHelper from '@/util/config-helper'
 
 Vue.config.productionTip = false
 
@@ -33,6 +36,7 @@ function renderVue () {
     router,
     store,
     vuetify,
+    i18n,
     render: h => h(App)
   }).$mount('#app')
 }

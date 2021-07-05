@@ -1,10 +1,9 @@
-
-import { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
-// auth
+import { RouteConfig } from 'vue-router'
 import SigninView from '@/views/auth/SigninView.vue'
 import SignoutView from '@/views/auth/SignoutView.vue'
 
+// auth
 // Dasboard
 
 const routes: Array<RouteConfig> = [
@@ -39,6 +38,11 @@ const routes: Array<RouteConfig> = [
     // this generates a separate chunk (dashboard.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue')
+  },
+  {
+    path: '/routing-slip',
+    name: 'RoutingSlip',
+    component: () => import(/* webpackChunkName: "routingSlipView" */ '../views/RoutingSlip.vue')
   }
 ]
 
