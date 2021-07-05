@@ -5,6 +5,8 @@ import Home from '../views/Home.vue'
 import SigninView from '@/views/auth/SigninView.vue'
 import SignoutView from '@/views/auth/SignoutView.vue'
 
+// Dasboard
+
 const routes: Array<RouteConfig> = [
   { path: '/', name: 'root', redirect: 'home' },
   {
@@ -31,12 +33,12 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: '/about',
-    name: 'About',
+    path: '/dashboard',
+    name: 'Dashboard',
     // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
+    // this generates a separate chunk (dashboard.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue')
   }
 ]
 
