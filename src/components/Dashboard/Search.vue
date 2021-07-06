@@ -43,12 +43,18 @@
                 color="primary"
                 class="advanced-search"
                 @click="toggleAdvanceSearch()"
+                data-test="btn-advanced-search"
                 >Advanced Search</span
               >
             </v-col>
           </v-row>
           <transition name="slide-fade">
-            <v-row dense class="row-margin" v-if="showAdvanceSearch">
+            <v-row
+              dense
+              class="row-margin"
+              v-if="showAdvanceSearch"
+              data-test="div-advanced-search"
+            >
               <v-col sm="4" cols="12">
                 <v-menu
                   ref="menu"
@@ -97,6 +103,7 @@
                   filled
                   label="Total Amount"
                   required
+                  data-test="input-total-amount"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -139,8 +146,7 @@ import { useSearch } from '@/composables/Dashboard/useSearch'
     }
   }
 })
-export default class Search extends Vue {
-}
+export default class Search extends Vue {}
 </script>
 <style lang="scss" scoped>
 .button-search {
@@ -156,5 +162,4 @@ export default class Search extends Vue {
 .row-margin {
   margin: -5px !important;
 }
-
 </style>

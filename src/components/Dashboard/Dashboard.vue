@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import Search from '@/components/Dashboard/Search.vue'
 
 @Component({
@@ -44,7 +44,7 @@ import Search from '@/components/Dashboard/Search.vue'
   }
 })
 export default class Dashboard extends Vue {
-  @Prop() private msg!: string
+
 }
 </script>
 <style lang="scss" scoped>
