@@ -27,8 +27,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { useNavigation } from '@/composables/common'
 
 @Component({
-  setup (props, { root }) {
-    const { goHome } = useNavigation(props, { root })
+  setup (props, context) {
+    const { goHome } = useNavigation(props, context)
     return {
       goHome
     }

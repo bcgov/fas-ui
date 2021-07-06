@@ -83,7 +83,7 @@
 // this is just took from auth-web
 import { Component, Prop } from 'vue-property-decorator'
 import Vue from 'vue'
-import { useDateRange } from '@/composables/common/useDateRange'
+import { useDateRange } from '@/composables/common'
 
 @Component({
   setup (props, context) {

@@ -1,10 +1,9 @@
-
-export function useNavigation (props, { root }) {
+export function useNavigation (_, context) {
   function goHome () {
-    root.$router.push('/')
+    context.root.$router.push('/')
   }
-  function gotoPage (page:string) {
-    root.$router.push(page)
+  function gotoPage (page: string) {
+    context.root.$router.push(page)
   }
 
   return {
