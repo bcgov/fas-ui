@@ -44,8 +44,12 @@
                 class="advanced-search"
                 @click="toggleAdvanceSearch()"
                 data-test="btn-advanced-search"
-                >Advanced Search</span
-              >
+                >Advanced Search
+                <v-icon color="primary" v-if="showAdvanceSearch"
+                  >mdi-menu-up</v-icon
+                >
+                <v-icon color="primary" v-else>mdi-menu-down</v-icon>
+              </span>
             </v-col>
           </v-row>
           <transition name="slide-fade">
@@ -56,35 +60,11 @@
               data-test="div-advanced-search"
             >
               <v-col sm="4" cols="12">
-                <v-menu
-                  ref="menu"
-                  :close-on-content-click="false"
-                  :return-value.sync="searchDate"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="auto"
+                <DateRangeFilter
+                  :dateFilterProp="searchDate"
+                  @emitDateFilter="applyDateFilter($event)"
                 >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="searchDate"
-                      label="Date"
-                      append-icon="mdi-calendar"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                      filled
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker v-model="searchDate" no-title scrollable range>
-                    <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="menu = false">
-                      Cancel
-                    </v-btn>
-                    <v-btn text color="primary" @click="$refs.menu.save(date)">
-                      OK
-                    </v-btn>
-                  </v-date-picker>
-                </v-menu>
+                </DateRangeFilter>
               </v-col>
               <v-col sm="4" cols="12">
                 <v-select
@@ -117,6 +97,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { useSearch } from '@/composables/Dashboard/useSearch'
+import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
 
 @Component({
   setup () {
@@ -130,7 +111,8 @@ import { useSearch } from '@/composables/Dashboard/useSearch'
       totalAmount,
       searchDate,
       toggleAdvanceSearch,
-      showAdvanceSearch
+      showAdvanceSearch,
+      applyDateFilter
     } = useSearch()
     return {
       categoryList,
@@ -142,11 +124,17 @@ import { useSearch } from '@/composables/Dashboard/useSearch'
       totalAmount,
       searchDate,
       toggleAdvanceSearch,
-      showAdvanceSearch
+      showAdvanceSearch,
+      applyDateFilter
     }
+  },
+  components: {
+    DateRangeFilter
   }
 })
-export default class Search extends Vue {}
+export default class Search extends Vue {
+
+}
 </script>
 <style lang="scss" scoped>
 .button-search {

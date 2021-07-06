@@ -38,6 +38,9 @@ export function useSearch () {
   function toggleAdvanceSearch () {
     showAdvanceSearch.value = !showAdvanceSearch.value
   }
+  function applyDateFilter (dateRangeObj) {
+    searchDate.value = dateRangeObj
+  }
 
   return {
     categoryList,
@@ -49,6 +52,7 @@ export function useSearch () {
     totalAmount,
     searchDate,
     showAdvanceSearch,
-    toggleAdvanceSearch
+    toggleAdvanceSearch,
+    applyDateFilter
   }
 }
