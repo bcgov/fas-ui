@@ -151,7 +151,7 @@ export default class Search extends Vue {}
 <style lang="scss" scoped>
 .button-search {
   display: flex;
-  height: 67% !important;
+  height: 62% !important;
   width: 100%;
 }
 .advanced-search {
