@@ -81,7 +81,7 @@ export function useDateRange (props, context) {
           'MM-DD-YYYY'
         )}`
     }
-    console.log('dateFilterSelected', dateFilterSelected)
+
     return dateFilterSelected.value?.code
       ? dateText
       : '<strong>No dates selected</strong>'
@@ -92,6 +92,7 @@ export function useDateRange (props, context) {
       startDate: formatDateFilter(dateRangeSelected.value[0]),
       endDate: formatDateFilter(dateRangeSelected.value[1])
     }
+    context.emit('emitDateFilter', data)
   }
 
   // methods
