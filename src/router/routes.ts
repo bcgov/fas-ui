@@ -42,7 +42,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/routing-slip',
     name: 'RoutingSlip',
-    component: () => import(/* webpackChunkName: "routingSlipView" */ '../views/RoutingSlip.vue')
+    component: () => import(/* webpackChunkName: "routingSlipView" */ '../views/CreateRoutingSlipView.vue')
   }
 ]
 
