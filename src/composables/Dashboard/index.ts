@@ -1,1 +1,1 @@
-
+export { useSearch } from './useSearch'

@@ -1,4 +1,4 @@
-import { ref, watch, reactive } from '@vue/composition-api'
+import { ref, watch, reactive, watchEffect } from '@vue/composition-api'
 
 export function useSearch () {
   // move to API
@@ -26,6 +26,7 @@ export function useSearch () {
   const searchDate = ref([])
   const showAdvanceSearch = ref(false)
 
+  // on change of value need to change label
   watch(category, (newCategory: any) => {
     if (newCategory.value !== '') {
       searchLabel.value = `Enter ${newCategory.name}`
@@ -36,6 +37,9 @@ export function useSearch () {
 
   function toggleAdvanceSearch () {
     showAdvanceSearch.value = !showAdvanceSearch.value
+  }
+  function applyDateFilter (dateRangeObj) {
+    searchDate.value = dateRangeObj
   }
 
   return {
@@ -48,6 +52,7 @@ export function useSearch () {
     totalAmount,
     searchDate,
     showAdvanceSearch,
-    toggleAdvanceSearch
+    toggleAdvanceSearch,
+    applyDateFilter
   }
 }

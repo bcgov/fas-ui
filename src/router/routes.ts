@@ -1,17 +1,22 @@
-import Home from '../views/Home.vue'
+import CreateRoutingSlipView from '../views/CreateRoutingSlipView.vue'
+import Dashboard from '../views/Dashboard.vue'
+import PageNotFound from '../views/PageNotFound.vue'
 import { RouteConfig } from 'vue-router'
 import SigninView from '@/views/auth/SigninView.vue'
 import SignoutView from '@/views/auth/SignoutView.vue'
-
-// auth
-// Dasboard
 
 const routes: Array<RouteConfig> = [
   { path: '/', name: 'root', redirect: 'home' },
   {
     path: '/home',
-    name: 'Home',
-    component: Home
+    name: 'home',
+    component: Dashboard,
+    children: [
+      {
+        path: 'routing-slip',
+        name: 'routing-routing',
+        component: CreateRoutingSlipView
+      }]
   },
   {
     // router.beforeEach() routes here:
@@ -31,19 +36,7 @@ const routes: Array<RouteConfig> = [
       requiresAuth: false
     }
   },
-  {
-    path: '/dashboard',
-    name: 'Dashboard',
-    // route level code-splitting
-    // this generates a separate chunk (dashboard.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue')
-  },
-  {
-    path: '/routing-slip',
-    name: 'RoutingSlip',
-    component: () => import(/* webpackChunkName: "routingSlipView" */ '../views/CreateRoutingSlipView.vue')
-  }
+  { path: '*', name: 'notfound', component: PageNotFound }
 ]
 
 export default routes
