@@ -8,7 +8,7 @@ module.exports = {
       'jest-transform-stub',
     '^.+\\.tsx?$': 'ts-jest'
   },
-  transformIgnorePatterns: ['/node_modules/'],
+  transformIgnorePatterns: ['/node_modules/(?!sbc-common-components/.*)'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1'
   },
@@ -34,8 +34,7 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.{js,vue}',
     '!src/main.js',
-    '!src/html/*',
-    '!src/views/Help.vue'
+    '!src/App.vue'
   ],
   coverageReporters: ['json', 'lcov', 'text', 'clover', 'html']
 }

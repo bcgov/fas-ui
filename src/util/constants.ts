@@ -9,3 +9,11 @@ export enum SessionStorageKeys {
     AuthWebUrl = 'AUTH_WEB_URL',
     StatusApiUrl = 'STATUS_API_URL'
 }
+
+export enum DateFilterCodes {
+    TODAY = 'TODAY',
+    YESTERDAY = 'YESTERDAY',
+    LASTWEEK = 'LASTWEEK',
+    LASTMONTH = 'LASTMONTH',
+    CUSTOMRANGE = 'CUSTOMRANGE'
+}

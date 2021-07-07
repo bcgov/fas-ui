@@ -10,6 +10,7 @@ import vuetify from './plugins/vuetify'
 import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
 import VueCompositionAPI from '@vue/composition-api'
 import ConfigHelper from '@/util/config-helper'
+import i18n from './plugins/i18n'
 
 Vue.config.productionTip = false
 
@@ -33,6 +34,7 @@ function renderVue () {
     router,
     store,
     vuetify,
+    i18n,
     render: h => h(App)
   }).$mount('#app')
 }
