@@ -33,8 +33,8 @@ export function useDateRange (props, context) {
     }
   ])
 
-  const dateRangeSelected = ref([])
-  const dateFilterSelectedIndex = ref(null)
+  const dateRangeSelected = ref<Array <Date>>([])
+  const dateFilterSelectedIndex = ref<number | null>(null)
   const dateFilterSelected: any = ref({})
   const showDateFilter = ref(false)
   const pickerDate = ref('')

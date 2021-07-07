@@ -3,11 +3,7 @@ module.exports = {
   env: {
     node: true
   },
-  extends: [
-    'plugin:vue/essential',
-    '@vue/standard',
-    '@vue/typescript'
-  ],
+  extends: ['plugin:vue/essential', '@vue/standard', '@vue/typescript'],
   parserOptions: {
     ecmaVersion: 2020,
     parser: '@typescript-eslint/parser',
@@ -16,9 +12,9 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
-    'space-before-function-paren': 1
+    'space-before-function-paren': 1,
+    '@typescript-eslint/no-floating-promises': 'off'
   },
-  
   overrides: [
     {
       files: [
