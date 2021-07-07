@@ -112,7 +112,8 @@ import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
       searchDate,
       toggleAdvanceSearch,
       showAdvanceSearch,
-      applyDateFilter
+      applyDateFilter,
+      selectedDate
     } = useSearch()
     return {
       categoryList,
@@ -125,16 +126,15 @@ import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
       searchDate,
       toggleAdvanceSearch,
       showAdvanceSearch,
-      applyDateFilter
+      applyDateFilter,
+      selectedDate
     }
   },
   components: {
     DateRangeFilter
   }
 })
-export default class Search extends Vue {
-
-}
+export default class Search extends Vue {}
 </script>
 <style lang="scss" scoped>
 .button-search {
