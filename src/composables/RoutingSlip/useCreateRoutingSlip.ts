@@ -10,14 +10,17 @@ export function useCreateRoutingSlip () {
   const createRoutingSlipPaymentRef = ref<HTMLFormElement>()
 
   function isValid (): boolean {
-    return createRoutingSlipDetailsRef.value?.isValid() && createRoutingSlipPaymentRef.value?.isValid()
+    // We would want to trigger validate() of all the children
+    let isValid = createRoutingSlipDetailsRef.value?.isValid()
+    isValid = createRoutingSlipPaymentRef.value?.isValid() && isValid
+    return isValid
   }
 
   function getRoutingSlipInput (): RoutingSlip {
-    const routingSlip: RoutingSlip = null
+    const routingSlip: RoutingSlip = {}
     // construct object from children
-    routingSlip.payments = createRoutingSlipPaymentRef.value?.getRoutingSlipCashInput()
-    const routingSlipDetails: RoutingSlipDetails = createRoutingSlipDetailsRef.value?.getRoutingSlipDetailsInput()
+    routingSlip.payments = { ...createRoutingSlipPaymentRef.value?.getRoutingSlipPaymentInput() }
+    const routingSlipDetails: RoutingSlipDetails = { ...createRoutingSlipDetailsRef.value?.getRoutingSlipDetailsInput() }
     if (routingSlipDetails) {
       routingSlip.routingSlipDate = routingSlipDetails.routingSlipDate
       routingSlip.number = routingSlipDetails.number

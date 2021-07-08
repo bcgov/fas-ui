@@ -8,21 +8,15 @@
                         filled
                         label="Cheque Number"
                         persistent-hint
-                        v-model.trim="cheque.number"
+                        v-model.trim="cheque.chequeReceiptNumber"
                         :data-test="getIndexedTag('number', index)"
                         :rules="chequeNumberRules"
                         >
                         </v-text-field>
                     </v-col>
                     <v-col cols="4" class="py-0">
-                        <v-text-field
-                        filled
-                        label="Cheque Date(optional)"
-                        persistent-hint
-                        v-model="cheque.paymentDate"
-                        :data-test="getIndexedTag('paymentDate', index)"
-                        >
-                        </v-text-field>
+                        <date-picker v-model="cheque.paymentDate"
+                        :data-test="getIndexedTag('paymentDate', index)"></date-picker>
                     </v-col>
                     <v-col cols="4" class="py-0">
                         <v-text-field
@@ -75,9 +69,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import DatePicker from '@/components/common/DatePicker.vue'
 import { useCreateRoutingSlipChequePayment } from '@/composables/RoutingSlip/useCreateRoutingSlipChequePayment'
 
 @Component({
+  components: {
+    DatePicker
+  },
   setup () {
     const {
       totalAmount,

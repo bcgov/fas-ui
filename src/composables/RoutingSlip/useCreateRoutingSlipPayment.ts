@@ -14,11 +14,13 @@ export function useCreateRoutingSlipPayment () {
 
   function getRoutingSlipPaymentInput (): Payment {
     let payment: Payment = null
-    if (isPaymentCheque.value) {
-      payment = createRoutingSlipChequePaymentRef.value?.getRoutingSlipChequesInput()
+    if (isPaymentCheque.value === true) {
+      payment = { ...createRoutingSlipChequePaymentRef.value?.getRoutingSlipChequesInput() }
     } else {
-      payment = createRoutingSlipCashPaymentRef.value?.getRoutingSlipCashInput()
+      payment = { ...createRoutingSlipCashPaymentRef.value?.getRoutingSlipCashInput() }
     }
+    // eslint-disable-next-line no-console
+    console.log('payment', payment)
     return payment
   }
 

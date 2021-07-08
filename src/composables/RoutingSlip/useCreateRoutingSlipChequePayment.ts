@@ -49,7 +49,8 @@ export function useCreateRoutingSlipChequePayment () {
   }
 
   function getRoutingSlipChequesInput (): Payment[] {
-    return chequeList.value
+    // to avoid passing observer array, we send in a copy
+    return JSON.parse(JSON.stringify(chequeList.value))
   }
 
   return {

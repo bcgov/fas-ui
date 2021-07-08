@@ -6,7 +6,6 @@
         <v-col cols="9" class="pl-0">
             <v-form ref="createRoutingSlipDetailsForm" class="mt-4">
                 <v-row class="d-flex pa-0 ma-0 justify-between">
-                    <!-- Routing Slip ID -->
                     <v-col cols="12" class="py-0">
                         <v-text-field
                         filled
@@ -19,20 +18,9 @@
                         >
                         </v-text-field>
                     </v-col>
-                    <!-- Routing Date -->
                     <v-col cols="6" class="py-0">
-                        <v-text-field
-                        filled
-                        label="Routing Date"
-                        req
-                        persistent-hint
-                        data-test="txtroutingSlipDate"
-                        v-model="routingSlipDate"
-                        :rules="routingSlipDateRules"
-                        >
-                        </v-text-field>
+                        <date-picker v-model="routingSlipDate" :rules="routingSlipDateRules"></date-picker>
                     </v-col>
-                    <!-- Name of person -->
                     <v-col cols="6" class="py-0">
                         <v-text-field
                         filled
@@ -52,9 +40,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import DatePicker from '@/components/common/DatePicker.vue'
 import { useCreateRoutingSlipDetails } from '@/composables/RoutingSlip/useCreateRoutingSlipDetails'
 
 @Component({
+  components: {
+    DatePicker
+  },
   setup () {
     const {
       createRoutingSlipDetailsForm,
