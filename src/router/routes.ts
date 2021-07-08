@@ -1,12 +1,9 @@
-
-import { RouteConfig } from 'vue-router'
-// auth
-import SigninView from '@/views/auth/SigninView.vue'
-import SignoutView from '@/views/auth/SignoutView.vue'
-
-// Dasboard
+import CreateRoutingSlipView from '../views/CreateRoutingSlipView.vue'
 import Dashboard from '../views/Dashboard.vue'
 import PageNotFound from '../views/PageNotFound.vue'
+import { RouteConfig } from 'vue-router'
+import SigninView from '@/views/auth/SigninView.vue'
+import SignoutView from '@/views/auth/SignoutView.vue'
 
 const routes: Array<RouteConfig> = [
   { path: '/', name: 'root', redirect: 'home' },
@@ -14,6 +11,11 @@ const routes: Array<RouteConfig> = [
     path: '/home',
     name: 'home',
     component: Dashboard
+  },
+  {
+    path: '/create-routing-slip',
+    name: 'create-routing-slip',
+    component: CreateRoutingSlipView
   },
   {
     // router.beforeEach() routes here:

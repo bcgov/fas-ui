@@ -9,4 +9,10 @@ export default class CommonUtils {
   static formatDisplayDate (date: Date, format?: string) {
     return (date) ? moment(date).format(format || 'MM-DD-YYYY') : ''
   }
+
+  static requiredFieldRule (errorMessage: string = '') {
+    return [
+      v => !!v || errorMessage
+    ]
+  }
 }
