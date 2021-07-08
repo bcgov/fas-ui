@@ -56,6 +56,3 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip/useCr
 export default class CreateRoutingSlipCashPayment extends Vue {
 }
 </script>
-<style lang="scss" scoped>
-@import '$assets/scss/theme.scss';
-</style>

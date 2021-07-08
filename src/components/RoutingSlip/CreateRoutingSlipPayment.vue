@@ -72,6 +72,3 @@ import { useCreateRoutingSlipPayment } from '@/composables/RoutingSlip/useCreate
 export default class CreateRoutingSlipPayment extends Vue {
 }
 </script>
-<style lang="scss" scoped>
-@import '$assets/scss/theme.scss';
-</style>

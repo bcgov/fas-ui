@@ -19,8 +19,8 @@ export function useCreateRoutingSlip () {
   function getRoutingSlipInput (): RoutingSlip {
     const routingSlip: RoutingSlip = {}
     // construct object from children
-    routingSlip.payments = { ...createRoutingSlipPaymentRef.value?.getRoutingSlipPaymentInput() }
-    const routingSlipDetails: RoutingSlipDetails = { ...createRoutingSlipDetailsRef.value?.getRoutingSlipDetailsInput() }
+    routingSlip.payments = createRoutingSlipPaymentRef.value?.getRoutingSlipPaymentInput()
+    const routingSlipDetails: RoutingSlipDetails = createRoutingSlipDetailsRef.value?.getRoutingSlipDetailsInput()
     if (routingSlipDetails) {
       routingSlip.routingSlipDate = routingSlipDetails.routingSlipDate
       routingSlip.number = routingSlipDetails.number
