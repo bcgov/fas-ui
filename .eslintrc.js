@@ -12,8 +12,7 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
-    'space-before-function-paren': 1,
-    '@typescript-eslint/no-floating-promises': 'off'
+    'space-before-function-paren': 1
   },
   overrides: [
     {
