@@ -10,13 +10,12 @@ const routes: Array<RouteConfig> = [
   {
     path: '/home',
     name: 'home',
-    component: Dashboard,
-    children: [
-      {
-        path: 'routing-slip',
-        name: 'routing-routing',
-        component: CreateRoutingSlipView
-      }]
+    component: Dashboard
+  },
+  {
+    path: '/create-routing-slip',
+    name: 'create-routing-slip',
+    component: CreateRoutingSlipView
   },
   {
     // router.beforeEach() routes here:

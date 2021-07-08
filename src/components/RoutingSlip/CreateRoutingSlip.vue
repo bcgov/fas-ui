@@ -19,10 +19,8 @@
           <p class="ml-2 mb-0 font-weight-bold">Add New Routing Slip</p>
         </div>
         <v-card class="my-0">
-          <v-form ref="createRoutingSlipForm">
-            <create-routing-slip-details ref="createRoutingSlipDetailsRef"/>
-            <create-routing-slip-payment ref="createRoutingSlipPaymentRef"/>
-          </v-form>
+          <create-routing-slip-details ref="createRoutingSlipDetailsRef"/>
+          <create-routing-slip-payment ref="createRoutingSlipPaymentRef"/>
           <v-divider></v-divider>
           <v-card-actions class="pr-10 justify-end">
               <v-btn
@@ -67,14 +65,18 @@ import { useCreateRoutingSlip } from '@/composables/RoutingSlip/useCreateRouting
       createRoutingSlipDetailsRef,
       createRoutingSlipPaymentRef,
       createRoutingSlip,
-      cancel
+      cancel,
+      isValid,
+      getRoutingSlipInput
     } = useCreateRoutingSlip()
     return {
       createRoutingSlipForm,
       createRoutingSlipDetailsRef,
       createRoutingSlipPaymentRef,
       createRoutingSlip,
-      cancel
+      cancel,
+      isValid,
+      getRoutingSlipInput
     }
   }
 })

@@ -13,8 +13,9 @@
                         label="Routing Slip - Unique ID"
                         req
                         persistent-hint
-                        data-test="txtRoutingSlipId"
-                        v-model="routingSlipId"
+                        data-test="txtNumberId"
+                        v-model.trim="number"
+                        :rules="numberRules"
                         >
                         </v-text-field>
                     </v-col>
@@ -22,11 +23,12 @@
                     <v-col cols="6" class="py-0">
                         <v-text-field
                         filled
-                        label="Routing Slip - Unique ID"
+                        label="Routing Date"
                         req
                         persistent-hint
-                        data-test="txtRoutingSlipId"
-                        v-model="routingDate"
+                        data-test="txtroutingSlipDate"
+                        v-model="routingSlipDate"
+                        :rules="routingSlipDateRules"
                         >
                         </v-text-field>
                     </v-col>
@@ -37,8 +39,8 @@
                         label="Name of Person or Business Submitting (optional)"
                         req
                         persistent-hint
-                        data-test="txtRoutingSlipPersonName"
-                        v-model="routingSlipPersonName"
+                        data-test="txtAccountName"
+                        v-model.trim="accountName"
                         >
                         </v-text-field>
                     </v-col>
@@ -56,15 +58,23 @@ import { useCreateRoutingSlipDetails } from '@/composables/RoutingSlip/useCreate
   setup () {
     const {
       createRoutingSlipDetailsForm,
-      routingSlipId,
-      routingDate,
-      routingSlipPersonName
+      number,
+      routingSlipDate,
+      accountName,
+      numberRules,
+      routingSlipDateRules,
+      isValid,
+      getRoutingSlipDetailsInput
     } = useCreateRoutingSlipDetails()
     return {
       createRoutingSlipDetailsForm,
-      routingSlipId,
-      routingDate,
-      routingSlipPersonName
+      number,
+      routingSlipDate,
+      accountName,
+      numberRules,
+      routingSlipDateRules,
+      isValid,
+      getRoutingSlipDetailsInput
     }
   }
 })

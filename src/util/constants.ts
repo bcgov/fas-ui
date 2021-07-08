@@ -17,3 +17,8 @@ export enum DateFilterCodes {
     LASTMONTH = 'LASTMONTH',
     CUSTOMRANGE = 'CUSTOMRANGE'
 }
+
+export enum PaymentMethods {
+    CASH = 'CASH',
+    CHEQUE = 'CHEQUE'
+}

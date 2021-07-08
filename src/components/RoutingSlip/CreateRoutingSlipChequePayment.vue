@@ -1,5 +1,5 @@
 <template>
-    <v-form>
+    <v-form ref="createRoutingSlipChequePaymentForm">
         <v-row class="d-flex pa-0 ma-0 justify-between">
             <v-col cols="12" class="pa-0">
                 <div v-for="(cheque, index) in chequeList" :key="index" class="d-flex">
@@ -8,8 +8,9 @@
                         filled
                         label="Cheque Number"
                         persistent-hint
-                        v-model="cheque.chequeNumber"
-                        :data-test="getIndexedTag('chequeNumber', index)"
+                        v-model.trim="cheque.number"
+                        :data-test="getIndexedTag('number', index)"
+                        :rules="chequeNumberRules"
                         >
                         </v-text-field>
                     </v-col>
@@ -18,8 +19,8 @@
                         filled
                         label="Cheque Date(optional)"
                         persistent-hint
-                        v-model="cheque.chequeDate"
-                        :data-test="getIndexedTag('chequeDate', index)"
+                        v-model="cheque.paymentDate"
+                        :data-test="getIndexedTag('paymentDate', index)"
                         >
                         </v-text-field>
                     </v-col>
@@ -28,8 +29,9 @@
                         filled
                         label="Amount ($)"
                         persistent-hint
-                        v-model="cheque.chequeAmount"
-                        :data-test="getIndexedTag('chequeAmount', index)"
+                        v-model.number="cheque.paidAmount"
+                        :data-test="getIndexedTag('paidAmount', index)"
+                        :rules="paidAmountRules"
                         >
                         </v-text-field>
                     </v-col>
@@ -63,6 +65,7 @@
                 persistent-hint
                 data-test="txtAmount"
                 v-model="totalAmount"
+                readonly
                 >
                 </v-text-field>
             </v-col>
@@ -79,20 +82,30 @@ import { useCreateRoutingSlipChequePayment } from '@/composables/RoutingSlip/use
     const {
       totalAmount,
       chequeList,
+      createRoutingSlipChequePaymentForm,
+      chequeNumberRules,
+      paidAmountRules,
       onMounted,
       getDefaultRow,
       getIndexedTag,
       addCheque,
-      removeCheque
+      removeCheque,
+      isValid,
+      getRoutingSlipChequesInput
     } = useCreateRoutingSlipChequePayment()
     return {
       totalAmount,
       chequeList,
+      createRoutingSlipChequePaymentForm,
+      chequeNumberRules,
+      paidAmountRules,
       onMounted,
       getDefaultRow,
       getIndexedTag,
       addCheque,
-      removeCheque
+      removeCheque,
+      isValid,
+      getRoutingSlipChequesInput
     }
   }
 })

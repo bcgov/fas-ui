@@ -1,40 +1,69 @@
-import { onMounted, reactive, ref } from '@vue/composition-api'
+import { computed, onMounted, ref } from '@vue/composition-api'
 
-import { Cheque } from '@/models/cheque'
+import CommonUtils from '@/util/common-util'
+import { Payment } from '@/models/Payment'
+import { PaymentMethods } from '@/util/constants'
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
 export function useCreateRoutingSlipChequePayment () {
-  const totalAmount = ref(null)
-  const chequeList = reactive<Cheque[]>([])
+  const chequeList = ref<Payment[]>([])
+  const createRoutingSlipChequePaymentForm = ref<HTMLFormElement>()
 
-  function getIndexedTag (tag: string, index: number): string {
-    return `${tag}-${index}`
-  }
+  // Input field rules
+  const chequeNumberRules = CommonUtils.requiredFieldRule('A Cheque number is required')
+  const paidAmountRules = CommonUtils.requiredFieldRule('Paid Amount is required')
 
-  function removeCheque (index: number) {
-    chequeList.splice(index, 1)
-  }
-
-  function getDefaultRow (): Cheque {
-    return { chequeNumber: null, chequeAmount: null, chequeDate: '' }
-  }
-
-  function addCheque () {
-    chequeList.push(getDefaultRow())
-  }
+  // Compute individual cheque paid amount to calculate total paid amount
+  const totalAmount = computed(() => {
+    return chequeList.value.reduce((acc, payment: Payment) => {
+      return acc + payment.paidAmount
+    }, 0)
+    // return value
+  })
 
   // By default, we have one cheque row in UI
   onMounted(() => {
     addCheque()
   })
 
+  // For UI Cheque list - start
+  function getIndexedTag (tag: string, index: number): string {
+    return `${tag}-${index}`
+  }
+
+  function removeCheque (index: number) {
+    chequeList.value.splice(index, 1)
+  }
+
+  function getDefaultRow (): Payment {
+    return { chequeReceiptNumber: '', paidAmount: null, paymentDate: '', paymentMethod: PaymentMethods.CHEQUE }
+  }
+
+  function addCheque () {
+    chequeList.value.push(getDefaultRow())
+  }
+  // For UI Cheque list - end
+
+  function isValid (): boolean {
+    return createRoutingSlipChequePaymentForm.value?.validate()
+  }
+
+  function getRoutingSlipChequesInput (): Payment[] {
+    return chequeList.value
+  }
+
   return {
     totalAmount,
     chequeList,
+    createRoutingSlipChequePaymentForm,
+    chequeNumberRules,
+    paidAmountRules,
     onMounted,
     getDefaultRow,
     getIndexedTag,
     addCheque,
-    removeCheque
+    removeCheque,
+    isValid,
+    getRoutingSlipChequesInput
   }
 }

@@ -1,27 +1,25 @@
 <template>
-    <v-form>
+    <v-form ref="createRoutingSlipCashPaymentForm">
         <v-row class="d-flex pa-0 ma-0 justify-between">
-            <!-- Receipt Number -->
             <v-col cols="6" class="py-0">
                 <v-text-field
                 filled
                 label="Receipt Number"
-                req
                 persistent-hint
-                v-model="receiptNumber"
+                v-model.trim="number"
                 data-test="txtReceiptNumber"
+                :rule="receiptNumberRules"
                 >
                 </v-text-field>
             </v-col>
-            <!-- Name of person -->
             <v-col cols="6" class="py-0">
                 <v-text-field
                 filled
                 label="Amount ($)"
-                req
                 persistent-hint
-                v-model="totalAmount"
-                data-test="txtRoutingSlipPersonName"
+                v-model.number="paidAmount"
+                data-test="txtPaidAmount"
+                :rules="paidAmountRules"
                 >
                 </v-text-field>
             </v-col>
@@ -36,12 +34,22 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip/useCr
 @Component({
   setup () {
     const {
-      receiptNumber,
-      totalAmount
+      number,
+      paidAmount,
+      createRoutingSlipCashPaymentForm,
+      receiptNumberRules,
+      paidAmountRules,
+      isValid,
+      getRoutingSlipCashInput
     } = useCreateRoutingSlipCashPayment()
     return {
-      receiptNumber,
-      totalAmount
+      number,
+      paidAmount,
+      createRoutingSlipCashPaymentForm,
+      receiptNumberRules,
+      paidAmountRules,
+      isValid,
+      getRoutingSlipCashInput
     }
   }
 })
