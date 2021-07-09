@@ -17,7 +17,7 @@
               </p>
             </div>
 
-            <v-btn class="button-search font-weight-bold" large dark color="primary">
+            <v-btn class="button-search font-weight-bold" large dark color="primary" to="/create-routing-slip">
               <v-icon dark small class="mr-2 font-weight-bold">
                   mdi-plus
                 </v-icon>

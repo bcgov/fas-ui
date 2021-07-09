@@ -26,7 +26,7 @@
               <v-btn
               large
               color="primary"
-              @click="createRoutingSlip"
+              @click="createRoutingSlipNow"
               class="px-10"
               data-test="btn-create-routing-slip"
               >
@@ -64,19 +64,19 @@ import { useCreateRoutingSlip } from '@/composables/RoutingSlip/useCreateRouting
       createRoutingSlipForm,
       createRoutingSlipDetailsRef,
       createRoutingSlipPaymentRef,
-      createRoutingSlip,
+      createRoutingSlipNow,
       cancel,
-      isValid,
-      getRoutingSlipInput
+      isValid
+      // getRoutingSlipInput
     } = useCreateRoutingSlip()
     return {
       createRoutingSlipForm,
       createRoutingSlipDetailsRef,
       createRoutingSlipPaymentRef,
-      createRoutingSlip,
+      createRoutingSlipNow,
       cancel,
-      isValid,
-      getRoutingSlipInput
+      isValid
+      // getRoutingSlipInput
     }
   }
 })

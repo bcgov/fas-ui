@@ -34,7 +34,9 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.{js,vue}',
     '!src/main.js',
-    '!src/App.vue'
+    '!src/App.vue',
+    '!src/service-worker.js'
+
   ],
   coverageReporters: ['json', 'lcov', 'text', 'clover', 'html']
 }

@@ -29,66 +29,21 @@ export default class ConfigHelper {
     return `${window.location.origin}${process.env.VUE_APP_PATH}`.replace(/\/$/, '') // remove the slash at the end
   }
 
-  // static getDirectorSearchURL () {
-  //   return ConfigHelper.getValue('DIRECTOR_SEARCH_URL')
-  // }
-
-  // static getNewBusinessURL () {
-  //   // returns new business URL
-  //   return ConfigHelper.getValue('BUSINESS_CREATE_URL')
-  // }
-
-  // static getFileServerUrl () {
-  //   return ConfigHelper.getValue('FILE_SERVER_URL')
-  // }
-
-  // static getNroUrl () {
-  //   return ConfigHelper.getValue('NRO_URL')
-  // }
-
-  // static getNameRequestUrl () {
-  //   return ConfigHelper.getValue('NAME_REQUEST_URL')
-  // }
-
-  // static getBceIdOsdLink () {
-  //   return ConfigHelper.getValue('BCEID_URL')
-  // }
-
-  // static getAffidavitSize () {
-  //   return ConfigHelper.getValue('AFFIDAVIT_FILE_SIZE')
-  // }
-
   static getPayAPIURL () {
     return ConfigHelper.getValue('PAY_API_URL') + ConfigHelper.getValue('PAY_API_VERSION')
   }
 
-  // static getPaymentPayeeName () {
-  //   return ConfigHelper.getValue('PAYMENT_PAYEE_NAME') || 'BC Registries and Online Services'
-  // }
+  static getFasAPIURL () {
+    return `${ConfigHelper.getPayAPIURL()}/fas`
+  }
 
   static getAuthAPIUrl () {
     return ConfigHelper.getValue('AUTH_API_URL') + ConfigHelper.getValue('AUTH_API_VERSION')
   }
 
-  // static getAuthResetAPIUrl () {
-  //   return ConfigHelper.getValue('AUTH_API_URL') + '/test/reset'
-  // }
-
-  // static getLegalAPIUrl () {
-  //   return ConfigHelper.getValue('LEGAL_API_URL') + ConfigHelper.getValue('LEGAL_API_VERSION')
-  // }
-
-  // static getVonAPIUrl () {
-  //   return ConfigHelper.getValue('VON_API_URL') + ConfigHelper.getValue('VON_API_VERSION')
-  // }
-
   static getStatusAPIUrl () {
     return ConfigHelper.getValue('STATUS_API_URL') + ConfigHelper.getValue('STATUS_API_VERSION')
   }
-
-  // static getEntitySelectorUrl () {
-  //   return ConfigHelper.getValue('ENTITY_SELECTOR_URL')
-  // }
 
   static getValue (key: String) {
     // @ts-ignore

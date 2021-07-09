@@ -1,7 +1,9 @@
-import { AccountInfo, RoutingSlip, RoutingSlipDetails } from '@/models/routingSlip'
-import { CreateRoutingSlipDetails, CreateRoutingSlipPayment } from '@/components/RoutingSlip'
+import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
 import { ref } from '@vue/composition-api'
+
+const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
+const { useActions } = routingSlipModule
 
 // Composable function to inject Props, options and values to CreateRoutingSlip component
 export function useCreateRoutingSlip () {
@@ -9,47 +11,31 @@ export function useCreateRoutingSlip () {
   const createRoutingSlipDetailsRef = ref<HTMLFormElement>()
   const createRoutingSlipPaymentRef = ref<HTMLFormElement>()
 
+  const { createRoutingSlip } = useActions(['createRoutingSlip'])
+
   function isValid (): boolean {
     // We would want to trigger validate() of all the children
-    let isValid = createRoutingSlipDetailsRef.value?.isValid()
-    isValid = createRoutingSlipPaymentRef.value?.isValid() && isValid
-    return isValid
-  }
-
-  function getRoutingSlipInput (): RoutingSlip {
-    const routingSlip: RoutingSlip = {}
-    // construct object from children
-    routingSlip.payments = createRoutingSlipPaymentRef.value?.getRoutingSlipPaymentInput()
-    const routingSlipDetails: RoutingSlipDetails = createRoutingSlipDetailsRef.value?.getRoutingSlipDetailsInput()
-    if (routingSlipDetails) {
-      routingSlip.routingSlipDate = routingSlipDetails.routingSlipDate
-      routingSlip.number = routingSlipDetails.number
-      const accountInfo: AccountInfo = {
-        accountName: routingSlipDetails.accountName
-      }
-      routingSlip.paymentAccount = accountInfo
-    }
-    return routingSlip
+    let isValidForm = createRoutingSlipDetailsRef.value?.isValid()
+    isValidForm = createRoutingSlipPaymentRef.value?.isValid() && isValidForm
+    return isValidForm
   }
 
   // Create Routing slip
-  function createRoutingSlip () {
+  function createRoutingSlipNow () {
     if (isValid()) {
-      getRoutingSlipInput()
+      createRoutingSlip()
     }
   }
 
   // Cancel Routing slip flow
-  function cancel () {
-  }
+  function cancel () {}
 
   return {
     createRoutingSlipForm,
     createRoutingSlipDetailsRef,
     createRoutingSlipPaymentRef,
-    createRoutingSlip,
+    createRoutingSlipNow,
     cancel,
-    isValid,
-    getRoutingSlipInput
+    isValid
   }
 }
