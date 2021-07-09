@@ -1,6 +1,7 @@
 import Vuex, { StoreOptions } from 'vuex'
 import { RootState } from './types'
 import Vue from 'vue'
+import routingSlip from '@/store/modules/routingSlip'
 
 Vue.use(Vuex)
 
@@ -24,6 +25,7 @@ const storeOptions: StoreOptions<RootState> = {
     }
   },
   modules: {
+    routingSlip
   }
 }
 

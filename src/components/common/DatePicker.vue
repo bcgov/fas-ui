@@ -15,6 +15,7 @@
         readonly
         v-bind="attrs"
         v-on="on"
+        filled
       ></v-text-field>
     </template>
     <v-date-picker
