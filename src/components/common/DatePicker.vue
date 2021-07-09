@@ -16,6 +16,7 @@
         v-bind="attrs"
         v-on="on"
         filled
+        data-test="input-date-picker"
       ></v-text-field>
     </template>
     <v-date-picker
@@ -23,6 +24,7 @@
       v-bind="$attrs"
       @input="closeAfterSelection()"
       v-on="$listeners"
+      data-test="date-date-picker"
     ></v-date-picker>
   </v-menu>
 </template>
