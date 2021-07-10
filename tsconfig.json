@@ -26,11 +26,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx",
+    "tests/**/*.tsx"
   ],
-  "exclude": [
-    "./node_modules/*",
-    "dist"
-  ],
+  "exclude": ["./node_modules/*", "dist"],
   "files": ["./node_modules/vue/types/index.d.ts"]
 }

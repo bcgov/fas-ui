@@ -22,4 +22,6 @@ axios.interceptors.response.use(
   }
 )
 
+// to work on both case export as default and normal
 export { axios }
+export default axios
