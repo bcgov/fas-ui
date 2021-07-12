@@ -1,13 +1,25 @@
-import { computed, onMounted, ref } from '@vue/composition-api'
+import { computed, onMounted, ref, watch } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { Payment } from '@/models/Payment'
 import { PaymentMethods } from '@/util/constants'
+import { createNamespacedHelpers } from 'vuex-composition-helpers'
+
+const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
+const { useMutations } = routingSlipModule
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
 export function useCreateRoutingSlipChequePayment () {
   const chequeList = ref<Payment[]>([])
   const createRoutingSlipChequePaymentForm = ref<HTMLFormElement>()
+
+  const { setChequePayment } = useMutations(['setChequePayment'])
+
+  // watch any changes and update to store
+  watch(chequeList, () => {
+    // to avoid vuex array, send clone copy of object
+    setChequePayment(JSON.parse(JSON.stringify(chequeList.value)))
+  }, { deep: true })
 
   // Input field rules
   const chequeNumberRules = CommonUtils.requiredFieldRule('A Cheque number is required')
@@ -47,7 +59,7 @@ export function useCreateRoutingSlipChequePayment () {
   function isValid (): boolean {
     return createRoutingSlipChequePaymentForm.value?.validate()
   }
-
+  // TODO remove
   function getRoutingSlipChequesInput (): Payment[] {
     // to avoid passing observer array, we send in a copy
     return JSON.parse(JSON.stringify(chequeList.value))
