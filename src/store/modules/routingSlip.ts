@@ -1,13 +1,14 @@
+import { AccountInfo, RoutingSlipDetails } from '@/models/RoutingSlip'
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 
 import { Payment } from '@/models/Payment'
-import { RoutingSlipDetails } from '@/models/RoutingSlip'
 import RoutingSlipService from '@/services/routingSlip.services'
 
 @Module({ namespaced: true, stateFactory: true })
 export default class RoutingSlipModule extends VuexModule {
   public routingSlipDetails: RoutingSlipDetails = {}
-  public routingSlipPayment: Payment = {}
+  public routingSlipAccountInfo: AccountInfo = {}
+  public routingSlipCashPayment: Payment = {}
 
   @Mutation
   public setRoutingSlipDetails (routingSlipDetails: RoutingSlipDetails) {
@@ -15,8 +16,13 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Mutation
-  public setRoutingSlipPayment (routingSlipPayment: Payment) {
-    this.routingSlipPayment = routingSlipPayment
+  public setRoutingSlipCashPayment (routingSlipCashPayment: Payment) {
+    this.routingSlipCashPayment = routingSlipCashPayment
+  }
+
+  @Mutation
+  public setRoutingSlipAccountInfo (accountInfo: AccountInfo) {
+    this.routingSlipAccountInfo = accountInfo
   }
 
   @Action({ rawError: true })

@@ -12,8 +12,8 @@ export function useCreateRoutingSlipCashPayment () {
   const createRoutingSlipCashPaymentForm = ref<HTMLFormElement>()
 
   // state, action, mutation from vuex store
-  const { routingSlipPayment } = useState(['routingSlipPayment'])
-  const { setRoutingSlipPayment } = useMutations(['setRoutingSlipPayment'])
+  const { routingSlipCashPayment } = useState(['routingSlipCashPayment'])
+  const { setRoutingSlipCashPayment } = useMutations(['setRoutingSlipCashPayment'])
 
   // Input field rules
   const receiptNumberRules = CommonUtils.requiredFieldRule('A Receipt number is required')
@@ -22,11 +22,11 @@ export function useCreateRoutingSlipCashPayment () {
   // using same value for getting value and update parent on change
   const number = computed({
     get: () => {
-      return routingSlipPayment.value?.number || ''
+      return routingSlipCashPayment.value?.number || ''
     },
     set: (modalValue: string) => {
-      setRoutingSlipPayment({
-        ...routingSlipPayment.value,
+      setRoutingSlipCashPayment({
+        ...routingSlipCashPayment.value,
         number: modalValue,
         // Update payment method as cash
         paymentMethod: PaymentMethods.CASH
@@ -36,11 +36,11 @@ export function useCreateRoutingSlipCashPayment () {
 
   const paidAmount = computed({
     get: () => {
-      return routingSlipPayment.value?.number || ''
+      return routingSlipCashPayment.value?.number || ''
     },
     set: (modalValue: string) => {
-      setRoutingSlipPayment({
-        ...routingSlipPayment.value,
+      setRoutingSlipCashPayment({
+        ...routingSlipCashPayment.value,
         paidAmount: modalValue,
         // Update payment method as cash
         paymentMethod: PaymentMethods.CASH
