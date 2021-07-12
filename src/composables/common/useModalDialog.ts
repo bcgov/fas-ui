@@ -1,6 +1,6 @@
 import { computed, ref, toRefs } from '@vue/composition-api'
 
-export function useModalDialog (props, context) {
+export function useModalDialog (props, _) {
   // using `toRefs` to create a Reactive Reference to a list of all props
   const {
     title,
@@ -15,15 +15,19 @@ export function useModalDialog (props, context) {
     showCloseIcon
   } = toRefs(props)
 
-  function goHome () {
-    context.root.$router.push('/')
+  const isOpen = ref<boolean>(false)
+
+  function open (): void {
+    isOpen.value = true
   }
-  function gotoPage (page: string) {
-    context.root.$router.push(page)
+
+  function close (): void {
+    isOpen.value = false
   }
 
   return {
-    goHome,
-    gotoPage
+    isOpen,
+    open,
+    close
   }
 }

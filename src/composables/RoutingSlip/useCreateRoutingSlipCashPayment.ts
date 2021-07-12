@@ -1,29 +1,55 @@
+import { computed, ref } from '@vue/composition-api'
+
 import CommonUtils from '@/util/common-util'
-import { Payment } from '@/models/Payment'
 import { PaymentMethods } from '@/util/constants'
-import { ref } from '@vue/composition-api'
+import { createNamespacedHelpers } from 'vuex-composition-helpers'
+
+const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
+const { useState, useMutations } = routingSlipModule
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
 export function useCreateRoutingSlipCashPayment () {
-  const number = ref<string>('')
-  const paidAmount = ref<number>(null)
   const createRoutingSlipCashPaymentForm = ref<HTMLFormElement>()
+
+  // state, action, mutation from vuex store
+  const { routingSlipPayment } = useState(['routingSlipPayment'])
+  const { setRoutingSlipPayment } = useMutations(['setRoutingSlipPayment'])
 
   // Input field rules
   const receiptNumberRules = CommonUtils.requiredFieldRule('A Receipt number is required')
   const paidAmountRules = CommonUtils.requiredFieldRule('Paid Amount is required')
 
+  // using same value for getting value and update parent on change
+  const number = computed({
+    get: () => {
+      return routingSlipPayment.value?.number || ''
+    },
+    set: (modalValue: string) => {
+      setRoutingSlipPayment({
+        ...routingSlipPayment.value,
+        number: modalValue,
+        // Update payment method as cash
+        paymentMethod: PaymentMethods.CASH
+      })
+    }
+  })
+
+  const paidAmount = computed({
+    get: () => {
+      return routingSlipPayment.value?.number || ''
+    },
+    set: (modalValue: string) => {
+      setRoutingSlipPayment({
+        ...routingSlipPayment.value,
+        paidAmount: modalValue,
+        // Update payment method as cash
+        paymentMethod: PaymentMethods.CASH
+      })
+    }
+  })
+
   function isValid (): boolean {
     return createRoutingSlipCashPaymentForm.value?.validate()
-  }
-
-  function getRoutingSlipCashInput (): Payment {
-    const cash: Payment = {
-      chequeReceiptNumber: number.value,
-      paidAmount: paidAmount.value,
-      paymentMethod: PaymentMethods.CASH
-    }
-    return cash
   }
 
   return {
@@ -32,7 +58,6 @@ export function useCreateRoutingSlipCashPayment () {
     createRoutingSlipCashPaymentForm,
     receiptNumberRules,
     paidAmountRules,
-    isValid,
-    getRoutingSlipCashInput
+    isValid
   }
 }

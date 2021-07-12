@@ -3,7 +3,20 @@
     <v-row>
       <v-col>
         <header class="d-flex flex-column mb-0">
-          <h1 class="view-header__title">Add Routing Slip</h1>
+          <!-- Back Navigation -->
+          <div class="py-0">
+            <v-btn
+            text
+            large
+            data-test="btn-back"
+            @click="cancel"
+            color="primary"
+            class="pl-0">
+              <v-icon color="primary" class="mr-1">mdi-arrow-left</v-icon>
+              <span>Back to Dashboard</span>
+            </v-btn>
+          </div>
+          <h1 class="view-header__title pt-3">Add Routing Slip</h1>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at
             porttitor sem.
@@ -45,38 +58,73 @@
         </v-card>
       </v-col>
     </v-row>
+    <!-- Notification Dialog - to be displayed after adding routing slip / cancelling back to dashboard -->
+    <ModalDialog
+      ref="modalDialogRef"
+      :title="modalDialogTitle"
+      :text="modalDialogText"
+      dialog-class="notify-dialog"
+      max-width="679"
+      max-height="310"
+    >
+      <template v-slot:icon>
+        <v-icon large :color="isModalDialogInfo ? 'primary' : 'error'">{{ modalDialogIcon }}</v-icon>
+      </template>
+      <template v-slot:actions>
+        <v-btn large color="primary" @click="modalDialogClose()" data-test="dialog-ok-button" class="font-weight-bold">{{ modalDialogOkText }}</v-btn>
+        <v-btn large color="primary" outlined @click="modalDialogCancel()" data-test="dialog-ok-button" class="font-weight-bold" >{{ modalDialogCancelText }}</v-btn>
+      </template>
+    </ModalDialog>
   </v-container>
 </template>
-
+color
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import CreateRoutingSlipDetails from '@/components/RoutingSlip/CreateRoutingSlipDetails.vue'
 import CreateRoutingSlipPayment from '@/components/RoutingSlip/CreateRoutingSlipPayment.vue'
+import ModalDialog from '@/components/common/ModalDialog.vue'
 import { useCreateRoutingSlip } from '@/composables/RoutingSlip/useCreateRoutingSlip'
 
 @Component({
   components: {
     CreateRoutingSlipPayment,
-    CreateRoutingSlipDetails
+    CreateRoutingSlipDetails,
+    ModalDialog
   },
-  setup () {
+  setup (_, context) {
     const {
       createRoutingSlipForm,
       createRoutingSlipDetailsRef,
       createRoutingSlipPaymentRef,
+      modalDialogRef,
+      modalDialogTitle,
+      modalDialogText,
+      modalDialogOkText,
+      modalDialogCancelText,
+      modalDialogIcon,
+      isModalDialogInfo,
       createRoutingSlipNow,
       cancel,
+      modalDialogCancel,
+      modalDialogClose,
       isValid
-      // getRoutingSlipInput
-    } = useCreateRoutingSlip()
+    } = useCreateRoutingSlip(_, context)
     return {
       createRoutingSlipForm,
       createRoutingSlipDetailsRef,
       createRoutingSlipPaymentRef,
+      modalDialogRef,
+      modalDialogTitle,
+      modalDialogText,
+      modalDialogOkText,
+      modalDialogCancelText,
+      modalDialogIcon,
+      isModalDialogInfo,
       createRoutingSlipNow,
       cancel,
+      modalDialogCancel,
+      modalDialogClose,
       isValid
-      // getRoutingSlipInput
     }
   }
 })

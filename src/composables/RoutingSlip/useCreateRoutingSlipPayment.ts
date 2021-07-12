@@ -12,21 +12,10 @@ export function useCreateRoutingSlipPayment () {
     return isPaymentCheque.value ? createRoutingSlipChequePaymentRef.value?.isValid() : createRoutingSlipCashPaymentRef.value?.isValid()
   }
 
-  function getRoutingSlipPaymentInput (): Payment {
-    let payment: Payment = null
-    if (isPaymentCheque.value === true) {
-      payment = createRoutingSlipChequePaymentRef.value?.getRoutingSlipChequesInput()
-    } else {
-      payment = createRoutingSlipCashPaymentRef.value?.getRoutingSlipCashInput()
-    }
-    return payment
-  }
-
   return {
     isPaymentCheque,
     createRoutingSlipChequePaymentRef,
     createRoutingSlipCashPaymentRef,
-    isValid,
-    getRoutingSlipPaymentInput
+    isValid
   }
 }

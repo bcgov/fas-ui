@@ -42,30 +42,55 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { useNavigation } from '@/composables/common'
+import { useModalDialog } from '@/composables/common'
 
 @Component({
   setup (props, context) {
-    const { goHome } = useNavigation(props, context)
+    const {
+      isOpen,
+      open,
+      close
+    } = useModalDialog(props, context)
     return {
-      goHome
+      isOpen,
+      open,
+      close
     }
   }
 })
 export default class InterimLanding extends Vue {
-  @Prop({ default: '' }) private summary: string
-  @Prop({ default: '' }) private description: string
-  @Prop({ default: 'mdi-information-outline' }) private icon: string
-  @Prop({ default: 'primary' }) private iconColor: string
-  @Prop({ default: true }) private showHomePageBtn: boolean
+  @Prop({ default: '' }) private title: string
+  @Prop({ default: '' }) private text: string
+  @Prop({ default: true }) private showIcon: boolean
+  @Prop({ default: true }) private showActions: boolean
+  @Prop({ default: false }) private isPersistent: boolean
+  @Prop({ default: false }) private fullscreenOnMobile: boolean
+  @Prop({ default: false }) private isScrollable: boolean
+  @Prop({ default: '' }) private dialogClass: string
+  @Prop({ default: '' }) private maxWidth: string
+  @Prop({ default: false }) private showCloseIcon: boolean
 }
 </script>
 
 <style lang="scss" scoped>
-@import '$assets/scss/theme.scss';
+  // Notify Dialog Variant
+  // Vertical stacked title container (icon w/ text)
+  // Center-aligned text throughout
+  .notify-dialog .v-card__title {
+    flex-direction: column;
 
-.container {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
+    ::v-deep i {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .notify-dialog .v-card__text {
+    text-align: center;
+  }
+
+  .notify-dialog .v-card__actions {
+    justify-content: center;
+    padding: 1.5rem;
+  }
 </style>
