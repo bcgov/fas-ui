@@ -40,7 +40,6 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip/useCr
       receiptNumberRules,
       paidAmountRules,
       isValid
-
     } = useCreateRoutingSlipCashPayment()
     return {
       number,
@@ -49,7 +48,6 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip/useCr
       receiptNumberRules,
       paidAmountRules,
       isValid
-
     }
   }
 })

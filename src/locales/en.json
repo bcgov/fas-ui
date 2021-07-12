@@ -2,5 +2,9 @@
   "message": "hello i18n !!",
   "homeBtnLabel": "Go to Homepage",
   "pageNotFoundTitle": "Page not found",
-  "pageNotFoundMsg": "The page you are looking for has been removed or doesn't exist."
+  "pageNotFoundMsg": "The page you are looking for has been removed or doesn't exist.",
+  "createRoutingSlipSuccessTitle": "Routing Slip has been Created",
+  "createRoutingSlipSuccessText": "Routing Slip number {number} has been created",
+  "createRoutingSlipCancelTitle": "Leave Add Routing Slip?",
+  "createRoutingSlipCancelText": "If you leave this page, your routing slip information will not be created or saved."
 }

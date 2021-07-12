@@ -1,4 +1,3 @@
-import { Payment } from '@/models/Payment'
 import { ref } from '@vue/composition-api'
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
@@ -12,21 +11,10 @@ export function useCreateRoutingSlipPayment () {
     return isPaymentCheque.value ? createRoutingSlipChequePaymentRef.value?.isValid() : createRoutingSlipCashPaymentRef.value?.isValid()
   }
 
-  function getRoutingSlipPaymentInput (): Payment {
-    const payment: Payment = null
-    if (isPaymentCheque.value === true) {
-      // payment = createRoutingSlipChequePaymentRef.value?.getRoutingSlipChequesInput()
-    } else {
-      // payment = createRoutingSlipCashPaymentRef.value?.getRoutingSlipCashInput()
-    }
-    return payment
-  }
-
   return {
     isPaymentCheque,
     createRoutingSlipChequePaymentRef,
     createRoutingSlipCashPaymentRef,
-    isValid,
-    getRoutingSlipPaymentInput
+    isValid
   }
 }

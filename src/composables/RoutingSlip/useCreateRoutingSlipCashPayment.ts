@@ -1,11 +1,11 @@
-import CommonUtils from '@/util/common-util'
-import { Payment } from '@/models/Payment'
-import { PaymentMethods } from '@/util/constants'
 import { computed, ref } from '@vue/composition-api'
+
+import CommonUtils from '@/util/common-util'
+import { PaymentMethods } from '@/util/constants'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useState, useMutations, useActions } = routingSlipModule
+const { useState, useMutations } = routingSlipModule
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
 export function useCreateRoutingSlipCashPayment () {
@@ -23,7 +23,8 @@ export function useCreateRoutingSlipCashPayment () {
     set: (modalValue: any) => {
       setCashPayment({
         ...cashPayment.value,
-        number: modalValue
+        number: modalValue,
+        paymentMEthod: PaymentMethods.CASH
       })
     }
   })
@@ -36,11 +37,10 @@ export function useCreateRoutingSlipCashPayment () {
       return cashPayment.value.paidAmount || null
     },
     set: (modalValue: any) => {
-      // eslint-disable-next-line no-console
-      console.log('modalValue', modalValue)
       setCashPayment({
         ...cashPayment.value,
-        paidAmount: modalValue
+        paidAmount: modalValue,
+        paymentMEthod: PaymentMethods.CASH
       })
     }
   })

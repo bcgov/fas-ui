@@ -1,6 +1,6 @@
-import CommonUtils from '@/util/common-util'
-
 import { computed, ref } from '@vue/composition-api'
+
+import CommonUtils from '@/util/common-util'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
@@ -9,9 +9,9 @@ const { useState, useMutations, useActions } = routingSlipModule
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
 export function useCreateRoutingSlipDetails () {
   const createRoutingSlipDetailsForm = ref<HTMLFormElement>()
+
   // state , action , mutation from vuex store
   const { routingSlipDetails, accountInfo } = useState(['routingSlipDetails', 'accountInfo'])
-
   const { setRoutingSlipDetails, setAccountInfo } = useMutations(['setRoutingSlipDetails', 'setAccountInfo'])
   const { checkRoutingNumber } = useActions(['checkRoutingNumber'])
 
@@ -46,11 +46,10 @@ export function useCreateRoutingSlipDetails () {
 
   const accountName = computed({
     get: () => {
-      return routingSlipDetails.value?.accountName || ''
+      return accountInfo.value?.accountName || ''
     },
     set: (modalValue: string) => {
       setAccountInfo({
-        ...accountInfo.value,
         accountName: modalValue
       })
     }
@@ -86,10 +85,10 @@ export function useCreateRoutingSlipDetails () {
     accountName,
     numberRules,
     routingSlipDateRules,
-    isValid,
-    checkRoutingNumberAvailable,
     routingSlipDetails,
     isUniqueNumber,
-    errorMessage
+    errorMessage,
+    isValid,
+    checkRoutingNumberAvailable
   }
 }

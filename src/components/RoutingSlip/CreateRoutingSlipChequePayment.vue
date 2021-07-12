@@ -2,7 +2,6 @@
   <v-form ref="createRoutingSlipChequePaymentForm">
     <v-row class="d-flex pa-0 ma-0 justify-between">
       <v-col cols="12" class="pa-0">
-        chequeList:{{ chequeList }}
         <div v-for="(cheque, index) in chequeList" :key="index" class="d-flex">
           <v-col cols="4" class="py-0">
             <v-text-field
