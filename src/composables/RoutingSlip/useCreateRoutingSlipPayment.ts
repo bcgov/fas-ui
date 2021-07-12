@@ -1,4 +1,3 @@
-import { Payment } from '@/models/Payment'
 import { ref } from '@vue/composition-api'
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component

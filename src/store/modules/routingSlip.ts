@@ -7,8 +7,9 @@ import RoutingSlipService from '@/services/routingSlip.services'
 @Module({ namespaced: true, stateFactory: true })
 export default class RoutingSlipModule extends VuexModule {
   public routingSlipDetails: RoutingSlipDetails = {}
-  public routingSlipAccountInfo: AccountInfo = {}
-  public routingSlipCashPayment: Payment = {}
+  accountInfo: AccountInfo = {}
+  chequePayment: Payment[] = []
+  cashPayment: Payment = {}
 
   @Mutation
   public setRoutingSlipDetails (routingSlipDetails: RoutingSlipDetails) {
@@ -16,13 +17,18 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Mutation
-  public setRoutingSlipCashPayment (routingSlipCashPayment: Payment) {
-    this.routingSlipCashPayment = routingSlipCashPayment
+  public setAccountInfo (accountInfo: AccountInfo) {
+    this.accountInfo = accountInfo
   }
 
   @Mutation
-  public setRoutingSlipAccountInfo (accountInfo: AccountInfo) {
-    this.routingSlipAccountInfo = accountInfo
+  public setChequePayment (chequeDetails:Payment[]) {
+    this.chequePayment = chequeDetails
+  }
+
+  @Mutation
+  public setCashPayment (cashPayment: Payment) {
+    this.cashPayment = cashPayment
   }
 
   @Action({ rawError: true })

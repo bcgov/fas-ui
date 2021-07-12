@@ -11,42 +11,43 @@ const { useState, useMutations } = routingSlipModule
 export function useCreateRoutingSlipCashPayment () {
   const createRoutingSlipCashPaymentForm = ref<HTMLFormElement>()
 
-  // state, action, mutation from vuex store
-  const { routingSlipCashPayment } = useState(['routingSlipCashPayment'])
-  const { setRoutingSlipCashPayment } = useMutations(['setRoutingSlipCashPayment'])
+  // vuex state and mutations
+  const { cashPayment } = useState(['cashPayment'])
+  const { setCashPayment } = useMutations(['setCashPayment'])
+
+  // using same value for getting value and update parent on change
+  const number:any = computed({
+    get: () => {
+      return cashPayment.value.number || ''
+    },
+    set: (modalValue: any) => {
+      setCashPayment({
+        ...cashPayment.value,
+        number: modalValue,
+        paymentMEthod: PaymentMethods.CASH
+      })
+    }
+  })
+
+  // using same value for getting value and update parent on change
+  const paidAmount:any = computed({
+    get: () => {
+      // eslint-disable-next-line no-console
+      console.log('cashPayment.value', cashPayment.value)
+      return cashPayment.value.paidAmount || null
+    },
+    set: (modalValue: any) => {
+      setCashPayment({
+        ...cashPayment.value,
+        paidAmount: modalValue,
+        paymentMEthod: PaymentMethods.CASH
+      })
+    }
+  })
 
   // Input field rules
   const receiptNumberRules = CommonUtils.requiredFieldRule('A Receipt number is required')
   const paidAmountRules = CommonUtils.requiredFieldRule('Paid Amount is required')
-
-  // using same value for getting value and update parent on change
-  const number = computed({
-    get: () => {
-      return routingSlipCashPayment.value?.number || ''
-    },
-    set: (modalValue: string) => {
-      setRoutingSlipCashPayment({
-        ...routingSlipCashPayment.value,
-        number: modalValue,
-        // Update payment method as cash
-        paymentMethod: PaymentMethods.CASH
-      })
-    }
-  })
-
-  const paidAmount = computed({
-    get: () => {
-      return routingSlipCashPayment.value?.number || ''
-    },
-    set: (modalValue: string) => {
-      setRoutingSlipCashPayment({
-        ...routingSlipCashPayment.value,
-        paidAmount: modalValue,
-        // Update payment method as cash
-        paymentMethod: PaymentMethods.CASH
-      })
-    }
-  })
 
   function isValid (): boolean {
     return createRoutingSlipCashPaymentForm.value?.validate()
@@ -59,5 +60,6 @@ export function useCreateRoutingSlipCashPayment () {
     receiptNumberRules,
     paidAmountRules,
     isValid
+
   }
 }

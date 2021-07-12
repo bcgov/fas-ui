@@ -1,10 +1,5 @@
-import VueI18n from 'vue-i18n'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import i18n from '@/plugins/i18n'
 import { ref } from '@vue/composition-api'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useActions } = routingSlipModule
 
 // Composable function to inject Props, options and values to CreateRoutingSlip component
 export function useCreateRoutingSlip (_, context) {
@@ -22,19 +17,16 @@ export function useCreateRoutingSlip (_, context) {
   // after creation of routing slip, we display modal dialog as info. If user cancels, we display the same modal dialog as alert.
   const isModalDialogInfo = ref<boolean>(false)
 
-  const { createRoutingSlip } = useActions(['createRoutingSlip'])
-
   function isValid (): boolean {
-    // We would want to trigger validate() for all the children
-    let isValidForm = createRoutingSlipDetailsRef.value?.isValid()
-    isValidForm = createRoutingSlipPaymentRef.value?.isValid() && isValidForm
-    return isValidForm
+    // We would want to trigger validate() of all the children
+    let isValid = createRoutingSlipDetailsRef.value?.isValid()
+    isValid = createRoutingSlipPaymentRef.value?.isValid() && isValid
+    return isValid
   }
 
   // Create Routing slip
-  function createRoutingSlipNow () {
+  function createRoutingSlip () {
     if (isValid()) {
-      createRoutingSlip()
     }
   }
 
@@ -70,10 +62,10 @@ export function useCreateRoutingSlip (_, context) {
     modalDialogCancelText,
     modalDialogIcon,
     isModalDialogInfo,
-    createRoutingSlipNow,
     cancel,
     modalDialogCancel,
     modalDialogClose,
-    isValid
+    isValid,
+    createRoutingSlip
   }
 }
