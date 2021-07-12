@@ -1,4 +1,4 @@
-import { computed, ref, toRefs } from '@vue/composition-api'
+import { ref, toRefs } from '@vue/composition-api'
 
 export function useModalDialog (props, _) {
   // using `toRefs` to create a Reactive Reference to a list of all props
@@ -12,7 +12,9 @@ export function useModalDialog (props, _) {
     isScrollable,
     dialogClass,
     maxWidth,
-    showCloseIcon
+    showCloseIcon,
+    icon,
+    iconColor
   } = toRefs(props)
 
   const isOpen = ref<boolean>(false)

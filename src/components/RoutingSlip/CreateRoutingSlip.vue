@@ -64,10 +64,9 @@
       dialog-class="notify-dialog"
       max-width="679"
       max-height="310"
+      :icon="modalDialogIcon"
+      :iconColor="isModalDialogInfo ? 'primary' : 'error'"
     >
-      <template v-slot:icon>
-        <v-icon large :color="isModalDialogInfo ? 'primary' : 'error'">{{ modalDialogIcon }}</v-icon>
-      </template>
       <template v-slot:actions>
         <v-btn large color="primary" @click="modalDialogClose()" data-test="dialog-ok-button" class="font-weight-bold">{{ modalDialogOkText }}</v-btn>
         <v-btn large color="primary" outlined @click="modalDialogCancel()" data-test="dialog-ok-button" class="font-weight-bold" >{{ modalDialogCancelText }}</v-btn>

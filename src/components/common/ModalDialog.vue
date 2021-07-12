@@ -10,7 +10,7 @@
     <v-card>
       <v-card-title data-test="dialog-header">
         <slot v-if="showIcon" name="icon">
-          <v-icon large color="success">mdi-check</v-icon>
+          <v-icon large :color="iconColor">{{ icon }}</v-icon>
         </slot>
         <span>
           <slot name="title">{{ title }}</slot>
@@ -69,6 +69,8 @@ export default class InterimLanding extends Vue {
   @Prop({ default: '' }) private dialogClass: string
   @Prop({ default: '' }) private maxWidth: string
   @Prop({ default: false }) private showCloseIcon: boolean
+  @Prop({ default: 'mdi-check' }) private icon: string
+  @Prop({ default: 'primary' }) private iconColor: string
 }
 </script>
 
