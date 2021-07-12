@@ -10,9 +10,9 @@ const { useState, useMutations, useActions } = routingSlipModule
 export function useCreateRoutingSlipDetails () {
   const createRoutingSlipDetailsForm = ref<HTMLFormElement>()
   // state , action , mutation from vuex store
-  const { routingSlipDetails } = useState(['routingSlipDetails'])
+  const { routingSlipDetails, accountInfo } = useState(['routingSlipDetails', 'accountInfo'])
 
-  const { setRoutingSlipDetails } = useMutations(['setRoutingSlipDetails'])
+  const { setRoutingSlipDetails, setAccountInfo } = useMutations(['setRoutingSlipDetails', 'setAccountInfo'])
   const { checkRoutingNumber } = useActions(['checkRoutingNumber'])
 
   // local variables
@@ -49,8 +49,8 @@ export function useCreateRoutingSlipDetails () {
       return routingSlipDetails.value?.accountName || ''
     },
     set: (modalValue: string) => {
-      setRoutingSlipDetails({
-        ...routingSlipDetails.value,
+      setAccountInfo({
+        ...accountInfo.value,
         accountName: modalValue
       })
     }

@@ -1,14 +1,33 @@
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
-import { RoutingSlipDetails } from '@/models/RoutingSlip'
+import { AccountInfo, RoutingSlipDetails } from '@/models/RoutingSlip'
 import RoutingSlipService from '@/services/routingSlip.services'
+import { Payment } from '@/models/Payment'
 
 @Module({ namespaced: true, stateFactory: true })
 export default class RoutingSlipModule extends VuexModule {
   public routingSlipDetails: RoutingSlipDetails = {}
+  accountInfo: AccountInfo = {}
+  chequePayment: Payment[] = []
+  cashPayment: Payment = {}
 
   @Mutation
   public setRoutingSlipDetails (routingSlipDetails: RoutingSlipDetails) {
     this.routingSlipDetails = routingSlipDetails
+  }
+
+  @Mutation
+  public setAccountInfo (accountInfo: AccountInfo) {
+    this.accountInfo = accountInfo
+  }
+
+  @Mutation
+  public setChequePayment (chequeDetails:Payment[]) {
+    this.chequePayment = chequeDetails
+  }
+
+  @Mutation
+  public setCashPayment (cashPayment: Payment) {
+    this.cashPayment = cashPayment
   }
 
   @Action({ rawError: true })

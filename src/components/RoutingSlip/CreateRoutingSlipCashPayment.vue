@@ -39,8 +39,8 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip/useCr
       createRoutingSlipCashPaymentForm,
       receiptNumberRules,
       paidAmountRules,
-      isValid,
-      getRoutingSlipCashInput
+      isValid
+
     } = useCreateRoutingSlipCashPayment()
     return {
       number,
@@ -48,8 +48,8 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip/useCr
       createRoutingSlipCashPaymentForm,
       receiptNumberRules,
       paidAmountRules,
-      isValid,
-      getRoutingSlipCashInput
+      isValid
+
     }
   }
 })
