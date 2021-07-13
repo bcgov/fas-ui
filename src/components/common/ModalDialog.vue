@@ -7,10 +7,10 @@
     :max-width="maxWidth"
     v-model="isOpen"
     @keydown.esc="cancel">
-    <v-card>
-      <v-card-title data-test="dialog-header">
-        <slot v-if="showIcon" name="icon">
-          <v-icon large :color="iconColor">{{ icon }}</v-icon>
+    <v-card class="pa-10">
+      <v-card-title data-test="dialog-header" class="pt-0 pb-5">
+        <slot v-if="showIcon" name="icon" >
+          <v-icon large :color="iconColor" class="mt-0">{{ icon }}</v-icon>
         </slot>
         <span>
           <slot name="title">{{ title }}</slot>
@@ -28,7 +28,7 @@
       </v-card-title>
       <v-card-text>
         <slot name="text">
-          <div v-html="text"></div>
+          <div v-html="text" class="px-8 pb-7"></div>
         </slot>
       </v-card-text>
         <v-card-actions v-if="showActions">

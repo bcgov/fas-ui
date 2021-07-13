@@ -32,7 +32,7 @@
           <create-routing-slip-details ref="createRoutingSlipDetailsRef" />
           <create-routing-slip-payment ref="createRoutingSlipPaymentRef" />
           <v-divider></v-divider>
-          <v-card-actions class="pr-10 justify-end">
+          <v-card-actions class="pr-10 justify-end pa-10">
             <v-btn
               large
               color="primary"
@@ -68,8 +68,8 @@
       :iconColor="isModalDialogInfo ? 'primary' : 'error'"
     >
       <template v-slot:actions>
-        <v-btn large color="primary" @click="modalDialogClose()" data-test="dialog-ok-button" class="font-weight-bold">{{ modalDialogDetails.modalDialogOkText }}</v-btn>
-        <v-btn large color="primary" outlined @click="modalDialogCancel()" data-test="dialog-ok-button" class="font-weight-bold" v-show="!isModalDialogInfo" >{{ modalDialogDetails.modalDialogCancelText }}</v-btn>
+        <v-btn large color="primary" @click="modalDialogClose()" data-test="dialog-ok-button" class="font-weight-bold btn-actions">{{ modalDialogDetails.modalDialogOkText }}</v-btn>
+        <v-btn large color="primary" outlined @click="modalDialogCancel()" data-test="dialog-ok-button" class="ml-3 btn-actions" v-show="!isModalDialogInfo" >{{ modalDialogDetails.modalDialogCancelText }}</v-btn>
       </template>
     </ModalDialog>
   </v-container>
@@ -128,5 +128,8 @@ export default class CreateRoutingSlip extends Vue {}
 .form__btns {
   display: flex;
   justify-content: flex-end;
+}
+.btn-actions{
+  min-width: 110px !important;
 }
 </style>
