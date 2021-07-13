@@ -66,7 +66,6 @@ export function useCreateRoutingSlipChequePayment () {
     createRoutingSlipChequePaymentForm,
     chequeNumberRules,
     paidAmountRules,
-    onMounted,
     getDefaultRow,
     getIndexedTag,
     addCheque,

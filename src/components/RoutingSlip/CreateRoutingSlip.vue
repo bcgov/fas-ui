@@ -59,17 +59,17 @@
     <!-- Notification Dialog - to be displayed after adding routing slip / cancelling back to dashboard -->
     <ModalDialog
       ref="modalDialogRef"
-      :title="modalDialogTitle"
-      :text="modalDialogText"
+      :title="modalDialogDetails.modalDialogTitle"
+      :text="modalDialogDetails.modalDialogText"
       dialog-class="notify-dialog"
       max-width="679"
       max-height="310"
-      :icon="modalDialogIcon"
+      :icon="modalDialogDetails.modalDialogIcon"
       :iconColor="isModalDialogInfo ? 'primary' : 'error'"
     >
       <template v-slot:actions>
-        <v-btn large color="primary" @click="modalDialogClose()" data-test="dialog-ok-button" class="font-weight-bold">{{ modalDialogOkText }}</v-btn>
-        <v-btn large color="primary" outlined @click="modalDialogCancel()" data-test="dialog-ok-button" class="font-weight-bold" v-show="!isModalDialogInfo" >{{ modalDialogCancelText }}</v-btn>
+        <v-btn large color="primary" @click="modalDialogClose()" data-test="dialog-ok-button" class="font-weight-bold">{{ modalDialogDetails.modalDialogOkText }}</v-btn>
+        <v-btn large color="primary" outlined @click="modalDialogCancel()" data-test="dialog-ok-button" class="font-weight-bold" v-show="!isModalDialogInfo" >{{ modalDialogDetails.modalDialogCancelText }}</v-btn>
       </template>
     </ModalDialog>
   </v-container>
@@ -93,36 +93,26 @@ import { useCreateRoutingSlip } from '@/composables/RoutingSlip/useCreateRouting
       createRoutingSlipDetailsRef,
       createRoutingSlipPaymentRef,
       modalDialogRef,
-      modalDialogTitle,
-      modalDialogText,
-      modalDialogOkText,
-      modalDialogCancelText,
-      modalDialogIcon,
+      modalDialogDetails,
       isModalDialogInfo,
-      create,
       cancel,
       modalDialogCancel,
       modalDialogClose,
       isValid,
-      onMounted
+      create
     } = useCreateRoutingSlip(_, context)
     return {
       createRoutingSlipForm,
       createRoutingSlipDetailsRef,
       createRoutingSlipPaymentRef,
       modalDialogRef,
-      modalDialogTitle,
-      modalDialogText,
-      modalDialogOkText,
-      modalDialogCancelText,
-      modalDialogIcon,
+      modalDialogDetails,
       isModalDialogInfo,
-      create,
       cancel,
       modalDialogCancel,
       modalDialogClose,
       isValid,
-      onMounted
+      create
     }
   }
 })

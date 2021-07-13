@@ -23,5 +23,4 @@ export interface RoutingSlip {
 export interface RoutingSlipDetails {
     number?: string
     routingSlipDate?: string
-    accountName?: string
 }

@@ -48,15 +48,12 @@ export default class RoutingSlipModule extends VuexModule {
   public async createRoutingSlip (): Promise<RoutingSlipDetails> {
     const context: any = this.context
     // build the RoutingSlip Request JSON object that needs to be sent.
-    const routingSlipRequest: RoutingSlip = {}
-    routingSlipRequest.number = context.state.routingSlipDetails.number
-    routingSlipRequest.routingSlipDate = context.state.routingSlipDetails.routingSlipDate
+    let routingSlipRequest: RoutingSlip = {}
+    routingSlipRequest = { ...context.state.routingSlipDetails }
     routingSlipRequest.paymentAccount = context.state.accountInfo
 
     // By design, a routing slip can only have one payment method - CASH or CHEQUE.
-    routingSlipRequest.payments = context.state.isPaymentMethodCheque ? context.state.chequePayment.slice(0) : [context.state.cashPayment]
-    // eslint-disable-next-line no-console
-    console.log(routingSlipRequest.payments)
+    routingSlipRequest.payments = context.state.isPaymentMethodCheque ? context.state.chequePayment : [context.state.cashPayment]
 
     const response = await RoutingSlipService.createRoutingSlip(routingSlipRequest)
     if (response && response.data && response.status === 200) {

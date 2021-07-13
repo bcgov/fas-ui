@@ -1,4 +1,4 @@
-import { onMounted, ref } from '@vue/composition-api'
+import { onMounted, reactive, ref } from '@vue/composition-api'
 
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import i18n from '@/plugins/i18n'
@@ -14,24 +14,30 @@ export function useCreateRoutingSlip (_, context) {
   const modalDialogRef = ref<HTMLFormElement>()
 
   // vuex action and state
-  const { createRoutingSlip } = useActions(['createRoutingSlip'])
-  const { resetRoutingSlipDetails } = useActions(['resetRoutingSlipDetails'])
+  const { createRoutingSlip, resetRoutingSlipDetails } = useActions(['createRoutingSlip', 'resetRoutingSlipDetails'])
   const { routingSlipDetails } = useState(['routingSlipDetails'])
 
   // modal dialog props and events
-  const modalDialogTitle = ref<string>('')
+  const modalDialogDetails = reactive<any>({
+    modalDialogTitle: '',
+    modalDialogText: '',
+    modalDialogOkText: '',
+    modalDialogCancelText: '',
+    modalDialogIcon: ''
+  })
+  /* const modalDialogTitle = ref<string>('')
   const modalDialogText = ref<string>('')
   const modalDialogOkText = ref<string>('')
   const modalDialogCancelText = ref<string>('')
-  const modalDialogIcon = ref<string>('')
+  const modalDialogIcon = ref<string>('') */
   // after creation of routing slip, we display modal dialog as info. If user cancels, we display the same modal dialog as alert.
   const isModalDialogInfo = ref<boolean>(false)
 
   function isValid (): boolean {
     // We would want to trigger validate() of all the children
-    let isValid = createRoutingSlipDetailsRef.value?.isValid()
-    isValid = createRoutingSlipPaymentRef.value?.isValid() && isValid
-    return isValid
+    let isChildrenValid = createRoutingSlipDetailsRef.value?.isValid()
+    isChildrenValid = createRoutingSlipPaymentRef.value?.isValid() && isChildrenValid
+    return isChildrenValid
   }
 
   // Create Routing slip
@@ -50,11 +56,11 @@ export function useCreateRoutingSlip (_, context) {
   // Cancel Routing slip flow
   function cancel () {
     // Update modal dialog props and display
-    modalDialogTitle.value = i18n.t('createRoutingSlipCancelTitle').toString()
-    modalDialogIcon.value = 'mdi-alert-circle-outline'
-    modalDialogText.value = i18n.t('createRoutingSlipCancelText').toString()
-    modalDialogOkText.value = 'Leave'
-    modalDialogCancelText.value = 'Cancel'
+    modalDialogDetails.modalDialogTitle = i18n.t('createRoutingSlipCancelTitle').toString()
+    modalDialogDetails.modalDialogIcon = 'mdi-alert-circle-outline'
+    modalDialogDetails.modalDialogText = i18n.t('createRoutingSlipCancelText').toString()
+    modalDialogDetails.modalDialogOkText = 'Leave'
+    modalDialogDetails.modalDialogCancelText = 'Cancel'
     isModalDialogInfo.value = false
     modalDialogRef.value.open()
   }
@@ -62,10 +68,10 @@ export function useCreateRoutingSlip (_, context) {
   // Display success
   function displaySuccessNotification () {
     // Update modal dialog props and display
-    modalDialogTitle.value = i18n.t('createRoutingSlipSuccessTitle').toString()
-    modalDialogIcon.value = 'mdi-check'
-    modalDialogText.value = i18n.t('createRoutingSlipSuccessText', { number: routingSlipDetails.value?.number }).toString()
-    modalDialogOkText.value = 'Ok'
+    modalDialogDetails.modalDialogTitle = i18n.t('createRoutingSlipSuccessTitle').toString()
+    modalDialogDetails.modalDialogIcon = 'mdi-check'
+    modalDialogDetails.modalDialogText = i18n.t('createRoutingSlipSuccessText', { number: routingSlipDetails.value?.number }).toString()
+    modalDialogDetails.modalDialogOkText = 'Ok'
     isModalDialogInfo.value = true
     modalDialogRef.value.open()
   }
@@ -77,28 +83,20 @@ export function useCreateRoutingSlip (_, context) {
   function modalDialogClose () {
     modalDialogRef.value.close()
     context.root.$router.push('home')
-  }
-
-  onMounted(() => {
     resetRoutingSlipDetails()
-  })
+  }
 
   return {
     createRoutingSlipForm,
     createRoutingSlipDetailsRef,
     createRoutingSlipPaymentRef,
     modalDialogRef,
-    modalDialogTitle,
-    modalDialogText,
-    modalDialogOkText,
-    modalDialogCancelText,
-    modalDialogIcon,
+    modalDialogDetails,
     isModalDialogInfo,
     cancel,
     modalDialogCancel,
     modalDialogClose,
     isValid,
-    create,
-    onMounted
+    create
   }
 }

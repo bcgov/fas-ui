@@ -12,7 +12,6 @@ export function useCreateRoutingSlipPayment () {
   const createRoutingSlipCashPaymentRef = ref<HTMLFormElement>(null)
 
   // vuex state and mutations
-  const { isPaymentMethodCheque } = useState(['isPaymentMethodCheque'])
   const { setIsPaymentMethodCheque } = useMutations(['setIsPaymentMethodCheque'])
 
   // watch any changes and update to store
@@ -33,7 +32,6 @@ export function useCreateRoutingSlipPayment () {
     isPaymentCheque,
     createRoutingSlipChequePaymentRef,
     createRoutingSlipCashPaymentRef,
-    isValid,
-    onMounted
+    isValid
   }
 }

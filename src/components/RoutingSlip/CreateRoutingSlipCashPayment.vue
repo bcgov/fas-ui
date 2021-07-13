@@ -18,8 +18,10 @@
                 label="Amount ($)"
                 persistent-hint
                 v-model.number="paidAmount"
+                type="number"
                 data-test="txtPaidAmount"
                 :rules="paidAmountRules"
+                class="textNumber"
                 >
                 </v-text-field>
             </v-col>
@@ -54,3 +56,13 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip/useCr
 export default class CreateRoutingSlipCashPayment extends Vue {
 }
 </script>
+<style lang="scss" scoped>
+  .textNumber input[type='number'] {
+    -moz-appearance:textfield;
+  }
+  .textNumber input::-webkit-outer-spin-button,
+  .textNumber input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+</style>
