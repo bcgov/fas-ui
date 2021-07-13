@@ -25,11 +25,6 @@ export function useCreateRoutingSlip (_, context) {
     modalDialogCancelText: '',
     modalDialogIcon: ''
   })
-  /* const modalDialogTitle = ref<string>('')
-  const modalDialogText = ref<string>('')
-  const modalDialogOkText = ref<string>('')
-  const modalDialogCancelText = ref<string>('')
-  const modalDialogIcon = ref<string>('') */
   // after creation of routing slip, we display modal dialog as info. If user cancels, we display the same modal dialog as alert.
   const isModalDialogInfo = ref<boolean>(false)
 
