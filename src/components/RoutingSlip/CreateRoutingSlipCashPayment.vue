@@ -6,7 +6,7 @@
                 filled
                 label="Receipt Number"
                 persistent-hint
-                v-model.trim="number"
+                v-model.trim="chequeReceiptNumber"
                 data-test="txtReceiptNumber"
                 :rule="receiptNumberRules"
                 >
@@ -34,7 +34,7 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip/useCr
 @Component({
   setup () {
     const {
-      number,
+      chequeReceiptNumber,
       paidAmount,
       createRoutingSlipCashPaymentForm,
       receiptNumberRules,
@@ -42,7 +42,7 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip/useCr
       isValid
     } = useCreateRoutingSlipCashPayment()
     return {
-      number,
+      chequeReceiptNumber,
       paidAmount,
       createRoutingSlipCashPaymentForm,
       receiptNumberRules,

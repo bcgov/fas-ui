@@ -15,32 +15,30 @@ export function useCreateRoutingSlipCashPayment () {
   const { cashPayment } = useState(['cashPayment'])
   const { setCashPayment } = useMutations(['setCashPayment'])
 
-  // using same value for getting value and update parent on change
-  const number:any = computed({
+  // using same v-model value for getting value and update parent on change
+  const chequeReceiptNumber:any = computed({
     get: () => {
-      return cashPayment.value.number || ''
+      return cashPayment.value.chequeReceiptNumber || ''
     },
     set: (modalValue: any) => {
       setCashPayment({
         ...cashPayment.value,
-        number: modalValue,
-        paymentMEthod: PaymentMethods.CASH
+        chequeReceiptNumber: modalValue,
+        paymentMethod: PaymentMethods.CASH
       })
     }
   })
 
-  // using same value for getting value and update parent on change
+  // using same v-model value for getting value and update parent on change
   const paidAmount:any = computed({
     get: () => {
-      // eslint-disable-next-line no-console
-      console.log('cashPayment.value', cashPayment.value)
       return cashPayment.value.paidAmount || null
     },
     set: (modalValue: any) => {
       setCashPayment({
         ...cashPayment.value,
         paidAmount: modalValue,
-        paymentMEthod: PaymentMethods.CASH
+        paymentMethod: PaymentMethods.CASH
       })
     }
   })
@@ -54,7 +52,7 @@ export function useCreateRoutingSlipCashPayment () {
   }
 
   return {
-    number,
+    chequeReceiptNumber,
     paidAmount,
     createRoutingSlipCashPaymentForm,
     receiptNumberRules,

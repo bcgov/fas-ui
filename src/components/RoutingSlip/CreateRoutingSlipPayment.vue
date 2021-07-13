@@ -57,13 +57,15 @@ import { useCreateRoutingSlipPayment } from '@/composables/RoutingSlip/useCreate
       isPaymentCheque,
       createRoutingSlipChequePaymentRef,
       createRoutingSlipCashPaymentRef,
-      isValid
+      isValid,
+      onMounted
     } = useCreateRoutingSlipPayment()
     return {
       isPaymentCheque,
       createRoutingSlipChequePaymentRef,
       createRoutingSlipCashPaymentRef,
-      isValid
+      isValid,
+      onMounted
     }
   }
 })

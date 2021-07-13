@@ -1,5 +1,10 @@
+import { onMounted, ref } from '@vue/composition-api'
+
+import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import i18n from '@/plugins/i18n'
-import { ref } from '@vue/composition-api'
+
+const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
+const { useActions, useState } = routingSlipModule
 
 // Composable function to inject Props, options and values to CreateRoutingSlip component
 export function useCreateRoutingSlip (_, context) {
@@ -7,6 +12,11 @@ export function useCreateRoutingSlip (_, context) {
   const createRoutingSlipDetailsRef = ref<HTMLFormElement>()
   const createRoutingSlipPaymentRef = ref<HTMLFormElement>()
   const modalDialogRef = ref<HTMLFormElement>()
+
+  // vuex action and state
+  const { createRoutingSlip } = useActions(['createRoutingSlip'])
+  const { resetRoutingSlipDetails } = useActions(['resetRoutingSlipDetails'])
+  const { routingSlipDetails } = useState(['routingSlipDetails'])
 
   // modal dialog props and events
   const modalDialogTitle = ref<string>('')
@@ -25,8 +35,15 @@ export function useCreateRoutingSlip (_, context) {
   }
 
   // Create Routing slip
-  function createRoutingSlip () {
-    if (isValid()) {
+  async function create () {
+    try {
+      if (isValid()) {
+        await createRoutingSlip()
+        displaySuccessNotification()
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('error ', error?.response)
     }
   }
 
@@ -42,6 +59,17 @@ export function useCreateRoutingSlip (_, context) {
     modalDialogRef.value.open()
   }
 
+  // Display success
+  function displaySuccessNotification () {
+    // Update modal dialog props and display
+    modalDialogTitle.value = i18n.t('createRoutingSlipSuccessTitle').toString()
+    modalDialogIcon.value = 'mdi-check'
+    modalDialogText.value = i18n.t('createRoutingSlipSuccessText', { number: routingSlipDetails.value?.number }).toString()
+    modalDialogOkText.value = 'Ok'
+    isModalDialogInfo.value = true
+    modalDialogRef.value.open()
+  }
+
   function modalDialogCancel () {
     modalDialogRef.value.close()
   }
@@ -50,6 +78,10 @@ export function useCreateRoutingSlip (_, context) {
     modalDialogRef.value.close()
     context.root.$router.push('home')
   }
+
+  onMounted(() => {
+    resetRoutingSlipDetails()
+  })
 
   return {
     createRoutingSlipForm,
@@ -66,6 +98,7 @@ export function useCreateRoutingSlip (_, context) {
     modalDialogCancel,
     modalDialogClose,
     isValid,
-    createRoutingSlip
+    create,
+    onMounted
   }
 }

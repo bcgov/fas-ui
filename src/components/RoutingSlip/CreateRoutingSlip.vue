@@ -36,7 +36,7 @@
             <v-btn
               large
               color="primary"
-              @click="createRoutingSlip"
+              @click="create"
               class="px-10"
               data-test="btn-create-routing-slip"
             >
@@ -69,7 +69,7 @@
     >
       <template v-slot:actions>
         <v-btn large color="primary" @click="modalDialogClose()" data-test="dialog-ok-button" class="font-weight-bold">{{ modalDialogOkText }}</v-btn>
-        <v-btn large color="primary" outlined @click="modalDialogCancel()" data-test="dialog-ok-button" class="font-weight-bold" >{{ modalDialogCancelText }}</v-btn>
+        <v-btn large color="primary" outlined @click="modalDialogCancel()" data-test="dialog-ok-button" class="font-weight-bold" v-show="!isModalDialogInfo" >{{ modalDialogCancelText }}</v-btn>
       </template>
     </ModalDialog>
   </v-container>
@@ -99,11 +99,12 @@ import { useCreateRoutingSlip } from '@/composables/RoutingSlip/useCreateRouting
       modalDialogCancelText,
       modalDialogIcon,
       isModalDialogInfo,
-      createRoutingSlip,
+      create,
       cancel,
       modalDialogCancel,
       modalDialogClose,
-      isValid
+      isValid,
+      onMounted
     } = useCreateRoutingSlip(_, context)
     return {
       createRoutingSlipForm,
@@ -116,11 +117,12 @@ import { useCreateRoutingSlip } from '@/composables/RoutingSlip/useCreateRouting
       modalDialogCancelText,
       modalDialogIcon,
       isModalDialogInfo,
-      createRoutingSlip,
+      create,
       cancel,
       modalDialogCancel,
       modalDialogClose,
-      isValid
+      isValid,
+      onMounted
     }
   }
 })

@@ -94,8 +94,7 @@ import { useCreateRoutingSlipChequePayment } from '@/composables/RoutingSlip/use
       getIndexedTag,
       addCheque,
       removeCheque,
-      isValid,
-      getRoutingSlipChequesInput
+      isValid
     } = useCreateRoutingSlipChequePayment()
     return {
       totalAmount,
@@ -108,8 +107,7 @@ import { useCreateRoutingSlipChequePayment } from '@/composables/RoutingSlip/use
       getIndexedTag,
       addCheque,
       removeCheque,
-      isValid,
-      getRoutingSlipChequesInput
+      isValid
     }
   }
 })
