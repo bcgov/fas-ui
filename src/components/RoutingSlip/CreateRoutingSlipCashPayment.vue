@@ -6,7 +6,7 @@
                 filled
                 label="Receipt Number"
                 persistent-hint
-                v-model.trim="number"
+                v-model.trim="chequeReceiptNumber"
                 data-test="txtReceiptNumber"
                 :rule="receiptNumberRules"
                 >
@@ -18,8 +18,10 @@
                 label="Amount ($)"
                 persistent-hint
                 v-model.number="paidAmount"
+                type="number"
                 data-test="txtPaidAmount"
                 :rules="paidAmountRules"
+                class="textNumber"
                 >
                 </v-text-field>
             </v-col>
@@ -34,7 +36,7 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip/useCr
 @Component({
   setup () {
     const {
-      number,
+      chequeReceiptNumber,
       paidAmount,
       createRoutingSlipCashPaymentForm,
       receiptNumberRules,
@@ -42,7 +44,7 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip/useCr
       isValid
     } = useCreateRoutingSlipCashPayment()
     return {
-      number,
+      chequeReceiptNumber,
       paidAmount,
       createRoutingSlipCashPaymentForm,
       receiptNumberRules,
@@ -54,3 +56,13 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip/useCr
 export default class CreateRoutingSlipCashPayment extends Vue {
 }
 </script>
+<style lang="scss" scoped>
+  .textNumber input[type='number'] {
+    -moz-appearance:textfield;
+  }
+  .textNumber input::-webkit-outer-spin-button,
+  .textNumber input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+</style>

@@ -59,11 +59,6 @@ export function useCreateRoutingSlipChequePayment () {
   function isValid (): boolean {
     return createRoutingSlipChequePaymentForm.value?.validate()
   }
-  // TODO remove
-  function getRoutingSlipChequesInput (): Payment[] {
-    // to avoid passing observer array, we send in a copy
-    return JSON.parse(JSON.stringify(chequeList.value))
-  }
 
   return {
     totalAmount,
@@ -71,12 +66,10 @@ export function useCreateRoutingSlipChequePayment () {
     createRoutingSlipChequePaymentForm,
     chequeNumberRules,
     paidAmountRules,
-    onMounted,
     getDefaultRow,
     getIndexedTag,
     addCheque,
     removeCheque,
-    isValid,
-    getRoutingSlipChequesInput
+    isValid
   }
 }

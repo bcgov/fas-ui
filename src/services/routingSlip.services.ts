@@ -10,4 +10,12 @@ export default class RoutingSlip {
       `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingNumber}`
     )
   }
+
+  public static async createRoutingSlip (
+    routingSlipRequest: RoutingSlip
+  ): Promise<AxiosResponse> {
+    return axios.post(
+      `${ConfigHelper.getFasAPIURL()}/routing-slips`, routingSlipRequest
+    )
+  }
 }

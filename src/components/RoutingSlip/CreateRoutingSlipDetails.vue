@@ -10,7 +10,6 @@
             <v-text-field
               filled
               label="Routing Slip - Unique ID"
-              req
               persistent-hint
               data-test="txtNumberId"
               v-model.trim="number"
