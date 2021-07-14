@@ -1,0 +1,29 @@
+[
+  {
+    "vault": "keycloak",
+    "application": [
+      "base",
+      "web-base",
+      "fas-web"
+    ]
+  },
+  {
+    "vault": "launchdarkly",
+    "application": [
+      "auth"
+    ]
+  },
+  {
+    "vault": "sentry",
+    "application": [
+      "relationship-web"
+    ]
+  },
+  {
+    "vault": "API",
+    "application": [
+      "status-api",
+      "pay-api"
+    ]
+  }
+]
