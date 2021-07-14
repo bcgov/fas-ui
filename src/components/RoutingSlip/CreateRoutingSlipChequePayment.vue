@@ -37,6 +37,7 @@
             icon
             class="mt-3 ml-1"
             @click="removeCheque(index)"
+            :data-test="getIndexedTag('removeChecque', index)"
             v-if="index !== 0"
           >
             <v-icon>mdi-close</v-icon>
@@ -50,7 +51,7 @@
           text
           data-test="add-cheque-button"
           class="px-0"
-          @click="addCheque"
+          @click="addCheque()"
           color="primary"
         >
           <v-icon dense color="primary">mdi-plus-box</v-icon>
