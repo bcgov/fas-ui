@@ -3,7 +3,7 @@
     <v-col cols="2">
         <p class="text-center font-weight-bold mt-4">Payment Information</p>
     </v-col>
-    <v-col cols="9" class="pl-0">
+    <v-col cols="10" class="pl-0 pr-md-16">
       <v-row class="d-flex pa-0 ma-0 justify-between">
         <v-radio-group
         row

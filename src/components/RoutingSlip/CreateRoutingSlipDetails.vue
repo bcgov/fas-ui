@@ -3,14 +3,13 @@
     <v-col cols="2">
       <p class="text-center font-weight-bold mt-4">Routing slip</p>
     </v-col>
-    <v-col cols="9" class="pl-0">
+    <v-col cols="10" class="pl-0 pr-md-16">
       <v-form ref="createRoutingSlipDetailsForm" class="mt-4">
         <v-row class="d-flex pa-0 ma-0 justify-between">
           <v-col cols="12" class="py-0">
             <v-text-field
               filled
               label="Routing Slip - Unique ID"
-              req
               persistent-hint
               data-test="txtNumberId"
               v-model.trim="number"

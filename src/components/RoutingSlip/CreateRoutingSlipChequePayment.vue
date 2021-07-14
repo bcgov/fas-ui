@@ -26,6 +26,8 @@
               label="Amount ($)"
               persistent-hint
               v-model.number="cheque.paidAmount"
+              type="number"
+              class="textNumber"
               :data-test="getIndexedTag('paidAmount', index)"
               :rules="paidAmountRules"
             >
@@ -89,13 +91,11 @@ import { useCreateRoutingSlipChequePayment } from '@/composables/RoutingSlip/use
       createRoutingSlipChequePaymentForm,
       chequeNumberRules,
       paidAmountRules,
-      onMounted,
       getDefaultRow,
       getIndexedTag,
       addCheque,
       removeCheque,
-      isValid,
-      getRoutingSlipChequesInput
+      isValid
     } = useCreateRoutingSlipChequePayment()
     return {
       totalAmount,
@@ -103,15 +103,23 @@ import { useCreateRoutingSlipChequePayment } from '@/composables/RoutingSlip/use
       createRoutingSlipChequePaymentForm,
       chequeNumberRules,
       paidAmountRules,
-      onMounted,
       getDefaultRow,
       getIndexedTag,
       addCheque,
       removeCheque,
-      isValid,
-      getRoutingSlipChequesInput
+      isValid
     }
   }
 })
 export default class CreateRoutingSlipChequePayment extends Vue {}
 </script>
+<style lang="scss" scoped>
+  .textNumber input[type='number'] {
+    -moz-appearance:textfield;
+  }
+  .textNumber input::-webkit-outer-spin-button,
+  .textNumber input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+</style>

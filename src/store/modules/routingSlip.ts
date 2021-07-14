@@ -1,4 +1,4 @@
-import { AccountInfo, RoutingSlipDetails } from '@/models/RoutingSlip'
+import { AccountInfo, RoutingSlip, RoutingSlipDetails } from '@/models/RoutingSlip'
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 
 import { Payment } from '@/models/Payment'
@@ -6,10 +6,13 @@ import RoutingSlipService from '@/services/routingSlip.services'
 
 @Module({ namespaced: true, stateFactory: true })
 export default class RoutingSlipModule extends VuexModule {
-  public routingSlipDetails: RoutingSlipDetails = {}
+  routingSlipDetails: RoutingSlipDetails = {}
   accountInfo: AccountInfo = {}
   chequePayment: Payment[] = []
   cashPayment: Payment = {}
+  routingSlip: RoutingSlip = {}
+  // default the payment type of routing slip to cheque
+  isPaymentMethodCheque: boolean = undefined
 
   @Mutation
   public setRoutingSlipDetails (routingSlipDetails: RoutingSlipDetails) {
@@ -31,12 +34,31 @@ export default class RoutingSlipModule extends VuexModule {
     this.cashPayment = cashPayment
   }
 
-  @Action({ rawError: true })
+  @Mutation
+  public setRoutingSlip (routingSlip: RoutingSlip) {
+    this.routingSlip = routingSlip
+  }
+
+  @Mutation
+  public setIsPaymentMethodCheque (isPaymentMethodCheque: boolean) {
+    this.isPaymentMethodCheque = isPaymentMethodCheque
+  }
+
+  @Action({ commit: 'setRoutingSlip', rawError: true })
   public async createRoutingSlip (): Promise<RoutingSlipDetails> {
-    // TODO save apis come here
-    // eslint-disable-next-line no-console
-    console.log('this.context', this.context)
-    return {}
+    const context: any = this.context
+    // build the RoutingSlip Request JSON object that needs to be sent.
+    let routingSlipRequest: RoutingSlip = {}
+    routingSlipRequest = { ...context.state.routingSlipDetails }
+    routingSlipRequest.paymentAccount = context.state.accountInfo
+
+    // By design, a routing slip can only have one payment method - CASH or CHEQUE.
+    routingSlipRequest.payments = context.state.isPaymentMethodCheque ? context.state.chequePayment : [context.state.cashPayment]
+
+    const response = await RoutingSlipService.createRoutingSlip(routingSlipRequest)
+    if (response && response.data && response.status === 200) {
+      return response.data
+    }
   }
 
   @Action({ rawError: true })
@@ -61,5 +83,16 @@ export default class RoutingSlipModule extends VuexModule {
       // on error we return true where the can use this routing number which should brake on create and show error message
       return true
     }
+  }
+
+  @Action({ rawError: true })
+  public resetRoutingSlipDetails (): void {
+    const context: any = this.context
+    context.commit('setRoutingSlipDetails', undefined)
+    context.commit('setAccountInfo', undefined)
+    context.commit('setChequePayment', [])
+    context.commit('setCashPayment', [])
+    context.commit('setRoutingSlip', undefined)
+    context.commit('setIsPaymentMethodCheque', undefined)
   }
 }

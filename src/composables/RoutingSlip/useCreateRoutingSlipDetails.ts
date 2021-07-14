@@ -16,10 +16,10 @@ export function useCreateRoutingSlipDetails () {
   const { checkRoutingNumber } = useActions(['checkRoutingNumber'])
 
   // local variables
-  const isUniqueNumber = ref(true)
-  const errorMessage = ref('')
+  const isUniqueNumber = ref<boolean>(true)
+  const errorMessage = ref<string>('')
 
-  // using same value for getting value and update parent on change
+  // using same v-model value for getting value and update parent on change
   const number = computed({
     get: () => {
       return routingSlipDetails.value?.number || ''
@@ -64,18 +64,20 @@ export function useCreateRoutingSlipDetails () {
   )
 
   function isValid (): boolean {
-    return createRoutingSlipDetailsForm.value?.validate()
+    // Current version of Vuetify returns validate() as true even if :error-message is not null on v-text-field
+    return createRoutingSlipDetailsForm.value?.validate() && errorMessage.value?.length === 0
   }
 
   async function checkRoutingNumberAvailable () {
-    const isRoutingNumberAvailable = await checkRoutingNumber()
-
-    isUniqueNumber.value = isRoutingNumberAvailable
-    // need to show error message if routign slip is not already existing.
-    // re-using same vuetify error field set as blank when there are no errors
-    errorMessage.value = !isRoutingNumberAvailable
-      ? 'Routing Slip number already presents. Enter a new number or edit details of this routing slip'
-      : ''
+    if (number.value?.length > 0) {
+      const isRoutingNumberAvailable = await checkRoutingNumber()
+      isUniqueNumber.value = isRoutingNumberAvailable
+      // need to show error message if routign slip is not already existing.
+      // re-using same vuetify error field set as blank when there are no errors
+      errorMessage.value = !isRoutingNumberAvailable
+        ? 'Routing Slip number already presents. Enter a new number or edit details of this routing slip'
+        : ''
+    }
   }
 
   return {
