@@ -79,7 +79,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import CreateRoutingSlipDetails from '@/components/RoutingSlip/CreateRoutingSlipDetails.vue'
 import CreateRoutingSlipPayment from '@/components/RoutingSlip/CreateRoutingSlipPayment.vue'
 import ModalDialog from '@/components/common/ModalDialog.vue'
-import { useCreateRoutingSlip } from '@/composables/RoutingSlip/useCreateRoutingSlip'
+import { useCreateRoutingSlip } from '@/composables/RoutingSlip'
 
 @Component({
   components: {

@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip/useCreateRoutingSlipCashPayment'
+import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip'
 
 @Component({
   setup () {

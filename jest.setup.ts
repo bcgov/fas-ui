@@ -5,6 +5,7 @@ import VueRouter from 'vue-router'
 import { config } from '@vue/test-utils'
 
 import VueCompositionApi from '@vue/composition-api'
+jest.mock('@/plugins/i18n', () => {})
 
 Vue.use(VueCompositionApi)
 
