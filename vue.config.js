@@ -47,7 +47,7 @@ module.exports = {
     manifestOptions: {
       name: 'Business Registry fas',
       short_name: 'Business Registry fas',
-      start_url: '/business/fas/',
+      start_url: '',
       display: 'standalone',
       theme_color: '#003366',
       background_color: '#fcba19',
