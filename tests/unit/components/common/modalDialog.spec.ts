@@ -1,7 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
 import ModalDialog from '@/components//common/ModalDialog.vue'
-import Vuetify from 'vuetify'
-// import { nextTick } from 'vue/types/umd'
 
 describe('ModalDialog.vue', () => {
   const title = 'test'

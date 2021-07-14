@@ -46,12 +46,12 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { useModalDialog } from '@/composables/common'
 
 @Component({
-  setup (props, context) {
+  setup () {
     const {
       isOpen,
       open,
       close
-    } = useModalDialog(props, context)
+    } = useModalDialog()
     return {
       isOpen,
       open,
