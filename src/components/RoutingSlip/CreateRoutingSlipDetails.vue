@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex justify-start">
     <v-col cols="2">
-      <p class="text-center font-weight-bold mt-4">Routing slip</p>
+      <p data-test="title" class="text-center font-weight-bold mt-4">Routing slip</p>
     </v-col>
     <v-col cols="10" class="pl-0 pr-md-16">
       <v-form ref="createRoutingSlipDetailsForm" class="mt-4">
@@ -23,6 +23,7 @@
             <date-picker
               v-model="routingSlipDate"
               :rules="routingSlipDateRules"
+              data-test="txtRoutingSlipDate"
             ></date-picker>
           </v-col>
           <v-col cols="6" class="py-0">

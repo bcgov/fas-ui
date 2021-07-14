@@ -16,7 +16,7 @@
               <span>Back to Dashboard</span>
             </v-btn>
           </div>
-          <h1 class="view-header__title pt-3">Add Routing Slip</h1>
+          <h1 class="view-header__title pt-3 title">Add Routing Slip</h1>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at
             porttitor sem.
