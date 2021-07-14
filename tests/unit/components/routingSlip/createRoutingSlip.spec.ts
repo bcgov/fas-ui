@@ -3,12 +3,11 @@ import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
 import { CreateRoutingSlip } from '@/components/RoutingSlip'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
-import vuetify from '@/plugins/vuetify'
 
 describe('CreateRoutingSlip.vue', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
-  localVue.use(Vuetify)
+  const vuetify = new Vuetify({})
   let store
   const MyStub = {
     template: '<div />'
@@ -39,15 +38,29 @@ describe('CreateRoutingSlip.vue', () => {
 
   it('renders component', () => {
     const wrapper = mount(CreateRoutingSlip, {
+      store,
       localVue,
       vuetify,
-      store,
       stubs: {
         CreateRoutingSlipPayment: MyStub,
         CreateRoutingSlipDetails: MyStub,
         ModalDialog: MyStub
       }
     })
-    expect(wrapper.find('.title').exists()).toBe('Add Routing Slip')
+    expect(wrapper.find('.title').text()).toBe('Add Routing Slip')
+  })
+
+  it('UI handlers validation', () => {
+    const wrapper = mount(CreateRoutingSlip, {
+      store,
+      localVue,
+      vuetify,
+      stubs: {
+        CreateRoutingSlipPayment: MyStub,
+        CreateRoutingSlipDetails: MyStub,
+        ModalDialog: MyStub
+      }
+    })
+    expect(wrapper.find('.title').text()).toBe('Add Routing Slip')
   })
 })
