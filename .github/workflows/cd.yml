@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - oc
   workflow_dispatch:
     inputs:
       environment:
