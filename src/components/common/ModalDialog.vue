@@ -12,7 +12,7 @@
         <slot v-if="showIcon" name="icon" >
           <v-icon large :color="iconColor" class="mt-0">{{ icon }}</v-icon>
         </slot>
-        <span>
+        <span data-test="dialog-title">
           <slot name="title">{{ title }}</slot>
         </span>
         <span v-if="showCloseIcon">
@@ -20,6 +20,7 @@
             icon
            @click="close()"
            class="font-weight-bold"
+           data-test="icon-dialog-close"
             >
                 <v-icon>mdi-close</v-icon>
             </v-btn>
@@ -28,7 +29,7 @@
       </v-card-title>
       <v-card-text>
         <slot name="text">
-          <div v-html="text" class="px-8 pb-7"></div>
+          <div v-html="text" class="px-8 pb-7" data-test="dialog-text"></div>
         </slot>
       </v-card-text>
         <v-card-actions v-if="showActions">
