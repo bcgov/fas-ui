@@ -45,7 +45,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import CreateRoutingSlipCashPayment from '@/components/RoutingSlip/CreateRoutingSlipCashPayment.vue'
 import CreateRoutingSlipChequePayment from '@/components/RoutingSlip/CreateRoutingSlipChequePayment.vue'
-import { useCreateRoutingSlipPayment } from '@/composables/RoutingSlip/useCreateRoutingSlipPayment'
+import { useCreateRoutingSlipPayment } from '@/composables/RoutingSlip'
 
 @Component({
   components: {

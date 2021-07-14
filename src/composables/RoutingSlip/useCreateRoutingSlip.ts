@@ -1,4 +1,4 @@
-import { onMounted, reactive, ref } from '@vue/composition-api'
+import { reactive, ref } from '@vue/composition-api'
 
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import i18n from '@/plugins/i18n'

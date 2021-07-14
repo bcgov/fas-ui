@@ -78,7 +78,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import DatePicker from '@/components/common/DatePicker.vue'
-import { useCreateRoutingSlipChequePayment } from '@/composables/RoutingSlip/useCreateRoutingSlipChequePayment'
+import { useCreateRoutingSlipChequePayment } from '@/composables/RoutingSlip'
 
 @Component({
   components: {

@@ -46,7 +46,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import DatePicker from '@/components/common/DatePicker.vue'
-import { useCreateRoutingSlipDetails } from '@/composables/RoutingSlip/useCreateRoutingSlipDetails'
+import { useCreateRoutingSlipDetails } from '@/composables/RoutingSlip'
 
 @Component({
   components: {
