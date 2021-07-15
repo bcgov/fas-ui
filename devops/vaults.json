@@ -8,12 +8,6 @@
     ]
   },
   {
-    "vault": "launchdarkly",
-    "application": [
-      "auth"
-    ]
-  },
-  {
     "vault": "sentry",
     "application": [
       "relationship-web"
