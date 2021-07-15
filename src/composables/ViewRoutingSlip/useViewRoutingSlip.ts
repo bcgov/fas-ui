@@ -16,7 +16,7 @@ export default function useViewRoutingSlip (props) {
 
   // watch any changes in slipId to get new values
   watch(slipId, (newSlipId:string, OldSlipId:string) => {
-    if (+newSlipId !== +OldSlipId) {
+    if (newSlipId && (+newSlipId !== +OldSlipId)) {
       getRoutingSlipById()
     }
   }, { immediate: true })
