@@ -1,6 +1,12 @@
 <template>
   <v-container class="view-container">
-    <v-row>
+    <!-- Loading status -->
+    <v-fade-transition>
+      <div class="loading-container" v-if="isLoading">
+        <v-progress-circular size="50" width="5" color="primary" :indeterminate="isLoading"/>
+      </div>
+    </v-fade-transition>
+    <v-row v-if="!isLoading">
       <v-col>
         <header class="d-flex flex-column mb-0">
           <!-- Back Navigation -->
@@ -95,6 +101,7 @@ import { useCreateRoutingSlip } from '@/composables/RoutingSlip'
       modalDialogRef,
       modalDialogDetails,
       isModalDialogInfo,
+      isLoading,
       cancel,
       modalDialogCancel,
       modalDialogClose,
@@ -108,6 +115,7 @@ import { useCreateRoutingSlip } from '@/composables/RoutingSlip'
       modalDialogRef,
       modalDialogDetails,
       isModalDialogInfo,
+      isLoading,
       cancel,
       modalDialogCancel,
       modalDialogClose,
