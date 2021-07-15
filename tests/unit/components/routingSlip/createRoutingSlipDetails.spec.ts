@@ -1,4 +1,4 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
 
 import { CreateRoutingSlipDetails } from '@/components/RoutingSlip'
 import Vuetify from 'vuetify'
@@ -7,7 +7,7 @@ import Vuex from 'vuex'
 describe('CreateRoutingSlipDetails.vue', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
-  localVue.use(Vuetify)
+  const vuetify = new Vuetify({})
   let store
   const MyStub = {
     template: '<div />'

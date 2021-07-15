@@ -32,10 +32,10 @@
         </v-radio-group>
       </v-row>
       <v-expand-transition>
-        <create-routing-slip-cheque-payment v-show="!!isPaymentCheque" ref="createRoutingSlipChequePaymentRef"/>
+        <create-routing-slip-cheque-payment v-show="!!isPaymentCheque" data-test="createRoutingSlipChequePaymentRef" ref="createRoutingSlipChequePaymentRef"/>
       </v-expand-transition>
       <v-expand-transition >
-        <create-routing-slip-cash-payment v-show="!isPaymentCheque" ref="createRoutingSlipCashPaymentRef"/>
+        <create-routing-slip-cash-payment v-show="!isPaymentCheque" data-test="createRoutingSlipCashPaymentRef" ref="createRoutingSlipCashPaymentRef"/>
       </v-expand-transition>
     </v-col>
   </div>
