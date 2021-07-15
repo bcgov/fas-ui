@@ -1,4 +1,8 @@
-import { AccountInfo, RoutingSlip, RoutingSlipDetails } from '@/models/RoutingSlip'
+import {
+  AccountInfo,
+  RoutingSlip,
+  RoutingSlipDetails
+} from '@/models/RoutingSlip'
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 
 import { Payment } from '@/models/Payment'
@@ -25,7 +29,7 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Mutation
-  public setChequePayment (chequeDetails:Payment[]) {
+  public setChequePayment (chequeDetails: Payment[]) {
     this.chequePayment = chequeDetails
   }
 
@@ -53,9 +57,13 @@ export default class RoutingSlipModule extends VuexModule {
     routingSlipRequest.paymentAccount = context.state.accountInfo
 
     // By design, a routing slip can only have one payment method - CASH or CHEQUE.
-    routingSlipRequest.payments = context.state.isPaymentMethodCheque ? context.state.chequePayment : [context.state.cashPayment]
+    routingSlipRequest.payments = context.state.isPaymentMethodCheque
+      ? context.state.chequePayment
+      : [context.state.cashPayment]
 
-    const response = await RoutingSlipService.createRoutingSlip(routingSlipRequest)
+    const response = await RoutingSlipService.createRoutingSlip(
+      routingSlipRequest
+    )
     if (response && response.data && response.status === 200) {
       return response.data
     }
@@ -66,9 +74,7 @@ export default class RoutingSlipModule extends VuexModule {
     const context: any = this.context
     try {
       const routingumber = context.state.routingSlipDetails.number
-      const response = await RoutingSlipService.isRoutingNumberAvailable(
-        routingumber
-      )
+      const response = await RoutingSlipService.getRoutingSlip(routingumber)
       // if routing number existing we will get 200 as response
       // else we will get 204
       if (response.status === 204) {
@@ -82,6 +88,21 @@ export default class RoutingSlipModule extends VuexModule {
       console.error('error ', error.response.data)
       // on error we return true where the can use this routing number which should brake on create and show error message
       return true
+    }
+  }
+
+  @Action({ commit: 'setRoutingSlip', rawError: true })
+  public async getRoutingSlip (slipId): Promise<RoutingSlipDetails> {
+    try {
+      const response = await RoutingSlipService.getRoutingSlip(slipId)
+
+      if (response && response.data && response.status === 200) {
+        return response.data
+      }
+      // TODO : need to handle if slip not existing
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('error ', error.response.data)
     }
   }
 

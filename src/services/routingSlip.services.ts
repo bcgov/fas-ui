@@ -3,7 +3,7 @@ import ConfigHelper from '@/util/config-helper'
 import axios from '@/util/http-util'
 
 export default class RoutingSlip {
-  public static async isRoutingNumberAvailable (
+  public static async getRoutingSlip (
     routingNumber: string
   ): Promise<AxiosResponse> {
     return axios.get(
