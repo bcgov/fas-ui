@@ -47,7 +47,7 @@ describe('CreateRoutingSlip.vue', () => {
         ModalDialog: MyStub
       }
     })
-    expect(wrapper.find('.title').text()).toBe('Add Routing Slip')
+    expect(wrapper.find('[data-test="title"]').text()).toBe('Add Routing Slip')
   })
 
   it('create button validation', async () => {

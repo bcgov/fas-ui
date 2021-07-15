@@ -60,14 +60,13 @@ describe('CreateRoutingSlipPayment.vue', () => {
     })
     expect(wrapper.find("[data-test='radio-cash']").exists()).toBeTruthy()
     expect(wrapper.find("[data-test='radio-cheque']").exists()).toBeTruthy()
-    expect(wrapper.find("[data-test='createRoutingSlipCashPaymentRef']").isVisible()).toBeTruthy()
 
     wrapper.find("[data-test='radio-cash']").trigger('click')
     await wrapper.vm.$nextTick()
-    expect(wrapper.find("[data-test='createRoutingSlipCashPaymentRef']").isVisible()).toBeTruthy()
+    expect(wrapper.find("[data-test='create-routing-slip-cash-payment']").isVisible()).toBeTruthy()
 
     wrapper.find("[data-test='radio-cheque']").trigger('click')
     await wrapper.vm.$nextTick()
-    expect(wrapper.find("[data-test='createRoutingSlipChequePaymentRef']").isVisible()).toBeTruthy()
+    expect(wrapper.find("[data-test='create-routing-slip-cheque-payment']").isVisible()).toBeTruthy()
   })
 })
