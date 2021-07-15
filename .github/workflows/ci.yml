@@ -65,7 +65,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
-          flags: authweb
+          flags: fasui
           name: codecov-fas-ui
           fail_ci_if_error: true
 
