@@ -70,8 +70,8 @@ export default class RoutingSlipModule extends VuexModule {
         routingumber
       )
       // if routing number existing we will get 200 as response
-      // else we will get 404
-      if (response.status === 404) {
+      // else we will get 204
+      if (response.status === 204) {
         // we will return truw,so can use this routing number
         return true
       }
