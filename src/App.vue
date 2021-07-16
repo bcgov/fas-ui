@@ -17,9 +17,9 @@
     </div>
     <!-- body content -->
     <div class="app-body">
-      <!-- Loading status -->
-      <loader-component v-if="isLoadingState"></loader-component>
-      <router-view v-if="!isLoadingState" />
+      <!-- using v-show instead of v-if to persist state -->
+      <loader-component v-show="isLoadingState"></loader-component>
+      <router-view v-show="!isLoadingState" />
     </div>
     <sbc-footer></sbc-footer>
   </v-app>
@@ -28,7 +28,7 @@
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 
-import LoaderComponent from '@/components/common/LoaderComponent.vue.vue'
+import LoaderComponent from '@/components/common/LoaderComponent.vue'
 
 import SbcFooter from 'sbc-common-components/src/components/SbcFooter.vue'
 import SbcHeader from 'sbc-common-components/src/components/SbcHeader.vue'
