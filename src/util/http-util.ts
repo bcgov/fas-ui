@@ -4,9 +4,6 @@ import { SessionStorageKeys } from '@/util/constants'
 import store from '@/store'
 
 const axios = Axios.create()
-// const loadingStatusModule = createNamespacedHelpers('loadingState')
-// const { useActions } = loadingStatusModule
-// const { showLoadingState, closeLoadingState } = useActions(['setCashPayment'])
 
 axios.interceptors.request.use(
   config => {
