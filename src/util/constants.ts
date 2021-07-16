@@ -22,3 +22,11 @@ export enum PaymentMethods {
     CASH = 'CASH',
     CHEQUE = 'CHEQUE'
 }
+
+export enum Role {
+  FAS_USER = 'fas_user',
+  FAS_EDIT = 'fas_edit',
+  FAS_REPORTS = 'fas_reports',
+  FAS_SEARCH = 'fas_search',
+  FAS_VIEW = 'fas_view',
+}
