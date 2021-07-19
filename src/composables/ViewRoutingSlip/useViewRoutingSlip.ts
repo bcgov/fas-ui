@@ -13,7 +13,7 @@ export default function useViewRoutingSlip (props) {
 
   // vuex action and state
   const { getRoutingSlip } = useActions(['getRoutingSlip'])
-  const { routingSlip }:any = useState(['routingSlip'])
+  const { routingSlip } = useState(['routingSlip'])
 
   // watch any changes in slipId to get new values
   watch(slipId, (newSlipId:string, OldSlipId:string) => {

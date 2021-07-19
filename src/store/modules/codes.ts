@@ -5,32 +5,7 @@ import CodesService from '@/services/codes.service'
 
 @Module({ namespaced: true })
 export default class CodesModule extends VuexModule {
-  routingSlipStatusList: Code[] = [
-    {
-      code: 'ACTIVE',
-      description: 'Active'
-    },
-    {
-      code: 'COMPLETE',
-      description: 'Completed'
-    },
-    {
-      code: 'BOUNCED',
-      description: 'Bounced'
-    },
-    {
-      code: 'NSF',
-      description: 'No Sufficient Fund'
-    },
-    {
-      code: 'REFUND',
-      description: 'Refund'
-    },
-    {
-      code: 'LAST',
-      description: 'Last Service'
-    }
-  ]// []
+  routingSlipStatusList: Code[] = []
 
   private routingSlipStatusCodeTable = 'routing_slip_statuses'
 
@@ -43,8 +18,6 @@ export default class CodesModule extends VuexModule {
   public async getRoutingSlipStatusList (): Promise<Code[]> {
     const context: any = this.context
     const routingSlipStatusList = context.state.routingSlipStatusList
-    // eslint-disable-next-line no-console
-    console.log('routingSlipStatusList', routingSlipStatusList, routingSlipStatusList.length)
     if (routingSlipStatusList.length === 0) {
       const response = await CodesService.getCodes(
         this.routingSlipStatusCodeTable

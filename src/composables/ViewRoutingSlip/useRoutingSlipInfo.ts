@@ -1,4 +1,4 @@
-import { computed, ref, watch } from '@vue/composition-api'
+import { computed, reactive, ref, toRefs, watch } from '@vue/composition-api'
 
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { useStatusList } from '@/composables/common/useStatusList'
@@ -14,8 +14,8 @@ export default function useRoutingSlipInfo (props) {
 
   const editMode = ref<boolean>(false)
   const currentStatus = ref('')
-
-  const { statusLabel } = useStatusList(ref({ value: 'abcd' }), {})
+  // passign value as blank to avoid warning
+  const { statusLabel } = useStatusList(reactive({ value: '' }), {})
 
   const routinSlipDetails = computed(() => {
     return routingSlip.value || {}
@@ -25,13 +25,15 @@ export default function useRoutingSlipInfo (props) {
   watch(
     routinSlipDetails,
     () => {
-      currentStatus.value = routinSlipDetails.value.status
+      if (currentStatus.value !== routinSlipDetails.value.status) {
+        currentStatus.value = routinSlipDetails.value.status
+      }
     },
-    { immediate: true }
+    { immediate: true, deep: true }
   )
 
-  function toggleEdit (editModeNow: boolean) {
-    editMode.value = editModeNow
+  function toggleEdit (edit: boolean) {
+    editMode.value = edit
   }
 
   // update routign slip status on click of done

@@ -50,7 +50,7 @@
                 Status
               </v-col>
               <v-col class="col-6 col-sm-9">
-                <statusList v-model="currentStatus"></statusList>
+                <statusL-list v-model="currentStatus"></statusL-list>
               </v-col>
             </v-row>
 

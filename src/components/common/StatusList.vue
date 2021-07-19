@@ -34,7 +34,5 @@ import { useStatusList } from '@/composables/common'
 })
 export default class StatusList extends Vue {
   @Prop() value: string
-  // @Prop({ default: '' }) currentStatus: string
-  // @Prop({ default: false }) persist: boolean
 }
 </script>
