@@ -18,4 +18,12 @@ export default class RoutingSlip {
       `${ConfigHelper.getFasAPIURL()}/routing-slips`, routingSlipRequest
     )
   }
+
+  public static async updateRoutingSlipStatus (
+    code: string,
+    routingSlipNumber:number
+  ): Promise<AxiosResponse> {
+    return axios.patch(
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}?action=updateStatus`, { status: code })
+  }
 }

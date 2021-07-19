@@ -1,3 +1,4 @@
+import { RoutingSlip } from '@/models/RoutingSlip'
 import { toRefs, watch } from '@vue/composition-api'
 
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
@@ -12,7 +13,7 @@ export default function useViewRoutingSlip (props) {
 
   // vuex action and state
   const { getRoutingSlip } = useActions(['getRoutingSlip'])
-  const { routingSlip } = useState(['routingSlip'])
+  const { routingSlip }:any = useState(['routingSlip'])
 
   // watch any changes in slipId to get new values
   watch(slipId, (newSlipId:string, OldSlipId:string) => {
