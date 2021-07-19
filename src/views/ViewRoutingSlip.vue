@@ -45,7 +45,7 @@ import { useViewRoutingSlip } from '@/composables/ViewRoutingSlip'
     useViewRoutingSlip(props)
   }
 })
-export default class ViewRoutingSlipView extends Vue {
+export default class ViewRoutingSlip extends Vue {
   @Prop() slipId: string
 }
 </script>
