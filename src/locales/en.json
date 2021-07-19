@@ -6,5 +6,7 @@
   "createRoutingSlipSuccessTitle": "Routing Slip has been Created",
   "createRoutingSlipSuccessText": "Routing Slip number {number} has been created",
   "createRoutingSlipCancelTitle": "Leave Add Routing Slip?",
-  "createRoutingSlipCancelText": "If you leave this page, your routing slip information will not be created or saved."
+  "createRoutingSlipCancelText": "If you leave this page, your routing slip information will not be created or saved.",
+  "unauthorizedTitle": "Not Authorized",
+  "unauthorizedMsg": "You are not authorized to access this page."
 }
