@@ -7,6 +7,7 @@
     item-value="code"
     return-object
     label="Status"
+    data-test="select-status"
   ></v-select>
 </template>
 

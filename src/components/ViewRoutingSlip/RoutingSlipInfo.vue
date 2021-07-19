@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class="d-flex flex-column mb-0">
-      <h3>01.Routing Slip Information</h3>
+      <h3 data-test="title">01.Routing Slip Information</h3>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </header>
     <v-card class="pl-5 py-2">
@@ -40,6 +40,7 @@
                 <span
                   :class="colors(routinSlipDetails.status)"
                   class="slip-status"
+                  data-test="label-status"
                   >{{ getStatusLabel(routinSlipDetails.status) }}</span
                 >
               </v-col>
@@ -68,6 +69,7 @@
             ><span
               class="primary--text cursor-pointer"
               @click="toggleEdit(true)"
+              data-test="btn-edit"
               ><v-icon color="primary" size="20"> mdi-pencil</v-icon> Edit
               Status</span
             >
