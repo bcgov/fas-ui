@@ -10,7 +10,6 @@
       large
       color="primary"
       data-test="btn-add-fund"
-      @click="addAdditionalFunds"
       >
         <v-icon class="mr-1">mdi-plus</v-icon>
         <span>Add Additional Funds</span>
@@ -61,14 +60,12 @@ import { CreateRoutingSlipCashPayment, CreateRoutingSlipChequePayment } from '@/
       routingSlip,
       isPaymentCheque,
       isExpanded,
-      addAdditionalFunds,
       viewPaymentInformation
     } = usePaymentInformation()
     return {
       routingSlip,
       isPaymentCheque,
       isExpanded,
-      addAdditionalFunds,
       viewPaymentInformation
     }
   }

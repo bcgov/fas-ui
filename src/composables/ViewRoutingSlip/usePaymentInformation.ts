@@ -24,9 +24,6 @@ export default function usePaymentInformation () {
     return payments && payments[0].paymentMethod === PaymentMethods.CHEQUE
   })
 
-  function addAdditionalFunds (): void {
-  }
-
   function viewPaymentInformation (): void {
     // expand/collapse view payment information children
     // update the cheque store if payment method is cheque, cash store otherwise
@@ -43,7 +40,6 @@ export default function usePaymentInformation () {
     routingSlip,
     isPaymentCheque,
     isExpanded,
-    addAdditionalFunds,
     viewPaymentInformation
   }
 }
