@@ -49,8 +49,8 @@
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 Status
               </v-col>
-              <v-col class="col-6 col-sm-9">
-                <statusL-list v-model="currentStatus"></statusL-list>
+              <v-col class="col-6 col-sm-9 status-list">
+                <status-list v-model="currentStatus"></status-list>
               </v-col>
             </v-row>
 
@@ -140,5 +140,8 @@ export default class PrintRoutingSlip extends Vue {
 }
 .row + .row {
   margin-top: 7px !important;
+}
+.status-list{
+  max-width: 400px;
 }
 </style>

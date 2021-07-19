@@ -13,7 +13,7 @@
 <script lang="ts">
 /** component for status list.
  * example
- * <statusL-list v-model="currentStatus" ></statusL-list>
+ * <status-list v-model="currentStatus" ></status-list>
  */
 
 import { Component, Prop } from 'vue-property-decorator'

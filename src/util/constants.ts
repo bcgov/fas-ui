@@ -24,7 +24,7 @@ export enum PaymentMethods {
 
 export enum SlipStatus {
   ACTIVE = 'ACTIVE',
-  COMPLETED = 'COMPLETED',
+  COMPLETE = 'COMPLETE',
   BOUNCED='BOUNCED',
   NSF = 'NSF',
   REFUND ='REFUND',

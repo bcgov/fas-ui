@@ -33,7 +33,7 @@ export default class CommonUtils {
     let color = ''
     switch (status) {
       case SlipStatus.ACTIVE:
-      case SlipStatus.COMPLETED:
+      case SlipStatus.COMPLETE:
         color = 'green'
         break
       case SlipStatus.BOUNCED:
