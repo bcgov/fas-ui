@@ -2,7 +2,7 @@ import { createLocalVue, shallowMount } from '@vue/test-utils'
 
 import { RoutingSlipInfo } from '@/components/ViewRoutingSlip'
 import statusList from '@/components/common/StatusList.vue'
-import { routingSlipStatusList } from '../../mocks/code'
+import { routingSlipStatusList } from '../../test-data/mock-code'
 
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
@@ -12,9 +12,6 @@ describe('RoutingSlipInfo.vue', () => {
   localVue.use(Vuex)
   const vuetify = new Vuetify({})
   let store
-  const MyStub = {
-    template: '<div />'
-  }
 
   beforeEach(() => {
     const routingSlipModule = {
@@ -30,10 +27,6 @@ describe('RoutingSlipInfo.vue', () => {
           status: 'ACTIVE',
           total: 12345
         }
-      },
-      mutations: {
-        // setChequePayment: jest.fn(),
-        // setCashPayment: jest.fn()
       }
     }
 
