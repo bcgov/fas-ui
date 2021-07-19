@@ -10,6 +10,7 @@
       large
       color="primary"
       data-test="btn-add-fund"
+      v-can:fas_edit.hide
       >
         <v-icon class="mr-1">mdi-plus</v-icon>
         <span>Add Additional Funds</span>
