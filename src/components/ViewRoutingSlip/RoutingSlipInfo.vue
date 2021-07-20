@@ -13,7 +13,7 @@
                 Routing Slip - Unique ID
               </v-col>
               <v-col class="col-6 col-sm-9">
-                {{ routinSlipDetails.number }}
+                {{ routingSlipDetails.number }}
               </v-col>
             </v-row>
 
@@ -25,7 +25,7 @@
               <v-col class="col-6 col-sm-9">
                 {{
                   formatDisplayDate(
-                    routinSlipDetails.routingSlipDate,
+                    routingSlipDetails.routingSlipDate,
                     'MMM DD, YYYY'
                   )
                 }}
@@ -38,10 +38,10 @@
               </v-col>
               <v-col class="col-6 col-sm-9">
                 <span
-                  :class="colors(routinSlipDetails.status)"
+                  :class="colors(routingSlipDetails.status)"
                   class="slip-status"
                   data-test="label-status"
-                  >{{ getStatusLabel(routinSlipDetails.status) }}</span
+                  >{{ getStatusLabel(routingSlipDetails.status) }}</span
                 >
               </v-col>
             </v-row>
@@ -60,7 +60,7 @@
                 Name of Person Submitting
               </v-col>
               <v-col class="col-6 col-sm-9">
-                {{ routinSlipDetails.createdName }}
+                {{ routingSlipDetails.createdName }}
               </v-col>
             </v-row>
           </v-col>
@@ -112,7 +112,7 @@ import statusList from '@/components/common/StatusList.vue'
   },
   setup (props) {
     const {
-      routinSlipDetails,
+      routingSlipDetails,
       editMode,
       toggleEdit,
       currentStatus,
@@ -121,7 +121,7 @@ import statusList from '@/components/common/StatusList.vue'
     } = useRoutingSlipInfo(props)
 
     return {
-      routinSlipDetails,
+      routingSlipDetails,
       editMode,
       toggleEdit,
       currentStatus,

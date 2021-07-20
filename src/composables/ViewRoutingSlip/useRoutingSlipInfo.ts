@@ -17,16 +17,16 @@ export default function useRoutingSlipInfo (props) {
   // passign value as blank to avoid warning
   const { statusLabel } = useStatusList(reactive({ value: '' }), {})
 
-  const routinSlipDetails = computed(() => {
+  const routingSlipDetails = computed(() => {
     return routingSlip.value || {}
   })
 
   // since we have to return different value
   watch(
-    routinSlipDetails,
+    routingSlipDetails,
     () => {
-      if (currentStatus.value !== routinSlipDetails.value.status) {
-        currentStatus.value = routinSlipDetails.value.status
+      if (currentStatus.value !== routingSlipDetails.value.status) {
+        currentStatus.value = routingSlipDetails.value.status
       }
     },
     { immediate: true, deep: true }
@@ -49,7 +49,7 @@ export default function useRoutingSlipInfo (props) {
   return {
     routingSlip,
     editMode,
-    routinSlipDetails,
+    routingSlipDetails,
     toggleEdit,
     currentStatus,
     updateStatus,
