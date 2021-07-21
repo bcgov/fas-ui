@@ -19,11 +19,11 @@ export default class CodesModule extends VuexModule {
     const context: any = this.context
     const routingSlipStatusList = context.state.routingSlipStatusList
     if (routingSlipStatusList.length === 0) {
-      const response = await CodesService.getCodes(
+      const response: any = await CodesService.getCodes(
         this.routingSlipStatusCodeTable
       )
       if (response && response.data && response.status === 200) {
-        return response.data
+        return response.data?.codes
       }
       return []
     } else {

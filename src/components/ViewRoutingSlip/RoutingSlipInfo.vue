@@ -130,7 +130,7 @@ import statusList from '@/components/common/StatusList.vue'
     }
   }
 })
-export default class PrintRoutingSlip extends Vue {
+export default class RoutingSlipInfo extends Vue {
   public colors = commonUtil.statusListColor
   public formatDisplayDate = commonUtil.formatDisplayDate
 }
