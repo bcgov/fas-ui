@@ -7,7 +7,7 @@ const routingSlipModule = createNamespacedHelpers('routingSlip') // specific mod
 const { useState } = routingSlipModule
 
 // Composable function to inject Props, options and values to RoutingSlipTransaction component
-export default function useRoutingSlipTransaction () {
+export default function useRoutingSlipTransaction (_, context) {
   // vuex state
   const { routingSlip } = useState(['routingSlip'])
   const invoices = ref<Invoice[]>([])
@@ -17,7 +17,12 @@ export default function useRoutingSlipTransaction () {
     invoices.value = routingSlip.value?.invoices
   }, { immediate: true, deep: true })
 
+  function close (): void {
+    context.root.$router.push('home')
+  }
+
   return {
-    invoices
+    invoices,
+    close
   }
 }

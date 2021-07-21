@@ -62,7 +62,6 @@ export default function useTransactionDataTable (props, _) {
         return lineItem?.description
       }).join('')
       invoiceDtoObject.description = description
-      // TODO Change statuscode to enum after PR merge
       // we need invoice number of completed transaction only
       invoiceDtoObject.invoiceNumber = invoice?.references?.find((reference: Reference) => reference?.statusCode === 'COMPLETED')?.invoiceNumber
       invoiceDtoObject.total = invoice?.total

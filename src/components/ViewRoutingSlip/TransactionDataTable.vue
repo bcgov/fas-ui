@@ -4,7 +4,7 @@
       <v-icon color="primary" class="ml-8">
           mdi-view-list
       </v-icon>
-      <p class="ml-2 mb-0 font-weight-bold" data-test="title">Transactions</p><p class="mb-0">{{ `(${invoiceCount})` }}</p>
+      <p class="ml-2 mb-0 font-weight-bold" data-test="title">Transactions</p><p class="mb-0" v-if="invoiceCount">{{ `(${invoiceCount})` }}</p>
     </div>
     <v-data-table
     :headers="headerTranscations"
@@ -20,7 +20,7 @@
       </template>
       <template v-slot:[`item.createdOn`]="{ item }">
       <div class="font-weight-bold pl-4">
-        {{ item.createdOn }}
+        {{  formatDisplayDate(item.createdOn, 'MMM DD, YYYY') }}
       </div>
     </template>
     <template v-slot:[`item.total`]="{ item }">
@@ -39,6 +39,7 @@
 <script lang="ts">
 import { useTransactionDataTable } from '@/composables/ViewRoutingSlip'
 import { Invoice } from '@/models/Invoice'
+import commonUtil from '@/util/common-util'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component({
@@ -59,6 +60,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 })
 export default class TransactionDataTable extends Vue {
   @Prop({ default: null }) invoices: Invoice[]
+
+  public formatDisplayDate = commonUtil.formatDisplayDate
 }
 
 </script>

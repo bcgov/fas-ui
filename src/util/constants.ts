@@ -30,7 +30,6 @@ export enum SlipStatus {
   REFUND ='REFUND',
   LAST='LAST',
   HOLD='HOLD'
-
 }
 
 export enum Role {
