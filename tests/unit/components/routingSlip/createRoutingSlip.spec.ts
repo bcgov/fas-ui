@@ -19,7 +19,7 @@ describe('CreateRoutingSlip.vue', () => {
       state: {
         routingSlipDetails: {}
       },
-      action: {
+      actions: {
         createRoutingSlip: jest.fn(),
         resetRoutingSlipDetails: jest.fn()
       }
