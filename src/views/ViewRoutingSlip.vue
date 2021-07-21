@@ -5,7 +5,7 @@
         <header class="d-flex flex-column mb-0">
           <!-- Back Navigation -->
           <div class="py-0">
-            <v-btn text large data-test="btn-back" color="primary" class="pl-0">
+            <v-btn text large data-test="btn-back" color="primary" class="pl-0" to="/home">
               <v-icon color="primary" class="mr-1">mdi-arrow-left</v-icon>
               <span>Back to Dashboard</span>
             </v-btn>
