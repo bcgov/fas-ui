@@ -7,7 +7,7 @@ const routingSlipModule = createNamespacedHelpers('routingSlip') // specific mod
 const { useGetters } = routingSlipModule
 
 // Composable function to inject Props, options and values to TransactionDataTable component
-export default function useTransactionTable (props, _) {
+export default function useTransactionDataTable (props, _) {
   // ref and i/p variables
   const { invoices } = toRefs(props)
   const invoiceDto = ref<InvoiceDto[]>([])
@@ -49,7 +49,7 @@ export default function useTransactionTable (props, _) {
 
   watch(invoices, () => {
     transformInvoices()
-  }, { deep: true })
+  }, { deep: true, immediate: true })
 
   function transformInvoices (): void {
     for (let i = 0; i < invoices.value?.length; i++) {
@@ -74,6 +74,7 @@ export default function useTransactionTable (props, _) {
   return {
     invoiceDto,
     headerTranscations,
-    invoiceCount
+    invoiceCount,
+    transformInvoices
   }
 }

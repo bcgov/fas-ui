@@ -4,7 +4,7 @@
       <v-icon color="primary" class="ml-8">
           mdi-view-list
       </v-icon>
-      <p class="ml-2 mb-0 font-weight-bold">Transactions</p><p class="mb-0">{{ `(${invoiceCount})` }}</p>
+      <p class="ml-2 mb-0 font-weight-bold" data-test="title">Transactions</p><p class="mb-0">{{ `(${invoiceCount})` }}</p>
     </div>
     <v-data-table
     :headers="headerTranscations"
@@ -37,7 +37,7 @@
   </div>
 </template>
 <script lang="ts">
-import { useTransactionTable } from '@/composables/ViewRoutingSlip'
+import { useTransactionDataTable } from '@/composables/ViewRoutingSlip'
 import { Invoice } from '@/models/Invoice'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
@@ -46,12 +46,14 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
     const {
       invoiceDto,
       headerTranscations,
-      invoiceCount
-    } = useTransactionTable(props, _)
+      invoiceCount,
+      transformInvoices
+    } = useTransactionDataTable(props, _)
     return {
       invoiceDto,
       headerTranscations,
-      invoiceCount
+      invoiceCount,
+      transformInvoices
     }
   }
 })

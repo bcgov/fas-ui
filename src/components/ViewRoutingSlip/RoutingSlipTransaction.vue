@@ -41,5 +41,4 @@ import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
   }
 })
 export default class RoutingSlipTransaction extends Vue {}
-
 </script>
