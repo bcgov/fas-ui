@@ -28,7 +28,7 @@ export enum SlipStatus {
   BOUNCED='BOUNCED',
   NSF = 'NSF',
   REFUND ='REFUND',
-  LAST_SERVICE='LAST SERVICE'
+  LAST_SERVICE='LAST_SERVICE'
 }
 
 export enum Role {
