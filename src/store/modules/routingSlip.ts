@@ -18,6 +18,10 @@ export default class RoutingSlipModule extends VuexModule {
   // default the payment type of routing slip to cheque
   isPaymentMethodCheque: boolean = undefined
 
+  public get invoiceCount (): number {
+    return this.routingSlip?.invoices?.length
+  }
+
   @Mutation
   public setRoutingSlipDetails (routingSlipDetails: RoutingSlipDetails) {
     this.routingSlipDetails = routingSlipDetails
