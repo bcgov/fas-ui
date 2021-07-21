@@ -15,11 +15,15 @@ export default function useViewRoutingSlip (props) {
   const { routingSlip } = useState(['routingSlip'])
 
   // watch any changes in slipId to get new values
-  watch(slipId, (newSlipId:string, OldSlipId:string) => {
-    if (newSlipId && (+newSlipId !== +OldSlipId)) {
-      getRoutingSlipById()
-    }
-  }, { immediate: true })
+  watch(
+    slipId,
+    (newSlipId: string, OldSlipId: string) => {
+      if (newSlipId && +newSlipId !== +OldSlipId) {
+        getRoutingSlipById()
+      }
+    },
+    { immediate: true }
+  )
 
   function getRoutingSlipById () {
     getRoutingSlip(slipId.value)

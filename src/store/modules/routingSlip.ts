@@ -110,6 +110,25 @@ export default class RoutingSlipModule extends VuexModule {
     }
   }
 
+  @Action({ commit: 'setRoutingSlip', rawError: true })
+  public async updateRoutingSlipStatus (status:any): Promise<RoutingSlipDetails> {
+    const context: any = this.context
+    const slipNumber = context.state.routingSlip.number
+    // update status
+    try {
+      const response = await RoutingSlipService.updateRoutingSlipStatus(
+        status,
+        slipNumber
+      )
+      if (response && response.data && response.status === 200) {
+        return response.data
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('error ', error.response.data)
+    }
+  }
+
   @Action({ rawError: true })
   public resetRoutingSlipDetails (): void {
     const context: any = this.context
