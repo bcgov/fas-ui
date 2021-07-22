@@ -30,7 +30,6 @@ export enum SlipStatus {
   REFUND ='REFUND',
   LAST='LAST',
   HOLD='HOLD'
-
 }
 
 export enum Role {
@@ -39,4 +38,8 @@ export enum Role {
   FAS_REPORTS = 'fas_reports',
   FAS_SEARCH = 'fas_search',
   FAS_VIEW = 'fas_view',
+}
+
+export enum InvoiceStatus {
+  COMPLETED = 'COMPLETED',
 }

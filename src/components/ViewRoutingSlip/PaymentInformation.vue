@@ -28,7 +28,7 @@
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 Total Amount Received
               </v-col>
-              <v-col class="col-6 col-sm-9 status-list" data-test="total">
+              <v-col v-if="routingSlip" class="col-6 col-sm-9 status-list" data-test="total">
                 ${{ routingSlip.total }}
               </v-col>
             </v-row>
@@ -76,6 +76,7 @@
               <v-col
                 class="col-6 col-sm-9 font-weight-bold"
                 data-test="remaining-amount"
+                v-if="routingSlip"
               >
                 ${{ routingSlip.remainingAmount }}
               </v-col>
