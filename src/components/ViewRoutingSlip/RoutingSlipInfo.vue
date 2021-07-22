@@ -70,6 +70,7 @@
               class="primary--text cursor-pointer"
               @click="toggleEdit(true)"
               data-test="btn-edit"
+              v-can:fas_edit.hide
               ><v-icon color="primary" size="20"> mdi-pencil</v-icon> Edit
               Status</span
             >
