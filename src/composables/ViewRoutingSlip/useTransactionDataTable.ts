@@ -1,16 +1,16 @@
-import { Invoice, InvoiceDto, LineItem, Reference } from '@/models/Invoice'
+import { Invoice, InvoiceDisplay, LineItem, Reference } from '@/models/Invoice'
 import { ref, toRefs, watch } from '@vue/composition-api'
 
+import { InvoiceStatus } from '@/util/constants'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useGetters } = routingSlipModule
+const { useGetters, useState } = routingSlipModule
 
 // Composable function to inject Props, options and values to TransactionDataTable component
-export default function useTransactionDataTable (props, _) {
+export default function useTransactionDataTable (props) {
   // ref and i/p variables
-  const { invoices } = toRefs(props)
-  const invoiceDto = ref<InvoiceDto[]>([])
+  const invoiceDisplay = ref<InvoiceDisplay[]>([])
   const headerTranscations = [
     {
       text: 'Date',
@@ -44,34 +44,38 @@ export default function useTransactionDataTable (props, _) {
     }
   ]
 
-  // vuex getter
+  // vuex getter and state
   const { invoiceCount } = useGetters(['invoiceCount'])
+  const { routingSlip } = useState(['routingSlip'])
 
-  watch(invoices, () => {
-    transformInvoices()
+  // We are watching routingslip parent object and if any changes, we update the invoice and pass it along to transaction table to display
+  watch(routingSlip, () => {
+    if (routingSlip.value?.invoices) {
+      transformInvoices(routingSlip.value?.invoices)
+    }
   }, { deep: true, immediate: true })
 
-  function transformInvoices (): void {
-    for (let i = 0; i < invoices.value?.length; i++) {
-      const invoice: Invoice = invoices.value[i]
-      const invoiceDtoObject: InvoiceDto = {}
+  function transformInvoices (invoices: Invoice[]): void {
+    for (let i = 0; i < invoices?.length; i++) {
+      const invoice: Invoice = invoices[i]
+      const invoiceDisplayObject: InvoiceDisplay = {}
       // assign created on date
-      invoiceDtoObject.createdOn = invoice.createdOn
+      invoiceDisplayObject.createdOn = invoice.createdOn
       // concatenate all description from line items
       const description = invoice?.lineItems.map((lineItem: LineItem) => {
         return lineItem?.description
       }).join('')
-      invoiceDtoObject.description = description
+      invoiceDisplayObject.description = description
       // we need invoice number of completed transaction only
-      invoiceDtoObject.invoiceNumber = invoice?.references?.find((reference: Reference) => reference?.statusCode === 'COMPLETED')?.invoiceNumber
-      invoiceDtoObject.total = invoice?.total
-      invoiceDtoObject.createdName = invoice?.createdName || invoice?.createdBy
-      invoiceDto.value.push(invoiceDtoObject)
+      invoiceDisplayObject.invoiceNumber = invoice?.references?.find((reference: Reference) => reference?.statusCode === InvoiceStatus.COMPLETED)?.invoiceNumber
+      invoiceDisplayObject.total = invoice?.total
+      invoiceDisplayObject.createdName = invoice?.createdName || invoice?.createdBy
+      invoiceDisplay.value.push(invoiceDisplayObject)
     }
   }
 
   return {
-    invoiceDto,
+    invoiceDisplay,
     headerTranscations,
     invoiceCount,
     transformInvoices

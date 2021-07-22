@@ -20,6 +20,7 @@ export interface RoutingSlip {
   total?: number
   remainingAmount?: number
   invoices?: Invoice[]
+  status?: string
 }
 // Class for storing values in CreateRoutingSlipDetails component
 export interface RoutingSlipDetails {

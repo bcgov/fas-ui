@@ -8,7 +8,7 @@
     </div>
     <v-data-table
     :headers="headerTranscations"
-    :items="invoiceDto"
+    :items="invoiceDisplay"
     class="elevation-1"
     hide-default-footer
     disable-pagination
@@ -38,20 +38,19 @@
 </template>
 <script lang="ts">
 import { useTransactionDataTable } from '@/composables/ViewRoutingSlip'
-import { Invoice } from '@/models/Invoice'
 import commonUtil from '@/util/common-util'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
-  setup (props, _) {
+  setup (props) {
     const {
-      invoiceDto,
+      invoiceDisplay,
       headerTranscations,
       invoiceCount,
       transformInvoices
-    } = useTransactionDataTable(props, _)
+    } = useTransactionDataTable(props)
     return {
-      invoiceDto,
+      invoiceDisplay,
       headerTranscations,
       invoiceCount,
       transformInvoices
@@ -59,8 +58,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
   }
 })
 export default class TransactionDataTable extends Vue {
-  @Prop({ default: null }) invoices: Invoice[]
-
   public formatDisplayDate = commonUtil.formatDisplayDate
 }
 

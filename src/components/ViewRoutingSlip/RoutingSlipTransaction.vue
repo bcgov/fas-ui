@@ -19,7 +19,7 @@
       </v-btn>
     </div>
     <div class="d-flex flex-column">
-      <transaction-data-table :invoices=invoices />
+      <transaction-data-table />
     </div>
   </div>
 </template>
@@ -34,11 +34,9 @@ import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
   },
   setup (_, context) {
     const {
-      invoices,
       close
     } = useRoutingSlipTransaction(_, context)
     return {
-      invoices,
       close
     }
   }

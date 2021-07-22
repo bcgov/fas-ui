@@ -39,3 +39,7 @@ export enum Role {
   FAS_SEARCH = 'fas_search',
   FAS_VIEW = 'fas_view',
 }
+
+export enum InvoiceStatus {
+  COMPLETED = 'COMPLETED',
+}

@@ -44,7 +44,7 @@ export interface Invoice {
 }
 
 // For displaying transaction data table
-export interface InvoiceDto {
+export interface InvoiceDisplay {
   createdOn?: string
   invoiceNumber?: string
   statusCode?: string
