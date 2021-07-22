@@ -15,8 +15,14 @@ export function useCreateRoutingSlip (_, context) {
   const isLoading = ref<boolean>(false)
 
   // vuex action and state
-  const { createRoutingSlip, resetRoutingSlipDetails } = useActions(['createRoutingSlip', 'resetRoutingSlipDetails'])
-  const { routingSlipDetails } = useState(['routingSlipDetails'])
+  const { createRoutingSlip, resetRoutingSlipDetails } = useActions([
+    'createRoutingSlip',
+    'resetRoutingSlipDetails'
+  ])
+  const { routingSlipDetails, routingSlip } = useState([
+    'routingSlipDetails',
+    'routingSlip'
+  ])
 
   // modal dialog props and events
   const modalDialogDetails = reactive<any>({
@@ -32,7 +38,8 @@ export function useCreateRoutingSlip (_, context) {
   function isValid (): boolean {
     // We would want to trigger validate() of all the children
     let isChildrenValid = createRoutingSlipDetailsRef.value?.isValid()
-    isChildrenValid = createRoutingSlipPaymentRef.value?.isValid() && isChildrenValid
+    isChildrenValid =
+      createRoutingSlipPaymentRef.value?.isValid() && isChildrenValid
     return isChildrenValid
   }
 
@@ -42,7 +49,10 @@ export function useCreateRoutingSlip (_, context) {
       if (isValid()) {
         isLoading.value = true
         await createRoutingSlip()
-        displaySuccessNotification()
+        // on success redirect to view
+        context.root.$router.push({
+          path: `/view-routing-slip/${routingSlipDetails.value.number}`
+        })
       }
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -55,23 +65,16 @@ export function useCreateRoutingSlip (_, context) {
   // Cancel Routing slip flow
   function cancel () {
     // Update modal dialog props and display
-    modalDialogDetails.modalDialogTitle = i18n.t('createRoutingSlipCancelTitle').toString()
+    modalDialogDetails.modalDialogTitle = i18n
+      .t('createRoutingSlipCancelTitle')
+      .toString()
     modalDialogDetails.modalDialogIcon = 'mdi-alert-circle-outline'
-    modalDialogDetails.modalDialogText = i18n.t('createRoutingSlipCancelText').toString()
+    modalDialogDetails.modalDialogText = i18n
+      .t('createRoutingSlipCancelText')
+      .toString()
     modalDialogDetails.modalDialogOkText = 'Leave'
     modalDialogDetails.modalDialogCancelText = 'Cancel'
     isModalDialogInfo.value = false
-    modalDialogRef.value.open()
-  }
-
-  // Display success
-  function displaySuccessNotification () {
-    // Update modal dialog props and display
-    modalDialogDetails.modalDialogTitle = i18n.t('createRoutingSlipSuccessTitle').toString()
-    modalDialogDetails.modalDialogIcon = 'mdi-check'
-    modalDialogDetails.modalDialogText = i18n.t('createRoutingSlipSuccessText', { number: routingSlipDetails.value?.number }).toString()
-    modalDialogDetails.modalDialogOkText = 'Ok'
-    isModalDialogInfo.value = true
     modalDialogRef.value.open()
   }
 
