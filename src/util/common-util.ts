@@ -2,8 +2,8 @@
  * Place to put all the custom utility methods
  */
 
-import moment from 'moment'
 import { SlipStatus } from '@/util/constants'
+import moment from 'moment'
 
 export default class CommonUtils {
   // Formatting date in the desired format for displaying in the template
@@ -43,5 +43,9 @@ export default class CommonUtils {
     }
 
     return textColor ? `${color}--text` : color
+  }
+
+  static appendCurrencySymbol (currency: number) {
+    return '$' + currency
   }
 }

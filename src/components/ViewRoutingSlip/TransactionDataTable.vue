@@ -20,12 +20,12 @@
       </template>
       <template v-slot:[`item.createdOn`]="{ item }">
       <div class="font-weight-bold pl-4">
-        {{  formatDisplayDate(item.createdOn, 'MMM DD, YYYY') }}
+        {{  formatDisplayDate(item.createdOn, 'MMMM DD, YYYY') }}
       </div>
     </template>
     <template v-slot:[`item.total`]="{ item }">
       <div class="font-weight-bold">
-        {{ `$${item.total}` }}
+        {{ appendCurrencySymbol(item.total) }}
       </div>
     </template>
     <template v-slot:[`item.description`]="{ item }">
@@ -61,6 +61,7 @@ import { Component, Vue } from 'vue-property-decorator'
 })
 export default class TransactionDataTable extends Vue {
   public formatDisplayDate = commonUtil.formatDisplayDate
+  public appendCurrencySymbol = commonUtil.appendCurrencySymbol
 }
 
 </script>
