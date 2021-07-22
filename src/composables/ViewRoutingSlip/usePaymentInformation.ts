@@ -1,5 +1,7 @@
 import { ComputedRef, computed, ref, watch } from '@vue/composition-api'
 
+import CommonUtils from '@/util/common-util'
+import { Payment } from '@/models/Payment'
 import { PaymentMethods } from '@/util/constants'
 import { RoutingSlip } from '@/models/RoutingSlip'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
@@ -28,8 +30,15 @@ export default function usePaymentInformation () {
     // expand/collapse view payment information children
     // update the cheque store if payment method is cheque, cash store otherwise
     isExpanded.value = !isExpanded.value
-    if (isPaymentCheque.value === true && isExpanded.value === true) {
-      setChequePayment(routingSlip.value?.payments)
+    if (isPaymentCheque.value === true && isExpanded.value === true && routingSlip.value?.payments) {
+      // format the cheque payment date from backend
+      // we are making a copy so as to prevent vuex mutation error
+      let chequePayments: Payment[] = JSON.parse(JSON.stringify(routingSlip.value?.payments))
+      chequePayments = chequePayments.map((cheque: Payment) => {
+        cheque.paymentDate = CommonUtils.formatDisplayDate(new Date(cheque.paymentDate))
+        return cheque
+      })
+      setChequePayment(chequePayments)
     } else {
       // first row in case of cash, since a routing slip has only one record of cash payment
       setCashPayment(routingSlip.value?.payments[0])
