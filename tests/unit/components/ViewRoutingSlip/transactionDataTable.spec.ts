@@ -52,8 +52,10 @@ describe('TransactionDataTable.vue', () => {
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.invoiceDisplay).not.toBeNull()
     const invoiceDisplay: InvoiceDisplay[] = wrapper.vm.invoiceDisplay
-    expect(invoiceDisplay[0].description).toBe('Annual Report2.0 Version1')
-    expect(invoiceDisplay[1].description).toBe('Annual Report')
+    let description = ['Annual Report', '2.0 Version1']
+    expect(invoiceDisplay[0].description).toStrictEqual(description)
+    description = ['Annual Report']
+    expect(invoiceDisplay[1].description).toStrictEqual(description)
     expect(invoiceDisplay[0].total).toBe(1000)
     expect(invoiceDisplay[1].total).toBe(10000)
     expect(invoiceDisplay[0].createdName).toBe('SERVICE-ACCOUNT-ENTITY-SERVICE-ACCOUNT')

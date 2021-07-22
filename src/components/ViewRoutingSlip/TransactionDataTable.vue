@@ -29,8 +29,10 @@
       </div>
     </template>
     <template v-slot:[`item.description`]="{ item }">
-      <div class="font-weight-bold">
-        {{ item.description }}
+      <div v-for="description of item.description" :key="description">
+        <p class="font-weight-bold mb-0">
+        {{ description }}
+        </p>
       </div>
     </template>
     </v-data-table>

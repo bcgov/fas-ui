@@ -19,7 +19,7 @@
     <v-card class="d-flex flex-column mt-2 py-7 pl-7">
       <v-row no-gutters>
         <p class="pr-15 font-weight-bold mb-0">Total Amount Received</p>
-        <p class="ma-0 align-self-center" data-test="total">${{routingSlip.total}}</p>
+        <p class="ma-0 align-self-center" v-if="routingSlip" data-test="total">${{routingSlip.total}}</p>
       </v-row>
       <v-row no-gutters class="mb-2">
         <v-btn
@@ -41,7 +41,7 @@
       </v-row>
       <v-row no-gutters>
         <p class="pr-15 font-weight-bold mb-0">Current Balance</p>
-        <p class="ma-0 align-self-center" data-test="remaining-amount">${{routingSlip.remainingAmount}}</p>
+        <p class="ma-0 align-self-center" v-if="routingSlip"  data-test="remaining-amount">${{routingSlip.remainingAmount}}</p>
       </v-row>
     </v-card>
   </div>

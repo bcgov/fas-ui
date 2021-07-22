@@ -64,7 +64,7 @@ export default function useTransactionDataTable (props) {
       // concatenate all description from line items
       const description = invoice?.lineItems.map((lineItem: LineItem) => {
         return lineItem?.description
-      }).join('')
+      })
       invoiceDisplayObject.description = description
       // we need invoice number of completed transaction only
       invoiceDisplayObject.invoiceNumber = invoice?.references?.find((reference: Reference) => reference?.statusCode === InvoiceStatus.COMPLETED)?.invoiceNumber

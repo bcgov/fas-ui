@@ -51,5 +51,5 @@ export interface InvoiceDisplay {
   total?: number
   createdName?: string
   createdBy?: string
-  description?: string
+  description?: string[]
 }
