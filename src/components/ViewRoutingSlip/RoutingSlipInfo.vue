@@ -8,7 +8,7 @@
       <v-card-text>
         <v-row no-gutters>
           <v-col class="col-12 col-sm-10 ">
-            <v-row no-gutters>
+            <v-row>
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 Routing Slip - Unique ID
               </v-col>
