@@ -4,7 +4,7 @@
       <v-icon color="primary" class="ml-8">
           mdi-view-list
       </v-icon>
-      <p class="ml-2 mb-0 font-weight-bold" data-test="title">Transactions</p>&nbsp;<p class="mb-0" v-if="invoiceCount">{{ `(${invoiceCount})` }}</p>
+      <p class="ml-2 mb-0 font-weight-bold" data-test="title">Transactions</p><p class="mb-0 pl-1" v-if="invoiceCount">{{ `(${invoiceCount})` }}</p>
     </div>
     <v-data-table
     :headers="headerTranscations"

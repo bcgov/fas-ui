@@ -136,7 +136,6 @@ export default class RoutingSlipModule extends VuexModule {
     context.commit('setAccountInfo', undefined)
     context.commit('setChequePayment', [])
     context.commit('setCashPayment', [])
-    context.commit('setRoutingSlip', undefined)
     context.commit('setIsPaymentMethodCheque', undefined)
   }
 }
