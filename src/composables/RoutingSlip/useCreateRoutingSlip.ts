@@ -15,14 +15,10 @@ export function useCreateRoutingSlip (_, context) {
   const isLoading = ref<boolean>(false)
 
   // vuex action and state
-  const { createRoutingSlip, resetRoutingSlipDetails } = useActions([
-    'createRoutingSlip',
-    'resetRoutingSlipDetails'
+  const { createRoutingSlip } = useActions([
+    'createRoutingSlip'
   ])
-  const { routingSlipDetails, routingSlip } = useState([
-    'routingSlipDetails',
-    'routingSlip'
-  ])
+  const { routingSlipDetails } = useState(['routingSlipDetails'])
 
   // modal dialog props and events
   const modalDialogDetails = reactive<any>({
@@ -85,7 +81,6 @@ export function useCreateRoutingSlip (_, context) {
   function modalDialogClose () {
     modalDialogRef.value.close()
     context.root.$router.push('home')
-    resetRoutingSlipDetails()
   }
 
   return {

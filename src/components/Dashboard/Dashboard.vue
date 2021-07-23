@@ -17,7 +17,7 @@
               </p>
             </div>
 
-            <v-btn class="button-search font-weight-bold" large dark color="primary" to="/create-routing-slip">
+            <v-btn class="button-search font-weight-bold" large dark color="primary" @click="addRoutingSlip">
               <v-icon dark small class="mr-2 font-weight-bold">
                   mdi-plus
                 </v-icon>
@@ -37,10 +37,19 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import Search from '@/components/Dashboard/Search.vue'
+import { useDashboard } from '@/composables/Dashboard'
 
 @Component({
   components: {
     Search
+  },
+  setup (_, context) {
+    const {
+      addRoutingSlip
+    } = useDashboard(_, context)
+    return {
+      addRoutingSlip
+    }
   }
 })
 export default class Dashboard extends Vue {
