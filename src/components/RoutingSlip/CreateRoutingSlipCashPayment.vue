@@ -8,7 +8,7 @@
                 persistent-hint
                 v-model.trim="chequeReceiptNumber"
                 data-test="txtReceiptNumber"
-                :rule="receiptNumberRules"
+                :rules="receiptNumberRules"
                 >
                 </v-text-field>
             </v-col>

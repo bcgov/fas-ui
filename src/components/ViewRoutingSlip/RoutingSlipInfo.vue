@@ -59,8 +59,8 @@
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 Name of Person Submitting
               </v-col>
-              <v-col class="col-6 col-sm-9">
-                {{ routingSlipDetails.createdName }}
+              <v-col class="col-6 col-sm-9" v-if="routingSlipDetails.paymentAccount.name">
+                {{ routingSlipDetails.paymentAccount.name }}
               </v-col>
             </v-row>
           </v-col>
