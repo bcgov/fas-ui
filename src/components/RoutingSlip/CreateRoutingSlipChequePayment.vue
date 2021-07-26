@@ -17,7 +17,7 @@
           <v-col cols="4" class="py-0">
             <date-picker
               v-model="cheque.paymentDate"
-              :label="isViewMode ? 'Cheque Date' : 'Select Date'"
+              label="Cheque Date (optional)"
               :data-test="getIndexedTag('paymentDate', index)"
             ></date-picker>
           </v-col>
@@ -39,7 +39,7 @@
             class="mt-3 ml-1"
             @click="removeCheque(index)"
             :data-test="getIndexedTag('removeChecque', index)"
-            v-if="index !== 0"
+            v-if="isViewMode ? false : index !== 0"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
