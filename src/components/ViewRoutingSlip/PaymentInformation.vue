@@ -29,7 +29,7 @@
                 Total Amount Received
               </v-col>
               <v-col v-if="routingSlip" class="col-6 col-sm-9 status-list" data-test="total">
-                ${{ routingSlip.total }}
+                ${{ routingSlip.total && routingSlip.total.toFixed(2) }}
               </v-col>
             </v-row>
             <v-row no-gutters>
@@ -78,7 +78,7 @@
                 data-test="remaining-amount"
                 v-if="routingSlip"
               >
-                ${{ routingSlip.remainingAmount }}
+                ${{ routingSlip.remainingAmount && routingSlip.remainingAmount.toFixed(2) }}
               </v-col>
             </v-row>
           </v-col>

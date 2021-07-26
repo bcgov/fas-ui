@@ -56,6 +56,7 @@ export default function useTransactionDataTable (props) {
   }, { deep: true, immediate: true })
 
   function transformInvoices (invoices: Invoice[]): void {
+    invoiceDisplay.value = []
     for (let i = 0; i < invoices?.length; i++) {
       const invoice: Invoice = invoices[i]
       const invoiceDisplayObject: InvoiceDisplay = {}
