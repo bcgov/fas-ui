@@ -26,7 +26,7 @@ const routes: Array<RouteConfig> = [
     component: CreateRoutingSlipView,
     meta: {
       requiresAuth: true,
-      allowedRoles: [Role.FAS_EDIT]
+      allowedRoles: [Role.FAS_CREATE]
     }
   },
   {
