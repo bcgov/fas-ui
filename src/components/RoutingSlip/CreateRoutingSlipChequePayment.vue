@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="createRoutingSlipChequePaymentForm">
+  <v-form ref="createRoutingSlipChequePaymentForm" :disabled="isViewMode">
     <v-row class="d-flex pa-0 ma-0 justify-between">
       <v-col cols="12" class="pa-0">
         <div v-for="(cheque, index) in chequeList" :key="index" class="d-flex">
@@ -17,6 +17,7 @@
           <v-col cols="4" class="py-0">
             <date-picker
               v-model="cheque.paymentDate"
+              label="Cheque Date (optional)"
               :data-test="getIndexedTag('paymentDate', index)"
             ></date-picker>
           </v-col>
@@ -38,14 +39,14 @@
             class="mt-3 ml-1"
             @click="removeCheque(index)"
             :data-test="getIndexedTag('removeChecque', index)"
-            v-if="index !== 0"
+            v-if="isViewMode ? false : index !== 0"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>
       </v-col>
     </v-row>
-    <v-row class="d-flex pa-0 ma-0 justify-between">
+    <v-row class="d-flex pa-0 ma-0 justify-between" v-if="!isViewMode">
       <v-col cols="4" class="py-0">
         <v-btn
           text
@@ -59,7 +60,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-row class="d-flex px-0 mx-0 justify-between">
+    <v-row class="d-flex px-0 mx-0 justify-between" v-if="!isViewMode">
       <v-col class="py-0">
         <v-text-field
           filled
@@ -77,7 +78,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import DatePicker from '@/components/common/DatePicker.vue'
 import { useCreateRoutingSlipChequePayment } from '@/composables/RoutingSlip'
 
@@ -112,7 +113,9 @@ import { useCreateRoutingSlipChequePayment } from '@/composables/RoutingSlip'
     }
   }
 })
-export default class CreateRoutingSlipChequePayment extends Vue {}
+export default class CreateRoutingSlipChequePayment extends Vue {
+  @Prop({ default: false }) isViewMode: boolean
+}
 </script>
 <style lang="scss" scoped>
   .textNumber input[type='number'] {

@@ -10,6 +10,7 @@ import ConfigHelper from '@/util/config-helper'
 import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
 import Vue from 'vue'
 import VueCompositionAPI from '@vue/composition-api'
+import can from '@/directives/can'
 import i18n from './plugins/i18n'
 import router from './router'
 import store from './store'
@@ -48,4 +49,5 @@ function renderVue () {
     i18n,
     render: h => h(App)
   }).$mount('#app')
+  Vue.directive('can', can)
 }

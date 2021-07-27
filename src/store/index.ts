@@ -2,6 +2,7 @@ import Vuex, { StoreOptions } from 'vuex'
 
 import { RootState } from './types'
 import Vue from 'vue'
+import codes from '@/store/modules/codes'
 import loadingStatus from '@/store/modules/loadingStatus'
 import routingSlip from '@/store/modules/routingSlip'
 
@@ -28,7 +29,8 @@ const storeOptions: StoreOptions<RootState> = {
   },
   modules: {
     routingSlip,
-    loadingStatus
+    loadingStatus,
+    codes
   }
 }
 

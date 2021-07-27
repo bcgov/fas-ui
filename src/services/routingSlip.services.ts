@@ -3,7 +3,7 @@ import ConfigHelper from '@/util/config-helper'
 import axios from '@/util/http-util'
 
 export default class RoutingSlip {
-  public static async isRoutingNumberAvailable (
+  public static async getRoutingSlip (
     routingNumber: string
   ): Promise<AxiosResponse> {
     return axios.get(
@@ -17,5 +17,13 @@ export default class RoutingSlip {
     return axios.post(
       `${ConfigHelper.getFasAPIURL()}/routing-slips`, routingSlipRequest
     )
+  }
+
+  public static async updateRoutingSlipStatus (
+    code: string,
+    routingSlipNumber:number
+  ): Promise<AxiosResponse> {
+    return axios.patch(
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}?action=updateStatus`, { status: code })
   }
 }

@@ -6,13 +6,14 @@ import { PaymentMethods } from '@/util/constants'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useMutations } = routingSlipModule
+const { useMutations, useState } = routingSlipModule
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
 export function useCreateRoutingSlipChequePayment () {
   const chequeList = ref<Payment[]>([])
   const createRoutingSlipChequePaymentForm = ref<HTMLFormElement>()
 
+  const { chequePayment } = useState(['chequePayment'])
   const { setChequePayment } = useMutations(['setChequePayment'])
 
   // watch any changes and update to store
@@ -35,7 +36,11 @@ export function useCreateRoutingSlipChequePayment () {
 
   // By default, we have one cheque row in UI
   onMounted(() => {
-    addCheque()
+    if (chequePayment.value.length > 0) {
+      chequeList.value = chequePayment.value.slice(0)
+    } else {
+      addCheque()
+    }
   })
 
   // For UI Cheque list - start

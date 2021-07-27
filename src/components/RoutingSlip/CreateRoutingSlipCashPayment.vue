@@ -1,5 +1,5 @@
 <template>
-    <v-form ref="createRoutingSlipCashPaymentForm">
+    <v-form ref="createRoutingSlipCashPaymentForm" :disabled="isViewMode">
         <v-row class="d-flex pa-0 ma-0 justify-between">
             <v-col cols="6" class="py-0">
                 <v-text-field
@@ -8,7 +8,7 @@
                 persistent-hint
                 v-model.trim="chequeReceiptNumber"
                 data-test="txtReceiptNumber"
-                :rule="receiptNumberRules"
+                :rules="receiptNumberRules"
                 >
                 </v-text-field>
             </v-col>
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip'
 
 @Component({
@@ -54,6 +54,7 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip'
   }
 })
 export default class CreateRoutingSlipCashPayment extends Vue {
+  @Prop({ default: false }) isViewMode: boolean
 }
 </script>
 <style lang="scss" scoped>
