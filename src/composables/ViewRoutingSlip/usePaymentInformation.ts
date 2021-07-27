@@ -35,13 +35,16 @@ export default function usePaymentInformation () {
       // we are making a copy so as to prevent vuex mutation error
       let chequePayments: Payment[] = JSON.parse(JSON.stringify(routingSlip.value?.payments))
       chequePayments = chequePayments.map((cheque: Payment) => {
-        cheque.paymentDate = CommonUtils.formatDisplayDate(new Date(cheque.paymentDate))
+        cheque.paymentDate = cheque.paymentDate ? CommonUtils.formatDisplayDate(new Date(cheque.paymentDate)) : ''
+        cheque.paidAmount = cheque.paidAmount && (cheque.paidAmount as any).toFixed(2)
         return cheque
       })
       setChequePayment(chequePayments)
     } else {
       // first row in case of cash, since a routing slip has only one record of cash payment
-      setCashPayment(routingSlip.value?.payments[0])
+      const cashPayments: Payment = JSON.parse(JSON.stringify(routingSlip.value?.payments[0]))
+      cashPayments.paidAmount = cashPayments.paidAmount && (cashPayments.paidAmount as any).toFixed(2)
+      setCashPayment(cashPayments)
     }
   }
 

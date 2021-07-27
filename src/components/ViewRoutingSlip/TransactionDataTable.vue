@@ -25,7 +25,7 @@
     </template>
     <template v-slot:[`item.total`]="{ item }">
       <div class="font-weight-bold">
-        {{ appendCurrencySymbol(item.total) }}
+        {{ appendCurrencySymbol(item.total.toFixed(2)) }}
       </div>
     </template>
     <template v-slot:[`item.description`]="{ item }">

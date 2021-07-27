@@ -69,8 +69,8 @@ describe('PaymentInformation.vue', () => {
         CreateRoutingSlipChequePayment: MyStub
       }
     })
-    expect(wrapper.find('[data-test="total"]').text()).toBe('$12345')
-    expect(wrapper.find('[data-test="remaining-amount"]').text()).toBe('$123')
+    expect(wrapper.find('[data-test="total"]').text()).toBe('$12345.00')
+    expect(wrapper.find('[data-test="remaining-amount"]').text()).toBe('$123.00')
   })
 
   it('renders cheque child properly', async () => {
