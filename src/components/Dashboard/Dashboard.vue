@@ -17,10 +17,17 @@
               </p>
             </div>
 
-            <v-btn class="button-search font-weight-bold" large dark color="primary" @click="addRoutingSlip">
+            <v-btn
+              class="button-search font-weight-bold"
+              large
+              dark
+              color="primary"
+              @click="addRoutingSlip"
+              v-can:fas_create.hide
+            >
               <v-icon dark small class="mr-2 font-weight-bold">
-                  mdi-plus
-                </v-icon>
+                mdi-plus
+              </v-icon>
               Add New Routing Slip
             </v-btn>
           </div>
@@ -44,17 +51,13 @@ import { useDashboard } from '@/composables/Dashboard'
     Search
   },
   setup (_, context) {
-    const {
-      addRoutingSlip
-    } = useDashboard(_, context)
+    const { addRoutingSlip } = useDashboard(_, context)
     return {
       addRoutingSlip
     }
   }
 })
-export default class Dashboard extends Vue {
-
-}
+export default class Dashboard extends Vue {}
 </script>
 <style lang="scss" scoped>
 .view-heade {
