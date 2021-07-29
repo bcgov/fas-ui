@@ -18,8 +18,7 @@ describe('TransactionDataTable.vue', () => {
       namespaced: true,
       state: {
         routingSlip: routingSlip
-      },
-      getters: RoutingSlipModule.getters
+      }
     }
 
     store = new Vuex.Store({
