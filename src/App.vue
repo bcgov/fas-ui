@@ -46,7 +46,7 @@ export default class App extends Vue {
   private showLoading = true
   private logoutUrl = ''
 
-  /* Getter will return true incase of Axios operations (eg POST)
+  /* Getter will return true if there is an ongoing axios request and the request has a config of showLoading set to true
   This value is used to toggle between showing route and loading progress components */
   get isLoadingState (): boolean {
     const store: any = this.$store.state
