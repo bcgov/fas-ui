@@ -5,14 +5,16 @@ import store from '@/store'
 
 const axios = Axios.create()
 
+axios.defaults.showLoader = false // by default, false
+
 axios.interceptors.request.use(
   config => {
     const token = ConfigHelper.getFromSession(SessionStorageKeys.KeyCloakToken)
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
-    // we would want loading status for post/put/patch for now
-    if ((['post', 'patch', 'put'] as Array<string>).includes(config?.method)) {
+    // we would want showLoader only if the request has that configuration set to true
+    if (config.showLoader) {
       store.dispatch('loadingStatus/showLoadingState')
     }
     return config
@@ -23,12 +25,16 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => {
     // if we are showing progress circle, close it
-    store.dispatch('loadingStatus/closeLoadingState')
+    if (response.config.showLoader) {
+      store.dispatch('loadingStatus/closeLoadingState')
+    }
     return response
   },
   error => {
     // if we are showing progress circle, close it
-    store.dispatch('loadingStatus/closeLoadingState')
+    if (error.config.showLoader) {
+      store.dispatch('loadingStatus/closeLoadingState')
+    }
     return Promise.reject(error)
   }
 )

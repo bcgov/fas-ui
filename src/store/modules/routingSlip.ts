@@ -98,7 +98,7 @@ export default class RoutingSlipModule extends VuexModule {
   @Action({ commit: 'setRoutingSlip', rawError: true })
   public async getRoutingSlip (slipId): Promise<RoutingSlipDetails> {
     try {
-      const response = await RoutingSlipService.getRoutingSlip(slipId)
+      const response = await RoutingSlipService.getRoutingSlip(slipId, true)
 
       if (response && response.data && response.status === 200) {
         return response.data

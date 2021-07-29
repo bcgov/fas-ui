@@ -4,10 +4,11 @@ import axios from '@/util/http-util'
 
 export default class RoutingSlip {
   public static async getRoutingSlip (
-    routingNumber: string
+    routingNumber: string,
+    showLoader: boolean = false
   ): Promise<AxiosResponse> {
     return axios.get(
-      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingNumber}`
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingNumber}`, { showLoader: showLoader }
     )
   }
 
@@ -15,7 +16,7 @@ export default class RoutingSlip {
     routingSlipRequest: RoutingSlip
   ): Promise<AxiosResponse> {
     return axios.post(
-      `${ConfigHelper.getFasAPIURL()}/routing-slips`, routingSlipRequest
+      `${ConfigHelper.getFasAPIURL()}/routing-slips`, routingSlipRequest, { showLoader: true }
     )
   }
 
