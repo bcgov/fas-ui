@@ -18,8 +18,8 @@
     <!-- body content -->
     <div class="app-body">
       <!-- using v-show instead of v-if to persist state -->
-      <loader-component v-show="isLoadingState"></loader-component>
-      <router-view v-show="!isLoadingState" />
+      <loader-component v-show="globalLoader"></loader-component>
+      <router-view v-show="!globalLoader" />
     </div>
     <sbc-footer></sbc-footer>
   </v-app>
@@ -33,6 +33,7 @@ import LoaderComponent from '@/components/common/LoaderComponent.vue'
 import SbcFooter from 'sbc-common-components/src/components/SbcFooter.vue'
 import SbcHeader from 'sbc-common-components/src/components/SbcHeader.vue'
 import SbcLoader from 'sbc-common-components/src/components/SbcLoader.vue'
+import { useLoader } from './composables/common'
 
 @Component({
   components: {
@@ -40,18 +41,19 @@ import SbcLoader from 'sbc-common-components/src/components/SbcLoader.vue'
     SbcFooter,
     SbcLoader,
     LoaderComponent
+  },
+  setup () {
+    /* Getter will return true if there is an ongoing axios request and the request has a config of showLoading set to true
+    This value is used to toggle between showing route and loading progress components */
+    const { globalLoader } = useLoader()
+    return {
+      globalLoader
+    }
   }
 })
 export default class App extends Vue {
   private showLoading = true
   private logoutUrl = ''
-
-  /* Getter will return true if there is an ongoing axios request and the request has a config of showLoading set to true
-  This value is used to toggle between showing route and loading progress components */
-  get isLoadingState (): boolean {
-    const store: any = this.$store.state
-    return store.loadingStatus.isLoading
-  }
 
   private async mounted (): Promise<void> {
     this.showLoading = false

@@ -9,9 +9,9 @@ const { useState } = loadingStatusModule
 
 export function useLoader () {
   // vuex state and mutations
-  const { isLoading } = useState(['isLoading'])
+  const { globalLoader } = useState(['globalLoader'])
 
   return {
-    isLoading
+    globalLoader
   }
 }
