@@ -13,10 +13,11 @@ export default class RoutingSlip {
   }
 
   public static async createRoutingSlip (
-    routingSlipRequest: RoutingSlip
+    routingSlipRequest: RoutingSlip,
+    showLoader: boolean = false
   ): Promise<AxiosResponse> {
     return axios.post(
-      `${ConfigHelper.getFasAPIURL()}/routing-slips`, routingSlipRequest, { showLoader: true }
+      `${ConfigHelper.getFasAPIURL()}/routing-slips`, routingSlipRequest, { showLoader: showLoader }
     )
   }
 

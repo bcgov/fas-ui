@@ -8,7 +8,7 @@ While, isLoading can be used inside an individual component - <loader-component 
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { ref } from '@vue/composition-api'
 
-const loadingStatusModule = createNamespacedHelpers('loadingStatus') // specific module name
+const loadingStatusModule = createNamespacedHelpers('loader') // specific module name
 const { useState } = loadingStatusModule
 
 export function useLoader () {

@@ -15,7 +15,7 @@ axios.interceptors.request.use(
     }
     // we would want showLoader only if the request has that configuration set to true
     if (config.showLoader) {
-      store.dispatch('loadingStatus/showGlobalLoader')
+      store.dispatch('loader/showGlobalLoader')
     }
     return config
   },
@@ -26,14 +26,14 @@ axios.interceptors.response.use(
   response => {
     // if we are showing progress circle, close it
     if (response.config.showLoader) {
-      store.dispatch('loadingStatus/closeGlobalLoader')
+      store.dispatch('loader/closeGlobalLoader')
     }
     return response
   },
   error => {
     // if we are showing progress circle, close it
     if (error.config.showLoader) {
-      store.dispatch('loadingStatus/closeGlobalLoader')
+      store.dispatch('loader/closeGlobalLoader')
     }
     return Promise.reject(error)
   }

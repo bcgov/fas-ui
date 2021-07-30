@@ -66,7 +66,8 @@ export default class RoutingSlipModule extends VuexModule {
       : [context.state.cashPayment]
 
     const response = await RoutingSlipService.createRoutingSlip(
-      routingSlipRequest
+      routingSlipRequest,
+      true
     )
     if (response && response.data && response.status === 200) {
       return response.data
