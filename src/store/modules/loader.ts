@@ -1,7 +1,7 @@
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 
 @Module({ namespaced: true })
-export default class loadingStatusModule extends VuexModule {
+export default class loaderModule extends VuexModule {
   // to show progress used in app.vue
   globalLoader: boolean = false
 

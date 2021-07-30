@@ -16,8 +16,12 @@ export function useLoader () {
   // vuex state and mutations
   const { globalLoader } = useState(['globalLoader'])
 
+  function changeLoadingStatus (isLoadingStatus: boolean): void {
+    isLoading.value = isLoadingStatus
+  }
+
   function toggleLoading (): void {
-    isLoading.value = !isLoading.value
+    changeLoadingStatus(!isLoading.value)
   }
 
   return {
