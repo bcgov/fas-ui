@@ -18,8 +18,8 @@
     <!-- body content -->
     <div class="app-body">
       <!-- using v-show instead of v-if to persist state -->
-      <loader-component v-show="globalLoader"></loader-component>
-      <router-view v-show="!globalLoader" />
+      <loader-component v-show="isThereActiveCalls"></loader-component>
+      <router-view v-show="!isThereActiveCalls" />
     </div>
     <sbc-footer></sbc-footer>
   </v-app>
@@ -43,11 +43,12 @@ import { useLoader } from './composables/common'
     LoaderComponent
   },
   setup () {
-    /* Getter will return true if there is an ongoing axios request and the request has a config of showLoading set to true
-    This value is used to toggle between showing route and loading progress components */
-    const { globalLoader } = useLoader()
+    /* Getter will return number of axios calls that are in progress with request.config.globalloading set to true
+    This value is used to toggle between showing route and loading progress components
+    if there are active calls, loading component is rendered else router-view */
+    const { isThereActiveCalls } = useLoader()
     return {
-      globalLoader
+      isThereActiveCalls
     }
   }
 })

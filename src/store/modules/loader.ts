@@ -2,22 +2,20 @@ import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 
 @Module({ namespaced: true })
 export default class loaderModule extends VuexModule {
-  // to show progress used in app.vue
-  globalLoader: boolean = false
+  // to keep track of the active calls and to show progress bar; used in app.vue globally
+  activeCalls: number = 0
+
+  get isThereActiveCalls (): boolean {
+    return this.activeCalls > 0
+  }
 
   @Mutation
-  public setGlobalLoader (globalLoader: boolean): void {
-    this.globalLoader = globalLoader
+  public incrementActiveCalls (): void {
+    this.activeCalls++
   }
 
-  // We dont need two actions for now though - but open to extension in future.
-  @Action({ rawError: true })
-  public showGlobalLoader (): void {
-    this.context.commit('setGlobalLoader', true)
-  }
-
-  @Action({ rawError: true })
-  public closeGlobalLoader (): void {
-    this.context.commit('setGlobalLoader', false)
+  @Mutation
+  public decrementActiveCalls (): void {
+    this.activeCalls--
   }
 }

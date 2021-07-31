@@ -5,7 +5,7 @@ import store from '@/store'
 
 const axios = Axios.create()
 
-axios.defaults.showLoader = false // by default, false
+axios.defaults.showGlobalLoader = false // by default, false
 
 axios.interceptors.request.use(
   config => {
@@ -13,9 +13,9 @@ axios.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
-    // we would want showLoader only if the request has that configuration set to true
-    if (config.showLoader) {
-      store.dispatch('loader/showGlobalLoader')
+    // we would want showGlobalLoader only if the request has that configuration set to true
+    if (config.showGlobalLoader) {
+      store.commit('loader/incrementActiveCalls')
     }
     return config
   },
@@ -24,16 +24,16 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   response => {
-    // if we are showing progress circle, close it
-    if (response.config.showLoader) {
-      store.dispatch('loader/closeGlobalLoader')
+    // decrement active calls count by one
+    if (response.config.showGlobalLoader) {
+      store.commit('loader/decrementActiveCalls')
     }
     return response
   },
   error => {
-    // if we are showing progress circle, close it
-    if (error.config.showLoader) {
-      store.dispatch('loader/closeGlobalLoader')
+    // decrement active calls count by one
+    if (error.config.showGlobalLoader) {
+      store.commit('loader/decrementActiveCalls')
     }
     return Promise.reject(error)
   }
