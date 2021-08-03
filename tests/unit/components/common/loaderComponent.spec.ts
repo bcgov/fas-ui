@@ -19,6 +19,6 @@ describe('LoaderComponent.vue', () => {
       localVue,
       vuetify
     })
-    expect(wrapper.find("[data-test='div-loading-container").exists()).toBeTruthy()
+    expect(wrapper.find("[data-test='div-loading-container']").exists()).toBeTruthy()
   })
 })

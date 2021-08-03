@@ -3,7 +3,7 @@
 import { Module, Mutation, VuexModule } from 'vuex-module-decorators'
 
 @Module({ namespaced: true })
-export default class loaderModule extends VuexModule {
+export default class indicatorModule extends VuexModule {
   // to keep track of the active calls and to show progress bar; used in app.vue globally
   activeCalls: number = 0
   // to display 500 error as a global alert if the axios response failsyeah

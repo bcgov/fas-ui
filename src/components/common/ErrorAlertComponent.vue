@@ -1,5 +1,5 @@
 <template>
-  <v-alert tile v-if="hasCallFailed" :type="type" :icon="icon" :dismissible="dismissible">{{ message }}</v-alert>
+  <v-alert data-test="alert-error-alert" tile v-if="hasCallFailed" :type="type" :icon="icon" :dismissible="dismissible">{{ message }}</v-alert>
 </template>
 
 <script lang="ts">
