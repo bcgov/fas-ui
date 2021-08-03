@@ -14,6 +14,10 @@
         :showActions="true"
       >
       </sbc-header>
+      <!-- error alert -->
+      <error-alert-component
+      :message="$t('errorAlertMessage')"
+      ></error-alert-component>
     </div>
     <!-- body content -->
     <div class="app-body">
@@ -28,6 +32,7 @@
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 
+import ErrorAlertComponent from '@/components/common/ErrorAlertComponent.vue'
 import LoaderComponent from '@/components/common/LoaderComponent.vue'
 
 import SbcFooter from 'sbc-common-components/src/components/SbcFooter.vue'
@@ -40,7 +45,8 @@ import { useLoader } from './composables/common'
     SbcHeader,
     SbcFooter,
     SbcLoader,
-    LoaderComponent
+    LoaderComponent,
+    ErrorAlertComponent
   },
   setup () {
     /* Getter will return number of axios calls that are in progress with request.config.globalloading set to true

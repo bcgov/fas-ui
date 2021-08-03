@@ -6,6 +6,7 @@ import store from '@/store'
 const axios = Axios.create()
 
 axios.defaults.showGlobalLoader = false // by default, false
+axios.defaults.showGlobalErrorHandling = true
 
 axios.interceptors.request.use(
   config => {
@@ -15,7 +16,7 @@ axios.interceptors.request.use(
     }
     // we would want showGlobalLoader only if the request has that configuration set to true
     if (config.showGlobalLoader) {
-      store.commit('loader/incrementActiveCalls')
+      store.commit('indicator/incrementActiveCalls')
     }
     return config
   },
@@ -25,15 +26,19 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => {
     // decrement active calls count by one
-    if (response.config.showGlobalLoader && store.getters['loader/isThereActiveCalls']) {
-      store.commit('loader/decrementActiveCalls')
+    if (response.config.showGlobalLoader && store.getters['indicator/isThereActiveCalls']) {
+      store.commit('indicator/decrementActiveCalls')
     }
     return response
   },
   error => {
     // decrement active calls count by one
-    if (error.config.showGlobalLoader && store.getters['loader/isThereActiveCalls']) {
-      store.commit('loader/decrementActiveCalls')
+    if (error.config.showGlobalLoader && store.getters['indicator/isThereActiveCalls']) {
+      store.commit('indicator/decrementActiveCalls')
+    }
+    // call has failed in this case. And if the config showGlobalErrorHandling is true, then update store
+    if (error.config.showGlobalErrorHandling && error?.response?.code >= 500) {
+      store.commit('indicator/setHasCallFailed', { hasCallFailed: true })
     }
     return Promise.reject(error)
   }

@@ -32,7 +32,7 @@
                 ${{ routingSlip.total && routingSlip.total.toFixed(2) }}
               </v-col>
             </v-row>
-            <v-row no-gutters>
+            <v-row no-gutters v-if="routingSlip">
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 <v-btn
                   text

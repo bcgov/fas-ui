@@ -6,5 +6,6 @@ declare module 'axios' {
 
   export interface AxiosRequestConfig {
     showGlobalLoader?: boolean
+    showGlobalErrorHandling?: boolean
   }
 }
