@@ -9,12 +9,11 @@ import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { ref } from '@vue/composition-api'
 
 const loadingStatusModule = createNamespacedHelpers('indicator') // specific module name
-const { useState, useGetters } = loadingStatusModule
+const { useGetters } = loadingStatusModule
 
 export function useLoader () {
   const isLoading = ref<boolean>(false)
-  // vuex state and getters
-  const { activeCalls } = useState(['activeCalls'])
+  // vuex getters
   const { isThereActiveCalls } = useGetters(['isThereActiveCalls'])
 
   function changeLoadingStatus (isLoadingStatus: boolean): void {
@@ -26,7 +25,6 @@ export function useLoader () {
   }
 
   return {
-    activeCalls,
     isLoading,
     isThereActiveCalls,
     toggleLoading

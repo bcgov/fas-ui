@@ -17,6 +17,7 @@
       <!-- error alert -->
       <error-alert-component
       :message="$t('errorAlertMessage')"
+      v-if="hasCallFailed"
       ></error-alert-component>
     </div>
     <!-- body content -->
@@ -38,7 +39,7 @@ import LoaderComponent from '@/components/common/LoaderComponent.vue'
 import SbcFooter from 'sbc-common-components/src/components/SbcFooter.vue'
 import SbcHeader from 'sbc-common-components/src/components/SbcHeader.vue'
 import SbcLoader from 'sbc-common-components/src/components/SbcLoader.vue'
-import { useLoader } from './composables/common'
+import { useLoader, useErrorAlert } from './composables/common'
 
 @Component({
   components: {
@@ -53,7 +54,10 @@ import { useLoader } from './composables/common'
     This value is used to toggle between showing route and loading progress components
     if there are active calls, loading component is rendered else router-view */
     const { isThereActiveCalls } = useLoader()
+    /* if hasCallFailed is true, then we display the error alert component. */
+    const { hasCallFailed } = useErrorAlert()
     return {
+      hasCallFailed,
       isThereActiveCalls
     }
   }

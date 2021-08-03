@@ -1,19 +1,13 @@
 <template>
-  <v-alert data-test="alert-error-alert" tile v-if="hasCallFailed" :type="type" :icon="icon" :dismissible="dismissible">{{ message }}</v-alert>
+  <v-expand-transition>
+    <v-alert class="mt-3" data-test="alert-error-alert" tile :type="type" :icon="icon" :dismissible="dismissible">{{ message }}</v-alert>
+  <v-expand-transition>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { useErrorAlert } from '@/composables/common'
 
 @Component({
-  setup () {
-    /* if hasCallFailed is true, then we display the error alert component. */
-    const { hasCallFailed } = useErrorAlert()
-    return {
-      hasCallFailed
-    }
-  }
 })
 export default class ErrorAlertComponent extends Vue {
   @Prop({ default: '' }) message: string

@@ -7,8 +7,8 @@ import { AXIOS_ERROR_ALERT_TIME_OUT } from '@/util/constants'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { watch } from '@vue/composition-api'
 
-const loadingStatusModule = createNamespacedHelpers('indicator') // specific module name
-const { useState, useMutations } = loadingStatusModule
+const errorAlertModule = createNamespacedHelpers('indicator') // specific module name
+const { useState, useMutations } = errorAlertModule
 
 export function useErrorAlert () {
   // vuex state and getters
