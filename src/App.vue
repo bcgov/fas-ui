@@ -14,10 +14,17 @@
         :showActions="true"
       >
       </sbc-header>
+      <!-- error alert -->
+      <error-alert-component
+      :message="$t('errorAlertMessage')"
+      v-if="hasCallFailed"
+      ></error-alert-component>
     </div>
     <!-- body content -->
     <div class="app-body">
-      <router-view  />
+      <!-- using v-show instead of v-if to persist state -->
+      <loader-component v-show="isThereActiveCalls"></loader-component>
+      <router-view v-show="!isThereActiveCalls" />
     </div>
     <sbc-footer></sbc-footer>
   </v-app>
@@ -26,15 +33,33 @@
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 
+import ErrorAlertComponent from '@/components/common/ErrorAlertComponent.vue'
+import LoaderComponent from '@/components/common/LoaderComponent.vue'
+
 import SbcFooter from 'sbc-common-components/src/components/SbcFooter.vue'
 import SbcHeader from 'sbc-common-components/src/components/SbcHeader.vue'
 import SbcLoader from 'sbc-common-components/src/components/SbcLoader.vue'
+import { useLoader, useErrorAlert } from './composables/common'
 
 @Component({
   components: {
     SbcHeader,
     SbcFooter,
-    SbcLoader
+    SbcLoader,
+    LoaderComponent,
+    ErrorAlertComponent
+  },
+  setup () {
+    /* Getter will return number of axios calls that are in progress with request.config.globalloading set to true
+    This value is used to toggle between showing route and loading progress components
+    if there are active calls, loading component is rendered else router-view */
+    const { isThereActiveCalls } = useLoader()
+    /* if hasCallFailed is true, then we display the error alert component. */
+    const { hasCallFailed } = useErrorAlert()
+    return {
+      hasCallFailed,
+      isThereActiveCalls
+    }
   }
 })
 export default class App extends Vue {

@@ -12,7 +12,6 @@ export function useCreateRoutingSlip (_, context) {
   const createRoutingSlipDetailsRef = ref<HTMLFormElement>()
   const createRoutingSlipPaymentRef = ref<HTMLFormElement>()
   const modalDialogRef = ref<HTMLFormElement>()
-  const isLoading = ref<boolean>(false)
 
   // vuex action and state
   const { createRoutingSlip } = useActions([
@@ -43,7 +42,6 @@ export function useCreateRoutingSlip (_, context) {
   async function create () {
     try {
       if (isValid()) {
-        isLoading.value = true
         await createRoutingSlip()
         // on success redirect to view
         context.root.$router.push({
@@ -53,8 +51,6 @@ export function useCreateRoutingSlip (_, context) {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('error ', error?.response)
-    } finally {
-      isLoading.value = false
     }
   }
 
@@ -90,7 +86,6 @@ export function useCreateRoutingSlip (_, context) {
     modalDialogRef,
     modalDialogDetails,
     isModalDialogInfo,
-    isLoading,
     cancel,
     modalDialogCancel,
     modalDialogClose,

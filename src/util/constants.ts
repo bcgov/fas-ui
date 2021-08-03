@@ -44,3 +44,5 @@ export enum Role {
 export enum InvoiceStatus {
   COMPLETED = 'COMPLETED',
 }
+
+export const AXIOS_ERROR_ALERT_TIME_OUT = 5000

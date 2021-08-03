@@ -66,7 +66,8 @@ export default class RoutingSlipModule extends VuexModule {
       : [context.state.cashPayment]
 
     const response = await RoutingSlipService.createRoutingSlip(
-      routingSlipRequest
+      routingSlipRequest,
+      true
     )
     if (response && response.data && response.status === 200) {
       return response.data
@@ -89,7 +90,7 @@ export default class RoutingSlipModule extends VuexModule {
       return false
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error('error ', error.response.data)
+      console.error('error ', error.response?.data)
       // on error we return true where the can use this routing number which should brake on create and show error message
       return true
     }
@@ -98,7 +99,7 @@ export default class RoutingSlipModule extends VuexModule {
   @Action({ commit: 'setRoutingSlip', rawError: true })
   public async getRoutingSlip (slipId): Promise<RoutingSlipDetails> {
     try {
-      const response = await RoutingSlipService.getRoutingSlip(slipId)
+      const response = await RoutingSlipService.getRoutingSlip(slipId, true)
 
       if (response && response.data && response.status === 200) {
         return response.data
@@ -106,7 +107,7 @@ export default class RoutingSlipModule extends VuexModule {
       // TODO : need to handle if slip not existing
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error('error ', error.response.data)
+      console.error('error ', error.response?.data) // 500 errors may not return data
     }
   }
 
@@ -125,7 +126,7 @@ export default class RoutingSlipModule extends VuexModule {
       }
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error('error ', error.response.data)
+      console.error('error ', error.response?.data)
     }
   }
 
