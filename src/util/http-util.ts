@@ -25,14 +25,14 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => {
     // decrement active calls count by one
-    if (response.config.showGlobalLoader) {
+    if (response.config.showGlobalLoader && store.getters['loader/isThereActiveCalls']) {
       store.commit('loader/decrementActiveCalls')
     }
     return response
   },
   error => {
     // decrement active calls count by one
-    if (error.config.showGlobalLoader) {
+    if (error.config.showGlobalLoader && store.getters['loader/isThereActiveCalls']) {
       store.commit('loader/decrementActiveCalls')
     }
     return Promise.reject(error)
