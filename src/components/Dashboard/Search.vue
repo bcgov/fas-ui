@@ -1,95 +1,122 @@
 <template>
   <v-row>
     <v-col>
-      <v-card class="pa-6">
+      <!-- <v-card class="pa-6">
         <h4>Search for Routing Slip</h4>
         <p class="mb-5">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at
           porttitor sem.
-        </p>
+        </p> -->
+      <div class="header-bg-color d-flex align-center py-5 mb-0 mt-10">
+        <v-icon color="primary" class="ml-5">
+          mdi-view-list
+        </v-icon>
+        <p class="ml-2 mb-0 font-weight-bold">Recent Routing Slip</p>
+      </div>
+      <v-form>
+        <v-row dense class="row-margin">
+          <v-col sm="12" cols="12">
+            <transition name="slide-fade">
+              <v-data-table
+                :headers="headerSearch"
+                :items="routingSlipDetails"
+                item-key="name"
+                class="elevation-1"
+                sort-by="routingSlipNumber"
+                :sort-desc="[false, true]"
+                hide-default-header
+              >
+                <!-- hide-default-header -->
+                <template v-slot:header="{}">
+                  <thead class="v-data-table-header">
+                    <tr class="header-row-1">
+                      <th
+                        v-for="(header, i) in getDisplayedHeaders()"
+                        :scope="i"
+                        :key="'find-header-' + i"
+                        class="text-start"
+                      >
+                        {{ header.text }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tr class="header-row-2 mt-2">
+                    <th
+                      v-for="(header, i) in getDisplayedHeaders()"
+                      :key="'find-sub-header-' + i"
+                      class="py-3 px-1"
+                      :scope="i"
+                    >
+                      <v-text-field
+                        v-if="header.value === 'routingSlipNumber'"
+                        id="routingSlipNumber"
+                        autocomplete="off"
+                        class="text-input-style "
+                        filled
+                        label="Routing Slip Number"
+                        v-model="routingSlipNumber"
+                      />
 
-        <v-form>
-          <v-row dense class="row-margin">
-            <v-col sm="3" cols="12">
-              <v-select
-                :items="categoryList"
-                v-model="category"
-                filled
-                item-text="name"
-                item-value="value"
-                return-object
-                label="Select a Search Category"
-              ></v-select>
-            </v-col>
-            <v-col sm="8" colsz="12">
-              <v-text-field
-                v-model="searchModal"
-                filled
-                :label="searchLabel"
-                required
-              ></v-text-field
-            ></v-col>
-            <v-col sm="1" cols="12">
-              <v-btn class=" button-search" large dark color="primary">
-                <v-icon dark large>
-                  mdi-magnify
-                </v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-          <v-row no-gutters class="mb-4">
-            <v-col sm="12">
-              <span
-                color="primary"
-                class="advanced-search"
-                @click="toggleAdvanceSearch()"
-                data-test="btn-advanced-search"
-                >Advanced Search
-                <v-icon color="primary" v-if="showAdvanceSearch"
-                  >mdi-menu-up</v-icon
-                >
-                <v-icon color="primary" v-else>mdi-menu-down</v-icon>
-              </span>
-            </v-col>
-          </v-row>
-          <transition name="slide-fade">
-            <v-row
-              dense
-              class="row-margin"
-              v-if="showAdvanceSearch"
-              data-test="div-advanced-search"
-            >
-              <v-col sm="4" cols="12">
-                <DateRangeFilter
-                  :dateFilterProp="searchDate"
-                  @emitDateFilter="applyDateFilter($event)"
-                >
-                </DateRangeFilter>
-              </v-col>
-              <v-col sm="4" cols="12">
-                <v-select
-                  :items="statusList"
-                  v-model="statusModal"
-                  filled
-                  item-text="name"
-                  item-value="value"
-                  return-object
-                  label="Status"
-                ></v-select>
-              </v-col>
-              <v-col sm="4" cols="12">
-                <v-text-field
-                  v-model="totalAmount"
-                  filled
-                  label="Total Amount"
-                  required
-                  data-test="input-total-amount"
-                ></v-text-field>
-              </v-col>
-            </v-row>
-          </transition>
-        </v-form>
-      </v-card>
+                      <v-text-field
+                        v-if="header.value === 'receiptNumber'"
+                        id="receiptNumber"
+                        autocomplete="off"
+                        class="text-input-style "
+                        filled
+                        label="Receipt Number"
+                        v-model="receiptNumber"
+                      />
+                      <DateRangeFilter
+                        v-if="header.value === 'date'"
+                        :dateFilterProp="searchDate"
+                        @emitDateFilter="applyDateFilter($event)"
+                      >
+                      </DateRangeFilter>
+                      <div class="mt-1">
+                        <status-list
+                          v-if="header.value === 'status'"
+                          v-model="currentStatus"
+                        ></status-list>
+                      </div>
+
+                      <v-text-field
+                        v-if="header.value === 'folioNumber'"
+                        id="folioNumber"
+                        autocomplete="off"
+                        class="text-input-style "
+                        filled
+                        label="Folio Number"
+                        v-model="folioNumber"
+                      />
+
+                      <v-text-field
+                        v-if="header.value === 'initiator'"
+                        id="initiator"
+                        autocomplete="off"
+                        class="text-input-style "
+                        filled
+                        label="Initiator"
+                        v-model="initiator"
+                      />
+
+                      <v-text-field
+                        v-if="header.value === 'total'"
+                        id="total"
+                        autocomplete="off"
+                        class="text-input-style "
+                        filled
+                        label="Total Amount"
+                        v-model="totalAmount"
+                      />
+                    </th>
+                  </tr>
+                </template>
+              </v-data-table>
+            </transition>
+          </v-col>
+        </v-row>
+      </v-form>
+      <!-- </v-card> -->
     </v-col>
   </v-row>
 </template>
@@ -98,45 +125,47 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { useSearch } from '@/composables/Dashboard/useSearch'
 import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
+import statusListComponent from '@/components/common/StatusList.vue'
 
 @Component({
   setup () {
     const {
-      categoryList,
-      category,
-      searchLabel,
-      searchModal,
-      statusList,
-      statusModal,
-      totalAmount,
+      headerSearch,
+      getDisplayedHeaders,
+      currentStatus,
+      routingSlipNumber,
+      receiptNumber,
       searchDate,
-      toggleAdvanceSearch,
-      showAdvanceSearch,
-      applyDateFilter,
-      selectedDate
+      folioNumber,
+      initiator,
+      totalAmount,
+      routingSlipDetails,
+      applyDateFilter
     } = useSearch()
     return {
-      categoryList,
-      category,
-      searchLabel,
-      searchModal,
-      statusList,
-      statusModal,
-      totalAmount,
+      headerSearch,
+      getDisplayedHeaders,
+      currentStatus,
+      routingSlipNumber,
+      receiptNumber,
       searchDate,
-      toggleAdvanceSearch,
-      showAdvanceSearch,
-      applyDateFilter,
-      selectedDate
+      folioNumber,
+      initiator,
+      totalAmount,
+      routingSlipDetails,
+      applyDateFilter
     }
   },
   components: {
-    DateRangeFilter
+    DateRangeFilter,
+    statusList: statusListComponent
   }
 })
 export default class Search extends Vue {}
 </script>
 <style lang="scss" scoped>
+@import '$assets/scss/theme.scss';
+
 .button-search {
   display: flex;
   height: 62% !important;
@@ -149,5 +178,20 @@ export default class Search extends Vue {}
 }
 .row-margin {
   margin: -5px !important;
+}
+.header-bg-color {
+  background-color: $BCgovBlue0;
+}
+
+//@at-root
+.text-input-style {
+  height: 41px !important;
+}
+</style>
+
+<style lang="scss">
+.v-text-field--outlined > .v-input__control > .v-input__slot {
+  // align-items: stretch;
+  min-height: 41px !important;
 }
 </style>

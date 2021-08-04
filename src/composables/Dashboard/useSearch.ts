@@ -1,60 +1,99 @@
 import { ref, watch, reactive } from '@vue/composition-api'
 
 export function useSearch () {
-  // move to API
-  const categoryList = reactive([
-    { name: 'Select a Search Category', value: '' },
-    { name: 'Routing slip #', value: 'Routing slip #' },
-    { name: 'Receipt Number', value: 'Receipt Number' },
-    { name: 'Cheque Number', value: 'Cheque Number' }
-  ])
-  const statusList = reactive([
-    { name: 'Active', value: 'Active' },
-    { name: 'Completed', value: 'Completed' },
-    { name: 'Bounced', value: 'Bounced' },
-    { name: 'Non Sufficient Fund', value: 'Non Sufficient Fund' },
-    { name: 'Refund', value: 'Refund' },
-    { name: 'Last Service', value: 'Last Service' }
-  ])
+  const headerSearch = [
+    {
+      text: 'Routing Slip Number',
+      align: 'start',
+      value: 'routingSlipNumber',
+      display: true
+    },
+    {
+      text: 'Receipt Number',
+      align: 'start',
+      sortable: false,
+      value: 'receiptNumber',
+      display: true
+    },
+    {
+      text: 'Date',
+      align: 'start',
+      sortable: false,
+      value: 'date',
+      display: true
+    },
+    {
+      text: 'Status',
+      align: 'start',
+      sortable: false,
+      value: 'status',
+      display: true
+    },
+    {
+      text: 'Folio Number',
+      align: 'start',
+      value: 'folioNumber',
+      sortable: false,
+      display: true
+    },
+    {
+      text: 'Initiator',
+      align: 'start',
+      value: 'initiator',
+      sortable: false,
+      display: true
+    },
+    {
+      text: 'Total Amount',
+      align: 'start',
+      value: 'total',
+      sortable: false,
+      display: true
+    },
+    {
+      text: 'Actions',
+      align: 'start',
+      value: '',
+      sortable: false,
+      display: true
+    }
+  ]
 
-  const searchLabel = ref('Select a Search Category First')
+  function getDisplayedHeaders () {
+    const displayed = []
+    for (let i = 0; i < headerSearch.length; i++) {
+      if (headerSearch[i].display) {
+        displayed.push(headerSearch[i])
+      }
+    }
+    return displayed
+  }
 
-  const category = ref('')
-  const searchModal = ref('')
-  const statusModal = ref('')
+  const currentStatus = ref<string>('')
+  const routingSlipNumber = ref<string>('')
+  const receiptNumber = ref<string>('')
+  const folioNumber = ref<string>('')
+  const initiator = ref<string>('')
+
   const totalAmount = ref('')
   const searchDate = ref([])
-  const showAdvanceSearch = ref(false)
-  const selectedDate = ref('')
+  const routingSlipDetails = ref([])
 
-  // on change of value need to change label
-  watch(category, (newCategory: any) => {
-    if (newCategory.value !== '') {
-      searchLabel.value = `Enter ${newCategory.name}`
-    } else {
-      searchLabel.value = 'Select a Search Category First'
-    }
-  })
-
-  function toggleAdvanceSearch () {
-    showAdvanceSearch.value = !showAdvanceSearch.value
-  }
   function applyDateFilter (dateRangeObj) {
     searchDate.value = dateRangeObj
   }
 
   return {
-    categoryList,
-    category,
-    searchLabel,
-    searchModal,
-    statusList,
-    statusModal,
-    totalAmount,
+    headerSearch,
+    getDisplayedHeaders,
+    currentStatus,
+    routingSlipNumber,
+    receiptNumber,
     searchDate,
-    showAdvanceSearch,
-    toggleAdvanceSearch,
-    applyDateFilter,
-    selectedDate
+    folioNumber,
+    initiator,
+    totalAmount,
+    routingSlipDetails,
+    applyDateFilter
   }
 }
