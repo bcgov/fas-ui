@@ -1,24 +1,26 @@
-
 <template>
   <v-menu
     v-model="showDateFilter"
     :close-on-content-click="false"
+    :nudge-right="40"
+    transition="scale-transition"
+    offset-y
+    min-width="auto"
   >
-
-    <template v-slot:activator="{ on }">
-      <v-btn
-        block
-        large
-        class="date-range-btn justify-start px-3"
-        color="default"
+    <template v-slot:activator="{ on, attrs }">
+      <!-- UI control that is displayed clicking on which menu is displayed -->
+      <v-text-field
+        v-model="dateRangeSelectedDisplay"
+        :label="label"
+        append-icon="mdi-calendar-range"
+        readonly
+        v-bind="attrs"
         v-on="on"
-        @click="openDateFilter"
-      >
-
-        <span class="flex-grow-1 text-left">Date Range</span>
-         <v-icon class="mr-2">mdi-calendar-range</v-icon>
-      </v-btn>
+        filled
+        data-test="input-date-picker"
+      ></v-text-field>
     </template>
+    <!-- the menu consists of list of buttons on left and date picker on right -->
     <v-card class="date-range-container d-flex">
       <div class="date-range-options d-flex flex-column justify-space-between flex-grow-0 pb-6 pt-3">
         <v-list dense class="py-0"
@@ -69,10 +71,11 @@
           v-model="dateRangeSelected"
           no-title
           range
-          :first-day-of-week="1"
-          :show-current="false"
+          v-bind="$attrs"
+          v-on="$listeners"
           :picker-date="pickerDate"
           @click:date="dateClick"
+          data-test="date-date-picker"
         ></v-date-picker>
       </div>
     </v-card>
@@ -91,40 +94,35 @@ import { useDateRange } from '@/composables/common'
       dateFilterRanges,
       dateRangeSelected,
       dateFilterSelectedIndex,
+      dateRangeSelectedDisplay,
       dateFilterSelected,
       showDateFilter,
       pickerDate,
-      openDateFilter,
-      initDatePicker,
       dateFilterChange,
       isApplyFilterBtnValid,
-      emitDateFilter,
+      dateClick,
       applyDateFilter,
-      showDateRangeSelected,
-      dateClick
-
+      showDateRangeSelected
     } = useDateRange(props, context)
     return {
       dateFilterRanges,
       dateRangeSelected,
       dateFilterSelectedIndex,
+      dateRangeSelectedDisplay,
       dateFilterSelected,
       showDateFilter,
       pickerDate,
-      openDateFilter,
-      initDatePicker,
       dateFilterChange,
       isApplyFilterBtnValid,
-      emitDateFilter,
+      dateClick,
       applyDateFilter,
-      showDateRangeSelected,
-      dateClick
-
+      showDateRangeSelected
     }
   }
 })
 export default class DateRangeFilter extends Vue {
-  @Prop({ default: ({}) }) dateFilterProp: any
+  @Prop({ default: () => [] }) value: string[]
+  @Prop({ default: 'Select Date Range' }) label: string
 }
 </script>
 
