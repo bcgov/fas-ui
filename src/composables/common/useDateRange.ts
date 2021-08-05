@@ -1,14 +1,26 @@
-import { ref, reactive, computed, toRefs } from '@vue/composition-api'
+import { computed, reactive, ref, toRefs } from '@vue/composition-api'
+
+import CommonUtils from '@/util/common-util'
 import { DateFilterCodes } from '@/util/constants'
 import moment from 'moment'
-import CommonUtils from '@/util/common-util'
 
 export const DATEFILTER_CODES = DateFilterCodes
-// this is component took from auth-web and convert to composible
-// TODO: cross check and fix if any issues
 export function useDateRange (props, context) {
-  // using `toRefs` to create a Reactive Reference to the `user` property of props
-  const { dateFilterProp } = toRefs(props)
+  const { value } = toRefs(props)
+
+  // using same v-model value for getting value and update parent on change
+  const dateRangeSelected = computed({
+    get: () => {
+      return value.value
+    },
+    set: (modalValue: Date[]) => {
+      context.emit('input', modalValue)
+    }
+  })
+
+  const dateRangeSelectedDisplay = computed(() => {
+    return dateRangeSelected.value.join(' - ')
+  })
 
   const dateFilterRanges = reactive([
     {
@@ -33,8 +45,7 @@ export function useDateRange (props, context) {
     }
   ])
 
-  const dateRangeSelected = ref<Array <Date>>([])
-  const dateFilterSelectedIndex = ref<number | null>(null)
+  const dateFilterSelectedIndex = ref<number>(null)
   const dateFilterSelected: any = ref({})
   const showDateFilter = ref(false)
   const pickerDate = ref('')
@@ -61,8 +72,8 @@ export function useDateRange (props, context) {
   const showDateRangeSelected = computed(() => {
     let dateText = ''
     if (
-      dateFilterSelected.value?.code === DATEFILTER_CODES.TODAY ||
-      dateFilterSelected.value?.code === DATEFILTER_CODES.YESTERDAY
+      dateFilterSelected.value.code === DATEFILTER_CODES.TODAY ||
+        dateFilterSelected.value.code === DATEFILTER_CODES.YESTERDAY
     ) {
       dateText = `<strong>${
         dateFilterSelected.value.label
@@ -87,39 +98,8 @@ export function useDateRange (props, context) {
       : '<strong>No dates selected</strong>'
   })
 
-  function emitDateFilter () {
-    const data = {
-      startDate: formatDateFilter(dateRangeSelected.value[0]),
-      endDate: formatDateFilter(dateRangeSelected.value[1])
-    }
-    context.emit('emitDateFilter', data)
-  }
-
-  // methods
-  function openDateFilter () {
-    initDatePicker()
-    showDateFilter.value = true
-  }
-
-  function initDatePicker () {
-    if (!dateFilterProp.value) {
-      dateFilterSelectedIndex.value = null
-      dateRangeSelected.value = []
-    }
-
-    dateFilterSelected.value = dateFilterSelectedIndex.value
-      ? dateFilterRanges[dateFilterSelectedIndex.value]
-      : {}
-  }
-
   function formatDatePickerDate (dateObj) {
     return dateObj.format('YYYY-MM-DD')
-  }
-
-  function formatDateFilter (dateStr) {
-    if (!dateStr) return null
-    const [year, month, day] = dateStr.split('-')
-    return `${month}/${day}/${year}`
   }
 
   function dateFilterChange (val) {
@@ -185,7 +165,6 @@ export function useDateRange (props, context) {
   }
 
   function applyDateFilter () {
-    emitDateFilter()
     showDateFilter.value = false
   }
 
@@ -193,17 +172,14 @@ export function useDateRange (props, context) {
     dateFilterRanges,
     dateRangeSelected,
     dateFilterSelectedIndex,
-
+    dateRangeSelectedDisplay,
     dateFilterSelected,
     showDateFilter,
     pickerDate,
-    openDateFilter,
-    initDatePicker,
     dateFilterChange,
     isApplyFilterBtnValid,
     dateClick,
     applyDateFilter,
-    showDateRangeSelected,
-    emitDateFilter
+    showDateRangeSelected
   }
 }
