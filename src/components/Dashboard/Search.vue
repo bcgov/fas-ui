@@ -19,14 +19,13 @@
             <transition name="slide-fade">
               <v-data-table
                 :headers="headerSearch"
-                :items="routingSlipDetails"
+                :items="searchRoutingSlipResult"
                 item-key="name"
                 class="elevation-1"
                 sort-by="routingSlipNumber"
                 :sort-desc="[false, true]"
                 hide-default-header
               >
-                <!-- hide-default-header -->
                 <template v-slot:header="{}">
                   <thead class="v-data-table-header">
                     <tr class="header-row-1">
@@ -36,87 +35,131 @@
                         :key="'find-header-' + i"
                         class="text-start"
                       >
+                        <!-- v-if="headerToDisplay.includes('routingSlipNumber')" -->
+
                         {{ header.text }}
                       </th>
                     </tr>
                   </thead>
                   <tr class="header-row-2 mt-2">
-                    <th
-                      v-for="(header, i) in getDisplayedHeaders()"
-                      :key="'find-sub-header-' + i"
-                      class="py-3 px-1"
-                      :scope="i"
-                    >
+                    <th scope="routingSlipNumber">
                       <v-text-field
-                        v-if="header.value === 'routingSlipNumber'"
+                        v-if="headerToDisplay.includes('routingSlipNumber')"
                         id="routingSlipNumber"
                         autocomplete="off"
                         class="text-input-style "
                         filled
                         label="Routing Slip Number"
                         v-model="routingSlipNumber"
+                        @change="searchNow()"
+                        dense
                       />
+                    </th>
 
+                    <th scope="receiptNumber">
                       <v-text-field
-                        v-if="header.value === 'receiptNumber'"
+                        v-if="headerToDisplay.includes('receiptNumber')"
                         id="receiptNumber"
                         autocomplete="off"
                         class="text-input-style "
                         filled
                         label="Receipt Number"
                         v-model="receiptNumber"
+                        @change="searchNow()"
                       />
+                    </th>
+                    <th scope="date">
                       <DateRangeFilter
-                        v-if="header.value === 'date'"
+                        class="text-input-style "
+                        v-if="headerToDisplay.includes('date')"
                         :dateFilterProp="searchDate"
                         @emitDateFilter="applyDateFilter($event)"
+                        @change="searchNow()"
                       >
                       </DateRangeFilter>
+                    </th>
+                    <th scope="status">
                       <div class="mt-1">
                         <status-list
-                          v-if="header.value === 'status'"
+                          class="text-input-style "
+                          v-if="headerToDisplay.includes('status')"
                           v-model="currentStatus"
+                          @change="searchNow()"
                         ></status-list>
                       </div>
-
+                    </th>
+                    <th scope="folioNumber">
                       <v-text-field
-                        v-if="header.value === 'folioNumber'"
+                        v-if="headerToDisplay.includes('folioNumber')"
                         id="folioNumber"
                         autocomplete="off"
                         class="text-input-style "
                         filled
                         label="Folio Number"
                         v-model="folioNumber"
+                        @change="searchNow()"
                       />
-
+                    </th>
+                    <th scope="initiator">
                       <v-text-field
-                        v-if="header.value === 'initiator'"
+                        v-if="headerToDisplay.includes('initiator')"
                         id="initiator"
                         autocomplete="off"
                         class="text-input-style "
                         filled
                         label="Initiator"
                         v-model="initiator"
+                        @change="searchNow()"
                       />
-
+                    </th>
+                    <th scope="total">
                       <v-text-field
-                        v-if="header.value === 'total'"
+                        v-if="headerToDisplay.includes('total')"
                         id="total"
                         autocomplete="off"
                         class="text-input-style "
                         filled
                         label="Total Amount"
                         v-model="totalAmount"
+                        @change="searchNow()"
                       />
                     </th>
                   </tr>
+                </template>
+
+                <template v-slot:item="{ item }">
+                  <transition name="slide-fade">
+                  <tr>
+                    <td v-if="headerToDisplay.includes('routingSlipNumber')">
+                      {{ item.number }}
+                    </td>
+                    <td v-if="headerToDisplay.includes('receiptNumber')">
+                      routingSlipNumber
+                    </td>
+                    <td v-if="headerToDisplay.includes('date')">
+                      {{ item.routingSlipDate }}
+                    </td>
+                    <td v-if="headerToDisplay.includes('status')">
+                      {{ item.status }}
+                    </td>
+                    <td v-if="headerToDisplay.includes('folioNumber')">
+                      folio
+                    </td>
+                    <td v-if="headerToDisplay.includes('initiator')">
+                      {{ item.paymentAccount && item.paymentAccount.name }}
+                    </td>
+                    <td v-if="headerToDisplay.includes('total')">
+                      {{ item.total }}
+                    </td>
+                    <td></td>
+                  </tr>
+                  </transition>
                 </template>
               </v-data-table>
             </transition>
           </v-col>
         </v-row>
       </v-form>
-      <!-- </v-card> -->
     </v-col>
   </v-row>
 </template>
@@ -139,8 +182,10 @@ import statusListComponent from '@/components/common/StatusList.vue'
       folioNumber,
       initiator,
       totalAmount,
-      routingSlipDetails,
-      applyDateFilter
+      searchRoutingSlipResult,
+      applyDateFilter,
+      headerToDisplay,
+      searchNow
     } = useSearch()
     return {
       headerSearch,
@@ -152,8 +197,10 @@ import statusListComponent from '@/components/common/StatusList.vue'
       folioNumber,
       initiator,
       totalAmount,
-      routingSlipDetails,
-      applyDateFilter
+      searchRoutingSlipResult,
+      applyDateFilter,
+      headerToDisplay,
+      searchNow
     }
   },
   components: {
@@ -193,5 +240,11 @@ export default class Search extends Vue {}
 .v-text-field--outlined > .v-input__control > .v-input__slot {
   // align-items: stretch;
   min-height: 41px !important;
+}
+.header-row-2 {
+  th {
+    padding: 0 5px;
+    border-bottom: thin solid rgba(0, 0, 0, 0.12);
+  }
 }
 </style>

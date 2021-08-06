@@ -18,6 +18,9 @@ export default class RoutingSlipModule extends VuexModule {
   // default the payment type of routing slip to cheque
   isPaymentMethodCheque: boolean = undefined
 
+  searchRoutingSlipParams: any = {}
+  searchRoutingSlipResult: RoutingSlip[] = []
+
   public get invoiceCount (): number {
     return this.routingSlip?.invoices?.length
   }
@@ -50,6 +53,16 @@ export default class RoutingSlipModule extends VuexModule {
   @Mutation
   public setIsPaymentMethodCheque (isPaymentMethodCheque: boolean) {
     this.isPaymentMethodCheque = isPaymentMethodCheque
+  }
+
+  @Mutation
+  public setSearchRoutingSlipParams (searchRoutingSlip: RoutingSlipDetails) {
+    this.searchRoutingSlipParams = searchRoutingSlip
+  }
+
+  @Mutation
+  public setSearchRoutingSlipResult (searchRoutingSlip: RoutingSlipDetails[]) {
+    this.searchRoutingSlipResult = searchRoutingSlip
   }
 
   @Action({ commit: 'setRoutingSlip', rawError: true })
@@ -112,7 +125,9 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Action({ commit: 'setRoutingSlip', rawError: true })
-  public async updateRoutingSlipStatus (status:any): Promise<RoutingSlipDetails> {
+  public async updateRoutingSlipStatus (
+    status: any
+  ): Promise<RoutingSlipDetails> {
     const context: any = this.context
     const slipNumber = context.state.routingSlip.number
     // update status
@@ -138,5 +153,20 @@ export default class RoutingSlipModule extends VuexModule {
     context.commit('setChequePayment', [])
     context.commit('setCashPayment', [])
     context.commit('setIsPaymentMethodCheque', undefined)
+  }
+
+  @Action({ commit: 'setSearchRoutingSlipResult', rawError: true })
+  public async searchRoutingSlip (): Promise<RoutingSlipDetails[]> {
+    const context: any = this.context
+    // // build the RoutingSlip Request JSON object that needs to be sent.
+    const searchRoutingSlipParams = { ...context.state.searchRoutingSlipParams }
+    // API call comes here
+
+    const response = await RoutingSlipService.getSearchRoutingSlip(
+      searchRoutingSlipParams
+    )
+    if (response && response.data && response.status === 200) {
+      return response.data
+    }
   }
 }

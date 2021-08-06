@@ -1,6 +1,20 @@
-import { ref, watch, reactive } from '@vue/composition-api'
+import { computed, ref } from '@vue/composition-api'
+import { createNamespacedHelpers } from 'vuex-composition-helpers'
+
+const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
+const { useActions, useState, useMutations } = routingSlipModule
 
 export function useSearch () {
+  // vuex action and state
+  const { searchRoutingSlip } = useActions(['searchRoutingSlip'])
+  const { searchRoutingSlipParams, searchRoutingSlipResult } = useState([
+    'searchRoutingSlipParams',
+    'searchRoutingSlipResult'
+  ])
+
+  const { setSearchRoutingSlipParams } = useMutations([
+    'setSearchRoutingSlipParams'
+  ])
   const headerSearch = [
     {
       text: 'Routing Slip Number',
@@ -69,18 +83,107 @@ export function useSearch () {
     return displayed
   }
 
-  const currentStatus = ref<string>('')
-  const routingSlipNumber = ref<string>('')
-  const receiptNumber = ref<string>('')
-  const folioNumber = ref<string>('')
-  const initiator = ref<string>('')
+  const headerToDisplay = [
+    'routingSlipNumber',
+    'receiptNumber',
+    'date',
+    'status',
+    'folioNumber',
+    'initiator',
+    'total'
+  ]
 
-  const totalAmount = ref('')
-  const searchDate = ref([])
-  const routingSlipDetails = ref([])
+  // using same v-model value for getting value and update parent on change
+  const routingSlipNumber: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value.routingSlipNumber || ''
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        routingSlipNumber: modalValue
+      })
+    }
+  })
+
+  const receiptNumber: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value.receiptNumber || ''
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        receiptNumber: modalValue
+      })
+    }
+  })
+
+  const currentStatus: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value.currentStatus || ''
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        currentStatus: modalValue
+      })
+    }
+  })
+
+  const folioNumber: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value.folioNumber || ''
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        folioNumber: modalValue
+      })
+    }
+  })
+
+  const initiator: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value.initiator || ''
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        initiator: modalValue
+      })
+    }
+  })
+
+  const totalAmount: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value.totalAmount || ''
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        totalAmount: modalValue
+      })
+    }
+  })
+
+  const searchDate: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value.searchDate || ''
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        searchDate: modalValue
+      })
+    }
+  })
 
   function applyDateFilter (dateRangeObj) {
     searchDate.value = dateRangeObj
+  }
+
+  function searchNow () {
+    searchRoutingSlip()
   }
 
   return {
@@ -93,7 +196,10 @@ export function useSearch () {
     folioNumber,
     initiator,
     totalAmount,
-    routingSlipDetails,
-    applyDateFilter
+    // routingSlipDetails,
+    applyDateFilter,
+    searchNow,
+    searchRoutingSlipResult,
+    headerToDisplay
   }
 }
