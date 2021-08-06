@@ -53,6 +53,7 @@
                         v-model="routingSlipNumber"
                         @change="searchNow()"
                         dense
+                        hide-details="auto"
                       />
                     </th>
 
@@ -66,15 +67,17 @@
                         label="Receipt Number"
                         v-model="receiptNumber"
                         @change="searchNow()"
+                        hide-details="auto"
                       />
                     </th>
                     <th scope="date">
                       <DateRangeFilter
-                        class="text-input-style "
+                        class="text-input-style"
                         v-if="headerToDisplay.includes('date')"
                         :dateFilterProp="searchDate"
                         @emitDateFilter="applyDateFilter($event)"
                         @change="searchNow()"
+                        hide-details="auto"
                       >
                       </DateRangeFilter>
                     </th>
@@ -85,6 +88,7 @@
                           v-if="headerToDisplay.includes('status')"
                           v-model="currentStatus"
                           @change="searchNow()"
+                          hide-details="auto"
                         ></status-list>
                       </div>
                     </th>
@@ -98,6 +102,7 @@
                         label="Folio Number"
                         v-model="folioNumber"
                         @change="searchNow()"
+                        hide-details="auto"
                       />
                     </th>
                     <th scope="initiator">
@@ -110,6 +115,7 @@
                         label="Initiator"
                         v-model="initiator"
                         @change="searchNow()"
+                        hide-details="auto"
                       />
                     </th>
                     <th scope="total">
@@ -122,8 +128,10 @@
                         label="Total Amount"
                         v-model="totalAmount"
                         @change="searchNow()"
+                        hide-details="auto"
                       />
                     </th>
+                    <th></th>
                   </tr>
                 </template>
 
@@ -151,7 +159,7 @@
                     <td v-if="headerToDisplay.includes('total')">
                       {{ item.total }}
                     </td>
-                    <td></td>
+                    <td>abcd</td>
                   </tr>
                   </transition>
                 </template>
@@ -231,9 +239,9 @@ export default class Search extends Vue {}
 }
 
 //@at-root
-.text-input-style {
-  height: 41px !important;
-}
+// .text-input-style {
+//   height: 41px !important;
+// }
 </style>
 
 <style lang="scss">
@@ -243,8 +251,11 @@ export default class Search extends Vue {}
 }
 .header-row-2 {
   th {
-    padding: 0 5px;
+    padding: 4px 3px 10px 3px;
     border-bottom: thin solid rgba(0, 0, 0, 0.12);
+  }
+  .v-label, .v-input {
+    font-size: 12px;
   }
 }
 </style>
