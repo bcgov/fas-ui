@@ -165,6 +165,8 @@ export function useDateRange (props, context) {
   }
 
   function applyDateFilter () {
+    // emit applied event so that we can hook to any @change event in parent. By default, v-model with parent variable is in sync all the time
+    context.emit('applied', dateRangeSelected)
     showDateFilter.value = false
   }
 

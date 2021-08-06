@@ -73,7 +73,7 @@
                       <date-range-filter
                         class="text-input-style"
                         v-model="searchDate"
-                        @change="searchNow()"
+                        @applied="searchNow()"
                         hide-details="auto"
                       >
                       </date-range-filter>
