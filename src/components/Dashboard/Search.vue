@@ -1,7 +1,6 @@
 <template>
   <v-row>
     <v-col>
-
       <div class="header-bg-color d-flex align-center py-5 mb-0 mt-10">
         <v-icon color="primary" class="ml-5">
           mdi-view-list
@@ -20,6 +19,8 @@
                 sort-by="routingSlipNumber"
                 :sort-desc="[false, true]"
                 hide-default-header
+                fixed-header
+                height="20rem"
               >
                 <template v-slot:header="{}">
                   <thead class="v-data-table-header">
@@ -30,7 +31,6 @@
                         :key="'find-header-' + i"
                         class="text-start"
                       >
-
                         {{ header.text }}
                       </th>
                     </tr>
@@ -173,7 +173,7 @@ import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
 import statusListComponent from '@/components/common/StatusList.vue'
 
 @Component({
-  setup () {
+  setup() {
     const {
       headerSearch,
       headerToShow,
