@@ -73,7 +73,7 @@ export function useSearch () {
     }
   ]
 
-  function getDisplayedHeaders () {
+  const headerToShow: any = computed(() => {
     const displayed = []
     for (let i = 0; i < headerSearch.length; i++) {
       if (headerSearch[i].display) {
@@ -81,8 +81,13 @@ export function useSearch () {
       }
     }
     return displayed
-  }
+  })
 
+  function canShowColum (columnName) {
+    return headerToShow.value.find((header) => {
+      return header.value === columnName && header.display
+    })
+  }
   const headerToDisplay = [
     'routingSlipNumber',
     'receiptNumber',
@@ -188,7 +193,7 @@ export function useSearch () {
 
   return {
     headerSearch,
-    getDisplayedHeaders,
+    headerToShow,
     currentStatus,
     routingSlipNumber,
     receiptNumber,
@@ -196,6 +201,7 @@ export function useSearch () {
     folioNumber,
     initiator,
     totalAmount,
+    canShowColum,
     // routingSlipDetails,
     applyDateFilter,
     searchNow,

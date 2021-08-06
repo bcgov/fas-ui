@@ -1,16 +1,43 @@
-import { shallowMount } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
+import Vuetify from 'vuetify'
+import Vuex from 'vuex'
 import { Search } from '@/components/Dashboard'
+import { routingSlip } from '../../test-data/mock-routing-slip'
 
 describe('Search.vue', () => {
-  it('SHould have h4 title', () => {
-    const wrapper = shallowMount(Search, {})
-    expect(wrapper.find('h4').exists()).toBeTruthy()
-    expect(wrapper.find('h4').text()).toBe('Search for Routing Slip')
+  const localVue = createLocalVue()
+  localVue.use(Vuex)
+  const vuetify = new Vuetify({})
+  let store
+  beforeEach(() => {
+    const routingSlipModule = {
+      namespaced: true,
+      state: {
+        routingSlip: routingSlip
+      },
+      mutations: {
+        setChequePayment: jest.fn(),
+        setCashPayment: jest.fn()
+      }
+    }
+
+    store = new Vuex.Store({
+      strict: false,
+      modules: {
+        routingSlip: routingSlipModule
+      }
+    })
+
+    jest.resetModules()
+    jest.clearAllMocks()
   })
-  it('should show advanced search on click', async () => {
-    const wrapper = shallowMount(Search, {})
-    await wrapper.setData({ showAdvanceSearch: true })
-    wrapper.find("[data-test='btn-advanced-search']").trigger('click')
-    expect(wrapper.find("[data-test='div-advanced-search']").exists()).toBeTruthy()
+  it('Should have h4 title', () => {
+    const wrapper = shallowMount(Search, {
+      store,
+      localVue,
+      vuetify
+    })
+    expect(wrapper.find('h4').exists()).toBeTruthy()
+    expect(wrapper.find('h4').text()).toBe('Recent Routing Slip')
   })
 })
