@@ -173,7 +173,7 @@ export function useSearch () {
 
   const searchDate: any = computed({
     get: () => {
-      return searchRoutingSlipParams.value.searchDate || ''
+      return searchRoutingSlipParams.value.searchDate || []
     },
     set: (modalValue: any) => {
       setSearchRoutingSlipParams({

@@ -70,14 +70,13 @@
                       />
                     </th>
                     <th scope="date" v-if="canShowColum('date')">
-                      <DateRangeFilter
+                      <date-range-filter
                         class="text-input-style"
-                        :dateFilterProp="searchDate"
-                        @emitDateFilter="applyDateFilter($event)"
+                        v-model="searchDate"
                         @change="searchNow()"
                         hide-details="auto"
                       >
-                      </DateRangeFilter>
+                      </date-range-filter>
                     </th>
                     <th scope="status" v-if="canShowColum('status')">
                       <div class="mt-1">
@@ -153,7 +152,7 @@
                       <td v-if="canShowColum('total')">
                         {{ item.total }}
                       </td>
-                      <td>abcd</td>
+                      <td></td>
                     </tr>
                   </transition>
                 </template>
@@ -173,7 +172,7 @@ import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
 import statusListComponent from '@/components/common/StatusList.vue'
 
 @Component({
-  setup() {
+  setup () {
     const {
       headerSearch,
       headerToShow,

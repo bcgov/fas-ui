@@ -73,7 +73,7 @@ export function useDateRange (props, context) {
     let dateText = ''
     if (
       dateFilterSelected.value.code === DATEFILTER_CODES.TODAY ||
-        dateFilterSelected.value.code === DATEFILTER_CODES.YESTERDAY
+      dateFilterSelected.value.code === DATEFILTER_CODES.YESTERDAY
     ) {
       dateText = `<strong>${
         dateFilterSelected.value.label
