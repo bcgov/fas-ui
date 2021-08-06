@@ -6,16 +6,15 @@
     transition="scale-transition"
     offset-y
     min-width="auto"
-    v-bind="$attrs"
   >
-    <template v-slot:activator="{ on, attrs }">
+    <template v-slot:activator="{ on }">
       <!-- UI control that is displayed clicking on which menu is displayed -->
       <v-text-field
         v-model="dateRangeSelectedDisplay"
         :label="label"
         append-icon="mdi-calendar-range"
         readonly
-        v-bind="attrs"
+        v-bind="$attrs"
         v-on="on"
         filled
         data-test="input-date-picker"
