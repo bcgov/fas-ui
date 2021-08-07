@@ -17,10 +17,10 @@
                 item-key="name"
                 class="elevation-1"
                 sort-by="routingSlipNumber"
-                :sort-desc="[false, true]"
                 hide-default-header
                 fixed-header
                 height="20rem"
+                :disable-pagination="true"
               >
                 <template v-slot:header="{}">
                   <thead class="v-data-table-header">
@@ -29,7 +29,8 @@
                         v-for="(header, i) in headerToShow"
                         :scope="i"
                         :key="'find-header-' + i"
-                        class="text-start"
+                        :class="header.value !== '' ? 'text-start' : 'text-end'"
+                        class="font-weight-bold"
                       >
                         {{ header.text }}
                       </th>
@@ -124,7 +125,13 @@
                         hide-details="auto"
                       />
                     </th>
-                    <th></th>
+                    <th class="action" scope="action">
+                      <span class="clear-filter primary--text cursor-pointer"
+                        >Clear Filters<v-icon small color="primary"
+                          >mdi-close</v-icon
+                        ></span
+                      >
+                    </th>
                   </tr>
                 </template>
 
@@ -141,7 +148,12 @@
                         {{ item.routingSlipDate }}
                       </td>
                       <td v-if="canShowColum('status')">
-                        {{ item.status }}
+                        <span
+                          :class="colors(item.status)"
+                          class="font-weight-bold"
+                          data-test="label-status"
+                          >{{ getStatusLabel(item.status) }}</span
+                        >
                       </td>
                       <td v-if="canShowColum('folioNumber')">
                         folio
@@ -149,10 +161,19 @@
                       <td v-if="canShowColum('initiator')">
                         {{ item.paymentAccount && item.paymentAccount.name }}
                       </td>
-                      <td v-if="canShowColum('total')">
-                        {{ item.total }}
+                      <td
+                        v-if="canShowColum('total')"
+                        class="d-flex justify-end align-center"
+                      >
+                        <span class="font-weight-bold text-end">
+                          {{ appendCurrencySymbol(item.total.toFixed(2)) }}
+                        </span>
                       </td>
-                      <td></td>
+                      <td>
+                        <v-btn color="primary" class="">
+                          Open
+                        </v-btn>
+                      </td>
                     </tr>
                   </transition>
                 </template>
@@ -170,6 +191,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { useSearch } from '@/composables/Dashboard/useSearch'
 import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
 import statusListComponent from '@/components/common/StatusList.vue'
+import commonUtil from '@/util/common-util'
 
 @Component({
   setup () {
@@ -187,7 +209,8 @@ import statusListComponent from '@/components/common/StatusList.vue'
       applyDateFilter,
       headerToDisplay,
       searchNow,
-      canShowColum
+      canShowColum,
+      getStatusLabel
     } = useSearch()
     return {
       headerSearch,
@@ -203,7 +226,8 @@ import statusListComponent from '@/components/common/StatusList.vue'
       applyDateFilter,
       headerToDisplay,
       searchNow,
-      canShowColum
+      canShowColum,
+      getStatusLabel
     }
   },
   components: {
@@ -211,7 +235,10 @@ import statusListComponent from '@/components/common/StatusList.vue'
     statusList: statusListComponent
   }
 })
-export default class Search extends Vue {}
+export default class Search extends Vue {
+  public colors = commonUtil.statusListColor
+  public appendCurrencySymbol = commonUtil.appendCurrencySymbol
+}
 </script>
 <style lang="scss" scoped>
 @import '$assets/scss/theme.scss';
@@ -237,13 +264,28 @@ export default class Search extends Vue {}
 // .text-input-style {
 //   height: 41px !important;
 // }
+.clear-filter {
+  font-size: 14px;
+  font-weight: normal;
+}
+.action {
+  width: 125px;
+}
+.header-row-1 {
+  th {
+    font-size: 12px !important;
+    font-weight: bold !important;
+    color: $BCgovBlack !important;
+  }
+}
 </style>
 
 <style lang="scss">
 .v-text-field--outlined > .v-input__control > .v-input__slot {
-  // align-items: stretch;
   min-height: 41px !important;
 }
+
+// style to match design, small inputs intable
 .header-row-2 {
   th {
     padding: 4px 3px 10px 3px;
@@ -252,6 +294,27 @@ export default class Search extends Vue {}
   .v-label,
   .v-input {
     font-size: 12px;
+    font-weight: normal;
+  }
+  .v-text-field .v-input__control .v-input__slot {
+    min-height: auto !important;
+    height: 40px !important;
+  }
+
+  .v-text-field--filled .v-label,
+  .v-text-field--full-width .v-label {
+    top: 10px !important;
+    font-weight: normal;
+  }
+  .v-text-field--enclosed .v-input__append-inner,
+  .v-text-field--enclosed .v-input__append-outer,
+  .v-text-field--enclosed .v-input__prepend-inner,
+  .v-text-field--enclosed .v-input__prepend-outer,
+  .v-text-field--full-width .v-input__append-inner,
+  .v-text-field--full-width .v-input__append-outer,
+  .v-text-field--full-width .v-input__prepend-inner,
+  .v-text-field--full-width .v-input__prepend-outer {
+    margin-top: 10px !important;
   }
 }
 </style>

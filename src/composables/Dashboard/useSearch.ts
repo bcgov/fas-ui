@@ -1,5 +1,6 @@
-import { computed, ref } from '@vue/composition-api'
+import { computed, reactive, ref } from '@vue/composition-api'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
+import { useStatusList } from '@/composables/common/useStatusList'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useActions, useState, useMutations } = routingSlipModule
@@ -15,6 +16,8 @@ export function useSearch () {
   const { setSearchRoutingSlipParams } = useMutations([
     'setSearchRoutingSlipParams'
   ])
+
+  const { statusLabel } = useStatusList(reactive({ value: '' }), {})
   const headerSearch = [
     {
       text: 'Routing Slip Number',
@@ -59,7 +62,7 @@ export function useSearch () {
     },
     {
       text: 'Total Amount',
-      align: 'start',
+      align: 'right',
       value: 'total',
       sortable: false,
       display: true
@@ -84,7 +87,7 @@ export function useSearch () {
   })
 
   function canShowColum (columnName) {
-    return headerToShow.value.find((header) => {
+    return headerToShow.value.find(header => {
       return header.value === columnName && header.display
     })
   }
@@ -191,6 +194,11 @@ export function useSearch () {
     searchRoutingSlip()
   }
 
+  // get label of status
+  function getStatusLabel (code: string) {
+    return statusLabel(code)
+  }
+
   return {
     headerSearch,
     headerToShow,
@@ -202,10 +210,10 @@ export function useSearch () {
     initiator,
     totalAmount,
     canShowColum,
-    // routingSlipDetails,
     applyDateFilter,
     searchNow,
     searchRoutingSlipResult,
-    headerToDisplay
+    headerToDisplay,
+    getStatusLabel
   }
 }
