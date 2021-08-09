@@ -4,11 +4,11 @@ import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { useStatusList } from '@/composables/common/useStatusList'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useActions, useState, useMutations } = routingSlipModule
+const { useActions, useState, useMutations, useGetters } = routingSlipModule
 
 export function useSearch () {
   // vuex action and state
-  const { searchRoutingSlip } = useActions(['searchRoutingSlip'])
+  const { searchRoutingSlip, resetSearchParams } = useActions(['searchRoutingSlip', 'resetSearchParams'])
   const { searchRoutingSlipParams, searchRoutingSlipResult } = useState([
     'searchRoutingSlipParams',
     'searchRoutingSlipResult'
@@ -17,6 +17,8 @@ export function useSearch () {
   const { setSearchRoutingSlipParams } = useMutations([
     'setSearchRoutingSlipParams'
   ])
+
+  const { searchParamsPrecent } = useGetters(['searchParamsPrecent'])
 
   const { statusLabel } = useStatusList(reactive({ value: '' }), {})
   const headerSearch = ref<any[]>([
@@ -212,6 +214,10 @@ export function useSearch () {
     return statusLabel(code)
   }
 
+  function clearFilter () {
+    resetSearchParams()
+  }
+
   return {
     headerSearch,
     displayedHeaderSearch,
@@ -227,6 +233,8 @@ export function useSearch () {
     searchNow,
     searchRoutingSlipResult,
     headerToDisplay,
-    getStatusLabel
+    getStatusLabel,
+    searchParamsPrecent,
+    clearFilter
   }
 }

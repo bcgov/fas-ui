@@ -9,5 +9,6 @@
   "createRoutingSlipCancelText": "If you leave this page, your routing slip information will not be created or saved.",
   "unauthorizedTitle": "Not Authorized",
   "unauthorizedMsg": "You are not authorized to access this page.",
-  "errorAlertMessage": "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+  "errorAlertMessage": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+  "searchStartMessage":"Search with any of the data above at porttitor se to complete your routing slip search."
 }

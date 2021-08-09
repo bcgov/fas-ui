@@ -1,214 +1,231 @@
 <template>
-<v-container class="view-container">
-  <v-row class="d-flex flex-row justify-space-between align-center">
-  <v-col cols="4">
-    <v-btn
-      class="font-weight-bold"
-      large
-      dark
-      color="primary"
-      @click="addRoutingSlip"
-      v-can:fas_create.hide
-    >
-      <v-icon dark small class="mr-2 font-weight-bold">
-        mdi-plus
-      </v-icon>
-      Add New Routing Slip
-    </v-btn>
-  </v-col>
-  <v-col cols="4">
-    <search-column-filter-component
-      v-model="headerSearch"
-      hide-details>
-    </search-column-filter-component>
-  </v-col>
-  </v-row>
-  <v-row>
-    <v-col>
-      <div class="header-bg-color d-flex align-center py-5 mb-0 mt-10">
-        <v-icon color="primary" class="ml-5">
-          mdi-view-list
-        </v-icon>
-        <h4 class="ml-2 mb-0 font-weight-bold">Recent Routing Slip</h4>
-      </div>
-      <v-form>
-        <v-row dense class="row-margin">
-          <v-col sm="12" cols="12">
-            <transition name="slide-fade">
-              <v-data-table
-                :headers="headerSearch"
-                :items="searchRoutingSlipResult"
-                item-key="name"
-                class="elevation-1"
-                sort-by="routingSlipNumber"
-                hide-default-header
-                fixed-header
-                height="20rem"
-                :disable-pagination="true"
-              >
-                <template v-slot:header="{}">
-                  <thead class="v-data-table-header">
-                    <tr class="header-row-1">
+  <v-container class="view-container">
+    <v-row class="d-flex flex-row justify-space-between align-center">
+      <v-col cols="4">
+        <v-btn
+          class="font-weight-bold"
+          large
+          dark
+          color="primary"
+          @click="addRoutingSlip"
+          v-can:fas_create.hide
+        >
+          <v-icon dark small class="mr-2 font-weight-bold">
+            mdi-plus
+          </v-icon>
+          Add New Routing Slip
+        </v-btn>
+      </v-col>
+      <v-col cols="3">
+        <search-column-filter-component v-model="headerSearch" hide-details>
+        </search-column-filter-component>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <div class="header-bg-color d-flex align-center py-5 mb-0 ">
+          <v-icon color="primary" class="ml-5">
+            mdi-view-list
+          </v-icon>
+          <h4 class="ml-2 mb-0 font-weight-bold">Recent Routing Slip</h4>
+        </div>
+        <v-form>
+          <v-row dense class="row-margin">
+            <v-col sm="12" cols="12">
+              <transition name="slide-fade">
+                <v-data-table
+                  :headers="headerSearch"
+                  :items="searchRoutingSlipResult"
+                  item-key="name"
+                  class="elevation-1"
+                  sort-by="routingSlipNumber"
+                  hide-default-header
+                  hide-default-footer
+                  fixed-header
+                  height="40rem"
+                  :no-data-text="$t('searchStartMessage')"
+                >
+                  <template v-slot:header="{}">
+                    <thead class="v-data-table-header">
+                      <tr class="header-row-1">
+                        <th
+                          v-for="(header, i) in displayedHeaderSearch"
+                          :scope="i"
+                          :key="'find-header-' + i"
+                          :class="
+                            header.value !== '' ? 'text-start' : 'text-end'
+                          "
+                          class="font-weight-bold"
+                        >
+                          {{ header.text }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tr class="header-row-2 mt-2 px-2">
                       <th
-                        v-for="(header, i) in displayedHeaderSearch"
-                        :scope="i"
-                        :key="'find-header-' + i"
-                        :class="header.value !== '' ? 'text-start' : 'text-end'"
-                        class="font-weight-bold"
+                        scope="routingSlipNumber"
+                        v-if="canShowColumn('routingSlipNumber')"
                       >
-                        {{ header.text }}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tr class="header-row-2 mt-2">
-                    <th
-                      scope="routingSlipNumber"
-                      v-if="canShowColumn('routingSlipNumber')"
-                    >
-                      <!-- canShowColumn {{canShowColumn('routingSlipNumber')}} -->
-                      <v-text-field
-                        id="routingSlipNumber"
-                        autocomplete="off"
-                        class="text-input-style "
-                        filled
-                        label="Routing Slip Number"
-                        v-model="routingSlipNumber"
-                        @change="searchNow()"
-                        dense
-                        hide-details="auto"
-                      />
-                    </th>
-
-                    <th
-                      scope="receiptNumber"
-                      v-if="canShowColumn('receiptNumber')"
-                    >
-                      <v-text-field
-                        id="receiptNumber"
-                        autocomplete="off"
-                        class="text-input-style "
-                        filled
-                        label="Receipt Number"
-                        v-model="receiptNumber"
-                        @change="searchNow()"
-                        hide-details="auto"
-                      />
-                    </th>
-                    <th scope="date" v-if="canShowColumn('date')">
-                      <date-range-filter
-                        class="text-input-style"
-                        v-model="searchDate"
-                        @applied="searchNow()"
-                        hide-details="auto"
-                      >
-                      </date-range-filter>
-                    </th>
-                    <th scope="status" v-if="canShowColumn('status')">
-                      <div class="mt-1">
-                        <status-list
+                        <!-- canShowColumn {{canShowColumn('routingSlipNumber')}} -->
+                        <v-text-field
+                          id="routingSlipNumber"
+                          autocomplete="off"
                           class="text-input-style "
-                          v-model="currentStatus"
+                          filled
+                          label="Routing Slip Number"
+                          v-model="routingSlipNumber"
+                          @change="searchNow()"
+                          dense
+                          hide-details="auto"
+                        />
+                      </th>
+
+                      <th
+                        scope="receiptNumber"
+                        v-if="canShowColumn('receiptNumber')"
+                      >
+                        <v-text-field
+                          id="receiptNumber"
+                          autocomplete="off"
+                          class="text-input-style "
+                          filled
+                          label="Receipt Number"
+                          v-model="receiptNumber"
                           @change="searchNow()"
                           hide-details="auto"
-                        ></status-list>
-                      </div>
-                    </th>
-                    <th scope="folioNumber" v-if="canShowColumn('folioNumber')">
-                      <v-text-field
-                        id="folioNumber"
-                        autocomplete="off"
-                        class="text-input-style "
-                        filled
-                        label="Folio Number"
-                        v-model="folioNumber"
-                        @change="searchNow()"
-                        hide-details="auto"
-                      />
-                    </th>
-                    <th scope="initiator" v-if="canShowColumn('initiator')">
-                      <v-text-field
-                        id="initiator"
-                        autocomplete="off"
-                        class="text-input-style "
-                        filled
-                        label="Initiator"
-                        v-model="initiator"
-                        @change="searchNow()"
-                        hide-details="auto"
-                      />
-                    </th>
-                    <th scope="total" v-if="canShowColumn('total')">
-                      <v-text-field
-                        id="total"
-                        autocomplete="off"
-                        class="text-input-style "
-                        filled
-                        label="Total Amount"
-                        v-model="totalAmount"
-                        @change="searchNow()"
-                        hide-details="auto"
-                      />
-                    </th>
-                    <th class="action" scope="action">
-                      <span class="clear-filter primary--text cursor-pointer"
-                        >Clear Filters<v-icon small color="primary"
-                          >mdi-close</v-icon
-                        ></span
-                      >
-                    </th>
-                  </tr>
-                </template>
-
-                <template v-slot:item="{ item }">
-                  <transition name="slide-fade">
-                    <tr>
-                      <td v-if="canShowColumn('routingSlipNumber')">
-                        {{ item.number }}
-                      </td>
-                      <td v-if="canShowColumn('receiptNumber')">
-                        routingSlipNumber
-                      </td>
-                      <td v-if="canShowColumn('date')">
-                        {{ item.routingSlipDate }}
-                      </td>
-                      <td v-if="canShowColumn('status')">
-                        <span
-                          :class="colors(item.status)"
-                          class="font-weight-bold"
-                          data-test="label-status"
-                          >{{ getStatusLabel(item.status) }}</span
+                        />
+                      </th>
+                      <th scope="date" v-if="canShowColumn('date')">
+                        <date-range-filter
+                          class="text-input-style"
+                          v-model="searchDate"
+                          @applied="searchNow()"
+                          hide-details="auto"
                         >
-                      </td>
-                      <td v-if="canShowColumn('folioNumber')">
-                        folio
-                      </td>
-                      <td v-if="canShowColumn('initiator')">
-                        {{ item.paymentAccount && item.paymentAccount.name }}
-                      </td>
-                      <td
-                        v-if="canShowColumn('total')"
-                        class="d-flex justify-end align-center"
+                        </date-range-filter>
+                      </th>
+                      <th scope="status" v-if="canShowColumn('status')">
+                        <div class="mt-1">
+                          <status-list
+                            class="text-input-style "
+                            v-model="currentStatus"
+                            @change="searchNow()"
+                            hide-details="auto"
+                          ></status-list>
+                        </div>
+                      </th>
+                      <th
+                        scope="folioNumber"
+                        v-if="canShowColumn('folioNumber')"
                       >
-                        <span class="font-weight-bold text-end">
-                          {{ appendCurrencySymbol(item.total.toFixed(2)) }}
-                        </span>
-                      </td>
-                      <td>
-                        <v-btn color="primary" class="">
-                          Open
-                        </v-btn>
-                      </td>
+                        <v-text-field
+                          id="folioNumber"
+                          autocomplete="off"
+                          class="text-input-style "
+                          filled
+                          label="Folio Number"
+                          v-model="folioNumber"
+                          @change="searchNow()"
+                          hide-details="auto"
+                        />
+                      </th>
+                      <th scope="initiator" v-if="canShowColumn('initiator')">
+                        <v-text-field
+                          id="initiator"
+                          autocomplete="off"
+                          class="text-input-style "
+                          filled
+                          label="Initiator"
+                          v-model="initiator"
+                          @change="searchNow()"
+                          hide-details="auto"
+                        />
+                      </th>
+                      <th scope="total" v-if="canShowColumn('total')">
+                        <v-text-field
+                          id="total"
+                          autocomplete="off"
+                          class="text-input-style "
+                          filled
+                          label="Total Amount"
+                          v-model="totalAmount"
+                          @change="searchNow()"
+                          hide-details="auto"
+                        />
+                      </th>
+                      <th class="action" scope="action">
+                        <span
+                          class="clear-filter primary--text cursor-pointer"
+                          v-if="!searchParamsPrecent"
+                          @click="clearFilter"
+                          >Clear Filters<v-icon small color="primary"
+                            >mdi-close</v-icon
+                          ></span
+                        >
+                      </th>
                     </tr>
-                  </transition>
-                </template>
-              </v-data-table>
-            </transition>
-          </v-col>
-        </v-row>
-      </v-form>
-    </v-col>
-  </v-row>
-</v-container>
+                  </template>
+
+                  <template v-slot:item="{ item }">
+                    <transition name="slide-fade">
+                      <tr>
+                        <td v-if="canShowColumn('routingSlipNumber')">
+                          {{ item.number }}
+                        </td>
+                        <td v-if="canShowColumn('receiptNumber')">
+                          {{
+                            item.invoices &&
+                              item.invoices[0] &&
+                              item.invoices[0].receipts &&
+                              item.invoices[0].receipts[0] &&
+                              item.invoices[0].receipts[0].receiptNumber
+                          }}
+                        </td>
+                        <td v-if="canShowColumn('date')">
+                          {{ item.routingSlipDate }}
+                        </td>
+                        <td v-if="canShowColumn('status')">
+                          <span
+                            :class="colors(item.status)"
+                            class="font-weight-bold"
+                            data-test="label-status"
+                            >{{ getStatusLabel(item.status) }}</span
+                          >
+                        </td>
+                        <td v-if="canShowColumn('folioNumber')">
+                          folio
+                        </td>
+                        <td v-if="canShowColumn('initiator')">
+                          {{ item.paymentAccount && item.paymentAccount.name }}
+                        </td>
+                        <td
+                          v-if="canShowColumn('total')"
+                          class="d-flex justify-end align-center"
+                        >
+                          <span class="font-weight-bold text-end">
+                            {{ appendCurrencySymbol(item.total.toFixed(2)) }}
+                          </span>
+                        </td>
+                        <td>
+                          <v-btn
+                            color="primary"
+                            class=""
+                            :to="`/view-routing-slip/${item.number}`"
+                          >
+                            Open
+                          </v-btn>
+                        </td>
+                      </tr>
+                    </transition>
+                  </template>
+                </v-data-table>
+              </transition>
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -238,7 +255,9 @@ import { useDashboard } from '@/composables/Dashboard'
       headerToDisplay,
       searchNow,
       canShowColumn,
-      getStatusLabel
+      getStatusLabel,
+      searchParamsPrecent,
+      clearFilter
     } = useSearch()
     return {
       headerSearch,
@@ -256,7 +275,9 @@ import { useDashboard } from '@/composables/Dashboard'
       searchNow,
       canShowColumn,
       getStatusLabel,
-      addRoutingSlip
+      addRoutingSlip,
+      searchParamsPrecent,
+      clearFilter
     }
   },
   components: {
@@ -318,8 +339,11 @@ export default class Search extends Vue {
 // style to match design, small inputs intable
 .header-row-2 {
   th {
-    padding: 4px 3px 10px 3px;
+    padding: 18px 3px 18px 3px;
     border-bottom: thin solid rgba(0, 0, 0, 0.12);
+  }
+  th:first-child{
+    padding-left: 14px;
   }
   .v-label,
   .v-input {
