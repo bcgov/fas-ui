@@ -16,30 +16,7 @@
               at porttitor sem.
             </p>
           </div>
-          <v-row class="d-flex flex-row justify-space-between align-center">
-            <v-col cols="4">
-              <v-btn
-                class="font-weight-bold"
-                large
-                dark
-                color="primary"
-                @click="addRoutingSlip"
-                v-can:fas_create.hide
-              >
-                <v-icon dark small class="mr-2 font-weight-bold">
-                  mdi-plus
-                </v-icon>
-                Add New Routing Slip
-              </v-btn>
-            </v-col>
-            <v-col cols="4">
-              <search-column-filter-component
-                hide-details>
-              </search-column-filter-component>
-            </v-col>
-          </v-row>
         </header>
-
         <div>
           <Search />
         </div>
@@ -51,19 +28,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import Search from '@/components/Dashboard/Search.vue'
-import SearchColumnFilterComponent from '@/components/common/SearchColumnFilterComponent.vue'
-import { useDashboard } from '@/composables/Dashboard'
 
 @Component({
   components: {
-    Search,
-    SearchColumnFilterComponent
-  },
-  setup (_, context) {
-    const { addRoutingSlip } = useDashboard(_, context)
-    return {
-      addRoutingSlip
-    }
+    Search
   }
 })
 export default class Dashboard extends Vue {}

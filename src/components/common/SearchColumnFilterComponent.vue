@@ -37,64 +37,6 @@ import { Component, Prop } from 'vue-property-decorator'
 import Vue from 'vue'
 import { useSearchColumnFilterComponent } from '@/composables/common'
 
-const headerSearch = [
-  {
-    text: 'Routing Slip Number',
-    align: 'start',
-    value: 'routingSlipNumber',
-    display: true
-  },
-  {
-    text: 'Receipt Number',
-    align: 'start',
-    sortable: false,
-    value: 'receiptNumber',
-    display: true
-  },
-  {
-    text: 'Date',
-    align: 'start',
-    sortable: false,
-    value: 'date',
-    display: true
-  },
-  {
-    text: 'Status',
-    align: 'start',
-    sortable: false,
-    value: 'status',
-    display: true
-  },
-  {
-    text: 'Folio Number',
-    align: 'start',
-    value: 'folioNumber',
-    sortable: false,
-    display: true
-  },
-  {
-    text: 'Initiator',
-    align: 'start',
-    value: 'initiator',
-    sortable: false,
-    display: true
-  },
-  {
-    text: 'Total Amount',
-    align: 'start',
-    value: 'total',
-    sortable: false,
-    display: true
-  },
-  {
-    text: 'Actions',
-    align: 'start',
-    value: '',
-    sortable: false,
-    display: true
-  }
-]
-
 @Component({
   setup (props, context) {
     const { selectedHeaderSearchList } = useSearchColumnFilterComponent(props, context)
@@ -104,6 +46,6 @@ const headerSearch = [
   }
 })
 export default class SearchColumnFilterComponent extends Vue {
-  @Prop({ default: () => headerSearch }) value: any[]
+  @Prop({ default: () => [] }) value: any[]
 }
 </script>

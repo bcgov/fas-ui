@@ -1,4 +1,28 @@
 <template>
+<v-container class="view-container">
+  <v-row class="d-flex flex-row justify-space-between align-center">
+  <v-col cols="4">
+    <v-btn
+      class="font-weight-bold"
+      large
+      dark
+      color="primary"
+      @click="addRoutingSlip"
+      v-can:fas_create.hide
+    >
+      <v-icon dark small class="mr-2 font-weight-bold">
+        mdi-plus
+      </v-icon>
+      Add New Routing Slip
+    </v-btn>
+  </v-col>
+  <v-col cols="4">
+    <search-column-filter-component
+      v-model="headerSearch"
+      hide-details>
+    </search-column-filter-component>
+  </v-col>
+  </v-row>
   <v-row>
     <v-col>
       <div class="header-bg-color d-flex align-center py-5 mb-0 mt-10">
@@ -26,7 +50,7 @@
                   <thead class="v-data-table-header">
                     <tr class="header-row-1">
                       <th
-                        v-for="(header, i) in headerToShow"
+                        v-for="(header, i) in displayedHeaderSearch"
                         :scope="i"
                         :key="'find-header-' + i"
                         :class="header.value !== '' ? 'text-start' : 'text-end'"
@@ -184,20 +208,24 @@
       </v-form>
     </v-col>
   </v-row>
+</v-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { useSearch } from '@/composables/Dashboard/useSearch'
 import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
+import SearchColumnFilterComponent from '@/components/common/SearchColumnFilterComponent.vue'
 import statusListComponent from '@/components/common/StatusList.vue'
 import commonUtil from '@/util/common-util'
+import { useDashboard } from '@/composables/Dashboard'
 
 @Component({
-  setup () {
+  setup (_, context) {
+    const { addRoutingSlip } = useDashboard(_, context)
     const {
       headerSearch,
-      headerToShow,
+      displayedHeaderSearch,
       currentStatus,
       routingSlipNumber,
       receiptNumber,
@@ -214,7 +242,7 @@ import commonUtil from '@/util/common-util'
     } = useSearch()
     return {
       headerSearch,
-      headerToShow,
+      displayedHeaderSearch,
       currentStatus,
       routingSlipNumber,
       receiptNumber,
@@ -227,11 +255,13 @@ import commonUtil from '@/util/common-util'
       headerToDisplay,
       searchNow,
       canShowColum,
-      getStatusLabel
+      getStatusLabel,
+      addRoutingSlip
     }
   },
   components: {
     DateRangeFilter,
+    SearchColumnFilterComponent,
     statusList: statusListComponent
   }
 })

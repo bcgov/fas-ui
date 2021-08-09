@@ -1,4 +1,5 @@
-import { computed, reactive, ref } from '@vue/composition-api'
+import { computed, reactive, ref, watch } from '@vue/composition-api'
+
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { useStatusList } from '@/composables/common/useStatusList'
 
@@ -18,7 +19,7 @@ export function useSearch () {
   ])
 
   const { statusLabel } = useStatusList(reactive({ value: '' }), {})
-  const headerSearch = [
+  const headerSearch = ref<any[]>([
     {
       text: 'Routing Slip Number',
       align: 'start',
@@ -74,21 +75,33 @@ export function useSearch () {
       sortable: false,
       display: true
     }
-  ]
+  ])
 
-  const headerToShow: any = computed(() => {
+  const displayedHeaderSearch = ref<any[]>([])
+
+  /*   const headerToShow: any = computed(() => {
     const displayed = []
-    for (let i = 0; i < headerSearch.length; i++) {
-      if (headerSearch[i].display) {
-        displayed.push(headerSearch[i])
+    for (let i = 0; i < headerSearchList.length; i++) {
+      if (headerSearchList[i].display) {
+        displayed.push(headerSearchList[i])
       }
     }
     return displayed
-  })
+  }) */
+
+  // watch columntoshow component and update the local object if display = true
+  watch(headerSearch, () => {
+    displayedHeaderSearch.value = []
+    for (let i = 0; i < headerSearch.value.length; i++) {
+      if (headerSearch.value[i].display) {
+        displayedHeaderSearch.value.push(headerSearch.value[i])
+      }
+    }
+  }, { immediate: true, deep: true })
 
   function canShowColum (columnName) {
-    return headerToShow.value.find(header => {
-      return header.value === columnName && header.display
+    return displayedHeaderSearch.value.find(header => {
+      return header.value === columnName
     })
   }
   const headerToDisplay = [
@@ -201,7 +214,7 @@ export function useSearch () {
 
   return {
     headerSearch,
-    headerToShow,
+    displayedHeaderSearch,
     currentStatus,
     routingSlipNumber,
     receiptNumber,
