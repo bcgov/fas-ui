@@ -25,6 +25,16 @@ export default class RoutingSlipModule extends VuexModule {
     return this.routingSlip?.invoices?.length
   }
 
+  public get searchParamsPrecent (): boolean {
+    const params = this.searchRoutingSlipParams
+    for (const key in params) {
+      if (params[key] && params[key] !== '') {
+        return false
+      }
+    }
+    return true
+  }
+
   @Mutation
   public setRoutingSlipDetails (routingSlipDetails: RoutingSlipDetails) {
     this.routingSlipDetails = routingSlipDetails
@@ -153,6 +163,13 @@ export default class RoutingSlipModule extends VuexModule {
     context.commit('setChequePayment', [])
     context.commit('setCashPayment', [])
     context.commit('setIsPaymentMethodCheque', undefined)
+  }
+
+  @Action({ rawError: true })
+  public resetSearchParams (): void {
+    const context: any = this.context
+    context.commit('setSearchRoutingSlipParams', {})
+    context.commit('setSearchRoutingSlipResult', [])
   }
 
   @Action({ commit: 'setSearchRoutingSlipResult', rawError: true })
