@@ -1,7 +1,8 @@
 <template>
   <v-menu
   :close-on-content-click="false"
-  offset-y>
+  offset-y
+  data-test="menu-search-column-filter">
     <template v-slot:activator="{ on }">
       <v-text-field
         label="Columns to Show"

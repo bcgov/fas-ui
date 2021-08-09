@@ -63,9 +63,9 @@
                   <tr class="header-row-2 mt-2">
                     <th
                       scope="routingSlipNumber"
-                      v-if="canShowColum('routingSlipNumber')"
+                      v-if="canShowColumn('routingSlipNumber')"
                     >
-                      <!-- canShowColum {{canShowColum('routingSlipNumber')}} -->
+                      <!-- canShowColumn {{canShowColumn('routingSlipNumber')}} -->
                       <v-text-field
                         id="routingSlipNumber"
                         autocomplete="off"
@@ -81,7 +81,7 @@
 
                     <th
                       scope="receiptNumber"
-                      v-if="canShowColum('receiptNumber')"
+                      v-if="canShowColumn('receiptNumber')"
                     >
                       <v-text-field
                         id="receiptNumber"
@@ -94,7 +94,7 @@
                         hide-details="auto"
                       />
                     </th>
-                    <th scope="date" v-if="canShowColum('date')">
+                    <th scope="date" v-if="canShowColumn('date')">
                       <date-range-filter
                         class="text-input-style"
                         v-model="searchDate"
@@ -103,7 +103,7 @@
                       >
                       </date-range-filter>
                     </th>
-                    <th scope="status" v-if="canShowColum('status')">
+                    <th scope="status" v-if="canShowColumn('status')">
                       <div class="mt-1">
                         <status-list
                           class="text-input-style "
@@ -113,7 +113,7 @@
                         ></status-list>
                       </div>
                     </th>
-                    <th scope="folioNumber" v-if="canShowColum('folioNumber')">
+                    <th scope="folioNumber" v-if="canShowColumn('folioNumber')">
                       <v-text-field
                         id="folioNumber"
                         autocomplete="off"
@@ -125,7 +125,7 @@
                         hide-details="auto"
                       />
                     </th>
-                    <th scope="initiator" v-if="canShowColum('initiator')">
+                    <th scope="initiator" v-if="canShowColumn('initiator')">
                       <v-text-field
                         id="initiator"
                         autocomplete="off"
@@ -137,7 +137,7 @@
                         hide-details="auto"
                       />
                     </th>
-                    <th scope="total" v-if="canShowColum('total')">
+                    <th scope="total" v-if="canShowColumn('total')">
                       <v-text-field
                         id="total"
                         autocomplete="off"
@@ -162,16 +162,16 @@
                 <template v-slot:item="{ item }">
                   <transition name="slide-fade">
                     <tr>
-                      <td v-if="canShowColum('routingSlipNumber')">
+                      <td v-if="canShowColumn('routingSlipNumber')">
                         {{ item.number }}
                       </td>
-                      <td v-if="canShowColum('receiptNumber')">
+                      <td v-if="canShowColumn('receiptNumber')">
                         routingSlipNumber
                       </td>
-                      <td v-if="canShowColum('date')">
+                      <td v-if="canShowColumn('date')">
                         {{ item.routingSlipDate }}
                       </td>
-                      <td v-if="canShowColum('status')">
+                      <td v-if="canShowColumn('status')">
                         <span
                           :class="colors(item.status)"
                           class="font-weight-bold"
@@ -179,14 +179,14 @@
                           >{{ getStatusLabel(item.status) }}</span
                         >
                       </td>
-                      <td v-if="canShowColum('folioNumber')">
+                      <td v-if="canShowColumn('folioNumber')">
                         folio
                       </td>
-                      <td v-if="canShowColum('initiator')">
+                      <td v-if="canShowColumn('initiator')">
                         {{ item.paymentAccount && item.paymentAccount.name }}
                       </td>
                       <td
-                        v-if="canShowColum('total')"
+                        v-if="canShowColumn('total')"
                         class="d-flex justify-end align-center"
                       >
                         <span class="font-weight-bold text-end">
@@ -237,7 +237,7 @@ import { useDashboard } from '@/composables/Dashboard'
       applyDateFilter,
       headerToDisplay,
       searchNow,
-      canShowColum,
+      canShowColumn,
       getStatusLabel
     } = useSearch()
     return {
@@ -254,7 +254,7 @@ import { useDashboard } from '@/composables/Dashboard'
       applyDateFilter,
       headerToDisplay,
       searchNow,
-      canShowColum,
+      canShowColumn,
       getStatusLabel,
       addRoutingSlip
     }

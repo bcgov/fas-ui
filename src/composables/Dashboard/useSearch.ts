@@ -99,7 +99,7 @@ export function useSearch () {
     }
   }, { immediate: true, deep: true })
 
-  function canShowColum (columnName) {
+  function canShowColumn (columnName) {
     return displayedHeaderSearch.value.find(header => {
       return header.value === columnName
     })
@@ -222,7 +222,7 @@ export function useSearch () {
     folioNumber,
     initiator,
     totalAmount,
-    canShowColum,
+    canShowColumn,
     applyDateFilter,
     searchNow,
     searchRoutingSlipResult,
