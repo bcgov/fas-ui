@@ -245,7 +245,7 @@ export function useSearch () {
     applyDateFilter,
     searchNow,
     searchRoutingSlipResult,
-    headerToDisplay,
+
     getStatusLabel,
     searchParamsPrecent,
     clearFilter,
