@@ -28,10 +28,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import Search from '@/components/Dashboard/Search.vue'
+import can from '@/directives/can'
 
 @Component({
   components: {
     Search
+  },
+  directives: {
+    can
   }
 })
 export default class Dashboard extends Vue {}

@@ -94,11 +94,15 @@ import {
   CreateRoutingSlipCashPayment,
   CreateRoutingSlipChequePayment
 } from '@/components/RoutingSlip'
+import can from '@/directives/can'
 
 @Component({
   components: {
     CreateRoutingSlipCashPayment,
     CreateRoutingSlipChequePayment
+  },
+  directives: {
+    can
   },
   setup () {
     const {
