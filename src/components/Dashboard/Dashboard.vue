@@ -45,10 +45,14 @@
 import { Component, Vue } from 'vue-property-decorator'
 import Search from '@/components/Dashboard/Search.vue'
 import { useDashboard } from '@/composables/Dashboard'
+import can from '@/directives/can'
 
 @Component({
   components: {
     Search
+  },
+  directives: {
+    can
   },
   setup (_, context) {
     const { addRoutingSlip } = useDashboard(_, context)
