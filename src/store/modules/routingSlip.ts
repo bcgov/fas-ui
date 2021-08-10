@@ -177,13 +177,23 @@ export default class RoutingSlipModule extends VuexModule {
     const context: any = this.context
     // // build the RoutingSlip Request JSON object that needs to be sent.
     const searchRoutingSlipParams = { ...context.state.searchRoutingSlipParams }
-    // API call comes here
+    // formatting as per API
+    if (searchRoutingSlipParams.dateFilter) {
+      searchRoutingSlipParams.dateFilter = {
+        startDate: searchRoutingSlipParams.dateFilter[0],
+        endDate: searchRoutingSlipParams.dateFilter[1]
+      }
+    }
 
+    // check for error handling
+    if (searchRoutingSlipParams.status) {
+      searchRoutingSlipParams.status = searchRoutingSlipParams.status.code
+    }
     const response = await RoutingSlipService.getSearchRoutingSlip(
       searchRoutingSlipParams
     )
     if (response && response.data && response.status === 200) {
-      return response.data
+      return response.data?.items
     }
   }
 }

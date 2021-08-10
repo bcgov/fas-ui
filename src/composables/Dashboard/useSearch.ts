@@ -8,7 +8,10 @@ const { useActions, useState, useMutations, useGetters } = routingSlipModule
 
 export function useSearch () {
   // vuex action and state
-  const { searchRoutingSlip, resetSearchParams } = useActions(['searchRoutingSlip', 'resetSearchParams'])
+  const { searchRoutingSlip, resetSearchParams } = useActions([
+    'searchRoutingSlip',
+    'resetSearchParams'
+  ])
   const { searchRoutingSlipParams, searchRoutingSlipResult } = useState([
     'searchRoutingSlipParams',
     'searchRoutingSlipResult'
@@ -92,14 +95,18 @@ export function useSearch () {
   }) */
 
   // watch columntoshow component and update the local object if display = true
-  watch(headerSearch, () => {
-    displayedHeaderSearch.value = []
-    for (let i = 0; i < headerSearch.value.length; i++) {
-      if (headerSearch.value[i].display) {
-        displayedHeaderSearch.value.push(headerSearch.value[i])
+  watch(
+    headerSearch,
+    () => {
+      displayedHeaderSearch.value = []
+      for (let i = 0; i < headerSearch.value.length; i++) {
+        if (headerSearch.value[i].display) {
+          displayedHeaderSearch.value.push(headerSearch.value[i])
+        }
       }
-    }
-  }, { immediate: true, deep: true })
+    },
+    { immediate: true, deep: true }
+  )
 
   function canShowColumn (columnName) {
     return displayedHeaderSearch.value.find(header => {
@@ -141,14 +148,14 @@ export function useSearch () {
     }
   })
 
-  const currentStatus: any = computed({
+  const status: any = computed({
     get: () => {
-      return searchRoutingSlipParams.value.currentStatus || ''
+      return searchRoutingSlipParams.value.status || ''
     },
     set: (modalValue: any) => {
       setSearchRoutingSlipParams({
         ...searchRoutingSlipParams.value,
-        currentStatus: modalValue
+        status: modalValue
       })
     }
   })
@@ -189,20 +196,22 @@ export function useSearch () {
     }
   })
 
-  const searchDate: any = computed({
+  const dateFilter: any = computed({
     get: () => {
-      return searchRoutingSlipParams.value.searchDate || []
+      return searchRoutingSlipParams.value.dateFilter || []
     },
     set: (modalValue: any) => {
       setSearchRoutingSlipParams({
         ...searchRoutingSlipParams.value,
-        searchDate: modalValue
+        dateFilter: modalValue
       })
     }
   })
 
+  const showExpandedFolio = ref(false)
+
   function applyDateFilter (dateRangeObj) {
-    searchDate.value = dateRangeObj
+    dateFilter.value = dateRangeObj
   }
 
   function searchNow () {
@@ -218,13 +227,25 @@ export function useSearch () {
     resetSearchParams()
   }
 
+  function formatFolioResult (routingSlip) {
+    if (folioNumber.value && folioNumber.value !== '') {
+      //  TODO fix change on key up
+      return [folioNumber.value]
+    }
+    const { invoices } = routingSlip
+    //  TODO fix toggling
+    return invoices
+      .filter(invoice => invoice.folioNumber)
+      .map(value => value.folioNumber)
+  }
+
   return {
     headerSearch,
     displayedHeaderSearch,
-    currentStatus,
+    status,
     routingSlipNumber,
     receiptNumber,
-    searchDate,
+    dateFilter,
     folioNumber,
     initiator,
     totalAmount,
@@ -235,6 +256,8 @@ export function useSearch () {
     headerToDisplay,
     getStatusLabel,
     searchParamsPrecent,
-    clearFilter
+    clearFilter,
+    formatFolioResult,
+    showExpandedFolio
   }
 }

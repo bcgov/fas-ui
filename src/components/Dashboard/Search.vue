@@ -1,6 +1,9 @@
 <template>
   <v-container class="view-container">
-    <v-row class="d-flex flex-row justify-space-between align-center">
+    <v-row
+      class="d-flex flex-row justify-space-between align-center"
+      no-gutters
+    >
       <v-col cols="4">
         <v-btn
           class="font-weight-bold"
@@ -21,7 +24,7 @@
         </search-column-filter-component>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="mt-0">
       <v-col>
         <div class="header-bg-color d-flex align-center py-5 mb-0 ">
           <v-icon color="primary" class="ml-5">
@@ -98,7 +101,7 @@
                       <th scope="date" v-if="canShowColumn('date')">
                         <date-range-filter
                           class="text-input-style"
-                          v-model="searchDate"
+                          v-model="dateFilter"
                           @applied="searchNow()"
                           hide-details="auto"
                         >
@@ -108,7 +111,7 @@
                         <div class="mt-1">
                           <status-list
                             class="text-input-style "
-                            v-model="currentStatus"
+                            v-model="status"
                             @change="searchNow()"
                             hide-details="auto"
                           ></status-list>
@@ -173,12 +176,14 @@
                           {{ item.number }}
                         </td>
                         <td v-if="canShowColumn('receiptNumber')">
+                          <!-- if cash show number else - -->
                           {{
-                            item.invoices &&
-                              item.invoices[0] &&
-                              item.invoices[0].receipts &&
-                              item.invoices[0].receipts[0] &&
-                              item.invoices[0].receipts[0].receiptNumber
+                            item.paymentAccount &&
+                            item.paymentAccount.paymentMethod === 'CASH'
+                              ? item.payments &&
+                                item.payments[0] &&
+                                item.payments[0].receiptNumber
+                              : '-'
                           }}
                         </td>
                         <td v-if="canShowColumn('date')">
@@ -193,10 +198,49 @@
                           >
                         </td>
                         <td v-if="canShowColumn('folioNumber')">
-                          folio
+                          <span
+                            v-if="
+                              formatFolioResult(item).length > 0 &&
+                                !showExpandedFolio
+                            "
+                          >
+                            {{ formatFolioResult(item)[0] }}
+                            <v-icon
+                              small
+                              @click="showExpandedFolio = !showExpandedFolio"
+                              v-if="formatFolioResult(item).length > 1"
+                              color="primary"
+                            >
+                              mdi-menu-down</v-icon
+                            ></span
+                          >
+
+                          <template v-if="showExpandedFolio">
+                            <div
+                              v-for="(folio, index) in formatFolioResult(item)"
+                              :key="index"
+                            >
+                              <span>
+                                {{ folio }}
+                                <v-icon
+                                  small
+                                  @click="
+                                    showExpandedFolio = !showExpandedFolio
+                                  "
+                                  v-if="index === 0"
+                                  color="primary"
+                                >
+                                  mdi-menu-up</v-icon
+                                ></span
+                              >
+                            </div>
+                          </template>
                         </td>
                         <td v-if="canShowColumn('initiator')">
-                          {{ item.paymentAccount && item.paymentAccount.name }}
+                          {{
+                            item.paymentAccount &&
+                              item.paymentAccount.accountName
+                          }}
                         </td>
                         <td
                           v-if="canShowColumn('total')"
@@ -243,10 +287,10 @@ import { useDashboard } from '@/composables/Dashboard'
     const {
       headerSearch,
       displayedHeaderSearch,
-      currentStatus,
+      status,
       routingSlipNumber,
       receiptNumber,
-      searchDate,
+      dateFilter,
       folioNumber,
       initiator,
       totalAmount,
@@ -257,15 +301,17 @@ import { useDashboard } from '@/composables/Dashboard'
       canShowColumn,
       getStatusLabel,
       searchParamsPrecent,
-      clearFilter
+      clearFilter,
+      formatFolioResult,
+      showExpandedFolio
     } = useSearch()
     return {
       headerSearch,
       displayedHeaderSearch,
-      currentStatus,
+      status,
       routingSlipNumber,
       receiptNumber,
-      searchDate,
+      dateFilter,
       folioNumber,
       initiator,
       totalAmount,
@@ -277,7 +323,9 @@ import { useDashboard } from '@/composables/Dashboard'
       getStatusLabel,
       addRoutingSlip,
       searchParamsPrecent,
-      clearFilter
+      clearFilter,
+      formatFolioResult,
+      showExpandedFolio
     }
   },
   components: {
@@ -342,7 +390,7 @@ export default class Search extends Vue {
     padding: 18px 3px 18px 3px;
     border-bottom: thin solid rgba(0, 0, 0, 0.12);
   }
-  th:first-child{
+  th:first-child {
     padding-left: 14px;
   }
   .v-label,

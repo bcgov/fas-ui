@@ -30,12 +30,11 @@ export default class RoutingSlip {
   }
 
   public static async getSearchRoutingSlip (
-    searchRoutingSlipParams: string,
+    searchParams: RoutingSlip,
     showGlobalLoader: boolean = false
   ): Promise<AxiosResponse> {
-    // change according to API
-    return axios.get(
-      `${ConfigHelper.getFasAPIURL()}/routing-slips/${searchRoutingSlipParams}`, { showGlobalLoader: showGlobalLoader }
+    return axios.post(
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/queries`, searchParams, { showGlobalLoader: showGlobalLoader }
     )
   }
 }
