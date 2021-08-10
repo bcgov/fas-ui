@@ -28,10 +28,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import TransactionDataTable from './TransactionDataTable.vue'
+import can from '@/directives/can'
 
 @Component({
   components: {
     TransactionDataTable
+  },
+  directives: {
+    can
   }
 })
 export default class RoutingSlipTransaction extends Vue {}

@@ -106,10 +106,14 @@ import { Component, Vue } from 'vue-property-decorator'
 import commonUtil from '@/util/common-util'
 import { useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
 import statusList from '@/components/common/StatusList.vue'
+import can from '@/directives/can'
 
 @Component({
   components: {
     statusList
+  },
+  directives: {
+    can
   },
   setup (props) {
     const {
