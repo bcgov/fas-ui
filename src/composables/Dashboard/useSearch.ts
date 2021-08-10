@@ -75,7 +75,8 @@ export function useSearch () {
       align: 'start',
       value: '',
       sortable: false,
-      display: true
+      display: true,
+      hideInSearchColumnFilter: true
     }
   ])
 
