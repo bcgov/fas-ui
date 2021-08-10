@@ -54,7 +54,10 @@ describe('Search.vue', () => {
     const wrapper = shallowMount(Search, {
       store,
       localVue,
-      vuetify
+      vuetify,
+      directives: {
+        can () { /* stub */ }
+      }
     })
     expect(wrapper.find('h4').exists()).toBeTruthy()
     expect(wrapper.find('h4').text()).toBe('Recent Routing Slip')
@@ -71,6 +74,9 @@ describe('Search.vue', () => {
         DateRangeFilter: MyStub,
         SearchColumnFilterComponent: MyStub,
         statusList: MyStub
+      },
+      directives: {
+        can () { /* stub */ }
       }
     })
     expect(wrapper.vm.headerSearch).toStrictEqual(headerSearch)

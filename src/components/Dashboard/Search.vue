@@ -280,6 +280,7 @@ import SearchColumnFilterComponent from '@/components/common/SearchColumnFilterC
 import statusListComponent from '@/components/common/StatusList.vue'
 import commonUtil from '@/util/common-util'
 import { useDashboard } from '@/composables/Dashboard'
+import can from '@/directives/can'
 
 @Component({
   setup (_, context) {
@@ -332,6 +333,9 @@ import { useDashboard } from '@/composables/Dashboard'
     DateRangeFilter,
     SearchColumnFilterComponent,
     statusList: statusListComponent
+  },
+  directives: {
+    can
   }
 })
 export default class Search extends Vue {

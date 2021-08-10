@@ -1,8 +1,8 @@
-import { shallowMount } from '@vue/test-utils'
 import { Dashboard } from '@/components/Dashboard'
+import { shallowMount } from '@vue/test-utils'
 
 describe('Dashboard.vue', () => {
-  xit('renders props.msg when passed', () => {
+  it('renders props.msg when passed', () => {
     const msg = 'new message'
     const wrapper = shallowMount(Dashboard, {
 

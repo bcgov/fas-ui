@@ -52,7 +52,8 @@ export const headerSearch = [
     align: 'start',
     value: '',
     sortable: false,
-    display: true
+    display: true,
+    hideInSearchColumnFilter: true
   }
 ]
 
@@ -110,6 +111,7 @@ export const updatedHeaderSearch = [
     align: 'start',
     value: '',
     sortable: false,
-    display: true
+    display: true,
+    hideInSearchColumnFilter: true
   }
 ]

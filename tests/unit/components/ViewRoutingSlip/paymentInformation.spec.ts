@@ -45,7 +45,7 @@ describe('PaymentInformation.vue', () => {
     jest.clearAllMocks()
   })
 
-  xit('renders component', () => {
+  it('renders component', () => {
     const wrapper = mount(PaymentInformation, {
       store,
       localVue,
@@ -53,13 +53,16 @@ describe('PaymentInformation.vue', () => {
       stubs: {
         CreateRoutingSlipCashPayment: MyStub,
         CreateRoutingSlipChequePayment: MyStub
+      },
+      directives: {
+        can () { /* stub */ }
       }
     })
     expect(wrapper.find('[data-test="title"]').text()).toBe('02.Payment Information')
     expect(wrapper.find('[data-test="btn-add-fund"]').exists()).toBeTruthy()
     expect(wrapper.find('[data-test="btn-view-payment-information"]').exists()).toBeTruthy()
   })
-  xit('populates correct value', () => {
+  it('populates correct value', () => {
     const wrapper = mount(PaymentInformation, {
       store,
       localVue,
@@ -67,13 +70,16 @@ describe('PaymentInformation.vue', () => {
       stubs: {
         CreateRoutingSlipCashPayment: MyStub,
         CreateRoutingSlipChequePayment: MyStub
+      },
+      directives: {
+        can () { /* stub */ }
       }
     })
     expect(wrapper.find('[data-test="total"]').text()).toBe('$12345.00')
     expect(wrapper.find('[data-test="remaining-amount"]').text()).toBe('$123.00')
   })
 
-  xit('renders cheque child properly', async () => {
+  it('renders cheque child properly', async () => {
     const wrapper: any = mount(PaymentInformation, {
       store,
       localVue,
@@ -81,6 +87,9 @@ describe('PaymentInformation.vue', () => {
       stubs: {
         CreateRoutingSlipCashPayment: MyStub,
         CreateRoutingSlipChequePayment: MyStub
+      },
+      directives: {
+        can () { /* stub */ }
       }
     })
     expect(wrapper.vm.isExpanded).toBeFalsy()
@@ -92,7 +101,7 @@ describe('PaymentInformation.vue', () => {
     expect(wrapper.find('[data-test="ref-create-routing-slip-cash-payment"]').exists()).toBeFalsy()
   })
 
-  xit('renders cash child properly', async () => {
+  it('renders cash child properly', async () => {
     const routingSlipModule = {
       namespaced: true,
       state: {
@@ -110,6 +119,9 @@ describe('PaymentInformation.vue', () => {
       mutations: {
         setChequePayment: jest.fn(),
         setCashPayment: jest.fn()
+      },
+      directives: {
+        can () { /* stub */ }
       }
     }
 
@@ -126,6 +138,9 @@ describe('PaymentInformation.vue', () => {
       stubs: {
         CreateRoutingSlipCashPayment: MyStub,
         CreateRoutingSlipChequePayment: MyStub
+      },
+      directives: {
+        can () { /* stub */ }
       }
     })
     expect(wrapper.vm.isExpanded).toBeFalsy()
