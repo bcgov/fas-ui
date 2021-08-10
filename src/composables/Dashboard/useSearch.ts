@@ -114,15 +114,6 @@ export function useSearch () {
       return header.value === columnName
     })
   }
-  const headerToDisplay = [
-    'routingSlipNumber',
-    'receiptNumber',
-    'date',
-    'status',
-    'folioNumber',
-    'initiator',
-    'total'
-  ]
 
   // using same v-model value for getting value and update parent on change
   const routingSlipNumber: any = computed({
