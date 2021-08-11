@@ -83,6 +83,10 @@ export function useSearch () {
     }
   ])
 
+  const showExpandedFolio = ref([])
+  // to make sure not updating result on keyup
+  const searchParamsChanged = ref(false)
+
   const displayedHeaderSearch = ref<any[]>([])
 
   /*   const headerToShow: any = computed(() => {
@@ -125,6 +129,7 @@ export function useSearch () {
         ...searchRoutingSlipParams.value,
         routingSlipNumber: modalValue
       })
+      searchParamsChanged.value = true
     }
   })
 
@@ -137,6 +142,7 @@ export function useSearch () {
         ...searchRoutingSlipParams.value,
         receiptNumber: modalValue
       })
+      searchParamsChanged.value = true
     }
   })
 
@@ -149,6 +155,7 @@ export function useSearch () {
         ...searchRoutingSlipParams.value,
         status: modalValue
       })
+      searchParamsChanged.value = true
     }
   })
 
@@ -161,6 +168,7 @@ export function useSearch () {
         ...searchRoutingSlipParams.value,
         folioNumber: modalValue
       })
+      searchParamsChanged.value = true
     }
   })
 
@@ -173,6 +181,7 @@ export function useSearch () {
         ...searchRoutingSlipParams.value,
         initiator: modalValue
       })
+      searchParamsChanged.value = true
     }
   })
 
@@ -185,6 +194,7 @@ export function useSearch () {
         ...searchRoutingSlipParams.value,
         totalAmount: modalValue
       })
+      searchParamsChanged.value = true
     }
   })
 
@@ -197,10 +207,9 @@ export function useSearch () {
         ...searchRoutingSlipParams.value,
         dateFilter: modalValue
       })
+      searchParamsChanged.value = true
     }
   })
-
-  const showExpandedFolio = ref(false)
 
   function applyDateFilter (dateRangeObj) {
     dateFilter.value = dateRangeObj
@@ -208,6 +217,7 @@ export function useSearch () {
 
   function searchNow () {
     searchRoutingSlip()
+    searchParamsChanged.value = false
   }
 
   // get label of status
@@ -219,13 +229,28 @@ export function useSearch () {
     resetSearchParams()
   }
 
+  function toggleFolio (id: number) {
+    //  to show and hide multiple folio on click
+    // remove from array if already existing else add to array
+    if (showExpandedFolio.value.includes(id)) {
+      showExpandedFolio.value = showExpandedFolio.value.filter(function (item) {
+        return item !== id
+      })
+    } else {
+      showExpandedFolio.value.push(id)
+    }
+  }
   function formatFolioResult (routingSlip) {
-    if (folioNumber.value && folioNumber.value !== '') {
-      //  TODO fix change on key up
+    // to make sure not updating on keyup
+    if (
+      !searchParamsChanged.value &&
+      folioNumber.value &&
+      folioNumber.value !== ''
+    ) {
       return [folioNumber.value]
     }
     const { invoices } = routingSlip
-    //  TODO fix toggling
+
     return invoices
       .filter(invoice => invoice.folioNumber)
       .map(value => value.folioNumber)
@@ -245,11 +270,11 @@ export function useSearch () {
     applyDateFilter,
     searchNow,
     searchRoutingSlipResult,
-
     getStatusLabel,
     searchParamsPrecent,
     clearFilter,
     formatFolioResult,
-    showExpandedFolio
+    showExpandedFolio,
+    toggleFolio
   }
 }

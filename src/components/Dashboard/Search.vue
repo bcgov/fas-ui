@@ -182,7 +182,7 @@
                             item.paymentAccount.paymentMethod === 'CASH'
                               ? item.payments &&
                                 item.payments[0] &&
-                                item.payments[0].receiptNumber
+                                item.payments[0].chequeReceiptNumber
                               : '-'
                           }}
                         </td>
@@ -201,32 +201,31 @@
                           <span
                             v-if="
                               formatFolioResult(item).length > 0 &&
-                                !showExpandedFolio
+                                !showExpandedFolio.includes(item.id)
                             "
+                            @click="toggleFolio(item.id)"
+                            class="cursor-pointer"
                           >
                             {{ formatFolioResult(item)[0] }}
                             <v-icon
                               small
-                              @click="showExpandedFolio = !showExpandedFolio"
                               v-if="formatFolioResult(item).length > 1"
                               color="primary"
                             >
                               mdi-menu-down</v-icon
                             ></span
                           >
-
-                          <template v-if="showExpandedFolio">
+                          <template v-if="showExpandedFolio.includes(item.id)">
                             <div
                               v-for="(folio, index) in formatFolioResult(item)"
                               :key="index"
+                              @click="index === 0 ? toggleFolio(item.id) : ''"
+                              :class="index === 0 ? 'cursor-pointer' : ''"
                             >
                               <span>
                                 {{ folio }}
                                 <v-icon
                                   small
-                                  @click="
-                                    showExpandedFolio = !showExpandedFolio
-                                  "
                                   v-if="index === 0"
                                   color="primary"
                                 >
@@ -303,7 +302,8 @@ import can from '@/directives/can'
       searchParamsPrecent,
       clearFilter,
       formatFolioResult,
-      showExpandedFolio
+      showExpandedFolio,
+      toggleFolio
     } = useSearch()
     return {
       headerSearch,
@@ -324,7 +324,8 @@ import can from '@/directives/can'
       searchParamsPrecent,
       clearFilter,
       formatFolioResult,
-      showExpandedFolio
+      showExpandedFolio,
+      toggleFolio
     }
   },
   components: {
