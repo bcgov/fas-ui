@@ -47,6 +47,7 @@
                   fixed-header
                   height="40rem"
                   :no-data-text="$t('searchStartMessage')"
+                  :loading="isLoading"
                 >
                   <template v-slot:header="{}">
                     <thead class="v-data-table-header">
@@ -76,7 +77,7 @@
                           class="text-input-style "
                           filled
                           label="Routing Slip Number"
-                          v-model="routingSlipNumber"
+                          v-model.trim="routingSlipNumber"
                           @change="searchNow()"
                           dense
                           hide-details="auto"
@@ -93,7 +94,7 @@
                           class="text-input-style "
                           filled
                           label="Receipt Number"
-                          v-model="receiptNumber"
+                          v-model.trim="receiptNumber"
                           @change="searchNow()"
                           hide-details="auto"
                         />
@@ -139,7 +140,7 @@
                           class="text-input-style "
                           filled
                           label="Initiator"
-                          v-model="initiator"
+                          v-model.trim="initiator"
                           @change="searchNow()"
                           hide-details="auto"
                         />
@@ -151,7 +152,7 @@
                           class="text-input-style "
                           filled
                           label="Total Amount"
-                          v-model="totalAmount"
+                          v-model.trim="totalAmount"
                           @change="searchNow()"
                           hide-details="auto"
                         />
@@ -168,7 +169,6 @@
                       </th>
                     </tr>
                   </template>
-
                   <template v-slot:item="{ item }">
                     <transition name="slide-fade">
                       <tr>
@@ -284,6 +284,7 @@ import can from '@/directives/can'
 @Component({
   setup (_, context) {
     const { addRoutingSlip } = useDashboard(_, context)
+    // const { isThereActiveCalls } = useLoader()
     const {
       headerSearch,
       displayedHeaderSearch,
@@ -303,7 +304,8 @@ import can from '@/directives/can'
       clearFilter,
       formatFolioResult,
       showExpandedFolio,
-      toggleFolio
+      toggleFolio,
+      isLoading
     } = useSearch()
     return {
       headerSearch,
@@ -325,7 +327,8 @@ import can from '@/directives/can'
       clearFilter,
       formatFolioResult,
       showExpandedFolio,
-      toggleFolio
+      toggleFolio,
+      isLoading
     }
   },
   components: {

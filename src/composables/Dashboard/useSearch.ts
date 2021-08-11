@@ -2,6 +2,7 @@ import { computed, reactive, ref, watch } from '@vue/composition-api'
 
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { useStatusList } from '@/composables/common/useStatusList'
+import { useLoader } from '@/composables/common/useLoader'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useActions, useState, useMutations, useGetters } = routingSlipModule
@@ -24,6 +25,7 @@ export function useSearch () {
   const { searchParamsPrecent } = useGetters(['searchParamsPrecent'])
 
   const { statusLabel } = useStatusList(reactive({ value: '' }), {})
+  const { isLoading, toggleLoading } = useLoader()
   const headerSearch = ref<any[]>([
     {
       text: 'Routing Slip Number',
@@ -215,9 +217,11 @@ export function useSearch () {
     dateFilter.value = dateRangeObj
   }
 
-  function searchNow () {
-    searchRoutingSlip()
+  async function searchNow () {
+    toggleLoading()
+    await searchRoutingSlip()
     searchParamsChanged.value = false
+    toggleLoading()
   }
 
   // get label of status
@@ -277,6 +281,7 @@ export function useSearch () {
     clearFilter,
     formatFolioResult,
     showExpandedFolio,
-    toggleFolio
+    toggleFolio,
+    isLoading
   }
 }

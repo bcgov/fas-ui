@@ -8,6 +8,8 @@ import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 import { Payment } from '@/models/Payment'
 import RoutingSlipService from '@/services/routingSlip.services'
 
+import CommonUtils from '@/util/common-util'
+
 @Module({ namespaced: true, stateFactory: true })
 export default class RoutingSlipModule extends VuexModule {
   routingSlipDetails: RoutingSlipDetails = {}
@@ -176,12 +178,16 @@ export default class RoutingSlipModule extends VuexModule {
   public async searchRoutingSlip (): Promise<RoutingSlipDetails[]> {
     const context: any = this.context
     // // build the RoutingSlip Request JSON object that needs to be sent.
-    const searchRoutingSlipParams = { ...context.state.searchRoutingSlipParams }
+
+    let searchRoutingSlipParams = { ...context.state.searchRoutingSlipParams }
+    // filtering and removing all non set values
+    searchRoutingSlipParams = CommonUtils.cleanObject(searchRoutingSlipParams)
+
     // formatting as per API
     if (searchRoutingSlipParams.dateFilter) {
       searchRoutingSlipParams.dateFilter = {
-        startDate: searchRoutingSlipParams.dateFilter[0],
-        endDate: searchRoutingSlipParams.dateFilter[1]
+        startDate: CommonUtils.formatDisplayDate(searchRoutingSlipParams.dateFilter[0], 'MM/DD/YYYY'),
+        endDate: CommonUtils.formatDisplayDate(searchRoutingSlipParams.dateFilter[1], 'MM/DD/YYYY')
       }
     }
 
@@ -189,11 +195,15 @@ export default class RoutingSlipModule extends VuexModule {
     if (searchRoutingSlipParams.status) {
       searchRoutingSlipParams.status = searchRoutingSlipParams.status.code
     }
-    const response = await RoutingSlipService.getSearchRoutingSlip(
-      searchRoutingSlipParams
-    )
-    if (response && response.data && response.status === 200) {
-      return response.data?.items
+
+    if (Object.keys(searchRoutingSlipParams).length > 0) { // need to reset result of there is no search params
+      const response = await RoutingSlipService.getSearchRoutingSlip(
+        searchRoutingSlipParams
+      )
+      if (response && response.data && response.status === 200) {
+        return response.data?.items
+      }
     }
+    return []
   }
 }
