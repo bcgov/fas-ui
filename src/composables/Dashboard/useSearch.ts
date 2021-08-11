@@ -250,10 +250,12 @@ export function useSearch () {
       return [folioNumber.value]
     }
     const { invoices } = routingSlip
-
-    return invoices
-      .filter(invoice => invoice.folioNumber)
-      .map(value => value.folioNumber)
+    if (invoices) {
+      return invoices
+        .filter(invoice => invoice.folioNumber)
+        .map(value => value.folioNumber)
+    }
+    return []
   }
 
   return {
