@@ -259,7 +259,7 @@ export function useSearch () {
         .filter(invoice => invoice.folioNumber)
         .map(value => value.folioNumber)
     }
-    return []
+    return ['-']
   }
 
   return {

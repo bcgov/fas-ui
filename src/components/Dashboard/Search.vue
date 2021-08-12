@@ -169,11 +169,12 @@
                       </th>
                     </tr>
                   </template>
+
                   <template v-slot:item="{ item }">
                     <transition name="slide-fade">
-                      <tr>
+                      <tr v-if="!isLoading">
                         <td v-if="canShowColumn('routingSlipNumber')">
-                          {{ item.number }}
+                          {{ item.number ? item.number : '-' }}
                         </td>
                         <td v-if="canShowColumn('receiptNumber')">
                           <!-- if cash show number else - -->
@@ -187,14 +188,25 @@
                           }}
                         </td>
                         <td v-if="canShowColumn('date')">
-                          {{ item.routingSlipDate }}
+                          {{
+                            item.routingSlipDate
+                              ? formatDisplayDate(
+                                  item.routingSlipDate,
+                                  'MMMM DD, YYYY'
+                                )
+                              : '-'
+                          }}
                         </td>
                         <td v-if="canShowColumn('status')">
                           <span
                             :class="colors(item.status)"
                             class="font-weight-bold"
                             data-test="label-status"
-                            >{{ getStatusLabel(item.status) }}</span
+                            >{{
+                              getStatusLabel(item.status)
+                                ? getStatusLabel(item.status)
+                                : '-'
+                            }}</span
                           >
                         </td>
                         <td v-if="canShowColumn('folioNumber')">
@@ -238,7 +250,9 @@
                         <td v-if="canShowColumn('initiator')">
                           {{
                             item.paymentAccount &&
-                              item.paymentAccount.accountName
+                            item.paymentAccount.accountName
+                              ? item.paymentAccount.accountName
+                              : '-'
                           }}
                         </td>
                         <td
@@ -246,7 +260,11 @@
                           class="d-flex justify-end align-center"
                         >
                           <span class="font-weight-bold text-end">
-                            {{ appendCurrencySymbol(item.total.toFixed(2)) }}
+                            {{
+                              item.total
+                                ? appendCurrencySymbol(item.total.toFixed(2))
+                                : '-'
+                            }}
                           </span>
                         </td>
                         <td>
@@ -277,6 +295,7 @@ import { useSearch } from '@/composables/Dashboard/useSearch'
 import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
 import SearchColumnFilterComponent from '@/components/common/SearchColumnFilterComponent.vue'
 import statusListComponent from '@/components/common/StatusList.vue'
+
 import commonUtil from '@/util/common-util'
 import { useDashboard } from '@/composables/Dashboard'
 import can from '@/directives/can'
@@ -284,7 +303,6 @@ import can from '@/directives/can'
 @Component({
   setup (_, context) {
     const { addRoutingSlip } = useDashboard(_, context)
-    // const { isThereActiveCalls } = useLoader()
     const {
       headerSearch,
       displayedHeaderSearch,
@@ -343,6 +361,7 @@ import can from '@/directives/can'
 export default class Search extends Vue {
   public colors = commonUtil.statusListColor
   public appendCurrencySymbol = commonUtil.appendCurrencySymbol
+  public formatDisplayDate = commonUtil.formatDisplayDate
 }
 </script>
 <style lang="scss" scoped>
