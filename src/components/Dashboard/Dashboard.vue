@@ -4,35 +4,17 @@
       <v-col>
         <header class="view-header flex-column mb-0">
           <h1 class="view-header__title">FAS Staff Dashboard</h1>
-          <p class="mb-10">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at
-            porttitor sem.
+          <p class="mb-15">
+            {{ $t('dashboardSubText') }}
           </p>
-          <div class="d-flex justify-space-between align-center">
-            <div>
-              <h2>Routing Slip Management</h2>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-                at porttitor sem.
-              </p>
-            </div>
-
-            <v-btn
-              class="button-search font-weight-bold"
-              large
-              dark
-              color="primary"
-              @click="addRoutingSlip"
-              v-can:fas_create.hide
-            >
-              <v-icon dark small class="mr-2 font-weight-bold">
-                mdi-plus
-              </v-icon>
-              Add New Routing Slip
-            </v-btn>
+          <div>
+            <!-- <h2>Search for Routing Slip</h2> -->
+            <h2>Search for Routing Slip</h2>
+            <p class="mb-5">
+              {{ $t('searchSubText') }}
+            </p>
           </div>
         </header>
-
         <div>
           <Search />
         </div>
@@ -44,7 +26,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import Search from '@/components/Dashboard/Search.vue'
-import { useDashboard } from '@/composables/Dashboard'
 import can from '@/directives/can'
 
 @Component({
@@ -53,12 +34,6 @@ import can from '@/directives/can'
   },
   directives: {
     can
-  },
-  setup (_, context) {
-    const { addRoutingSlip } = useDashboard(_, context)
-    return {
-      addRoutingSlip
-    }
   }
 })
 export default class Dashboard extends Vue {}

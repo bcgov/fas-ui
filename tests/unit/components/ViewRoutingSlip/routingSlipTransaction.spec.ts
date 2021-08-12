@@ -17,12 +17,15 @@ describe('RoutingSlipTransaction.vue', () => {
     jest.clearAllMocks()
   })
 
-  xit('renders component', () => {
+  it('renders component', () => {
     const wrapper: any = mount(RoutingSlipTransaction, {
       localVue,
       vuetify,
       stubs: {
         TransactionDataTable: MyStub
+      },
+      directives: {
+        can () { /* stub */ }
       }
     })
     expect(wrapper.find('[data-test="title"]').text()).toBe('03.Routing Slip Transaction')

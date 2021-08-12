@@ -1,11 +1,10 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 
 import { RoutingSlipInfo } from '@/components/ViewRoutingSlip'
-import statusList from '@/components/common/StatusList.vue'
-import { routingSlipStatusList } from '../../test-data/mock-code'
-
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
+import { routingSlipStatusList } from '../../test-data/mock-code'
+import statusList from '@/components/common/StatusList.vue'
 
 describe('RoutingSlipInfo.vue', () => {
   const localVue = createLocalVue()
@@ -52,22 +51,27 @@ describe('RoutingSlipInfo.vue', () => {
     jest.clearAllMocks()
   })
 
-  xit('renders component', () => {
+  it('renders component', () => {
     const wrapper = shallowMount(RoutingSlipInfo, {
       store,
       localVue,
-      vuetify
+      vuetify,
+      directives: {
+        can () { /* stub */ }
+      }
     })
     expect(wrapper.find('[data-test="title"]').text()).toBe('01.Routing Slip Information')
     expect(wrapper.find('[data-test="label-status"]').exists()).toBeTruthy()
   })
 
-  xit('On edit click should show status select box', async () => {
+  it('On edit click should show status select box', async () => {
     const wrapper = shallowMount(RoutingSlipInfo, {
       store,
       localVue,
-      vuetify
-
+      vuetify,
+      directives: {
+        can () { /* stub */ }
+      }
     })
 
     expect(wrapper.find('[data-test="label-status"]').exists()).toBeTruthy()

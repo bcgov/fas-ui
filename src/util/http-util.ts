@@ -37,7 +37,7 @@ axios.interceptors.response.use(
       store.commit('indicator/decrementActiveCalls')
     }
     // call has failed in this case. And if the config showGlobalErrorHandling is true, then update store
-    if (error.config.showGlobalErrorHandling && error?.response?.code >= 500) {
+    if (error.config.showGlobalErrorHandling && error?.response?.status >= 500) {
       store.commit('indicator/setHasCallFailed', { hasCallFailed: true })
     }
     return Promise.reject(error)

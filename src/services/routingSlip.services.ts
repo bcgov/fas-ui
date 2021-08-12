@@ -28,4 +28,13 @@ export default class RoutingSlip {
     return axios.patch(
       `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}?action=updateStatus`, { status: code })
   }
+
+  public static async getSearchRoutingSlip (
+    searchParams: RoutingSlip,
+    showGlobalLoader: boolean = false
+  ): Promise<AxiosResponse> {
+    return axios.post(
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/queries`, searchParams, { showGlobalLoader: showGlobalLoader }
+    )
+  }
 }

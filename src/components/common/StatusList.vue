@@ -8,6 +8,8 @@
     return-object
     label="Status"
     data-test="select-status"
+    v-bind="$attrs"
+    v-on="$listeners"
   ></v-select>
 </template>
 
@@ -23,13 +25,10 @@ import { useStatusList } from '@/composables/common'
 
 @Component({
   setup (props, context) {
-    const { routingSlipStatus, currentStatus } = useStatusList(
-      props, context
-    )
+    const { routingSlipStatus, currentStatus } = useStatusList(props, context)
     return {
       routingSlipStatus,
       currentStatus
-
     }
   }
 })

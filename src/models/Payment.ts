@@ -10,4 +10,5 @@ export interface Payment {
     paymentSystem?: string // FAS incase of this app
     receiptNumber?: number
     statusCode?: string
+
 }

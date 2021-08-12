@@ -1,60 +1,272 @@
-import { ref, watch, reactive } from '@vue/composition-api'
+import { computed, reactive, ref, watch } from '@vue/composition-api'
+
+import { createNamespacedHelpers } from 'vuex-composition-helpers'
+import { useStatusList } from '@/composables/common/useStatusList'
+import { useLoader } from '@/composables/common/useLoader'
+
+const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
+const { useActions, useState, useMutations, useGetters } = routingSlipModule
 
 export function useSearch () {
-  // move to API
-  const categoryList = reactive([
-    { name: 'Select a Search Category', value: '' },
-    { name: 'Routing slip #', value: 'Routing slip #' },
-    { name: 'Receipt Number', value: 'Receipt Number' },
-    { name: 'Cheque Number', value: 'Cheque Number' }
+  // vuex action and state
+  const { searchRoutingSlip, resetSearchParams } = useActions([
+    'searchRoutingSlip',
+    'resetSearchParams'
   ])
-  const statusList = reactive([
-    { name: 'Active', value: 'Active' },
-    { name: 'Completed', value: 'Completed' },
-    { name: 'Bounced', value: 'Bounced' },
-    { name: 'Non Sufficient Fund', value: 'Non Sufficient Fund' },
-    { name: 'Refund', value: 'Refund' },
-    { name: 'Last Service', value: 'Last Service' }
+  const { searchRoutingSlipParams, searchRoutingSlipResult } = useState([
+    'searchRoutingSlipParams',
+    'searchRoutingSlipResult'
   ])
 
-  const searchLabel = ref('Select a Search Category First')
+  const { setSearchRoutingSlipParams } = useMutations([
+    'setSearchRoutingSlipParams'
+  ])
 
-  const category = ref('')
-  const searchModal = ref('')
-  const statusModal = ref('')
-  const totalAmount = ref('')
-  const searchDate = ref([])
-  const showAdvanceSearch = ref(false)
-  const selectedDate = ref('')
+  const { searchParamsPrecent } = useGetters(['searchParamsPrecent'])
 
-  // on change of value need to change label
-  watch(category, (newCategory: any) => {
-    if (newCategory.value !== '') {
-      searchLabel.value = `Enter ${newCategory.name}`
-    } else {
-      searchLabel.value = 'Select a Search Category First'
+  const { statusLabel } = useStatusList(reactive({ value: '' }), {})
+  const { isLoading, toggleLoading } = useLoader()
+  const headerSearch = ref<any[]>([
+    {
+      text: 'Routing Slip Number',
+      align: 'start',
+      value: 'routingSlipNumber',
+      display: true
+    },
+    {
+      text: 'Receipt Number',
+      align: 'start',
+      sortable: false,
+      value: 'receiptNumber',
+      display: true
+    },
+    {
+      text: 'Date',
+      align: 'start',
+      sortable: false,
+      value: 'date',
+      display: true
+    },
+    {
+      text: 'Status',
+      align: 'start',
+      sortable: false,
+      value: 'status',
+      display: true
+    },
+    {
+      text: 'Folio Number',
+      align: 'start',
+      value: 'folioNumber',
+      sortable: false,
+      display: true
+    },
+    {
+      text: 'Initiator',
+      align: 'start',
+      value: 'initiator',
+      sortable: false,
+      display: true
+    },
+    {
+      text: 'Total Amount',
+      align: 'right',
+      value: 'total',
+      sortable: false,
+      display: true
+    },
+    {
+      text: 'Actions',
+      align: 'start',
+      value: '',
+      sortable: false,
+      display: true,
+      hideInSearchColumnFilter: true
+    }
+  ])
+
+  const showExpandedFolio = ref([])
+  // to make sure not updating result on keyup
+  const searchParamsChanged = ref(false)
+
+  // columntoshow component and update the local object if display = true
+  const displayedHeaderSearch: any = computed(() => {
+    const displayed = []
+    for (let i = 0; i < headerSearch.value.length; i++) {
+      if (headerSearch.value[i].display) {
+        displayed.push(headerSearch.value[i])
+      }
+    }
+    return displayed
+  })
+
+  function canShowColumn (columnName) {
+    return displayedHeaderSearch.value.find(header => {
+      return header.value === columnName
+    })
+  }
+
+  // using same v-model value for getting value and update parent on change
+  const routingSlipNumber: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value.routingSlipNumber || ''
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        routingSlipNumber: modalValue
+      })
+      searchParamsChanged.value = true
     }
   })
 
-  function toggleAdvanceSearch () {
-    showAdvanceSearch.value = !showAdvanceSearch.value
-  }
+  const receiptNumber: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value.receiptNumber || ''
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        receiptNumber: modalValue
+      })
+      searchParamsChanged.value = true
+    }
+  })
+
+  const status: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value.status || ''
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        status: modalValue
+      })
+      searchParamsChanged.value = true
+    }
+  })
+
+  const folioNumber: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value.folioNumber || ''
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        folioNumber: modalValue
+      })
+      searchParamsChanged.value = true
+    }
+  })
+
+  const initiator: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value.initiator || ''
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        initiator: modalValue
+      })
+      searchParamsChanged.value = true
+    }
+  })
+
+  const totalAmount: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value.totalAmount || ''
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        totalAmount: modalValue
+      })
+      searchParamsChanged.value = true
+    }
+  })
+
+  const dateFilter: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value.dateFilter || []
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        dateFilter: modalValue
+      })
+      searchParamsChanged.value = true
+    }
+  })
+
   function applyDateFilter (dateRangeObj) {
-    searchDate.value = dateRangeObj
+    dateFilter.value = dateRangeObj
+  }
+
+  async function searchNow () {
+    toggleLoading()
+    await searchRoutingSlip()
+    searchParamsChanged.value = false
+    toggleLoading()
+  }
+
+  // get label of status
+  function getStatusLabel (code: string) {
+    return statusLabel(code)
+  }
+
+  function clearFilter () {
+    resetSearchParams()
+  }
+
+  function toggleFolio (id: number) {
+    //  to show and hide multiple folio on click
+    // remove from array if already existing else add to array
+    if (showExpandedFolio.value.includes(id)) {
+      showExpandedFolio.value = showExpandedFolio.value.filter(function (item) {
+        return item !== id
+      })
+    } else {
+      showExpandedFolio.value.push(id)
+    }
+  }
+  function formatFolioResult (routingSlip) {
+    // to make sure not updating on keyup
+    if (
+      !searchParamsChanged.value &&
+      folioNumber.value &&
+      folioNumber.value !== ''
+    ) {
+      return [folioNumber.value]
+    }
+    const { invoices } = routingSlip
+    if (invoices) {
+      return invoices
+        .filter(invoice => invoice.folioNumber)
+        .map(value => value.folioNumber)
+    }
+    return ['-']
   }
 
   return {
-    categoryList,
-    category,
-    searchLabel,
-    searchModal,
-    statusList,
-    statusModal,
+    headerSearch,
+    displayedHeaderSearch,
+    status,
+    routingSlipNumber,
+    receiptNumber,
+    dateFilter,
+    folioNumber,
+    initiator,
     totalAmount,
-    searchDate,
-    showAdvanceSearch,
-    toggleAdvanceSearch,
+    canShowColumn,
     applyDateFilter,
-    selectedDate
+    searchNow,
+    searchRoutingSlipResult,
+    getStatusLabel,
+    searchParamsPrecent,
+    clearFilter,
+    formatFolioResult,
+    showExpandedFolio,
+    toggleFolio,
+    isLoading
   }
 }

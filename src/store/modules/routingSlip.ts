@@ -8,6 +8,8 @@ import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 import { Payment } from '@/models/Payment'
 import RoutingSlipService from '@/services/routingSlip.services'
 
+import CommonUtils from '@/util/common-util'
+
 @Module({ namespaced: true, stateFactory: true })
 export default class RoutingSlipModule extends VuexModule {
   routingSlipDetails: RoutingSlipDetails = {}
@@ -18,8 +20,21 @@ export default class RoutingSlipModule extends VuexModule {
   // default the payment type of routing slip to cheque
   isPaymentMethodCheque: boolean = undefined
 
+  searchRoutingSlipParams: any = {}
+  searchRoutingSlipResult: RoutingSlip[] = []
+
   public get invoiceCount (): number {
     return this.routingSlip?.invoices?.length
+  }
+
+  public get searchParamsPrecent (): boolean {
+    const params = this.searchRoutingSlipParams
+    for (const key in params) {
+      if (params[key] && params[key] !== '') {
+        return false
+      }
+    }
+    return true
   }
 
   @Mutation
@@ -50,6 +65,16 @@ export default class RoutingSlipModule extends VuexModule {
   @Mutation
   public setIsPaymentMethodCheque (isPaymentMethodCheque: boolean) {
     this.isPaymentMethodCheque = isPaymentMethodCheque
+  }
+
+  @Mutation
+  public setSearchRoutingSlipParams (searchRoutingSlip: RoutingSlipDetails) {
+    this.searchRoutingSlipParams = searchRoutingSlip
+  }
+
+  @Mutation
+  public setSearchRoutingSlipResult (searchRoutingSlip: RoutingSlipDetails[]) {
+    this.searchRoutingSlipResult = searchRoutingSlip
   }
 
   @Action({ commit: 'setRoutingSlip', rawError: true })
@@ -112,7 +137,9 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Action({ commit: 'setRoutingSlip', rawError: true })
-  public async updateRoutingSlipStatus (status:any): Promise<RoutingSlipDetails> {
+  public async updateRoutingSlipStatus (
+    status: any
+  ): Promise<RoutingSlipDetails> {
     const context: any = this.context
     const slipNumber = context.state.routingSlip.number
     // update status
@@ -138,5 +165,45 @@ export default class RoutingSlipModule extends VuexModule {
     context.commit('setChequePayment', [])
     context.commit('setCashPayment', [])
     context.commit('setIsPaymentMethodCheque', undefined)
+  }
+
+  @Action({ rawError: true })
+  public resetSearchParams (): void {
+    const context: any = this.context
+    context.commit('setSearchRoutingSlipParams', {})
+    context.commit('setSearchRoutingSlipResult', [])
+  }
+
+  @Action({ commit: 'setSearchRoutingSlipResult', rawError: true })
+  public async searchRoutingSlip (): Promise<RoutingSlipDetails[]> {
+    const context: any = this.context
+    // // build the RoutingSlip Request JSON object that needs to be sent.
+
+    let searchRoutingSlipParams = { ...context.state.searchRoutingSlipParams }
+    // filtering and removing all non set values
+    searchRoutingSlipParams = CommonUtils.cleanObject(searchRoutingSlipParams)
+
+    // formatting as per API
+    if (searchRoutingSlipParams.dateFilter) {
+      searchRoutingSlipParams.dateFilter = {
+        startDate: CommonUtils.formatDisplayDate(searchRoutingSlipParams.dateFilter[0], 'MM/DD/YYYY'),
+        endDate: CommonUtils.formatDisplayDate(searchRoutingSlipParams.dateFilter[1], 'MM/DD/YYYY')
+      }
+    }
+
+    // check for error handling
+    if (searchRoutingSlipParams.status) {
+      searchRoutingSlipParams.status = searchRoutingSlipParams.status.code
+    }
+
+    if (Object.keys(searchRoutingSlipParams).length > 0) { // need to reset result of there is no search params
+      const response = await RoutingSlipService.getSearchRoutingSlip(
+        searchRoutingSlipParams
+      )
+      if (response && response.data && response.status === 200) {
+        return response.data?.items
+      }
+    }
+    return []
   }
 }

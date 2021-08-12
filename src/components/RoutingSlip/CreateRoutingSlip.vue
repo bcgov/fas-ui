@@ -18,8 +18,7 @@
           </div>
           <h1 class="view-header__title pt-3" data-test="title">Add Routing Slip</h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at
-            porttitor sem.
+            {{ $t('createRoutingSlipSubText') }}
           </p>
         </header>
         <div class="header-bg-color d-flex align-center py-5 mb-0 mt-10">

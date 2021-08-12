@@ -48,4 +48,10 @@ export default class CommonUtils {
   static appendCurrencySymbol (currency: number) {
     return '$' + currency
   }
+
+  static cleanObject (obj) {
+    return Object.keys(obj)
+      .filter((k) => obj[k] !== '' && obj[k] !== null)
+      .reduce((a, k) => ({ ...a, [k]: obj[k] }), {})
+  }
 }

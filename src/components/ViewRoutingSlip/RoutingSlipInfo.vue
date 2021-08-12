@@ -2,7 +2,7 @@
   <div>
     <header class="d-flex flex-column mb-0">
       <h3 data-test="title">01.Routing Slip Information</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <p>{{ $t('routingSlipInfoSubText') }}</p>
     </header>
     <v-card class="pl-5 py-2">
       <v-card-text>
@@ -60,7 +60,7 @@
                 Name of Person Submitting
               </v-col>
               <v-col class="col-6 col-sm-9" v-if="routingSlipDetails.paymentAccount && routingSlipDetails.paymentAccount.name">
-                {{ routingSlipDetails.paymentAccount.name }}
+                {{ routingSlipDetails.paymentAccount.accountName }}
               </v-col>
             </v-row>
           </v-col>
