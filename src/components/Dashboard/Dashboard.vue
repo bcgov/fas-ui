@@ -5,15 +5,13 @@
         <header class="view-header flex-column mb-0">
           <h1 class="view-header__title">FAS Staff Dashboard</h1>
           <p class="mb-15">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at
-            porttitor sem.
+            {{ $t('dashboardSubText') }}
           </p>
           <div>
             <!-- <h2>Search for Routing Slip</h2> -->
             <h2>Search for Routing Slip</h2>
             <p class="mb-5">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-              at porttitor sem.
+              {{ $t('searchSubText') }}
             </p>
           </div>
         </header>

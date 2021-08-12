@@ -5,8 +5,7 @@
         <div>
           <h3 data-test="title">02.Payment Information</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at
-            porttitor sem.
+            {{ $t('paymentInformationSubText') }}
           </p>
         </div>
         <v-btn

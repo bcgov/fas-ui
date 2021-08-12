@@ -10,5 +10,11 @@
   "unauthorizedTitle": "Not Authorized",
   "unauthorizedMsg": "You are not authorized to access this page.",
   "errorAlertMessage": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-  "searchStartMessage":"Search with any of the data above at porttitor se to complete your routing slip search."
+  "searchStartMessage":"Search with any of the data above at porttitor se to complete your routing slip search.",
+  "dashboardSubText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+  "searchSubText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+  "createRoutingSlipSubText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+  "routingSlipTransactionSubText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+  "routingSlipInfoSubText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+  "paymentInformationSubText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
 }
