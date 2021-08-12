@@ -30,7 +30,7 @@
           <v-icon color="primary" class="ml-5">
             mdi-view-list
           </v-icon>
-          <h4 class="ml-2 mb-0 font-weight-bold">Recent Routing Slip</h4>
+          <h4 class="ml-2 mb-0 font-weight-bold">Search Routing Slip</h4>
         </div>
         <v-form>
           <v-row dense class="row-margin">

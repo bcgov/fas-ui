@@ -60,7 +60,7 @@ describe('Search.vue', () => {
       }
     })
     expect(wrapper.find('h4').exists()).toBeTruthy()
-    expect(wrapper.find('h4').text()).toBe('Recent Routing Slip')
+    expect(wrapper.find('h4').text()).toBe('Search Routing Slip')
   })
   it('displayed search header behaviour', async () => {
     const MyStub = {
