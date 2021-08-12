@@ -89,31 +89,16 @@ export function useSearch () {
   // to make sure not updating result on keyup
   const searchParamsChanged = ref(false)
 
-  const displayedHeaderSearch = ref<any[]>([])
-
-  /*   const headerToShow: any = computed(() => {
+  // columntoshow component and update the local object if display = true
+  const displayedHeaderSearch: any = computed(() => {
     const displayed = []
-    for (let i = 0; i < headerSearchList.length; i++) {
-      if (headerSearchList[i].display) {
-        displayed.push(headerSearchList[i])
+    for (let i = 0; i < headerSearch.value.length; i++) {
+      if (headerSearch.value[i].display) {
+        displayed.push(headerSearch.value[i])
       }
     }
     return displayed
-  }) */
-
-  // watch columntoshow component and update the local object if display = true
-  watch(
-    headerSearch,
-    () => {
-      displayedHeaderSearch.value = []
-      for (let i = 0; i < headerSearch.value.length; i++) {
-        if (headerSearch.value[i].display) {
-          displayedHeaderSearch.value.push(headerSearch.value[i])
-        }
-      }
-    },
-    { immediate: true, deep: true }
-  )
+  })
 
   function canShowColumn (columnName) {
     return displayedHeaderSearch.value.find(header => {
