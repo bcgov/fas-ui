@@ -2,7 +2,7 @@
   <div>
     <header class="d-flex flex-column mb-0">
       <h3 data-test="title">01.Routing Slip Information</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <p>{{ $t('routingSlipInfoSubText') }}</p>
     </header>
     <v-card class="pl-5 py-2">
       <v-card-text>

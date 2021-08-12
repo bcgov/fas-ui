@@ -5,8 +5,7 @@
         <div>
           <h3 data-test="title">03.Routing Slip Transaction</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at
-            porttitor sem.
+            {{ $t('routingSlipTransactionSubText') }}
           </p>
         </div>
         <v-btn
