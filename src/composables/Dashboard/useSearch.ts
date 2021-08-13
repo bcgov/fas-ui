@@ -22,7 +22,7 @@ export function useSearch () {
     'setSearchRoutingSlipParams'
   ])
 
-  const { searchParamsPrecent } = useGetters(['searchParamsPrecent'])
+  const { searchParamsExist } = useGetters(['searchParamsExist'])
 
   const { statusLabel } = useStatusList(reactive({ value: '' }), {})
   const { isLoading, toggleLoading } = useLoader()
@@ -262,7 +262,7 @@ export function useSearch () {
     searchNow,
     searchRoutingSlipResult,
     getStatusLabel,
-    searchParamsPrecent,
+    searchParamsExist,
     clearFilter,
     formatFolioResult,
     showExpandedFolio,

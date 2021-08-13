@@ -27,7 +27,7 @@ export default class RoutingSlipModule extends VuexModule {
     return this.routingSlip?.invoices?.length
   }
 
-  public get searchParamsPrecent (): boolean {
+  public get searchParamsExist (): boolean {
     const params = this.searchRoutingSlipParams
     for (const key in params) {
       if (params[key] && params[key] !== '') {

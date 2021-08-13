@@ -7,18 +7,24 @@
     offset-y
     min-width="auto"
   >
-    <template v-slot:activator="{ on }">
+    <template v-slot:activator="{ on: { click } }">
       <!-- UI control that is displayed clicking on which menu is displayed -->
       <v-text-field
         v-model="dateRangeSelectedDisplay"
-        :label="label"
         append-icon="mdi-calendar-range"
         readonly
         v-bind="$attrs"
-        v-on="on"
+        @click="click"
         filled
         data-test="input-date-picker"
-      ></v-text-field>
+        @click:append="click"
+      >
+
+      <v-icon slot="append" color="primary" >
+          mdi-calendar-range
+       </v-icon>
+
+       </v-text-field>
     </template>
     <!-- the menu consists of list of buttons on left and date picker on right -->
     <v-card class="date-range-container d-flex">
@@ -170,5 +176,11 @@ export default class DateRangeFilter extends Vue {
 }
 .date-range-btn {
   min-height: 57px !important;
+}
+</style>
+
+<style lang="scss">
+.v-icon.v-icon.v-icon--link {
+  cursor: pointer !important;
 }
 </style>

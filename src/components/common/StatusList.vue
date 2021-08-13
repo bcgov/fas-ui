@@ -6,7 +6,6 @@
     item-text="description"
     item-value="code"
     return-object
-    label="Status"
     data-test="select-status"
     v-bind="$attrs"
     v-on="$listeners"
@@ -16,7 +15,7 @@
 <script lang="ts">
 /** component for status list.
  * example
- * <status-list v-model="currentStatus" ></status-list>
+ * <status-list v-model="currentStatus" label="Status"></status-list>
  */
 
 import { Component, Prop } from 'vue-property-decorator'
