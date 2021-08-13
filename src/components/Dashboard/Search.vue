@@ -248,12 +248,7 @@
                           </template>
                         </td>
                         <td v-if="canShowColumn('initiator')">
-                          {{
-                            item.paymentAccount &&
-                            item.paymentAccount.accountName
-                              ? item.paymentAccount.accountName
-                              : '-'
-                          }}
+                          {{ item.createdName ? item.createdName : '-' }}
                         </td>
                         <td
                           v-if="canShowColumn('total')"
