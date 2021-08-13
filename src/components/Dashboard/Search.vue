@@ -1,5 +1,5 @@
 <template>
-  <v-container class="view-container">
+  <div>
     <v-row
       class="d-flex flex-row justify-space-between align-center"
       no-gutters
@@ -19,7 +19,7 @@
           Add New Routing Slip
         </v-btn>
       </v-col>
-      <v-col cols="3">
+      <v-col cols="2">
         <search-column-filter-component v-model="headerSearch" hide-details>
         </search-column-filter-component>
       </v-col>
@@ -46,9 +46,20 @@
                   hide-default-footer
                   fixed-header
                   height="40rem"
-                  :no-data-text="$t('searchStartMessage')"
                   :loading="isLoading"
                 >
+                  <template v-slot:no-data>
+                    <div
+                      class="py-8 no-data"
+                      v-html="
+                        $t(
+                          !searchParamsExist
+                            ? 'searchNoResult'
+                            : 'searchStartMessage'
+                        )
+                      "
+                    ></div>
+                  </template>
                   <template v-slot:header="{}">
                     <thead class="v-data-table-header">
                       <tr class="header-row-1">
@@ -76,7 +87,7 @@
                           autocomplete="off"
                           class="text-input-style "
                           filled
-                          label="Routing Slip Number"
+                          placeholder="Routing Slip Number"
                           v-model.trim="routingSlipNumber"
                           @change="searchNow()"
                           dense
@@ -93,7 +104,7 @@
                           autocomplete="off"
                           class="text-input-style "
                           filled
-                          label="Receipt Number"
+                          placeholder="Receipt Number"
                           v-model.trim="receiptNumber"
                           @change="searchNow()"
                           hide-details="auto"
@@ -105,6 +116,7 @@
                           v-model="dateFilter"
                           @applied="searchNow()"
                           hide-details="auto"
+                          placeholder="Date"
                         >
                         </date-range-filter>
                       </th>
@@ -115,6 +127,7 @@
                             v-model="status"
                             @change="searchNow()"
                             hide-details="auto"
+                            placeholder="Status"
                           ></status-list>
                         </div>
                       </th>
@@ -127,7 +140,7 @@
                           autocomplete="off"
                           class="text-input-style "
                           filled
-                          label="Folio Number"
+                          placeholder="Folio Number"
                           v-model="folioNumber"
                           @change="searchNow()"
                           hide-details="auto"
@@ -139,7 +152,7 @@
                           autocomplete="off"
                           class="text-input-style "
                           filled
-                          label="Initiator"
+                          placeholder="Initiator"
                           v-model.trim="initiator"
                           @change="searchNow()"
                           hide-details="auto"
@@ -151,7 +164,7 @@
                           autocomplete="off"
                           class="text-input-style "
                           filled
-                          label="Total Amount"
+                          placeholder="Total Amount"
                           v-model.trim="totalAmount"
                           @change="searchNow()"
                           hide-details="auto"
@@ -160,7 +173,7 @@
                       <th class="action" scope="action">
                         <span
                           class="clear-filter primary--text cursor-pointer"
-                          v-if="!searchParamsPrecent"
+                          v-if="!searchParamsExist"
                           @click="clearFilter"
                           >Clear Filters<v-icon small color="primary"
                             >mdi-close</v-icon
@@ -172,7 +185,7 @@
 
                   <template v-slot:item="{ item }">
                     <transition name="slide-fade">
-                      <tr v-if="!isLoading">
+                      <tr v-if="!isLoading" class="rs-search-result">
                         <td v-if="canShowColumn('routingSlipNumber')">
                           {{ item.number ? item.number : '-' }}
                         </td>
@@ -250,10 +263,7 @@
                         <td v-if="canShowColumn('initiator')">
                           {{ item.createdName ? item.createdName : '-' }}
                         </td>
-                        <td
-                          v-if="canShowColumn('total')"
-                          class="d-flex justify-end align-center"
-                        >
+                        <td v-if="canShowColumn('total')" class="text-right">
                           <span class="font-weight-bold text-end">
                             {{
                               item.total
@@ -281,7 +291,7 @@
         </v-form>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script lang="ts">
@@ -313,7 +323,7 @@ import can from '@/directives/can'
       searchNow,
       canShowColumn,
       getStatusLabel,
-      searchParamsPrecent,
+      searchParamsExist,
       clearFilter,
       formatFolioResult,
       showExpandedFolio,
@@ -336,7 +346,7 @@ import can from '@/directives/can'
       canShowColumn,
       getStatusLabel,
       addRoutingSlip,
-      searchParamsPrecent,
+      searchParamsExist,
       clearFilter,
       formatFolioResult,
       showExpandedFolio,
@@ -403,6 +413,10 @@ export default class Search extends Vue {
 .v-text-field--outlined > .v-input__control > .v-input__slot {
   min-height: 41px !important;
 }
+.no-data {
+  border-bottom: thin solid rgba(0, 0, 0, 0.12);
+  margin: 0px -15px;
+}
 
 // style to match design, small inputs intable
 .header-row-2 {
@@ -415,7 +429,7 @@ export default class Search extends Vue {
   }
   .v-label,
   .v-input {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
   }
   .v-text-field .v-input__control .v-input__slot {
@@ -438,5 +452,8 @@ export default class Search extends Vue {
   .v-text-field--full-width .v-input__prepend-outer {
     margin-top: 10px !important;
   }
+}
+tr.rs-search-result > td {
+  padding: 20px 15px !important;
 }
 </style>

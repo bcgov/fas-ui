@@ -4,11 +4,10 @@
       <v-col>
         <header class="view-header flex-column mb-0">
           <h1 class="view-header__title">FAS Staff Dashboard</h1>
-          <p class="mb-15">
+          <p class="mb-16">
             {{ $t('dashboardSubText') }}
           </p>
           <div>
-            <!-- <h2>Search for Routing Slip</h2> -->
             <h2>Search for Routing Slip</h2>
             <p class="mb-5">
               {{ $t('searchSubText') }}

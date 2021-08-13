@@ -51,7 +51,7 @@
                 Status
               </v-col>
               <v-col class="col-6 col-sm-9 status-list">
-                <status-list v-model="currentStatus"></status-list>
+                <status-list v-model="currentStatus" label="Status"></status-list>
               </v-col>
             </v-row>
 
