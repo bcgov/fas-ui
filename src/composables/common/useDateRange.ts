@@ -17,6 +17,8 @@ export function useDateRange (props, context) {
       context.emit('input', modalValue)
     }
   })
+  // to keep track of old value on cancel rest to this value default value will props passed
+  const oldSelectedRange = ref(value.value)
 
   const dateRangeSelectedDisplay = computed(() => {
     return dateRangeSelected.value.join(' - ')
@@ -167,6 +169,13 @@ export function useDateRange (props, context) {
   function applyDateFilter () {
     // emit applied event so that we can hook to any @change event in parent. By default, v-model with parent variable is in sync all the time
     context.emit('applied', dateRangeSelected)
+    // updating old value on appy click
+    oldSelectedRange.value = dateRangeSelected.value
+    showDateFilter.value = false
+  }
+  function cancelDateFilter () {
+    //  on cancel we need to rest to previous value, which we stored in oldSelectedRange
+    dateRangeSelected.value = oldSelectedRange.value
     showDateFilter.value = false
   }
 
@@ -182,6 +191,7 @@ export function useDateRange (props, context) {
     isApplyFilterBtnValid,
     dateClick,
     applyDateFilter,
-    showDateRangeSelected
+    showDateRangeSelected,
+    cancelDateFilter
   }
 }

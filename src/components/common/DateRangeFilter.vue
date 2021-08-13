@@ -2,7 +2,6 @@
   <v-menu
     v-model="showDateFilter"
     :close-on-content-click="false"
-    :nudge-right="40"
     transition="scale-transition"
     offset-y
     min-width="auto"
@@ -66,7 +65,7 @@
             outlined
             color="primary"
             class="flex-grow-1 ml-2 cancel-btn"
-            @click="showDateFilter = false"
+            @click="cancelDateFilter()"
           >
             Cancel
           </v-btn>
@@ -116,7 +115,8 @@ import { useDateRange } from '@/composables/common'
       isApplyFilterBtnValid,
       dateClick,
       applyDateFilter,
-      showDateRangeSelected
+      showDateRangeSelected,
+      cancelDateFilter
     } = useDateRange(props, context)
     return {
       dateFilterRanges,
@@ -130,7 +130,8 @@ import { useDateRange } from '@/composables/common'
       isApplyFilterBtnValid,
       dateClick,
       applyDateFilter,
-      showDateRangeSelected
+      showDateRangeSelected,
+      cancelDateFilter
     }
   }
 })

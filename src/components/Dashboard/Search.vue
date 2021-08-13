@@ -429,7 +429,7 @@ export default class Search extends Vue {
   }
   .v-label,
   .v-input {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
   }
   .v-text-field .v-input__control .v-input__slot {
