@@ -5,10 +5,9 @@ import {
 } from '@/models/RoutingSlip'
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 
+import CommonUtils from '@/util/common-util'
 import { Payment } from '@/models/Payment'
 import RoutingSlipService from '@/services/routingSlip.services'
-
-import CommonUtils from '@/util/common-util'
 
 @Module({ namespaced: true, stateFactory: true })
 export default class RoutingSlipModule extends VuexModule {
@@ -18,7 +17,7 @@ export default class RoutingSlipModule extends VuexModule {
   cashPayment: Payment = {}
   routingSlip: RoutingSlip = {}
   // default the payment type of routing slip to cheque
-  isPaymentMethodCheque: boolean = undefined
+  isPaymentMethodCheque: boolean = true
 
   searchRoutingSlipParams: any = {}
   searchRoutingSlipResult: RoutingSlip[] = []

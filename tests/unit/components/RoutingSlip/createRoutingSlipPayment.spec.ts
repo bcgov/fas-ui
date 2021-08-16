@@ -17,8 +17,13 @@ describe('CreateRoutingSlipPayment.vue', () => {
   beforeEach(() => {
     const routingSlipModule = {
       namespaced: true,
+      state: {
+        isPaymentMethodCheque: true
+      },
       mutations: {
-        setIsPaymentMethodCheque: jest.fn()
+        setIsPaymentMethodCheque: jest.fn().mockImplementation(() => {
+          routingSlipModule.state.isPaymentMethodCheque = !routingSlipModule.state.isPaymentMethodCheque
+        })
       }
     }
 
