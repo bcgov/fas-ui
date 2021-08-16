@@ -27,6 +27,9 @@
         <payment-information />
       </v-col>
       <v-col cols="12">
+        <link-routing-slip />
+      </v-col>
+      <v-col cols="12">
         <routing-slip-transaction />
       </v-col>
     </v-row>
@@ -35,7 +38,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { PrintRoutingSlip, RoutingSlipInfo, PaymentInformation, RoutingSlipTransaction } from '@/components/ViewRoutingSlip'
+import {
+  PrintRoutingSlip, RoutingSlipInfo, PaymentInformation, RoutingSlipTransaction,
+  LinkRoutingSlip
+} from '@/components/ViewRoutingSlip'
 import { useViewRoutingSlip } from '@/composables/ViewRoutingSlip'
 
 @Component({
@@ -43,7 +49,8 @@ import { useViewRoutingSlip } from '@/composables/ViewRoutingSlip'
     PrintRoutingSlip,
     RoutingSlipInfo,
     PaymentInformation,
-    RoutingSlipTransaction
+    RoutingSlipTransaction,
+    LinkRoutingSlip
   },
   setup (props) {
     useViewRoutingSlip(props)

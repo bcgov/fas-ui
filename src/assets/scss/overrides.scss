@@ -126,3 +126,16 @@ input:-webkit-autofill:active {
 .cursor-pointer{
   cursor: pointer;
 }
+
+
+.small-text-input {
+  .v-text-field--filled .v-label,
+  .v-text-field--full-width .v-label {
+    top: 10px !important;
+    // font-weight: normal;
+  }
+  .v-text-field .v-input__control .v-input__slot {
+    min-height: auto !important;
+    height: 42px !important;
+  }
+}
