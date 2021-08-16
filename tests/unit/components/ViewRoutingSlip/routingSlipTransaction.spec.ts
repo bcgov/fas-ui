@@ -28,6 +28,6 @@ describe('RoutingSlipTransaction.vue', () => {
         can () { /* stub */ }
       }
     })
-    expect(wrapper.find('[data-test="title"]').text()).toBe('03.Routing Slip Transaction')
+    expect(wrapper.find('[data-test="title"]').text()).toBe('04.Routing Slip Transaction')
   })
 })
