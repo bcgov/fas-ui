@@ -9,7 +9,7 @@
           {{ isPaymentMethodCheque ? "Cheque" : "Cash" }}
         </v-col>
       </v-row>
-      <!--- cheque children if payment is cheque, else cash child--->
+      <!--- cheque children if payment is cheque, else cash child --->
       <review-routing-slip-cheque-payment data-test="reviewRoutingSlipChequePayment" v-if="isPaymentMethodCheque" :chequePayment="chequePayment"/>
       <review-routing-slip-cash-payment data-test="reviewRoutingSlipCashPayment" v-else :cashPayment="cashPayment"/>
       <v-row v-if="isPaymentMethodCheque">
