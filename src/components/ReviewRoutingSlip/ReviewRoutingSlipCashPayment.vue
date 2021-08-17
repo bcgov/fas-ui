@@ -7,7 +7,7 @@
       label="Receipt Number"
       persistent-hint
       :value="cashPayment.chequeReceiptNumber"
-      data-test="txtReceiptNumber"
+      data-test="txt-receipt-number"
       >
       </v-text-field>
     </v-col>
@@ -19,7 +19,7 @@
       persistent-hint
       :value="cashPayment.paidAmount"
       type="number"
-      data-test="txtPaidAmount"
+      data-test="txt-paid-amount"
       >
       </v-text-field>
     </v-col>
@@ -35,13 +35,3 @@ export default class ReviewRoutingSlipCashPayment extends Vue {
   @Prop({ default: null }) cashPayment: Payment
 }
 </script>
-<style lang="scss" scoped>
-  .textNumber input[type='number'] {
-    -moz-appearance:textfield;
-  }
-  .textNumber input::-webkit-outer-spin-button,
-  .textNumber input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-</style>

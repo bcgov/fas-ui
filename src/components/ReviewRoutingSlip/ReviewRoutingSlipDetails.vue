@@ -1,40 +1,27 @@
 <template>
-  <v-row no-gutters class="mb-16" v-if="routingSlipDetails">
-    <v-col class="col-12 col-sm-10 ">
-      <v-row>
-        <v-col class="col-6 col-sm-3 font-weight-bold">
-          Routing Slip - Unique ID
-        </v-col>
-        <v-col class="col-6 col-sm-9" data-test="routingSlipNumber">
-          {{ routingSlipDetails.number }}
-        </v-col>
-      </v-row>
-
-      <v-row>
-        <v-col class="col-6 col-sm-3 font-weight-bold">
-          Date
-        </v-col>
-        <v-col class="col-6 col-sm-9" data-test="routingSlipDate">
-          {{ routingSlipDetails.routingSlipDate ?
-            formatDisplayDate(
-              routingSlipDetails.routingSlipDate,
-              'MMMM DD, YYYY'
-            ) : '-'
-          }}
-        </v-col>
-      </v-row>
-
-      <v-row>
-        <v-col class="col-6 col-sm-3 font-weight-bold">
-          Name of Person Submitting
-        </v-col>
-        <v-col class="col-6 col-sm-9" v-if="accountInfo && accountInfo.accountName" data-test="accountName">
-          {{ accountInfo.accountName }}
-        </v-col>
-        <v-col class="col-6 col-sm-9" v-else>
-          -
-        </v-col>
-      </v-row>
+  <v-row class="mb-16" v-if="routingSlipDetails">
+    <v-col class="col-3 font-weight-bold">
+      Routing Slip - Unique ID
+    </v-col>
+    <v-col class="col-9" data-test="txt-routing-slip-number">
+      {{ routingSlipDetails.number }}
+    </v-col>
+    <v-col class="col-3 font-weight-bold">
+      Date
+    </v-col>
+    <v-col class="col-9" data-test="txt-routing-slip-date">
+      {{ routingSlipDetails.routingSlipDate ?
+        formatDisplayDate(
+          routingSlipDetails.routingSlipDate,
+          'MMMM DD, YYYY'
+        ) : '-'
+      }}
+    </v-col>
+    <v-col class="col-3 font-weight-bold">
+      Name of Person Submitting
+    </v-col>
+    <v-col class="col-9" data-test="txt-routing-slip-name">
+      {{ accountInfo && accountInfo.accountName ? accountInfo.accountName : '-' }}
     </v-col>
   </v-row>
 </template>

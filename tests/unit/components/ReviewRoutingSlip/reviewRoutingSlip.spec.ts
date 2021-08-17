@@ -52,8 +52,8 @@ describe('ReviewRoutingSlip.vue', () => {
         ReviewRoutingSlipPayment: MyStub
       }
     })
-    expect(wrapper.find('[data-test="reviewRoutingSlipDetails"]').exists()).toBeTruthy()
-    expect(wrapper.find('[data-test="reviewRoutingSlipPayment"]').exists()).toBeTruthy()
+    expect(wrapper.find('[data-test="review-routing-slip-details"]').exists()).toBeTruthy()
+    expect(wrapper.find('[data-test="review-routing-slip-payment"]').exists()).toBeTruthy()
     expect(wrapper.vm.routingSlipDetails).toStrictEqual(routingSlipDetails)
     expect(wrapper.vm.chequePayment).toStrictEqual(chequePayment)
     expect(wrapper.vm.accountInfo).toStrictEqual(accountInfo)

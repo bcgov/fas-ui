@@ -8,7 +8,7 @@
         label="Receipt Number"
         persistent-hint
         :value="payment.chequeReceiptNumber"
-        :data-test="getIndexedTag('txtChequeReceiptNumber', i)"
+        :data-test="getIndexedTag('txt-cheque-receipt-number', i)"
         >
         </v-text-field>
       </v-col>
@@ -19,7 +19,7 @@
         label="Cheque Date"
         persistent-hint
         :value="payment.paymentDate ? formatDisplayDate(payment.paymentDate, 'MMMM DD, YYYY') : '-'"
-        :data-test="getIndexedTag('txtChequeDate', i)"
+        :data-test="getIndexedTag('txt-cheque-date', i)"
         >
         </v-text-field>
       </v-col>
@@ -31,7 +31,7 @@
         persistent-hint
         :value="payment.paidAmount"
         type="number"
-        :data-test="getIndexedTag('txtPaidAmount', i)"
+        :data-test="getIndexedTag('txt-paid-amount', i)"
         >
         </v-text-field>
       </v-col>
@@ -54,13 +54,3 @@ export default class ReviewRoutingSlipChequePayment extends Vue {
   }
 }
 </script>
-<style lang="scss" scoped>
-  .textNumber input[type='number'] {
-    -moz-appearance:textfield;
-  }
-  .textNumber input::-webkit-outer-spin-button,
-  .textNumber input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-</style>

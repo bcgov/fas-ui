@@ -1,7 +1,7 @@
 <template>
   <v-container class="view-container">
-    <review-routing-slip-details data-test="reviewRoutingSlipDetails" :routingSlipDetails="routingSlipDetails" :accountInfo="accountInfo"/>
-    <review-routing-slip-payment data-test="reviewRoutingSlipPayment" :isPaymentMethodCheque="isPaymentMethodCheque" :cashPayment="cashPayment" :chequePayment="chequePayment"/>
+    <review-routing-slip-details data-test="review-routing-slip-details" :routingSlipDetails="routingSlipDetails" :accountInfo="accountInfo"/>
+    <review-routing-slip-payment data-test="review-routing-slip-payment" :isPaymentMethodCheque="isPaymentMethodCheque" :cashPayment="cashPayment" :chequePayment="chequePayment"/>
   </v-container>
 </template>
 <script lang="ts">

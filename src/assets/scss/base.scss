@@ -176,3 +176,12 @@ legend {
   display: flex;
   justify-content: center;
 }
+
+.textNumber input[type='number'] {
+  -moz-appearance:textfield;
+}
+.textNumber input::-webkit-outer-spin-button,
+.textNumber input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

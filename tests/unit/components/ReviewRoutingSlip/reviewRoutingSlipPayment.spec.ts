@@ -26,9 +26,9 @@ describe('ReviewRoutingSlipPayment.vue', () => {
       }
     })
 
-    expect(wrapper.find('[data-test="paymentInfo"]').text()).toEqual('Cheque')
-    expect(wrapper.find('[data-test="reviewRoutingSlipChequePayment"]').exists()).toBeTruthy()
-    expect(wrapper.find('[data-test="reviewRoutingSlipCashPayment"]').exists()).toBeFalsy()
+    expect(wrapper.find('[data-test="payment-info"]').text()).toEqual('Cheque')
+    expect(wrapper.find('[data-test="review-routing-slip-cheque-payment"]').exists()).toBeTruthy()
+    expect(wrapper.find('[data-test="review-routing-slip-cash-payment"]').exists()).toBeFalsy()
     expect(wrapper.find('[data-test="total"]').text()).toEqual('$200')
   })
 
@@ -43,8 +43,8 @@ describe('ReviewRoutingSlipPayment.vue', () => {
       }
     })
 
-    expect(wrapper.find('[data-test="paymentInfo"]').text()).toEqual('Cash')
-    expect(wrapper.find('[data-test="reviewRoutingSlipChequePayment"]').exists()).toBeFalsy()
-    expect(wrapper.find('[data-test="reviewRoutingSlipCashPayment"]').exists()).toBeTruthy()
+    expect(wrapper.find('[data-test="payment-info"]').text()).toEqual('Cash')
+    expect(wrapper.find('[data-test="review-routing-slip-cheque-payment"]').exists()).toBeFalsy()
+    expect(wrapper.find('[data-test="review-routing-slip-cash-payment"]').exists()).toBeTruthy()
   })
 })

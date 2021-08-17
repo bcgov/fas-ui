@@ -20,12 +20,12 @@ describe('ReviewRoutingSlipChequePayment.vue', () => {
       }
     })
 
-    expect(wrapper.find('[data-test="txtChequeReceiptNumber-0"]').element.value).toEqual(chequePayment[0].chequeReceiptNumber)
-    expect(wrapper.find('[data-test="txtChequeDate-0"]').element.value).toEqual('-')
-    expect(wrapper.find('[data-test="txtPaidAmount-0"]').element.value).toEqual(chequePayment[0].paidAmount.toString())
+    expect(wrapper.find('[data-test="txt-cheque-receipt-number-0"]').element.value).toEqual(chequePayment[0].chequeReceiptNumber)
+    expect(wrapper.find('[data-test="txt-cheque-date-0"]').element.value).toEqual('-')
+    expect(wrapper.find('[data-test="txt-paid-amount-0"]').element.value).toEqual(chequePayment[0].paidAmount.toString())
 
-    expect(wrapper.find('[data-test="txtChequeReceiptNumber-1"]').element.value).toEqual(chequePayment[1].chequeReceiptNumber)
-    expect(wrapper.find('[data-test="txtChequeDate-1"]').element.value).toEqual('-')
-    expect(wrapper.find('[data-test="txtPaidAmount-1"]').element.value).toEqual(chequePayment[1].paidAmount.toString())
+    expect(wrapper.find('[data-test="txt-cheque-receipt-number-1"]').element.value).toEqual(chequePayment[1].chequeReceiptNumber)
+    expect(wrapper.find('[data-test="txt-cheque-date-1"]').element.value).toEqual('-')
+    expect(wrapper.find('[data-test="txt-paid-amount-1"]').element.value).toEqual(chequePayment[1].paidAmount.toString())
   })
 })

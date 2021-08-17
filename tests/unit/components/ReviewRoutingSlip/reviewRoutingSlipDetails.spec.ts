@@ -28,7 +28,7 @@ describe('ReviewRoutingSlipDetails.vue', () => {
     expect(wrapper.vm.routingSlipDetails).toStrictEqual(routingSlipDetails)
     expect(wrapper.vm.accountInfo).toStrictEqual(accountInfo)
 
-    expect(wrapper.find('[data-test="routingSlipNumber"]').text()).toEqual(routingSlipDetails.number)
-    expect(wrapper.find('[data-test="accountName"]').text()).toEqual(accountInfo.accountName)
+    expect(wrapper.find('[data-test="txt-routing-slip-number"]').text()).toEqual(routingSlipDetails.number)
+    expect(wrapper.find('[data-test="txt-routing-slip-name"]').text()).toEqual(accountInfo.accountName)
   })
 })

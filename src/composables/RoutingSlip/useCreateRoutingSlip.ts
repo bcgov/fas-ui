@@ -35,7 +35,7 @@ export function useCreateRoutingSlip (_, context) {
   const isReviewMode = ref<boolean>(false)
 
   const createRoutingSlipLabel = computed(() => {
-    return isReviewMode.value === true ? 'Create' : 'Review and Create'
+    return isReviewMode.value ? 'Create' : 'Review and Create'
   })
 
   function isValid (): boolean {
@@ -63,8 +63,8 @@ export function useCreateRoutingSlip (_, context) {
     toggleReviewMode(false)
   }
 
-  function createandReviewButtonCallBack (): void {
-    if (isReviewMode.value === true) {
+  function createandReviewButtonEventHandler (): void {
+    if (isReviewMode.value) {
       create()
     } else {
       reviewAndCreate()
@@ -127,7 +127,7 @@ export function useCreateRoutingSlip (_, context) {
     modalDialogCancel,
     modalDialogClose,
     isValid,
-    createandReviewButtonCallBack,
+    createandReviewButtonEventHandler,
     backToEdit
   }
 }

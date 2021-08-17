@@ -54,7 +54,7 @@
               <v-btn
                 large
                 color="primary"
-                @click="createandReviewButtonCallBack"
+                @click="createandReviewButtonEventHandler"
                 class="px-10 mr-3"
                 data-test="btn-create-routing-slip"
               >
@@ -122,7 +122,7 @@ import ReviewRoutingSlip from '@/components/ReviewRoutingSlip/ReviewRoutingSlip.
       modalDialogCancel,
       modalDialogClose,
       isValid,
-      createandReviewButtonCallBack,
+      createandReviewButtonEventHandler,
       backToEdit
     } = useCreateRoutingSlip(_, context)
     return {
@@ -138,7 +138,7 @@ import ReviewRoutingSlip from '@/components/ReviewRoutingSlip/ReviewRoutingSlip.
       modalDialogCancel,
       modalDialogClose,
       isValid,
-      createandReviewButtonCallBack,
+      createandReviewButtonEventHandler,
       backToEdit
     }
   }
