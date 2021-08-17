@@ -11,7 +11,7 @@
             This routing slip has been linked to:
           </v-col>
           <v-col cols="12">
-            <LinkedRSDetails
+            <linked-routing-slip-details
               createdDate="May 05, 2021"
               RSNumber="A3388999480"
             />
@@ -95,12 +95,12 @@ import commonUtil from '@/util/common-util'
 import { useLinkRoutingSlip } from '@/composables/ViewRoutingSlip'
 import statusList from '@/components/common/StatusList.vue'
 import can from '@/directives/can'
-import LinkedRSDetails from '@/components/ViewRoutingSlip/LinkedRSDetails.vue'
+import LinkedRoutingSlipDetails from '@/components/ViewRoutingSlip/LinkedRoutingSlipDetails.vue'
 
 @Component({
   components: {
     statusList,
-    LinkedRSDetails
+    LinkedRoutingSlipDetails
   },
   directives: {
     can
