@@ -13,7 +13,7 @@
           <v-col cols="12">
             <linked-routing-slip-details
               createdDate="May 05, 2021"
-              RSNumber="A3388999480"
+              RoutingSlipNumber="A3388999480"
             />
           </v-col>
           <v-col cols="12" v-if="isChildRS">
