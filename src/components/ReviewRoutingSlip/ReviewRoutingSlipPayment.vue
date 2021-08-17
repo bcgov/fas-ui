@@ -1,0 +1,52 @@
+<template>
+  <v-row no-gutters>
+    <v-col class="col-12">
+      <v-row class="mb-3">
+        <v-col class="col-3 font-weight-bold">
+          Payment Information
+        </v-col>
+        <v-col class="col-9" data-test="payment-info">
+          {{ isPaymentMethodCheque ? "Cheque" : "Cash" }}
+        </v-col>
+      </v-row>
+      <!--- cheque children if payment is cheque, else cash child --->
+      <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentMethodCheque" :chequePayment="chequePayment"/>
+      <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="cashPayment"/>
+      <v-row v-if="isPaymentMethodCheque">
+        <v-col class="col-3 font-weight-bold">
+          Total Amount
+        </v-col>
+        <v-col class="col-9" data-test="total">
+          {{ appendCurrencySymbol(totalAmount) }}
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
+</template>
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Payment } from '@/models/Payment'
+import ReviewRoutingSlipCashPayment from './ReviewRoutingSlipCashPayment.vue'
+import ReviewRoutingSlipChequePayment from './ReviewRoutingSlipChequePayment.vue'
+import commonUtil from '@/util/common-util'
+
+@Component({
+  components: {
+    ReviewRoutingSlipCashPayment,
+    ReviewRoutingSlipChequePayment
+  }
+})
+export default class ReviewRoutingSlipPayment extends Vue {
+  @Prop({ default: undefined }) isPaymentMethodCheque: boolean
+  @Prop({ default: () => null }) cashPayment: Payment
+  @Prop({ default: () => null }) chequePayment: Payment[]
+
+  public appendCurrencySymbol = commonUtil.appendCurrencySymbol
+
+  get totalAmount (): number {
+    return this.isPaymentMethodCheque ? this.chequePayment.reduce((acc, payment: Payment) => {
+      return acc + payment.paidAmount
+    }, 0) : null
+  }
+}
+</script>

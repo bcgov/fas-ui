@@ -1,4 +1,4 @@
-import { reactive, ref } from '@vue/composition-api'
+import { computed, reactive, ref } from '@vue/composition-api'
 
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import i18n from '@/plugins/i18n'
@@ -7,6 +7,7 @@ const routingSlipModule = createNamespacedHelpers('routingSlip') // specific mod
 const { useActions, useState } = routingSlipModule
 
 // Composable function to inject Props, options and values to CreateRoutingSlip component
+// CreateRoutingSlip component holds two behaviors - create routing slip & review routing slip modes
 export function useCreateRoutingSlip (_, context) {
   const createRoutingSlipForm = ref<HTMLFormElement>()
   const createRoutingSlipDetailsRef = ref<HTMLFormElement>()
@@ -30,6 +31,13 @@ export function useCreateRoutingSlip (_, context) {
   // after creation of routing slip, we display modal dialog as info. If user cancels, we display the same modal dialog as alert.
   const isModalDialogInfo = ref<boolean>(false)
 
+  // this variable is used to track if it is a create mode or review mode
+  const isReviewMode = ref<boolean>(false)
+
+  const createRoutingSlipLabel = computed(() => {
+    return isReviewMode.value ? 'Create' : 'Review and Create'
+  })
+
   function isValid (): boolean {
     // We would want to trigger validate() of all the children
     let isChildrenValid = createRoutingSlipDetailsRef.value?.isValid()
@@ -38,10 +46,37 @@ export function useCreateRoutingSlip (_, context) {
     return isChildrenValid
   }
 
+  // used to toggle isReviewMode to true - review mode / false - create mode
+  function toggleReviewMode (isReviewModeValue: boolean): void {
+    isReviewMode.value = isReviewModeValue
+  }
+
+  // when "Review and Create" button is clicked in create mode, we toggle the review
+  function reviewAndCreate (): void {
+    // set to review mode value
+    if (isValid()) {
+      toggleReviewMode(true)
+    }
+  }
+
+  function backToEdit (): void {
+    toggleReviewMode(false)
+  }
+
+  function createandReviewButtonEventHandler (): void {
+    if (isReviewMode.value) {
+      create()
+    } else {
+      reviewAndCreate()
+    }
+  }
+
+  // when "Create" button is clicked in review mode, we call the service
   // Create Routing slip
   async function create () {
     try {
-      if (isValid()) {
+      // not required - but just to double confirm it is review mode
+      if (isReviewMode.value === true) {
         await createRoutingSlip()
         // on success redirect to view
         context.root.$router.push({
@@ -86,10 +121,13 @@ export function useCreateRoutingSlip (_, context) {
     modalDialogRef,
     modalDialogDetails,
     isModalDialogInfo,
+    createRoutingSlipLabel,
+    isReviewMode,
     cancel,
     modalDialogCancel,
     modalDialogClose,
     isValid,
-    create
+    createandReviewButtonEventHandler,
+    backToEdit
   }
 }

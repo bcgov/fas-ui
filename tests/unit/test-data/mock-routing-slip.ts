@@ -1,5 +1,7 @@
+import { AccountInfo, RoutingSlip, RoutingSlipDetails } from '@/models/RoutingSlip'
+
 import { Invoice } from '@/models/Invoice'
-import { RoutingSlip } from '@/models/RoutingSlip'
+import { Payment } from '@/models/Payment'
 
 export const invoice: Invoice[] = [
   {
@@ -57,4 +59,33 @@ export const routingSlip: RoutingSlip = {
   status: 'ACTIVE',
   total: 12345,
   invoices: invoice
+}
+
+export const routingSlipDetails: RoutingSlipDetails = {
+  number: 'RoutingTEST123',
+  routingSlipDate: '2021-08-13'
+}
+
+export const accountInfo: AccountInfo = {
+  accountName: 'Thomas Wayne'
+}
+
+export const chequePayment: Payment[] = [
+  {
+    chequeReceiptNumber: 'CHEQUE1',
+    paidAmount: 100,
+    paymentMethod: 'CHEQUE'
+  },
+  {
+    chequeReceiptNumber: 'CHEQUE2',
+    paidAmount: 100,
+    paymentMethod: 'CHEQUE'
+  }
+]
+
+export const cashPayment: Payment =
+{
+  chequeReceiptNumber: 'CASH123',
+  paidAmount: 1000,
+  paymentMethod: 'CASH'
 }

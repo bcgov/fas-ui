@@ -25,32 +25,52 @@
           <v-icon color="primary" class="ml-8">
             mdi-clipboard-text
           </v-icon>
-          <p class="ml-2 mb-0 font-weight-bold">Add New Routing Slip</p>
+          <p class="ml-2 mb-0 font-weight-bold">{{ isReviewMode ? "Review New Routing Slip" : "Add New Routing Slip" }}</p>
         </div>
         <v-card class="my-0">
-          <create-routing-slip-details ref="createRoutingSlipDetailsRef" />
-          <create-routing-slip-payment ref="createRoutingSlipPaymentRef" />
+          <div v-if="isReviewMode" data-test="reviewRoutingSlip">
+            <review-routing-slip/>
+          </div>
+          <div v-else data-test="createRoutingSlip">
+            <create-routing-slip-details ref="createRoutingSlipDetailsRef" />
+            <create-routing-slip-payment ref="createRoutingSlipPaymentRef" />
+          </div>
           <v-divider></v-divider>
-          <v-card-actions class="pr-10 justify-end pa-10">
-            <v-btn
-              large
-              color="primary"
-              @click="create"
-              class="px-10"
-              data-test="btn-create-routing-slip"
-            >
-              <span>Create</span>
-            </v-btn>
-            <v-btn
-              large
-              outlined
-              class="px-10"
-              color="primary"
-              @click="cancel"
-              data-test="btn-cancel-create-routing-slip"
-            >
-              <span>Cancel</span>
-            </v-btn>
+          <v-card-actions>
+            <v-col cols="12" class="d-inline-flex justify-end py-0 mt-3">
+              <v-btn
+                large
+                outlined
+                color="primary"
+                @click="backToEdit"
+                class="px-5"
+                data-test="btn-back-to-edit"
+                v-if="isReviewMode"
+              >
+                <v-icon>mdi-chevron-left</v-icon>
+                <span>Back to Edit</span>
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                large
+                color="primary"
+                @click="createandReviewButtonEventHandler"
+                class="px-10 mr-3"
+                data-test="btn-create-routing-slip"
+              >
+                <span>{{ createRoutingSlipLabel }}</span>
+              </v-btn>
+              <v-btn
+                large
+                outlined
+                class="px-10"
+                color="primary"
+                @click="cancel"
+                data-test="btn-cancel-create-routing-slip"
+              >
+                <span>Cancel</span>
+              </v-btn>
+            </v-col>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -79,12 +99,14 @@ import CreateRoutingSlipDetails from '@/components/RoutingSlip/CreateRoutingSlip
 import CreateRoutingSlipPayment from '@/components/RoutingSlip/CreateRoutingSlipPayment.vue'
 import ModalDialog from '@/components/common/ModalDialog.vue'
 import { useCreateRoutingSlip } from '@/composables/RoutingSlip'
+import ReviewRoutingSlip from '@/components/ReviewRoutingSlip/ReviewRoutingSlip.vue'
 
 @Component({
   components: {
     CreateRoutingSlipPayment,
     CreateRoutingSlipDetails,
-    ModalDialog
+    ModalDialog,
+    ReviewRoutingSlip
   },
   setup (_, context) {
     const {
@@ -94,11 +116,14 @@ import { useCreateRoutingSlip } from '@/composables/RoutingSlip'
       modalDialogRef,
       modalDialogDetails,
       isModalDialogInfo,
+      createRoutingSlipLabel,
+      isReviewMode,
       cancel,
       modalDialogCancel,
       modalDialogClose,
       isValid,
-      create
+      createandReviewButtonEventHandler,
+      backToEdit
     } = useCreateRoutingSlip(_, context)
     return {
       createRoutingSlipForm,
@@ -107,11 +132,14 @@ import { useCreateRoutingSlip } from '@/composables/RoutingSlip'
       modalDialogRef,
       modalDialogDetails,
       isModalDialogInfo,
+      createRoutingSlipLabel,
+      isReviewMode,
       cancel,
       modalDialogCancel,
       modalDialogClose,
       isValid,
-      create
+      createandReviewButtonEventHandler,
+      backToEdit
     }
   }
 })
