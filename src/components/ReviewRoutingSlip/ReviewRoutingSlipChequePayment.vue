@@ -12,7 +12,7 @@
         >
         </v-text-field>
       </v-col>
-      <v-col cols="3" class="py-0">
+      <v-col cols="4" class="py-0">
         <v-text-field
         filled
         disabled
@@ -23,7 +23,7 @@
         >
         </v-text-field>
       </v-col>
-      <v-col cols="3" class="py-0">
+      <v-col cols="4" class="py-0">
         <v-text-field
         filled
         disabled

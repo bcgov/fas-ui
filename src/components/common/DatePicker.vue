@@ -2,7 +2,6 @@
   <v-menu
     v-model="showDateModal"
     :close-on-content-click="false"
-    :nudge-right="40"
     transition="scale-transition"
     offset-y
     min-width="auto"

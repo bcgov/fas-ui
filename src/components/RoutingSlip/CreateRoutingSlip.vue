@@ -43,7 +43,7 @@
                 outlined
                 color="primary"
                 @click="backToEdit"
-                class="pl-4 pr-5 font-weight-bold"
+                class="pl-4 pr-5"
                 data-test="btn-back-to-edit"
                 v-if="isReviewMode"
               >
@@ -55,7 +55,7 @@
                 large
                 color="primary"
                 @click="createandReviewButtonEventHandler"
-                class="px-10 mr-3 font-weight-bold"
+                class="px-6 mr-3 font-weight-bold"
                 data-test="btn-create-routing-slip"
               >
                 <span>{{ createRoutingSlipLabel }}</span>
