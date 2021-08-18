@@ -1,6 +1,6 @@
 <template>
   <v-row no-gutters>
-    <v-col class="col-12">
+    <v-col class="col-10">
       <v-row class="mb-3">
         <v-col class="col-3 font-weight-bold">
           Payment Information
