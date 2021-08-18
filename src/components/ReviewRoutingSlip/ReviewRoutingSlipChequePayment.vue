@@ -4,7 +4,7 @@
       <v-col cols="4" class="py-0">
         <v-text-field
         filled
-        readonly
+        disabled
         label="Receipt Number"
         persistent-hint
         :value="payment.chequeReceiptNumber"
@@ -12,10 +12,10 @@
         >
         </v-text-field>
       </v-col>
-      <v-col cols="4" class="py-0">
+      <v-col cols="3" class="py-0">
         <v-text-field
         filled
-        readonly
+        disabled
         label="Cheque Date"
         persistent-hint
         :value="payment.paymentDate ? formatDisplayDate(payment.paymentDate, 'MMMM DD, YYYY') : '-'"
@@ -23,10 +23,10 @@
         >
         </v-text-field>
       </v-col>
-      <v-col cols="4" class="py-0">
+      <v-col cols="3" class="py-0">
         <v-text-field
         filled
-        readonly
+        disabled
         label="Amount ($)"
         persistent-hint
         :value="payment.paidAmount"
