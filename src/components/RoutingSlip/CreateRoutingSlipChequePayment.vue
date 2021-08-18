@@ -19,6 +19,7 @@
               v-model="cheque.paymentDate"
               label="Cheque Date (optional)"
               :data-test="getIndexedTag('paymentDate', index)"
+              clearable
             ></date-picker>
           </v-col>
           <v-col cols="4" class="py-0">

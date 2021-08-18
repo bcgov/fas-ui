@@ -7,16 +7,17 @@
     offset-y
     min-width="auto"
   >
-    <template v-slot:activator="{ on, attrs }">
+    <template v-slot:activator="{ on: { click } }">
       <v-text-field
         v-model="selectedDate"
         :label="label"
         append-icon="mdi-calendar"
         readonly
-        v-bind="attrs"
-        v-on="on"
+        v-bind="$attrs"
+        @click="click"
         filled
         data-test="input-date-picker"
+        @click:append="click"
       ></v-text-field>
     </template>
     <v-date-picker
