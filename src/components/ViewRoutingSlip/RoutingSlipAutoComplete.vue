@@ -43,7 +43,6 @@
         large
         color="primary"
         data-test="btn-link-rs"
-        v-can:fas_edit.hide
         class="mx-2 font-weight-bold"
         @click="searchRS()"
       >
