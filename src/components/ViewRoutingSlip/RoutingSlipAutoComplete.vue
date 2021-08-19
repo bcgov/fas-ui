@@ -16,6 +16,7 @@
         return-object
         :rules="numberRules"
         :error-messages="errorMessage"
+        append-icon=""
       >
         <template v-slot:no-data>
           <v-list-item>
