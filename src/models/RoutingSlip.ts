@@ -28,3 +28,7 @@ export interface RoutingSlipDetails {
   number?: string
   routingSlipDate?: string
 }
+export interface LinkRoutingSlipPrams{
+  childRoutingSlipNumber:string,
+  parentRoutingSlipNumber:string,
+}

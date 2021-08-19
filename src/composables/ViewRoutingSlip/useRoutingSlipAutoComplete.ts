@@ -10,8 +10,8 @@ const { useState, useActions } = routingSlipModule
 export default function useLinkRoutingSlip (_, context) {
   // store
   const { autoCompleteRoutingSlips } = useState(['autoCompleteRoutingSlips'])
-  const { getAutoCompleteRoutingSlips } = useActions([
-    'getAutoCompleteRoutingSlips'
+  const { getAutoCompleteRoutingSlips, saveLinkRoutingSlip } = useActions([
+    'getAutoCompleteRoutingSlips', 'saveLinkRoutingSlip'
   ])
 
   const errorMessage = ref('')
@@ -30,6 +30,7 @@ export default function useLinkRoutingSlip (_, context) {
       errorMessage.value = 'Please enter a routing slip - unique ID'
     } else {
       errorMessage.value = ''
+      saveLinkedRoutingSlip()
     }
   }
 
@@ -40,6 +41,7 @@ export default function useLinkRoutingSlip (_, context) {
     // start searching after typing 3 char
     if (search.value.length > 2) {
       await getAutoCompleteRoutingSlips(search.value)
+
       hideNoData.value = false
     } else {
       hideNoData.value = true
@@ -47,6 +49,10 @@ export default function useLinkRoutingSlip (_, context) {
     // hide no data message on loading
     hideNoData.value = isLoading.value ? true : hideNoData.value
     isLoading.value = false
+  }
+
+  function saveLinkedRoutingSlip () {
+    saveLinkRoutingSlip(search.value)
   }
 
   // Input field rules
@@ -63,6 +69,7 @@ export default function useLinkRoutingSlip (_, context) {
     autoCompleteRoutingSlips,
     isLoading,
     search,
-    hideNoData
+    hideNoData,
+    saveLinkRoutingSlip
   }
 }

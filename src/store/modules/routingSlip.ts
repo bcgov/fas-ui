@@ -1,7 +1,8 @@
 import {
   AccountInfo,
   RoutingSlip,
-  RoutingSlipDetails
+  RoutingSlipDetails,
+  LinkRoutingSlipPrams
 } from '@/models/RoutingSlip'
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 
@@ -79,7 +80,9 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Mutation
-  public setAutoCompleteRoutingSlips (autoCompleteRoutingSlips: RoutingSlipDetails[]) {
+  public setAutoCompleteRoutingSlips (
+    autoCompleteRoutingSlips: RoutingSlipDetails[]
+  ) {
     this.autoCompleteRoutingSlips = autoCompleteRoutingSlips
   }
 
@@ -232,5 +235,22 @@ export default class RoutingSlipModule extends VuexModule {
     }
 
     return []
+  }
+
+  @Action({ commit: 'setRoutingSlip', rawError: true })
+  public async saveLinkRoutingSlip (
+    childRoutingSlipNumber: string
+  ): Promise<RoutingSlipDetails> {
+    const context: any = this.context
+
+    const parentRoutingSlipNumber: string = context.state.routingSlip.number
+
+    const LinkPrams = { childRoutingSlipNumber, parentRoutingSlipNumber }
+
+    // handle error condtions here
+    const response = await RoutingSlipService.saveLinkRoutingSlip(LinkPrams)
+    if (response && response.data && response.status === 200) {
+      return response.data
+    }
   }
 }

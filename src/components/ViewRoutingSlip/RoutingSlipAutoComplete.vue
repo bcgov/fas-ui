@@ -31,10 +31,17 @@
         </template>
 
         <template v-slot:item="{ item }">
-          <div>
+          <div class="rs-details">
             <span class="font-weight-bold">{{ item.number }}</span>
-            <span> - {{ formatDisplayDate(item.routingSlipDate) }}</span>
-            <span> - Current Balance: {{ item.remainingAmount }}</span>
+            <span>
+              <span>-</span>
+              {{
+                formatDisplayDate(item.routingSlipDate, 'MMM DD, YYYY')
+              }}</span
+            >
+            <span>
+              <span>-</span> Current Balance: {{ item.remainingAmount }}</span
+            >
           </div>
         </template>
       </v-autocomplete>
@@ -101,13 +108,17 @@ export default class LinkedRoutingSlipDetails extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.slip-status {
-  text-transform: capitalize;
+.rs-details {
+  display: flex;
+  span {
+    min-width: 125px;
+
+    span {
+      padding: 0 5px !important;
+    }
+  }
 }
 .row + .row {
   margin-top: 7px !important;
-}
-.status-list {
-  max-width: 400px;
 }
 </style>
