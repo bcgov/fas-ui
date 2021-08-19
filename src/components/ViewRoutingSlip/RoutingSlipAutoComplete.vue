@@ -74,7 +74,7 @@ import commonUtil from '@/util/common-util'
 import { useRoutingSlipAutoComplete } from '@/composables/ViewRoutingSlip'
 
 @Component({
-  setup (props, context) {
+  setup (_, context) {
     const {
       toggleSearch,
       number,
@@ -86,7 +86,7 @@ import { useRoutingSlipAutoComplete } from '@/composables/ViewRoutingSlip'
       isLoading,
       search,
       hideNoData
-    } = useRoutingSlipAutoComplete(props, context)
+    } = useRoutingSlipAutoComplete(_, context)
 
     return {
       toggleSearch,
