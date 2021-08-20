@@ -52,18 +52,13 @@
               </v-col>
             </v-row>
             <v-row no-gutters v-if="isExpanded">
-              <v-col class="col-12 pay-info">
+              <v-col class="col-11 pay-info mt-4 ml-4" v-if="routingSlip && routingSlip.payments">
                 <v-expand-transition>
-                  <create-routing-slip-cash-payment
-                    v-if="!isPaymentCheque"
-                    :isViewMode="true"
-                    data-test="ref-create-routing-slip-cash-payment"
-                  />
-                  <create-routing-slip-cheque-payment
-                    v-if="isPaymentCheque"
-                    :isViewMode="true"
-                    data-test="ref-create-routing-slip-cheque-payment"
-                  />
+                  <div>
+                    <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentCheque" :chequePayment="routingSlip.payments"/>
+                    <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="routingSlip.payments[0]"/>
+                    <payment-linked-routing-slips/>
+                  </div>
                 </v-expand-transition>
               </v-col>
             </v-row>
@@ -89,16 +84,16 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
-import {
-  CreateRoutingSlipCashPayment,
-  CreateRoutingSlipChequePayment
-} from '@/components/RoutingSlip'
+import LinkedRoutingSlipsPaymentInfo from './LinkedRoutingSlipsPaymentInfo.vue'
+import ReviewRoutingSlipCashPayment from '@/components/ReviewRoutingSlip/ReviewRoutingSlipCashPayment.vue'
+import ReviewRoutingSlipChequePayment from '@/components/ReviewRoutingSlip/ReviewRoutingSlipChequePayment.vue'
 import can from '@/directives/can'
 
 @Component({
   components: {
-    CreateRoutingSlipCashPayment,
-    CreateRoutingSlipChequePayment
+    LinkedRoutingSlipsPaymentInfo,
+    ReviewRoutingSlipCashPayment,
+    ReviewRoutingSlipChequePayment
   },
   directives: {
     can
@@ -106,14 +101,14 @@ import can from '@/directives/can'
   setup () {
     const {
       routingSlip,
-      isPaymentCheque,
       isExpanded,
+      isPaymentCheque,
       viewPaymentInformation
     } = usePaymentInformation()
     return {
       routingSlip,
-      isPaymentCheque,
       isExpanded,
+      isPaymentCheque,
       viewPaymentInformation
     }
   }
