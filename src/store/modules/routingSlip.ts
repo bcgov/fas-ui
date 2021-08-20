@@ -185,8 +185,8 @@ export default class RoutingSlipModule extends VuexModule {
     // formatting as per API
     if (searchRoutingSlipParams.dateFilter) {
       searchRoutingSlipParams.dateFilter = {
-        startDate: CommonUtils.formatDisplayDate(searchRoutingSlipParams.dateFilter[0], 'MM/DD/YYYY'),
-        endDate: CommonUtils.formatDisplayDate(searchRoutingSlipParams.dateFilter[1], 'MM/DD/YYYY')
+        startDate: CommonUtils.formatDisplayDate(searchRoutingSlipParams.dateFilter[0], 'YYYY-MM-DD'),
+        endDate: CommonUtils.formatDisplayDate(searchRoutingSlipParams.dateFilter[1], 'YYYY-MM-DD')
       }
     }
 
