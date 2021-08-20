@@ -1,7 +1,8 @@
 import {
   AccountInfo,
   RoutingSlip,
-  RoutingSlipDetails
+  RoutingSlipDetails,
+  LinkRoutingSlipPrams
 } from '@/models/RoutingSlip'
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 
@@ -21,6 +22,8 @@ export default class RoutingSlipModule extends VuexModule {
 
   searchRoutingSlipParams: any = {}
   searchRoutingSlipResult: RoutingSlip[] = []
+  // using for auto cpmplete RoutingSlip values
+  autoCompleteRoutingSlips: RoutingSlip[] = []
 
   public get invoiceCount (): number {
     return this.routingSlip?.invoices?.length
@@ -74,6 +77,13 @@ export default class RoutingSlipModule extends VuexModule {
   @Mutation
   public setSearchRoutingSlipResult (searchRoutingSlip: RoutingSlipDetails[]) {
     this.searchRoutingSlipResult = searchRoutingSlip
+  }
+
+  @Mutation
+  public setAutoCompleteRoutingSlips (
+    autoCompleteRoutingSlips: RoutingSlipDetails[]
+  ) {
+    this.autoCompleteRoutingSlips = autoCompleteRoutingSlips
   }
 
   @Action({ commit: 'setRoutingSlip', rawError: true })
@@ -185,8 +195,14 @@ export default class RoutingSlipModule extends VuexModule {
     // formatting as per API
     if (searchRoutingSlipParams.dateFilter) {
       searchRoutingSlipParams.dateFilter = {
-        startDate: CommonUtils.formatDisplayDate(searchRoutingSlipParams.dateFilter[0], 'MM/DD/YYYY'),
-        endDate: CommonUtils.formatDisplayDate(searchRoutingSlipParams.dateFilter[1], 'MM/DD/YYYY')
+        startDate: CommonUtils.formatDisplayDate(
+          searchRoutingSlipParams.dateFilter[0],
+          'YYYY-MM-DD'
+        ),
+        endDate: CommonUtils.formatDisplayDate(
+          searchRoutingSlipParams.dateFilter[1],
+          'YYYY-MM-DD'
+        )
       }
     }
 
@@ -195,7 +211,8 @@ export default class RoutingSlipModule extends VuexModule {
       searchRoutingSlipParams.status = searchRoutingSlipParams.status.code
     }
 
-    if (Object.keys(searchRoutingSlipParams).length > 0) { // need to reset result of there is no search params
+    if (Object.keys(searchRoutingSlipParams).length > 0) {
+      // need to reset result of there is no search params
       const response = await RoutingSlipService.getSearchRoutingSlip(
         searchRoutingSlipParams
       )
@@ -204,5 +221,36 @@ export default class RoutingSlipModule extends VuexModule {
       }
     }
     return []
+  }
+
+  @Action({ commit: 'setAutoCompleteRoutingSlips', rawError: true })
+  public async getAutoCompleteRoutingSlips (
+    routingSlipNumber
+  ): Promise<RoutingSlipDetails[]> {
+    const response = await RoutingSlipService.getSearchRoutingSlip({
+      routingSlipNumber
+    })
+    if (response && response.data && response.status === 200) {
+      return response.data?.items
+    }
+
+    return []
+  }
+
+  @Action({ commit: 'setRoutingSlip', rawError: true })
+  public async saveLinkRoutingSlip (
+    childRoutingSlipNumber: string
+  ): Promise<RoutingSlipDetails> {
+    const context: any = this.context
+
+    const parentRoutingSlipNumber: string = context.state.routingSlip.number
+
+    const LinkPrams = { childRoutingSlipNumber, parentRoutingSlipNumber }
+
+    // handle error condtions here
+    const response = await RoutingSlipService.saveLinkRoutingSlip(LinkPrams)
+    if (response && response.data && response.status === 200) {
+      return response.data
+    }
   }
 }
