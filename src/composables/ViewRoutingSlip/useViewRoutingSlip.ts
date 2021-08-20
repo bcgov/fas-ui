@@ -27,6 +27,7 @@ export default function useViewRoutingSlip (props) {
 
   async function getRoutingSlipAndLinkedRoutingSlips () {
     await getRoutingSlip(slipId.value)
+    // get the linked routingslip children/parent for the current routingslip
     await getLinkedRoutingSlips(routingSlip.value.number)
   }
 
