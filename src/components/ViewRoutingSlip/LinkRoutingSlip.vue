@@ -32,41 +32,9 @@
               </v-col>
 
               <v-col cols="6" sm="8" v-if="showSearch">
-                <transition-group name="slide-fade">
-                  <p key="text" v-html="$t('linkRSSearchInfo')"></p>
-                  <div class="d-flex" key="action">
-                    <v-text-field
-                      filled
-                      label="Search by routing slip - Unique ID"
-                      persistent-hint
-                      data-test="rs-id"
-                      v-model.trim="number"
-                      :rules="numberRules"
-                      :error-messages="errorMessage"
-                    >
-                    </v-text-field>
-                    <v-btn
-                      large
-                      color="primary"
-                      data-test="btn-link-rs"
-                      v-can:fas_edit.hide
-                      class="mx-2 font-weight-bold"
-                      @click="searchRS()"
-                    >
-                      <span class="font">Link </span>
-                    </v-btn>
-                    <v-btn
-                      large
-                      outlined
-                      class="px-2 font-weight-bold"
-                      color="primary"
-                      @click="toggleSearch()"
-                      data-test="btn-cancel-link"
-                    >
-                      <span>Cancel</span>
-                    </v-btn>
-                  </div>
-                </transition-group>
+                <div class="d-flex" key="action">
+                  <RoutingSlipAutoComplete @toggleSearch="toggleSearch()" />
+                </div>
               </v-col>
             </v-row>
           </v-col>
@@ -93,14 +61,13 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import commonUtil from '@/util/common-util'
 import { useLinkRoutingSlip } from '@/composables/ViewRoutingSlip'
-import statusList from '@/components/common/StatusList.vue'
 import can from '@/directives/can'
 import LinkedRoutingSlipDetails from '@/components/ViewRoutingSlip/LinkedRoutingSlipDetails.vue'
-
+import RoutingSlipAutoComplete from '@/components/ViewRoutingSlip/RoutingSlipAutoComplete.vue'
 @Component({
   components: {
-    statusList,
-    LinkedRoutingSlipDetails
+    LinkedRoutingSlipDetails,
+    RoutingSlipAutoComplete
   },
   directives: {
     can
@@ -109,28 +76,21 @@ import LinkedRoutingSlipDetails from '@/components/ViewRoutingSlip/LinkedRouting
     const {
       showSearch,
       toggleSearch,
-      number,
-      numberRules,
-      searchRS,
-      errorMessage,
       alreadyLinked,
-      isChildRS
+      isChildRS,
+      isLoading
     } = useLinkRoutingSlip(props)
 
     return {
       showSearch,
       toggleSearch,
-      number,
-      numberRules,
-      searchRS,
-      errorMessage,
       alreadyLinked,
-      isChildRS
+      isChildRS,
+      isLoading
     }
   }
 })
 export default class LinkRoutingSlip extends Vue {
-  public colors = commonUtil.statusListColor
   public formatDisplayDate = commonUtil.formatDisplayDate
   @Prop({ default: '03' }) private tabNumber
 }
