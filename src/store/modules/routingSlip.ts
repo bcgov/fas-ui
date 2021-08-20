@@ -47,9 +47,9 @@ export default class RoutingSlipModule extends VuexModule {
     return !!this.routingSlip.parentNumber
   }
 
-  // if already linked it will either have a children property(incase its a parent) OR a parent property(if its a child)
+  // if routingslip has parentNumber then it is a child Else, check if there are any children in linkedroutingslips for it.(in this case, it is a parent)
   public get isRoutingSlipLinked () {
-    return Object.keys(this.linkedRoutingSlips.parent).length || this.linkedRoutingSlips.children.length
+    return this.isRoutingSlipAChild || this.linkedRoutingSlips?.children.length > 0
   }
 
   @Mutation
@@ -277,31 +277,12 @@ export default class RoutingSlipModule extends VuexModule {
     try {
       const response = await RoutingSlipService.getLinkedRoutingSlips(routingSlipNumber, true)
       const context: any = this.context
+      let linkedRoutingSlips: LinkedRoutingSlips
       if (response && response.data && response.status === 200) {
-        /* The response to getLinkedRoutingSlips consists of following values:
-        1. children: non empy, parent: empty: which implies that the routingslip is a parent slip
-        2. children: empty, parent: non empty: which implies that the slip is a child slip
-        3. no content 204 resposne: non linked routingslip where we need to reset the states
-        */
-        if (response.data?.children) {
-          const linkedRoutingSlips: LinkedRoutingSlips = {
-            children: response.data?.children,
-            parent: {}
-          }
-          context.commit('setLinkedRoutingSlips', linkedRoutingSlips)
-        } else if (response.data?.parent) {
-          const linkedRoutingSlips: LinkedRoutingSlips = {
-            children: [],
-            parent: response.data?.parent
-          }
-          context.commit('setLinkedRoutingSlips', linkedRoutingSlips)
-        } else {
-          context.commit('setLinkedRoutingSlips', undefined)
-        }
-      } else {
-        // 204 non content response
-        context.commit('setLinkedRoutingSlips', undefined)
+        linkedRoutingSlips = response.data
       }
+      // 204 non content response
+      context.commit('setLinkedRoutingSlips', linkedRoutingSlips)
     } catch (error) {
       this.context.commit('setLinkedRoutingSlips', undefined)
       // eslint-disable-next-line no-console
