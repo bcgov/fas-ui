@@ -1,9 +1,9 @@
 <template>
   <v-row class="d-flex justify-between" v-if="cashPayment">
-    <v-col cols="6" class="py-0">
+    <v-col cols="4" class="py-0">
       <v-text-field
       filled
-      readonly
+      disabled
       label="Receipt Number"
       persistent-hint
       :value="cashPayment.chequeReceiptNumber"
@@ -11,10 +11,10 @@
       >
       </v-text-field>
     </v-col>
-    <v-col cols="6" class="py-0">
+    <v-col cols="4" class="py-0">
       <v-text-field
       filled
-      readonly
+      disabled
       label="Amount ($)"
       persistent-hint
       :value="cashPayment.paidAmount"

@@ -25,7 +25,7 @@
           <v-icon color="primary" class="ml-8">
             mdi-clipboard-text
           </v-icon>
-          <p class="ml-2 mb-0 font-weight-bold">{{ isReviewMode ? "Review New Routing Slip" : "Add New Routing Slip" }}</p>
+          <h4 class="ml-2 mb-0 font-weight-bold">{{ isReviewMode ? "Review New Routing Slip" : "Add New Routing Slip" }}</h4>
         </div>
         <v-card class="my-0">
           <div v-if="isReviewMode" data-test="reviewRoutingSlip">
@@ -37,17 +37,17 @@
           </div>
           <v-divider></v-divider>
           <v-card-actions>
-            <v-col cols="12" class="d-inline-flex justify-end py-0 mt-3">
+            <v-col cols="12" class="d-inline-flex justify-end pl-3 pr-6 mt-3">
               <v-btn
                 large
                 outlined
                 color="primary"
                 @click="backToEdit"
-                class="px-5"
+                class="pl-4 pr-5"
                 data-test="btn-back-to-edit"
                 v-if="isReviewMode"
               >
-                <v-icon>mdi-chevron-left</v-icon>
+                <v-icon class="ma-0">mdi-chevron-left</v-icon>
                 <span>Back to Edit</span>
               </v-btn>
               <v-spacer></v-spacer>
@@ -55,7 +55,7 @@
                 large
                 color="primary"
                 @click="createandReviewButtonEventHandler"
-                class="px-10 mr-3"
+                class="px-6 mr-3 font-weight-bold"
                 data-test="btn-create-routing-slip"
               >
                 <span>{{ createRoutingSlipLabel }}</span>
@@ -63,7 +63,7 @@
               <v-btn
                 large
                 outlined
-                class="px-10"
+                class="px-10 font-weight-bold"
                 color="primary"
                 @click="cancel"
                 data-test="btn-cancel-create-routing-slip"

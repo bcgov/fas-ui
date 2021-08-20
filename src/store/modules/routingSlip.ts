@@ -197,11 +197,11 @@ export default class RoutingSlipModule extends VuexModule {
       searchRoutingSlipParams.dateFilter = {
         startDate: CommonUtils.formatDisplayDate(
           searchRoutingSlipParams.dateFilter[0],
-          'MM/DD/YYYY'
+          'YYYY-MM-DD'
         ),
         endDate: CommonUtils.formatDisplayDate(
           searchRoutingSlipParams.dateFilter[1],
-          'MM/DD/YYYY'
+          'YYYY-MM-DD'
         )
       }
     }
