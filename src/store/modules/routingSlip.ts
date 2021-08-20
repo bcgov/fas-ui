@@ -1,8 +1,9 @@
 import {
   AccountInfo,
+  LinkRoutingSlipPrams,
+  LinkedRoutingSlips,
   RoutingSlip,
-  RoutingSlipDetails,
-  LinkRoutingSlipPrams
+  RoutingSlipDetails
 } from '@/models/RoutingSlip'
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 
@@ -25,6 +26,8 @@ export default class RoutingSlipModule extends VuexModule {
   // using for auto cpmplete RoutingSlip values
   autoCompleteRoutingSlips: RoutingSlip[] = []
 
+  linkedRoutingSlips: LinkedRoutingSlips = undefined
+
   public get invoiceCount (): number {
     return this.routingSlip?.invoices?.length
   }
@@ -37,6 +40,16 @@ export default class RoutingSlipModule extends VuexModule {
       }
     }
     return true
+  }
+
+  // for a child linked to a parent routing slip, there would be a parentNumber
+  public get isRoutingSlipAChild () {
+    return !!this.routingSlip.parentNumber
+  }
+
+  // if already linked it will either have a children property(incase its a parent) OR a parent property(if its a child)
+  public get isRoutingSlipLinked () {
+    return Object.keys(this.linkedRoutingSlips.parent).length || this.linkedRoutingSlips.children.length
   }
 
   @Mutation
@@ -84,6 +97,11 @@ export default class RoutingSlipModule extends VuexModule {
     autoCompleteRoutingSlips: RoutingSlipDetails[]
   ) {
     this.autoCompleteRoutingSlips = autoCompleteRoutingSlips
+  }
+
+  @Mutation
+  public setLinkedRoutingSlips (linkedRoutingSlips: LinkedRoutingSlips) {
+    this.linkedRoutingSlips = linkedRoutingSlips
   }
 
   @Action({ commit: 'setRoutingSlip', rawError: true })
@@ -251,6 +269,43 @@ export default class RoutingSlipModule extends VuexModule {
     const response = await RoutingSlipService.saveLinkRoutingSlip(LinkPrams)
     if (response && response.data && response.status === 200) {
       return response.data
+    }
+  }
+
+  @Action({ rawError: true })
+  public async getLinkedRoutingSlips (routingSlipNumber): Promise<void> {
+    try {
+      const response = await RoutingSlipService.getLinkedRoutingSlips(routingSlipNumber, true)
+      const context: any = this.context
+      if (response && response.data && response.status === 200) {
+        /* The response to getLinkedRoutingSlips consists of following values:
+        1. children: non empy, parent: empty: which implies that the routingslip is a parent slip
+        2. children: empty, parent: non empty: which implies that the slip is a child slip
+        3. no content 204 resposne: non linked routingslip where we need to reset the states
+        */
+        if (response.data?.children) {
+          const linkedRoutingSlips: LinkedRoutingSlips = {
+            children: response.data?.children,
+            parent: {}
+          }
+          context.commit('setLinkedRoutingSlips', linkedRoutingSlips)
+        } else if (response.data?.parent) {
+          const linkedRoutingSlips: LinkedRoutingSlips = {
+            children: [],
+            parent: response.data?.parent
+          }
+          context.commit('setLinkedRoutingSlips', linkedRoutingSlips)
+        } else {
+          context.commit('setLinkedRoutingSlips', undefined)
+        }
+      } else {
+        // 204 non content response
+        context.commit('setLinkedRoutingSlips', undefined)
+      }
+    } catch (error) {
+      this.context.commit('setLinkedRoutingSlips', undefined)
+      // eslint-disable-next-line no-console
+      console.error('error ', error.response?.data) // 500 errors may not return data
     }
   }
 }

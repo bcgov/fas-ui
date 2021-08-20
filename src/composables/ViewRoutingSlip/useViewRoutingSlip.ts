@@ -11,27 +11,28 @@ export default function useViewRoutingSlip (props) {
   const { slipId } = toRefs(props)
 
   // vuex action and state
-  const { getRoutingSlip } = useActions(['getRoutingSlip'])
+  const { getRoutingSlip, getLinkedRoutingSlips } = useActions(['getRoutingSlip', 'getLinkedRoutingSlips'])
   const { routingSlip } = useState(['routingSlip'])
 
   // watch any changes in slipId to get new values
   watch(
     slipId,
-    (newSlipId: string, OldSlipId: string) => {
+    async (newSlipId: string, OldSlipId: string) => {
       if (newSlipId && +newSlipId !== +OldSlipId) {
-        getRoutingSlipById()
+        await getRoutingSlipAndLinkedRoutingSlips()
       }
     },
     { immediate: true }
   )
 
-  function getRoutingSlipById () {
-    getRoutingSlip(slipId.value)
+  async function getRoutingSlipAndLinkedRoutingSlips () {
+    await getRoutingSlip(slipId.value)
+    await getLinkedRoutingSlips(routingSlip.value.number)
   }
 
   return {
     routingSlip,
     slipId,
-    getRoutingSlipById
+    getRoutingSlipAndLinkedRoutingSlips
   }
 }

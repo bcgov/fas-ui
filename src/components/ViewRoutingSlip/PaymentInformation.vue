@@ -57,7 +57,7 @@
                   <div>
                     <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentCheque" :chequePayment="routingSlip.payments"/>
                     <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="routingSlip.payments[0]"/>
-                    <payment-linked-routing-slips/>
+                    <linked-routing-slips-payment-info/>
                   </div>
                 </v-expand-transition>
               </v-col>

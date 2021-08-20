@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios'
 import ConfigHelper from '@/util/config-helper'
-import axios from '@/util/http-util'
 import { LinkRoutingSlipPrams } from '@/models/RoutingSlip'
+import axios from '@/util/http-util'
 
 export default class RoutingSlip {
   public static async getRoutingSlip (
@@ -45,6 +45,15 @@ export default class RoutingSlip {
   ): Promise<AxiosResponse> {
     return axios.post(
       `${ConfigHelper.getFasAPIURL()}/routing-slips/links`, LinkRoutingSlip, { showGlobalLoader: showGlobalLoader }
+    )
+  }
+
+  public static async getLinkedRoutingSlips (
+    routingSlipNumber: string,
+    showGlobalLoader: boolean = false
+  ): Promise<AxiosResponse> {
+    return axios.get(
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}/links`, { showGlobalLoader: showGlobalLoader }
     )
   }
 }
