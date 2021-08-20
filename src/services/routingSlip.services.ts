@@ -40,11 +40,11 @@ export default class RoutingSlip {
   }
 
   public static async saveLinkRoutingSlip (
-    LinkRoutingSlipPrams: LinkRoutingSlipPrams,
+    LinkRoutingSlip: LinkRoutingSlipPrams,
     showGlobalLoader: boolean = false
   ): Promise<AxiosResponse> {
     return axios.post(
-      `${ConfigHelper.getFasAPIURL()}/link`, LinkRoutingSlipPrams, { showGlobalLoader: showGlobalLoader }
+      `${ConfigHelper.getFasAPIURL()}/links`, LinkRoutingSlip, { showGlobalLoader: showGlobalLoader }
     )
   }
 }
