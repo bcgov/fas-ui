@@ -97,8 +97,8 @@ describe('PaymentInformation.vue', () => {
     wrapper.find('[data-test="btn-view-payment-information"]').trigger('click')
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.isExpanded).toBeTruthy()
-    expect(wrapper.find('[data-test="ref-create-routing-slip-cheque-payment"]').exists()).toBeTruthy()
-    expect(wrapper.find('[data-test="ref-create-routing-slip-cash-payment"]').exists()).toBeFalsy()
+    expect(wrapper.find('[data-test="review-routing-slip-cheque-payment"]').exists()).toBeTruthy()
+    expect(wrapper.find('[data-test="review-routing-slip-cash-payment"]').exists()).toBeFalsy()
   })
 
   it('renders cash child properly', async () => {
@@ -148,7 +148,7 @@ describe('PaymentInformation.vue', () => {
     wrapper.find('[data-test="btn-view-payment-information"]').trigger('click')
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.isExpanded).toBeTruthy()
-    expect(wrapper.find('[data-test="ref-create-routing-slip-cheque-payment"]').exists()).toBeFalsy()
-    expect(wrapper.find('[data-test="ref-create-routing-slip-cash-payment"]').exists()).toBeTruthy()
+    expect(wrapper.find('[data-test="review-routing-slip-cheque-payment"]').exists()).toBeFalsy()
+    expect(wrapper.find('[data-test="review-routing-slip-cash-payment"]').exists()).toBeTruthy()
   })
 })

@@ -22,6 +22,7 @@ export interface RoutingSlip {
   invoices?: Invoice[]
   status?: string
   createdName?:string
+  parentNumber?: string
 }
 // Class for storing values in CreateRoutingSlipDetails component
 export interface RoutingSlipDetails {
@@ -31,4 +32,9 @@ export interface RoutingSlipDetails {
 export interface LinkRoutingSlipPrams{
   childRoutingSlipNumber:string,
   parentRoutingSlipNumber:string,
+}
+
+export interface LinkedRoutingSlips{
+  children?: RoutingSlip[],
+  parent?: RoutingSlip,
 }
