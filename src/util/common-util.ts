@@ -38,6 +38,7 @@ export default class CommonUtils {
         break
       case SlipStatus.BOUNCED:
       case SlipStatus.NSF:
+      case SlipStatus.LINKED:
         color = 'error'
         break
     }
