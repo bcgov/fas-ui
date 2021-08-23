@@ -3,22 +3,26 @@ import { computed, ref } from '@vue/composition-api'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useState, useActions } = routingSlipModule
+const { useState, useGetters } = routingSlipModule
 
 // Composable function to inject Props, options and values to useRoutingSlipInfo component
-export default function useLinkRoutingSlip (props) {
+export default function useLinkRoutingSlip () {
   // store
-  const { routingSlip } = useState([
-    'routingSlip'
-
+  const { routingSlip, linkedRoutingSlips } = useState([
+    'routingSlip', 'linkedRoutingSlips'
   ])
+  const { isRoutingSlipAChild, isRoutingSlipLinked } = useGetters(['isRoutingSlipAChild', 'isRoutingSlipLinked'])
   const showSearch = ref<boolean>(false)
 
-  const alreadyLinked = ref<boolean>(false)
   const isLoading = ref<boolean>(false)
 
-  const isChildRS: any = computed(() => {
-    return !!routingSlip.value.parentNumber
+  const childRoutingSlipDetails: any = computed(() => {
+    // child array of routing slips if exist
+    return linkedRoutingSlips.value?.children || []
+  })
+  const parentRoutingSlipDetails: any = computed(() => {
+    // parent one Routing slip details
+    return linkedRoutingSlips.value?.parent || {}
   })
 
   function toggleSearch () {
@@ -28,9 +32,11 @@ export default function useLinkRoutingSlip (props) {
   return {
     showSearch,
     toggleSearch,
-    alreadyLinked,
-    isChildRS,
+    isRoutingSlipLinked,
+    isRoutingSlipAChild,
     routingSlip,
-    isLoading
+    isLoading,
+    childRoutingSlipDetails,
+    parentRoutingSlipDetails
   }
 }

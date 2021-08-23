@@ -44,12 +44,14 @@ export default class RoutingSlipModule extends VuexModule {
 
   // for a child linked to a parent routing slip, there would be a parentNumber
   public get isRoutingSlipAChild () {
-    return !!this.routingSlip.parentNumber
+    return !!this.routingSlip?.parentNumber
   }
 
   // if routingslip has parentNumber then it is a child Else, check if there are any children in linkedroutingslips for it.(in this case, it is a parent)
   public get isRoutingSlipLinked () {
-    return this.isRoutingSlipAChild || this.linkedRoutingSlips?.children.length > 0
+    return (
+      this.isRoutingSlipAChild || this.linkedRoutingSlips?.children.length > 0
+    )
   }
 
   @Mutation
@@ -255,27 +257,41 @@ export default class RoutingSlipModule extends VuexModule {
     return []
   }
 
-  @Action({ commit: 'setRoutingSlip', rawError: true })
+  @Action({ rawError: true })
   public async saveLinkRoutingSlip (
-    childRoutingSlipNumber: string
-  ): Promise<RoutingSlipDetails> {
+    parentRoutingSlipNumber: string
+  ): Promise<any> {
     const context: any = this.context
 
-    const parentRoutingSlipNumber: string = context.state.routingSlip.number
+    const childRoutingSlipNumber: string = context.state.routingSlip.number
 
     const LinkPrams = { childRoutingSlipNumber, parentRoutingSlipNumber }
 
-    // handle error condtions here
-    const response = await RoutingSlipService.saveLinkRoutingSlip(LinkPrams)
-    if (response && response.data && response.status === 200) {
-      return response.data
+    try {
+      // handle error condtions here
+      const response = await RoutingSlipService.saveLinkRoutingSlip(LinkPrams)
+      if (response && response.data && response.status === 200) {
+        return {
+          error: false
+        }
+      }
+    } catch (error) {
+      if (error.response.status === 400) {
+        return { error: true, details: error.response?.data }
+      }
+
+      // eslint-disable-next-line no-console
+      console.error('error ', error.response?.data)
     }
   }
 
   @Action({ rawError: true })
   public async getLinkedRoutingSlips (routingSlipNumber): Promise<void> {
     try {
-      const response = await RoutingSlipService.getLinkedRoutingSlips(routingSlipNumber, true)
+      const response = await RoutingSlipService.getLinkedRoutingSlips(
+        routingSlipNumber,
+        true
+      )
       const context: any = this.context
       let linkedRoutingSlips: LinkedRoutingSlips
       if (response && response.data && response.status === 200) {

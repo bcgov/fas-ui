@@ -6,17 +6,26 @@
     </header>
     <v-card class="pl-5 py-2 small-text-input">
       <v-card-text>
-        <v-row v-if="alreadyLinked">
+        <v-row v-if="isRoutingSlipLinked">
           <v-col class="col-6 col-sm-8 font-weight-bold">
             This routing slip has been linked to:
           </v-col>
-          <v-col cols="12">
+          <v-col cols="12" v-if="!isRoutingSlipAChild">
             <linked-routing-slip-details
-              createdDate="May 05, 2021"
-              RoutingSlipNumber="A3388999480"
+              v-for="(routinSlip, i) in childRoutingSlipDetails"
+              :siNumber="i + 1"
+              :createdDate="routinSlip.createdOn"
+              :routingSlipNumber="routinSlip.number"
+              :key="routinSlip.number"
             />
           </v-col>
-          <v-col cols="12" v-if="isChildRS">
+          <v-col cols="12" v-if="isRoutingSlipAChild">
+            <linked-routing-slip-details
+              :createdDate="parentRoutingSlipDetails.createdOn"
+              :routingSlipNumber="parentRoutingSlipDetails.number"
+            />
+          </v-col>
+          <v-col cols="12" v-if="isRoutingSlipAChild">
             <div class="linked-rs-info">
               <h4>Linked routing slip</h4>
               <p v-html="$t('linkedRSChildInfo')"></p>
@@ -24,7 +33,7 @@
           </v-col>
         </v-row>
 
-        <v-row no-gutters v-if="!alreadyLinked">
+        <v-row no-gutters v-if="!isRoutingSlipLinked">
           <v-col cols="12" sm="10">
             <v-row>
               <v-col class="col-6 col-sm-8 font-weight-bold">
@@ -72,21 +81,25 @@ import RoutingSlipAutoComplete from '@/components/ViewRoutingSlip/RoutingSlipAut
   directives: {
     can
   },
-  setup (props) {
+  setup () {
     const {
       showSearch,
       toggleSearch,
-      alreadyLinked,
-      isChildRS,
-      isLoading
-    } = useLinkRoutingSlip(props)
+      isRoutingSlipLinked,
+      isRoutingSlipAChild,
+      isLoading,
+      childRoutingSlipDetails,
+      parentRoutingSlipDetails
+    } = useLinkRoutingSlip()
 
     return {
       showSearch,
       toggleSearch,
-      alreadyLinked,
-      isChildRS,
-      isLoading
+      isRoutingSlipLinked,
+      isRoutingSlipAChild,
+      isLoading,
+      childRoutingSlipDetails,
+      parentRoutingSlipDetails
     }
   }
 })
