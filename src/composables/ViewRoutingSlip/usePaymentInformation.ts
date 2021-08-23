@@ -5,15 +5,16 @@ import { RoutingSlip } from '@/models/RoutingSlip'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useState } = routingSlipModule
+const { useState, useGetters } = routingSlipModule
 
 // Composable function to inject Props, options and values to PaymentInformation component
 export default function usePaymentInformation () {
   // UI control variables
   const isExpanded = ref<boolean>(false)
 
-  // vuex action and state
-  const { routingSlip } = useState(['routingSlip'])
+  // vuex getter and state
+  const { routingSlip, linkedRoutingSlips } = useState(['routingSlip', 'linkedRoutingSlips'])
+  const { isRoutingSlipAChild, isRoutingSlipLinked } = useGetters(['isRoutingSlipAChild', 'isRoutingSlipLinked'])
 
   // As per current business rule, a routingslip has one-to-one relation with payment method (Cash/Cheque)
   // Therefore, we can determine the payment method of the current routingslip from the first payment record
@@ -33,6 +34,9 @@ export default function usePaymentInformation () {
     routingSlip,
     isExpanded,
     isPaymentCheque,
+    linkedRoutingSlips,
+    isRoutingSlipAChild,
+    isRoutingSlipLinked,
     viewPaymentInformation
   }
 }

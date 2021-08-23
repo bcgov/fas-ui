@@ -43,12 +43,12 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   // for a child linked to a parent routing slip, there would be a parentNumber
-  public get isRoutingSlipAChild () {
+  public get isRoutingSlipAChild (): boolean {
     return !!this.routingSlip.parentNumber
   }
 
   // if routingslip has parentNumber then it is a child Else, check if there are any children in linkedroutingslips for it.(in this case, it is a parent)
-  public get isRoutingSlipLinked () {
+  public get isRoutingSlipLinked (): boolean {
     return this.isRoutingSlipAChild || this.linkedRoutingSlips?.children.length > 0
   }
 

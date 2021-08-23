@@ -1,5 +1,5 @@
 <template>
-  <v-row class="mb-16" v-if="routingSlipDetails">
+  <v-row v-if="routingSlipDetails">
     <v-col class="col-3 font-weight-bold">
       Routing Slip - Unique ID
     </v-col>

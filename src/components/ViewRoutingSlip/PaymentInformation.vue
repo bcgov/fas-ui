@@ -31,7 +31,7 @@
                 ${{ routingSlip.total && routingSlip.total.toFixed(2) }}
               </v-col>
             </v-row>
-            <v-row no-gutters v-if="routingSlip">
+            <v-row no-gutters v-if="routingSlip" class="mb-2">
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 <v-btn
                   text
@@ -51,16 +51,31 @@
                 </v-btn>
               </v-col>
             </v-row>
-            <v-row no-gutters v-if="isExpanded">
-              <v-col class="col-11 pay-info mt-4 ml-4" v-if="routingSlip && routingSlip.payments">
-                <v-expand-transition>
-                  <div>
-                    <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentCheque" :chequePayment="routingSlip.payments"/>
-                    <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="routingSlip.payments[0]"/>
-                    <linked-routing-slips-payment-info/>
+            <v-row no-gutters v-if="isExpanded && routingSlip && routingSlip.payments" class="mb-10">
+              <v-expand-transition>
+                <v-col cols="11">
+                  <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentCheque" :chequePayment="routingSlip.payments"/>
+                  <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="routingSlip.payments[0]"/>
+                  <div v-if="isRoutingSlipLinked && !isRoutingSlipAChild" class="d-flex flex-column">
+                    <div
+                    v-for="(child, i) in linkedRoutingSlips.children"
+                    :key="i" class="d-flex flex-column">
+                      <div class="d-flex mt-6 mb-3">
+                        <p class="ma-0">Linked with: </p>
+                        <router-link :to="`/view-routing-slip/${child.number}`">
+                          <span class="font-weight-bold pl-1">{{ child.number }}</span>
+                        </router-link>
+                      </div>
+                      <review-routing-slip-cheque-payment :data-test="getIndexedTag('review-routing-slip-cheque-child-payment', i)"
+                      v-if="child.payments[0] === PaymentMethods.CHEQUE"
+                      :chequePayment="child.payments"/>
+                      <review-routing-slip-cash-payment :data-test="getIndexedTag('review-routing-slip-cash-child-payment', i)"
+                      v-else
+                      :cashPayment="child.payments[0]"/>
+                    </div>
                   </div>
-                </v-expand-transition>
-              </v-col>
+                </v-col>
+              </v-expand-transition>
             </v-row>
 
             <v-row no-gutters>
@@ -84,14 +99,13 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
-import LinkedRoutingSlipsPaymentInfo from './LinkedRoutingSlipsPaymentInfo.vue'
 import ReviewRoutingSlipCashPayment from '@/components/ReviewRoutingSlip/ReviewRoutingSlipCashPayment.vue'
 import ReviewRoutingSlipChequePayment from '@/components/ReviewRoutingSlip/ReviewRoutingSlipChequePayment.vue'
 import can from '@/directives/can'
+import { PaymentMethods } from '@/util/constants'
 
 @Component({
   components: {
-    LinkedRoutingSlipsPaymentInfo,
     ReviewRoutingSlipCashPayment,
     ReviewRoutingSlipChequePayment
   },
@@ -103,17 +117,29 @@ import can from '@/directives/can'
       routingSlip,
       isExpanded,
       isPaymentCheque,
+      linkedRoutingSlips,
+      isRoutingSlipAChild,
+      isRoutingSlipLinked,
       viewPaymentInformation
     } = usePaymentInformation()
     return {
       routingSlip,
       isExpanded,
       isPaymentCheque,
+      linkedRoutingSlips,
+      isRoutingSlipAChild,
+      isRoutingSlipLinked,
       viewPaymentInformation
     }
   }
 })
-export default class PaymentInformation extends Vue {}
+export default class PaymentInformation extends Vue {
+  public PaymentMethods = PaymentMethods
+
+  public getIndexedTag (tag, index): string {
+    return `${tag}-${index}`
+  }
+}
 </script>
 <style lang="scss">
 .pay-info .col {
