@@ -25,11 +25,12 @@ export enum PaymentMethods {
 export enum SlipStatus {
   ACTIVE = 'ACTIVE',
   COMPLETE = 'COMPLETE',
-  BOUNCED='BOUNCED',
+  BOUNCED = 'BOUNCED',
   NSF = 'NSF',
-  REFUND ='REFUND',
-  LAST='LAST',
-  HOLD='HOLD'
+  REFUND = 'REFUND',
+  LAST = 'LAST',
+  HOLD = 'HOLD',
+  LINKED = 'LINKED'
 }
 
 export enum Role {
@@ -42,7 +43,7 @@ export enum Role {
 }
 
 export enum InvoiceStatus {
-  COMPLETED = 'COMPLETED',
+  COMPLETED = 'COMPLETED'
 }
 
 export const AXIOS_ERROR_ALERT_TIME_OUT = 5000

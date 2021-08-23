@@ -1,12 +1,12 @@
 <template>
   <div>
-    {{ SiNumber ? `${SiNumber}.` : '' }}
+    {{ siNumber ? `${siNumber}.` : '' }}
 
     <router-link
-      :to="`/view-routing-slip/${RoutingSlipNumber}`"
+      :to="`/view-routing-slip/${routingSlipNumber}`"
       class="font-weight-bold"
     >
-      {{ RoutingSlipNumber }}
+      {{ routingSlipNumber }}
     </router-link>
     <span>
       - Routing slip created date:
@@ -22,8 +22,8 @@ import commonUtil from '@/util/common-util'
 
 @Component({})
 export default class LinkedRoutingSlipDetails extends Vue {
-  @Prop({ default: '' }) private SiNumber: string
-  @Prop({ default: '' }) private RoutingSlipNumber: string
+  @Prop({ default: '' }) private siNumber: string
+  @Prop({ default: '' }) private routingSlipNumber: string
   @Prop({ default: '' }) private createdDate: Date | string
 
   public colors = commonUtil.statusListColor

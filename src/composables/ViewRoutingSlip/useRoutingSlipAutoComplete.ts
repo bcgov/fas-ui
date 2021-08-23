@@ -1,4 +1,4 @@
-import { ref } from '@vue/composition-api'
+import { reactive, ref } from '@vue/composition-api'
 
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import CommonUtils from '@/util/common-util'
@@ -9,9 +9,20 @@ const { useState, useActions } = routingSlipModule
 // Composable function to inject Props, options and values to useRoutingSlipInfo component
 export default function useLinkRoutingSlip (_, context) {
   // store
-  const { autoCompleteRoutingSlips } = useState(['autoCompleteRoutingSlips'])
-  const { getAutoCompleteRoutingSlips, saveLinkRoutingSlip } = useActions([
-    'getAutoCompleteRoutingSlips', 'saveLinkRoutingSlip'
+  const { autoCompleteRoutingSlips, routingSlip } = useState([
+    'autoCompleteRoutingSlips',
+    'routingSlip'
+  ])
+  const {
+    getAutoCompleteRoutingSlips,
+    saveLinkRoutingSlip,
+    getRoutingSlip,
+    getLinkedRoutingSlips
+  } = useActions([
+    'getAutoCompleteRoutingSlips',
+    'saveLinkRoutingSlip',
+    'getRoutingSlip',
+    'getLinkedRoutingSlips'
   ])
 
   const errorMessage = ref('')
@@ -51,8 +62,22 @@ export default function useLinkRoutingSlip (_, context) {
     isLoading.value = false
   }
 
-  function saveLinkedRoutingSlip () {
-    saveLinkRoutingSlip(search.value)
+  async function saveLinkedRoutingSlip () {
+    let linkingErrors = ''
+
+    const response = await saveLinkRoutingSlip(search.value)
+    if (response?.error) {
+      // setting error message
+      linkingErrors = response?.details?.detail ? response.details.detail : ''
+    } else {
+      //  TODO: check for global loading
+      const currentRoutingSlipId = routingSlip.value?.number || ''
+      await getRoutingSlip(currentRoutingSlipId)
+      // get the linked routingslip children/parent for the current routingslip
+      await getLinkedRoutingSlips(currentRoutingSlipId)
+    }
+
+    errorMessage.value = linkingErrors
   }
 
   // Input field rules
