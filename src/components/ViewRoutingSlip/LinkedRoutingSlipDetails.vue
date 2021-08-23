@@ -30,6 +30,7 @@ export default class LinkedRoutingSlipDetails extends Vue {
   get formatSiNumber () {
     let siNumber = ''
     if (this.siNumber && this.siNumber !== '') {
+      // for padding zero for single digits to match design
       siNumber = this.siNumber?.toString().padStart(2, '0')
       siNumber = `${siNumber}.`
     }
