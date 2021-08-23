@@ -28,7 +28,7 @@
                 Total Amount Received
               </v-col>
               <v-col v-if="routingSlip" class="col-6 col-sm-9 status-list" data-test="total">
-                ${{ routingSlip.total && routingSlip.total.toFixed(2) }}
+                ${{ totalAmount && totalAmount.toFixed(2) }}
               </v-col>
             </v-row>
             <v-row no-gutters v-if="routingSlip" class="mb-2">
@@ -63,13 +63,14 @@
                       <div class="d-flex mt-6 mb-3">
                         <p class="ma-0">Linked with: </p>
                         <router-link :to="`/view-routing-slip/${child.number}`">
-                          <span class="font-weight-bold pl-1">{{ child.number }}</span>
+                          <span :data-test="getIndexedTag('text-review-routing-slip', i)"
+                          class="font-weight-bold pl-1">{{ child.number }}</span>
                         </router-link>
                       </div>
-                      <review-routing-slip-cheque-payment :data-test="getIndexedTag('review-routing-slip-cheque-child-payment', i)"
+                      <review-routing-slip-cheque-payment :data-test="getIndexedTag('cheque-child-payment', i)"
                       v-if="child.payments[0] === PaymentMethods.CHEQUE"
                       :chequePayment="child.payments"/>
-                      <review-routing-slip-cash-payment :data-test="getIndexedTag('review-routing-slip-cash-child-payment', i)"
+                      <review-routing-slip-cash-payment :data-test="getIndexedTag('cash-child-payment', i)"
                       v-else
                       :cashPayment="child.payments[0]"/>
                     </div>
@@ -120,6 +121,7 @@ import { PaymentMethods } from '@/util/constants'
       linkedRoutingSlips,
       isRoutingSlipAChild,
       isRoutingSlipLinked,
+      totalAmount,
       viewPaymentInformation
     } = usePaymentInformation()
     return {
@@ -129,6 +131,7 @@ import { PaymentMethods } from '@/util/constants'
       linkedRoutingSlips,
       isRoutingSlipAChild,
       isRoutingSlipLinked,
+      totalAmount,
       viewPaymentInformation
     }
   }

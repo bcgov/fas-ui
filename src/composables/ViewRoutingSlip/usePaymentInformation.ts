@@ -1,5 +1,6 @@
 import { computed, ref } from '@vue/composition-api'
 
+import { Payment } from '@/models/Payment'
 import { PaymentMethods } from '@/util/constants'
 import { RoutingSlip } from '@/models/RoutingSlip'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
@@ -24,6 +25,19 @@ export default function usePaymentInformation () {
     return payments && payments[0].paymentMethod === PaymentMethods.CHEQUE
   })
 
+  // Backend returns individual routing slip total. Therefore, we need to sum up the children routing slips as well
+  const totalAmount = computed(() => {
+    let routingSlipTotal = routingSlip.value?.total
+    if (isRoutingSlipLinked.value === true && isRoutingSlipAChild.value === false) {
+      // this means it is a parent routing slip
+      const linkedRoutingSlipsTotal = linkedRoutingSlips.value.children.reduce((acc, routingSlip: RoutingSlip) => {
+        return acc + routingSlip.total
+      }, 0)
+      routingSlipTotal += linkedRoutingSlipsTotal
+    }
+    return routingSlipTotal
+  })
+
   function viewPaymentInformation (): void {
     // expand/collapse view payment information children
     // update the cheque store if payment method is cheque, cash store otherwise
@@ -37,6 +51,7 @@ export default function usePaymentInformation () {
     linkedRoutingSlips,
     isRoutingSlipAChild,
     isRoutingSlipLinked,
+    totalAmount,
     viewPaymentInformation
   }
 }
