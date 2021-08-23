@@ -10,7 +10,7 @@
           <v-col class="col-6 col-sm-8 font-weight-bold">
             This routing slip has been linked to:
           </v-col>
-          <v-col cols="12" v-if="!isRoutingSlipAChild">
+          <v-col cols="12" class="pb-0" v-if="!isRoutingSlipAChild">
             <linked-routing-slip-details
               v-for="(routinSlip, i) in childRoutingSlipDetails"
               :siNumber="i + 1"
@@ -19,13 +19,13 @@
               :key="routinSlip.number"
             />
           </v-col>
-          <v-col cols="12" v-if="isRoutingSlipAChild">
+          <v-col cols="12" v-if="isRoutingSlipAChild" class="pb-0">
             <linked-routing-slip-details
               :createdDate="parentRoutingSlipDetails.createdOn"
               :routingSlipNumber="parentRoutingSlipDetails.number"
             />
           </v-col>
-          <v-col cols="12" v-if="isRoutingSlipAChild">
+          <v-col cols="12" class="pl-0" v-if="isRoutingSlipAChild">
             <div class="linked-rs-info">
               <h4>Linked routing slip</h4>
               <p v-html="$t('linkedRSChildInfo')"></p>

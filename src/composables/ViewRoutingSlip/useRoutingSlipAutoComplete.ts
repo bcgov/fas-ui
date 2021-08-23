@@ -2,6 +2,7 @@ import { reactive, ref } from '@vue/composition-api'
 
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import CommonUtils from '@/util/common-util'
+import debounce from '@/util/debounce'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useState, useActions } = routingSlipModule
@@ -47,8 +48,6 @@ export default function useLinkRoutingSlip (_, context) {
 
   async function searchRoutingSlip () {
     isLoading.value = true
-
-    // Add debouncing here
     // start searching after typing 3 char
     if (search.value.length > 2) {
       await getAutoCompleteRoutingSlips(search.value)
@@ -80,6 +79,10 @@ export default function useLinkRoutingSlip (_, context) {
     errorMessage.value = linkingErrors
   }
 
+  const delayedSearch = debounce(() => {
+    searchRoutingSlip()
+  })
+
   // Input field rules
   const numberRules = CommonUtils.requiredFieldRule(
     'Please enter a routing slip - unique ID'
@@ -95,6 +98,7 @@ export default function useLinkRoutingSlip (_, context) {
     isLoading,
     search,
     hideNoData,
-    saveLinkRoutingSlip
+    saveLinkRoutingSlip,
+    delayedSearch
   }
 }

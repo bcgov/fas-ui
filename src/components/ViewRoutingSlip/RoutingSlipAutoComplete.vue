@@ -8,7 +8,7 @@
         :items="autoCompleteRoutingSlips"
         :loading="isLoading"
         :search-input.sync="search"
-        @keyup="searchRoutingSlip"
+        @keyup="delayedSearch"
         :hide-no-data="hideNoData"
         item-text="number"
         item-value="number"
@@ -83,10 +83,10 @@ import { useRoutingSlipAutoComplete } from '@/composables/ViewRoutingSlip'
       searchRS,
       errorMessage,
       autoCompleteRoutingSlips,
-      searchRoutingSlip,
       isLoading,
       search,
-      hideNoData
+      hideNoData,
+      delayedSearch
     } = useRoutingSlipAutoComplete(_, context)
 
     return {
@@ -96,10 +96,10 @@ import { useRoutingSlipAutoComplete } from '@/composables/ViewRoutingSlip'
       searchRS,
       errorMessage,
       autoCompleteRoutingSlips,
-      searchRoutingSlip,
       isLoading,
       search,
-      hideNoData
+      hideNoData,
+      delayedSearch
     }
   }
 })
@@ -112,7 +112,7 @@ export default class LinkedRoutingSlipDetails extends Vue {
 .rs-details {
   display: flex;
   span {
-    min-width: 125px;
+    min-width: 118px;
 
     span {
       padding: 0 5px !important;

@@ -1,7 +1,6 @@
 <template>
-  <div>
-    {{ siNumber ? `${siNumber}.` : '' }}
-
+  <div class="mb-4">
+    {{ formatSiNumber }}
     <router-link
       :to="`/view-routing-slip/${routingSlipNumber}`"
       class="font-weight-bold"
@@ -28,6 +27,14 @@ export default class LinkedRoutingSlipDetails extends Vue {
 
   public colors = commonUtil.statusListColor
   public formatDisplayDate = commonUtil.formatDisplayDate
+  get formatSiNumber () {
+    let siNumber = ''
+    if (this.siNumber && this.siNumber !== '') {
+      siNumber = this.siNumber?.toString().padStart(2, '0')
+      siNumber = `${siNumber}.`
+    }
+    return siNumber
+  }
 }
 </script>
 
