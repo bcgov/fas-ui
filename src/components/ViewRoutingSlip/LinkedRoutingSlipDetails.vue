@@ -1,6 +1,8 @@
 <template>
   <div class="mb-4">
-    {{ formatSiNumber }}
+    <span class="font-weight-bold" v-if="formatSiNumber !== ''">
+      {{ formatSiNumber }} </span
+    >
     <router-link
       :to="`/view-routing-slip/${routingSlipNumber}`"
       class="font-weight-bold"
