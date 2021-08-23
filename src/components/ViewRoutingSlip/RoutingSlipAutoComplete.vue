@@ -41,7 +41,12 @@
               }}</span
             >
             <span>
-              <span>-</span> Current Balance: {{ item.remainingAmount }}</span
+              <span>-</span> Current Balance:
+              {{
+                item.remainingAmount
+                  ? appendCurrencySymbol(item.total.toFixed(2))
+                  : '$ 0.00'
+              }}</span
             >
           </div>
         </template>
@@ -105,6 +110,7 @@ import { useRoutingSlipAutoComplete } from '@/composables/ViewRoutingSlip'
 })
 export default class LinkedRoutingSlipDetails extends Vue {
   public formatDisplayDate = commonUtil.formatDisplayDate
+  public appendCurrencySymbol = commonUtil.appendCurrencySymbol
 }
 </script>
 
