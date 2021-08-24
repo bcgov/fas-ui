@@ -27,8 +27,8 @@
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 Total Amount Received
               </v-col>
-              <v-col v-if="routingSlip && totalAmount" class="col-6 col-sm-9 status-list" data-test="total">
-                {{ appendCurrencySymbol(totalAmount.toFixed(2)) }}
+              <v-col v-if="routingSlip" class="col-6 col-sm-9 status-list" data-test="total">
+                {{ totalAmount }}
               </v-col>
             </v-row>
             <v-row no-gutters v-if="routingSlip" class="mb-2">
@@ -100,7 +100,6 @@ import ReviewRoutingSlipCashPayment from '@/components/ReviewRoutingSlip/ReviewR
 import ReviewRoutingSlipChequePayment from '@/components/ReviewRoutingSlip/ReviewRoutingSlipChequePayment.vue'
 import can from '@/directives/can'
 import { PaymentMethods } from '@/util/constants'
-import commonUtil from '@/util/common-util'
 
 @Component({
   components: {
@@ -137,7 +136,6 @@ import commonUtil from '@/util/common-util'
 })
 export default class PaymentInformation extends Vue {
   public PaymentMethods = PaymentMethods
-  public appendCurrencySymbol = commonUtil.appendCurrencySymbol
 
   public getIndexedTag (tag, index): string {
     return `${tag}-${index}`

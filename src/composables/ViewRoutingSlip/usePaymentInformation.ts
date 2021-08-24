@@ -36,7 +36,7 @@ export default function usePaymentInformation () {
       }, 0)
       routingSlipTotal += linkedRoutingSlipsTotal
     }
-    return routingSlipTotal
+    return routingSlipTotal ? commonUtil.appendCurrencySymbol(routingSlipTotal.toFixed(2)) : '$0.00'
   })
 
   const remainingAmount = computed(() => {
