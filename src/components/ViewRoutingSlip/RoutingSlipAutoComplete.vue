@@ -8,7 +8,7 @@
         :items="autoCompleteRoutingSlips"
         :loading="isLoading"
         :search-input.sync="search"
-        @keyup="searchRoutingSlip"
+        @keyup="delayedSearch"
         :hide-no-data="hideNoData"
         item-text="number"
         item-value="number"
@@ -41,7 +41,12 @@
               }}</span
             >
             <span>
-              <span>-</span> Current Balance: {{ item.remainingAmount }}</span
+              <span>-</span> Current Balance:
+              {{
+                item.remainingAmount
+                  ? appendCurrencySymbol(item.total.toFixed(2))
+                  : '$ 0.00'
+              }}</span
             >
           </div>
         </template>
@@ -83,10 +88,10 @@ import { useRoutingSlipAutoComplete } from '@/composables/ViewRoutingSlip'
       searchRS,
       errorMessage,
       autoCompleteRoutingSlips,
-      searchRoutingSlip,
       isLoading,
       search,
-      hideNoData
+      hideNoData,
+      delayedSearch
     } = useRoutingSlipAutoComplete(_, context)
 
     return {
@@ -96,15 +101,16 @@ import { useRoutingSlipAutoComplete } from '@/composables/ViewRoutingSlip'
       searchRS,
       errorMessage,
       autoCompleteRoutingSlips,
-      searchRoutingSlip,
       isLoading,
       search,
-      hideNoData
+      hideNoData,
+      delayedSearch
     }
   }
 })
 export default class RoutingSlipAutoComplete extends Vue {
   public formatDisplayDate = commonUtil.formatDisplayDate
+  public appendCurrencySymbol = commonUtil.appendCurrencySymbol
 }
 </script>
 
@@ -112,7 +118,7 @@ export default class RoutingSlipAutoComplete extends Vue {
 .rs-details {
   display: flex;
   span {
-    min-width: 125px;
+    min-width: 118px;
 
     span {
       padding: 0 5px !important;
