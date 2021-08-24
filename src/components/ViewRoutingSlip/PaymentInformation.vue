@@ -84,7 +84,7 @@
                 data-test="remaining-amount"
                 v-if="routingSlip"
               >
-                {{ routingSlip.remainingAmount ? appendCurrencySymbol(routingSlip.remainingAmount.toFixed(2)) : '$0.00' }}
+                {{  remainingAmount }}
               </v-col>
             </v-row>
           </v-col>
@@ -119,6 +119,7 @@ import commonUtil from '@/util/common-util'
       isRoutingSlipAChild,
       isRoutingSlipLinked,
       totalAmount,
+      remainingAmount,
       viewPaymentInformation
     } = usePaymentInformation()
     return {
@@ -129,6 +130,7 @@ import commonUtil from '@/util/common-util'
       isRoutingSlipAChild,
       isRoutingSlipLinked,
       totalAmount,
+      remainingAmount,
       viewPaymentInformation
     }
   }
