@@ -13,9 +13,10 @@
             link
             color="primary"
             @click="goHome()"
+            data-test="btn-home"
             v-if="showHomePageBtn"
-            >{{ $t('homeBtnLabel') }}</v-btn
-          >
+            >{{ $t('homeBtnLabel') }}
+          </v-btn>
         </slot>
       </v-col>
     </v-row>

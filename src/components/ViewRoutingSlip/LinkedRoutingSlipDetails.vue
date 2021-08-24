@@ -10,7 +10,7 @@
     </router-link>
     <span>
       - Routing slip created date:
-      <span class="font-weight-bold">{{
+      <span data-test="text-created-date" class="font-weight-bold">{{
         formatDisplayDate(createdDate)
       }}</span></span
     >
