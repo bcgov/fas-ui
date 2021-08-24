@@ -1,6 +1,6 @@
 <template>
   <v-expand-transition>
-    <v-alert class="mt-3" data-test="alert-error-alert" tile :type="type" :icon="icon" :dismissible="dismissible">{{ message }}</v-alert>
+    <v-alert data-test="alert-error-alert" tile :type="type" :icon="icon" :dismissible="dismissible">{{ message }}</v-alert>
   </v-expand-transition>
 </template>
 

@@ -12,6 +12,7 @@
           </v-col>
           <v-col cols="12" v-if="!isRoutingSlipAChild">
             <linked-routing-slip-details
+              data-test="linked-routing-slip-details"
               v-for="(routinSlip, i) in childRoutingSlipDetails"
               :siNumber="i + 1"
               :createdDate="routinSlip.createdOn"
@@ -42,7 +43,7 @@
 
               <v-col cols="6" sm="8" v-if="showSearch">
                 <div class="d-flex" key="action">
-                  <RoutingSlipAutoComplete @toggleSearch="toggleSearch()" />
+                  <RoutingSlipAutoComplete data-test="routing-slip-auto-complete" @toggleSearch="toggleSearch()" />
                 </div>
               </v-col>
             </v-row>

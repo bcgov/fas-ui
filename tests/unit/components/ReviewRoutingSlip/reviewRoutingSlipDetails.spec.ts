@@ -1,10 +1,9 @@
-import { accountInfo, cashPayment, chequePayment, routingSlipDetails } from '../../test-data/mock-routing-slip'
+import { accountInfo, routingSlipDetails } from '../../test-data/mock-routing-slip'
 import { createLocalVue, mount } from '@vue/test-utils'
 
 import { ReviewRoutingSlipDetails } from '@/components/ReviewRoutingSlip'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
-import commonUtil from '@/util/common-util'
 
 describe('ReviewRoutingSlipDetails.vue', () => {
   const localVue = createLocalVue()
@@ -30,5 +29,6 @@ describe('ReviewRoutingSlipDetails.vue', () => {
 
     expect(wrapper.find('[data-test="txt-routing-slip-number"]').text()).toEqual(routingSlipDetails.number)
     expect(wrapper.find('[data-test="txt-routing-slip-name"]').text()).toEqual(accountInfo.accountName)
+    expect(wrapper.find('[data-test="txt-routing-slip-date"]').text()).toBe('August 13, 2021')
   })
 })

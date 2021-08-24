@@ -1,26 +1,24 @@
 <template>
-  <v-row no-gutters>
-    <v-col class="col-10">
-      <v-row class="mb-3">
-        <v-col class="col-3 font-weight-bold">
-          Payment Information
-        </v-col>
-        <v-col class="col-9" data-test="payment-info">
-          {{ isPaymentMethodCheque ? "Cheque" : "Cash" }}
-        </v-col>
-      </v-row>
-      <!--- cheque children if payment is cheque, else cash child --->
-      <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentMethodCheque" :chequePayment="chequePayment"/>
-      <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="cashPayment"/>
-      <v-row v-if="isPaymentMethodCheque">
-        <v-col class="col-3 font-weight-bold">
-          Total Amount
-        </v-col>
-        <v-col class="col-9" data-test="total">
-          {{ appendCurrencySymbol(totalAmount) }}
-        </v-col>
-      </v-row>
+  <v-row class="mb-3">
+    <v-col class="col-3 font-weight-bold">
+      Payment Information
     </v-col>
+    <v-col class="col-9" data-test="payment-info">
+      {{ isPaymentMethodCheque ? "Cheque" : "Cash" }}
+    </v-col>
+  <v-col cols="10">
+    <!--- cheque children if payment is cheque, else cash child --->
+    <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentMethodCheque" :chequePayment="chequePayment"/>
+    <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="cashPayment"/>
+  </v-col>
+  <template v-if="isPaymentMethodCheque">
+    <v-col class="col-3 font-weight-bold">
+      Total Amount
+    </v-col>
+    <v-col class="col-9" data-test="total">
+      {{ appendCurrencySymbol(totalAmount) }}
+    </v-col>
+  </template>
   </v-row>
 </template>
 <script lang="ts">

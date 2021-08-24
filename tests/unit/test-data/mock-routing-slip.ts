@@ -1,4 +1,4 @@
-import { AccountInfo, RoutingSlip, RoutingSlipDetails } from '@/models/RoutingSlip'
+import { AccountInfo, LinkedRoutingSlips, RoutingSlip, RoutingSlipDetails } from '@/models/RoutingSlip'
 
 import { Invoice } from '@/models/Invoice'
 import { Payment } from '@/models/Payment'
@@ -54,10 +54,10 @@ export const routingSlip: RoutingSlip = {
   number: '123',
   paymentAccount: { billable: true, name: 'test', paymentMethod: 'CHEQUE' },
   payments: [{ chequeReceiptNumber: '123', createdBy: 'user', id: 7636, paymentMethod: 'CHEQUE', paidAmount: 123, paymentDate: '2021-07-15' }],
-  remainingAmount: 123,
+  remainingAmount: 1000,
   routingSlipDate: '2021-07-08',
   status: 'ACTIVE',
-  total: 12345,
+  total: 1000,
   invoices: invoice
 }
 
@@ -89,3 +89,61 @@ export const cashPayment: Payment =
   paidAmount: 1000,
   paymentMethod: 'CASH'
 }
+
+export const linkedRoutingSlipsWithChildren: LinkedRoutingSlips =
+{
+  children: [
+    {
+      id: 49,
+      number: '123REF1231',
+      parentNumber: '998877665',
+      paymentAccount: {
+        accountName: 'Thomas Shelby',
+        billable: true,
+        paymentMethod: 'CASH'
+      },
+      payments: [
+        {
+          chequeReceiptNumber: '123RF1231',
+          id: 7884,
+          isRoutingSlip: true,
+          paidAmount: 1000.0,
+          paymentMethod: 'CASH',
+          paymentSystem: 'FAS',
+          statusCode: 'COMPLETED'
+        }
+      ],
+      remainingAmount: 10900.0,
+      routingSlipDate: '2021-07-09',
+      status: 'LINKED',
+      total: 1000.0
+    }
+  ],
+  parent: null
+}
+
+export const autoCompleteRoutingSlips: RoutingSlip[] =
+[
+  {
+    id: 1,
+    number: 'AutoComplete1',
+    paymentAccount: { billable: true, name: 'test', paymentMethod: 'CHEQUE' },
+    payments: [{ chequeReceiptNumber: '123', createdBy: 'user', id: 7636, paymentMethod: 'CHEQUE', paidAmount: 123, paymentDate: '2021-07-15' }],
+    remainingAmount: 1000,
+    routingSlipDate: '2021-07-08',
+    status: 'ACTIVE',
+    total: 1000,
+    invoices: invoice
+  },
+  {
+    id: 2,
+    number: 'AutoComplete2',
+    paymentAccount: { billable: true, name: 'test', paymentMethod: 'CHEQUE' },
+    payments: [{ chequeReceiptNumber: '123', createdBy: 'user', id: 7636, paymentMethod: 'CHEQUE', paidAmount: 123, paymentDate: '2021-07-15' }],
+    remainingAmount: 1000,
+    routingSlipDate: '2021-07-08',
+    status: 'ACTIVE',
+    total: 2000,
+    invoices: invoice
+  }
+]

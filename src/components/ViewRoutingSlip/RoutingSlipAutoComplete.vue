@@ -103,7 +103,7 @@ import { useRoutingSlipAutoComplete } from '@/composables/ViewRoutingSlip'
     }
   }
 })
-export default class LinkedRoutingSlipDetails extends Vue {
+export default class RoutingSlipAutoComplete extends Vue {
   public formatDisplayDate = commonUtil.formatDisplayDate
 }
 </script>

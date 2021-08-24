@@ -1,34 +1,37 @@
 <template>
   <div class="parent-container">
     <v-row class="d-flex justify-between" v-for="(payment, i) in chequePayment" :key="i">
-      <v-col cols="4" class="py-0">
+      <v-col cols="4">
         <v-text-field
         filled
         disabled
-        label="Receipt Number"
+        label="Cheque Number"
         persistent-hint
+        hide-details
         :value="payment.chequeReceiptNumber"
         :data-test="getIndexedTag('txt-cheque-receipt-number', i)"
         >
         </v-text-field>
       </v-col>
-      <v-col cols="4" class="py-0">
+      <v-col cols="4">
         <v-text-field
         filled
         disabled
         label="Cheque Date"
         persistent-hint
+        hide-details
         :value="payment.paymentDate ? formatDisplayDate(payment.paymentDate, 'MMMM DD, YYYY') : '-'"
         :data-test="getIndexedTag('txt-cheque-date', i)"
         >
         </v-text-field>
       </v-col>
-      <v-col cols="4" class="py-0">
+      <v-col cols="4">
         <v-text-field
         filled
         disabled
         label="Amount ($)"
         persistent-hint
+        hide-details
         :value="payment.paidAmount"
         type="number"
         :data-test="getIndexedTag('txt-paid-amount', i)"
