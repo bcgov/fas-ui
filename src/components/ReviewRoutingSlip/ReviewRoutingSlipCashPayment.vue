@@ -1,6 +1,6 @@
 <template>
   <v-row class="d-flex justify-between" v-if="cashPayment">
-    <v-col cols="4">
+    <v-col cols="6">
       <v-text-field
       filled
       disabled
@@ -12,7 +12,7 @@
       >
       </v-text-field>
     </v-col>
-    <v-col cols="4">
+    <v-col cols="6">
       <v-text-field
       filled
       disabled

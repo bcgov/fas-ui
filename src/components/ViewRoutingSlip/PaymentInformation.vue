@@ -82,9 +82,9 @@
               <v-col
                 class="col-6 col-sm-9 font-weight-bold"
                 data-test="remaining-amount"
-                v-if="routingSlip && routingSlip.remainingAmount"
+                v-if="routingSlip"
               >
-                {{ appendCurrencySymbol(routingSlip.remainingAmount.toFixed(2)) }}
+                {{ routingSlip.remainingAmount ? appendCurrencySymbol(routingSlip.remainingAmount.toFixed(2)) : '$0.00' }}
               </v-col>
             </v-row>
           </v-col>

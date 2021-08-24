@@ -39,6 +39,7 @@
             icon
             class="mt-3 ml-1"
             @click="removeCheque(index)"
+            v-if="index>0"
             :data-test="getIndexedTag('removeChecque', index)"
           >
             <v-icon>mdi-close</v-icon>

@@ -45,7 +45,7 @@
               {{
                 item.remainingAmount
                   ? appendCurrencySymbol(item.total.toFixed(2))
-                  : '$ 0.00'
+                  : '$0.00'
               }}</span
             >
           </div>
