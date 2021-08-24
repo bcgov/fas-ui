@@ -57,6 +57,7 @@
               v-can:fas_edit.hide
               :disabled="showSearch"
               @click="toggleSearch()"
+              v-can:fas_link.hide
             >
               <v-icon class="mr-1">mdi-plus</v-icon>
               <span class="font">Link Routing Slip</span>
