@@ -121,3 +121,29 @@ export const linkedRoutingSlipsWithChildren: LinkedRoutingSlips =
   ],
   parent: null
 }
+
+export const autoCompleteRoutingSlips: RoutingSlip[] =
+[
+  {
+    id: 1,
+    number: 'AutoComplete1',
+    paymentAccount: { billable: true, name: 'test', paymentMethod: 'CHEQUE' },
+    payments: [{ chequeReceiptNumber: '123', createdBy: 'user', id: 7636, paymentMethod: 'CHEQUE', paidAmount: 123, paymentDate: '2021-07-15' }],
+    remainingAmount: 1000,
+    routingSlipDate: '2021-07-08',
+    status: 'ACTIVE',
+    total: 1000,
+    invoices: invoice
+  },
+  {
+    id: 2,
+    number: 'AutoComplete2',
+    paymentAccount: { billable: true, name: 'test', paymentMethod: 'CHEQUE' },
+    payments: [{ chequeReceiptNumber: '123', createdBy: 'user', id: 7636, paymentMethod: 'CHEQUE', paidAmount: 123, paymentDate: '2021-07-15' }],
+    remainingAmount: 1000,
+    routingSlipDate: '2021-07-08',
+    status: 'ACTIVE',
+    total: 2000,
+    invoices: invoice
+  }
+]

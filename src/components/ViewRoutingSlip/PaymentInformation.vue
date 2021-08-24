@@ -40,11 +40,7 @@
                   color="primary"
                   @click="viewPaymentInformation"
                 >
-                  <span class="font-weight-bold">{{
-                    isPaymentCheque
-                      ? 'View Cheque Information'
-                      : 'View Cash Information'
-                  }}</span>
+                  <span class="font-weight-bold">View payment information</span>
                   <v-icon dense color="primary">{{
                     isExpanded ? 'mdi-menu-up' : 'mdi-menu-down'
                   }}</v-icon>

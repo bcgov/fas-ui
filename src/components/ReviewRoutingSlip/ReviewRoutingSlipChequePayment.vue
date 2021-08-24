@@ -5,7 +5,7 @@
         <v-text-field
         filled
         disabled
-        label="Receipt Number"
+        label="Cheque Number"
         persistent-hint
         hide-details
         :value="payment.chequeReceiptNumber"
