@@ -39,7 +39,7 @@
               <v-col class="col-6 col-sm-9">
                 <span
                   :class="colors(routingSlipDetails.status)"
-                  class="slip-status"
+                  class="slip-status font-weight-bold"
                   data-test="label-status"
                   >{{ getStatusLabel(routingSlipDetails.status) }}</span
                 >

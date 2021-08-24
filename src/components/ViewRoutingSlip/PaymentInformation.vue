@@ -27,8 +27,8 @@
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 Total Amount Received
               </v-col>
-              <v-col v-if="routingSlip && totalAmount" class="col-6 col-sm-9 status-list" data-test="total">
-                {{ appendCurrencySymbol(totalAmount.toFixed(2)) }}
+              <v-col v-if="routingSlip" class="col-6 col-sm-9 status-list" data-test="total">
+                {{ totalAmount }}
               </v-col>
             </v-row>
             <v-row no-gutters v-if="routingSlip" class="mb-2">
@@ -82,9 +82,9 @@
               <v-col
                 class="col-6 col-sm-9 font-weight-bold"
                 data-test="remaining-amount"
-                v-if="routingSlip && routingSlip.remainingAmount"
+                v-if="routingSlip"
               >
-                {{ appendCurrencySymbol(routingSlip.remainingAmount.toFixed(2)) }}
+                {{  remainingAmount }}
               </v-col>
             </v-row>
           </v-col>
@@ -100,7 +100,6 @@ import ReviewRoutingSlipCashPayment from '@/components/ReviewRoutingSlip/ReviewR
 import ReviewRoutingSlipChequePayment from '@/components/ReviewRoutingSlip/ReviewRoutingSlipChequePayment.vue'
 import can from '@/directives/can'
 import { PaymentMethods } from '@/util/constants'
-import commonUtil from '@/util/common-util'
 
 @Component({
   components: {
@@ -119,6 +118,7 @@ import commonUtil from '@/util/common-util'
       isRoutingSlipAChild,
       isRoutingSlipLinked,
       totalAmount,
+      remainingAmount,
       viewPaymentInformation
     } = usePaymentInformation()
     return {
@@ -129,13 +129,13 @@ import commonUtil from '@/util/common-util'
       isRoutingSlipAChild,
       isRoutingSlipLinked,
       totalAmount,
+      remainingAmount,
       viewPaymentInformation
     }
   }
 })
 export default class PaymentInformation extends Vue {
   public PaymentMethods = PaymentMethods
-  public appendCurrencySymbol = commonUtil.appendCurrencySymbol
 
   public getIndexedTag (tag, index): string {
     return `${tag}-${index}`

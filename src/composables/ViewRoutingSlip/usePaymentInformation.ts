@@ -3,6 +3,7 @@ import { computed, ref } from '@vue/composition-api'
 import { Payment } from '@/models/Payment'
 import { PaymentMethods } from '@/util/constants'
 import { RoutingSlip } from '@/models/RoutingSlip'
+import commonUtil from '@/util/common-util'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
@@ -35,7 +36,11 @@ export default function usePaymentInformation () {
       }, 0)
       routingSlipTotal += linkedRoutingSlipsTotal
     }
-    return routingSlipTotal
+    return routingSlipTotal ? commonUtil.appendCurrencySymbol(routingSlipTotal.toFixed(2)) : '$0.00'
+  })
+
+  const remainingAmount = computed(() => {
+    return routingSlip.value.remainingAmount ? commonUtil.appendCurrencySymbol(routingSlip.value.remainingAmount.toFixed(2)) : '$0.00'
   })
 
   function viewPaymentInformation (): void {
@@ -52,6 +57,7 @@ export default function usePaymentInformation () {
     isRoutingSlipAChild,
     isRoutingSlipLinked,
     totalAmount,
+    remainingAmount,
     viewPaymentInformation
   }
 }
