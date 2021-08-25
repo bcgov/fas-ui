@@ -1,11 +1,11 @@
 <template>
-  <div class="text-center">
+  <div class="text-center daily-report">
     <v-menu
       v-model="showCalendar"
       :close-on-content-click="false"
       :nudge-left="200"
       offset-y
-      z-index="1"
+      z-index="8"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -16,6 +16,7 @@
           v-can:fas_reports.hide
           v-bind="attrs"
           v-on="on"
+          data-test="btn-daily-report"
         >
           Daily Report
           <v-icon dark small class="ml-2 font-weight-bold">
@@ -25,7 +26,8 @@
       </template>
 
       <v-card>
-        <v-card-title class=" body-1 font-weight-bold"
+        <v-card-title class=" body-1 font-weight-bold ml-3"
+        data-test="title-daily-report"
           >Select Daily Report Date:</v-card-title
         >
         <v-card-text class="mx-4">
@@ -35,10 +37,11 @@
             v-on="$listeners"
             data-test="date-date-picker"
             elevation="5"
+            :max="maxDate"
           ></v-date-picker>
         </v-card-text>
 
-        <v-card-actions class="pt-3">
+        <v-card-actions class="pt-0 pb-3">
           <v-spacer></v-spacer>
           <v-btn
             color="primary"
@@ -46,10 +49,11 @@
             text
             @click="getDailyReport"
             :loading="isDownloading"
+            data-test="btn-download-report"
           >
-            View Report
+            Download Report
           </v-btn>
-          <v-btn text @click="showCalendar = false">
+          <v-btn text @click="toggleCalendar(false)" data-test="btn-cancel">
             Cancel
           </v-btn>
         </v-card-actions>
@@ -76,13 +80,17 @@ import { useDailyReport } from '@/composables/Dashboard'
       selectedDate,
       getDailyReport,
       showCalendar,
-      isDownloading
+      isDownloading,
+      maxDate,
+      toggleCalendar
     } = useDailyReport()
     return {
       selectedDate,
       getDailyReport,
       showCalendar,
-      isDownloading
+      isDownloading,
+      maxDate,
+      toggleCalendar
     }
   }
 })
@@ -91,5 +99,11 @@ export default class DailyReport extends Vue {}
 <style lang="scss" scoped>
 .view-heade {
   flex-direction: colum;
+}
+</style>
+<style lang="scss">
+.v-date-picker-title__date > div {
+  font-size: 24px !important;
+  font-weight: 700;
 }
 </style>
