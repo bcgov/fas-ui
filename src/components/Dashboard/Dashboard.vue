@@ -3,10 +3,16 @@
     <v-row>
       <v-col>
         <header class="view-header flex-column mb-0">
-          <h1 class="view-header__title">FAS Staff Dashboard</h1>
-          <p class="mb-16">
-            {{ $t('dashboardSubText') }}
-          </p>
+          <div class="d-flex justify-space-between">
+            <div>
+              <h1 class="view-header__title">FAS Staff Dashboard</h1>
+              <p class="mb-16">
+                {{ $t('dashboardSubText') }}
+              </p>
+            </div>
+
+            <DailyReport />
+          </div>
           <div>
             <h2>Search for Routing Slip</h2>
             <p class="mb-5">
@@ -25,11 +31,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import Search from '@/components/Dashboard/Search.vue'
+import DailyReport from '@/components/Dashboard/DailyReport.vue'
+
 import can from '@/directives/can'
 
 @Component({
   components: {
-    Search
+    Search,
+    DailyReport
   },
   directives: {
     can

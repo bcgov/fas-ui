@@ -9,7 +9,8 @@ export default class RoutingSlip {
     showGlobalLoader: boolean = false
   ): Promise<AxiosResponse> {
     return axios.get(
-      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingNumber}`, { showGlobalLoader: showGlobalLoader }
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingNumber}`,
+      { showGlobalLoader: showGlobalLoader }
     )
   }
 
@@ -18,16 +19,20 @@ export default class RoutingSlip {
     showGlobalLoader: boolean = false
   ): Promise<AxiosResponse> {
     return axios.post(
-      `${ConfigHelper.getFasAPIURL()}/routing-slips`, routingSlipRequest, { showGlobalLoader: showGlobalLoader }
+      `${ConfigHelper.getFasAPIURL()}/routing-slips`,
+      routingSlipRequest,
+      { showGlobalLoader: showGlobalLoader }
     )
   }
 
   public static async updateRoutingSlipStatus (
     code: string,
-    routingSlipNumber:number
+    routingSlipNumber: number
   ): Promise<AxiosResponse> {
     return axios.patch(
-      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}?action=updateStatus`, { status: code })
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}?action=updateStatus`,
+      { status: code }
+    )
   }
 
   public static async getSearchRoutingSlip (
@@ -35,7 +40,9 @@ export default class RoutingSlip {
     showGlobalLoader: boolean = false
   ): Promise<AxiosResponse> {
     return axios.post(
-      `${ConfigHelper.getFasAPIURL()}/routing-slips/queries`, searchParams, { showGlobalLoader: showGlobalLoader }
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/queries`,
+      searchParams,
+      { showGlobalLoader: showGlobalLoader }
     )
   }
 
@@ -44,7 +51,9 @@ export default class RoutingSlip {
     showGlobalLoader: boolean = false
   ): Promise<AxiosResponse> {
     return axios.post(
-      `${ConfigHelper.getFasAPIURL()}/routing-slips/links`, LinkRoutingSlip, { showGlobalLoader: showGlobalLoader }
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/links`,
+      LinkRoutingSlip,
+      { showGlobalLoader: showGlobalLoader }
     )
   }
 
@@ -53,7 +62,19 @@ export default class RoutingSlip {
     showGlobalLoader: boolean = false
   ): Promise<AxiosResponse> {
     return axios.get(
-      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}/links`, { showGlobalLoader: showGlobalLoader }
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}/links`,
+      { showGlobalLoader: showGlobalLoader }
+    )
+  }
+
+  public static async getDailyReport (
+    selectedDate: string,
+    showGlobalLoader: boolean = false
+  ): Promise<AxiosResponse> {
+    return axios.post(
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/${selectedDate}/reports`,
+      {},
+      { showGlobalLoader: showGlobalLoader }
     )
   }
 }

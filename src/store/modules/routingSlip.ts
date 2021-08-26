@@ -304,4 +304,19 @@ export default class RoutingSlipModule extends VuexModule {
       console.error('error ', error.response?.data) // 500 errors may not return data
     }
   }
+
+  @Action({ rawError: true })
+  public async getDailyReportByDate (selectedDate): Promise<any> {
+    const formatedDate = CommonUtils.formatDisplayDate(
+      selectedDate,
+      'YYYY-MM-DD'
+    )
+    try {
+      return await RoutingSlipService.getDailyReport(formatedDate, false)
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('error ', error.response?.data) // 500 errors may not return data
+      return error.response
+    }
+  }
 }
