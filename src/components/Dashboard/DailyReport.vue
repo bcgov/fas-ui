@@ -5,7 +5,7 @@
       :close-on-content-click="false"
       :nudge-left="200"
       offset-y
-      z-index="8"
+      z-index="1"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn

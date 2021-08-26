@@ -456,4 +456,8 @@ export default class Search extends Vue {
 tr.rs-search-result > td {
   padding: 20px 15px !important;
 }
+
+.v-data-table--fixed-header > .v-data-table__wrapper > table > thead > tr > th {
+  z-index: 1 !important;
+}
 </style>
