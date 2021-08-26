@@ -20,16 +20,16 @@
       <v-col cols="12">
         <print-routing-slip />
       </v-col>
-      <v-col cols="12">
+      <v-col cols="12" class="mb-5">
         <routing-slip-info />
       </v-col>
-      <v-col cols="12">
+      <v-col cols="12" class="my-5">
         <payment-information />
       </v-col>
-      <v-col cols="12">
+      <v-col cols="12" class="my-5">
         <link-routing-slip />
       </v-col>
-      <v-col cols="12">
+      <v-col cols="12" class="my-5">
         <routing-slip-transaction />
       </v-col>
     </v-row>

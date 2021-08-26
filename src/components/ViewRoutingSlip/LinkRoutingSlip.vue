@@ -8,7 +8,13 @@
       <v-card-text>
         <v-row v-if="isRoutingSlipLinked">
           <v-col class="col-6 col-sm-8 font-weight-bold">
-            This routing slip has been linked to:
+            {{
+              $t(
+                isRoutingSlipAChild
+                  ? 'linkRoutingSlipSearchTitleChild'
+                  : 'linkRoutingSlipSearchTitleParent'
+              )
+            }}
           </v-col>
           <v-col cols="12" class="pb-0" v-if="!isRoutingSlipAChild">
             <linked-routing-slip-details
@@ -28,7 +34,7 @@
           </v-col>
           <v-col cols="12" class="pl-0" v-if="isRoutingSlipAChild">
             <div class="linked-rs-info">
-              <h4>Linked routing slip</h4>
+              <h4 class="mb-3">Linked routing slip</h4>
               <p v-html="$t('linkedRSChildInfo')"></p>
             </div>
           </v-col>
@@ -37,13 +43,16 @@
         <v-row no-gutters v-if="!isRoutingSlipLinked">
           <v-col cols="12" sm="10">
             <v-row>
-              <v-col class="col-6 col-sm-8 font-weight-bold">
+              <v-col class="col-6 col-sm-8 font-weight-bold mt-1">
                 This routing slip has no linked routing slips
               </v-col>
 
               <v-col cols="6" sm="8" v-if="showSearch">
                 <div class="d-flex" key="action">
-                  <RoutingSlipAutoComplete data-test="routing-slip-auto-complete" @toggleSearch="toggleSearch()" />
+                  <RoutingSlipAutoComplete
+                    data-test="routing-slip-auto-complete"
+                    @toggleSearch="toggleSearch()"
+                  />
                 </div>
               </v-col>
             </v-row>
