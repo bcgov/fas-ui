@@ -75,7 +75,7 @@ import { useDailyReport } from '@/composables/Dashboard'
   directives: {
     can
   },
-  setup() {
+  setup () {
     const {
       selectedDate,
       getDailyReport,
