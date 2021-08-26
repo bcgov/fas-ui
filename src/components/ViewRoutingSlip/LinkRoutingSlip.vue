@@ -11,8 +11,8 @@
             {{
               $t(
                 isRoutingSlipAChild
-                  ? 'linkRSSearchTitleChild'
-                  : 'linkRSSearchTitleParent'
+                  ? 'linkRoutingSlipSearchTitleChild'
+                  : 'linkRoutingSlipSearchTitleParent'
               )
             }}
           </v-col>
