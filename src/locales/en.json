@@ -20,5 +20,7 @@
   "searchNoResult": "<h4>No Results</h4><p>None of the routing slips matched this search. Try another search.</p>",
   "linkRoutingSlipSubText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
   "linkedRSChildInfo": "This routing slip’s total balance and payment information has been transfered to the linked routing slip above. <br />Click on the routing slip number above to access to the linked routing slip.",
-  "linkRSSearchInfo": "When you link to another routing slip, this routing slip’s total balance will transfer to the linked routing slip. After linking to another routing slip this routing slip will be inactive."
+  "linkRSSearchInfo": "When you link to another routing slip, this routing slip’s total balance will transfer to the linked routing slip. After linking to another routing slip this routing slip will be inactive.",
+  "linkRSSearchTitleParent":"This routing slip is linked with:",
+  "linkRSSearchTitleChild":"This routing slip has been linked to:"
 }
