@@ -7,14 +7,13 @@
       offset-y
       z-index="1"
     >
-      <template v-slot:activator="{ on, attrs }">
+      <template v-slot:activator="{ on }">
         <v-btn
           class="font-weight-bold"
           large
           dark
           color="primary"
           v-can:fas_reports.hide
-          v-bind="attrs"
           v-on="on"
           data-test="btn-daily-report"
         >
@@ -26,8 +25,9 @@
       </template>
 
       <v-card>
-        <v-card-title class=" body-1 font-weight-bold ml-3"
-        data-test="title-daily-report"
+        <v-card-title
+          class=" body-1 font-weight-bold ml-3"
+          data-test="title-daily-report"
           >Select Daily Report Date:</v-card-title
         >
         <v-card-text class="mx-4">
@@ -75,7 +75,7 @@ import { useDailyReport } from '@/composables/Dashboard'
   directives: {
     can
   },
-  setup () {
+  setup() {
     const {
       selectedDate,
       getDailyReport,

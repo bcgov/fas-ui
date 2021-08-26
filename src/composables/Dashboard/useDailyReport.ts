@@ -32,10 +32,8 @@ export function useDailyReport () {
         // eslint-disable-next-line no-console
         console.error(response)
       }
+    } finally {
       //  close cal after download
-      toggleCalendar(false)
-      isDownloading.value = false
-    } catch (error) {
       isDownloading.value = false
     }
   }
