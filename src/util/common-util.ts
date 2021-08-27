@@ -11,7 +11,7 @@ export default class CommonUtils {
     return date ? moment(date).format(format || 'MMM DD, YYYY') : ''
   }
 
-  static requiredFieldRule (errorMessage: string = '') {
+  static requiredFieldRule (errorMessage: string = 'This field is required') {
     return [v => !!v || errorMessage]
   }
 

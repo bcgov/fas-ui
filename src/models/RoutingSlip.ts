@@ -38,3 +38,11 @@ export interface LinkedRoutingSlips{
   children?: RoutingSlip[],
   parent?: RoutingSlip,
 }
+
+export interface ManualTransactionDetails{
+  quantity?: number,
+  referenceNumber?: string,
+  amount?: number,
+  isFutureEffectiveDate?: boolean,
+  isPriorityFee?: boolean
+}
