@@ -1,5 +1,5 @@
 <template>
-  <v-form id="formManualTransactionDetails" ref="formManualTransactionDetails" class="mt-2">
+  <v-form id="formManualTransactionDetails" ref="formManualTransactionDetails" data-test="form-manual-transaction-details" class="mt-2">
     <div v-for="(transaction, index) in manualTransactionsList" :key="index">
       <v-row dense>
         <v-col cols="2">
@@ -7,7 +7,7 @@
             filled
             label="Quantity"
             persistent-hint
-            data-test="txtQuantity"
+            :data-test="getIndexedTag('txt-quantity', index)"
             required
             :rules="quantityRules"
             v-model="transaction.quantity"
@@ -20,7 +20,7 @@
             filled
             label="Incorporation/Reference Number"
             persistent-hint
-            data-test="txtIncorporation"
+            :data-test="getIndexedTag('txt-incorporation', index)"
             required
             :rules="referenceNumberRules"
             v-model.trim="transaction.referenceNumber"
@@ -32,7 +32,7 @@
             filled
             label="$Amount"
             persistent-hint
-            data-test="txtAmount"
+            :data-test="getIndexedTag('txt-amount', index)"
             required
             disabled
             v-model="transaction.amount"
@@ -45,7 +45,7 @@
           class="mt-3 ml-1"
           @click="removeManualTransactionRow(index)"
           v-if="index>0"
-          :data-test="getIndexedTag('removeChecque', index)"
+          :data-test="getIndexedTag('btn-remove', index)"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -56,6 +56,7 @@
             label="Priority Fee"
             v-model="transaction.isPriorityFee"
             hide-details
+            :data-test="getIndexedTag('check-priority', index)"
           ></v-checkbox>
         </v-col>
         <v-col cols="8">
@@ -64,6 +65,7 @@
             label="Future Effective Filing Fee"
             v-model="transaction.isFutureEffectiveDate"
             hide-details
+            :data-test="getIndexedTag('check-future-effective', index)"
           ></v-checkbox>
         </v-col>
         <v-col cols="11">
@@ -86,8 +88,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
       referenceNumberRules,
       formManualTransactionDetails,
       isDividerVisible,
-      isValid,
       addManualTransactionRow,
+      isValid,
       removeManualTransactionRow
     } = useAddManualTransactionDetails(
       props,
@@ -99,8 +101,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
       referenceNumberRules,
       formManualTransactionDetails,
       isDividerVisible,
-      isValid,
       addManualTransactionRow,
+      isValid,
       removeManualTransactionRow
     }
   }
