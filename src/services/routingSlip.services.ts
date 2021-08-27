@@ -69,12 +69,16 @@ export default class RoutingSlip {
 
   public static async getDailyReport (
     selectedDate: string,
+    type: string = 'application/pdf',
     showGlobalLoader: boolean = false
   ): Promise<AxiosResponse> {
+    const headers = {
+      Accept: type
+    }
     return axios.post(
       `${ConfigHelper.getFasAPIURL()}/routing-slips/${selectedDate}/reports`,
       {},
-      { showGlobalLoader: showGlobalLoader }
+      { headers, responseType: 'blob' as 'json', showGlobalLoader: showGlobalLoader }
     )
   }
 }

@@ -29,7 +29,8 @@ export default class CommonUtils {
     return path.includes('/signout')
   }
 
-  static fileDownload (data: any, fileName: string, fileType: string = 'text/plain') {
+  // blob convert to downloadable file
+  static fileDownload (data: any, fileName: string, fileType: string = 'text/plain', action:string = 'download') {
     const blob = new Blob([data], { type: fileType })
     if (typeof window.navigator.msSaveBlob !== 'undefined') {
       // IE workaround for "HTML7007: One or more blob URLs were
@@ -42,7 +43,11 @@ export default class CommonUtils {
       const tempLink = document.createElement('a')
       tempLink.style.display = 'none'
       tempLink.href = blobURL
-      tempLink.setAttribute('download', fileName)
+      if (action === 'open') {
+        tempLink.setAttribute('target', '_blank')
+      } else {
+        tempLink.setAttribute('download', fileName)
+      }
 
       // Safari thinks _blank anchor are pop ups. We only want to set _blank
       // target if the browser does not support the HTML5 download attribute.
@@ -55,7 +60,11 @@ export default class CommonUtils {
       tempLink.click()
       setTimeout(() => {
         document.body.removeChild(tempLink)
-        window.URL.revokeObjectURL(blobURL)
+        // TO CHECK: not revoking may increase more temp memory usage
+        // once download, we will revokeObjectURL
+        if (action !== 'open') {
+          window.URL.revokeObjectURL(blobURL)
+        }
       }, 200)
     }
   }

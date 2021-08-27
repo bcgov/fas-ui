@@ -38,6 +38,7 @@
             data-test="date-date-picker"
             elevation="5"
             :max="maxDate"
+            color="primary"
           ></v-date-picker>
         </v-card-text>
 
@@ -50,6 +51,7 @@
             @click="getDailyReport"
             :loading="isDownloading"
             data-test="btn-download-report"
+            :disabled="selectedDate == ''"
           >
             Download Report
           </v-btn>
