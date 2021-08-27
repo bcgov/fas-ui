@@ -17,7 +17,7 @@ export function useDailyReport () {
     isDownloading.value = true
     try {
       const downloadType = 'application/pdf'
-      const response = await getDailyReportByDate(selectedDate)
+      const response = await getDailyReportByDate(selectedDate, downloadType)
       if (response && response.status === 201) {
         const contentDispArr = response?.headers['content-disposition'].split(
           '='
@@ -27,6 +27,7 @@ export function useDailyReport () {
           contentDispArr.length && contentDispArr[1]
             ? contentDispArr[1]
             : 'bcregistry-daily-report'
+
         CommonUtils.fileDownload(response.data, fileName, downloadType)
       } else {
         // eslint-disable-next-line no-console
