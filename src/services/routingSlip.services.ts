@@ -78,7 +78,11 @@ export default class RoutingSlip {
     return axios.post(
       `${ConfigHelper.getFasAPIURL()}/routing-slips/${selectedDate}/reports`,
       {},
-      { headers, responseType: 'blob' as 'json', showGlobalLoader: showGlobalLoader }
+      {
+        headers,
+        responseType: 'blob' as 'json',
+        showGlobalLoader: showGlobalLoader
+      }
     )
   }
 }
