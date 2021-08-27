@@ -56,7 +56,7 @@
         large
         color="primary"
         data-test="btn-link-rs"
-        class="mx-2 font-weight-bold"
+        class="px-6 mx-2 font-weight-bold"
         @click="searchRS()"
       >
         <span class="font">Link </span>
@@ -64,7 +64,7 @@
       <v-btn
         large
         outlined
-        class="px-2 font-weight-bold"
+        class="px-6 font-weight-bold"
         color="primary"
         @click="toggleSearch()"
         data-test="btn-cancel-link"
