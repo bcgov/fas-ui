@@ -43,6 +43,6 @@ export interface ManualTransactionDetails{
   quantity?: number,
   referenceNumber?: string,
   amount?: number,
-  isFutureEffectiveDate?: boolean,
+  isFutureEffectiveFiling?: boolean,
   isPriorityFee?: boolean
 }
