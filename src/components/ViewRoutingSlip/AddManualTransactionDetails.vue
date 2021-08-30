@@ -63,7 +63,7 @@
           <v-checkbox
             class="ma-0"
             label="Future Effective Filing Fee"
-            v-model="transaction.isFutureEffectiveDate"
+            v-model="transaction.isFutureEffectiveFiling"
             hide-details
             :data-test="getIndexedTag('check-future-effective', index)"
           ></v-checkbox>

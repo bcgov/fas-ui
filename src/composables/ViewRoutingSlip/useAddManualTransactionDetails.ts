@@ -35,8 +35,8 @@ export default function useAddManualTransactionDetails (props, context) {
   }
 
   function getDefaultRow (): ManualTransactionDetails {
-    // by default, the flags isFutureEffectiveDate, isPriorityFee are false
-    return { isFutureEffectiveDate: false, isPriorityFee: false }
+    // by default, the flags isFutureEffectiveFiling, isPriorityFee are false
+    return { isFutureEffectiveFiling: false, isPriorityFee: false }
   }
 
   function addManualTransactionRow () {
