@@ -40,7 +40,8 @@ export enum Role {
   FAS_SEARCH = 'fas_search',
   FAS_VIEW = 'fas_view',
   FAS_CREATE = 'fas_create',
-  FAS_LNK = 'fas_link'
+  FAS_LNK = 'fas_link',
+  FAS_TRANSACTION = 'fas_transaction'
 }
 
 export enum InvoiceStatus {

@@ -12,7 +12,7 @@
           large
           color="primary"
           data-test="btn-add-transaction"
-          v-can:fas_edit.hide
+          v-can:fas_transaction.hide
           @click="showManualTransaction"
         >
           <v-icon class="mr-1">mdi-plus</v-icon>
