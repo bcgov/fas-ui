@@ -2,7 +2,6 @@ import { AxiosResponse } from 'axios'
 import ConfigHelper from '@/util/config-helper'
 import { LinkRoutingSlipPrams } from '@/models/RoutingSlip'
 import axios from '@/util/http-util'
-import { FilingType } from '@/models/Payment'
 
 export default class RoutingSlip {
   public static async getRoutingSlip (
@@ -88,7 +87,7 @@ export default class RoutingSlip {
   }
 
   public static async getSearchFilingType (
-    searchParams: FilingType,
+    searchParams: string,
     showGlobalLoader: boolean = false
   ): Promise<AxiosResponse> {
     return axios.get(

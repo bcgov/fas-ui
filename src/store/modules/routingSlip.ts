@@ -330,7 +330,7 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Action({ commit: 'setAutoCompleteFilingType', rawError: true })
-  public async getAutoCompleteFilingTypes (searchParams): Promise<FilingType[]> {
+  public async getAutoCompleteFilingTypes (searchParams:string): Promise<FilingType[]> {
     const response = await RoutingSlipService.getSearchFilingType(searchParams)
     if (response && response.data && response.status === 200) {
       return response.data?.items
