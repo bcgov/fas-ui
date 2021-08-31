@@ -7,6 +7,7 @@ import { ManualTransactionDetails } from '@/models/RoutingSlip'
 export default function useAddManualTransactionDetails (props, context) {
   const { value } = toRefs(props)
   const formManualTransactionDetails = ref<HTMLFormElement>()
+  const filingType = ref('')
 
   // using same v-model value for getting value and update parent on change
   const manualTransactionsList = computed({
@@ -59,6 +60,7 @@ export default function useAddManualTransactionDetails (props, context) {
     isDividerVisible,
     isValid,
     addManualTransactionRow,
-    removeManualTransactionRow
+    removeManualTransactionRow,
+    filingType
   }
 }
