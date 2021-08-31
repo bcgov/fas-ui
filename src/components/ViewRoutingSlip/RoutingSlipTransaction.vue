@@ -28,7 +28,7 @@
           </v-col>
           <v-col cols="10" class="pl-0">
             <AddManualTransactionDetails :manualTransactionsList="addManualTransactionsList" ref="addManualTransactionDetailsRef"/>
-            <v-row dense>
+            <v-row dense class="mr-8">
               <v-col cols="6">
                 <v-btn
                   large
@@ -42,7 +42,7 @@
                   <span>Add another transaction</span>
                 </v-btn>
               </v-col>
-              <v-col cols="5" class="d-inline-flex justify-end">
+              <v-col cols="6" class="d-inline-flex justify-end">
                 <v-btn
                   large
                   color="primary"

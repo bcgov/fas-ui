@@ -6,9 +6,9 @@
     class="mt-2"
   >
     <div v-for="(transaction, index) in manualTransactionsList" :key="index">
-      <v-row dense>
-        <v-col cols="11">
-          <FIlingTypeAutoComplete v-model="filingType" />
+      <v-row dense class="mr-8">
+        <v-col cols="12" >
+          <filing-type-auto-complete v-model="filingType" />
         </v-col>
         <v-col cols="2">
           <v-text-field
@@ -35,7 +35,7 @@
           >
           </v-text-field>
         </v-col>
-        <v-col cols="4">
+        <v-col cols="5">
           <v-text-field
             filled
             label="$Amount"
@@ -76,7 +76,7 @@
             :data-test="getIndexedTag('check-future-effective', index)"
           ></v-checkbox>
         </v-col>
-        <v-col cols="11">
+        <v-col cols="12" class="mr-8">
           <v-divider class="mt-4 mb-4" v-if="isDividerVisible(index)" />
         </v-col>
       </v-row>
@@ -87,11 +87,11 @@
 import { useAddManualTransactionDetails } from '@/composables/ViewRoutingSlip'
 import { ManualTransactionDetails } from '@/models/RoutingSlip'
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import FIlingTypeAutoComplete from '@/components/ViewRoutingSlip/FIlingTypeAutoComplete.vue'
+import FilingTypeAutoComplete from '@/components/ViewRoutingSlip/FilingTypeAutoComplete.vue'
 
 @Component({
   components: {
-    FIlingTypeAutoComplete
+    FilingTypeAutoComplete
   },
   setup (props, context) {
     const {

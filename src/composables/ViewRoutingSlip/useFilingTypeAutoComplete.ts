@@ -1,14 +1,12 @@
-import { computed, reactive, ref, toRefs } from '@vue/composition-api'
-
+import { computed, ref, toRefs } from '@vue/composition-api'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
-import CommonUtils from '@/util/common-util'
 import debounce from '@/util/debounce'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useState, useActions } = routingSlipModule
 
 // Composable function to inject Props, options and values to useFIlingTypeAutoComplete component
-export default function useFIlingTypeAutoComplete (props, context) {
+export default function useFilingTypeAutoComplete (props, context) {
   const { value } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change
@@ -28,7 +26,7 @@ export default function useFIlingTypeAutoComplete (props, context) {
   ])
 
   const isLoading = ref<boolean>(false)
-  const hideNoData = ref<boolean>(false)
+  const hideNoData = ref<boolean>(true)
 
   const search = ref('')
 
@@ -41,6 +39,12 @@ export default function useFIlingTypeAutoComplete (props, context) {
     isLoading.value = false
   }
 
+  function itemText (item) {
+    // used for value and showing text
+    // since value return as object just use same as value also
+    return `${item.corpTypeCode.description} - ${item.filingTypeCode.description}`
+  }
+
   const delayedSearch = debounce(() => {
     searchFilingTypes()
   })
@@ -51,6 +55,7 @@ export default function useFIlingTypeAutoComplete (props, context) {
     hideNoData,
     isLoading,
     search,
-    delayedSearch
+    delayedSearch,
+    itemText
   }
 }

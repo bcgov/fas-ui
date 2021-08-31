@@ -8,19 +8,20 @@
         :loading="isLoading"
         :search-input.sync="search"
         @keyup="delayedSearch"
-        item-text="filingTypeCode.description"
-        item-value="filingTypeCode.description"
+        :item-text="itemText"
+        :item-value="itemText"
         placeholder="Filing Type Name"
         return-object
         append-icon=""
+        :hide-no-data="hideNoData"
       >
         <!-- hide-no-data -->
         <template v-slot:item="{ item }">
-          <div class="rs-details">
-            <span>{{ item.corpTypeCode.description }}</span>
+          <div class="filing-details">
+            <span>{{ item.filingTypeCode.description }}</span>
             <span>
               <span>-</span>
-              {{ item.filingTypeCode.description }}</span
+              {{ item.corpTypeCode.description }}</span
             >
           </div>
         </template>
@@ -30,7 +31,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { useFIlingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
+import { useFilingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
 
 @Component({
   setup (props, context) {
@@ -39,15 +40,19 @@ import { useFIlingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
       autoCompleteFilingTypes,
       isLoading,
       search,
-      delayedSearch
-    } = useFIlingTypeAutoComplete(props, context)
+      delayedSearch,
+      itemText,
+      hideNoData
+    } = useFilingTypeAutoComplete(props, context)
 
     return {
       filingType,
       autoCompleteFilingTypes,
       isLoading,
       search,
-      delayedSearch
+      delayedSearch,
+      itemText,
+      hideNoData
     }
   }
 })
@@ -57,7 +62,7 @@ export default class FIlingTypeAutoComplete extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.rs-details {
+.filing-details {
   display: flex;
   span {
     min-width: 118px;
@@ -66,8 +71,5 @@ export default class FIlingTypeAutoComplete extends Vue {
       padding: 0 5px !important;
     }
   }
-}
-.row + .row {
-  margin-top: 7px !important;
 }
 </style>
