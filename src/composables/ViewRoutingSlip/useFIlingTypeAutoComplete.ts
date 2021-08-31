@@ -7,7 +7,7 @@ import debounce from '@/util/debounce'
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useState, useActions } = routingSlipModule
 
-// Composable function to inject Props, options and values to useRoutingSlipInfo component
+// Composable function to inject Props, options and values to useFIlingTypeAutoComplete component
 export default function useFIlingTypeAutoComplete (props, context) {
   const { value } = toRefs(props)
 
