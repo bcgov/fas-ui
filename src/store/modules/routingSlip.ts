@@ -7,7 +7,7 @@ import {
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 
 import CommonUtils from '@/util/common-util'
-import { Payment } from '@/models/Payment'
+import { FilingType, Payment } from '@/models/Payment'
 import RoutingSlipService from '@/services/routingSlip.services'
 
 @Module({ namespaced: true, stateFactory: true })
@@ -26,6 +26,8 @@ export default class RoutingSlipModule extends VuexModule {
   autoCompleteRoutingSlips: RoutingSlip[] = []
 
   linkedRoutingSlips: LinkedRoutingSlips = undefined
+  // using for auto complete filing types values
+  autoCompleteFilingTypes: RoutingSlip[] = []
 
   public get invoiceCount (): number {
     return this.routingSlip?.invoices?.length
@@ -98,6 +100,13 @@ export default class RoutingSlipModule extends VuexModule {
     autoCompleteRoutingSlips: RoutingSlipDetails[]
   ) {
     this.autoCompleteRoutingSlips = autoCompleteRoutingSlips
+  }
+
+  @Mutation
+  public setAutoCompleteFilingType (
+    autoCompleteRoutingSlips: RoutingSlipDetails[]
+  ) {
+    this.autoCompleteFilingTypes = autoCompleteRoutingSlips
   }
 
   @Mutation
@@ -318,5 +327,14 @@ export default class RoutingSlipModule extends VuexModule {
       console.error('error ', error.response?.data) // 500 errors may not return data
       return error.response
     }
+  }
+
+  @Action({ commit: 'setAutoCompleteFilingType', rawError: true })
+  public async getAutoCompleteFilingTypes (searchParams:string): Promise<FilingType[]> {
+    const response = await RoutingSlipService.getSearchFilingType(searchParams)
+    if (response && response.data && response.status === 200) {
+      return response.data?.items
+    }
+    return []
   }
 }

@@ -85,4 +85,14 @@ export default class RoutingSlip {
       }
     )
   }
+
+  public static async getSearchFilingType (
+    searchParams: string,
+    showGlobalLoader: boolean = false
+  ): Promise<AxiosResponse> {
+    return axios.get(
+      `${ConfigHelper.getPayAPIURL()}/fees/schedules?description=${searchParams}`,
+      { showGlobalLoader: showGlobalLoader }
+    )
+  }
 }

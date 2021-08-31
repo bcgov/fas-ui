@@ -1,7 +1,15 @@
 <template>
-  <v-form id="formManualTransactionDetails" ref="formManualTransactionDetails" data-test="form-manual-transaction-details" class="mt-2">
+  <v-form
+    id="formManualTransactionDetails"
+    ref="formManualTransactionDetails"
+    data-test="form-manual-transaction-details"
+    class="mt-2"
+  >
     <div v-for="(transaction, index) in manualTransactionsList" :key="index">
-      <v-row dense>
+      <v-row dense class="mr-8">
+        <v-col cols="12" >
+          <filing-type-auto-complete v-model="filingType" />
+        </v-col>
         <v-col cols="2">
           <v-text-field
             filled
@@ -27,7 +35,7 @@
           >
           </v-text-field>
         </v-col>
-        <v-col cols="4">
+        <v-col cols="5">
           <v-text-field
             filled
             label="$Amount"
@@ -41,11 +49,11 @@
         </v-col>
         <v-col cols="1">
           <v-btn
-          icon
-          class="mt-3 ml-1"
-          @click="removeManualTransactionRow(index)"
-          v-if="index>0"
-          :data-test="getIndexedTag('btn-remove', index)"
+            icon
+            class="mt-3 ml-1"
+            @click="removeManualTransactionRow(index)"
+            v-if="index > 0"
+            :data-test="getIndexedTag('btn-remove', index)"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -68,8 +76,8 @@
             :data-test="getIndexedTag('check-future-effective', index)"
           ></v-checkbox>
         </v-col>
-        <v-col cols="11">
-          <v-divider class="mt-4 mb-4" v-if="isDividerVisible(index)"/>
+        <v-col cols="12" class="mr-8">
+          <v-divider class="mt-4 mb-4" v-if="isDividerVisible(index)" />
         </v-col>
       </v-row>
     </div>
@@ -79,8 +87,12 @@
 import { useAddManualTransactionDetails } from '@/composables/ViewRoutingSlip'
 import { ManualTransactionDetails } from '@/models/RoutingSlip'
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import FilingTypeAutoComplete from '@/components/ViewRoutingSlip/FilingTypeAutoComplete.vue'
 
 @Component({
+  components: {
+    FilingTypeAutoComplete
+  },
   setup (props, context) {
     const {
       manualTransactionsList,
@@ -90,11 +102,9 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
       isDividerVisible,
       addManualTransactionRow,
       isValid,
-      removeManualTransactionRow
-    } = useAddManualTransactionDetails(
-      props,
-      context
-    )
+      removeManualTransactionRow,
+      filingType
+    } = useAddManualTransactionDetails(props, context)
     return {
       manualTransactionsList,
       quantityRules,
@@ -103,7 +113,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
       isDividerVisible,
       addManualTransactionRow,
       isValid,
-      removeManualTransactionRow
+      removeManualTransactionRow,
+      filingType
     }
   }
 })
