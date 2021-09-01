@@ -14,6 +14,7 @@
         return-object
         append-icon=""
         :hide-no-data="hideNoData"
+        v-bind="$attrs"
       >
         <!-- hide-no-data -->
         <template v-slot:item="{ item }">

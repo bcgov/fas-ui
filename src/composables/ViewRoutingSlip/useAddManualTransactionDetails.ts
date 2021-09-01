@@ -22,6 +22,7 @@ export default function useAddManualTransactionDetails (props, context) {
   // Input field rules
   const quantityRules = CommonUtils.requiredFieldRule()
   const referenceNumberRules = CommonUtils.requiredFieldRule()
+  const requiredFieldRule = CommonUtils.requiredFieldRule()
 
   // By default, we show 1 manual transaction record
   onMounted(() => {
@@ -61,6 +62,7 @@ export default function useAddManualTransactionDetails (props, context) {
     isValid,
     addManualTransactionRow,
     removeManualTransactionRow,
-    filingType
+    filingType,
+    requiredFieldRule
   }
 }
