@@ -7,8 +7,12 @@
   >
     <div v-for="(transaction, index) in manualTransactionsList" :key="index">
       <v-row dense class="mr-8">
-        <v-col cols="12" >
-          <filing-type-auto-complete v-model="filingType" />
+        <v-col cols="12">
+          <filing-type-auto-complete
+            v-model="filingType"
+            required
+            :rules="requiredFieldRule"
+          />
         </v-col>
         <v-col cols="2">
           <v-text-field
@@ -35,7 +39,7 @@
           >
           </v-text-field>
         </v-col>
-        <v-col cols="5">
+        <v-col cols="5" class="amount">
           <v-text-field
             filled
             label="$Amount"
@@ -46,18 +50,19 @@
             v-model="transaction.amount"
           >
           </v-text-field>
+          <div class="close-icon">
+            <v-btn
+              icon
+              class="mt-3 ml-1"
+              @click="removeManualTransactionRow(index)"
+              v-if="index > 0"
+              :data-test="getIndexedTag('btn-remove', index)"
+            >
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </div>
         </v-col>
-        <v-col cols="1">
-          <v-btn
-            icon
-            class="mt-3 ml-1"
-            @click="removeManualTransactionRow(index)"
-            v-if="index > 0"
-            :data-test="getIndexedTag('btn-remove', index)"
-          >
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-col>
+
         <v-col cols="2">
           <v-checkbox
             class="ma-0"
@@ -103,7 +108,8 @@ import FilingTypeAutoComplete from '@/components/ViewRoutingSlip/FilingTypeAutoC
       addManualTransactionRow,
       isValid,
       removeManualTransactionRow,
-      filingType
+      filingType,
+      requiredFieldRule
     } = useAddManualTransactionDetails(props, context)
     return {
       manualTransactionsList,
@@ -114,7 +120,8 @@ import FilingTypeAutoComplete from '@/components/ViewRoutingSlip/FilingTypeAutoC
       addManualTransactionRow,
       isValid,
       removeManualTransactionRow,
-      filingType
+      filingType,
+      requiredFieldRule
     }
   }
 })
@@ -126,3 +133,13 @@ export default class AddManualTransactionDetails extends Vue {
   }
 }
 </script>
+<style lang="scss" scoped>
+.amount {
+  position: relative;
+  .close-icon {
+    position: absolute;
+    right: -32px;
+    top: 0;
+  }
+}
+</style>

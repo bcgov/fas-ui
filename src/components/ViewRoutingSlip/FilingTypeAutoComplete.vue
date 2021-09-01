@@ -14,6 +14,8 @@
         return-object
         append-icon=""
         :hide-no-data="hideNoData"
+        v-bind="$attrs"
+        data-test="input-filing-type"
       >
         <!-- hide-no-data -->
         <template v-slot:item="{ item }">
