@@ -1,7 +1,4 @@
-import {
-  filingType,
-  routingSlip
-} from '../../test-data/mock-routing-slip'
+import { filingType } from '../../test-data/mock-routing-slip'
 import { createLocalVue, mount } from '@vue/test-utils'
 
 import { FilingTypeAutoComplete } from '@/components/ViewRoutingSlip'
