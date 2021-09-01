@@ -1,5 +1,5 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-
+import { filingType } from '../../test-data/mock-routing-slip'
 import AddManualTransactionDetails from '@/components/ViewRoutingSlip/AddManualTransactionDetails.vue'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
@@ -8,8 +8,32 @@ describe('addManualTransactionDetails.vue', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   const vuetify = new Vuetify({})
+  let store
+  beforeEach(() => {
+    const routingSlipModule = {
+      namespaced: true,
+      state: {
+        autoCompleteFilingTypes: filingType
+      },
+      actions: {
+        getAutoCompleteFilingTypes: jest.fn()
+      }
+    }
+
+    store = new Vuex.Store({
+      strict: false,
+      modules: {
+        routingSlip: routingSlipModule
+      }
+    })
+
+    jest.resetModules()
+    jest.clearAllMocks()
+  })
+
   it('renders component', async () => {
     const wrapper: any = mount(AddManualTransactionDetails, {
+      store,
       vuetify,
       localVue,
       propsData: {
@@ -28,8 +52,9 @@ describe('addManualTransactionDetails.vue', () => {
     expect(wrapper.find('[data-test="check-future-effective-0"]').exists()).toBeTruthy()
   })
 
-  xit('add/remove manual transaction row', async () => {
+  it('add/remove manual transaction row', async () => {
     const wrapper: any = mount(AddManualTransactionDetails, {
+      store,
       vuetify,
       localVue,
       propsData: {
