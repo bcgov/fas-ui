@@ -42,7 +42,7 @@ export default function useFilingTypeAutoComplete (props, context) {
   function itemText (item) {
     // used for value and showing text
     // since value return as object just use same as value also
-    return `${item.filingTypeCode.description} - ${item.corpTypeCode.description}`
+    return `${item?.filingTypeCode?.description} - ${item?.corpTypeCode?.description}`
   }
 
   const delayedSearch = debounce(() => {

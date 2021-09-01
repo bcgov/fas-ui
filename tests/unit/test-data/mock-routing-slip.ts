@@ -1,4 +1,9 @@
-import { AccountInfo, LinkedRoutingSlips, RoutingSlip, RoutingSlipDetails } from '@/models/RoutingSlip'
+import {
+  AccountInfo,
+  LinkedRoutingSlips,
+  RoutingSlip,
+  RoutingSlipDetails
+} from '@/models/RoutingSlip'
 
 import { Invoice } from '@/models/Invoice'
 import { Payment } from '@/models/Payment'
@@ -53,7 +58,16 @@ export const routingSlip: RoutingSlip = {
   id: 4,
   number: '123',
   paymentAccount: { billable: true, name: 'test', paymentMethod: 'CHEQUE' },
-  payments: [{ chequeReceiptNumber: '123', createdBy: 'user', id: 7636, paymentMethod: 'CHEQUE', paidAmount: 123, paymentDate: '2021-07-15' }],
+  payments: [
+    {
+      chequeReceiptNumber: '123',
+      createdBy: 'user',
+      id: 7636,
+      paymentMethod: 'CHEQUE',
+      paidAmount: 123,
+      paymentDate: '2021-07-15'
+    }
+  ],
   remainingAmount: 1000,
   routingSlipDate: '2021-07-08',
   status: 'ACTIVE',
@@ -83,15 +97,13 @@ export const chequePayment: Payment[] = [
   }
 ]
 
-export const cashPayment: Payment =
-{
+export const cashPayment: Payment = {
   chequeReceiptNumber: 'CASH123',
   paidAmount: 1000,
   paymentMethod: 'CASH'
 }
 
-export const linkedRoutingSlipsWithChildren: LinkedRoutingSlips =
-{
+export const linkedRoutingSlipsWithChildren: LinkedRoutingSlips = {
   children: [
     {
       id: 49,
@@ -122,13 +134,21 @@ export const linkedRoutingSlipsWithChildren: LinkedRoutingSlips =
   parent: null
 }
 
-export const autoCompleteRoutingSlips: RoutingSlip[] =
-[
+export const autoCompleteRoutingSlips: RoutingSlip[] = [
   {
     id: 1,
     number: 'AutoComplete1',
     paymentAccount: { billable: true, name: 'test', paymentMethod: 'CHEQUE' },
-    payments: [{ chequeReceiptNumber: '123', createdBy: 'user', id: 7636, paymentMethod: 'CHEQUE', paidAmount: 123, paymentDate: '2021-07-15' }],
+    payments: [
+      {
+        chequeReceiptNumber: '123',
+        createdBy: 'user',
+        id: 7636,
+        paymentMethod: 'CHEQUE',
+        paidAmount: 123,
+        paymentDate: '2021-07-15'
+      }
+    ],
     remainingAmount: 1000,
     routingSlipDate: '2021-07-08',
     status: 'ACTIVE',
@@ -139,11 +159,39 @@ export const autoCompleteRoutingSlips: RoutingSlip[] =
     id: 2,
     number: 'AutoComplete2',
     paymentAccount: { billable: true, name: 'test', paymentMethod: 'CHEQUE' },
-    payments: [{ chequeReceiptNumber: '123', createdBy: 'user', id: 7636, paymentMethod: 'CHEQUE', paidAmount: 123, paymentDate: '2021-07-15' }],
+    payments: [
+      {
+        chequeReceiptNumber: '123',
+        createdBy: 'user',
+        id: 7636,
+        paymentMethod: 'CHEQUE',
+        paidAmount: 123,
+        paymentDate: '2021-07-15'
+      }
+    ],
     remainingAmount: 1000,
     routingSlipDate: '2021-07-08',
     status: 'ACTIVE',
     total: 2000,
     invoices: invoice
+  }
+]
+
+export const filingType: any = [
+  {
+    corpTypeCode: {
+      code: 'BEN',
+      description: 'Benefit Company',
+      isOnlineBankingAllowed: true,
+      product: 'BUSINESS'
+    },
+    fee: 'EN107',
+    feeEndDate: null,
+    feeScheduleId: 31,
+    feeStartDate: '2019-12-23',
+    filingTypeCode: { code: 'BCCGM', description: 'Notice of Change' },
+    futureEffectiveFee: null,
+    priorityFee: null,
+    serviceFee: 'TRF01'
   }
 ]
