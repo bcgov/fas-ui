@@ -42,7 +42,7 @@ export interface LinkedRoutingSlips{
 export interface ManualTransactionDetails{
   quantity?: number,
   referenceNumber?: string,
-  amount?: number,
+  total?: number,
   isFutureEffectiveFiling?: boolean,
   isPriorityFee?: boolean
 }

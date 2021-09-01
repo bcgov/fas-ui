@@ -34,3 +34,13 @@ export interface FilingType {
   priorityFee?: number
   serviceFee?: number
 }
+
+export interface GetFeeRequestParams {
+  corpTypeCode: string
+  filingTypeCode: string
+  requestParams: {
+    quantity?: number
+    isPriorityFee?: boolean
+    isFutureEffectiveFiling?: boolean
+  }
+}

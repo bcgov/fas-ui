@@ -1,5 +1,7 @@
 import { AxiosResponse } from 'axios'
+import CommonUtils from '@/util/common-util'
 import ConfigHelper from '@/util/config-helper'
+import { GetFeeRequestParams } from '@/models/Payment'
 import { LinkRoutingSlipPrams } from '@/models/RoutingSlip'
 import axios from '@/util/http-util'
 
@@ -93,6 +95,17 @@ export default class RoutingSlip {
     return axios.get(
       `${ConfigHelper.getPayAPIURL()}/fees/schedules?description=${searchParams}`,
       { showGlobalLoader: showGlobalLoader }
+    )
+  }
+
+  public static async getFeeByCorpTypeAndFilingType (
+    getFeeRequestParams: GetFeeRequestParams,
+    showGlobalLoader: boolean = false
+  ): Promise<AxiosResponse> {
+    const requestParams = CommonUtils.createQueryParams(getFeeRequestParams.requestParams)
+    return axios.get(
+    `${ConfigHelper.getPayAPIURL()}/fees/${getFeeRequestParams.corpTypeCode}/${getFeeRequestParams.filingTypeCode}?${requestParams}`,
+    { showGlobalLoader: showGlobalLoader }
     )
   }
 }
