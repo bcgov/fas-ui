@@ -15,6 +15,7 @@
         append-icon=""
         :hide-no-data="hideNoData"
         v-bind="$attrs"
+        :rules="requiredFieldRule"
         data-test="input-filing-type"
       >
         <!-- hide-no-data -->
@@ -44,7 +45,8 @@ import { useFilingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
       search,
       delayedSearch,
       itemText,
-      hideNoData
+      hideNoData,
+      requiredFieldRule
     } = useFilingTypeAutoComplete(props, context)
 
     return {
@@ -54,7 +56,8 @@ import { useFilingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
       search,
       delayedSearch,
       itemText,
-      hideNoData
+      hideNoData,
+      requiredFieldRule
     }
   }
 })

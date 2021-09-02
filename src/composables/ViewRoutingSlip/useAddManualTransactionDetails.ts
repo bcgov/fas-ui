@@ -1,16 +1,14 @@
-import { computed, onMounted, ref, toRefs } from '@vue/composition-api'
+import { computed, ref, toRefs } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { ManualTransactionDetails } from '@/models/RoutingSlip'
 
 // Composable function to inject Props, options and values to AddManualTransactionDetails component
 export default function useAddManualTransactionDetails (props, context) {
-  const { value } = toRefs(props)
-  const formManualTransactionDetails = ref<HTMLFormElement>()
-  const filingType = ref('')
+  const { value, index } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change
-  const manualTransactionsList = computed({
+  const manualTransactionDetail = computed({
     get: () => {
       return value.value
     },
@@ -20,49 +18,16 @@ export default function useAddManualTransactionDetails (props, context) {
   })
 
   // Input field rules
-  const quantityRules = CommonUtils.requiredFieldRule()
-  const referenceNumberRules = CommonUtils.requiredFieldRule()
   const requiredFieldRule = CommonUtils.requiredFieldRule()
 
-  // By default, we show 1 manual transaction record
-  onMounted(() => {
-    if (value.value.length === 0) {
-      addManualTransactionRow()
-    }
-  })
-
-  function isDividerVisible (index: number): boolean {
-    const length = manualTransactionsList.value.length - 1
-    return index !== length
-  }
-
-  function getDefaultRow (): ManualTransactionDetails {
-    // by default, the flags isFutureEffectiveFiling, isPriorityFee are false
-    return { isFutureEffectiveFiling: false, isPriorityFee: false }
-  }
-
-  function addManualTransactionRow () {
-    manualTransactionsList.value.push(getDefaultRow())
-  }
-
-  function isValid (): boolean {
-    return formManualTransactionDetails.value.validate()
-  }
-
-  function removeManualTransactionRow (index: number) {
-    manualTransactionsList.value.splice(index, 1)
+  // we emit this remove row event, that is consumed in parent and slice the v-model array of parent
+  function removeManualTransactionRowEventHandler () {
+    context.emit('removeManualTransactionRow', index)
   }
 
   return {
-    manualTransactionsList,
-    quantityRules,
-    referenceNumberRules,
-    formManualTransactionDetails,
-    isDividerVisible,
-    isValid,
-    addManualTransactionRow,
-    removeManualTransactionRow,
-    filingType,
-    requiredFieldRule
+    manualTransactionDetail,
+    requiredFieldRule,
+    removeManualTransactionRowEventHandler
   }
 }

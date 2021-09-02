@@ -1,4 +1,6 @@
 import { computed, ref, toRefs } from '@vue/composition-api'
+
+import CommonUtils from '@/util/common-util'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import debounce from '@/util/debounce'
 
@@ -28,6 +30,9 @@ export default function useFilingTypeAutoComplete (props, context) {
   const isLoading = ref<boolean>(false)
   const hideNoData = ref<boolean>(true)
 
+  // Input field rules
+  const requiredFieldRule = CommonUtils.requiredFieldRule()
+
   const search = ref('')
 
   async function searchFilingTypes () {
@@ -55,6 +60,7 @@ export default function useFilingTypeAutoComplete (props, context) {
     hideNoData,
     isLoading,
     search,
+    requiredFieldRule,
     delayedSearch,
     itemText
   }

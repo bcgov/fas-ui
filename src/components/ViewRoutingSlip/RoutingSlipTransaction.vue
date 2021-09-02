@@ -27,7 +27,24 @@
             <p data-test="title" class="text-center font-weight-bold mt-2 pr-10">Add Manual Transaction</p>
           </v-col>
           <v-col cols="10" class="pl-0">
-            <AddManualTransactionDetails :manualTransactionsList="addManualTransactionsList" ref="addManualTransactionDetailsRef"/>
+              <v-form
+              id="formRoutingSlipManualTransactions"
+              ref="formRoutingSlipManualTransactions"
+              data-test="form-routing-slip-manual-transactions"
+              class="mt-2"
+              >
+                <div v-for="(transaction, index) in manualTransactionsList" :key="index">
+                  <AddManualTransactionDetails v-model="manualTransactionsList[index]"
+                  :index = index
+                  @removeManualTransactionRow="removeManualTransactionRow(index)"
+                  :data-test="getIndexedTag('add-manual-transaction-details', index)"/>
+                  <v-row dense class="mr-8">
+                    <v-col cols="12">
+                      <v-divider class="mt-4 mb-4" v-if="isDividerVisible(index)" />
+                    </v-col>
+                  </v-row>
+                </div>
+              </v-form>
             <v-row dense class="mr-8">
               <v-col cols="6">
                 <v-btn
@@ -89,22 +106,32 @@ import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
   },
   setup () {
     const {
-      addManualTransactionDetailsRef,
+      formRoutingSlipManualTransactions,
       showAddManualTransaction,
-      addManualTransactionsList,
+      manualTransactionsList,
       showManualTransaction,
       addManualTransactionRow,
-      addManualTransactions
+      addManualTransactions,
+      isDividerVisible,
+      isValid,
+      removeManualTransactionRow
     } = useRoutingSlipTransaction()
     return {
-      addManualTransactionDetailsRef,
+      formRoutingSlipManualTransactions,
       showAddManualTransaction,
-      addManualTransactionsList,
+      manualTransactionsList,
       showManualTransaction,
       addManualTransactionRow,
-      addManualTransactions
+      addManualTransactions,
+      isDividerVisible,
+      isValid,
+      removeManualTransactionRow
     }
   }
 })
-export default class RoutingSlipTransaction extends Vue {}
+export default class RoutingSlipTransaction extends Vue {
+  public getIndexedTag (tag, index): string {
+    return `${tag}-${index}`
+  }
+}
 </script>
