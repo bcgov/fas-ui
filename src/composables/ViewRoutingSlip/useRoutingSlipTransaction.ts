@@ -1,5 +1,9 @@
 import { ManualTransactionDetails } from '@/models/RoutingSlip'
+import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { ref } from '@vue/composition-api'
+
+const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
+const { useGetters } = routingSlipModule
 
 // Composable function to inject Props, options and values to RoutingSlipTransaction component
 export default function useRoutingSlipTransaction () {
@@ -8,12 +12,17 @@ export default function useRoutingSlipTransaction () {
   const formRoutingSlipManualTransactions = ref<HTMLFormElement>()
   const manualTransactionsList = ref<ManualTransactionDetails[]>([])
 
+  const { isRoutingSlipAChild } = useGetters(['isRoutingSlipAChild'])
+
   function showManualTransaction (): void {
     // Show manual transaction component through toggling showAddManualTransaction
-    showAddManualTransaction.value = !showAddManualTransaction.value
-    // And add a default row to the manual transaction list, if list is empty
-    if (manualTransactionsList.value.length === 0) {
-      addManualTransactionRow()
+    // only show the component and not toggle it back to hide the component
+    if (!showAddManualTransaction.value) {
+      showAddManualTransaction.value = !showAddManualTransaction.value
+      // And add a default row to the manual transaction list, if list is empty
+      if (manualTransactionsList.value.length === 0) {
+        addManualTransactionRow()
+      }
     }
   }
 
@@ -61,16 +70,24 @@ export default function useRoutingSlipTransaction () {
     manualTransactionsList.value[index] = { ...transaction }
   }
 
+  function hideManualTransaction (): void {
+    if (showAddManualTransaction.value) {
+      showAddManualTransaction.value = !showAddManualTransaction.value
+    }
+  }
+
   return {
     formRoutingSlipManualTransactions,
     showAddManualTransaction,
     manualTransactionsList,
+    isRoutingSlipAChild,
     showManualTransaction,
     addManualTransactionRow,
     addManualTransactions,
     isLastChild,
     isValid,
     removeManualTransactionRow,
-    updateManualTransactionDetails
+    updateManualTransactionDetails,
+    hideManualTransaction
   }
 }

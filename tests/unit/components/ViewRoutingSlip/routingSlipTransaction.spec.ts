@@ -7,12 +7,26 @@ import Vuex from 'vuex'
 describe('RoutingSlipTransaction.vue', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
+  let store
   const vuetify = new Vuetify({})
   const MyStub = {
     template: '<div />'
   }
 
   beforeEach(() => {
+    const routingSlipModule = {
+      namespaced: true,
+      getters: {
+        isRoutingSlipAChild: jest.fn().mockReturnValue(false)
+      }
+    }
+
+    store = new Vuex.Store({
+      strict: false,
+      modules: {
+        routingSlip: routingSlipModule
+      }
+    })
     jest.resetModules()
     jest.clearAllMocks()
   })
@@ -20,6 +34,7 @@ describe('RoutingSlipTransaction.vue', () => {
   it('renders component', () => {
     const wrapper: any = mount(RoutingSlipTransaction, {
       localVue,
+      store,
       vuetify,
       stubs: {
         TransactionDataTable: MyStub,
@@ -36,6 +51,7 @@ describe('RoutingSlipTransaction.vue', () => {
     const wrapper: any = mount(RoutingSlipTransaction, {
       localVue,
       vuetify,
+      store,
       stubs: {
         TransactionDataTable: MyStub,
         AddManualTransactionDetails: MyStub

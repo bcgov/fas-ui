@@ -14,6 +14,7 @@
           data-test="btn-add-transaction"
           v-can:fas_transaction.hide
           @click="showManualTransaction"
+          v-if="!isRoutingSlipAChild"
         >
           <v-icon class="mr-1">mdi-plus</v-icon>
           <span class="font">Add Transaction Manually</span>
@@ -77,6 +78,7 @@
                   color="primary"
                   class="ml-3"
                   data-test="btn-cancel"
+                  @click="hideManualTransaction"
                 >
                   <span class="font-weight-bold">Cancel</span>
                 </v-btn>
@@ -111,25 +113,29 @@ import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
       formRoutingSlipManualTransactions,
       showAddManualTransaction,
       manualTransactionsList,
+      isRoutingSlipAChild,
       showManualTransaction,
       addManualTransactionRow,
       addManualTransactions,
       isLastChild,
       isValid,
       removeManualTransactionRow,
-      updateManualTransactionDetails
+      updateManualTransactionDetails,
+      hideManualTransaction
     } = useRoutingSlipTransaction()
     return {
       formRoutingSlipManualTransactions,
       showAddManualTransaction,
       manualTransactionsList,
+      isRoutingSlipAChild,
       showManualTransaction,
       addManualTransactionRow,
       addManualTransactions,
       isLastChild,
       isValid,
       removeManualTransactionRow,
-      updateManualTransactionDetails
+      updateManualTransactionDetails,
+      hideManualTransaction
     }
   }
 })
