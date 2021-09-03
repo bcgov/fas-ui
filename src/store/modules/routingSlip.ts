@@ -5,7 +5,13 @@ import {
   RoutingSlipDetails
 } from '@/models/RoutingSlip'
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
-import { FilingType, GetFeeRequestParams, Payment } from '@/models/Payment'
+import {
+  BusinessInfo,
+  FilingType,
+  GetFeeRequestParams,
+  Payment,
+  TransactionParams
+} from '@/models/Payment'
 
 import CommonUtils from '@/util/common-util'
 import RoutingSlipService from '@/services/routingSlip.services'
@@ -330,7 +336,9 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Action({ commit: 'setAutoCompleteFilingType', rawError: true })
-  public async getAutoCompleteFilingTypes (searchParams:string): Promise<FilingType[]> {
+  public async getAutoCompleteFilingTypes (
+    searchParams: string
+  ): Promise<FilingType[]> {
     const response = await RoutingSlipService.getSearchFilingType(searchParams)
     if (response && response.data && response.status === 200) {
       return response.data?.items
@@ -339,13 +347,63 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public async getFeeByCorpTypeAndFilingType (getFeeRequestParams: GetFeeRequestParams): Promise<number> {
+  public async getFeeByCorpTypeAndFilingType (
+    getFeeRequestParams: GetFeeRequestParams
+  ): Promise<number> {
     // Currently, in FAS we only need total from the result that is the source of truth.
     // Other properties such as tax breakdown and priority fees can be ignored here.
-    const response = await RoutingSlipService.getFeeByCorpTypeAndFilingType(getFeeRequestParams)
+    const response = await RoutingSlipService.getFeeByCorpTypeAndFilingType(
+      getFeeRequestParams
+    )
     if (response && response.data && response.status === 200) {
       return response.data?.total
     }
     return null
+  }
+
+  @Action({ rawError: true })
+  public async saveManualTransactions (transation: any): Promise<any> {
+    // prepare format from here
+    const context: any = this.context
+
+    const routingSlipNumber: string = context.state.routingSlip.number
+
+    const {
+      referenceNumber,
+      filingType,
+      futureFiling,
+      priority,
+      quantity
+    } = transation
+    const businessInfo: BusinessInfo = {
+      corpType: filingType.corpTypeCode.code
+    }
+
+    // no need to pass if empty
+    if (referenceNumber) {
+      businessInfo.businessIdentifier = referenceNumber
+    }
+
+    const transactionParams: TransactionParams = {
+      businessInfo,
+      filingInfo: {
+        filingTypes: [
+          {
+            filingTypeCode: filingType.filingTypeCode.code,
+            futureEffective: futureFiling,
+            priority: priority,
+            quantity: parseInt(quantity)
+          }
+        ]
+      },
+      accountInfo: {
+        routingSlip: routingSlipNumber
+      }
+    }
+
+    const response = await RoutingSlipService.saveManualTransactions(
+      transactionParams
+    )
+    return response
   }
 }

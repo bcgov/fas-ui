@@ -108,4 +108,16 @@ export default class RoutingSlip {
     { showGlobalLoader: showGlobalLoader }
     )
   }
+
+  public static async saveManualTransactions (
+    transactions: any,
+    showGlobalLoader: boolean = false
+  ): Promise<AxiosResponse> {
+    return axios.post(
+      `${ConfigHelper.getPayAPIURL()}/payment-requests`,
+      transactions,
+      { showGlobalLoader: showGlobalLoader }
+
+    )
+  }
 }
