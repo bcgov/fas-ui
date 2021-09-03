@@ -11,8 +11,10 @@ export default function useRoutingSlipTransaction () {
   function showManualTransaction (): void {
     // Show manual transaction component through toggling showAddManualTransaction
     showAddManualTransaction.value = !showAddManualTransaction.value
-    // And add a default row to the manual transaction list
-    addManualTransactionRow()
+    // And add a default row to the manual transaction list, if list is empty
+    if (manualTransactionsList.value.length === 0) {
+      addManualTransactionRow()
+    }
   }
 
   function addManualTransactions (): void {
@@ -21,7 +23,7 @@ export default function useRoutingSlipTransaction () {
   }
 
   // Divider not visible if array is 1 OR last array element
-  function isDividerVisible (index: number): boolean {
+  function isLastChild (index: number): boolean {
     const length = manualTransactionsList.value.length - 1
     return index !== length
   }
@@ -66,7 +68,7 @@ export default function useRoutingSlipTransaction () {
     showManualTransaction,
     addManualTransactionRow,
     addManualTransactions,
-    isDividerVisible,
+    isLastChild,
     isValid,
     removeManualTransactionRow,
     updateManualTransactionDetails

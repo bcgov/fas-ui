@@ -43,10 +43,11 @@ export default function useAddManualTransactionDetails (props, context) {
       } else {
         manualTransactionDetails.value.total = null
       }
-    } catch (error) {
+    } catch (error: any) {
+      manualTransactionDetails.value.total = null
       // TODO : Business errors (400s) need to be handled
       // eslint-disable-next-line no-console
-      console.error('error ', error.response?.data)
+      console.error('error ', error?.response?.data)
     } finally {
       context.emit('updateManualTransaction', manualTransactionDetails, index)
     }
@@ -61,11 +62,16 @@ export default function useAddManualTransactionDetails (props, context) {
     context.emit('removeManualTransactionRow', index)
   }
 
+  function getIndexedTag (tag, index): string {
+    return `${tag}-${index}`
+  }
+
   return {
     manualTransactionDetails,
     requiredFieldRule,
     removeManualTransactionRowEventHandler,
     delayedCalculateTotal,
-    calculateTotal
+    calculateTotal,
+    getIndexedTag
   }
 }

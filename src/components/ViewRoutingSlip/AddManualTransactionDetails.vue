@@ -95,24 +95,22 @@ import { ManualTransactionDetails } from '@/models/RoutingSlip'
       requiredFieldRule,
       removeManualTransactionRowEventHandler,
       calculateTotal,
-      delayedCalculateTotal
+      delayedCalculateTotal,
+      getIndexedTag
     } = useAddManualTransactionDetails(props, context)
     return {
       manualTransactionDetails,
       requiredFieldRule,
       removeManualTransactionRowEventHandler,
       calculateTotal,
-      delayedCalculateTotal
+      delayedCalculateTotal,
+      getIndexedTag
     }
   }
 })
 export default class AddManualTransactionDetails extends Vue {
   @Prop({ default: () => undefined }) index: number
   @Prop({ default: () => null }) manualTransaction: ManualTransactionDetails
-
-  public getIndexedTag (tag, index): string {
-    return `${tag}-${index}`
-  }
 }
 </script>
 <style lang="scss" scoped>

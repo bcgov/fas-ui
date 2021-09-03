@@ -42,7 +42,7 @@
                   :data-test="getIndexedTag('add-manual-transaction-details', index)"/>
                   <v-row dense class="mr-8">
                     <v-col cols="12">
-                      <v-divider class="mt-4 mb-4" v-if="isDividerVisible(index)" />
+                      <v-divider class="mt-4 mb-4" v-if="isLastChild(index)" />
                     </v-col>
                   </v-row>
                 </div>
@@ -114,7 +114,7 @@ import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
       showManualTransaction,
       addManualTransactionRow,
       addManualTransactions,
-      isDividerVisible,
+      isLastChild,
       isValid,
       removeManualTransactionRow,
       updateManualTransactionDetails
@@ -126,7 +126,7 @@ import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
       showManualTransaction,
       addManualTransactionRow,
       addManualTransactions,
-      isDividerVisible,
+      isLastChild,
       isValid,
       removeManualTransactionRow,
       updateManualTransactionDetails
