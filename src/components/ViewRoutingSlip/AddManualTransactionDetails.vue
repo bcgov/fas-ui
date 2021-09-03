@@ -1,5 +1,5 @@
 <template>
-  <v-row dense class="mr-8">
+  <v-row dense class="mr-8" v-if="manualTransactionDetails">
     <v-col cols="12">
       <filing-type-auto-complete
         v-model="manualTransactionDetails.filingType"

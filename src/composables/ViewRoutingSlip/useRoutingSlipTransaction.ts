@@ -18,7 +18,6 @@ export default function useRoutingSlipTransaction () {
 
   function addManualTransactions (): void {
     if (isValid()) {
-
     }
   }
 
@@ -30,7 +29,7 @@ export default function useRoutingSlipTransaction () {
 
   function getDefaultRow (): ManualTransactionDetails {
     // by default, the flags futureFiling, priority are false
-    return { futureFiling: false, priority: false }
+    return { futureFiling: false, priority: false } as ManualTransactionDetails
   }
 
   function addManualTransactionRow () {
