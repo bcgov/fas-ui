@@ -2,7 +2,7 @@
   <v-row dense class="mr-8">
     <v-col cols="12">
       <filing-type-auto-complete
-        v-model="manualTransactionDetail.filingType"
+        v-model="manualTransactionDetails.filingType"
         required
         :rules="requiredFieldRule"
       />
@@ -15,7 +15,7 @@
         :data-test="getIndexedTag('txt-quantity', index)"
         required
         :rules="requiredFieldRule"
-        v-model="manualTransactionDetail.quantity"
+        v-model="manualTransactionDetails.quantity"
         type="number"
       >
       </v-text-field>
@@ -28,7 +28,7 @@
         :data-test="getIndexedTag('txt-incorporation', index)"
         required
         :rules="requiredFieldRule"
-        v-model.trim="manualTransactionDetail.referenceNumber"
+        v-model.trim="manualTransactionDetails.referenceNumber"
       >
       </v-text-field>
     </v-col>
@@ -40,7 +40,7 @@
         :data-test="getIndexedTag('txt-amount', index)"
         required
         disabled
-        v-model="manualTransactionDetail.total"
+        v-model="manualTransactionDetails.total"
       >
       </v-text-field>
       <div class="close-icon">
@@ -59,7 +59,7 @@
       <v-checkbox
         class="ma-0"
         label="Priority Fee"
-        v-model="manualTransactionDetail.isPriorityFee"
+        v-model="manualTransactionDetails.priority"
         hide-details
         :data-test="getIndexedTag('check-priority', index)"
       ></v-checkbox>
@@ -68,7 +68,7 @@
       <v-checkbox
         class="ma-0"
         label="Future Effective Filing Fee"
-        v-model="manualTransactionDetail.isFutureEffectiveFiling"
+        v-model="manualTransactionDetails.futureFiling"
         hide-details
         :data-test="getIndexedTag('check-future-effective', index)"
       ></v-checkbox>
@@ -77,9 +77,9 @@
 </template>
 <script lang="ts">
 import { useAddManualTransactionDetails } from '@/composables/ViewRoutingSlip'
-import { ManualTransactionDetails } from '@/models/RoutingSlip'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import FilingTypeAutoComplete from '@/components/ViewRoutingSlip/FilingTypeAutoComplete.vue'
+import { ManualTransactionDetails } from '@/models/RoutingSlip'
 
 @Component({
   components: {
@@ -87,20 +87,20 @@ import FilingTypeAutoComplete from '@/components/ViewRoutingSlip/FilingTypeAutoC
   },
   setup (props, context) {
     const {
-      manualTransactionDetail,
+      manualTransactionDetails,
       requiredFieldRule,
       removeManualTransactionRowEventHandler
     } = useAddManualTransactionDetails(props, context)
     return {
-      manualTransactionDetail,
+      manualTransactionDetails,
       requiredFieldRule,
       removeManualTransactionRowEventHandler
     }
   }
 })
 export default class AddManualTransactionDetails extends Vue {
-  @Prop({ default: () => null }) value: ManualTransactionDetails
   @Prop({ default: () => undefined }) index: number
+  @Prop({ default: () => null }) manualTransaction: ManualTransactionDetails
 
   public getIndexedTag (tag, index): string {
     return `${tag}-${index}`

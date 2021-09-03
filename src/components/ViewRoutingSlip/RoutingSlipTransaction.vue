@@ -34,8 +34,10 @@
               class="mt-2"
               >
                 <div v-for="(transaction, index) in manualTransactionsList" :key="index">
-                  <AddManualTransactionDetails v-model="manualTransactionsList[index]"
+                  <AddManualTransactionDetails
                   :index = index
+                  :manualTransaction="transaction"
+                  @updateManualTransaction="updateManualTransactionDetails($event,index)"
                   @removeManualTransactionRow="removeManualTransactionRow(index)"
                   :data-test="getIndexedTag('add-manual-transaction-details', index)"/>
                   <v-row dense class="mr-8">
@@ -114,7 +116,8 @@ import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
       addManualTransactions,
       isDividerVisible,
       isValid,
-      removeManualTransactionRow
+      removeManualTransactionRow,
+      updateManualTransactionDetails
     } = useRoutingSlipTransaction()
     return {
       formRoutingSlipManualTransactions,
@@ -125,7 +128,8 @@ import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
       addManualTransactions,
       isDividerVisible,
       isValid,
-      removeManualTransactionRow
+      removeManualTransactionRow,
+      updateManualTransactionDetails
     }
   }
 })

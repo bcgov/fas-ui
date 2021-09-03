@@ -15,7 +15,6 @@
         append-icon=""
         :hide-no-data="hideNoData"
         v-bind="$attrs"
-        :rules="requiredFieldRule"
         data-test="input-filing-type"
       >
         <!-- hide-no-data -->
@@ -35,6 +34,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { useFilingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
+import { FilingType } from '@/models/Payment'
 
 @Component({
   setup (props, context) {
@@ -45,8 +45,7 @@ import { useFilingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
       search,
       delayedSearch,
       itemText,
-      hideNoData,
-      requiredFieldRule
+      hideNoData
     } = useFilingTypeAutoComplete(props, context)
 
     return {
@@ -56,13 +55,12 @@ import { useFilingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
       search,
       delayedSearch,
       itemText,
-      hideNoData,
-      requiredFieldRule
+      hideNoData
     }
   }
 })
 export default class FIlingTypeAutoComplete extends Vue {
-  @Prop({ default: () => [] }) value: any[]
+  @Prop({ default: () => null }) value: FilingType
 }
 </script>
 

@@ -1,21 +1,50 @@
-import { computed, ref, toRefs } from '@vue/composition-api'
+import { computed, toRefs, watch } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
+import { GetFeeRequestParams } from '@/models/Payment'
 import { ManualTransactionDetails } from '@/models/RoutingSlip'
+import Vue from 'vue'
+import { createNamespacedHelpers } from 'vuex-composition-helpers'
+
+const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
+const { useActions } = routingSlipModule
 
 // Composable function to inject Props, options and values to AddManualTransactionDetails component
 export default function useAddManualTransactionDetails (props, context) {
-  const { value, index } = toRefs(props)
+  const { manualTransaction, index } = toRefs(props)
 
-  // using same v-model value for getting value and update parent on change
-  const manualTransactionDetail = computed({
+  // computed prop that holds the input fields
+  const manualTransactionDetails = computed({
     get: () => {
-      return value.value
+      return manualTransaction.value
     },
-    set: (modalValue: ManualTransactionDetails[]) => {
-      context.emit('input', modalValue)
+    set: (modalValue: ManualTransactionDetails) => {
+      context.emit('updateManualTransaction', modalValue)
     }
   })
+
+  // vuex action and state
+  const { getFeeByCorpTypeAndFilingType } = useActions([
+    'getFeeByCorpTypeAndFilingType'
+  ])
+
+  // update total if its updated dependecies are not null
+  watch(manualTransactionDetails, async (value: ManualTransactionDetails) => {
+    if (value.filingType && value.quantity) {
+      // get new total from Pay-api services
+      const getFeeRequestParams: GetFeeRequestParams = {
+        corpTypeCode: value.filingType.corpTypeCode.code,
+        filingTypeCode: value.filingType.filingTypeCode.code,
+        requestParams: {
+          quantity: value.quantity,
+          priority: value.priority,
+          futureFiling: value.futureFiling
+        }
+      }
+      value.total = await getFeeByCorpTypeAndFilingType(getFeeRequestParams)
+      context.emit('updateManualTransaction', value)
+    }
+  }, { deep: true })
 
   // Input field rules
   const requiredFieldRule = CommonUtils.requiredFieldRule()
@@ -26,7 +55,7 @@ export default function useAddManualTransactionDetails (props, context) {
   }
 
   return {
-    manualTransactionDetail,
+    manualTransactionDetails,
     requiredFieldRule,
     removeManualTransactionRowEventHandler
   }

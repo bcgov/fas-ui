@@ -40,7 +40,7 @@ export interface GetFeeRequestParams {
   filingTypeCode: string
   requestParams: {
     quantity?: number
-    isPriorityFee?: boolean
-    isFutureEffectiveFiling?: boolean
+    priority?: boolean
+    futureFiling?: boolean
   }
 }

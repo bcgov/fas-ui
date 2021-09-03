@@ -1,4 +1,5 @@
 import { ManualTransactionDetails } from '@/models/RoutingSlip'
+import Vue from 'vue'
 import { ref } from '@vue/composition-api'
 
 // Composable function to inject Props, options and values to RoutingSlipTransaction component
@@ -28,8 +29,8 @@ export default function useRoutingSlipTransaction () {
   }
 
   function getDefaultRow (): ManualTransactionDetails {
-    // by default, the flags isFutureEffectiveFiling, isPriorityFee are false
-    return { isFutureEffectiveFiling: false, isPriorityFee: false }
+    // by default, the flags futureFiling, priority are false
+    return { futureFiling: false, priority: false }
   }
 
   function addManualTransactionRow () {
@@ -44,6 +45,10 @@ export default function useRoutingSlipTransaction () {
     manualTransactionsList.value.splice(index, 1)
   }
 
+  async function updateManualTransactionDetails (transaction: ManualTransactionDetails, index: number) {
+    manualTransactionsList.value[index] = transaction
+  }
+
   return {
     formRoutingSlipManualTransactions,
     showAddManualTransaction,
@@ -53,6 +58,7 @@ export default function useRoutingSlipTransaction () {
     addManualTransactions,
     isDividerVisible,
     isValid,
-    removeManualTransactionRow
+    removeManualTransactionRow,
+    updateManualTransactionDetails
   }
 }
