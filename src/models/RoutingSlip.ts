@@ -1,5 +1,6 @@
+import { FilingType, Payment } from './Payment'
+
 import { Invoice } from './Invoice'
-import { Payment } from './Payment'
 
 // Each Routing Slip is tied to an account - PayBC
 export interface AccountInfo {
@@ -42,7 +43,8 @@ export interface LinkedRoutingSlips{
 export interface ManualTransactionDetails{
   quantity?: number,
   referenceNumber?: string,
-  amount?: number,
-  isFutureEffectiveFiling?: boolean,
-  isPriorityFee?: boolean
+  total?: number,
+  futureFiling?: boolean,
+  priority?: boolean,
+  filingType?: FilingType
 }

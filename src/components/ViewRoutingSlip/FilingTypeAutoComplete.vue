@@ -34,6 +34,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { useFilingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
+import { FilingType } from '@/models/Payment'
 
 @Component({
   setup (props, context) {
@@ -59,7 +60,7 @@ import { useFilingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
   }
 })
 export default class FIlingTypeAutoComplete extends Vue {
-  @Prop({ default: () => [] }) value: any[]
+  @Prop({ default: () => null }) value: FilingType
 }
 </script>
 

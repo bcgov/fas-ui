@@ -5,9 +5,9 @@ import {
   RoutingSlipDetails
 } from '@/models/RoutingSlip'
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
+import { FilingType, GetFeeRequestParams, Payment } from '@/models/Payment'
 
 import CommonUtils from '@/util/common-util'
-import { FilingType, Payment } from '@/models/Payment'
 import RoutingSlipService from '@/services/routingSlip.services'
 
 @Module({ namespaced: true, stateFactory: true })
@@ -336,5 +336,16 @@ export default class RoutingSlipModule extends VuexModule {
       return response.data?.items
     }
     return []
+  }
+
+  @Action({ rawError: true })
+  public async getFeeByCorpTypeAndFilingType (getFeeRequestParams: GetFeeRequestParams): Promise<number> {
+    // Currently, in FAS we only need total from the result that is the source of truth.
+    // Other properties such as tax breakdown and priority fees can be ignored here.
+    const response = await RoutingSlipService.getFeeByCorpTypeAndFilingType(getFeeRequestParams)
+    if (response && response.data && response.status === 200) {
+      return response.data?.total
+    }
+    return null
   }
 }

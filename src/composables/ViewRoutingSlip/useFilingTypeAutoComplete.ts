@@ -1,4 +1,7 @@
 import { computed, ref, toRefs } from '@vue/composition-api'
+
+import CommonUtils from '@/util/common-util'
+import { FilingType } from '@/models/Payment'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import debounce from '@/util/debounce'
 
@@ -14,7 +17,7 @@ export default function useFilingTypeAutoComplete (props, context) {
     get: () => {
       return value?.value
     },
-    set: (modalValue: any[]) => {
+    set: (modalValue: FilingType) => {
       context.emit('input', modalValue)
     }
   })

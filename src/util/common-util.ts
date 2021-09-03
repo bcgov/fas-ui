@@ -95,4 +95,9 @@ export default class CommonUtils {
       .filter((k) => obj[k] !== '' && obj[k] !== null)
       .reduce((a, k) => ({ ...a, [k]: obj[k] }), {})
   }
+
+  static createQueryParams = params =>
+    Object.keys(params)
+      .map(k => `${k}=${encodeURI(params[k])}`)
+      .join('&')
 }

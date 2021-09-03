@@ -1,5 +1,6 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import { filingType } from '../../test-data/mock-routing-slip'
+import { filingType, manualTransactionDetails } from '../../test-data/mock-routing-slip'
+
 import AddManualTransactionDetails from '@/components/ViewRoutingSlip/AddManualTransactionDetails.vue'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
@@ -16,7 +17,8 @@ describe('addManualTransactionDetails.vue', () => {
         autoCompleteFilingTypes: filingType
       },
       actions: {
-        getAutoCompleteFilingTypes: jest.fn()
+        getAutoCompleteFilingTypes: jest.fn(),
+        getFeeByCorpTypeAndFilingType: jest.fn().mockResolvedValue(100)
       }
     }
 
@@ -37,13 +39,13 @@ describe('addManualTransactionDetails.vue', () => {
       vuetify,
       localVue,
       propsData: {
-        value: []
+        index: 0,
+        manualTransaction: manualTransactionDetails
       }
     })
     // to add first array of input on mount
     await wrapper.vm.$nextTick()
-    expect(wrapper.find('[data-test="form-manual-transaction-details"]').exists()).toBeTruthy()
-    expect(wrapper.vm.manualTransactionsList.length).toBe(1)
+    expect(wrapper.vm.manualTransaction).not.toBeNull()
     expect(wrapper.find('[data-test="txt-quantity-0"]').exists()).toBeTruthy()
     expect(wrapper.find('[data-test="txt-incorporation-0"]').exists()).toBeTruthy()
     expect(wrapper.find('[data-test="txt-amount-0"]').exists()).toBeTruthy()
@@ -52,28 +54,50 @@ describe('addManualTransactionDetails.vue', () => {
     expect(wrapper.find('[data-test="check-future-effective-0"]').exists()).toBeTruthy()
   })
 
-  it('add/remove manual transaction row', async () => {
+  it('behavior testing', async () => {
+    const stub = jest.fn()
     const wrapper: any = mount(AddManualTransactionDetails, {
       store,
       vuetify,
       localVue,
       propsData: {
-        value: []
+        index: 1,
+        manualTransaction: manualTransactionDetails
+      },
+      mocks: {
+        removeManualTransactionRowEventHandler: stub
       }
     })
-
+    // to add first array of input on mount
     await wrapper.vm.$nextTick()
-    await wrapper.vm.addManualTransactionRow()
-    await wrapper.vm.$nextTick()
-
-    expect(wrapper.vm.manualTransactionsList.length).toBe(2)
-    expect(wrapper.find('[data-test="txt-quantity-0"]').exists()).toBeTruthy()
     expect(wrapper.find('[data-test="txt-quantity-1"]').exists()).toBeTruthy()
-    expect(wrapper.find('[data-test="btn-remove-0"]').exists()).toBeFalsy()
+    expect(wrapper.find('[data-test="txt-incorporation-1"]').exists()).toBeTruthy()
+    expect(wrapper.find('[data-test="txt-amount-1"]').exists()).toBeTruthy()
     expect(wrapper.find('[data-test="btn-remove-1"]').exists()).toBeTruthy()
+    expect(wrapper.find('[data-test="check-priority-1"]').exists()).toBeTruthy()
+    expect(wrapper.find('[data-test="check-future-effective-1"]').exists()).toBeTruthy()
 
-    wrapper.find('[data-test="btn-remove-1"]').trigger('click')
+    const removeBtn = wrapper.find('[data-test="btn-remove-1"]')
+    removeBtn.trigger('click')
     await wrapper.vm.$nextTick()
-    expect(wrapper.vm.manualTransactionsList.length).toBe(1)
+    expect(stub).toBeCalled()
+  })
+
+  it('calculate total', async () => {
+    const wrapper: any = mount(AddManualTransactionDetails, {
+      store,
+      vuetify,
+      localVue,
+      propsData: {
+        index: 0,
+        manualTransaction: manualTransactionDetails
+      }
+    })
+    // to add first array of input on mount
+    await wrapper.vm.$nextTick()
+    await wrapper.vm.calculateTotal()
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.vm.manualTransactionDetails.total).toBe(100)
   })
 })
