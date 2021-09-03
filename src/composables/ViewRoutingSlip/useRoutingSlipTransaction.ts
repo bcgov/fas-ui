@@ -1,5 +1,4 @@
 import { ManualTransactionDetails } from '@/models/RoutingSlip'
-import Vue from 'vue'
 import { ref } from '@vue/composition-api'
 
 // Composable function to inject Props, options and values to RoutingSlipTransaction component
@@ -28,10 +27,17 @@ export default function useRoutingSlipTransaction () {
   }
 
   function getDefaultRow (): ManualTransactionDetails {
-    // by default, the flags futureFiling, priority are false
-    return { futureFiling: false, priority: false } as ManualTransactionDetails
+    // By default, the flags futureFiling, priority are false
+    return {
+      futureFiling: false,
+      priority: false,
+      total: null,
+      referenceNumber: null,
+      filingType: null
+    } as ManualTransactionDetails
   }
 
+  // Add one row to the list
   function addManualTransactionRow () {
     manualTransactionsList.value.push(getDefaultRow())
   }
@@ -40,12 +46,17 @@ export default function useRoutingSlipTransaction () {
     return formRoutingSlipManualTransactions.value.validate()
   }
 
+  // Remove one row to the list
   function removeManualTransactionRow (index: number) {
     manualTransactionsList.value.splice(index, 1)
   }
 
+  /* Update the record to keep it up to date with the inptu changes happening in the child transaction
+  Cannot use output-sync or v-model, since it is not allowed on iterable list;
+  therefore using event listener, we update the properties of the parent list elements
+  */
   async function updateManualTransactionDetails (transaction: ManualTransactionDetails, index: number) {
-    manualTransactionsList.value[index] = transaction
+    manualTransactionsList.value[index] = { ...transaction }
   }
 
   return {

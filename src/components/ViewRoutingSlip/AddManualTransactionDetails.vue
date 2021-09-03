@@ -5,6 +5,7 @@
         v-model="manualTransactionDetails.filingType"
         required
         :rules="requiredFieldRule"
+        @keyup="delayedCalculateTotal()"
       />
     </v-col>
     <v-col cols="2">
@@ -17,6 +18,7 @@
         :rules="requiredFieldRule"
         v-model="manualTransactionDetails.quantity"
         type="number"
+        @keyup="delayedCalculateTotal()"
       >
       </v-text-field>
     </v-col>
@@ -32,13 +34,12 @@
       >
       </v-text-field>
     </v-col>
-    <v-col cols="5" class="amount">
+    <v-col cols="5" class="amount" :key="manualTransactionDetails.total">
       <v-text-field
         filled
         label="$Amount"
         persistent-hint
         :data-test="getIndexedTag('txt-amount', index)"
-        required
         disabled
         v-model="manualTransactionDetails.total"
       >
@@ -62,6 +63,7 @@
         v-model="manualTransactionDetails.priority"
         hide-details
         :data-test="getIndexedTag('check-priority', index)"
+        @change="calculateTotal()"
       ></v-checkbox>
     </v-col>
     <v-col cols="8">
@@ -71,6 +73,7 @@
         v-model="manualTransactionDetails.futureFiling"
         hide-details
         :data-test="getIndexedTag('check-future-effective', index)"
+        @change="calculateTotal()"
       ></v-checkbox>
     </v-col>
   </v-row>
@@ -89,12 +92,16 @@ import { ManualTransactionDetails } from '@/models/RoutingSlip'
     const {
       manualTransactionDetails,
       requiredFieldRule,
-      removeManualTransactionRowEventHandler
+      removeManualTransactionRowEventHandler,
+      calculateTotal,
+      delayedCalculateTotal
     } = useAddManualTransactionDetails(props, context)
     return {
       manualTransactionDetails,
       requiredFieldRule,
-      removeManualTransactionRowEventHandler
+      removeManualTransactionRowEventHandler,
+      calculateTotal,
+      delayedCalculateTotal
     }
   }
 })

@@ -1,6 +1,7 @@
 import {
   AccountInfo,
   LinkedRoutingSlips,
+  ManualTransactionDetails,
   RoutingSlip,
   RoutingSlipDetails
 } from '@/models/RoutingSlip'
@@ -195,3 +196,23 @@ export const filingType: any = [
     serviceFee: 'TRF01'
   }
 ]
+
+export const manualTransactionDetails: ManualTransactionDetails = {
+  futureFiling: false,
+  priority: true,
+  referenceNumber: 'test',
+  filingType: {
+    corpTypeCode: {
+      code: 'BEN',
+      description: 'Benefit Company',
+      isOnlineBankingAllowed: true,
+      product: 'BUSINESS'
+    },
+    fee: 'EN107',
+    feeScheduleId: 31,
+    filingTypeCode: { code: 'BCCGM', description: 'Notice of Change' },
+    futureEffectiveFee: null,
+    priorityFee: null
+  },
+  quantity: 1
+}

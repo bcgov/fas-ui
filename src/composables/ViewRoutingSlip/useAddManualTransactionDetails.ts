@@ -1,9 +1,10 @@
-import { nextTick, ref, toRefs, watch } from '@vue/composition-api'
+import { nextTick, ref, toRefs } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { GetFeeRequestParams } from '@/models/Payment'
 import { ManualTransactionDetails } from '@/models/RoutingSlip'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
+import debounce from '@/util/debounce'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useActions } = routingSlipModule
@@ -12,39 +13,50 @@ const { useActions } = routingSlipModule
 export default function useAddManualTransactionDetails (props, context) {
   const { manualTransaction, index } = toRefs(props)
 
-  // prop that holds the input fields
+  // Object that holds the input fields - seed it using property
   const manualTransactionDetails = ref<ManualTransactionDetails>(JSON.parse(JSON.stringify(manualTransaction.value)))
+
+  // Input field rules
+  const requiredFieldRule = CommonUtils.requiredFieldRule()
 
   // vuex action and state
   const { getFeeByCorpTypeAndFilingType } = useActions([
     'getFeeByCorpTypeAndFilingType'
   ])
 
-  // update total if its updated dependecies are not null
-  watch(manualTransactionDetails, async (manualTransaction: ManualTransactionDetails) => {
-    if (manualTransaction && manualTransaction.filingType && manualTransaction.quantity) {
-      // get new total from Pay-api services
-      const getFeeRequestParams: GetFeeRequestParams = {
-        corpTypeCode: manualTransaction.filingType.corpTypeCode.code,
-        filingTypeCode: manualTransaction.filingType.filingTypeCode.code,
-        requestParams: {
-          quantity: manualTransaction.quantity,
-          priority: manualTransaction.priority,
-          futureFiling: manualTransaction.futureFiling
+  // Calculate total fee from pay-api service, triggered if its dependent values are changed
+  async function calculateTotal () {
+    try {
+      if (manualTransactionDetails && manualTransactionDetails.value.filingType && manualTransactionDetails.value.quantity) {
+        const getFeeRequestParams: GetFeeRequestParams = {
+          corpTypeCode: manualTransactionDetails.value.filingType.corpTypeCode.code,
+          filingTypeCode: manualTransactionDetails.value.filingType.filingTypeCode.code,
+          requestParams: {
+            quantity: manualTransactionDetails.value.quantity,
+            priority: manualTransactionDetails.value.priority,
+            futureFiling: manualTransactionDetails.value.futureFiling
+          }
         }
+        nextTick(async () => {
+          manualTransactionDetails.value.total = await getFeeByCorpTypeAndFilingType(getFeeRequestParams)
+        })
+      } else {
+        manualTransactionDetails.value.total = null
       }
-      manualTransactionDetails.value.total = await getFeeByCorpTypeAndFilingType(getFeeRequestParams)
-    } else {
-      manualTransactionDetails.value.total = null
+    } catch (error) {
+      // TODO : Business errors (400s) need to be handled
+      // eslint-disable-next-line no-console
+      console.error('error ', error.response?.data)
+    } finally {
+      context.emit('updateManualTransaction', manualTransactionDetails, index)
     }
-    await nextTick()
-    context.emit('updateManualTransaction', manualTransactionDetails, index)
-  }, { deep: true })
+  }
 
-  // Input field rules
-  const requiredFieldRule = CommonUtils.requiredFieldRule()
+  const delayedCalculateTotal = debounce(() => {
+    calculateTotal()
+  })
 
-  // we emit this remove row event, that is consumed in parent and slice the v-model array of parent
+  // Emit this remove row event, that is consumed in parent and slice the v-model array of parent
   function removeManualTransactionRowEventHandler () {
     context.emit('removeManualTransactionRow', index)
   }
@@ -52,6 +64,8 @@ export default function useAddManualTransactionDetails (props, context) {
   return {
     manualTransactionDetails,
     requiredFieldRule,
-    removeManualTransactionRowEventHandler
+    removeManualTransactionRowEventHandler,
+    delayedCalculateTotal,
+    calculateTotal
   }
 }
