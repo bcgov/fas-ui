@@ -5,7 +5,7 @@
         v-model="manualTransactionDetails.filingType"
         required
         :rules="requiredFieldRule"
-        @keyup="delayedCalculateTotal()"
+        @input="delayedCalculateTotal()"
       />
     </v-col>
     <v-col cols="2">
