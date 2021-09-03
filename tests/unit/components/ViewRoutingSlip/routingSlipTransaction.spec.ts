@@ -1,4 +1,5 @@
 import { createLocalVue, mount } from '@vue/test-utils'
+import { routingSlip } from '../../test-data/mock-routing-slip'
 
 import { RoutingSlipTransaction } from '@/components/ViewRoutingSlip'
 import Vuetify from 'vuetify'
@@ -12,13 +13,33 @@ describe('RoutingSlipTransaction.vue', () => {
     template: '<div />'
   }
 
+  let store
   beforeEach(() => {
+    const routingSlipModule = {
+      namespaced: true,
+      state: {
+        routingSlip
+      },
+      actions: {
+        saveManualTransactions: jest.fn(),
+        getRoutingSlip: jest.fn()
+      }
+    }
+
+    store = new Vuex.Store({
+      strict: false,
+      modules: {
+        routingSlip: routingSlipModule
+      }
+    })
+
     jest.resetModules()
     jest.clearAllMocks()
   })
 
   it('renders component', () => {
     const wrapper: any = mount(RoutingSlipTransaction, {
+      store,
       localVue,
       vuetify,
       stubs: {
@@ -34,6 +55,7 @@ describe('RoutingSlipTransaction.vue', () => {
 
   it('manual transactions list behavior', async () => {
     const wrapper: any = mount(RoutingSlipTransaction, {
+      store,
       localVue,
       vuetify,
       stubs: {
