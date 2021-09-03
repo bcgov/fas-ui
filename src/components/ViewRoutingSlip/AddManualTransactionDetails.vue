@@ -1,6 +1,7 @@
 <template>
   <v-row dense class="mr-8" v-if="manualTransactionDetails">
     <v-col cols="12">
+      <!-- calling @input rather than @keyup because @keyup used by the compoennt already !-->
       <filing-type-auto-complete
         v-model="manualTransactionDetails.filingType"
         required
