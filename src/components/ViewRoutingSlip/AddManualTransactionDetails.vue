@@ -1,6 +1,6 @@
 <template>
   <v-row dense class="mr-8" v-if="manualTransactionDetails">
-    <v-col cols="12">
+    <v-col cols="12" class="pb-0">
       <!-- calling @input rather than @keyup because @keyup used by the compoennt already !-->
       <filing-type-auto-complete
         v-model="manualTransactionDetails.filingType"
@@ -9,7 +9,7 @@
         @input="delayedCalculateTotal()"
       />
     </v-col>
-    <v-col cols="2">
+    <v-col cols="2" class="pb-0">
       <v-text-field
         filled
         label="Quantity"
@@ -23,7 +23,7 @@
       >
       </v-text-field>
     </v-col>
-    <v-col cols="5">
+    <v-col cols="5" class="pb-0">
       <v-text-field
         filled
         label="Incorporation/Reference Number"
@@ -34,7 +34,7 @@
       >
       </v-text-field>
     </v-col>
-    <v-col cols="5" class="amount" :key="manualTransactionDetails.total">
+    <v-col cols="5" class="amount pb-0" :key="manualTransactionDetails.total">
       <v-text-field
         filled
         label="$Amount"
@@ -56,7 +56,7 @@
         </v-btn>
       </div>
     </v-col>
-    <v-col cols="2">
+    <v-col cols="2" class="pt-0">
       <v-checkbox
         class="ma-0"
         label="Priority Fee"
@@ -66,7 +66,7 @@
         @change="calculateTotal()"
       ></v-checkbox>
     </v-col>
-    <v-col cols="10">
+    <v-col cols="10" class="pt-0">
       <v-checkbox
         class="ma-0"
         label="Future Effective Filing Fee"
