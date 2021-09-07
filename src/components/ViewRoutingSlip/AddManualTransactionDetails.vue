@@ -26,7 +26,7 @@
     <v-col cols="5" class="pb-0">
       <v-text-field
         filled
-        label="Incorporation/Reference Number"
+        label="Incorporation/Reference Number (optional)"
         persistent-hint
         :data-test="getIndexedTag('txt-incorporation', index)"
         v-model.trim="manualTransactionDetails.referenceNumber"
