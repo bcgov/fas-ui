@@ -19,7 +19,7 @@
         :rules="requiredFieldRule"
         v-model="manualTransactionDetails.quantity"
         type="number"
-        @keyup="delayedCalculateTotal()"
+        @input="delayedCalculateTotal()"
       >
       </v-text-field>
     </v-col>
@@ -29,9 +29,8 @@
         label="Incorporation/Reference Number"
         persistent-hint
         :data-test="getIndexedTag('txt-incorporation', index)"
-        required
-        :rules="requiredFieldRule"
         v-model.trim="manualTransactionDetails.referenceNumber"
+        @input="emitManualTransactionDetails()"
       >
       </v-text-field>
     </v-col>
@@ -67,7 +66,7 @@
         @change="calculateTotal()"
       ></v-checkbox>
     </v-col>
-    <v-col cols="8">
+    <v-col cols="10">
       <v-checkbox
         class="ma-0"
         label="Future Effective Filing Fee"
@@ -76,6 +75,12 @@
         :data-test="getIndexedTag('check-future-effective', index)"
         @change="calculateTotal()"
       ></v-checkbox>
+    </v-col>
+    <v-col cols="12" v-if="manualTransactionDetails.quantity>1">
+      <p class="mb-0">
+        <v-icon>mdi-information-outline</v-icon>
+        <span class="pl-1 text-color">{{ $t('addManualTransactionQuantityInfoText') }}</span>
+      </p>
     </v-col>
   </v-row>
 </template>
@@ -96,7 +101,8 @@ import { ManualTransactionDetails } from '@/models/RoutingSlip'
       removeManualTransactionRowEventHandler,
       calculateTotal,
       delayedCalculateTotal,
-      getIndexedTag
+      getIndexedTag,
+      emitManualTransactionDetails
     } = useAddManualTransactionDetails(props, context)
     return {
       manualTransactionDetails,
@@ -104,7 +110,8 @@ import { ManualTransactionDetails } from '@/models/RoutingSlip'
       removeManualTransactionRowEventHandler,
       calculateTotal,
       delayedCalculateTotal,
-      getIndexedTag
+      getIndexedTag,
+      emitManualTransactionDetails
     }
   }
 })
@@ -114,12 +121,16 @@ export default class AddManualTransactionDetails extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-.amount {
-  position: relative;
-  .close-icon {
-    position: absolute;
-    right: -32px;
-    top: 0;
+@import '$assets/scss/theme.scss';
+  .amount {
+    position: relative;
+    .close-icon {
+      position: absolute;
+      right: -32px;
+      top: 0;
+    }
   }
-}
+  .text-color {
+    color: $TextColorGray;
+  }
 </style>

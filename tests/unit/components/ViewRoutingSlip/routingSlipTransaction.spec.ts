@@ -1,9 +1,9 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import { routingSlip } from '../../test-data/mock-routing-slip'
 
 import { RoutingSlipTransaction } from '@/components/ViewRoutingSlip'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
+import { routingSlip } from '../../test-data/mock-routing-slip'
 
 describe('RoutingSlipTransaction.vue', () => {
   const localVue = createLocalVue()
@@ -17,6 +17,9 @@ describe('RoutingSlipTransaction.vue', () => {
   beforeEach(() => {
     const routingSlipModule = {
       namespaced: true,
+      getters: {
+        isRoutingSlipAChild: jest.fn().mockReturnValue(false)
+      },
       state: {
         routingSlip
       },
@@ -32,7 +35,6 @@ describe('RoutingSlipTransaction.vue', () => {
         routingSlip: routingSlipModule
       }
     })
-
     jest.resetModules()
     jest.clearAllMocks()
   })

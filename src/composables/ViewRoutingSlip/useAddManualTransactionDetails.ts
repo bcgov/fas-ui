@@ -1,4 +1,4 @@
-import { nextTick, ref, toRefs } from '@vue/composition-api'
+import { nextTick, onMounted, ref, toRefs } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { GetFeeRequestParams } from '@/models/Payment'
@@ -14,7 +14,7 @@ export default function useAddManualTransactionDetails (props, context) {
   const { manualTransaction, index } = toRefs(props)
 
   // Object that holds the input fields - seed it using property
-  const manualTransactionDetails = ref<ManualTransactionDetails>(JSON.parse(JSON.stringify(manualTransaction.value)))
+  const manualTransactionDetails = ref<ManualTransactionDetails>(undefined)
 
   // Input field rules
   const requiredFieldRule = CommonUtils.requiredFieldRule()
@@ -49,7 +49,7 @@ export default function useAddManualTransactionDetails (props, context) {
       // eslint-disable-next-line no-console
       console.error('error ', error?.response?.data)
     } finally {
-      context.emit('updateManualTransaction', manualTransactionDetails.value, index)
+      emitManualTransactionDetails()
     }
   }
 
@@ -62,9 +62,18 @@ export default function useAddManualTransactionDetails (props, context) {
     context.emit('removeManualTransactionRow', index)
   }
 
+  // Emits the updated manual transactio ndetail event to the parent
+  function emitManualTransactionDetails () {
+    context.emit('updateManualTransaction', manualTransactionDetails.value, index)
+  }
+
   function getIndexedTag (tag, index): string {
     return `${tag}-${index}`
   }
+
+  onMounted(() => {
+    manualTransactionDetails.value = JSON.parse(JSON.stringify(manualTransaction.value))
+  })
 
   return {
     manualTransactionDetails,
@@ -72,6 +81,7 @@ export default function useAddManualTransactionDetails (props, context) {
     removeManualTransactionRowEventHandler,
     delayedCalculateTotal,
     calculateTotal,
-    getIndexedTag
+    getIndexedTag,
+    emitManualTransactionDetails
   }
 }

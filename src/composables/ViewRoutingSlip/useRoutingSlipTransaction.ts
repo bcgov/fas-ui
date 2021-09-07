@@ -1,9 +1,9 @@
 import { ManualTransactionDetails } from '@/models/RoutingSlip'
-import { ref } from '@vue/composition-api'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
+import { ref } from '@vue/composition-api'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useState, useActions } = routingSlipModule
+const { useState, useActions, useGetters } = routingSlipModule
 
 // Composable function to inject Props, options and values to RoutingSlipTransaction component
 export default function useRoutingSlipTransaction () {
@@ -18,9 +18,12 @@ export default function useRoutingSlipTransaction () {
 
   const { routingSlip } = useState(['routingSlip'])
 
+  const { isRoutingSlipAChild } = useGetters(['isRoutingSlipAChild'])
+
   function showManualTransaction (): void {
     // Show manual transaction component through toggling showAddManualTransaction
-    showAddManualTransaction.value = !showAddManualTransaction.value
+    // only show the component and not toggle it back to hide the component
+    toggleShowAddManualTransaction(true)
     // And add a default row to the manual transaction list, if list is empty
     if (manualTransactionsList.value.length === 0) {
       addManualTransactionRow()
@@ -56,7 +59,7 @@ export default function useRoutingSlipTransaction () {
 
   function resetManualTransaction () {
     // change to function if needed
-    showAddManualTransaction.value = !showAddManualTransaction.value
+    toggleShowAddManualTransaction(false)
     manualTransactionsList.value = []
   }
 
@@ -75,6 +78,10 @@ export default function useRoutingSlipTransaction () {
       referenceNumber: null,
       filingType: null
     } as ManualTransactionDetails
+  }
+
+  function toggleShowAddManualTransaction (value: boolean): void {
+    showAddManualTransaction.value = value
   }
 
   // Add one row to the list
@@ -102,16 +109,22 @@ export default function useRoutingSlipTransaction () {
     manualTransactionsList.value[index] = { ...transaction }
   }
 
+  function hideManualTransaction (): void {
+    toggleShowAddManualTransaction(false)
+  }
+
   return {
     formRoutingSlipManualTransactions,
     showAddManualTransaction,
     manualTransactionsList,
+    isRoutingSlipAChild,
     showManualTransaction,
     addManualTransactionRow,
     addManualTransactions,
     isLastChild,
     isValid,
     removeManualTransactionRow,
-    updateManualTransactionDetails
+    updateManualTransactionDetails,
+    hideManualTransaction
   }
 }
