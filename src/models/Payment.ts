@@ -44,3 +44,25 @@ export interface GetFeeRequestParams {
     futureFiling?: boolean
   }
 }
+
+export interface BusinessInfo {
+  corpType?: string
+  businessIdentifier?: string
+}
+
+export interface FilingTypes {
+  filingTypeCode?: string
+  futureEffective?: string
+  priority?: string
+  quantity?: number
+}
+
+export interface TransactionParams {
+  businessInfo: BusinessInfo
+  filingInfo: {
+    filingTypes: FilingTypes[]
+  }
+  accountInfo: {
+    routingSlip: string
+  }
+}
