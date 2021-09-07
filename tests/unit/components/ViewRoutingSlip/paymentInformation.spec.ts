@@ -1,5 +1,5 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import { linkedRoutingSlipsWithChildren, routingSlip } from '../../test-data/mock-routing-slip'
+import { linkedRoutingSlipsWithChequeChildren, linkedRoutingSlipsWithChildren, routingSlip } from '../../test-data/mock-routing-slip'
 
 import { PaymentInformation } from '@/components/ViewRoutingSlip'
 import VueRouter from 'vue-router'
@@ -156,7 +156,7 @@ describe('PaymentInformation.vue', () => {
     expect(wrapper.find('[data-test="review-routing-slip-cash-payment"]').exists()).toBeTruthy()
   })
 
-  it('renders linked routing slip payment info properly', async () => {
+  it('renders linked cash routing slip payment info properly', async () => {
     const wrapper: any = mount(PaymentInformation, {
       store,
       localVue,
@@ -182,5 +182,55 @@ describe('PaymentInformation.vue', () => {
     expect(wrapper.find('[data-test="text-review-routing-slip-0"]').text()).toBe(linkedRoutingSlipsWithChildren.children[0].number)
     expect(wrapper.find('[data-test="cheque-child-payment-0"]').exists()).toBeFalsy()
     expect(wrapper.find('[data-test="cash-child-payment-0"]').exists()).toBeTruthy()
+  })
+
+  it('renders linked cheque routing slip payment info properly', async () => {
+    const routingSlipModule = {
+      namespaced: true,
+      state: {
+        routingSlip: routingSlip,
+        linkedRoutingSlips: linkedRoutingSlipsWithChequeChildren
+      },
+      getters: {
+        isRoutingSlipAChild: jest.fn().mockReturnValue(false),
+        isRoutingSlipLinked: jest.fn().mockReturnValue(true)
+      },
+      mutations: {
+        setChequePayment: jest.fn(),
+        setCashPayment: jest.fn()
+      }
+    }
+
+    store = new Vuex.Store({
+      strict: false,
+      modules: {
+        routingSlip: routingSlipModule
+      }
+    })
+    const wrapper: any = mount(PaymentInformation, {
+      store,
+      localVue,
+      vuetify,
+      router,
+      stubs: {
+        ReviewRoutingSlipCashPayment: MyStub,
+        ReviewRoutingSlipChequePayment: MyStub
+      },
+      directives: {
+        can () { /* stub */ }
+      }
+    })
+    expect(wrapper.vm.isExpanded).toBeFalsy()
+    expect(wrapper.vm.isPaymentCheque).toBeTruthy()
+    wrapper.find('[data-test="btn-view-payment-information"]').trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.vm.isExpanded).toBeTruthy()
+    expect(wrapper.find('[data-test="review-routing-slip-cheque-payment"]').exists()).toBeTruthy()
+    expect(wrapper.find('[data-test="review-routing-slip-cash-payment"]').exists()).toBeFalsy()
+
+    // test children rendering
+    expect(wrapper.find('[data-test="text-review-routing-slip-0"]').text()).toBe(linkedRoutingSlipsWithChildren.children[0].number)
+    expect(wrapper.find('[data-test="cheque-child-payment-0"]').exists()).toBeTruthy()
+    expect(wrapper.find('[data-test="cash-child-payment-0"]').exists()).toBeFalsy()
   })
 })

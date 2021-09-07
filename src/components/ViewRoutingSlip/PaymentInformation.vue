@@ -52,7 +52,7 @@
                 <v-col cols="11">
                   <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentCheque" :chequePayment="routingSlip.payments"/>
                   <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="routingSlip.payments[0]"/>
-                  <div v-if="isRoutingSlipLinked && !isRoutingSlipAChild" class="d-flex flex-column">
+                  <div v-if="isRoutingSlipLinked && !isRoutingSlipAChild && linkedRoutingSlips.children" class="d-flex flex-column">
                     <div
                     v-for="(child, i) in linkedRoutingSlips.children"
                     :key="i" class="d-flex flex-column">
@@ -64,7 +64,7 @@
                         </router-link>
                       </div>
                       <review-routing-slip-cheque-payment :data-test="getIndexedTag('cheque-child-payment', i)"
-                      v-if="child.payments[0] === PaymentMethods.CHEQUE"
+                      v-if="child.payments[0].paymentMethod === PaymentMethods.CHEQUE"
                       :chequePayment="child.payments"/>
                       <review-routing-slip-cash-payment :data-test="getIndexedTag('cash-child-payment', i)"
                       v-else
