@@ -19,7 +19,7 @@
         :rules="requiredFieldRule"
         v-model="manualTransactionDetails.quantity"
         type="number"
-        @keyup="delayedCalculateTotal()"
+        @input="delayedCalculateTotal()"
       >
       </v-text-field>
     </v-col>
@@ -29,9 +29,8 @@
         label="Incorporation/Reference Number"
         persistent-hint
         :data-test="getIndexedTag('txt-incorporation', index)"
-        required
-        :rules="requiredFieldRule"
         v-model.trim="manualTransactionDetails.referenceNumber"
+        @input="emitManualTransactionDetails()"
       >
       </v-text-field>
     </v-col>
@@ -102,7 +101,8 @@ import { ManualTransactionDetails } from '@/models/RoutingSlip'
       removeManualTransactionRowEventHandler,
       calculateTotal,
       delayedCalculateTotal,
-      getIndexedTag
+      getIndexedTag,
+      emitManualTransactionDetails
     } = useAddManualTransactionDetails(props, context)
     return {
       manualTransactionDetails,
@@ -110,7 +110,8 @@ import { ManualTransactionDetails } from '@/models/RoutingSlip'
       removeManualTransactionRowEventHandler,
       calculateTotal,
       delayedCalculateTotal,
-      getIndexedTag
+      getIndexedTag,
+      emitManualTransactionDetails
     }
   }
 })
@@ -120,6 +121,7 @@ export default class AddManualTransactionDetails extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+@import '$assets/scss/theme.scss';
   .amount {
     position: relative;
     .close-icon {
@@ -129,6 +131,6 @@ export default class AddManualTransactionDetails extends Vue {
     }
   }
   .text-color {
-    color: rgba(0,0,0,.6);
+    color: $TextColorGray;
   }
 </style>

@@ -21,7 +21,7 @@
         </v-btn>
       </div>
     </header>
-    <v-card v-show="showAddManualTransaction">
+    <v-card v-if="showAddManualTransaction">
       <v-container>
         <v-row>
           <v-col cols="2">

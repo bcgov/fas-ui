@@ -23,12 +23,10 @@ export default function useRoutingSlipTransaction () {
   function showManualTransaction (): void {
     // Show manual transaction component through toggling showAddManualTransaction
     // only show the component and not toggle it back to hide the component
-    if (!showAddManualTransaction.value) {
-      showAddManualTransaction.value = !showAddManualTransaction.value
-      // And add a default row to the manual transaction list, if list is empty
-      if (manualTransactionsList.value.length === 0) {
-        addManualTransactionRow()
-      }
+    toggleShowAddManualTransaction(true)
+    // And add a default row to the manual transaction list, if list is empty
+    if (manualTransactionsList.value.length === 0) {
+      addManualTransactionRow()
     }
   }
 
@@ -61,7 +59,7 @@ export default function useRoutingSlipTransaction () {
 
   function resetManualTransaction () {
     // change to function if needed
-    showAddManualTransaction.value = !showAddManualTransaction.value
+    toggleShowAddManualTransaction(false)
     manualTransactionsList.value = []
   }
 
@@ -80,6 +78,10 @@ export default function useRoutingSlipTransaction () {
       referenceNumber: null,
       filingType: null
     } as ManualTransactionDetails
+  }
+
+  function toggleShowAddManualTransaction (value: boolean): void {
+    showAddManualTransaction.value = value
   }
 
   // Add one row to the list
@@ -108,9 +110,7 @@ export default function useRoutingSlipTransaction () {
   }
 
   function hideManualTransaction (): void {
-    if (showAddManualTransaction.value) {
-      showAddManualTransaction.value = !showAddManualTransaction.value
-    }
+    toggleShowAddManualTransaction(false)
   }
 
   return {
