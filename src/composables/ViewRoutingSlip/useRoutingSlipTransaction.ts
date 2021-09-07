@@ -3,7 +3,7 @@ import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { ref } from '@vue/composition-api'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useGetters } = routingSlipModule
+const { useState, useActions, useGetters } = routingSlipModule
 
 // Composable function to inject Props, options and values to RoutingSlipTransaction component
 export default function useRoutingSlipTransaction () {
@@ -11,6 +11,12 @@ export default function useRoutingSlipTransaction () {
   const showAddManualTransaction = ref<boolean>(false)
   const formRoutingSlipManualTransactions = ref<HTMLFormElement>()
   const manualTransactionsList = ref<ManualTransactionDetails[]>([])
+  const { saveManualTransactions, getRoutingSlip } = useActions([
+    'saveManualTransactions',
+    'getRoutingSlip'
+  ])
+
+  const { routingSlip } = useState(['routingSlip'])
 
   const { isRoutingSlipAChild } = useGetters(['isRoutingSlipAChild'])
 
@@ -26,9 +32,37 @@ export default function useRoutingSlipTransaction () {
     }
   }
 
-  function addManualTransactions (): void {
+  async function addManualTransactions () {
+    let error = false
     if (isValid()) {
+      for (const transactions of manualTransactionsList.value) {
+        try {
+          await saveManualTransactions(transactions)
+        } catch (err) {
+          // TODO error handling
+          error = true
+          // eslint-disable-next-line no-console
+          console.log('error', err)
+          // breaking loop if any transaction failed
+          // TODO if transaction failed, need to reset filed or not?
+          break
+        }
+      }
+      const currentRoutingSlipId = routingSlip.value?.number || ''
+      await getRoutingSlip(currentRoutingSlipId)
+
+      // not reseting if any error
+      if (!error) {
+        resetManualTransaction()
+      }
     }
+    error = false
+  }
+
+  function resetManualTransaction () {
+    // change to function if needed
+    showAddManualTransaction.value = !showAddManualTransaction.value
+    manualTransactionsList.value = []
   }
 
   // Divider not visible if array is 1 OR last array element
@@ -66,7 +100,10 @@ export default function useRoutingSlipTransaction () {
   Cannot use output-sync or v-model, since it is not allowed on iterable list;
   therefore using event listener, we update the properties of the parent list elements
   */
-  async function updateManualTransactionDetails (transaction: ManualTransactionDetails, index: number) {
+  async function updateManualTransactionDetails (
+    transaction: ManualTransactionDetails,
+    index: number
+  ) {
     manualTransactionsList.value[index] = { ...transaction }
   }
 

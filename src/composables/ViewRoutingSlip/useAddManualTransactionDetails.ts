@@ -49,7 +49,7 @@ export default function useAddManualTransactionDetails (props, context) {
       // eslint-disable-next-line no-console
       console.error('error ', error?.response?.data)
     } finally {
-      context.emit('updateManualTransaction', manualTransactionDetails, index)
+      context.emit('updateManualTransaction', manualTransactionDetails.value, index)
     }
   }
 
