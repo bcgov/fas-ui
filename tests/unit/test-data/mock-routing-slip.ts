@@ -135,6 +135,37 @@ export const linkedRoutingSlipsWithChildren: LinkedRoutingSlips = {
   parent: null
 }
 
+export const linkedRoutingSlipsWithChequeChildren: LinkedRoutingSlips = {
+  children: [
+    {
+      id: 49,
+      number: '123REF1231',
+      parentNumber: '998877665',
+      paymentAccount: {
+        accountName: 'Thomas Shelby',
+        billable: true,
+        paymentMethod: 'CHEQUE'
+      },
+      payments: [
+        {
+          chequeReceiptNumber: '123RF1231',
+          id: 7884,
+          isRoutingSlip: true,
+          paidAmount: 1000.0,
+          paymentMethod: 'CHEQUE',
+          paymentSystem: 'FAS',
+          statusCode: 'COMPLETED'
+        }
+      ],
+      remainingAmount: 10900.0,
+      routingSlipDate: '2021-07-09',
+      status: 'LINKED',
+      total: 1000.0
+    }
+  ],
+  parent: null
+}
+
 export const autoCompleteRoutingSlips: RoutingSlip[] = [
   {
     id: 1,
