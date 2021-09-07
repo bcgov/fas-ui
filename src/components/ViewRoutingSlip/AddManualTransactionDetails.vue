@@ -37,7 +37,7 @@
     <v-col cols="5" class="amount pb-0" :key="manualTransactionDetails.total">
       <v-text-field
         filled
-        label="$Amount"
+        label="$ Amount"
         persistent-hint
         :data-test="getIndexedTag('txt-amount', index)"
         disabled
