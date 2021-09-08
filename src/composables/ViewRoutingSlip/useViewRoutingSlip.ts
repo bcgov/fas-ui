@@ -1,5 +1,6 @@
 import { toRefs, watch } from '@vue/composition-api'
 
+import { GetRoutingSlipRequestPayload } from '@/models/RoutingSlip'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
@@ -26,7 +27,8 @@ export default function useViewRoutingSlip (props) {
   )
 
   async function getRoutingSlipAndLinkedRoutingSlips () {
-    await getRoutingSlip(slipId.value)
+    const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: slipId.value, showGlobalLoader: true }
+    await getRoutingSlip(getRoutingSlipRequestPayload)
     // get the linked routingslip children/parent for the current routingslip
     await getLinkedRoutingSlips(routingSlip.value.number)
   }
