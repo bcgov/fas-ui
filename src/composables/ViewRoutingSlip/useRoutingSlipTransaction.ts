@@ -54,7 +54,7 @@ export default function useRoutingSlipTransaction () {
       }
 
       if (routingSlip.value?.number) {
-        const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value?.number, showGlobalLoader: false }
+        const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value?.number }
         await getRoutingSlip(getRoutingSlipRequestPayload)
       }
       // toggle loader to hide it back
