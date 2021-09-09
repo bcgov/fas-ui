@@ -69,6 +69,7 @@
                   class="px-10"
                   data-test="btn-add-transaction"
                   @click="addManualTransactions"
+                  :loading="isLoading"
                 >
                   <span>Add Transaction</span>
                 </v-btn>
@@ -114,6 +115,7 @@ import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
       showAddManualTransaction,
       manualTransactionsList,
       isRoutingSlipAChild,
+      isLoading,
       showManualTransaction,
       addManualTransactionRow,
       addManualTransactions,
@@ -128,6 +130,7 @@ import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
       showAddManualTransaction,
       manualTransactionsList,
       isRoutingSlipAChild,
+      isLoading,
       showManualTransaction,
       addManualTransactionRow,
       addManualTransactions,

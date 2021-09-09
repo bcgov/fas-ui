@@ -1,5 +1,6 @@
 import {
   AccountInfo,
+  GetRoutingSlipRequestPayload,
   LinkedRoutingSlips,
   RoutingSlip,
   RoutingSlipDetails
@@ -156,7 +157,7 @@ export default class RoutingSlipModule extends VuexModule {
       }
       // all other case routing is existing so can't use this number
       return false
-    } catch (error) {
+    } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('error ', error.response?.data)
       // on error we return true where the can use this routing number which should brake on create and show error message
@@ -165,15 +166,15 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Action({ commit: 'setRoutingSlip', rawError: true })
-  public async getRoutingSlip (slipId): Promise<RoutingSlipDetails> {
+  public async getRoutingSlip (getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload): Promise<RoutingSlipDetails> {
     try {
-      const response = await RoutingSlipService.getRoutingSlip(slipId, true)
+      const response = await RoutingSlipService.getRoutingSlip(getRoutingSlipRequestPayload.routingSlipNumber, getRoutingSlipRequestPayload?.showGlobalLoader)
 
       if (response && response.data && response.status === 200) {
         return response.data
       }
       // TODO : need to handle if slip not existing
-    } catch (error) {
+    } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('error ', error.response?.data) // 500 errors may not return data
     }
@@ -194,7 +195,7 @@ export default class RoutingSlipModule extends VuexModule {
       if (response && response.data && response.status === 200) {
         return response.data
       }
-    } catch (error) {
+    } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('error ', error.response?.data)
     }
@@ -289,7 +290,7 @@ export default class RoutingSlipModule extends VuexModule {
           error: false
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error.response.status === 400) {
         return { error: true, details: error.response?.data }
       }
@@ -313,7 +314,7 @@ export default class RoutingSlipModule extends VuexModule {
       }
       // 204 non content response
       context.commit('setLinkedRoutingSlips', linkedRoutingSlips)
-    } catch (error) {
+    } catch (error: any) {
       this.context.commit('setLinkedRoutingSlips', undefined)
       // eslint-disable-next-line no-console
       console.error('error ', error.response?.data) // 500 errors may not return data
@@ -328,7 +329,7 @@ export default class RoutingSlipModule extends VuexModule {
     )
     try {
       return await RoutingSlipService.getDailyReport(formatedDate, type, false)
-    } catch (error) {
+    } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('error ', error.response?.data) // 500 errors may not return data
       return error.response

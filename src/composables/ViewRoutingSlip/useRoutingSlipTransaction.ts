@@ -1,6 +1,8 @@
-import { ManualTransactionDetails } from '@/models/RoutingSlip'
+import { GetRoutingSlipRequestPayload, ManualTransactionDetails } from '@/models/RoutingSlip'
+
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { ref } from '@vue/composition-api'
+import { useLoader } from '@/composables/common/useLoader'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useState, useActions, useGetters } = routingSlipModule
@@ -20,6 +22,8 @@ export default function useRoutingSlipTransaction () {
 
   const { isRoutingSlipAChild } = useGetters(['isRoutingSlipAChild'])
 
+  const { isLoading, toggleLoading } = useLoader()
+
   function showManualTransaction (): void {
     // Show manual transaction component through toggling showAddManualTransaction
     // only show the component and not toggle it back to hide the component
@@ -33,6 +37,8 @@ export default function useRoutingSlipTransaction () {
   async function addManualTransactions () {
     let error = false
     if (isValid()) {
+      // show loader
+      toggleLoading()
       for (const transactions of manualTransactionsList.value) {
         try {
           await saveManualTransactions(transactions)
@@ -46,8 +52,13 @@ export default function useRoutingSlipTransaction () {
           break
         }
       }
-      const currentRoutingSlipId = routingSlip.value?.number || ''
-      await getRoutingSlip(currentRoutingSlipId)
+
+      if (routingSlip.value?.number) {
+        const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value?.number }
+        await getRoutingSlip(getRoutingSlipRequestPayload)
+      }
+      // toggle loader to hide it back
+      toggleLoading()
 
       // not reseting if any error
       if (!error) {
@@ -118,6 +129,7 @@ export default function useRoutingSlipTransaction () {
     showAddManualTransaction,
     manualTransactionsList,
     isRoutingSlipAChild,
+    isLoading,
     showManualTransaction,
     addManualTransactionRow,
     addManualTransactions,

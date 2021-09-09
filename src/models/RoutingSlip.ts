@@ -48,3 +48,8 @@ export interface ManualTransactionDetails{
   priority?: boolean,
   filingType?: FilingType
 }
+
+export interface GetRoutingSlipRequestPayload {
+  routingSlipNumber: string,
+  showGlobalLoader?: boolean
+}

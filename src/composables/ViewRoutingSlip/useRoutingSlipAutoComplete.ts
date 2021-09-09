@@ -1,7 +1,8 @@
 import { reactive, ref } from '@vue/composition-api'
 
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import CommonUtils from '@/util/common-util'
+import { GetRoutingSlipRequestPayload } from '@/models/RoutingSlip'
+import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import debounce from '@/util/debounce'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
@@ -71,7 +72,8 @@ export default function useLinkRoutingSlip (_, context) {
     } else {
       //  TODO: check for global loading
       const currentRoutingSlipId = routingSlip.value?.number || ''
-      await getRoutingSlip(currentRoutingSlipId)
+      const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: currentRoutingSlipId }
+      await getRoutingSlip(getRoutingSlipRequestPayload)
       // get the linked routingslip children/parent for the current routingslip
       await getLinkedRoutingSlips(currentRoutingSlipId)
     }
