@@ -4,13 +4,14 @@ import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { useStatusList } from '@/composables/common/useStatusList'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useActions, useState } = routingSlipModule
+const { useActions, useState, useGetters } = routingSlipModule
 
 // Composable function to inject Props, options and values to useRoutingSlipInfo component
 export default function useRoutingSlipInfo (props) {
   // store
   const { routingSlip } = useState(['routingSlip'])
   const { updateRoutingSlipStatus } = useActions(['updateRoutingSlipStatus'])
+  const { isRoutingSlipAChild } = useGetters(['isRoutingSlipAChild'])
 
   const editMode = ref<boolean>(false)
   const currentStatus = ref('')
@@ -41,7 +42,7 @@ export default function useRoutingSlipInfo (props) {
     await updateRoutingSlipStatus(currentStatus.value)
     toggleEdit(false)
   }
-  // get label of statu
+  // get label of status
   function getStatusLabel (code: string) {
     return statusLabel(code)
   }
@@ -53,6 +54,7 @@ export default function useRoutingSlipInfo (props) {
     toggleEdit,
     currentStatus,
     updateStatus,
-    getStatusLabel
+    getStatusLabel,
+    isRoutingSlipAChild
   }
 }

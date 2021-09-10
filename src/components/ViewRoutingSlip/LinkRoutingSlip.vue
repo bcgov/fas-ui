@@ -4,7 +4,15 @@
       <h3 data-test="title">{{ tabNumber }}.Linking Routing Slip</h3>
       <p>{{ $t('linkRoutingSlipSubText') }}</p>
     </header>
-    <v-card class="pl-5 py-2 small-text-input">
+    <v-card v-if="invoiceCount > 0">
+      <v-card-text >
+        <p class="mb-0">
+          <v-icon>mdi-information-outline</v-icon>
+          <span class="pl-1 text-color" v-html="$t('cantLinkSinceInvoicesExistMsg')"></span>
+        </p>
+      </v-card-text>
+    </v-card>
+    <v-card class="pl-5 py-2 small-text-input" v-else>
       <v-card-text>
         <v-row v-if="isRoutingSlipLinked">
           <v-col class="col-6 col-sm-8 font-weight-bold">
@@ -98,6 +106,7 @@ import RoutingSlipAutoComplete from '@/components/ViewRoutingSlip/RoutingSlipAut
       toggleSearch,
       isRoutingSlipLinked,
       isRoutingSlipAChild,
+      invoiceCount,
       isLoading,
       childRoutingSlipDetails,
       parentRoutingSlipDetails
@@ -107,6 +116,7 @@ import RoutingSlipAutoComplete from '@/components/ViewRoutingSlip/RoutingSlipAut
       showSearch,
       toggleSearch,
       isRoutingSlipLinked,
+      invoiceCount,
       isRoutingSlipAChild,
       isLoading,
       childRoutingSlipDetails,

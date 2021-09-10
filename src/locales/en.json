@@ -23,5 +23,6 @@
   "linkRSSearchInfo": "When you link to another routing slip, this routing slip’s total balance will transfer to the linked routing slip. After linking to another routing slip this routing slip will be inactive.",
   "linkRoutingSlipSearchTitleParent": "This routing slip is linked with:",
   "linkRoutingSlipSearchTitleChild": "This routing slip has been linked to:",
-  "addManualTransactionQuantityInfoText": "The priority or future effective fee will only be applied once. Input transactions separately to add additional fee"
+  "addManualTransactionQuantityInfoText": "The priority or future effective fee will only be applied once. Input transactions separately to add additional fee",
+  "cantLinkSinceInvoicesExistMsg": "This routing slip cannot link to another routing slip since transactions were made.<br/>Other routing slips can link to this routing slip"
 }
