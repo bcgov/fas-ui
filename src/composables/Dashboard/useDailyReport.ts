@@ -15,9 +15,10 @@ export function useDailyReport () {
 
   async function getDailyReport () {
     isDownloading.value = true
+
     try {
       const downloadType = 'application/pdf'
-      const response = await getDailyReportByDate(selectedDate, downloadType)
+      const response = await getDailyReportByDate(selectedDate.value, downloadType)
       if (response && response.status === 201) {
         const contentDispArr = response?.headers['content-disposition'].split(
           '='
