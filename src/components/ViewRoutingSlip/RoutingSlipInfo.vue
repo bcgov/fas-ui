@@ -69,6 +69,7 @@
             ><span
               class="primary--text cursor-pointer"
               @click="toggleEdit(true)"
+              v-if="!isRoutingSlipAChild"
               data-test="btn-edit"
               v-can:fas_edit.hide
               ><v-icon color="primary" size="20"> mdi-pencil</v-icon> Edit
@@ -122,7 +123,8 @@ import can from '@/directives/can'
       toggleEdit,
       currentStatus,
       updateStatus,
-      getStatusLabel
+      getStatusLabel,
+      isRoutingSlipAChild
     } = useRoutingSlipInfo(props)
 
     return {
@@ -131,7 +133,8 @@ import can from '@/directives/can'
       toggleEdit,
       currentStatus,
       updateStatus,
-      getStatusLabel
+      getStatusLabel,
+      isRoutingSlipAChild
     }
   }
 })

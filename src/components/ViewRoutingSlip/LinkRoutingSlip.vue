@@ -39,10 +39,16 @@
             </div>
           </v-col>
         </v-row>
-
-        <v-row no-gutters v-if="!isRoutingSlipLinked">
+        <template v-if="!isRoutingSlipLinked">
+          <v-row no-gutters v-if="invoiceCount > 0" data-test="invoice-exist-error-msg">
+            <v-icon>mdi-information-outline</v-icon>
+            <p class="mb-0">
+              <span class="pl-1 text-color" v-html="$t('cantLinkSinceInvoicesExistMsg')"></span>
+            </p>
+          </v-row>
+        <v-row no-gutters v-else>
           <v-col cols="12" sm="10">
-            <v-row>
+            <v-row data-test="search-link-header">
               <v-col class="col-6 col-sm-8 font-weight-bold mt-1">
                 This routing slip has no linked routing slips
               </v-col>
@@ -73,6 +79,7 @@
             </v-btn>
           </v-col>
         </v-row>
+        </template>
       </v-card-text>
     </v-card>
   </div>
@@ -99,6 +106,7 @@ import RoutingSlipAutoComplete from '@/components/ViewRoutingSlip/RoutingSlipAut
       isRoutingSlipLinked,
       isRoutingSlipAChild,
       isLoading,
+      invoiceCount,
       childRoutingSlipDetails,
       parentRoutingSlipDetails
     } = useLinkRoutingSlip()
@@ -109,6 +117,7 @@ import RoutingSlipAutoComplete from '@/components/ViewRoutingSlip/RoutingSlipAut
       isRoutingSlipLinked,
       isRoutingSlipAChild,
       isLoading,
+      invoiceCount,
       childRoutingSlipDetails,
       parentRoutingSlipDetails
     }
