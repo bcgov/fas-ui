@@ -41,10 +41,10 @@
         </v-row>
         <template v-if="!isRoutingSlipLinked">
           <v-row no-gutters v-if="invoiceCount > 0" data-test="invoice-exist-error-msg">
-              <v-icon>mdi-information-outline</v-icon>
-              <p class="mb-0">
-                <span class="pl-1 text-color" v-html="$t('cantLinkSinceInvoicesExistMsg')"></span>
-              </p>
+            <v-icon>mdi-information-outline</v-icon>
+            <p class="mb-0">
+              <span class="pl-1 text-color" v-html="$t('cantLinkSinceInvoicesExistMsg')"></span>
+            </p>
           </v-row>
         <v-row no-gutters v-else>
           <v-col cols="12" sm="10">
