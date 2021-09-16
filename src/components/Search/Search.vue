@@ -296,7 +296,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { useSearch } from '../../composables/Dashboard/useSearch'
+import { useSearch } from '@fas/composables/Dashboard/useSearch'
+// import routingSlip from '../../store/modules/routingSlip'
+// import codes from '../../store/modules/codes'
+
 // import DateRangeFilter from '../common/DateRangeFilter.vue'
 // import SearchColumnFilterComponent from '../common/SearchColumnFilterComponent.vue'
 // import statusListComponent from '../common/StatusList.vue'
@@ -307,6 +310,13 @@ import { useDashboard } from '../../composables/Dashboard'
 
 @Component({
   setup (_, context) {
+    // eslint-disable-next-line no-console
+    // console.log('context', context, context.parent.$store)
+    // context.parent.$store.registerModule('routingSlip', routingSlip)
+    // context.parent.$store.registerModule('codes', codes)
+    // eslint-disable-next-line no-console
+    // console.log('context', context.parent.$store)
+    // context.$store = store()
     const { addRoutingSlip } = useDashboard(_, context)
     const {
       headerSearch,

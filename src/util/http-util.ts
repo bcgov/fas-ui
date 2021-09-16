@@ -1,6 +1,6 @@
 import Axios from 'axios'
-import ConfigHelper from '@/util/config-helper'
-import { SessionStorageKeys } from '@/util/constants'
+import ConfigHelper from './config-helper'
+import { SessionStorageKeys } from './constants'
 import store from '@/store'
 
 const axios = Axios.create()

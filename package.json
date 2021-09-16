@@ -2,13 +2,19 @@
   "name": "fas-ui",
   "version": "0.1.0",
   "private": true,
+  "files": [
+    "dist/*"
+  ],
+  "main": "./dist/fas-ui.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "lint:fix": "vue-cli-service lint --fix",
-    "lint:nofix": "vue-cli-service lint --no-fix"
+    "lint:nofix": "vue-cli-service lint --no-fix",
+    "buildModule": "webpack --config webpack.config.js",
+    "build2": "vue-cli-service build --target lib src/components/Search/index.js"
   },
   "dependencies": {
     "@vue/composition-api": "^1.0.0-rc.12",
@@ -55,7 +61,12 @@
     "typescript": "~4.1.5",
     "vue-cli-plugin-vuetify": "~2.4.1",
     "vue-template-compiler": "^2.6.11",
+    "vuetify-loader": "^1.7.0",
     "vuex-module-decorators": "^0.10.1",
-    "vuetify-loader": "^1.7.0"
+    "webpack-cli": "^4.8.0"
+  },
+  "peerDependencies": {
+    "@vue/composition-api": "^1.0.0-rc.12",
+    "vuex-composition-helpers": "^1.0.23"
   }
 }

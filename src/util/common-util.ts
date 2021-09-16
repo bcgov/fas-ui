@@ -2,7 +2,7 @@
  * Place to put all the custom utility methods
  */
 
-import { SlipStatus } from '@/util/constants'
+import { SlipStatus } from './constants'
 import moment from 'moment'
 
 export default class CommonUtils {

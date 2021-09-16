@@ -4,7 +4,7 @@ import {
   LinkedRoutingSlips,
   RoutingSlip,
   RoutingSlipDetails
-} from '@/models/RoutingSlip'
+} from '../../models/RoutingSlip'
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 import {
   BusinessInfo,
@@ -12,10 +12,10 @@ import {
   GetFeeRequestParams,
   Payment,
   TransactionParams
-} from '@/models/Payment'
+} from '../../models/Payment'
 
-import CommonUtils from '@/util/common-util'
-import RoutingSlipService from '@/services/routingSlip.services'
+import CommonUtils from '../../util/common-util'
+import RoutingSlipService from '../../services/routingSlip.services'
 
 @Module({ namespaced: true, stateFactory: true })
 export default class RoutingSlipModule extends VuexModule {

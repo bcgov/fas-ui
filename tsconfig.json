@@ -17,7 +17,8 @@
     "baseUrl": ".",
     "types": ["webpack-env", "jest", "vuetify", "vue"],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@fas/*": ["src/*"],
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },

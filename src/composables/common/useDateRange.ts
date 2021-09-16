@@ -1,7 +1,7 @@
 import { computed, reactive, ref, toRefs } from '@vue/composition-api'
 
-import CommonUtils from '@/util/common-util'
-import { DateFilterCodes } from '@/util/constants'
+import CommonUtils from '../../util/common-util'
+import { DateFilterCodes } from '../../util/constants'
 import moment from 'moment'
 
 export const DATEFILTER_CODES = DateFilterCodes
