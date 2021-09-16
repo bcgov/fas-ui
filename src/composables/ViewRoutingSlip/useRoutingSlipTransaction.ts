@@ -24,6 +24,8 @@ export default function useRoutingSlipTransaction () {
 
   const { isLoading, toggleLoading } = useLoader()
 
+  const status = ref<string>('')
+
   function showManualTransaction (): void {
     // Show manual transaction component through toggling showAddManualTransaction
     // only show the component and not toggle it back to hide the component
@@ -36,6 +38,12 @@ export default function useRoutingSlipTransaction () {
 
   async function addManualTransactions () {
     let error = false
+    const isExcessAmount:boolean = availableAmountForManualTransaction() < 0
+    if (isExcessAmount) {
+      error = true
+      status.value = 'Transaction can\'t be added, since the filling type total amount exceeds the routing slip\'s current balance'
+      return
+    }
     if (isValid()) {
       // show loader
       toggleLoading()
@@ -68,6 +76,16 @@ export default function useRoutingSlipTransaction () {
     error = false
   }
 
+  /*
+  return the avaialble amount
+ */
+  function availableAmountForManualTransaction () {
+    // iterate all manualTransactionsList and find sum
+    // reduce it from the remainingAmount amount and return
+    const sum = manualTransactionsList.value.reduce((sum, current) => sum + current?.total, 0)
+    return routingSlip.value.remainingAmount - sum
+  }
+
   function resetManualTransaction () {
     // change to function if needed
     toggleShowAddManualTransaction(false)
@@ -82,12 +100,15 @@ export default function useRoutingSlipTransaction () {
 
   function getDefaultRow (): ManualTransactionDetails {
     // By default, the flags futureFiling, priority are false
+    const amount = availableAmountForManualTransaction()
     return {
       futureFiling: false,
       priority: false,
       total: null,
       referenceNumber: null,
-      filingType: null
+      filingType: null,
+      availableAmountForManualTransaction: amount
+
     } as ManualTransactionDetails
   }
 
@@ -117,7 +138,7 @@ export default function useRoutingSlipTransaction () {
     transaction: ManualTransactionDetails,
     index: number
   ) {
-    manualTransactionsList.value[index] = { ...transaction }
+    manualTransactionsList.value.splice(index, 1, transaction)
   }
 
   function hideManualTransaction (): void {
@@ -134,9 +155,11 @@ export default function useRoutingSlipTransaction () {
     addManualTransactionRow,
     addManualTransactions,
     isLastChild,
+    availableAmountForManualTransaction,
     isValid,
     removeManualTransactionRow,
     updateManualTransactionDetails,
-    hideManualTransaction
+    hideManualTransaction,
+    status
   }
 }

@@ -47,6 +47,7 @@ export interface ManualTransactionDetails{
   futureFiling?: boolean,
   priority?: boolean,
   filingType?: FilingType
+  availableAmountForManualTransaction?: number
 }
 
 export interface GetRoutingSlipRequestPayload {
