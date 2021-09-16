@@ -38,8 +38,7 @@
       <v-text-field
         filled
         :error-messages="errorMessage"
-        class="error-disabled"
-        disabled
+        readonly
         label="$ Amount"
         persistent-hint
         :data-test="getIndexedTag('txt-amount', index)"
