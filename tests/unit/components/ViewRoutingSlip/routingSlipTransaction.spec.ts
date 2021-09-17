@@ -78,4 +78,33 @@ describe('RoutingSlipTransaction.vue', () => {
     await wrapper.vm.removeManualTransactionRow()
     expect(wrapper.vm.manualTransactionsList.length).toBe(1)
   })
+
+  it('manual transactions assert remaninig amount', async () => {
+    const wrapper: any = mount(RoutingSlipTransaction, {
+      store,
+      localVue,
+      vuetify,
+      stubs: {
+        TransactionDataTable: MyStub,
+        AddManualTransactionDetails: MyStub
+      },
+      directives: {
+        can () { /* stub */ }
+      }
+    })
+    wrapper.vm.showManualTransaction()
+    expect(wrapper.vm.manualTransactionsList.length).toBe(1)
+    const usedAmount1 = 100
+    wrapper.vm.manualTransactionsList[0].total = usedAmount1
+    await wrapper.vm.addManualTransactionRow()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.vm.manualTransactionsList.length).toBe(2)
+    expect(wrapper.vm.manualTransactionsList[1].availableAmountForManualTransaction).toBe(routingSlip.remainingAmount - usedAmount1)
+    const usedAmount2 = 200
+    wrapper.vm.manualTransactionsList[1].total = usedAmount2
+    await wrapper.vm.addManualTransactionRow()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.vm.manualTransactionsList.length).toBe(3)
+    expect(wrapper.vm.manualTransactionsList[2].availableAmountForManualTransaction).toBe(routingSlip.remainingAmount - (usedAmount1 + usedAmount2))
+  })
 })
