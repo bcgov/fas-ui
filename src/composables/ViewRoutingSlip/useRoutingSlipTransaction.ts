@@ -41,7 +41,7 @@ export default function useRoutingSlipTransaction () {
     const isExcessAmount:boolean = availableAmountForManualTransaction() < 0
     if (isExcessAmount) {
       error = true
-      status.value = 'Transaction can\'t be added, since the filling type total amount exceeds the routing slip\'s current balance'
+      status.value = 'cantAddTransactions'
       return
     }
     if (isValid()) {

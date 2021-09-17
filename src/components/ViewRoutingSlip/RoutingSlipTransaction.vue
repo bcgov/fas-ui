@@ -48,10 +48,10 @@
                   </v-row>
                 </div>
               </v-form>
-            <v-row>
+            <v-row v-if="status">
               <v-col cols="12">
                 <p class="mb-0">
-                  <span class="pl-1 red--text">{{status}}</span>
+                  <span class="pl-1 red--text">{{ $t(status) }}</span>
                 </p>
               </v-col>
             </v-row>
