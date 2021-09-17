@@ -4,6 +4,10 @@
   "private": true,
 
   "main": "./dist/fas-ui.umd.min.js",
+  "files": [
+    "dist/*",
+    "src/**/*.vue"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
