@@ -296,13 +296,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { useSearch } from '../../composables/Dashboard/useSearch'
+import { useSearch } from '@fas/composables/Dashboard/useSearch'
 // import DateRangeFilter from '../common/DateRangeFilter.vue'
 // import SearchColumnFilterComponent from '../common/SearchColumnFilterComponent.vue'
 // import statusListComponent from '../common/StatusList.vue'
 
-import commonUtil from '../../util/common-util'
-import { useDashboard } from '../../composables/Dashboard'
+import commonUtil from '@fas/util/common-util'
+import { useDashboard } from '@fas/composables/Dashboard'
 // import can from '@/directives/can'
 
 @Component({

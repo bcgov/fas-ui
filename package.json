@@ -14,7 +14,8 @@
     "lint:fix": "vue-cli-service lint --fix",
     "lint:nofix": "vue-cli-service lint --no-fix",
     "buildModule": "webpack --config webpack.config.js",
-    "build2": "vue-cli-service build --target lib src/components/Search/index.js"
+    "build2": "vue-cli-service build --target lib src/components/Dashboard/plugin.js",
+    "build3": "vue-cli-service build --target lib src/components/Search/index.js"
   },
   "dependencies": {
     "@vue/composition-api": "^1.0.0-rc.12",

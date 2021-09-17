@@ -21,7 +21,7 @@ function install(Vue, options) {
   // eslint-disable-next-line no-console
   console.log('insid e1.install')
   Vue.use(VueCompositionAPI)
-  Vue.use(i18n)
+  // Vue.use(i18n)
   if (install.installed) return
   install.installed = true
   // Vue.use(VueCompositionAPI)
