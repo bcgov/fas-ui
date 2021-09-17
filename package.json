@@ -2,9 +2,7 @@
   "name": "fas-ui",
   "version": "0.1.0",
   "private": true,
-  "files": [
-    "dist/*"
-  ],
+
   "main": "./dist/fas-ui.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
