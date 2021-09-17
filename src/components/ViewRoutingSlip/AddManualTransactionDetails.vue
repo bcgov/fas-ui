@@ -77,7 +77,7 @@
         @change="calculateTotal()"
       ></v-checkbox>
     </v-col>
-    <v-col cols="12" v-if="manualTransactionDetails.quantity>1">
+    <v-col cols="12" v-if="manualTransactionDetails.quantity > 1">
       <p class="mb-0">
         <v-icon>mdi-information-outline</v-icon>
         <span class="pl-1 text-color">{{ $t('addManualTransactionQuantityInfoText') }}</span>

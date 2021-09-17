@@ -41,6 +41,8 @@ export interface LinkedRoutingSlips{
 }
 
 export interface ManualTransactionDetails{
+  // we would need the key that we can use during iterator (v-for)
+  key?: number
   quantity?: number,
   referenceNumber?: string,
   total?: number,

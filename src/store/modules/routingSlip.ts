@@ -33,8 +33,6 @@ export default class RoutingSlipModule extends VuexModule {
   autoCompleteRoutingSlips: RoutingSlip[] = []
 
   linkedRoutingSlips: LinkedRoutingSlips = undefined
-  // using for auto complete filing types values
-  autoCompleteFilingTypes: RoutingSlip[] = []
 
   public get invoiceCount (): number {
     return this.routingSlip?.invoices?.length
@@ -107,13 +105,6 @@ export default class RoutingSlipModule extends VuexModule {
     autoCompleteRoutingSlips: RoutingSlipDetails[]
   ) {
     this.autoCompleteRoutingSlips = autoCompleteRoutingSlips
-  }
-
-  @Mutation
-  public setAutoCompleteFilingType (
-    autoCompleteRoutingSlips: RoutingSlipDetails[]
-  ) {
-    this.autoCompleteFilingTypes = autoCompleteRoutingSlips
   }
 
   @Mutation
@@ -336,7 +327,7 @@ export default class RoutingSlipModule extends VuexModule {
     }
   }
 
-  @Action({ commit: 'setAutoCompleteFilingType', rawError: true })
+  @Action({ rawError: true })
   public async getAutoCompleteFilingTypes (
     searchParams: string
   ): Promise<FilingType[]> {

@@ -102,6 +102,8 @@ export default function useRoutingSlipTransaction () {
     // By default, the flags futureFiling, priority are false
     const amount = availableAmountForManualTransaction()
     return {
+      // we would need this column with unique value to be used for iterator. we cannot use index as it would be inconsistent with push/pop
+      key: Math.random(),
       futureFiling: false,
       priority: false,
       total: null,
@@ -134,11 +136,8 @@ export default function useRoutingSlipTransaction () {
   Cannot use output-sync or v-model, since it is not allowed on iterable list;
   therefore using event listener, we update the properties of the parent list elements
   */
-  async function updateManualTransactionDetails (
-    transaction: ManualTransactionDetails,
-    index: number
-  ) {
-    manualTransactionsList.value.splice(index, 1, transaction)
+  async function updateManualTransactionDetails (payload: {index: number, transaction: ManualTransactionDetails}) {
+    manualTransactionsList.value[payload.index] = { ...payload.transaction }
   }
 
   function hideManualTransaction (): void {
