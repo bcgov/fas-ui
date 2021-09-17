@@ -1,4 +1,4 @@
-import { nextTick, onMounted, ref, toRefs } from '@vue/composition-api'
+import { computed, nextTick, onMounted, ref, toRefs } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { GetFeeRequestParams } from '@/models/Payment'
@@ -23,6 +23,11 @@ export default function useAddManualTransactionDetails (props, context) {
   const { getFeeByCorpTypeAndFilingType } = useActions([
     'getFeeByCorpTypeAndFilingType'
   ])
+
+  const errorMessage = computed(() => {
+    const msg = manualTransactionDetails.value.availableAmountForManualTransaction < manualTransactionDetails.value.total ? 'Amount exceeds the routing slip\'s current balance' : ''
+    return msg
+  })
 
   // Calculate total fee from pay-api service, triggered if its dependent values are changed
   async function calculateTotal () {
@@ -82,6 +87,7 @@ export default function useAddManualTransactionDetails (props, context) {
     delayedCalculateTotal,
     calculateTotal,
     getIndexedTag,
-    emitManualTransactionDetails
+    emitManualTransactionDetails,
+    errorMessage
   }
 }

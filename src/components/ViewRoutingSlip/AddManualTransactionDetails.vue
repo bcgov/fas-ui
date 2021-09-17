@@ -37,10 +37,11 @@
     <v-col cols="5" class="amount pb-0" :key="manualTransactionDetails.total">
       <v-text-field
         filled
+        :error-messages="errorMessage"
+        readonly
         label="$ Amount"
         persistent-hint
         :data-test="getIndexedTag('txt-amount', index)"
-        disabled
         v-model="manualTransactionDetails.total"
       >
       </v-text-field>
@@ -102,7 +103,8 @@ import { ManualTransactionDetails } from '@/models/RoutingSlip'
       calculateTotal,
       delayedCalculateTotal,
       getIndexedTag,
-      emitManualTransactionDetails
+      emitManualTransactionDetails,
+      errorMessage
     } = useAddManualTransactionDetails(props, context)
     return {
       manualTransactionDetails,
@@ -111,7 +113,8 @@ import { ManualTransactionDetails } from '@/models/RoutingSlip'
       calculateTotal,
       delayedCalculateTotal,
       getIndexedTag,
-      emitManualTransactionDetails
+      emitManualTransactionDetails,
+      errorMessage
     }
   }
 })
@@ -132,5 +135,8 @@ export default class AddManualTransactionDetails extends Vue {
   }
   .text-color {
     color: $TextColorGray;
+  }
+  .error-disabled {
+    color: red !important;
   }
 </style>
