@@ -42,9 +42,7 @@ export default function useAddManualTransactionDetails (props, context) {
             futureFiling: manualTransactionDetails.value.futureFiling
           }
         }
-        nextTick(async () => {
-          manualTransactionDetails.value.total = await getFeeByCorpTypeAndFilingType(getFeeRequestParams)
-        })
+        manualTransactionDetails.value.total = await getFeeByCorpTypeAndFilingType(getFeeRequestParams)
       } else {
         manualTransactionDetails.value.total = null
       }
