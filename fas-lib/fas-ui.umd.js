@@ -2819,10 +2819,10 @@ $({ target: 'String', proto: true, forced: forcedStringHTMLMethod('anchor') }, {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CommonUtils; });
-/* harmony import */ var _Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ade3");
-/* harmony import */ var _Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("5530");
-/* harmony import */ var _Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("d4ec");
-/* harmony import */ var _Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("bee2");
+/* harmony import */ var _Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ade3");
+/* harmony import */ var _Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("5530");
+/* harmony import */ var _Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("d4ec");
+/* harmony import */ var _Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("bee2");
 /* harmony import */ var core_js_modules_es_array_includes_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("caad");
 /* harmony import */ var core_js_modules_es_array_includes_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_includes_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var core_js_modules_es_string_includes_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("2532");
@@ -2875,10 +2875,10 @@ $({ target: 'String', proto: true, forced: forcedStringHTMLMethod('anchor') }, {
 
 var CommonUtils = /*#__PURE__*/function () {
   function CommonUtils() {
-    Object(_Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(this, CommonUtils);
+    Object(_Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(this, CommonUtils);
   }
 
-  Object(_Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(CommonUtils, null, [{
+  Object(_Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(CommonUtils, null, [{
     key: "formatDisplayDate",
     value: // Formatting date in the desired format for displaying in the template
     function formatDisplayDate(date, format) {
@@ -2984,7 +2984,7 @@ var CommonUtils = /*#__PURE__*/function () {
       return Object.keys(obj).filter(function (k) {
         return obj[k] !== '' && obj[k] !== null;
       }).reduce(function (a, k) {
-        return Object(_Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(Object(_Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])({}, a), {}, Object(_Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])({}, k, obj[k]));
+        return Object(_Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(Object(_Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])({}, a), {}, Object(_Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])({}, k, obj[k]));
       }, {});
     }
   }]);
@@ -6687,10 +6687,10 @@ $({ target: 'String', proto: true }, {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("d4ec");
-/* harmony import */ var _Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("bee2");
-/* harmony import */ var _Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("262e");
-/* harmony import */ var _Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("2caf");
+/* harmony import */ var _Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("d4ec");
+/* harmony import */ var _Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("bee2");
+/* harmony import */ var _Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("262e");
+/* harmony import */ var _Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("2caf");
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("9ab4");
 /* harmony import */ var vuex_module_decorators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("6fc5");
 
@@ -6703,14 +6703,14 @@ $({ target: 'String', proto: true }, {
 
 
 var indicatorModule = /*#__PURE__*/function (_VuexModule) {
-  Object(_Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(indicatorModule, _VuexModule);
+  Object(_Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(indicatorModule, _VuexModule);
 
-  var _super = Object(_Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(indicatorModule);
+  var _super = Object(_Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(indicatorModule);
 
   function indicatorModule() {
     var _this;
 
-    Object(_Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(this, indicatorModule);
+    Object(_Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(this, indicatorModule);
 
     _this = _super.apply(this, arguments); // to keep track of the active calls and to show progress bar; used in app.vue globally
 
@@ -6720,7 +6720,7 @@ var indicatorModule = /*#__PURE__*/function (_VuexModule) {
     return _this;
   }
 
-  Object(_Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(indicatorModule, [{
+  Object(_Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(indicatorModule, [{
     key: "isThereActiveCalls",
     get: function get() {
       return this.activeCalls > 0;
@@ -11860,9 +11860,9 @@ module.exports = classof(global.process) == 'process';
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConfigHelper; });
-/* harmony import */ var _Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("1da1");
-/* harmony import */ var _Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("d4ec");
-/* harmony import */ var _Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("bee2");
+/* harmony import */ var _Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("1da1");
+/* harmony import */ var _Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("d4ec");
+/* harmony import */ var _Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("bee2");
 /* harmony import */ var core_js_modules_es_regexp_exec_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("ac1f");
 /* harmony import */ var core_js_modules_es_regexp_exec_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var core_js_modules_es_string_replace_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("5319");
@@ -11891,13 +11891,13 @@ var url = "".concat("/", "config/configuration.json");
 
 var ConfigHelper = /*#__PURE__*/function () {
   function ConfigHelper() {
-    Object(_Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(this, ConfigHelper);
+    Object(_Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(this, ConfigHelper);
   }
 
-  Object(_Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(ConfigHelper, null, [{
+  Object(_Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(ConfigHelper, null, [{
     key: "fetchConfig",
     value: function () {
-      var _fetchConfig = Object(_Users_shabeeb_Work_bcgov_registory_fas_ui_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var _fetchConfig = Object(_Users_saravan_work_fas_ui_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         var response;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -25137,7 +25137,7 @@ __webpack_require__.d(easing_patterns_namespaceObject, "easeInQuint", function()
 __webpack_require__.d(easing_patterns_namespaceObject, "easeOutQuint", function() { return easeOutQuint; });
 __webpack_require__.d(easing_patterns_namespaceObject, "easeInOutQuint", function() { return easeInOutQuint; });
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3c7955b9-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Dashboard/Search.vue?vue&type=template&id=5291a748&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"77227c89-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Dashboard/Search.vue?vue&type=template&id=5291a748&scoped=true&
 var Searchvue_type_template_id_5291a748_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('v-row',{staticClass:"d-flex flex-row justify-space-between align-center",attrs:{"no-gutters":""}},[_c('v-col',{attrs:{"cols":"4"}},[_c('v-btn',{directives:[{name:"can",rawName:"v-can:fas_create.hide",arg:"fas_create",modifiers:{"hide":true}}],staticClass:"font-weight-bold",attrs:{"large":"","dark":"","color":"primary"},on:{"click":_vm.addRoutingSlip}},[_c('v-icon',{staticClass:"mr-2 font-weight-bold",attrs:{"dark":"","small":""}},[_vm._v(" mdi-plus ")]),_vm._v(" Add New Routing Slip ")],1)],1),_c('v-col',{attrs:{"cols":"2"}})],1),_c('v-row',{staticClass:"mt-0"},[_c('v-col',[_c('div',{staticClass:"header-bg-color d-flex align-center py-5 mb-0 "},[_c('v-icon',{staticClass:"ml-5",attrs:{"color":"primary"}},[_vm._v(" mdi-view-list ")]),_c('h4',{staticClass:"ml-2 mb-0 font-weight-bold"},[_vm._v("Search Routing Slip")])],1),_c('v-form',[_c('v-row',{staticClass:"row-margin",attrs:{"dense":""}},[_c('v-col',{attrs:{"sm":"12","cols":"12"}},[_c('transition',{attrs:{"name":"slide-fade"}},[_c('v-data-table',{staticClass:"elevation-1",attrs:{"headers":_vm.headerSearch,"items":_vm.searchRoutingSlipResult,"item-key":"name","sort-by":"routingSlipNumber","hide-default-header":"","hide-default-footer":"","fixed-header":"","height":"40rem","loading":_vm.isLoading},scopedSlots:_vm._u([{key:"no-data",fn:function(){return [_c('div',{staticClass:"py-8 no-data",domProps:{"innerHTML":_vm._s(
                       _vm.$t(
                         !_vm.searchParamsExist
