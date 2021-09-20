@@ -24,9 +24,7 @@ export default function useRoutingSlipTransaction () {
 
   const { isLoading, toggleLoading } = useLoader()
 
-  const status = computed(() => {
-    return availableAmountForManualTransaction() < 0 ? 'cantAddTransactions' : ''
-  })
+  const status = ref<string>('')
 
   function showManualTransaction (): void {
     // Show manual transaction component through toggling showAddManualTransaction
@@ -43,6 +41,7 @@ export default function useRoutingSlipTransaction () {
     const isExcessAmount:boolean = availableAmountForManualTransaction() < 0
     if (isExcessAmount) {
       error = true
+      status.value = 'cantAddTransactions'
       return
     }
     if (isValid()) {
@@ -89,6 +88,7 @@ export default function useRoutingSlipTransaction () {
 
   function resetManualTransaction () {
     // change to function if needed
+    status.value = ''
     toggleShowAddManualTransaction(false)
     manualTransactionsList.value = []
   }
@@ -121,6 +121,7 @@ export default function useRoutingSlipTransaction () {
 
   // Add one row to the list
   function addManualTransactionRow () {
+    status.value = ''
     manualTransactionsList.value.push(getDefaultRow())
   }
 
@@ -130,6 +131,7 @@ export default function useRoutingSlipTransaction () {
 
   // Remove one row to the list
   function removeManualTransactionRow (index: number) {
+    status.value = ''
     manualTransactionsList.value.splice(index, 1)
   }
 
@@ -146,6 +148,7 @@ export default function useRoutingSlipTransaction () {
     manualTransactionsList.value[payload.index].referenceNumber = payload.transaction.referenceNumber
     manualTransactionsList.value[payload.index].total = payload.transaction.total
     updateAvailableAmountForManualTransaction()
+    status.value = ''
   }
 
   // Update the availableAmountForManualTransaction property in each item of the manual transaction list
