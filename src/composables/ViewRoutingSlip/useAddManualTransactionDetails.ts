@@ -1,4 +1,4 @@
-import { computed, nextTick, onMounted, ref, toRefs } from '@vue/composition-api'
+import { computed, nextTick, onMounted, ref, toRefs, watch } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { GetFeeRequestParams } from '@/models/Payment'
@@ -25,7 +25,13 @@ export default function useAddManualTransactionDetails (props, context) {
   ])
 
   const errorMessage = computed(() => {
-    const msg = manualTransactionDetails.value.availableAmountForManualTransaction < manualTransactionDetails.value.total ? 'Amount exceeds the routing slip\'s current balance' : ''
+    /* We need to check if total exceeds remaining amount and
+    if the availableAmountForManualTransaction is greater than 0 as any change in prior transaction records affect the remaining amount of this record
+    */
+    const msg = manualTransactionDetails.value.quantity && (
+      manualTransactionDetails.value.availableAmountForManualTransaction < manualTransactionDetails.value.total ||
+      manualTransactionDetails.value.availableAmountForManualTransaction < 0)
+      ? 'Amount exceeds the routing slip\'s current balance' : ''
     return msg
   })
 
@@ -73,6 +79,11 @@ export default function useAddManualTransactionDetails (props, context) {
   function getIndexedTag (tag, index): string {
     return `${tag}-${index}`
   }
+
+  // watch manualTransaction object, assign availableAmountForManualTransaction property.
+  watch(manualTransaction, () => {
+    manualTransactionDetails.value.availableAmountForManualTransaction = manualTransaction.value.availableAmountForManualTransaction
+  }, { deep: true })
 
   onMounted(() => {
     manualTransactionDetails.value = JSON.parse(JSON.stringify(manualTransaction.value))
