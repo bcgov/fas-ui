@@ -303,7 +303,7 @@ import { useSearch } from '@fas/composables/Dashboard/useSearch'
 
 import commonUtil from '@fas/util/common-util'
 import { useDashboard } from '@fas/composables/Dashboard'
-// import can from '@/directives/can'
+import can from '@fas/directives/can'
 
 @Component({
   setup (_, context) {
@@ -360,7 +360,7 @@ import { useDashboard } from '@fas/composables/Dashboard'
     // statusList: statusListComponent
   },
   directives: {
-    // can
+    can
   }
 })
 export default class Search extends Vue {

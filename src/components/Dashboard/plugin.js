@@ -9,7 +9,6 @@ import indicator from '../../store/modules/indicator'
 import i18n from '../../plugins/i18n'
 // import store from '../../store'
 
-
 // import Vuex from 'vuex'
 
 // const store = new Vuex.Store({
@@ -19,23 +18,12 @@ import i18n from '../../plugins/i18n'
 // import breadCrump from "./breadcrump.vue";
 
 function install(Vue, options) {
-  // eslint-disable-next-line no-console
-  console.log('insid e1.install store')
   Vue.use(VueCompositionAPI)
-  Vue.use(i18n)
-  // Vue.use(i18n)
+
   if (install.installed) return
   install.installed = true
-  // Vue.extend({ i18n });
   // Vue.use(VueCompositionAPI)
-  // eslint-disable-next-line no-console
-  console.log('2.install options', options)
-  // eslint-disable-next-line no-console
-  console.log('i18n', i18n.messages)
-  // eslint-disable-next-line no-console
-  console.log('i18n.locale', i18n.locale)
-  // eslint-disable-next-line no-console
-  console.log('options.i18n', options.i18n.messages)
+
   // simple hack to inject locale messages. check for better solutions
   // this will not work when chaging lang. need to updated code
   if (options.i18n) {
@@ -57,6 +45,7 @@ function install(Vue, options) {
     options.store.registerModule('routingSlip', routingSlip)
     options.store.registerModule('fasCodes', codes)
     // options.store.registerModule('store', store)
+    window.fasStore = options.store
   } else {
     console.error('please provide store')
   }

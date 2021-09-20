@@ -2209,17 +2209,6 @@ module.exports = function repeat(count) {
 
 /***/ }),
 
-/***/ "118a":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_style_index_0_id_5291a748_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("2bee");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_style_index_0_id_5291a748_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_style_index_0_id_5291a748_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "1276":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2546,23 +2535,10 @@ module.exports = Object.is || function is(x, y) {
 // import breadCrump from "./breadcrump.vue";
 
 function install(Vue, options) {
-  // eslint-disable-next-line no-console
-  console.log('insid e1.install store');
   Vue.use(_vue_composition_api__WEBPACK_IMPORTED_MODULE_1__[/* default */ "b"]);
-  Vue.use(_plugins_i18n__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"]); // Vue.use(i18n)
-
   if (install.installed) return;
-  install.installed = true; // Vue.extend({ i18n });
-  // Vue.use(VueCompositionAPI)
-  // eslint-disable-next-line no-console
-
-  console.log('2.install options', options); // eslint-disable-next-line no-console
-
-  console.log('i18n', _plugins_i18n__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"].messages); // eslint-disable-next-line no-console
-
-  console.log('i18n.locale', _plugins_i18n__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"].locale); // eslint-disable-next-line no-console
-
-  console.log('options.i18n', options.i18n.messages); // simple hack to inject locale messages. check for better solutions
+  install.installed = true; // Vue.use(VueCompositionAPI)
+  // simple hack to inject locale messages. check for better solutions
   // this will not work when chaging lang. need to updated code
 
   if (options.i18n) {
@@ -2580,6 +2556,8 @@ function install(Vue, options) {
     options.store.registerModule('indicator', _store_modules_indicator__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"]);
     options.store.registerModule('routingSlip', _store_modules_routingSlip__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]);
     options.store.registerModule('fasCodes', _store_modules_codes__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]); // options.store.registerModule('store', store)
+
+    window.fasStore = options.store;
   } else {
     console.error('please provide store');
   }
@@ -2656,6 +2634,13 @@ for (var COLLECTION_NAME in DOMIterables) {
   }
 }
 
+
+/***/ }),
+
+/***/ "15b6":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -3459,6 +3444,166 @@ module.exports = function (METHOD_NAME) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "1fb5":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.byteLength = byteLength
+exports.toByteArray = toByteArray
+exports.fromByteArray = fromByteArray
+
+var lookup = []
+var revLookup = []
+var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
+
+var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+for (var i = 0, len = code.length; i < len; ++i) {
+  lookup[i] = code[i]
+  revLookup[code.charCodeAt(i)] = i
+}
+
+// Support decoding URL-safe base64 strings, as Node.js does.
+// See: https://en.wikipedia.org/wiki/Base64#URL_applications
+revLookup['-'.charCodeAt(0)] = 62
+revLookup['_'.charCodeAt(0)] = 63
+
+function getLens (b64) {
+  var len = b64.length
+
+  if (len % 4 > 0) {
+    throw new Error('Invalid string. Length must be a multiple of 4')
+  }
+
+  // Trim off extra bytes after placeholder bytes are found
+  // See: https://github.com/beatgammit/base64-js/issues/42
+  var validLen = b64.indexOf('=')
+  if (validLen === -1) validLen = len
+
+  var placeHoldersLen = validLen === len
+    ? 0
+    : 4 - (validLen % 4)
+
+  return [validLen, placeHoldersLen]
+}
+
+// base64 is 4/3 + up to two characters of the original data
+function byteLength (b64) {
+  var lens = getLens(b64)
+  var validLen = lens[0]
+  var placeHoldersLen = lens[1]
+  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
+}
+
+function _byteLength (b64, validLen, placeHoldersLen) {
+  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
+}
+
+function toByteArray (b64) {
+  var tmp
+  var lens = getLens(b64)
+  var validLen = lens[0]
+  var placeHoldersLen = lens[1]
+
+  var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen))
+
+  var curByte = 0
+
+  // if there are placeholders, only get up to the last complete 4 chars
+  var len = placeHoldersLen > 0
+    ? validLen - 4
+    : validLen
+
+  var i
+  for (i = 0; i < len; i += 4) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 18) |
+      (revLookup[b64.charCodeAt(i + 1)] << 12) |
+      (revLookup[b64.charCodeAt(i + 2)] << 6) |
+      revLookup[b64.charCodeAt(i + 3)]
+    arr[curByte++] = (tmp >> 16) & 0xFF
+    arr[curByte++] = (tmp >> 8) & 0xFF
+    arr[curByte++] = tmp & 0xFF
+  }
+
+  if (placeHoldersLen === 2) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 2) |
+      (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[curByte++] = tmp & 0xFF
+  }
+
+  if (placeHoldersLen === 1) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 10) |
+      (revLookup[b64.charCodeAt(i + 1)] << 4) |
+      (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[curByte++] = (tmp >> 8) & 0xFF
+    arr[curByte++] = tmp & 0xFF
+  }
+
+  return arr
+}
+
+function tripletToBase64 (num) {
+  return lookup[num >> 18 & 0x3F] +
+    lookup[num >> 12 & 0x3F] +
+    lookup[num >> 6 & 0x3F] +
+    lookup[num & 0x3F]
+}
+
+function encodeChunk (uint8, start, end) {
+  var tmp
+  var output = []
+  for (var i = start; i < end; i += 3) {
+    tmp =
+      ((uint8[i] << 16) & 0xFF0000) +
+      ((uint8[i + 1] << 8) & 0xFF00) +
+      (uint8[i + 2] & 0xFF)
+    output.push(tripletToBase64(tmp))
+  }
+  return output.join('')
+}
+
+function fromByteArray (uint8) {
+  var tmp
+  var len = uint8.length
+  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
+  var parts = []
+  var maxChunkLength = 16383 // must be multiple of 3
+
+  // go through the array every three bytes, we'll deal with trailing stuff later
+  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+    parts.push(encodeChunk(
+      uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)
+    ))
+  }
+
+  // pad the end with zeros, but make sure to not forget the extra bytes
+  if (extraBytes === 1) {
+    tmp = uint8[len - 1]
+    parts.push(
+      lookup[tmp >> 2] +
+      lookup[(tmp << 4) & 0x3F] +
+      '=='
+    )
+  } else if (extraBytes === 2) {
+    tmp = (uint8[len - 2] << 8) + uint8[len - 1]
+    parts.push(
+      lookup[tmp >> 10] +
+      lookup[(tmp >> 4) & 0x3F] +
+      lookup[(tmp << 2) & 0x3F] +
+      '='
+    )
+  }
+
+  return parts.join('')
+}
+
 
 /***/ }),
 
@@ -5924,13 +6069,6 @@ $({ global: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS }, {
 
 /***/ }),
 
-/***/ "2bee":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "2bfb":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7719,6 +7857,16 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "3c35":
+/***/ (function(module, exports) {
+
+/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
+module.exports = __webpack_amd_options__;
+
+/* WEBPACK VAR INJECTION */}.call(this, {}))
+
+/***/ }),
+
 /***/ "3ca3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7752,6 +7900,17 @@ defineIterator(String, 'String', function (iterated) {
   state.index += point.length;
   return { value: point, done: false };
 });
+
+
+/***/ }),
+
+/***/ "3d4d":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_style_index_0_id_048efac6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("15b6");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_style_index_0_id_048efac6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_style_index_0_id_048efac6_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -9485,6 +9644,26 @@ $({ target: 'Reflect', stat: true, forced: FORCED, sham: FORCED }, {
     return hr;
 
 })));
+
+
+/***/ }),
+
+/***/ "4c53":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("23e7");
+var createHTML = __webpack_require__("857a");
+var forcedStringHTMLMethod = __webpack_require__("af03");
+
+// `String.prototype.sub` method
+// https://tc39.es/ecma262/#sec-string.prototype.sub
+$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('sub') }, {
+  sub: function sub() {
+    return createHTML(this, 'sub', '', '');
+  }
+});
 
 
 /***/ }),
@@ -13047,6 +13226,1651 @@ module.exports = function (originalArray, length) {
 
 /***/ }),
 
+/***/ "68ad":
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+ * Copyright 2016 Red Hat, Inc. and/or its affiliates
+ * and other contributors as indicated by the @author tags.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+(function(root, factory) {
+    if ( true ) {
+        if ( true ) {
+            module.exports = factory( __webpack_require__("6c27"), __webpack_require__("1fb5") );    
+        } else {}
+    } else { var Keycloak; }
+})(window, function (sha256_imported, base64js_imported) {
+    if (typeof Promise === 'undefined') {
+        throw Error('Keycloak requires an environment that supports Promises. Make sure that you include the appropriate polyfill.');
+    }
+
+    var loggedPromiseDeprecation = false;
+
+    function logPromiseDeprecation() {
+        if (!loggedPromiseDeprecation) {
+            loggedPromiseDeprecation = true;
+            console.warn('[KEYCLOAK] Usage of legacy style promise methods such as `.error()` and `.success()` has been deprecated and support will be removed in future versions. Use standard style promise methods such as `.then() and `.catch()` instead.');
+        }
+    }
+
+    function toKeycloakPromise(promise) {
+        promise.__proto__ = KeycloakPromise.prototype;
+        return promise;
+    }
+
+    function KeycloakPromise(executor) {
+        return toKeycloakPromise(new Promise(executor));
+    }
+
+    KeycloakPromise.prototype = Object.create(Promise.prototype);
+    KeycloakPromise.prototype.constructor = KeycloakPromise;
+
+    KeycloakPromise.prototype.success = function(callback) {
+        logPromiseDeprecation();
+
+        var promise = this.then(function handleSuccess(value) {
+            callback(value);
+        });
+        
+        return toKeycloakPromise(promise);
+    };
+
+    KeycloakPromise.prototype.error = function(callback) {
+        logPromiseDeprecation();
+
+        var promise = this.catch(function handleError(error) {
+            callback(error);
+        });
+
+        return toKeycloakPromise(promise);
+    };
+
+    function Keycloak (config) {
+        if (!(this instanceof Keycloak)) {
+            return new Keycloak(config);
+        }
+
+        var kc = this;
+        var adapter;
+        var refreshQueue = [];
+        var callbackStorage;
+
+        var loginIframe = {
+            enable: true,
+            callbackList: [],
+            interval: 5
+        };
+
+        var scripts = document.getElementsByTagName('script');
+        for (var i = 0; i < scripts.length; i++) {
+            if ((scripts[i].src.indexOf('keycloak.js') !== -1 || scripts[i].src.indexOf('keycloak.min.js') !== -1) && scripts[i].src.indexOf('version=') !== -1) {
+                kc.iframeVersion = scripts[i].src.substring(scripts[i].src.indexOf('version=') + 8).split('&')[0];
+            }
+        }
+
+        var useNonce = true;
+        var logInfo = createLogger(console.info);
+        var logWarn = createLogger(console.warn);
+        
+        kc.init = function (initOptions) {
+            kc.authenticated = false;
+
+            callbackStorage = createCallbackStorage();
+            var adapters = ['default', 'cordova', 'cordova-native'];
+
+            if (initOptions && adapters.indexOf(initOptions.adapter) > -1) {
+                adapter = loadAdapter(initOptions.adapter);
+            } else if (initOptions && typeof initOptions.adapter === "object") {
+                adapter = initOptions.adapter;
+            } else {
+                if (window.Cordova || window.cordova) {
+                    adapter = loadAdapter('cordova');
+                } else {
+                    adapter = loadAdapter();
+                }
+            }
+
+            if (initOptions) {
+                if (typeof initOptions.useNonce !== 'undefined') {
+                    useNonce = initOptions.useNonce;
+                }
+
+                if (typeof initOptions.checkLoginIframe !== 'undefined') {
+                    loginIframe.enable = initOptions.checkLoginIframe;
+                }
+
+                if (initOptions.checkLoginIframeInterval) {
+                    loginIframe.interval = initOptions.checkLoginIframeInterval;
+                }
+
+                if (initOptions.onLoad === 'login-required') {
+                    kc.loginRequired = true;
+                }
+
+                if (initOptions.responseMode) {
+                    if (initOptions.responseMode === 'query' || initOptions.responseMode === 'fragment') {
+                        kc.responseMode = initOptions.responseMode;
+                    } else {
+                        throw 'Invalid value for responseMode';
+                    }
+                }
+
+                if (initOptions.flow) {
+                    switch (initOptions.flow) {
+                        case 'standard':
+                            kc.responseType = 'code';
+                            break;
+                        case 'implicit':
+                            kc.responseType = 'id_token token';
+                            break;
+                        case 'hybrid':
+                            kc.responseType = 'code id_token token';
+                            break;
+                        default:
+                            throw 'Invalid value for flow';
+                    }
+                    kc.flow = initOptions.flow;
+                }
+
+                if (initOptions.timeSkew != null) {
+                    kc.timeSkew = initOptions.timeSkew;
+                }
+
+                if(initOptions.redirectUri) {
+                    kc.redirectUri = initOptions.redirectUri;
+                }
+
+                if (initOptions.silentCheckSsoRedirectUri) {
+                    kc.silentCheckSsoRedirectUri = initOptions.silentCheckSsoRedirectUri;
+                }
+
+                if (initOptions.pkceMethod) {
+                    if (initOptions.pkceMethod !== "S256") {
+                        throw 'Invalid value for pkceMethod';
+                    }
+                    kc.pkceMethod = initOptions.pkceMethod;
+                }
+
+                if (typeof initOptions.enableLogging === 'boolean') {
+                    kc.enableLogging = initOptions.enableLogging;
+                } else {
+                    kc.enableLogging = false;
+                }
+            }
+
+            if (!kc.responseMode) {
+                kc.responseMode = 'fragment';
+            }
+            if (!kc.responseType) {
+                kc.responseType = 'code';
+                kc.flow = 'standard';
+            }
+
+            var promise = createPromise();
+
+            var initPromise = createPromise();
+            initPromise.promise.then(function() {
+                kc.onReady && kc.onReady(kc.authenticated);
+                promise.setSuccess(kc.authenticated);
+            }).catch(function(errorData) {
+                promise.setError(errorData);
+            });
+
+            var configPromise = loadConfig(config);
+
+            function onLoad() {
+                var doLogin = function(prompt) {
+                    if (!prompt) {
+                        options.prompt = 'none';
+                    }
+
+                    kc.login(options).then(function () {
+                        initPromise.setSuccess();
+                    }).catch(function () {
+                        initPromise.setError();
+                    });
+                }
+
+                var checkSsoSilently = function() {
+                    var ifrm = document.createElement("iframe");
+                    var src = kc.createLoginUrl({prompt: 'none', redirectUri: kc.silentCheckSsoRedirectUri});
+                    ifrm.setAttribute("src", src);
+                    ifrm.setAttribute("title", "keycloak-silent-check-sso");
+                    ifrm.style.display = "none";
+                    document.body.appendChild(ifrm);
+
+                    var messageCallback = function(event) {
+                        if (event.origin !== window.location.origin || ifrm.contentWindow !== event.source) {
+                            return;
+                        }
+
+                        var oauth = parseCallback(event.data);
+                        processCallback(oauth, initPromise);
+
+                        document.body.removeChild(ifrm);
+                        window.removeEventListener("message", messageCallback);
+                    };
+
+                    window.addEventListener("message", messageCallback);
+                };
+
+                var options = {};
+                switch (initOptions.onLoad) {
+                    case 'check-sso':
+                        if (loginIframe.enable) {
+                            setupCheckLoginIframe().then(function() {
+                                checkLoginIframe().then(function (unchanged) {
+                                    if (!unchanged) {
+                                        kc.silentCheckSsoRedirectUri ? checkSsoSilently() : doLogin(false);
+                                    } else {
+                                        initPromise.setSuccess();
+                                    }
+                                }).catch(function () {
+                                    initPromise.setError();
+                                });
+                            });
+                        } else {
+                            kc.silentCheckSsoRedirectUri ? checkSsoSilently() : doLogin(false);
+                        }
+                        break;
+                    case 'login-required':
+                        doLogin(true);
+                        break;
+                    default:
+                        throw 'Invalid value for onLoad';
+                }
+            }
+
+            function processInit() {
+                var callback = parseCallback(window.location.href);
+
+                if (callback) {
+                    window.history.replaceState(window.history.state, null, callback.newUrl);
+                }
+
+                if (callback && callback.valid) {
+                    return setupCheckLoginIframe().then(function() {
+                        processCallback(callback, initPromise);
+                    }).catch(function (e) {
+                        initPromise.setError();
+                    });
+                } else if (initOptions) {
+                    if (initOptions.token && initOptions.refreshToken) {
+                        setToken(initOptions.token, initOptions.refreshToken, initOptions.idToken);
+
+                        if (loginIframe.enable) {
+                            setupCheckLoginIframe().then(function() {
+                                checkLoginIframe().then(function (unchanged) {
+                                    if (unchanged) {
+                                        kc.onAuthSuccess && kc.onAuthSuccess();
+                                        initPromise.setSuccess();
+                                        scheduleCheckIframe();
+                                    } else {
+                                        initPromise.setSuccess();
+                                    }
+                                }).catch(function () {
+                                    initPromise.setError();
+                                });
+                            });
+                        } else {
+                            kc.updateToken(-1).then(function() {
+                                kc.onAuthSuccess && kc.onAuthSuccess();
+                                initPromise.setSuccess();
+                            }).catch(function() {
+                                kc.onAuthError && kc.onAuthError();
+                                if (initOptions.onLoad) {
+                                    onLoad();
+                                } else {
+                                    initPromise.setError();
+                                }
+                            });
+                        }
+                    } else if (initOptions.onLoad) {
+                        onLoad();
+                    } else {
+                        initPromise.setSuccess();
+                    }
+                } else {
+                    initPromise.setSuccess();
+                }
+            }
+
+            configPromise.then(processInit);
+            configPromise.catch(function() {
+                promise.setError();
+            });
+
+            return promise.promise;
+        }
+
+        kc.login = function (options) {
+            return adapter.login(options);
+        }
+
+        function generateRandomData(len) {
+            // use web crypto APIs if possible
+            var array = null;
+            var crypto = window.crypto || window.msCrypto;
+            if (crypto && crypto.getRandomValues && window.Uint8Array) {
+                array = new Uint8Array(len);
+                crypto.getRandomValues(array);
+                return array;
+            }
+
+            // fallback to Math random
+            array = new Array(len);
+            for (var j = 0; j < array.length; j++) {
+                array[j] = Math.floor(256 * Math.random());
+            }
+            return array;
+        }
+
+        function generateCodeVerifier(len) {
+            return generateRandomString(len, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789');
+        }
+
+        function generateRandomString(len, alphabet){
+            var randomData = generateRandomData(len);
+            var chars = new Array(len);
+            for (var i = 0; i < len; i++) {
+                chars[i] = alphabet.charCodeAt(randomData[i] % alphabet.length);
+            }
+            return String.fromCharCode.apply(null, chars);
+        }
+
+        function generatePkceChallenge(pkceMethod, codeVerifier) {
+            switch (pkceMethod) {
+                // The use of the "plain" method is considered insecure and therefore not supported.
+                case "S256":
+                    // hash codeVerifier, then encode as url-safe base64 without padding
+                    var hashBytes = new Uint8Array(sha256_imported.arrayBuffer(codeVerifier));
+                    var encodedHash = base64js_imported.fromByteArray(hashBytes)
+                        .replace(/\+/g, '-')
+                        .replace(/\//g, '_')
+                        .replace(/\=/g, '');
+                    return encodedHash;
+                default:
+                    throw 'Invalid value for pkceMethod';
+            }
+        }
+
+        kc.createLoginUrl = function(options) {
+            var state = createUUID();
+            var nonce = createUUID();
+
+            var redirectUri = adapter.redirectUri(options);
+
+            var callbackState = {
+                state: state,
+                nonce: nonce,
+                redirectUri: encodeURIComponent(redirectUri)
+            };
+
+            if (options && options.prompt) {
+                callbackState.prompt = options.prompt;
+            }
+
+            var baseUrl;
+            if (options && options.action == 'register') {
+                baseUrl = kc.endpoints.register();
+            } else {
+                baseUrl = kc.endpoints.authorize();
+            }
+
+            var scope;
+            if (options && options.scope) {
+                if (options.scope.indexOf("openid") != -1) {
+                    scope = options.scope;
+                } else {
+                    scope = "openid " + options.scope;
+                }
+            } else {
+                scope = "openid";
+            }
+
+            var url = baseUrl
+                + '?client_id=' + encodeURIComponent(kc.clientId)
+                + '&redirect_uri=' + encodeURIComponent(redirectUri)
+                + '&state=' + encodeURIComponent(state)
+                + '&response_mode=' + encodeURIComponent(kc.responseMode)
+                + '&response_type=' + encodeURIComponent(kc.responseType)
+                + '&scope=' + encodeURIComponent(scope);
+            if (useNonce) {
+                url = url + '&nonce=' + encodeURIComponent(nonce);
+            }
+
+            if (options && options.prompt) {
+                url += '&prompt=' + encodeURIComponent(options.prompt);
+            }
+
+            if (options && options.maxAge) {
+                url += '&max_age=' + encodeURIComponent(options.maxAge);
+            }
+
+            if (options && options.loginHint) {
+                url += '&login_hint=' + encodeURIComponent(options.loginHint);
+            }
+
+            if (options && options.idpHint) {
+                url += '&kc_idp_hint=' + encodeURIComponent(options.idpHint);
+            }
+
+            if (options && options.locale) {
+                url += '&ui_locales=' + encodeURIComponent(options.locale);
+            }
+
+            if (kc.pkceMethod) {
+                var codeVerifier = generateCodeVerifier(96);
+                callbackState.pkceCodeVerifier = codeVerifier;
+                var pkceChallenge = generatePkceChallenge(kc.pkceMethod, codeVerifier);
+                url += '&code_challenge=' + pkceChallenge;
+                url += '&code_challenge_method=' + kc.pkceMethod;
+            }
+
+            callbackStorage.add(callbackState);
+
+            return url;
+        }
+
+        kc.logout = function(options) {
+            return adapter.logout(options);
+        }
+
+        kc.createLogoutUrl = function(options) {
+            var url = kc.endpoints.logout()
+                + '?redirect_uri=' + encodeURIComponent(adapter.redirectUri(options, false));
+
+            return url;
+        }
+
+        kc.register = function (options) {
+            return adapter.register(options);
+        }
+
+        kc.createRegisterUrl = function(options) {
+            if (!options) {
+                options = {};
+            }
+            options.action = 'register';
+            return kc.createLoginUrl(options);
+        }
+
+        kc.createAccountUrl = function(options) {
+            var realm = getRealmUrl();
+            var url = undefined;
+            if (typeof realm !== 'undefined') {
+                url = realm
+                + '/account'
+                + '?referrer=' + encodeURIComponent(kc.clientId)
+                + '&referrer_uri=' + encodeURIComponent(adapter.redirectUri(options));
+            }
+            return url;
+        }
+
+        kc.accountManagement = function() {
+            return adapter.accountManagement();
+        }
+
+        kc.hasRealmRole = function (role) {
+            var access = kc.realmAccess;
+            return !!access && access.roles.indexOf(role) >= 0;
+        }
+
+        kc.hasResourceRole = function(role, resource) {
+            if (!kc.resourceAccess) {
+                return false;
+            }
+
+            var access = kc.resourceAccess[resource || kc.clientId];
+            return !!access && access.roles.indexOf(role) >= 0;
+        }
+
+        kc.loadUserProfile = function() {
+            var url = getRealmUrl() + '/account';
+            var req = new XMLHttpRequest();
+            req.open('GET', url, true);
+            req.setRequestHeader('Accept', 'application/json');
+            req.setRequestHeader('Authorization', 'bearer ' + kc.token);
+
+            var promise = createPromise();
+
+            req.onreadystatechange = function () {
+                if (req.readyState == 4) {
+                    if (req.status == 200) {
+                        kc.profile = JSON.parse(req.responseText);
+                        promise.setSuccess(kc.profile);
+                    } else {
+                        promise.setError();
+                    }
+                }
+            }
+
+            req.send();
+
+            return promise.promise;
+        }
+
+        kc.loadUserInfo = function() {
+            var url = kc.endpoints.userinfo();
+            var req = new XMLHttpRequest();
+            req.open('GET', url, true);
+            req.setRequestHeader('Accept', 'application/json');
+            req.setRequestHeader('Authorization', 'bearer ' + kc.token);
+
+            var promise = createPromise();
+
+            req.onreadystatechange = function () {
+                if (req.readyState == 4) {
+                    if (req.status == 200) {
+                        kc.userInfo = JSON.parse(req.responseText);
+                        promise.setSuccess(kc.userInfo);
+                    } else {
+                        promise.setError();
+                    }
+                }
+            }
+
+            req.send();
+
+            return promise.promise;
+        }
+
+        kc.isTokenExpired = function(minValidity) {
+            if (!kc.tokenParsed || (!kc.refreshToken && kc.flow != 'implicit' )) {
+                throw 'Not authenticated';
+            }
+
+            if (kc.timeSkew == null) {
+                logInfo('[KEYCLOAK] Unable to determine if token is expired as timeskew is not set');
+                return true;
+            }
+
+            var expiresIn = kc.tokenParsed['exp'] - Math.ceil(new Date().getTime() / 1000) + kc.timeSkew;
+            if (minValidity) {
+                if (isNaN(minValidity)) {
+                    throw 'Invalid minValidity';
+                }
+                expiresIn -= minValidity;
+            }
+            return expiresIn < 0;
+        }
+
+        kc.updateToken = function(minValidity) {
+            var promise = createPromise();
+
+            if (!kc.refreshToken) {
+                promise.setError();
+                return promise.promise;
+            }
+
+            minValidity = minValidity || 5;
+
+            var exec = function() {
+                var refreshToken = false;
+                if (minValidity == -1) {
+                    refreshToken = true;
+                    logInfo('[KEYCLOAK] Refreshing token: forced refresh');
+                } else if (!kc.tokenParsed || kc.isTokenExpired(minValidity)) {
+                    refreshToken = true;
+                    logInfo('[KEYCLOAK] Refreshing token: token expired');
+                }
+
+                if (!refreshToken) {
+                    promise.setSuccess(false);
+                } else {
+                    var params = 'grant_type=refresh_token&' + 'refresh_token=' + kc.refreshToken;
+                    var url = kc.endpoints.token();
+
+                    refreshQueue.push(promise);
+
+                    if (refreshQueue.length == 1) {
+                        var req = new XMLHttpRequest();
+                        req.open('POST', url, true);
+                        req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                        req.withCredentials = true;
+
+                        params += '&client_id=' + encodeURIComponent(kc.clientId);
+
+                        var timeLocal = new Date().getTime();
+
+                        req.onreadystatechange = function () {
+                            if (req.readyState == 4) {
+                                if (req.status == 200) {
+                                    logInfo('[KEYCLOAK] Token refreshed');
+
+                                    timeLocal = (timeLocal + new Date().getTime()) / 2;
+
+                                    var tokenResponse = JSON.parse(req.responseText);
+
+                                    setToken(tokenResponse['access_token'], tokenResponse['refresh_token'], tokenResponse['id_token'], timeLocal);
+
+                                    kc.onAuthRefreshSuccess && kc.onAuthRefreshSuccess();
+                                    for (var p = refreshQueue.pop(); p != null; p = refreshQueue.pop()) {
+                                        p.setSuccess(true);
+                                    }
+                                } else {
+                                    logWarn('[KEYCLOAK] Failed to refresh token');
+
+                                    if (req.status == 400) {
+                                        kc.clearToken();
+                                    }
+
+                                    kc.onAuthRefreshError && kc.onAuthRefreshError();
+                                    for (var p = refreshQueue.pop(); p != null; p = refreshQueue.pop()) {
+                                        p.setError(true);
+                                    }
+                                }
+                            }
+                        };
+
+                        req.send(params);
+                    }
+                }
+            }
+
+            if (loginIframe.enable) {
+                var iframePromise = checkLoginIframe();
+                iframePromise.then(function() {
+                    exec();
+                }).catch(function() {
+                    promise.setError();
+                });
+            } else {
+                exec();
+            }
+
+            return promise.promise;
+        }
+
+        kc.clearToken = function() {
+            if (kc.token) {
+                setToken(null, null, null);
+                kc.onAuthLogout && kc.onAuthLogout();
+                if (kc.loginRequired) {
+                    kc.login();
+                }
+            }
+        }
+
+        function getRealmUrl() {
+            if (typeof kc.authServerUrl !== 'undefined') {
+                if (kc.authServerUrl.charAt(kc.authServerUrl.length - 1) == '/') {
+                    return kc.authServerUrl + 'realms/' + encodeURIComponent(kc.realm);
+                } else {
+                    return kc.authServerUrl + '/realms/' + encodeURIComponent(kc.realm);
+                }
+            } else {
+            	return undefined;
+            }
+        }
+
+        function getOrigin() {
+            if (!window.location.origin) {
+                return window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+            } else {
+                return window.location.origin;
+            }
+        }
+
+        function processCallback(oauth, promise) {
+            var code = oauth.code;
+            var error = oauth.error;
+            var prompt = oauth.prompt;
+
+            var timeLocal = new Date().getTime();
+
+            if (error) {
+                if (prompt != 'none') {
+                    var errorData = { error: error, error_description: oauth.error_description };
+                    kc.onAuthError && kc.onAuthError(errorData);
+                    promise && promise.setError(errorData);
+                } else {
+                    promise && promise.setSuccess();
+                }
+                return;
+            } else if ((kc.flow != 'standard') && (oauth.access_token || oauth.id_token)) {
+                authSuccess(oauth.access_token, null, oauth.id_token, true);
+            }
+
+            if ((kc.flow != 'implicit') && code) {
+                var params = 'code=' + code + '&grant_type=authorization_code';
+                var url = kc.endpoints.token();
+
+                var req = new XMLHttpRequest();
+                req.open('POST', url, true);
+                req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                params += '&client_id=' + encodeURIComponent(kc.clientId);
+                params += '&redirect_uri=' + oauth.redirectUri;
+
+                if (oauth.pkceCodeVerifier) {
+                    params += '&code_verifier=' + oauth.pkceCodeVerifier;
+                }
+
+                req.withCredentials = true;
+
+                req.onreadystatechange = function() {
+                    if (req.readyState == 4) {
+                        if (req.status == 200) {
+
+                            var tokenResponse = JSON.parse(req.responseText);
+                            authSuccess(tokenResponse['access_token'], tokenResponse['refresh_token'], tokenResponse['id_token'], kc.flow === 'standard');
+                            scheduleCheckIframe();
+                        } else {
+                            kc.onAuthError && kc.onAuthError();
+                            promise && promise.setError();
+                        }
+                    }
+                };
+
+                req.send(params);
+            }
+
+            function authSuccess(accessToken, refreshToken, idToken, fulfillPromise) {
+                timeLocal = (timeLocal + new Date().getTime()) / 2;
+
+                setToken(accessToken, refreshToken, idToken, timeLocal);
+
+                if (useNonce && ((kc.tokenParsed && kc.tokenParsed.nonce != oauth.storedNonce) ||
+                    (kc.refreshTokenParsed && kc.refreshTokenParsed.nonce != oauth.storedNonce) ||
+                    (kc.idTokenParsed && kc.idTokenParsed.nonce != oauth.storedNonce))) {
+
+                    logInfo('[KEYCLOAK] Invalid nonce, clearing token');
+                    kc.clearToken();
+                    promise && promise.setError();
+                } else {
+                    if (fulfillPromise) {
+                        kc.onAuthSuccess && kc.onAuthSuccess();
+                        promise && promise.setSuccess();
+                    }
+                }
+            }
+
+        }
+
+        function loadConfig(url) {
+            var promise = createPromise();
+            var configUrl;
+
+            if (!config) {
+                configUrl = 'keycloak.json';
+            } else if (typeof config === 'string') {
+                configUrl = config;
+            }
+
+            function setupOidcEndoints(oidcConfiguration) {
+                if (! oidcConfiguration) {
+                    kc.endpoints = {
+                        authorize: function() {
+                            return getRealmUrl() + '/protocol/openid-connect/auth';
+                        },
+                        token: function() {
+                            return getRealmUrl() + '/protocol/openid-connect/token';
+                        },
+                        logout: function() {
+                            return getRealmUrl() + '/protocol/openid-connect/logout';
+                        },
+                        checkSessionIframe: function() {
+                            var src = getRealmUrl() + '/protocol/openid-connect/login-status-iframe.html';
+                            if (kc.iframeVersion) {
+                              src = src + '?version=' + kc.iframeVersion;
+                            }
+                            return src;
+                        },
+                        register: function() {
+                            return getRealmUrl() + '/protocol/openid-connect/registrations';
+                        },
+                        userinfo: function() {
+                            return getRealmUrl() + '/protocol/openid-connect/userinfo';
+                        }
+                    };
+                } else {
+                    kc.endpoints = {
+                        authorize: function() {
+                            return oidcConfiguration.authorization_endpoint;
+                        },
+                        token: function() {
+                            return oidcConfiguration.token_endpoint;
+                        },
+                        logout: function() {
+                            if (!oidcConfiguration.end_session_endpoint) {
+                                throw "Not supported by the OIDC server";
+                            }
+                            return oidcConfiguration.end_session_endpoint;
+                        },
+                        checkSessionIframe: function() {
+                            if (!oidcConfiguration.check_session_iframe) {
+                                throw "Not supported by the OIDC server";
+                            }
+                            return oidcConfiguration.check_session_iframe;
+                        },
+                        register: function() {
+                            throw 'Redirection to "Register user" page not supported in standard OIDC mode';
+                        },
+                        userinfo: function() {
+                            if (!oidcConfiguration.userinfo_endpoint) {
+                                throw "Not supported by the OIDC server";
+                            }
+                            return oidcConfiguration.userinfo_endpoint;
+                        }
+                    }
+                }
+            }
+
+            if (configUrl) {
+                var req = new XMLHttpRequest();
+                req.open('GET', configUrl, true);
+                req.setRequestHeader('Accept', 'application/json');
+
+                req.onreadystatechange = function () {
+                    if (req.readyState == 4) {
+                        if (req.status == 200 || fileLoaded(req)) {
+                            var config = JSON.parse(req.responseText);
+
+                            kc.authServerUrl = config['auth-server-url'];
+                            kc.realm = config['realm'];
+                            kc.clientId = config['resource'];
+                            setupOidcEndoints(null);
+                            promise.setSuccess();
+                        } else {
+                            promise.setError();
+                        }
+                    }
+                };
+
+                req.send();
+            } else {
+                if (!config.clientId) {
+                    throw 'clientId missing';
+                }
+
+                kc.clientId = config.clientId;
+
+                var oidcProvider = config['oidcProvider'];
+                if (!oidcProvider) {
+                    if (!config['url']) {
+                        var scripts = document.getElementsByTagName('script');
+                        for (var i = 0; i < scripts.length; i++) {
+                            if (scripts[i].src.match(/.*keycloak\.js/)) {
+                                config.url = scripts[i].src.substr(0, scripts[i].src.indexOf('/js/keycloak.js'));
+                                break;
+                            }
+                        }
+                    }
+                    if (!config.realm) {
+                        throw 'realm missing';
+                    }
+
+                    kc.authServerUrl = config.url;
+                    kc.realm = config.realm;
+                    setupOidcEndoints(null);
+                    promise.setSuccess();
+                } else {
+                    if (typeof oidcProvider === 'string') {
+                        var oidcProviderConfigUrl;
+                        if (oidcProvider.charAt(oidcProvider.length - 1) == '/') {
+                            oidcProviderConfigUrl = oidcProvider + '.well-known/openid-configuration';
+                        } else {
+                            oidcProviderConfigUrl = oidcProvider + '/.well-known/openid-configuration';
+                        }
+                        var req = new XMLHttpRequest();
+                        req.open('GET', oidcProviderConfigUrl, true);
+                        req.setRequestHeader('Accept', 'application/json');
+
+                        req.onreadystatechange = function () {
+                            if (req.readyState == 4) {
+                                if (req.status == 200 || fileLoaded(req)) {
+                                    var oidcProviderConfig = JSON.parse(req.responseText);
+                                    setupOidcEndoints(oidcProviderConfig);
+                                    promise.setSuccess();
+                                } else {
+                                    promise.setError();
+                                }
+                            }
+                        };
+
+                        req.send();
+                    } else {
+                        setupOidcEndoints(oidcProvider);
+                        promise.setSuccess();
+                    }
+                }
+            }
+
+            return promise.promise;
+        }
+
+        function fileLoaded(xhr) {
+            return xhr.status == 0 && xhr.responseText && xhr.responseURL.startsWith('file:');
+        }
+
+        function setToken(token, refreshToken, idToken, timeLocal) {
+            if (kc.tokenTimeoutHandle) {
+                clearTimeout(kc.tokenTimeoutHandle);
+                kc.tokenTimeoutHandle = null;
+            }
+
+            if (refreshToken) {
+                kc.refreshToken = refreshToken;
+                kc.refreshTokenParsed = decodeToken(refreshToken);
+            } else {
+                delete kc.refreshToken;
+                delete kc.refreshTokenParsed;
+            }
+
+            if (idToken) {
+                kc.idToken = idToken;
+                kc.idTokenParsed = decodeToken(idToken);
+            } else {
+                delete kc.idToken;
+                delete kc.idTokenParsed;
+            }
+
+            if (token) {
+                kc.token = token;
+                kc.tokenParsed = decodeToken(token);
+                kc.sessionId = kc.tokenParsed.session_state;
+                kc.authenticated = true;
+                kc.subject = kc.tokenParsed.sub;
+                kc.realmAccess = kc.tokenParsed.realm_access;
+                kc.resourceAccess = kc.tokenParsed.resource_access;
+
+                if (timeLocal) {
+                    kc.timeSkew = Math.floor(timeLocal / 1000) - kc.tokenParsed.iat;
+                }
+
+                if (kc.timeSkew != null) {
+                    logInfo('[KEYCLOAK] Estimated time difference between browser and server is ' + kc.timeSkew + ' seconds');
+
+                    if (kc.onTokenExpired) {
+                        var expiresIn = (kc.tokenParsed['exp'] - (new Date().getTime() / 1000) + kc.timeSkew) * 1000;
+                        logInfo('[KEYCLOAK] Token expires in ' + Math.round(expiresIn / 1000) + ' s');
+                        if (expiresIn <= 0) {
+                            kc.onTokenExpired();
+                        } else {
+                            kc.tokenTimeoutHandle = setTimeout(kc.onTokenExpired, expiresIn);
+                        }
+                    }
+                }
+            } else {
+                delete kc.token;
+                delete kc.tokenParsed;
+                delete kc.subject;
+                delete kc.realmAccess;
+                delete kc.resourceAccess;
+
+                kc.authenticated = false;
+            }
+        }
+
+        function decodeToken(str) {
+            str = str.split('.')[1];
+
+            str = str.replace('/-/g', '+');
+            str = str.replace('/_/g', '/');
+            switch (str.length % 4)
+            {
+                case 0:
+                    break;
+                case 2:
+                    str += '==';
+                    break;
+                case 3:
+                    str += '=';
+                    break;
+                default:
+                    throw 'Invalid token';
+            }
+
+            str = (str + '===').slice(0, str.length + (str.length % 4));
+            str = str.replace(/-/g, '+').replace(/_/g, '/');
+
+            str = decodeURIComponent(escape(atob(str)));
+
+            str = JSON.parse(str);
+            return str;
+        }
+
+        function createUUID() {
+            var hexDigits = '0123456789abcdef';
+            var s = generateRandomString(36, hexDigits).split("");
+            s[14] = '4';
+            s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);
+            s[8] = s[13] = s[18] = s[23] = '-';
+            var uuid = s.join('');
+            return uuid;
+        }
+
+        function parseCallback(url) {
+            var oauth = parseCallbackUrl(url);
+            if (!oauth) {
+                return;
+            }
+
+            var oauthState = callbackStorage.get(oauth.state);
+
+            if (oauthState) {
+                oauth.valid = true;
+                oauth.redirectUri = oauthState.redirectUri;
+                oauth.storedNonce = oauthState.nonce;
+                oauth.prompt = oauthState.prompt;
+                oauth.pkceCodeVerifier = oauthState.pkceCodeVerifier;
+            }
+
+            return oauth;
+        }
+
+        function parseCallbackUrl(url) {
+            var supportedParams;
+            switch (kc.flow) {
+                case 'standard':
+                    supportedParams = ['code', 'state', 'session_state'];
+                    break;
+                case 'implicit':
+                    supportedParams = ['access_token', 'token_type', 'id_token', 'state', 'session_state', 'expires_in'];
+                    break;
+                case 'hybrid':
+                    supportedParams = ['access_token', 'id_token', 'code', 'state', 'session_state'];
+                    break;
+            }
+
+            supportedParams.push('error');
+            supportedParams.push('error_description');
+            supportedParams.push('error_uri');
+
+            var queryIndex = url.indexOf('?');
+            var fragmentIndex = url.indexOf('#');
+
+            var newUrl;
+            var parsed;
+
+            if (kc.responseMode === 'query' && queryIndex !== -1) {
+                newUrl = url.substring(0, queryIndex);
+                parsed = parseCallbackParams(url.substring(queryIndex + 1, fragmentIndex !== -1 ? fragmentIndex : url.length), supportedParams);
+                if (parsed.paramsString !== '') {
+                    newUrl += '?' + parsed.paramsString;
+                }
+                if (fragmentIndex !== -1) {
+                    newUrl += url.substring(fragmentIndex);
+                }
+            } else if (kc.responseMode === 'fragment' && fragmentIndex !== -1) {
+                newUrl = url.substring(0, fragmentIndex);
+                parsed = parseCallbackParams(url.substring(fragmentIndex + 1), supportedParams);
+                if (parsed.paramsString !== '') {
+                    newUrl += '#' + parsed.paramsString;
+                }
+            }
+
+            if (parsed && parsed.oauthParams) {
+                if (kc.flow === 'standard' || kc.flow === 'hybrid') {
+                    if ((parsed.oauthParams.code || parsed.oauthParams.error) && parsed.oauthParams.state) {
+                        parsed.oauthParams.newUrl = newUrl;
+                        return parsed.oauthParams;
+                    }
+                } else if (kc.flow === 'implicit') {
+                    if ((parsed.oauthParams.access_token || parsed.oauthParams.error) && parsed.oauthParams.state) {
+                        parsed.oauthParams.newUrl = newUrl;
+                        return parsed.oauthParams;
+                    }
+                }
+            }
+        }
+
+        function parseCallbackParams(paramsString, supportedParams) {
+            var p = paramsString.split('&');
+            var result = {
+                paramsString: '',
+                oauthParams: {}
+            }
+            for (var i = 0; i < p.length; i++) {
+                var split = p[i].indexOf("=");
+                var key = p[i].slice(0, split);
+                if (supportedParams.indexOf(key) !== -1) {
+                    result.oauthParams[key] = p[i].slice(split + 1);
+                } else {
+                    if (result.paramsString !== '') {
+                        result.paramsString += '&';
+                    }
+                    result.paramsString += p[i];
+                }
+            }
+            return result;
+        }
+
+        function createPromise() {
+            // Need to create a native Promise which also preserves the
+            // interface of the custom promise type previously used by the API
+            var p = {
+                setSuccess: function(result) {
+                    p.resolve(result);
+                },
+
+                setError: function(result) {
+                    p.reject(result);
+                }
+            };
+            p.promise = new KeycloakPromise(function(resolve, reject) {
+                p.resolve = resolve;
+                p.reject = reject;
+            });
+            return p;
+        }
+
+
+        function setupCheckLoginIframe() {
+            var promise = createPromise();
+
+            if (!loginIframe.enable) {
+                promise.setSuccess();
+                return promise.promise;
+            }
+
+            if (loginIframe.iframe) {
+                promise.setSuccess();
+                return promise.promise;
+            }
+
+            var iframe = document.createElement('iframe');
+            loginIframe.iframe = iframe;
+
+            iframe.onload = function() {
+                var authUrl = kc.endpoints.authorize();
+                if (authUrl.charAt(0) === '/') {
+                    loginIframe.iframeOrigin = getOrigin();
+                } else {
+                    loginIframe.iframeOrigin = authUrl.substring(0, authUrl.indexOf('/', 8));
+                }
+                promise.setSuccess();
+            }
+
+            var src = kc.endpoints.checkSessionIframe();
+            iframe.setAttribute('src', src );
+            iframe.setAttribute('title', 'keycloak-session-iframe' );
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+
+            var messageCallback = function(event) {
+                if ((event.origin !== loginIframe.iframeOrigin) || (loginIframe.iframe.contentWindow !== event.source)) {
+                    return;
+                }
+
+                if (!(event.data == 'unchanged' || event.data == 'changed' || event.data == 'error')) {
+                    return;
+                }
+
+
+                if (event.data != 'unchanged') {
+                    kc.clearToken();
+                }
+
+                var callbacks = loginIframe.callbackList.splice(0, loginIframe.callbackList.length);
+
+                for (var i = callbacks.length - 1; i >= 0; --i) {
+                    var promise = callbacks[i];
+                    if (event.data == 'error') {
+                        promise.setError();
+                    } else {
+                        promise.setSuccess(event.data == 'unchanged');
+                    }
+                }
+            };
+
+            window.addEventListener('message', messageCallback, false);
+
+            return promise.promise;
+        }
+
+        function scheduleCheckIframe() {
+            if (loginIframe.enable) {
+                if (kc.token) {
+                    setTimeout(function() {
+                        checkLoginIframe().then(function(unchanged) {
+                            if (unchanged) {
+                                scheduleCheckIframe();
+                            }
+                        });
+                    }, loginIframe.interval * 1000);
+                }
+            }
+        }
+
+        function checkLoginIframe() {
+            var promise = createPromise();
+
+            if (loginIframe.iframe && loginIframe.iframeOrigin ) {
+                var msg = kc.clientId + ' ' + (kc.sessionId ? kc.sessionId : '');
+                loginIframe.callbackList.push(promise);
+                var origin = loginIframe.iframeOrigin;
+                if (loginIframe.callbackList.length == 1) {
+                    loginIframe.iframe.contentWindow.postMessage(msg, origin);
+                }
+            } else {
+                promise.setSuccess();
+            }
+
+            return promise.promise;
+        }
+
+        function loadAdapter(type) {
+            if (!type || type == 'default') {
+                return {
+                    login: function(options) {
+                        window.location.replace(kc.createLoginUrl(options));
+                        return createPromise().promise;
+                    },
+
+                    logout: function(options) {
+                        window.location.replace(kc.createLogoutUrl(options));
+                        return createPromise().promise;
+                    },
+
+                    register: function(options) {
+                        window.location.replace(kc.createRegisterUrl(options));
+                        return createPromise().promise;
+                    },
+
+                    accountManagement : function() {
+                        var accountUrl = kc.createAccountUrl();
+                        if (typeof accountUrl !== 'undefined') {
+                            window.location.href = accountUrl;
+                        } else {
+                            throw "Not supported by the OIDC server";
+                        }
+                        return createPromise().promise;
+                    },
+
+                    redirectUri: function(options, encodeHash) {
+                        if (arguments.length == 1) {
+                            encodeHash = true;
+                        }
+
+                        if (options && options.redirectUri) {
+                            return options.redirectUri;
+                        } else if (kc.redirectUri) {
+                            return kc.redirectUri;
+                        } else {
+                            return location.href;
+                        }
+                    }
+                };
+            }
+
+            if (type == 'cordova') {
+                loginIframe.enable = false;
+                var cordovaOpenWindowWrapper = function(loginUrl, target, options) {
+                    if (window.cordova && window.cordova.InAppBrowser) {
+                        // Use inappbrowser for IOS and Android if available
+                        return window.cordova.InAppBrowser.open(loginUrl, target, options);
+                    } else {
+                        return window.open(loginUrl, target, options);
+                    }
+                };
+
+                var shallowCloneCordovaOptions = function (userOptions) {
+                    if (userOptions && userOptions.cordovaOptions) {
+                        return Object.keys(userOptions.cordovaOptions).reduce(function (options, optionName) {
+                            options[optionName] = userOptions.cordovaOptions[optionName];
+                            return options;
+                        }, {});
+                    } else {
+                        return {};
+                    }
+                };
+
+                var formatCordovaOptions = function (cordovaOptions) {
+                    return Object.keys(cordovaOptions).reduce(function (options, optionName) {
+                        options.push(optionName+"="+cordovaOptions[optionName]);
+                        return options;
+                    }, []).join(",");
+                };
+
+                var createCordovaOptions = function (userOptions) {
+                    var cordovaOptions = shallowCloneCordovaOptions(userOptions);
+                    cordovaOptions.location = 'no';
+                    if (userOptions && userOptions.prompt == 'none') {
+                        cordovaOptions.hidden = 'yes';
+                    }
+                    return formatCordovaOptions(cordovaOptions);
+                };
+
+                return {
+                    login: function(options) {
+                        var promise = createPromise();
+
+                        var cordovaOptions = createCordovaOptions(options);
+                        var loginUrl = kc.createLoginUrl(options);
+                        var ref = cordovaOpenWindowWrapper(loginUrl, '_blank', cordovaOptions);
+                        var completed = false;
+
+                        var closed = false;
+                        var closeBrowser = function() {
+                            closed = true;
+                            ref.close();
+                        };
+
+                        ref.addEventListener('loadstart', function(event) {
+                            if (event.url.indexOf('http://localhost') == 0) {
+                                var callback = parseCallback(event.url);
+                                processCallback(callback, promise);
+                                closeBrowser();
+                                completed = true;
+                            }
+                        });
+
+                        ref.addEventListener('loaderror', function(event) {
+                            if (!completed) {
+                                if (event.url.indexOf('http://localhost') == 0) {
+                                    var callback = parseCallback(event.url);
+                                    processCallback(callback, promise);
+                                    closeBrowser();
+                                    completed = true;
+                                } else {
+                                    promise.setError();
+                                    closeBrowser();
+                                }
+                            }
+                        });
+
+                        ref.addEventListener('exit', function(event) {
+                            if (!closed) {
+                                promise.setError({
+                                    reason: "closed_by_user"
+                                });
+                            }
+                        });
+
+                        return promise.promise;
+                    },
+
+                    logout: function(options) {
+                        var promise = createPromise();
+
+                        var logoutUrl = kc.createLogoutUrl(options);
+                        var ref = cordovaOpenWindowWrapper(logoutUrl, '_blank', 'location=no,hidden=yes');
+
+                        var error;
+
+                        ref.addEventListener('loadstart', function(event) {
+                            if (event.url.indexOf('http://localhost') == 0) {
+                                ref.close();
+                            }
+                        });
+
+                        ref.addEventListener('loaderror', function(event) {
+                            if (event.url.indexOf('http://localhost') == 0) {
+                                ref.close();
+                            } else {
+                                error = true;
+                                ref.close();
+                            }
+                        });
+
+                        ref.addEventListener('exit', function(event) {
+                            if (error) {
+                                promise.setError();
+                            } else {
+                                kc.clearToken();
+                                promise.setSuccess();
+                            }
+                        });
+
+                        return promise.promise;
+                    },
+
+                    register : function(options) {
+                        var promise = createPromise();
+                        var registerUrl = kc.createRegisterUrl();
+                        var cordovaOptions = createCordovaOptions(options);
+                        var ref = cordovaOpenWindowWrapper(registerUrl, '_blank', cordovaOptions);
+                        ref.addEventListener('loadstart', function(event) {
+                            if (event.url.indexOf('http://localhost') == 0) {
+                                ref.close();
+                                var oauth = parseCallback(event.url);
+                                processCallback(oauth, promise);
+                            }
+                        });
+                        return promise.promise;
+                    },
+
+                    accountManagement : function() {
+                        var accountUrl = kc.createAccountUrl();
+                        if (typeof accountUrl !== 'undefined') {
+                            var ref = cordovaOpenWindowWrapper(accountUrl, '_blank', 'location=no');
+                            ref.addEventListener('loadstart', function(event) {
+                                if (event.url.indexOf('http://localhost') == 0) {
+                                    ref.close();
+                                }
+                            });
+                        } else {
+                            throw "Not supported by the OIDC server";
+                        }
+                    },
+
+                    redirectUri: function(options) {
+                        return 'http://localhost';
+                    }
+                }
+            }
+
+            if (type == 'cordova-native') {
+                loginIframe.enable = false;
+
+                return {
+                    login: function(options) {
+                        var promise = createPromise();
+                        var loginUrl = kc.createLoginUrl(options);
+
+                        universalLinks.subscribe('keycloak', function(event) {
+                            universalLinks.unsubscribe('keycloak');
+                            window.cordova.plugins.browsertab.close();
+                            var oauth = parseCallback(event.url);
+                            processCallback(oauth, promise);
+                        });
+
+                        window.cordova.plugins.browsertab.openUrl(loginUrl);
+                        return promise.promise;
+                    },
+
+                    logout: function(options) {
+                        var promise = createPromise();
+                        var logoutUrl = kc.createLogoutUrl(options);
+
+                        universalLinks.subscribe('keycloak', function(event) {
+                            universalLinks.unsubscribe('keycloak');
+                            window.cordova.plugins.browsertab.close();
+                            kc.clearToken();
+                            promise.setSuccess();
+                        });
+
+                        window.cordova.plugins.browsertab.openUrl(logoutUrl);
+                        return promise.promise;
+                    },
+
+                    register : function(options) {
+                        var promise = createPromise();
+                        var registerUrl = kc.createRegisterUrl(options);
+                        universalLinks.subscribe('keycloak' , function(event) {
+                            universalLinks.unsubscribe('keycloak');
+                            window.cordova.plugins.browsertab.close();
+                            var oauth = parseCallback(event.url);
+                            processCallback(oauth, promise);
+                        });
+                        window.cordova.plugins.browsertab.openUrl(registerUrl);
+                        return promise.promise;
+
+                    },
+
+                    accountManagement : function() {
+                        var accountUrl = kc.createAccountUrl();
+                        if (typeof accountUrl !== 'undefined') {
+                            window.cordova.plugins.browsertab.openUrl(accountUrl);
+                        } else {
+                            throw "Not supported by the OIDC server";
+                        }
+                    },
+
+                    redirectUri: function(options) {
+                        if (options && options.redirectUri) {
+                            return options.redirectUri;
+                        } else if (kc.redirectUri) {
+                            return kc.redirectUri;
+                        } else {
+                            return "http://localhost";
+                        }
+                    }
+                }
+            }
+
+            throw 'invalid adapter type: ' + type;
+        }
+
+        var LocalStorage = function() {
+            if (!(this instanceof LocalStorage)) {
+                return new LocalStorage();
+            }
+
+            localStorage.setItem('kc-test', 'test');
+            localStorage.removeItem('kc-test');
+
+            var cs = this;
+
+            function clearExpired() {
+                var time = new Date().getTime();
+                for (var i = 0; i < localStorage.length; i++)  {
+                    var key = localStorage.key(i);
+                    if (key && key.indexOf('kc-callback-') == 0) {
+                        var value = localStorage.getItem(key);
+                        if (value) {
+                            try {
+                                var expires = JSON.parse(value).expires;
+                                if (!expires || expires < time) {
+                                    localStorage.removeItem(key);
+                                }
+                            } catch (err) {
+                                localStorage.removeItem(key);
+                            }
+                        }
+                    }
+                }
+            }
+
+            cs.get = function(state) {
+                if (!state) {
+                    return;
+                }
+
+                var key = 'kc-callback-' + state;
+                var value = localStorage.getItem(key);
+                if (value) {
+                    localStorage.removeItem(key);
+                    value = JSON.parse(value);
+                }
+
+                clearExpired();
+                return value;
+            };
+
+            cs.add = function(state) {
+                clearExpired();
+
+                var key = 'kc-callback-' + state.state;
+                state.expires = new Date().getTime() + (60 * 60 * 1000);
+                localStorage.setItem(key, JSON.stringify(state));
+            };
+        };
+
+        var CookieStorage = function() {
+            if (!(this instanceof CookieStorage)) {
+                return new CookieStorage();
+            }
+
+            var cs = this;
+
+            cs.get = function(state) {
+                if (!state) {
+                    return;
+                }
+
+                var value = getCookie('kc-callback-' + state);
+                setCookie('kc-callback-' + state, '', cookieExpiration(-100));
+                if (value) {
+                    return JSON.parse(value);
+                }
+            };
+
+            cs.add = function(state) {
+                setCookie('kc-callback-' + state.state, JSON.stringify(state), cookieExpiration(60));
+            };
+
+            cs.removeItem = function(key) {
+                setCookie(key, '', cookieExpiration(-100));
+            };
+
+            var cookieExpiration = function (minutes) {
+                var exp = new Date();
+                exp.setTime(exp.getTime() + (minutes*60*1000));
+                return exp;
+            };
+
+            var getCookie = function (key) {
+                var name = key + '=';
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return '';
+            };
+
+            var setCookie = function (key, value, expirationDate) {
+                var cookie = key + '=' + value + '; '
+                    + 'expires=' + expirationDate.toUTCString() + '; ';
+                document.cookie = cookie;
+            }
+        };
+
+        function createCallbackStorage() {
+            try {
+                return new LocalStorage();
+            } catch (err) {
+            }
+
+            return new CookieStorage();
+        }
+
+        function createLogger(fn) {
+            return function() {
+                if (kc.enableLogging) {
+                    fn.apply(console, Array.prototype.slice.call(arguments));
+                }
+            };
+        }
+    }
+
+    return Keycloak;
+})
+
+
+/***/ }),
+
 /***/ "68dd":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13227,6 +15051,533 @@ module.exports = {
   getterFor: getterFor
 };
 
+
+/***/ }),
+
+/***/ "6c27":
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
+ * [js-sha256]{@link https://github.com/emn178/js-sha256}
+ *
+ * @version 0.9.0
+ * @author Chen, Yi-Cyuan [emn178@gmail.com]
+ * @copyright Chen, Yi-Cyuan 2014-2017
+ * @license MIT
+ */
+/*jslint bitwise: true */
+(function () {
+  'use strict';
+
+  var ERROR = 'input is invalid type';
+  var WINDOW = typeof window === 'object';
+  var root = WINDOW ? window : {};
+  if (root.JS_SHA256_NO_WINDOW) {
+    WINDOW = false;
+  }
+  var WEB_WORKER = !WINDOW && typeof self === 'object';
+  var NODE_JS = !root.JS_SHA256_NO_NODE_JS && typeof process === 'object' && process.versions && process.versions.node;
+  if (NODE_JS) {
+    root = global;
+  } else if (WEB_WORKER) {
+    root = self;
+  }
+  var COMMON_JS = !root.JS_SHA256_NO_COMMON_JS && typeof module === 'object' && module.exports;
+  var AMD =  true && __webpack_require__("3c35");
+  var ARRAY_BUFFER = !root.JS_SHA256_NO_ARRAY_BUFFER && typeof ArrayBuffer !== 'undefined';
+  var HEX_CHARS = '0123456789abcdef'.split('');
+  var EXTRA = [-2147483648, 8388608, 32768, 128];
+  var SHIFT = [24, 16, 8, 0];
+  var K = [
+    0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+    0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+    0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+    0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+    0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+    0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+    0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+    0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
+  ];
+  var OUTPUT_TYPES = ['hex', 'array', 'digest', 'arrayBuffer'];
+
+  var blocks = [];
+
+  if (root.JS_SHA256_NO_NODE_JS || !Array.isArray) {
+    Array.isArray = function (obj) {
+      return Object.prototype.toString.call(obj) === '[object Array]';
+    };
+  }
+
+  if (ARRAY_BUFFER && (root.JS_SHA256_NO_ARRAY_BUFFER_IS_VIEW || !ArrayBuffer.isView)) {
+    ArrayBuffer.isView = function (obj) {
+      return typeof obj === 'object' && obj.buffer && obj.buffer.constructor === ArrayBuffer;
+    };
+  }
+
+  var createOutputMethod = function (outputType, is224) {
+    return function (message) {
+      return new Sha256(is224, true).update(message)[outputType]();
+    };
+  };
+
+  var createMethod = function (is224) {
+    var method = createOutputMethod('hex', is224);
+    if (NODE_JS) {
+      method = nodeWrap(method, is224);
+    }
+    method.create = function () {
+      return new Sha256(is224);
+    };
+    method.update = function (message) {
+      return method.create().update(message);
+    };
+    for (var i = 0; i < OUTPUT_TYPES.length; ++i) {
+      var type = OUTPUT_TYPES[i];
+      method[type] = createOutputMethod(type, is224);
+    }
+    return method;
+  };
+
+  var nodeWrap = function (method, is224) {
+    var crypto = eval("require('crypto')");
+    var Buffer = eval("require('buffer').Buffer");
+    var algorithm = is224 ? 'sha224' : 'sha256';
+    var nodeMethod = function (message) {
+      if (typeof message === 'string') {
+        return crypto.createHash(algorithm).update(message, 'utf8').digest('hex');
+      } else {
+        if (message === null || message === undefined) {
+          throw new Error(ERROR);
+        } else if (message.constructor === ArrayBuffer) {
+          message = new Uint8Array(message);
+        }
+      }
+      if (Array.isArray(message) || ArrayBuffer.isView(message) ||
+        message.constructor === Buffer) {
+        return crypto.createHash(algorithm).update(new Buffer(message)).digest('hex');
+      } else {
+        return method(message);
+      }
+    };
+    return nodeMethod;
+  };
+
+  var createHmacOutputMethod = function (outputType, is224) {
+    return function (key, message) {
+      return new HmacSha256(key, is224, true).update(message)[outputType]();
+    };
+  };
+
+  var createHmacMethod = function (is224) {
+    var method = createHmacOutputMethod('hex', is224);
+    method.create = function (key) {
+      return new HmacSha256(key, is224);
+    };
+    method.update = function (key, message) {
+      return method.create(key).update(message);
+    };
+    for (var i = 0; i < OUTPUT_TYPES.length; ++i) {
+      var type = OUTPUT_TYPES[i];
+      method[type] = createHmacOutputMethod(type, is224);
+    }
+    return method;
+  };
+
+  function Sha256(is224, sharedMemory) {
+    if (sharedMemory) {
+      blocks[0] = blocks[16] = blocks[1] = blocks[2] = blocks[3] =
+        blocks[4] = blocks[5] = blocks[6] = blocks[7] =
+        blocks[8] = blocks[9] = blocks[10] = blocks[11] =
+        blocks[12] = blocks[13] = blocks[14] = blocks[15] = 0;
+      this.blocks = blocks;
+    } else {
+      this.blocks = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    }
+
+    if (is224) {
+      this.h0 = 0xc1059ed8;
+      this.h1 = 0x367cd507;
+      this.h2 = 0x3070dd17;
+      this.h3 = 0xf70e5939;
+      this.h4 = 0xffc00b31;
+      this.h5 = 0x68581511;
+      this.h6 = 0x64f98fa7;
+      this.h7 = 0xbefa4fa4;
+    } else { // 256
+      this.h0 = 0x6a09e667;
+      this.h1 = 0xbb67ae85;
+      this.h2 = 0x3c6ef372;
+      this.h3 = 0xa54ff53a;
+      this.h4 = 0x510e527f;
+      this.h5 = 0x9b05688c;
+      this.h6 = 0x1f83d9ab;
+      this.h7 = 0x5be0cd19;
+    }
+
+    this.block = this.start = this.bytes = this.hBytes = 0;
+    this.finalized = this.hashed = false;
+    this.first = true;
+    this.is224 = is224;
+  }
+
+  Sha256.prototype.update = function (message) {
+    if (this.finalized) {
+      return;
+    }
+    var notString, type = typeof message;
+    if (type !== 'string') {
+      if (type === 'object') {
+        if (message === null) {
+          throw new Error(ERROR);
+        } else if (ARRAY_BUFFER && message.constructor === ArrayBuffer) {
+          message = new Uint8Array(message);
+        } else if (!Array.isArray(message)) {
+          if (!ARRAY_BUFFER || !ArrayBuffer.isView(message)) {
+            throw new Error(ERROR);
+          }
+        }
+      } else {
+        throw new Error(ERROR);
+      }
+      notString = true;
+    }
+    var code, index = 0, i, length = message.length, blocks = this.blocks;
+
+    while (index < length) {
+      if (this.hashed) {
+        this.hashed = false;
+        blocks[0] = this.block;
+        blocks[16] = blocks[1] = blocks[2] = blocks[3] =
+          blocks[4] = blocks[5] = blocks[6] = blocks[7] =
+          blocks[8] = blocks[9] = blocks[10] = blocks[11] =
+          blocks[12] = blocks[13] = blocks[14] = blocks[15] = 0;
+      }
+
+      if (notString) {
+        for (i = this.start; index < length && i < 64; ++index) {
+          blocks[i >> 2] |= message[index] << SHIFT[i++ & 3];
+        }
+      } else {
+        for (i = this.start; index < length && i < 64; ++index) {
+          code = message.charCodeAt(index);
+          if (code < 0x80) {
+            blocks[i >> 2] |= code << SHIFT[i++ & 3];
+          } else if (code < 0x800) {
+            blocks[i >> 2] |= (0xc0 | (code >> 6)) << SHIFT[i++ & 3];
+            blocks[i >> 2] |= (0x80 | (code & 0x3f)) << SHIFT[i++ & 3];
+          } else if (code < 0xd800 || code >= 0xe000) {
+            blocks[i >> 2] |= (0xe0 | (code >> 12)) << SHIFT[i++ & 3];
+            blocks[i >> 2] |= (0x80 | ((code >> 6) & 0x3f)) << SHIFT[i++ & 3];
+            blocks[i >> 2] |= (0x80 | (code & 0x3f)) << SHIFT[i++ & 3];
+          } else {
+            code = 0x10000 + (((code & 0x3ff) << 10) | (message.charCodeAt(++index) & 0x3ff));
+            blocks[i >> 2] |= (0xf0 | (code >> 18)) << SHIFT[i++ & 3];
+            blocks[i >> 2] |= (0x80 | ((code >> 12) & 0x3f)) << SHIFT[i++ & 3];
+            blocks[i >> 2] |= (0x80 | ((code >> 6) & 0x3f)) << SHIFT[i++ & 3];
+            blocks[i >> 2] |= (0x80 | (code & 0x3f)) << SHIFT[i++ & 3];
+          }
+        }
+      }
+
+      this.lastByteIndex = i;
+      this.bytes += i - this.start;
+      if (i >= 64) {
+        this.block = blocks[16];
+        this.start = i - 64;
+        this.hash();
+        this.hashed = true;
+      } else {
+        this.start = i;
+      }
+    }
+    if (this.bytes > 4294967295) {
+      this.hBytes += this.bytes / 4294967296 << 0;
+      this.bytes = this.bytes % 4294967296;
+    }
+    return this;
+  };
+
+  Sha256.prototype.finalize = function () {
+    if (this.finalized) {
+      return;
+    }
+    this.finalized = true;
+    var blocks = this.blocks, i = this.lastByteIndex;
+    blocks[16] = this.block;
+    blocks[i >> 2] |= EXTRA[i & 3];
+    this.block = blocks[16];
+    if (i >= 56) {
+      if (!this.hashed) {
+        this.hash();
+      }
+      blocks[0] = this.block;
+      blocks[16] = blocks[1] = blocks[2] = blocks[3] =
+        blocks[4] = blocks[5] = blocks[6] = blocks[7] =
+        blocks[8] = blocks[9] = blocks[10] = blocks[11] =
+        blocks[12] = blocks[13] = blocks[14] = blocks[15] = 0;
+    }
+    blocks[14] = this.hBytes << 3 | this.bytes >>> 29;
+    blocks[15] = this.bytes << 3;
+    this.hash();
+  };
+
+  Sha256.prototype.hash = function () {
+    var a = this.h0, b = this.h1, c = this.h2, d = this.h3, e = this.h4, f = this.h5, g = this.h6,
+      h = this.h7, blocks = this.blocks, j, s0, s1, maj, t1, t2, ch, ab, da, cd, bc;
+
+    for (j = 16; j < 64; ++j) {
+      // rightrotate
+      t1 = blocks[j - 15];
+      s0 = ((t1 >>> 7) | (t1 << 25)) ^ ((t1 >>> 18) | (t1 << 14)) ^ (t1 >>> 3);
+      t1 = blocks[j - 2];
+      s1 = ((t1 >>> 17) | (t1 << 15)) ^ ((t1 >>> 19) | (t1 << 13)) ^ (t1 >>> 10);
+      blocks[j] = blocks[j - 16] + s0 + blocks[j - 7] + s1 << 0;
+    }
+
+    bc = b & c;
+    for (j = 0; j < 64; j += 4) {
+      if (this.first) {
+        if (this.is224) {
+          ab = 300032;
+          t1 = blocks[0] - 1413257819;
+          h = t1 - 150054599 << 0;
+          d = t1 + 24177077 << 0;
+        } else {
+          ab = 704751109;
+          t1 = blocks[0] - 210244248;
+          h = t1 - 1521486534 << 0;
+          d = t1 + 143694565 << 0;
+        }
+        this.first = false;
+      } else {
+        s0 = ((a >>> 2) | (a << 30)) ^ ((a >>> 13) | (a << 19)) ^ ((a >>> 22) | (a << 10));
+        s1 = ((e >>> 6) | (e << 26)) ^ ((e >>> 11) | (e << 21)) ^ ((e >>> 25) | (e << 7));
+        ab = a & b;
+        maj = ab ^ (a & c) ^ bc;
+        ch = (e & f) ^ (~e & g);
+        t1 = h + s1 + ch + K[j] + blocks[j];
+        t2 = s0 + maj;
+        h = d + t1 << 0;
+        d = t1 + t2 << 0;
+      }
+      s0 = ((d >>> 2) | (d << 30)) ^ ((d >>> 13) | (d << 19)) ^ ((d >>> 22) | (d << 10));
+      s1 = ((h >>> 6) | (h << 26)) ^ ((h >>> 11) | (h << 21)) ^ ((h >>> 25) | (h << 7));
+      da = d & a;
+      maj = da ^ (d & b) ^ ab;
+      ch = (h & e) ^ (~h & f);
+      t1 = g + s1 + ch + K[j + 1] + blocks[j + 1];
+      t2 = s0 + maj;
+      g = c + t1 << 0;
+      c = t1 + t2 << 0;
+      s0 = ((c >>> 2) | (c << 30)) ^ ((c >>> 13) | (c << 19)) ^ ((c >>> 22) | (c << 10));
+      s1 = ((g >>> 6) | (g << 26)) ^ ((g >>> 11) | (g << 21)) ^ ((g >>> 25) | (g << 7));
+      cd = c & d;
+      maj = cd ^ (c & a) ^ da;
+      ch = (g & h) ^ (~g & e);
+      t1 = f + s1 + ch + K[j + 2] + blocks[j + 2];
+      t2 = s0 + maj;
+      f = b + t1 << 0;
+      b = t1 + t2 << 0;
+      s0 = ((b >>> 2) | (b << 30)) ^ ((b >>> 13) | (b << 19)) ^ ((b >>> 22) | (b << 10));
+      s1 = ((f >>> 6) | (f << 26)) ^ ((f >>> 11) | (f << 21)) ^ ((f >>> 25) | (f << 7));
+      bc = b & c;
+      maj = bc ^ (b & d) ^ cd;
+      ch = (f & g) ^ (~f & h);
+      t1 = e + s1 + ch + K[j + 3] + blocks[j + 3];
+      t2 = s0 + maj;
+      e = a + t1 << 0;
+      a = t1 + t2 << 0;
+    }
+
+    this.h0 = this.h0 + a << 0;
+    this.h1 = this.h1 + b << 0;
+    this.h2 = this.h2 + c << 0;
+    this.h3 = this.h3 + d << 0;
+    this.h4 = this.h4 + e << 0;
+    this.h5 = this.h5 + f << 0;
+    this.h6 = this.h6 + g << 0;
+    this.h7 = this.h7 + h << 0;
+  };
+
+  Sha256.prototype.hex = function () {
+    this.finalize();
+
+    var h0 = this.h0, h1 = this.h1, h2 = this.h2, h3 = this.h3, h4 = this.h4, h5 = this.h5,
+      h6 = this.h6, h7 = this.h7;
+
+    var hex = HEX_CHARS[(h0 >> 28) & 0x0F] + HEX_CHARS[(h0 >> 24) & 0x0F] +
+      HEX_CHARS[(h0 >> 20) & 0x0F] + HEX_CHARS[(h0 >> 16) & 0x0F] +
+      HEX_CHARS[(h0 >> 12) & 0x0F] + HEX_CHARS[(h0 >> 8) & 0x0F] +
+      HEX_CHARS[(h0 >> 4) & 0x0F] + HEX_CHARS[h0 & 0x0F] +
+      HEX_CHARS[(h1 >> 28) & 0x0F] + HEX_CHARS[(h1 >> 24) & 0x0F] +
+      HEX_CHARS[(h1 >> 20) & 0x0F] + HEX_CHARS[(h1 >> 16) & 0x0F] +
+      HEX_CHARS[(h1 >> 12) & 0x0F] + HEX_CHARS[(h1 >> 8) & 0x0F] +
+      HEX_CHARS[(h1 >> 4) & 0x0F] + HEX_CHARS[h1 & 0x0F] +
+      HEX_CHARS[(h2 >> 28) & 0x0F] + HEX_CHARS[(h2 >> 24) & 0x0F] +
+      HEX_CHARS[(h2 >> 20) & 0x0F] + HEX_CHARS[(h2 >> 16) & 0x0F] +
+      HEX_CHARS[(h2 >> 12) & 0x0F] + HEX_CHARS[(h2 >> 8) & 0x0F] +
+      HEX_CHARS[(h2 >> 4) & 0x0F] + HEX_CHARS[h2 & 0x0F] +
+      HEX_CHARS[(h3 >> 28) & 0x0F] + HEX_CHARS[(h3 >> 24) & 0x0F] +
+      HEX_CHARS[(h3 >> 20) & 0x0F] + HEX_CHARS[(h3 >> 16) & 0x0F] +
+      HEX_CHARS[(h3 >> 12) & 0x0F] + HEX_CHARS[(h3 >> 8) & 0x0F] +
+      HEX_CHARS[(h3 >> 4) & 0x0F] + HEX_CHARS[h3 & 0x0F] +
+      HEX_CHARS[(h4 >> 28) & 0x0F] + HEX_CHARS[(h4 >> 24) & 0x0F] +
+      HEX_CHARS[(h4 >> 20) & 0x0F] + HEX_CHARS[(h4 >> 16) & 0x0F] +
+      HEX_CHARS[(h4 >> 12) & 0x0F] + HEX_CHARS[(h4 >> 8) & 0x0F] +
+      HEX_CHARS[(h4 >> 4) & 0x0F] + HEX_CHARS[h4 & 0x0F] +
+      HEX_CHARS[(h5 >> 28) & 0x0F] + HEX_CHARS[(h5 >> 24) & 0x0F] +
+      HEX_CHARS[(h5 >> 20) & 0x0F] + HEX_CHARS[(h5 >> 16) & 0x0F] +
+      HEX_CHARS[(h5 >> 12) & 0x0F] + HEX_CHARS[(h5 >> 8) & 0x0F] +
+      HEX_CHARS[(h5 >> 4) & 0x0F] + HEX_CHARS[h5 & 0x0F] +
+      HEX_CHARS[(h6 >> 28) & 0x0F] + HEX_CHARS[(h6 >> 24) & 0x0F] +
+      HEX_CHARS[(h6 >> 20) & 0x0F] + HEX_CHARS[(h6 >> 16) & 0x0F] +
+      HEX_CHARS[(h6 >> 12) & 0x0F] + HEX_CHARS[(h6 >> 8) & 0x0F] +
+      HEX_CHARS[(h6 >> 4) & 0x0F] + HEX_CHARS[h6 & 0x0F];
+    if (!this.is224) {
+      hex += HEX_CHARS[(h7 >> 28) & 0x0F] + HEX_CHARS[(h7 >> 24) & 0x0F] +
+        HEX_CHARS[(h7 >> 20) & 0x0F] + HEX_CHARS[(h7 >> 16) & 0x0F] +
+        HEX_CHARS[(h7 >> 12) & 0x0F] + HEX_CHARS[(h7 >> 8) & 0x0F] +
+        HEX_CHARS[(h7 >> 4) & 0x0F] + HEX_CHARS[h7 & 0x0F];
+    }
+    return hex;
+  };
+
+  Sha256.prototype.toString = Sha256.prototype.hex;
+
+  Sha256.prototype.digest = function () {
+    this.finalize();
+
+    var h0 = this.h0, h1 = this.h1, h2 = this.h2, h3 = this.h3, h4 = this.h4, h5 = this.h5,
+      h6 = this.h6, h7 = this.h7;
+
+    var arr = [
+      (h0 >> 24) & 0xFF, (h0 >> 16) & 0xFF, (h0 >> 8) & 0xFF, h0 & 0xFF,
+      (h1 >> 24) & 0xFF, (h1 >> 16) & 0xFF, (h1 >> 8) & 0xFF, h1 & 0xFF,
+      (h2 >> 24) & 0xFF, (h2 >> 16) & 0xFF, (h2 >> 8) & 0xFF, h2 & 0xFF,
+      (h3 >> 24) & 0xFF, (h3 >> 16) & 0xFF, (h3 >> 8) & 0xFF, h3 & 0xFF,
+      (h4 >> 24) & 0xFF, (h4 >> 16) & 0xFF, (h4 >> 8) & 0xFF, h4 & 0xFF,
+      (h5 >> 24) & 0xFF, (h5 >> 16) & 0xFF, (h5 >> 8) & 0xFF, h5 & 0xFF,
+      (h6 >> 24) & 0xFF, (h6 >> 16) & 0xFF, (h6 >> 8) & 0xFF, h6 & 0xFF
+    ];
+    if (!this.is224) {
+      arr.push((h7 >> 24) & 0xFF, (h7 >> 16) & 0xFF, (h7 >> 8) & 0xFF, h7 & 0xFF);
+    }
+    return arr;
+  };
+
+  Sha256.prototype.array = Sha256.prototype.digest;
+
+  Sha256.prototype.arrayBuffer = function () {
+    this.finalize();
+
+    var buffer = new ArrayBuffer(this.is224 ? 28 : 32);
+    var dataView = new DataView(buffer);
+    dataView.setUint32(0, this.h0);
+    dataView.setUint32(4, this.h1);
+    dataView.setUint32(8, this.h2);
+    dataView.setUint32(12, this.h3);
+    dataView.setUint32(16, this.h4);
+    dataView.setUint32(20, this.h5);
+    dataView.setUint32(24, this.h6);
+    if (!this.is224) {
+      dataView.setUint32(28, this.h7);
+    }
+    return buffer;
+  };
+
+  function HmacSha256(key, is224, sharedMemory) {
+    var i, type = typeof key;
+    if (type === 'string') {
+      var bytes = [], length = key.length, index = 0, code;
+      for (i = 0; i < length; ++i) {
+        code = key.charCodeAt(i);
+        if (code < 0x80) {
+          bytes[index++] = code;
+        } else if (code < 0x800) {
+          bytes[index++] = (0xc0 | (code >> 6));
+          bytes[index++] = (0x80 | (code & 0x3f));
+        } else if (code < 0xd800 || code >= 0xe000) {
+          bytes[index++] = (0xe0 | (code >> 12));
+          bytes[index++] = (0x80 | ((code >> 6) & 0x3f));
+          bytes[index++] = (0x80 | (code & 0x3f));
+        } else {
+          code = 0x10000 + (((code & 0x3ff) << 10) | (key.charCodeAt(++i) & 0x3ff));
+          bytes[index++] = (0xf0 | (code >> 18));
+          bytes[index++] = (0x80 | ((code >> 12) & 0x3f));
+          bytes[index++] = (0x80 | ((code >> 6) & 0x3f));
+          bytes[index++] = (0x80 | (code & 0x3f));
+        }
+      }
+      key = bytes;
+    } else {
+      if (type === 'object') {
+        if (key === null) {
+          throw new Error(ERROR);
+        } else if (ARRAY_BUFFER && key.constructor === ArrayBuffer) {
+          key = new Uint8Array(key);
+        } else if (!Array.isArray(key)) {
+          if (!ARRAY_BUFFER || !ArrayBuffer.isView(key)) {
+            throw new Error(ERROR);
+          }
+        }
+      } else {
+        throw new Error(ERROR);
+      }
+    }
+
+    if (key.length > 64) {
+      key = (new Sha256(is224, true)).update(key).array();
+    }
+
+    var oKeyPad = [], iKeyPad = [];
+    for (i = 0; i < 64; ++i) {
+      var b = key[i] || 0;
+      oKeyPad[i] = 0x5c ^ b;
+      iKeyPad[i] = 0x36 ^ b;
+    }
+
+    Sha256.call(this, is224, sharedMemory);
+
+    this.update(iKeyPad);
+    this.oKeyPad = oKeyPad;
+    this.inner = true;
+    this.sharedMemory = sharedMemory;
+  }
+  HmacSha256.prototype = new Sha256();
+
+  HmacSha256.prototype.finalize = function () {
+    Sha256.prototype.finalize.call(this);
+    if (this.inner) {
+      this.inner = false;
+      var innerHash = this.array();
+      Sha256.call(this, this.is224, this.sharedMemory);
+      this.update(this.oKeyPad);
+      this.update(innerHash);
+      Sha256.prototype.finalize.call(this);
+    }
+  };
+
+  var exports = createMethod();
+  exports.sha256 = exports;
+  exports.sha224 = createMethod(true);
+  exports.sha256.hmac = createHmacMethod();
+  exports.sha224.hmac = createHmacMethod(true);
+
+  if (COMMON_JS) {
+    module.exports = exports;
+  } else {
+    root.sha256 = exports.sha256;
+    root.sha224 = exports.sha224;
+    if (AMD) {
+      !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+        return exports;
+      }).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    }
+  }
+})();
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("4362"), __webpack_require__("c8ba")))
 
 /***/ }),
 
@@ -13974,7 +16325,7 @@ module.exports = {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return Mutation; });
 /* unused harmony export MutationAction */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return VuexModule; });
-/* unused harmony export getModule */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getModule; });
 var VuexModule = /** @class */ (function () {
     function VuexModule(module) {
         this.actions = module.actions;
@@ -23858,7 +26209,8 @@ if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
 
 
 
- // import Vue from 'vue'
+ // import store from '@fas/store'
+// using fasStore from window to avoid library build issue.
 
 var axios = axios__WEBPACK_IMPORTED_MODULE_2___default.a.create();
 axios.defaults.showGlobalLoader = false; // by default, false
@@ -23869,35 +26221,42 @@ axios.interceptors.request.use(function (config) {
 
   if (token) {
     config.headers.Authorization = "Bearer ".concat(token);
-  } // eslint-disable-next-line no-console
-  // console.log('store.getters[indicator/isThereActiveCalls]', store.getters['indicator/isThereActiveCalls'])
-  // eslint-disable-next-line no-console
-  // console.log('store.getters[indicator/isThereActiveCalls]', store)
-  // we would want showGlobalLoader only if the request has that configuration set to true
-  // if (config.showGlobalLoader) {
-  //   store.commit('indicator/incrementActiveCalls')
-  // }
+  }
 
+  var fasStore = window && window.fasStore;
+
+  if (config.showGlobalLoader) {
+    fasStore.commit('indicator/incrementActiveCalls');
+  }
 
   return config;
 }, function (error) {
   return Promise.reject(error);
 });
 axios.interceptors.response.use(function (response) {
-  // decrement active calls count by one
-  // if (response.config.showGlobalLoader && store.getters['indicator/isThereActiveCalls']) {
-  //   store.commit('indicator/decrementActiveCalls')
-  // }
+  var fasStore = window && window.fasStore; // decrement active calls count by one
+
+  if (response.config.showGlobalLoader && fasStore.getters['indicator/isThereActiveCalls']) {
+    fasStore.commit('indicator/decrementActiveCalls');
+  }
+
   return response;
 }, function (error) {
-  // decrement active calls count by one
-  // if (error.config.showGlobalLoader && store.getters['indicator/isThereActiveCalls']) {
-  //   store.commit('indicator/decrementActiveCalls')
-  // }
-  // // call has failed in this case. And if the config showGlobalErrorHandling is true, then update store
-  // if (error.config.showGlobalErrorHandling && error?.response?.status >= 500) {
-  //   store.commit('indicator/setHasCallFailed', { hasCallFailed: true })
-  // }
+  var _error$response;
+
+  var fasStore = window && window.fasStore; // decrement active calls count by one
+
+  if (error.config.showGlobalLoader && fasStore.getters['indicator/isThereActiveCalls']) {
+    fasStore.commit('indicator/decrementActiveCalls');
+  } // call has failed in this case. And if the config showGlobalErrorHandling is true, then update store
+
+
+  if (error.config.showGlobalErrorHandling && (error === null || error === void 0 ? void 0 : (_error$response = error.response) === null || _error$response === void 0 ? void 0 : _error$response.status) >= 500) {
+    fasStore.commit('indicator/setHasCallFailed', {
+      hasCallFailed: true
+    });
+  }
+
   return Promise.reject(error);
 }); // to work on both case export as default and normal
 
@@ -25128,8 +27487,8 @@ __webpack_require__.d(easing_patterns_namespaceObject, "easeInQuint", function()
 __webpack_require__.d(easing_patterns_namespaceObject, "easeOutQuint", function() { return easeOutQuint; });
 __webpack_require__.d(easing_patterns_namespaceObject, "easeInOutQuint", function() { return easeInOutQuint; });
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3c7955b9-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Dashboard/Search.vue?vue&type=template&id=5291a748&scoped=true&
-var Searchvue_type_template_id_5291a748_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('v-row',{staticClass:"d-flex flex-row justify-space-between align-center",attrs:{"no-gutters":""}},[_c('v-col',{attrs:{"cols":"4"}},[_c('v-btn',{directives:[{name:"can",rawName:"v-can:fas_create.hide",arg:"fas_create",modifiers:{"hide":true}}],staticClass:"font-weight-bold",attrs:{"large":"","dark":"","color":"primary"},on:{"click":_vm.addRoutingSlip}},[_c('v-icon',{staticClass:"mr-2 font-weight-bold",attrs:{"dark":"","small":""}},[_vm._v(" mdi-plus ")]),_vm._v(" Add New Routing Slip ")],1)],1),_c('v-col',{attrs:{"cols":"2"}})],1),_c('v-row',{staticClass:"mt-0"},[_c('v-col',[_c('div',{staticClass:"header-bg-color d-flex align-center py-5 mb-0 "},[_c('v-icon',{staticClass:"ml-5",attrs:{"color":"primary"}},[_vm._v(" mdi-view-list ")]),_c('h4',{staticClass:"ml-2 mb-0 font-weight-bold"},[_vm._v("Search Routing Slip")])],1),_c('v-form',[_c('v-row',{staticClass:"row-margin",attrs:{"dense":""}},[_c('v-col',{attrs:{"sm":"12","cols":"12"}},[_c('transition',{attrs:{"name":"slide-fade"}},[_c('v-data-table',{staticClass:"elevation-1",attrs:{"headers":_vm.headerSearch,"items":_vm.searchRoutingSlipResult,"item-key":"name","sort-by":"routingSlipNumber","hide-default-header":"","hide-default-footer":"","fixed-header":"","height":"40rem","loading":_vm.isLoading},scopedSlots:_vm._u([{key:"no-data",fn:function(){return [_c('div',{staticClass:"py-8 no-data",domProps:{"innerHTML":_vm._s(
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3c7955b9-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Dashboard/Search.vue?vue&type=template&id=048efac6&scoped=true&
+var Searchvue_type_template_id_048efac6_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('v-row',{staticClass:"d-flex flex-row justify-space-between align-center",attrs:{"no-gutters":""}},[_c('v-col',{attrs:{"cols":"4"}},[_c('v-btn',{directives:[{name:"can",rawName:"v-can:fas_create.hide",arg:"fas_create",modifiers:{"hide":true}}],staticClass:"font-weight-bold",attrs:{"large":"","dark":"","color":"primary"},on:{"click":_vm.addRoutingSlip}},[_c('v-icon',{staticClass:"mr-2 font-weight-bold",attrs:{"dark":"","small":""}},[_vm._v(" mdi-plus ")]),_vm._v(" Add New Routing Slip ")],1)],1),_c('v-col',{attrs:{"cols":"2"}})],1),_c('v-row',{staticClass:"mt-0"},[_c('v-col',[_c('div',{staticClass:"header-bg-color d-flex align-center py-5 mb-0 "},[_c('v-icon',{staticClass:"ml-5",attrs:{"color":"primary"}},[_vm._v(" mdi-view-list ")]),_c('h4',{staticClass:"ml-2 mb-0 font-weight-bold"},[_vm._v("Search Routing Slip")])],1),_c('v-form',[_c('v-row',{staticClass:"row-margin",attrs:{"dense":""}},[_c('v-col',{attrs:{"sm":"12","cols":"12"}},[_c('transition',{attrs:{"name":"slide-fade"}},[_c('v-data-table',{staticClass:"elevation-1",attrs:{"headers":_vm.headerSearch,"items":_vm.searchRoutingSlipResult,"item-key":"name","sort-by":"routingSlipNumber","hide-default-header":"","hide-default-footer":"","fixed-header":"","height":"40rem","loading":_vm.isLoading},scopedSlots:_vm._u([{key:"no-data",fn:function(){return [_c('div',{staticClass:"py-8 no-data",domProps:{"innerHTML":_vm._s(
                       _vm.$t(
                         !_vm.searchParamsExist
                           ? 'searchNoResult'
@@ -25144,7 +27503,7 @@ return [_c('transition',{attrs:{"name":"slide-fade"}},[(!_vm.isLoading)?_c('tr',
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/Dashboard/Search.vue?vue&type=template&id=5291a748&scoped=true&
+// CONCATENATED MODULE: ./src/components/Dashboard/Search.vue?vue&type=template&id=048efac6&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
 var classCallCheck = __webpack_require__("d4ec");
@@ -26616,6 +28975,951 @@ function useDailyReport() {
 
 
 
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/createClass.js
+var createClass = __webpack_require__("bee2");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
+var es_object_keys = __webpack_require__("b64b");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.sub.js
+var es_string_sub = __webpack_require__("4c53");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
+var es_function_name = __webpack_require__("b0c0");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.to-string.js
+var es_object_to_string = __webpack_require__("d3b7");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.promise.js
+var es_promise = __webpack_require__("e6cf");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
+var es_array_concat = __webpack_require__("99af");
+
+// EXTERNAL MODULE: ./node_modules/keycloak-js/dist/keycloak.js
+var keycloak = __webpack_require__("68ad");
+var keycloak_default = /*#__PURE__*/__webpack_require__.n(keycloak);
+
+// CONCATENATED MODULE: ./node_modules/sbc-common-components/src/util/constants.ts
+var SessionStorageKeys;
+
+(function (SessionStorageKeys) {
+  SessionStorageKeys["KeyCloakToken"] = "KEYCLOAK_TOKEN";
+  SessionStorageKeys["KeyCloakRefreshToken"] = "KEYCLOAK_REFRESH_TOKEN";
+  SessionStorageKeys["KeyCloakIdToken"] = "KEYCLOAK_ID_TOKEN";
+  SessionStorageKeys["ApiConfigKey"] = "AUTH_API_CONFIG";
+  SessionStorageKeys["PreventStorageSync"] = "PREVENT_STORAGE_SYNC";
+  SessionStorageKeys["LaunchDarklyFlags"] = "LD_FLAGS";
+  SessionStorageKeys["CurrentAccount"] = "CURRENT_ACCOUNT";
+  SessionStorageKeys["AuthApiUrl"] = "AUTH_API_URL";
+  SessionStorageKeys["AuthWebUrl"] = "AUTH_WEB_URL";
+  SessionStorageKeys["StatusApiUrl"] = "STATUS_API_URL";
+  SessionStorageKeys["SessionSynced"] = "SESSION_SYNCED";
+})(SessionStorageKeys || (SessionStorageKeys = {}));
+
+var Account;
+
+(function (Account) {
+  Account["ANONYMOUS"] = "ANONYMOUS";
+  Account["PREMIUM"] = "PREMIUM";
+  Account["BASIC"] = "BASIC";
+})(Account || (Account = {}));
+
+var IdpHint;
+
+(function (IdpHint) {
+  IdpHint["BCROS"] = "bcros";
+  IdpHint["IDIR"] = "idir";
+  IdpHint["BCSC"] = "bcsc";
+  IdpHint["BCEID"] = "bceid";
+})(IdpHint || (IdpHint = {}));
+
+var LoginSource;
+
+(function (LoginSource) {
+  LoginSource["BCROS"] = "BCROS";
+  LoginSource["IDIR"] = "IDIR";
+  LoginSource["BCSC"] = "BCSC";
+  LoginSource["BCEID"] = "BCEID";
+})(LoginSource || (LoginSource = {}));
+
+var Role;
+
+(function (Role) {
+  Role["AccountHolder"] = "account_holder";
+  Role["PublicUser"] = "public_user";
+  Role["Staff"] = "staff";
+  Role["GOVMAccountUser"] = "gov_account_user";
+})(Role || (Role = {}));
+
+var Pages;
+
+(function (Pages) {
+  Pages["HOME"] = "home";
+  Pages["USER_PROFILE"] = "userprofile";
+  Pages["ACCOUNT"] = "account";
+  Pages["SETTINGS"] = "settings";
+  Pages["SIGNIN"] = "signin";
+  Pages["USER_PROFILE_TERMS"] = "userprofileterms";
+  Pages["CREATE_ACCOUNT"] = "setup-account";
+  Pages["CHOOSE_AUTH_METHOD"] = "choose-authentication-method";
+  Pages["NON_BCSC_INSTRUCTIONS"] = "nonbcsc-info/instructions";
+  Pages["ACCOUNT_FREEZ"] = "account-freeze";
+  Pages["PENDING_APPROVAL"] = "pendingapproval";
+})(Pages || (Pages = {}));
+
+var ALLOWED_URIS_FOR_PENDING_ORGS = ['setup-non-bcsc-account'];
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.join.js
+var es_array_join = __webpack_require__("a15b");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
+var es_array_slice = __webpack_require__("fb6a");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.to-string.js
+var es_regexp_to_string = __webpack_require__("25f0");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.replace.js
+var es_string_replace = __webpack_require__("5319");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.trim.js
+var es_string_trim = __webpack_require__("498a");
+
+// CONCATENATED MODULE: ./node_modules/sbc-common-components/src/util/common-util.ts
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Place to put all the custom utility methods
+ */
+
+function getBoolean(value) {
+  var resultVal = value;
+
+  if (typeof value === 'string') {
+    resultVal = value.toLowerCase();
+  }
+
+  switch (resultVal) {
+    case true:
+    case 'true':
+    case 1:
+    case '1':
+    case 'on':
+    case 'yes':
+    case 'none':
+      return true;
+
+    default:
+      return false;
+  }
+}
+function decodeKCToken() {
+  try {
+    var token = config_helper_ConfigHelper.getFromSession(SessionStorageKeys.KeyCloakToken);
+
+    if (token) {
+      var base64Url = token.split('.')[1];
+      var base64 = decodeURIComponent(window.atob(base64Url).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(base64);
+    } else {
+      return {};
+    }
+  } catch (error) {
+    throw new Error('Error parsing JWT - ' + error);
+  }
+}
+function trimTrailingSlashURL(url) {
+  return url ? url.trim().replace(/\/+$/, '') : '';
+}
+// CONCATENATED MODULE: ./node_modules/sbc-common-components/src/util/config-helper.ts
+
+
+
+
+
+var config_helper_ConfigHelper = /*#__PURE__*/function () {
+  function ConfigHelper() {
+    Object(classCallCheck["a" /* default */])(this, ConfigHelper);
+  }
+
+  Object(createClass["a" /* default */])(ConfigHelper, null, [{
+    key: "addToSession",
+    value: function addToSession(key, value) {
+      sessionStorage.setItem(key, value);
+    }
+  }, {
+    key: "getFromSession",
+    value: function getFromSession(key) {
+      return sessionStorage.getItem(key);
+    }
+  }, {
+    key: "removeFromSession",
+    value: function removeFromSession(key) {
+      sessionStorage.removeItem(key);
+    }
+  }, {
+    key: "clearSession",
+    value: function clearSession() {
+      sessionStorage.clear();
+    }
+  }, {
+    key: "getStatusAPIUrl",
+    value: function getStatusAPIUrl() {
+      return trimTrailingSlashURL(sessionStorage.getItem(SessionStorageKeys.StatusApiUrl) || '');
+    }
+  }, {
+    key: "getAuthAPIUrl",
+    value: function getAuthAPIUrl() {
+      return trimTrailingSlashURL(sessionStorage.getItem(SessionStorageKeys.AuthApiUrl) || '');
+    }
+  }, {
+    key: "getAuthContextPath",
+    value: function getAuthContextPath() {
+      return trimTrailingSlashURL(sessionStorage.getItem(SessionStorageKeys.AuthWebUrl) || '');
+    }
+  }, {
+    key: "setKeycloakConfigUrl",
+    value: function setKeycloakConfigUrl(keycloakConfigUrl) {
+      this.keycloakConfigUrl = keycloakConfigUrl;
+    }
+  }, {
+    key: "getKeycloakConfigUrl",
+    value: function getKeycloakConfigUrl() {
+      return this.keycloakConfigUrl;
+    }
+  }]);
+
+  return ConfigHelper;
+}();
+
+
+config_helper_ConfigHelper.keycloakConfigUrl = '';
+// EXTERNAL MODULE: ./node_modules/vuex-module-decorators/dist/esm/index.js
+var esm = __webpack_require__("6fc5");
+
+// CONCATENATED MODULE: ./node_modules/sbc-common-components/src/store/modules/auth.ts
+
+
+
+
+
+
+
+
+
+
+var auth_AuthModule = /*#__PURE__*/function (_VuexModule) {
+  Object(inherits["a" /* default */])(AuthModule, _VuexModule);
+
+  var _super = Object(createSuper["a" /* default */])(AuthModule);
+
+  function AuthModule() {
+    var _this;
+
+    Object(classCallCheck["a" /* default */])(this, AuthModule);
+
+    _this = _super.apply(this, arguments);
+    _this.token = '';
+    _this.idToken = '';
+    _this.refreshToken = '';
+    _this.kcGuid = '';
+    _this.loginSource = '';
+    return _this;
+  }
+
+  Object(createClass["a" /* default */])(AuthModule, [{
+    key: "isAuthenticated",
+    get: function get() {
+      return !!this.token;
+    }
+  }, {
+    key: "keycloakGuid",
+    get: function get() {
+      return this.kcGuid || keycloak_services.getUserInfo().keycloakGuid;
+    }
+  }, {
+    key: "currentLoginSource",
+    get: function get() {
+      return this.loginSource || keycloak_services.getUserInfo().loginSource;
+    }
+  }, {
+    key: "setKCToken",
+    value: function setKCToken(token) {
+      this.token = token;
+      config_helper_ConfigHelper.addToSession(SessionStorageKeys.KeyCloakToken, token);
+    }
+  }, {
+    key: "setIDToken",
+    value: function setIDToken(idToken) {
+      this.idToken = idToken;
+      config_helper_ConfigHelper.addToSession(SessionStorageKeys.KeyCloakIdToken, idToken);
+    }
+  }, {
+    key: "setRefreshToken",
+    value: function setRefreshToken(refreshToken) {
+      this.refreshToken = refreshToken;
+      config_helper_ConfigHelper.addToSession(SessionStorageKeys.KeyCloakRefreshToken, refreshToken);
+    }
+  }, {
+    key: "setKCGuid",
+    value: function setKCGuid(kcGuid) {
+      this.kcGuid = kcGuid;
+    }
+  }, {
+    key: "setLoginSource",
+    value: function setLoginSource(loginSource) {
+      this.loginSource = loginSource;
+    }
+  }, {
+    key: "clearSession",
+    value: function clearSession() {
+      this.context.commit('setKCToken', '');
+      this.context.commit('setIDToken', '');
+      this.context.commit('setRefreshToken', '');
+      this.context.commit('setKCGuid', '');
+      this.context.commit('setLoginSource', '');
+    }
+  }, {
+    key: "syncWithSessionStorage",
+    value: function syncWithSessionStorage() {
+      this.context.commit('setKCToken', config_helper_ConfigHelper.getFromSession(SessionStorageKeys.KeyCloakToken) || '');
+      this.context.commit('setIDToken', config_helper_ConfigHelper.getFromSession(SessionStorageKeys.KeyCloakIdToken) || '');
+      this.context.commit('setRefreshToken', config_helper_ConfigHelper.getFromSession(SessionStorageKeys.KeyCloakRefreshToken) || '');
+    }
+  }]);
+
+  return AuthModule;
+}(esm["d" /* VuexModule */]);
+
+Object(tslib_es6["a" /* __decorate */])([esm["c" /* Mutation */]], auth_AuthModule.prototype, "setKCToken", null);
+
+Object(tslib_es6["a" /* __decorate */])([esm["c" /* Mutation */]], auth_AuthModule.prototype, "setIDToken", null);
+
+Object(tslib_es6["a" /* __decorate */])([esm["c" /* Mutation */]], auth_AuthModule.prototype, "setRefreshToken", null);
+
+Object(tslib_es6["a" /* __decorate */])([esm["c" /* Mutation */]], auth_AuthModule.prototype, "setKCGuid", null);
+
+Object(tslib_es6["a" /* __decorate */])([esm["c" /* Mutation */]], auth_AuthModule.prototype, "setLoginSource", null);
+
+Object(tslib_es6["a" /* __decorate */])([Object(esm["a" /* Action */])({
+  rawError: true
+})], auth_AuthModule.prototype, "clearSession", null);
+
+Object(tslib_es6["a" /* __decorate */])([Object(esm["a" /* Action */])({
+  rawError: true
+})], auth_AuthModule.prototype, "syncWithSessionStorage", null);
+
+auth_AuthModule = Object(tslib_es6["a" /* __decorate */])([Object(esm["b" /* Module */])({
+  name: 'auth',
+  namespaced: true
+})], auth_AuthModule);
+/* harmony default export */ var auth = (auth_AuthModule);
+// CONCATENATED MODULE: ./node_modules/sbc-common-components/src/services/keycloak.services.ts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var keycloak_services_KeyCloakService = /*#__PURE__*/function () {
+  function KeyCloakService() {
+    Object(classCallCheck["a" /* default */])(this, KeyCloakService);
+
+    this.store = null;
+    this.counter = 0;
+    this.REFRESH_ATTEMPT_INTERVAL = 10; // in seconds
+
+    this.timerId = 0;
+  }
+
+  Object(createClass["a" /* default */])(KeyCloakService, [{
+    key: "isInitialized",
+    get: function get() {
+      return !!this.kc;
+    } // Setting keycloak config url as a static configuration to access from other parts of the app if needed
+
+  }, {
+    key: "setKeycloakConfigUrl",
+    value: function () {
+      var _setKeycloakConfigUrl = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/regeneratorRuntime.mark(function _callee(keyCloakConfigurl) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                config_helper_ConfigHelper.setKeycloakConfigUrl(keyCloakConfigurl);
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      function setKeycloakConfigUrl(_x) {
+        return _setKeycloakConfigUrl.apply(this, arguments);
+      }
+
+      return setKeycloakConfigUrl;
+    }()
+  }, {
+    key: "getKCInstance",
+    value: function getKCInstance() {
+      return this.kc;
+    }
+  }, {
+    key: "initializeKeyCloak",
+    value: function () {
+      var _initializeKeyCloak = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(idpHint, store) {
+        var token, keycloakConfig, kcLogin, kcOptions;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                this.store = store;
+                this.clearSession();
+                token = config_helper_ConfigHelper.getFromSession(SessionStorageKeys.KeyCloakToken) || undefined;
+                keycloakConfig = config_helper_ConfigHelper.getKeycloakConfigUrl();
+                this.kc = keycloak_default()(keycloakConfig);
+                kcLogin = this.kc.login;
+
+                this.kc.login = function (options) {
+                  if (options) {
+                    options.idpHint = idpHint;
+                  }
+
+                  return kcLogin(options);
+                };
+
+                kcOptions = {
+                  onLoad: 'login-required',
+                  checkLoginIframe: false,
+                  timeSkew: 0,
+                  token: token,
+                  refreshToken: config_helper_ConfigHelper.getFromSession(SessionStorageKeys.KeyCloakRefreshToken) || undefined,
+                  idToken: config_helper_ConfigHelper.getFromSession(SessionStorageKeys.KeyCloakIdToken) || undefined,
+                  pkceMethod: 'S256'
+                };
+                return _context2.abrupt("return", this.kc.init(kcOptions));
+
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function initializeKeyCloak(_x2, _x3) {
+        return _initializeKeyCloak.apply(this, arguments);
+      }
+
+      return initializeKeyCloak;
+    }()
+  }, {
+    key: "initSession",
+    value: function () {
+      var _initSession = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        var _this$kc, _this$kc2, _this$kc3;
+
+        var authModule, userInfo;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (this.store) {
+                  _context3.next = 2;
+                  break;
+                }
+
+                return _context3.abrupt("return");
+
+              case 2:
+                authModule = Object(esm["e" /* getModule */])(auth, this.store);
+                authModule.setKCToken(((_this$kc = this.kc) === null || _this$kc === void 0 ? void 0 : _this$kc.token) || '');
+                authModule.setIDToken(((_this$kc2 = this.kc) === null || _this$kc2 === void 0 ? void 0 : _this$kc2.idToken) || '');
+                authModule.setRefreshToken(((_this$kc3 = this.kc) === null || _this$kc3 === void 0 ? void 0 : _this$kc3.refreshToken) || '');
+                userInfo = this.getUserInfo();
+                authModule.setKCGuid((userInfo === null || userInfo === void 0 ? void 0 : userInfo.keycloakGuid) || '');
+                authModule.setLoginSource((userInfo === null || userInfo === void 0 ? void 0 : userInfo.loginSource) || '');
+                _context3.next = 11;
+                return this.syncSessionAndScheduleTokenRefresh();
+
+              case 11:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function initSession() {
+        return _initSession.apply(this, arguments);
+      }
+
+      return initSession;
+    }()
+  }, {
+    key: "getUserInfo",
+    value: function getUserInfo() {
+      var _this$parsedToken, _this$parsedToken2, _this$parsedToken3, _this$parsedToken4, _this$parsedToken4$re, _this$parsedToken5, _this$parsedToken6, _this$parsedToken7, _this$parsedToken8;
+
+      if (!this.parsedToken || !Object.keys(this.parsedToken).length) {
+        this.parsedToken = decodeKCToken();
+      }
+
+      return {
+        lastName: (_this$parsedToken = this.parsedToken) === null || _this$parsedToken === void 0 ? void 0 : _this$parsedToken.lastname,
+        firstName: (_this$parsedToken2 = this.parsedToken) === null || _this$parsedToken2 === void 0 ? void 0 : _this$parsedToken2.firstname,
+        email: (_this$parsedToken3 = this.parsedToken) === null || _this$parsedToken3 === void 0 ? void 0 : _this$parsedToken3.email,
+        // eslint-disable-next-line camelcase
+        roles: (_this$parsedToken4 = this.parsedToken) === null || _this$parsedToken4 === void 0 ? void 0 : (_this$parsedToken4$re = _this$parsedToken4.realm_access) === null || _this$parsedToken4$re === void 0 ? void 0 : _this$parsedToken4$re.roles,
+        keycloakGuid: (_this$parsedToken5 = this.parsedToken) === null || _this$parsedToken5 === void 0 ? void 0 : _this$parsedToken5.sub,
+        userName: (_this$parsedToken6 = this.parsedToken) === null || _this$parsedToken6 === void 0 ? void 0 : _this$parsedToken6.username,
+        fullName: (_this$parsedToken7 = this.parsedToken) === null || _this$parsedToken7 === void 0 ? void 0 : _this$parsedToken7.name,
+        loginSource: (_this$parsedToken8 = this.parsedToken) === null || _this$parsedToken8 === void 0 ? void 0 : _this$parsedToken8.loginSource
+      };
+    }
+  }, {
+    key: "logout",
+    value: function () {
+      var _logout = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(redirectUrl) {
+        var _this = this;
+
+        var token, kcOptions;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                token = config_helper_ConfigHelper.getFromSession(SessionStorageKeys.KeyCloakToken) || undefined;
+
+                if (!token) {
+                  _context4.next = 7;
+                  break;
+                }
+
+                this.kc = keycloak_default()(config_helper_ConfigHelper.getKeycloakConfigUrl());
+                kcOptions = {
+                  onLoad: 'login-required',
+                  checkLoginIframe: false,
+                  timeSkew: 0,
+                  token: token,
+                  refreshToken: config_helper_ConfigHelper.getFromSession(SessionStorageKeys.KeyCloakRefreshToken) || undefined,
+                  idToken: config_helper_ConfigHelper.getFromSession(SessionStorageKeys.KeyCloakIdToken) || undefined,
+                  pkceMethod: 'S256'
+                }; // Here we clear session storage, and add a flag in to prevent the app from
+                // putting tokens back in from returning async calls  (see #2341)
+
+                config_helper_ConfigHelper.clearSession();
+                config_helper_ConfigHelper.addToSession(SessionStorageKeys.PreventStorageSync, true);
+                return _context4.abrupt("return", new Promise(function (resolve, reject) {
+                  _this.kc && _this.kc.init(kcOptions).then(function (authenticated) {
+                    if (!authenticated) {
+                      resolve();
+                    }
+
+                    redirectUrl = redirectUrl || "".concat(window.location.origin).concat("/");
+                    _this.kc && _this.kc.logout({
+                      redirectUri: redirectUrl
+                    }).then(function () {
+                      resolve();
+                    }).catch(function (error) {
+                      reject(error);
+                    });
+                  }).catch(function (error) {
+                    reject(error);
+                  });
+                }));
+
+              case 7:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function logout(_x4) {
+        return _logout.apply(this, arguments);
+      }
+
+      return logout;
+    }()
+  }, {
+    key: "refreshToken",
+    value: function () {
+      var _refreshToken = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(isForceRefresh) {
+        var _this$kc4,
+            _this$kc4$tokenParsed,
+            _this2 = this;
+
+        var tokenExpiresIn;
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if (!(!isForceRefresh && (!((_this$kc4 = this.kc) !== null && _this$kc4 !== void 0 && (_this$kc4$tokenParsed = _this$kc4.tokenParsed) !== null && _this$kc4$tokenParsed !== void 0 && _this$kc4$tokenParsed.exp) || !this.kc.timeSkew))) {
+                  _context5.next = 2;
+                  break;
+                }
+
+                return _context5.abrupt("return");
+
+              case 2:
+                // if isForceRefresh is true, send -1 in updateToken to force update the token
+                tokenExpiresIn = isForceRefresh ? -1 : this.kc.tokenParsed.exp - Math.ceil(new Date().getTime() / 1000) + this.kc.timeSkew + 100;
+
+                if (!this.kc) {
+                  _context5.next = 7;
+                  break;
+                }
+
+                this.kc.updateToken(tokenExpiresIn).then(function (refreshed) {
+                  if (refreshed) {
+                    _this2.initSession();
+                  }
+                }).catch(function () {
+                  _this2.clearSession();
+
+                  return new Error('Could not refresh Token');
+                });
+                _context5.next = 8;
+                break;
+
+              case 7:
+                return _context5.abrupt("return", new Error('Could not refresh Token:No Kc Instance'));
+
+              case 8:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function refreshToken(_x5) {
+        return _refreshToken.apply(this, arguments);
+      }
+
+      return refreshToken;
+    }()
+  }, {
+    key: "verifyRoles",
+    value: function verifyRoles(allowedRoles, disabledRoles) {
+      var isAuthorized = false;
+
+      if (allowedRoles || disabledRoles) {
+        var userInfo = this.getUserInfo();
+        isAuthorized = allowedRoles ? allowedRoles.some(function (role) {
+          return userInfo.roles.includes(role);
+        }) : !disabledRoles.some(function (role) {
+          return userInfo.roles.includes(role);
+        });
+      } else {
+        isAuthorized = true;
+      }
+
+      return isAuthorized;
+    }
+  }, {
+    key: "initializeToken",
+    value: function () {
+      var _initializeToken = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(store) {
+        var _this3 = this;
+
+        var isScheduleRefresh,
+            forceLogin,
+            kcOptions,
+            _args6 = arguments;
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                isScheduleRefresh = _args6.length > 1 && _args6[1] !== undefined ? _args6[1] : true;
+                forceLogin = _args6.length > 2 && _args6[2] !== undefined ? _args6[2] : false;
+                this.store = store;
+                kcOptions = {
+                  onLoad: forceLogin ? 'login-required' : 'check-sso',
+                  checkLoginIframe: false,
+                  timeSkew: 0,
+                  token: config_helper_ConfigHelper.getFromSession(SessionStorageKeys.KeyCloakToken) || undefined,
+                  refreshToken: config_helper_ConfigHelper.getFromSession(SessionStorageKeys.KeyCloakRefreshToken) || undefined,
+                  idToken: config_helper_ConfigHelper.getFromSession(SessionStorageKeys.KeyCloakIdToken) || undefined,
+                  pkceMethod: 'S256'
+                };
+                return _context6.abrupt("return", new Promise(function (resolve, reject) {
+                  _this3.kc = keycloak_default()(config_helper_ConfigHelper.getKeycloakConfigUrl());
+                  config_helper_ConfigHelper.addToSession(SessionStorageKeys.SessionSynced, false);
+
+                  _this3.kc.init(kcOptions).then(function (authenticated) {
+                    console.info('[TokenServices] is User Authenticated?: Syncing ' + authenticated);
+                    resolve(_this3.syncSessionAndScheduleTokenRefresh(isScheduleRefresh));
+                  }).catch(function (error) {
+                    reject(new Error('Could not Initialize KC' + error));
+                  });
+                }));
+
+              case 5:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, this);
+      }));
+
+      function initializeToken(_x6) {
+        return _initializeToken.apply(this, arguments);
+      }
+
+      return initializeToken;
+    }()
+  }, {
+    key: "syncSessionAndScheduleTokenRefresh",
+    value: function () {
+      var _syncSessionAndScheduleTokenRefresh = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        var _this$kc5;
+
+        var isScheduleRefresh,
+            _args7 = arguments;
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                isScheduleRefresh = _args7.length > 0 && _args7[0] !== undefined ? _args7[0] : true;
+
+                if (!((_this$kc5 = this.kc) !== null && _this$kc5 !== void 0 && _this$kc5.authenticated)) {
+                  _context7.next = 7;
+                  break;
+                }
+
+                this.syncSessionStorage();
+
+                if (isScheduleRefresh) {
+                  this.scheduleRefreshTimer();
+                }
+
+                return _context7.abrupt("return", this.kc.token);
+
+              case 7:
+                this.clearSession();
+                return _context7.abrupt("return", new Error('NOT_AUTHENTICATED'));
+
+              case 9:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, this);
+      }));
+
+      function syncSessionAndScheduleTokenRefresh() {
+        return _syncSessionAndScheduleTokenRefresh.apply(this, arguments);
+      }
+
+      return syncSessionAndScheduleTokenRefresh;
+    }()
+  }, {
+    key: "scheduleRefreshTimer",
+    value: function scheduleRefreshTimer() {
+      var refreshEarlyTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      var refreshEarlyTimeinMilliseconds = Math.max(this.REFRESH_ATTEMPT_INTERVAL, refreshEarlyTime) * 1000;
+      this.scheduleRefreshToken(refreshEarlyTimeinMilliseconds);
+    }
+  }, {
+    key: "scheduleRefreshToken",
+    value: function scheduleRefreshToken(refreshEarlyTimeinMilliseconds) {
+      var _this4 = this;
+
+      var refreshTokenExpiresIn = -1; // check if refresh token is still valid . Or else clear all timers and throw errors
+
+      if (this.kc && this.kc.timeSkew !== undefined && this.kc.refreshTokenParsed) {
+        refreshTokenExpiresIn = this.kc.refreshTokenParsed['exp'] - Math.ceil(new Date().getTime() / 1000) + this.kc.timeSkew;
+      }
+
+      if (refreshTokenExpiresIn < 0) {
+        throw new Error('Refresh Token Expired. No more token refreshes');
+      }
+
+      var expiresIn = -1;
+
+      if (this.kc && this.kc.tokenParsed && this.kc.tokenParsed['exp'] && this.kc.timeSkew !== undefined) {
+        expiresIn = this.kc.tokenParsed['exp'] - Math.ceil(new Date().getTime() / 1000) + this.kc.timeSkew;
+      }
+
+      if (expiresIn < 0) {
+        throw new Error('Refresh Token Expired. No more token refreshes');
+      }
+
+      var refreshInMilliSeconds = expiresIn * 1000 - refreshEarlyTimeinMilliseconds; // in milliseconds
+
+      console.info('[TokenServices] Token Refresh Scheduled in %s Seconds', refreshInMilliSeconds / 1000);
+      this.timerId = setTimeout(function () {
+        console.log('[TokenServices] Refreshing Token Attempt: %s ', ++_this4.counter);
+
+        _this4.kc.updateToken(-1).then(function (refreshed) {
+          if (refreshed) {
+            console.log('Token successfully refreshed');
+
+            _this4.syncSessionStorage();
+
+            _this4.scheduleRefreshToken(refreshEarlyTimeinMilliseconds);
+          }
+        }).catch(function () {
+          clearTimeout(_this4.timerId);
+        });
+      }, refreshInMilliSeconds);
+    }
+  }, {
+    key: "syncSessionStorage",
+    value: function syncSessionStorage() {
+      if (this.kc) {
+        if (this.kc.token) {
+          config_helper_ConfigHelper.addToSession(SessionStorageKeys.KeyCloakToken, this.kc.token);
+        }
+
+        if (this.kc.refreshToken) {
+          config_helper_ConfigHelper.addToSession(SessionStorageKeys.KeyCloakRefreshToken, this.kc.refreshToken);
+        }
+
+        if (this.kc.idToken) {
+          config_helper_ConfigHelper.addToSession(SessionStorageKeys.KeyCloakIdToken, this.kc.idToken);
+        }
+
+        config_helper_ConfigHelper.addToSession(SessionStorageKeys.SessionSynced, true);
+      } else {
+        config_helper_ConfigHelper.addToSession(SessionStorageKeys.SessionSynced, false);
+      }
+    }
+  }, {
+    key: "clearSession",
+    value: function () {
+      var _clearSession = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+        var authModule;
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                if (this.store) {
+                  authModule = Object(esm["e" /* getModule */])(auth, this.store);
+                  authModule.clearSession();
+                }
+
+                config_helper_ConfigHelper.removeFromSession(SessionStorageKeys.KeyCloakToken);
+                config_helper_ConfigHelper.removeFromSession(SessionStorageKeys.KeyCloakIdToken);
+                config_helper_ConfigHelper.removeFromSession(SessionStorageKeys.KeyCloakRefreshToken);
+
+              case 4:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8, this);
+      }));
+
+      function clearSession() {
+        return _clearSession.apply(this, arguments);
+      }
+
+      return clearSession;
+    }()
+  }], [{
+    key: "getInstance",
+    value: function getInstance() {
+      return this.instance ? this.instance : new KeyCloakService();
+    }
+  }]);
+
+  return KeyCloakService;
+}();
+
+/* harmony default export */ var keycloak_services = (keycloak_services_KeyCloakService.getInstance());
+// CONCATENATED MODULE: ./src/directives/can.ts
+
+var can = {
+  inserted: function inserted(el, binding, node) {
+    canAccess(binding, el, node);
+  },
+  componentUpdated: function componentUpdated(el, binding, node) {
+    canAccess(binding, el, node);
+  }
+};
+
+function canAccess(binding, el, node) {
+  var behaviour = binding.modifiers.disable ? 'disable' : 'hide'; // to handle special elements like v-card etc
+
+  var isCard = !!binding.modifiers.card;
+  var requestedAction = [binding.arg];
+  var customeEl = el;
+  var okayToAccess = keycloak_services.verifyRoles(requestedAction, []); // if not okay , hide or disable
+
+  if (!okayToAccess) {
+    if (behaviour === 'hide') {
+      commentNode(el, node);
+    } else if (behaviour === 'disable' && isCard === false) {
+      customeEl.disabled = true;
+    } else if (behaviour === 'disable' && isCard === true) {
+      // TODO tab still works.. can tab to the text field and make it work
+      customeEl.classList.add('v-card--disabled');
+      customeEl.style.pointerEvents = 'none';
+    }
+  }
+}
+/**
+ * Create comment node
+ *
+ * @private
+ * @author https://stackoverflow.com/questions/43003976/a-custom-directive-similar-to-v-if-in-vuejs#43543814
+ */
+
+
+function commentNode(el, vnode) {
+  var comment = document.createComment(' ');
+  Object.defineProperty(comment, 'setAttribute', {
+    value: function value() {
+      return undefined;
+    }
+  });
+  vnode.text = ' ';
+  vnode.elm = comment;
+  vnode.isComment = true;
+  vnode.tag = undefined;
+  vnode.data = vnode.data || {};
+  vnode.data.directives = undefined;
+
+  if (vnode.componentInstance) {
+    // @ts-ignore
+    vnode.componentInstance.$el = comment;
+  }
+
+  if (el.parentNode) {
+    el.parentNode.replaceChild(comment, el);
+  }
+}
+
+/* harmony default export */ var directives_can = (can);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--14-3!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Dashboard/Search.vue?vue&type=script&lang=ts&
 
 
@@ -26627,7 +29931,8 @@ function useDailyReport() {
 // import statusListComponent from '../common/StatusList.vue'
 
 
- // import can from '@/directives/can'
+
+
 
 var Searchvue_type_script_lang_ts_Search = /*#__PURE__*/function (_Vue) {
   Object(inherits["a" /* default */])(Search, _Vue);
@@ -26704,14 +30009,15 @@ Searchvue_type_script_lang_ts_Search = Object(tslib_es6["a" /* __decorate */])([
     // SearchColumnFilterComponent,
     // statusList: statusListComponent
   },
-  directives: {// can
+  directives: {
+    can: directives_can
   }
 })], Searchvue_type_script_lang_ts_Search);
 /* harmony default export */ var Searchvue_type_script_lang_ts_ = (Searchvue_type_script_lang_ts_Search);
 // CONCATENATED MODULE: ./src/components/Dashboard/Search.vue?vue&type=script&lang=ts&
  /* harmony default export */ var Dashboard_Searchvue_type_script_lang_ts_ = (Searchvue_type_script_lang_ts_); 
-// EXTERNAL MODULE: ./src/components/Dashboard/Search.vue?vue&type=style&index=0&id=5291a748&lang=scss&scoped=true&
-var Searchvue_type_style_index_0_id_5291a748_lang_scss_scoped_true_ = __webpack_require__("118a");
+// EXTERNAL MODULE: ./src/components/Dashboard/Search.vue?vue&type=style&index=0&id=048efac6&lang=scss&scoped=true&
+var Searchvue_type_style_index_0_id_048efac6_lang_scss_scoped_true_ = __webpack_require__("3d4d");
 
 // EXTERNAL MODULE: ./src/components/Dashboard/Search.vue?vue&type=style&index=1&lang=scss&
 var Searchvue_type_style_index_1_lang_scss_ = __webpack_require__("7d74");
@@ -26820,9 +30126,6 @@ function normalizeComponent (
 var installComponents = __webpack_require__("6544");
 var installComponents_default = /*#__PURE__*/__webpack_require__.n(installComponents);
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.to-string.js
-var es_object_to_string = __webpack_require__("d3b7");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.iterator.js
 var es_symbol_iterator = __webpack_require__("d28b");
 
@@ -26899,12 +30202,6 @@ function _iterableToArrayLimit(arr, i) {
 
   return _arr;
 }
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
-var es_array_slice = __webpack_require__("fb6a");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
-var es_function_name = __webpack_require__("b0c0");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.from.js
 var es_array_from = __webpack_require__("a630");
 
@@ -26999,29 +30296,11 @@ function makeWatcher(property) {
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 var defineProperty = __webpack_require__("ade3");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.trim.js
-var es_string_trim = __webpack_require__("498a");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.to-string.js
-var es_regexp_to_string = __webpack_require__("25f0");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
-var es_array_concat = __webpack_require__("99af");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.replace.js
-var es_string_replace = __webpack_require__("5319");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.match.js
 var es_string_match = __webpack_require__("466d");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.join.js
-var es_array_join = __webpack_require__("a15b");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.repeat.js
 var es_string_repeat = __webpack_require__("38cf");
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/createClass.js
-var createClass = __webpack_require__("bee2");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
 var web_dom_collections_for_each = __webpack_require__("159b");
@@ -27098,9 +30377,6 @@ function install(Vue) {
     }
   });
 }
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
-var es_object_keys = __webpack_require__("b64b");
-
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
 
 function _objectWithoutPropertiesLoose(source, excluded) {
@@ -28079,9 +31355,6 @@ var breakpoint_Breakpoint = /*#__PURE__*/function (_Service) {
 breakpoint_Breakpoint.property = 'breakpoint';
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js + 1 modules
 var possibleConstructorReturn = __webpack_require__("99de");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.promise.js
-var es_promise = __webpack_require__("e6cf");
 
 // CONCATENATED MODULE: ./node_modules/vuetify/lib/services/goto/easing-patterns.js
 // linear
@@ -40108,11 +43381,11 @@ var VRow_cache = new Map();
 
 var Search_component = normalizeComponent(
   Dashboard_Searchvue_type_script_lang_ts_,
-  Searchvue_type_template_id_5291a748_scoped_true_render,
+  Searchvue_type_template_id_048efac6_scoped_true_render,
   staticRenderFns,
   false,
   null,
-  "5291a748",
+  "048efac6",
   null
   
 )

@@ -5,12 +5,12 @@ import 'core-js/stable' // to polyfill ECMAScript features
 import './registerServiceWorker'
 
 import App from './App.vue'
-import CommonUtils from '@/util/common-util'
-import ConfigHelper from '@/util/config-helper'
+import CommonUtils from '@fas/util/common-util'
+import ConfigHelper from '@fas/util/config-helper'
 import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
 import Vue from 'vue'
 import VueCompositionAPI from '@vue/composition-api'
-import can from '@/directives/can'
+import can from '@fas/directives/can'
 import i18n from './plugins/i18n'
 import router from './router'
 import store from './store'
@@ -40,6 +40,8 @@ async function syncSession () {
     })
   }
 }
+// setting to window to avoid library build undefined issue for global loader
+(window as any).fasStore = store
 
 function renderVue () {
   new Vue({
@@ -50,4 +52,5 @@ function renderVue () {
     render: h => h(App)
   }).$mount('#app')
   Vue.directive('can', can)
+  
 }
