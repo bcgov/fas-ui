@@ -3,7 +3,8 @@ import ConfigHelper from './config-helper'
 import { SessionStorageKeys } from './constants'
 // import store from '@fas/store'
 // import { store } from '../store/index'
-// import store from '../store'
+import store from '../store'
+// import Vue from 'vue'
 
 const axios = Axios.create()
 
@@ -19,7 +20,7 @@ axios.interceptors.request.use(
     // eslint-disable-next-line no-console
     // console.log('store.getters[indicator/isThereActiveCalls]', store.getters['indicator/isThereActiveCalls'])
     // eslint-disable-next-line no-console
-
+    // console.log('store.getters[indicator/isThereActiveCalls]', store)
     // we would want showGlobalLoader only if the request has that configuration set to true
     // if (config.showGlobalLoader) {
     //   store.commit('indicator/incrementActiveCalls')

@@ -2,7 +2,7 @@
   "name": "fas-ui",
   "version": "0.1.0",
   "private": true,
-  "main": "./lib/fas-ui.umd.min.js",
+  "main": "./fas-lib/fas-ui.umd.min.js",
   "files": [
     "lib/*"
   ],
@@ -13,8 +13,7 @@
     "lint": "vue-cli-service lint",
     "lint:fix": "vue-cli-service lint --fix",
     "lint:nofix": "vue-cli-service lint --no-fix",
-    "buildModule": "webpack --config webpack.config.js",
-    "build2": "vue-cli-service build --target lib --dest lib src/components/Dashboard/plugin.js"
+    "build:lib": "vue-cli-service build --target lib --dest fas-lib src/components/Dashboard/plugin.js"
   },
   "dependencies": {
     "@vue/composition-api": "^1.0.0-rc.12",
