@@ -34,12 +34,12 @@
               data-test="form-routing-slip-manual-transactions"
               class="mt-2"
               >
-                <div v-for="(transaction, index) in manualTransactionsList" :key="index">
+                <div v-for="(transaction, index) in manualTransactionsList" :key="transaction.key">
                   <AddManualTransactionDetails
                   :index = index
                   :manualTransaction="transaction"
-                  @updateManualTransaction="updateManualTransactionDetails($event,index)"
-                  @removeManualTransactionRow="removeManualTransactionRow(index)"
+                  @updateManualTransaction="updateManualTransactionDetails($event)"
+                  @removeManualTransactionRow="removeManualTransactionRow($event)"
                   :data-test="getIndexedTag('add-manual-transaction-details', index)"/>
                   <v-row dense class="mr-8">
                     <v-col cols="12">

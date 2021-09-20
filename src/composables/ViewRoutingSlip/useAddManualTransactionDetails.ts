@@ -42,9 +42,7 @@ export default function useAddManualTransactionDetails (props, context) {
             futureFiling: manualTransactionDetails.value.futureFiling
           }
         }
-        nextTick(async () => {
-          manualTransactionDetails.value.total = await getFeeByCorpTypeAndFilingType(getFeeRequestParams)
-        })
+        manualTransactionDetails.value.total = await getFeeByCorpTypeAndFilingType(getFeeRequestParams)
       } else {
         manualTransactionDetails.value.total = null
       }
@@ -64,12 +62,12 @@ export default function useAddManualTransactionDetails (props, context) {
 
   // Emit this remove row event, that is consumed in parent and slice the v-model array of parent
   function removeManualTransactionRowEventHandler () {
-    context.emit('removeManualTransactionRow', index)
+    context.emit('removeManualTransactionRow', index.value)
   }
 
   // Emits the updated manual transactio ndetail event to the parent
   function emitManualTransactionDetails () {
-    context.emit('updateManualTransaction', manualTransactionDetails.value, index)
+    context.emit('updateManualTransaction', { transaction: manualTransactionDetails.value, index: index.value })
   }
 
   function getIndexedTag (tag, index): string {
