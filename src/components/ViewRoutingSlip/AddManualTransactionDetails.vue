@@ -39,6 +39,7 @@
         filled
         :error-messages="errorMessage"
         readonly
+        :key="manualTransactionDetails.availableAmountForManualTransaction"
         label="$ Amount"
         persistent-hint
         :data-test="getIndexedTag('txt-amount', index)"
