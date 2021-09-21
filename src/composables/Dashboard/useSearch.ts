@@ -1,8 +1,8 @@
 import { computed, reactive, ref, watch } from '@vue/composition-api'
 
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
-import { useStatusList } from '../common/useStatusList'
-import { useLoader } from '../common/useLoader'
+import { useStatusList } from '@/composables/common/useStatusList'
+import { useLoader } from '@/composables/common/useLoader'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useActions, useState, useMutations, useGetters } = routingSlipModule
@@ -85,9 +85,6 @@ export function useSearch () {
     }
   ])
 
-  const display:any = computed(() => {
-    return Date.now()
-  })
   const showExpandedFolio = ref([])
   // to make sure not updating result on keyup
   const searchParamsChanged = ref(false)
