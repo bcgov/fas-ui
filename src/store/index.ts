@@ -2,9 +2,9 @@ import Vuex, { StoreOptions } from 'vuex'
 
 import { RootState } from './types'
 import Vue from 'vue'
-import codes from '@fas/store/modules/codes'
-import indicator from '@fas/store/modules/indicator'
-import routingSlip from '@fas/store/modules/routingSlip'
+import codes from '@/store/modules/codes'
+import indicator from '@/store/modules/indicator'
+import routingSlip from '@/store/modules/routingSlip'
 
 Vue.use(Vuex)
 

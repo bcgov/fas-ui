@@ -20,8 +20,8 @@
         </v-btn>
       </v-col>
       <v-col cols="2">
-        <!-- <search-column-filter-component v-model="headerSearch" hide-details>
-        </search-column-filter-component> -->
+        <search-column-filter-component v-model="headerSearch" hide-details>
+        </search-column-filter-component>
       </v-col>
     </v-row>
     <v-row class="mt-0">
@@ -111,24 +111,24 @@
                         />
                       </th>
                       <th scope="date" v-if="canShowColumn('date')">
-                        <!-- <date-range-filter
+                        <date-range-filter
                           class="text-input-style"
                           v-model="dateFilter"
                           @applied="searchNow()"
                           hide-details="auto"
                           placeholder="Date"
                         >
-                        </date-range-filter> -->
+                        </date-range-filter>
                       </th>
                       <th scope="status" v-if="canShowColumn('status')">
                         <div class="mt-1">
-                          <!-- <status-list
+                          <status-list
                             class="text-input-style "
                             v-model="status"
                             @change="searchNow()"
                             hide-details="auto"
                             placeholder="Status"
-                          ></status-list> -->
+                          ></status-list>
                         </div>
                       </th>
                       <th
@@ -296,14 +296,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { useSearch } from '@fas/composables/Dashboard/useSearch'
-// import DateRangeFilter from '../common/DateRangeFilter.vue'
-// import SearchColumnFilterComponent from '../common/SearchColumnFilterComponent.vue'
-// import statusListComponent from '../common/StatusList.vue'
+import { useSearch } from '@/composables/Dashboard/useSearch'
+import DateRangeFilter from '../common/DateRangeFilter.vue'
+import SearchColumnFilterComponent from '../common/SearchColumnFilterComponent.vue'
+import statusListComponent from '../common/StatusList.vue'
 
-import commonUtil from '@fas/util/common-util'
-import { useDashboard } from '@fas/composables/Dashboard'
-import can from '@fas/directives/can'
+import commonUtil from '@/util/common-util'
+import { useDashboard } from '@/composables/Dashboard'
+import can from '@/directives/can'
 
 @Component({
   setup (_, context) {
@@ -355,9 +355,9 @@ import can from '@fas/directives/can'
     }
   },
   components: {
-    // DateRangeFilter
-    // SearchColumnFilterComponent,
-    // statusList: statusListComponent
+    DateRangeFilter,
+    SearchColumnFilterComponent,
+    statusList: statusListComponent
   },
   directives: {
     can

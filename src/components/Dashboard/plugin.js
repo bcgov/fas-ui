@@ -18,6 +18,7 @@ import i18n from '../../plugins/i18n'
 // import breadCrump from "./breadcrump.vue";
 
 function install(Vue, options) {
+  // check before use
   Vue.use(VueCompositionAPI)
 
   if (install.installed) return
