@@ -1,7 +1,7 @@
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 
 import { Code } from '@/models/Code'
-import CodesService from '../../services/codes.service'
+import CodesService from '@/services/codes.service'
 
 @Module({ namespaced: true })
 export default class CodesModule extends VuexModule {
