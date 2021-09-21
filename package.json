@@ -4,7 +4,8 @@
   "private": true,
   "main": "./fas-lib/fas-ui.umd.min.js",
   "files": [
-    "fas-lib/*"
+    "fas-lib/*",
+    "src/assets/scss/search.scss"
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
