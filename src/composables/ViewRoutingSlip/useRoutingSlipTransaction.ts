@@ -133,6 +133,7 @@ export default function useRoutingSlipTransaction () {
   function removeManualTransactionRow (index: number) {
     status.value = ''
     manualTransactionsList.value.splice(index, 1)
+    updateAvailableAmountForManualTransaction()
   }
 
   /* Update the record to keep it up to date with the inptu changes happening in the child transaction
