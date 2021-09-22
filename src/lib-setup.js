@@ -1,11 +1,11 @@
-/*eslint-disable */
+
 /* Library build set up for fas-search-components.
   build library using vue-cli-service
   Basic set up of included files store and i18n included here
   How to use :
   inside main.ts  `import Search from 'fas-ui'`
   Vue.use(Search, { store, i18n })
-  include style if needed either 
+  include style if needed either
   import 'fas-ui/fas-lib/fas-ui.css'
   or inside component style tag us,
   @import '~fas-ui/fas-lib/fas-ui.css';
@@ -26,11 +26,12 @@ import i18n from '@/plugins/i18n'
  * @param {*} Vue parent component vue instance
  * @param {*} optionsneed store and i18n
  */
-function install(Vue, options) {
+function install (Vue, options) {
   if (OurVue !== Vue) {
-    console.error(`Multiple instances of Vue detected `)
+    // eslint-disable-next-line no-console
+    console.error('Multiple instances of Vue detected ')
   }
-  /*eslint-disable */
+
   if (install.installed) return
   install.installed = true
   // TODO check before use
@@ -46,6 +47,7 @@ function install(Vue, options) {
       i18n.messages[i18n.locale]
     )
   } else {
+    // eslint-disable-next-line no-console
     console.error('please provide i18n')
   }
   // pushing store modules to parent store
@@ -57,6 +59,7 @@ function install(Vue, options) {
     // options.store.registerModule('store', store)
     window.fasStore = options.store
   } else {
+    // eslint-disable-next-line no-console
     console.error('please provide store')
   }
   // registering component
