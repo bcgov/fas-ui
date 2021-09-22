@@ -9196,60 +9196,78 @@ $({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var _components_Dashboard_Search_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("bd1e");
-/* harmony import */ var _vue_composition_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("a6f4");
-/* harmony import */ var _store_modules_routingSlip__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("eb06");
-/* harmony import */ var _store_modules_codes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("fc11");
-/* harmony import */ var _store_modules_indicator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("3904");
-/* harmony import */ var _plugins_i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("fe0b");
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("8bbf");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Dashboard_Search_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("bd1e");
+/* harmony import */ var _vue_composition_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("a6f4");
+/* harmony import */ var _store_modules_routingSlip__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("eb06");
+/* harmony import */ var _store_modules_codes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("fc11");
+/* harmony import */ var _store_modules_indicator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("3904");
+/* harmony import */ var _plugins_i18n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("fe0b");
 /*eslint-disable */
- // import Vue from 'vue'
-// import Vue from "vue";
+
+/* Library build set up for fas-search-components.
+  build library using vue-cli-service
+  Basic set up of included files store and i18n included here
+  How to use :
+  inside main.ts  `import Search from 'fas-ui'`
+  Vue.use(Search, { store, i18n })
+  include style if needed either 
+  import 'fas-ui/fas-lib/fas-ui.css'
+  or inside component style tag us,
+  @import '~fas-ui/fas-lib/fas-ui.css';
+  */
+
+
+ // stores needed fro search
 
 
 
+ // lang files
 
 
- // import store from '../../store'
-// import Vuex from 'vuex'
-// const store = new Vuex.Store({
-//   /* options */
-// })
-// import breadCrump from "./breadcrump.vue";
+/**
+ * install function
+ *
+ * @param {*} Vue parent component vue instance
+ * @param {*} optionsneed store and i18n
+ */
 
 function install(Vue, options) {
-  // check before use
-  console.log('Vue.prototype', Vue.prototype);
-  Vue.use(_vue_composition_api__WEBPACK_IMPORTED_MODULE_1__[/* default */ "b"]);
-  Vue.use(_vue_composition_api__WEBPACK_IMPORTED_MODULE_1__[/* default */ "b"]);
-  console.log('Vue.prototype', Vue.prototype);
-  if (install.installed) return;
-  install.installed = true; // Vue.use(VueCompositionAPI)
-  // simple hack to inject locale messages. check for better solutions
-  // this will not work when chaging lang. need to updated code
+  if (vue__WEBPACK_IMPORTED_MODULE_0___default.a !== Vue) {
+    console.error("Multiple instances of Vue detected ");
+  }
+  /*eslint-disable */
 
-  if (options.i18n) {
-    options.i18n.mergeLocaleMessage(options.i18n.locale, _plugins_i18n__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"].messages[_plugins_i18n__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"].locale]);
+
+  if (install.installed) return;
+  install.installed = true; // check before use
+  // if parent is not using VueCompositionAPI api need to push to vue
+
+  Vue.use(_vue_composition_api__WEBPACK_IMPORTED_MODULE_2__[/* default */ "b"]); // simple hack to inject locale messages. check for better solutions
+  // this will not work when chaging lang.
+  // need to updated code (since we are not using other lag now, not updating chanegs)
+
+  if (options.i18n && _plugins_i18n__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"] && _plugins_i18n__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"].messages) {
+    options.i18n.mergeLocaleMessage(options.i18n.locale, _plugins_i18n__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"].messages[_plugins_i18n__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"].locale]);
   } else {
     console.error('please provide i18n');
-  } // // eslint-disable-next-line no-console
-  // console.log('i18n[i18n.locale]', options.i18n.messages[i18n.locale])
-  // eslint-disable-next-line no-console
+  } // pushing store modules to parent store
+  // use unique name to avoid conflict
 
-
-  console.log('2.install vue', Vue.prototype);
 
   if (options.store) {
-    options.store.registerModule('indicator', _store_modules_indicator__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"]);
-    options.store.registerModule('routingSlip', _store_modules_routingSlip__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]);
-    options.store.registerModule('fasCodes', _store_modules_codes__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]); // options.store.registerModule('store', store)
+    options.store.registerModule('indicator', _store_modules_indicator__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"]);
+    options.store.registerModule('routingSlip', _store_modules_routingSlip__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]);
+    options.store.registerModule('fasCodes', _store_modules_codes__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"]); // options.store.registerModule('store', store)
 
     window.fasStore = options.store;
   } else {
     console.error('please provide store');
-  }
+  } // registering component
 
-  Vue.component('fas-search-component', _components_Dashboard_Search_vue__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]);
+
+  Vue.component('fas-search-component', _components_Dashboard_Search_vue__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]);
 }
 
 var plugin = {
@@ -9267,8 +9285,8 @@ if (GlobalVue) {
   GlobalVue.use(plugin);
 }
 
-_components_Dashboard_Search_vue__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].install = install;
-/* harmony default export */ __webpack_exports__["a"] = (_components_Dashboard_Search_vue__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]);
+_components_Dashboard_Search_vue__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].install = install;
+/* harmony default export */ __webpack_exports__["a"] = (_components_Dashboard_Search_vue__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("c8ba")))
 
 /***/ }),
