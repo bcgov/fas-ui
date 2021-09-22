@@ -118,3 +118,8 @@ venv.bak/
 # Misc backups
 *.bak
 
+# lib
+fas-lib/*
+lib/*
+!lib/ fas-lib.umd.min*
+!lib/ fas-lib.css
