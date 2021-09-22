@@ -26,26 +26,10 @@ module.exports = {
     resolve: {
       alias: {
         vue: path.resolve('./node_modules/vue'),
-        $assets: path.resolve('./src/assets/'),
-        '@': path.resolve(__dirname, 'src/'),
-        '@fas': path.resolve('src')
+        $assets: path.resolve('./src/assets/')
       }
     }
-    // externals: {
-    //   '@vue/composition-api': '@vue/composition-api',
-    //   'vuex-composition-helpers': 'vuex-composition-helpers'
-    // }
-
   },
-  // chainWebpack: config => {
-  //   // this path is specific to my project
-  //   config.resolve.alias.set('@fas', path.resolve('src/'))
-  // },
-  // chainWebpack: config => {
-  //   config.merge({
-  //     externals: ['vue', '@vue/composition-api']
-  //   })
-  // },
   publicPath: process.env.VUE_APP_PATH,
   transpileDependencies: ['vuetify', 'vuex-persist'],
   devServer: {

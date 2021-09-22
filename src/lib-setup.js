@@ -1,12 +1,12 @@
 /*eslint-disable */
-import Search from './Search.vue'
+import Search from '@/components/Dashboard/Search.vue'
 // import Vue from 'vue'
 // import Vue from "vue";
 import VueCompositionAPI from '@vue/composition-api'
-import routingSlip from '../../store/modules/routingSlip'
-import codes from '../../store/modules/codes'
-import indicator from '../../store/modules/indicator'
-import i18n from '../../plugins/i18n'
+import routingSlip from '@/store/modules/routingSlip'
+import codes from '@/store/modules/codes'
+import indicator from '@/store/modules/indicator'
+import i18n from '@/plugins/i18n'
 // import store from '../../store'
 
 // import Vuex from 'vuex'

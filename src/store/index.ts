@@ -33,5 +33,4 @@ const storeOptions: StoreOptions<RootState> = {
     fasCodes: codes
   }
 }
-export const store = new Vuex.Store<RootState>(storeOptions)
-export default store
+export default new Vuex.Store<RootState>(storeOptions)

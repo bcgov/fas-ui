@@ -369,9 +369,6 @@ export default class Search extends Vue {
   public formatDisplayDate = commonUtil.formatDisplayDate
 }
 </script>
-// <style lang="scss" >
-// // @import '$assets/scss/search.scss';
-// </style>
 
 <style lang="scss" scoped>
 @import '$assets/scss/theme.scss';
@@ -422,11 +419,11 @@ export default class Search extends Vue {
 // style to match design, small inputs intable
 .header-row-2 {
   th {
-    padding: 18px 3px 18px 3px;
+    padding: 18px 3px 18px 3px !important;
     border-bottom: thin solid rgba(0, 0, 0, 0.12);
   }
   th:first-child {
-    padding-left: 14px;
+    padding-left: 14px !important;
   }
   .v-label,
   .v-input {
