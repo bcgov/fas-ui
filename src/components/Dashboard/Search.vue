@@ -3,7 +3,7 @@
     <v-row
       justify="end"
       v-if="isLibraryMode"
-      no-gutters
+      class="mx-0"
     >
       <v-col cols="3" align-self="center" class="px-0">
         <v-btn
@@ -18,7 +18,7 @@
           </v-icon>
         </v-btn>
       </v-col>
-      <v-col cols="3" class="px-0">
+      <v-col cols="2" class="px-0">
         <search-column-filter-component
           v-model="headerSearch"
           hide-details>
@@ -52,11 +52,11 @@
     </v-row>
     <v-row class="mt-0">
       <v-col>
-        <div class="header-bg-color d-flex align-center py-5 mb-0 ">
+        <div class="header-bg-color d-flex align-center py-5 mb-0 rounded-t-lg">
           <v-icon color="primary" class="ml-5">
             mdi-view-list
           </v-icon>
-          <h4 class="ml-2 mb-0 font-weight-bold">Search Routing Slip</h4>
+          <h4 class="ml-2 mb-0 font-weight-bold">{{ isLibraryMode ? 'Recent Routing Slip' : 'Search Routing Slip' }}</h4>
         </div>
         <v-form>
           <v-row dense class="row-margin">
