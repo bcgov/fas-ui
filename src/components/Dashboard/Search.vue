@@ -18,7 +18,7 @@
           </v-icon>
         </v-btn>
       </v-col>
-      <v-col cols="2" class="px-0">
+      <v-col cols="3" class="px-0">
         <search-column-filter-component
           v-model="headerSearch"
           hide-details>
