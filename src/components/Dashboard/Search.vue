@@ -1,8 +1,34 @@
 <template>
   <div>
     <v-row
+      justify="end"
+      v-if="isLibraryMode"
+      no-gutters
+    >
+      <v-col cols="3" align-self="center" class="px-0">
+        <v-btn
+          x-large
+          dark
+          outlined
+          color="primary"
+        >
+          Access Fee Account System
+          <v-icon dark small class="ml-2 font-weight-bold">
+            mdi-open-in-new
+          </v-icon>
+        </v-btn>
+      </v-col>
+      <v-col cols="3" class="px-0">
+        <search-column-filter-component
+          v-model="headerSearch"
+          hide-details>
+        </search-column-filter-component>
+      </v-col>
+    </v-row>
+    <v-row
       class="d-flex flex-row justify-space-between align-center"
       no-gutters
+      v-else
     >
       <v-col cols="4">
         <v-btn
@@ -295,7 +321,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { useSearch } from '@/composables/Dashboard/useSearch'
 import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
 import SearchColumnFilterComponent from '@/components/common/SearchColumnFilterComponent.vue'
@@ -367,6 +393,8 @@ export default class Search extends Vue {
   public colors = commonUtil.statusListColor
   public appendCurrencySymbol = commonUtil.appendCurrencySymbol
   public formatDisplayDate = commonUtil.formatDisplayDate
+
+  @Prop({ default: () => false }) isLibraryMode: boolean
 }
 </script>
 // <style lang="scss" >
