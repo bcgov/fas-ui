@@ -1,4 +1,5 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
+
 import StatusList from '@/components/common/StatusList.vue'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
@@ -13,7 +14,7 @@ describe('StatusList.vue', () => {
     const codesModule = {
       namespaced: true,
       state: {
-        routingSlipStatusList
+        routingSlipStatusList: routingSlipStatusList
       },
       actions: {
         getRoutingSlipStatusList: jest.fn()
@@ -23,7 +24,7 @@ describe('StatusList.vue', () => {
     store = new Vuex.Store({
       strict: false,
       modules: {
-        codes: codesModule
+        fasCodes: codesModule
       }
     })
 
@@ -32,7 +33,7 @@ describe('StatusList.vue', () => {
   })
 
   it('renders status list', () => {
-    const wrapper = shallowMount(StatusList, {
+    const wrapper = mount(StatusList, {
       store,
       localVue,
       vuetify,
