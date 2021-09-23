@@ -1,36 +1,11 @@
 <template>
   <div>
     <v-row
-      justify="end"
-      v-if="isLibraryMode"
-      class="mx-0"
-    >
-      <v-col cols="3" align-self="center" class="px-0">
-        <v-btn
-          x-large
-          dark
-          outlined
-          color="primary"
-        >
-          Access Fee Account System
-          <v-icon dark small class="ml-2 font-weight-bold">
-            mdi-open-in-new
-          </v-icon>
-        </v-btn>
-      </v-col>
-      <v-col cols="3" class="px-0">
-        <search-column-filter-component
-          v-model="headerSearch"
-          hide-details>
-        </search-column-filter-component>
-      </v-col>
-    </v-row>
-    <v-row
-      class="d-flex flex-row justify-space-between align-center"
+      class="d-flex flex-row align-center"
+      :class="isLibraryMode ? 'justify-end' : 'justify-space-between'"
       no-gutters
-      v-else
     >
-      <v-col cols="4">
+      <v-col cols="4" v-if="!isLibraryMode">
         <v-btn
           class="font-weight-bold"
           large
@@ -43,6 +18,19 @@
             mdi-plus
           </v-icon>
           Add New Routing Slip
+        </v-btn>
+      </v-col>
+      <v-col cols="3" align-self="center" v-if="isLibraryMode">
+        <v-btn
+          x-large
+          dark
+          outlined
+          color="primary"
+        >
+          Access Fee Account System
+          <v-icon dark small class="ml-2 font-weight-bold">
+            mdi-open-in-new
+          </v-icon>
         </v-btn>
       </v-col>
       <v-col cols="2">
