@@ -14,7 +14,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -119,10 +118,10 @@ venv.bak/
 *.bak
 
 # fas-lib
-fas-lib/demo.html
-fas-lib/fas-lib.common.js
-fas-lib/fas-lib.common.js.map
-fas-lib/fas-lib.umd.js
-fas-lib/fas-lib.umd.js.map
+lib/demo.html                                     s
+lib/fas-lib.common.js
+lib/fas-lib.common.js.map
+lib/fas-lib.umd.js
+lib/fas-lib.umd.js.map
 
 
