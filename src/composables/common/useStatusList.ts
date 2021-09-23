@@ -25,7 +25,7 @@ export function useStatusList (props, context) {
   const { getRoutingSlipStatusList } = useActions(['getRoutingSlipStatusList'])
 
   const routingSlipStatus = computed(() => {
-    return routingSlipStatusList?.value
+    return routingSlipStatusList.value
   })
 
   onMounted(() => {
