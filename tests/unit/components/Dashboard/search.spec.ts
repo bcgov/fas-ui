@@ -43,7 +43,7 @@ describe('Search.vue', () => {
       strict: false,
       modules: {
         routingSlip: routingSlipModule,
-        codes: codesModule
+        fasCodes: codesModule
       }
     })
 
