@@ -28,7 +28,8 @@
             v-model="item.display"
             :label="item.text"
             hide-details
-          ></v-checkbox>
+          >
+          </v-checkbox>
         </v-list-item>
       </v-list-item-group>
     </v-list>
@@ -63,5 +64,9 @@ export default class SearchColumnFilterComponent extends Vue {
 
   .v-icon.v-icon.v-icon--link {
     cursor: inherit !important;
+  }
+
+  .v-input--selection-controls.v-input {
+    flex: 0 1 100% !important;
   }
 </style>
