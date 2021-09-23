@@ -1,10 +1,11 @@
 <template>
   <div>
     <v-row
-      class="d-flex flex-row justify-space-between align-center"
+      class="d-flex flex-row align-center"
+      :class="isLibraryMode ? 'justify-end' : 'justify-space-between'"
       no-gutters
     >
-      <v-col cols="4">
+      <v-col cols="4" v-if="!isLibraryMode">
         <v-btn
           class="font-weight-bold"
           large
@@ -19,6 +20,19 @@
           Add New Routing Slip
         </v-btn>
       </v-col>
+      <v-col cols="3" align-self="center" v-if="isLibraryMode">
+        <v-btn
+          x-large
+          dark
+          outlined
+          color="primary"
+        >
+          Access Fee Account System
+          <v-icon dark small class="ml-2 font-weight-bold">
+            mdi-open-in-new
+          </v-icon>
+        </v-btn>
+      </v-col>
       <v-col cols="2">
         <search-column-filter-component v-model="headerSearch" hide-details>
         </search-column-filter-component>
@@ -26,11 +40,11 @@
     </v-row>
     <v-row class="mt-0">
       <v-col>
-        <div class="header-bg-color d-flex align-center py-5 mb-0 ">
+        <div class="header-bg-color d-flex align-center py-5 mb-0 rounded-t-lg">
           <v-icon color="primary" class="ml-5">
             mdi-view-list
           </v-icon>
-          <h4 class="ml-2 mb-0 font-weight-bold">Search Routing Slip</h4>
+          <h4 class="ml-2 mb-0 font-weight-bold">{{ isLibraryMode ? 'Recent Routing Slip' : 'Search Routing Slip' }}</h4>
         </div>
         <v-form>
           <v-row dense class="row-margin">
@@ -295,7 +309,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { useSearch } from '@/composables/Dashboard/useSearch'
 import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
 import SearchColumnFilterComponent from '@/components/common/SearchColumnFilterComponent.vue'
@@ -367,6 +381,8 @@ export default class Search extends Vue {
   public colors = commonUtil.statusListColor
   public appendCurrencySymbol = commonUtil.appendCurrencySymbol
   public formatDisplayDate = commonUtil.formatDisplayDate
+
+  @Prop({ default: () => false }) isLibraryMode: boolean
 }
 </script>
 
