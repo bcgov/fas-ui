@@ -5,8 +5,10 @@
   "main": "./lib/lib.umd.min.js",
   "files": [
     "lib/lib.umd.min.js",
-    "lib/lib.css"
+    "lib/lib.css",
+    "src/assets/scss/search.scss"
   ],
+
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
