@@ -58,7 +58,7 @@
                     :key="i" class="d-flex flex-column">
                       <div class="d-flex mt-6 mb-3">
                         <p class="ma-0">Linked with: </p>
-                        <router-link :to="`/view-routing-slip/${child.number}`">
+                        <router-link :to="`/view-routing-slip/${routingSlip.number}/${child.number}`">
                           <span :data-test="getIndexedTag('text-review-routing-slip', i)"
                           class="font-weight-bold pl-1">{{ child.number }}</span>
                         </router-link>

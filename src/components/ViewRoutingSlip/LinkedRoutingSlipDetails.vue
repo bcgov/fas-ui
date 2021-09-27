@@ -4,7 +4,7 @@
       {{ formatSiNumber }} </span
     >
     <router-link
-      :to="`/view-routing-slip/${routingSlipNumber}`"
+      :to="parentRoutingSlipNumber ? `/view-routing-slip/${parentRoutingSlipNumber}/${routingSlipNumber}` : `/view-routing-slip/${routingSlipNumber}`"
       class="font-weight-bold"
     >
       {{ routingSlipNumber }}
@@ -26,6 +26,7 @@ export default class LinkedRoutingSlipDetails extends Vue {
   @Prop({ default: '' }) private siNumber: string
   @Prop({ default: '' }) private routingSlipNumber: string
   @Prop({ default: '' }) private createdDate: Date | string
+  @Prop({ default: undefined }) private parentRoutingSlipNumber: string
 
   public colors = commonUtil.statusListColor
   public formatDisplayDate = commonUtil.formatDisplayDate

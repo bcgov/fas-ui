@@ -1,13 +1,15 @@
-import { computed, reactive, ref, watch } from '@vue/composition-api'
+import { computed, reactive, ref, toRefs, watch } from '@vue/composition-api'
 
+import ConfigHelper from '@/util/config-helper'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
-import { useStatusList } from '@/composables/common/useStatusList'
 import { useLoader } from '@/composables/common/useLoader'
+import { useStatusList } from '@/composables/common/useStatusList'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useActions, useState, useMutations, useGetters } = routingSlipModule
 
-export function useSearch () {
+export function useSearch (props) {
+  const { isLibraryMode } = toRefs(props)
   // vuex action and state
   const { searchRoutingSlip, resetSearchParams } = useActions([
     'searchRoutingSlip',
@@ -247,6 +249,14 @@ export function useSearch () {
     return ['-']
   }
 
+  function navigateTo (routingSlipNumber: number) : string {
+    return isLibraryMode.value ? `${ConfigHelper.getFasWebUrl()}view-routing-slip/${routingSlipNumber}?redirectFromAuth=true` : `/view-routing-slip/${routingSlipNumber}`
+  }
+
+  function openFasWeb (): string {
+    return `${ConfigHelper.getFasWebUrl()}?redirectFromAuth=true`
+  }
+
   return {
     headerSearch,
     displayedHeaderSearch,
@@ -267,6 +277,8 @@ export function useSearch () {
     formatFolioResult,
     showExpandedFolio,
     toggleFolio,
-    isLoading
+    isLoading,
+    navigateTo,
+    openFasWeb
   }
 }

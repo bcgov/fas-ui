@@ -26,6 +26,7 @@
           dark
           outlined
           color="primary"
+          :href="openFasWeb"
         >
           Access Fee Account System
           <v-icon dark small class="ml-2 font-weight-bold">
@@ -33,7 +34,7 @@
           </v-icon>
         </v-btn>
       </v-col>
-      <v-col cols="2">
+      <v-col cols="3">
         <search-column-filter-component v-model="headerSearch" hide-details>
         </search-column-filter-component>
       </v-col>
@@ -290,7 +291,7 @@
                           <v-btn
                             color="primary"
                             class=""
-                            :to="`/view-routing-slip/${item.number}`"
+                            :href="navigateTo(item.number)"
                           >
                             Open
                           </v-btn>
@@ -320,8 +321,8 @@ import { useDashboard } from '@/composables/Dashboard'
 import can from '@/directives/can'
 
 @Component({
-  setup (_, context) {
-    const { addRoutingSlip } = useDashboard(_, context)
+  setup (props, context) {
+    const { addRoutingSlip } = useDashboard(props, context)
     const {
       headerSearch,
       displayedHeaderSearch,
@@ -342,8 +343,10 @@ import can from '@/directives/can'
       formatFolioResult,
       showExpandedFolio,
       toggleFolio,
-      isLoading
-    } = useSearch()
+      isLoading,
+      navigateTo,
+      openFasWeb
+    } = useSearch(props)
     return {
       headerSearch,
       displayedHeaderSearch,
@@ -365,7 +368,9 @@ import can from '@/directives/can'
       formatFolioResult,
       showExpandedFolio,
       toggleFolio,
-      isLoading
+      isLoading,
+      navigateTo,
+      openFasWeb
     }
   },
   components: {

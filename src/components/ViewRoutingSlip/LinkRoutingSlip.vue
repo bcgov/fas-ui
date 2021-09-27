@@ -24,6 +24,7 @@
               :createdDate="routinSlip.createdOn"
               :routingSlipNumber="routinSlip.number"
               :key="routinSlip.number"
+              :parentRoutingSlipNumber="routingSlip.number"
             />
           </v-col>
           <v-col cols="12" v-if="isRoutingSlipAChild" class="pb-0">
@@ -100,7 +101,8 @@ import RoutingSlipAutoComplete from '@/components/ViewRoutingSlip/RoutingSlipAut
       isRoutingSlipAChild,
       isLoading,
       childRoutingSlipDetails,
-      parentRoutingSlipDetails
+      parentRoutingSlipDetails,
+      routingSlip
     } = useLinkRoutingSlip()
 
     return {
@@ -110,7 +112,8 @@ import RoutingSlipAutoComplete from '@/components/ViewRoutingSlip/RoutingSlipAut
       isRoutingSlipAChild,
       isLoading,
       childRoutingSlipDetails,
-      parentRoutingSlipDetails
+      parentRoutingSlipDetails,
+      routingSlip
     }
   }
 })
