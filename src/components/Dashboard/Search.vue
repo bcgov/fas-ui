@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="fas-search">
     <v-row
       class="d-flex flex-row align-center"
       :class="isLibraryMode ? 'justify-end' : 'justify-space-between'"
@@ -45,7 +45,9 @@
           <v-icon color="primary" class="ml-5">
             mdi-view-list
           </v-icon>
-          <h4 class="ml-2 mb-0 font-weight-bold">{{ isLibraryMode ? 'Recent Routing Slip' : 'Search Routing Slip' }}</h4>
+          <h4 class="ml-2 mb-0 font-weight-bold">
+            {{ isLibraryMode ? 'Recent Routing Slip' : 'Search Routing Slip' }}
+          </h4>
         </div>
         <v-form>
           <v-row dense class="row-margin">
@@ -393,6 +395,7 @@ export default class Search extends Vue {
 
 <style lang="scss" scoped>
 @import '$assets/scss/theme.scss';
+@import '$assets/scss/search.scss';
 .button-search {
   display: flex;
   height: 62% !important;
@@ -426,12 +429,6 @@ export default class Search extends Vue {
     font-weight: bold !important;
     color: $BCgovBlack !important;
   }
-}
-</style>
-
-<style lang="scss">
-.v-text-field--outlined > .v-input__control > .v-input__slot {
-  min-height: 41px !important;
 }
 .no-data {
   border-bottom: thin solid rgba(0, 0, 0, 0.12);

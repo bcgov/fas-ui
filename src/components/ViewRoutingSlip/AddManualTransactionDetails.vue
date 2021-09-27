@@ -37,10 +37,12 @@
     <v-col cols="5" class="amount pb-0" :key="manualTransactionDetails.total">
       <v-text-field
         filled
+        :error-messages="errorMessage"
+        readonly
+        :key="manualTransactionDetails.availableAmountForManualTransaction"
         label="$ Amount"
         persistent-hint
         :data-test="getIndexedTag('txt-amount', index)"
-        disabled
         v-model="manualTransactionDetails.total"
       >
       </v-text-field>
@@ -76,7 +78,7 @@
         @change="calculateTotal()"
       ></v-checkbox>
     </v-col>
-    <v-col cols="12" v-if="manualTransactionDetails.quantity>1">
+    <v-col cols="12" v-if="manualTransactionDetails.quantity > 1">
       <p class="mb-0">
         <v-icon>mdi-information-outline</v-icon>
         <span class="pl-1 text-color">{{ $t('addManualTransactionQuantityInfoText') }}</span>
@@ -102,7 +104,8 @@ import { ManualTransactionDetails } from '@/models/RoutingSlip'
       calculateTotal,
       delayedCalculateTotal,
       getIndexedTag,
-      emitManualTransactionDetails
+      emitManualTransactionDetails,
+      errorMessage
     } = useAddManualTransactionDetails(props, context)
     return {
       manualTransactionDetails,
@@ -111,7 +114,8 @@ import { ManualTransactionDetails } from '@/models/RoutingSlip'
       calculateTotal,
       delayedCalculateTotal,
       getIndexedTag,
-      emitManualTransactionDetails
+      emitManualTransactionDetails,
+      errorMessage
     }
   }
 })
@@ -132,5 +136,8 @@ export default class AddManualTransactionDetails extends Vue {
   }
   .text-color {
     color: $TextColorGray;
+  }
+  .error-disabled {
+    color: red !important;
   }
 </style>

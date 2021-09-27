@@ -23,23 +23,31 @@ export default function useFilingTypeAutoComplete (props, context) {
   })
 
   // store
-  const { autoCompleteFilingTypes } = useState(['autoCompleteFilingTypes'])
   const { getAutoCompleteFilingTypes } = useActions([
     'getAutoCompleteFilingTypes'
   ])
 
   const isLoading = ref<boolean>(false)
   const hideNoData = ref<boolean>(true)
+  const autoCompleteFilingTypes = ref<FilingType[]>([])
 
   const search = ref('')
 
   async function searchFilingTypes () {
-    isLoading.value = true
-    // start searching after typing 3 char
-    if (search.value.length > 2) {
-      await getAutoCompleteFilingTypes(search.value)
+    try {
+      isLoading.value = true
+      // start searching after typing 3 char
+      if (search.value.length > 2) {
+        autoCompleteFilingTypes.value = await getAutoCompleteFilingTypes(search.value)
+      }
+    } catch (error: any) {
+      autoCompleteFilingTypes.value = []
+      // TODO : Business errors (400s) need to be handled
+      // eslint-disable-next-line no-console
+      console.error('error ', error?.response?.data)
+    } finally {
+      isLoading.value = false
     }
-    isLoading.value = false
   }
 
   function itemText (item) {
@@ -54,10 +62,10 @@ export default function useFilingTypeAutoComplete (props, context) {
 
   return {
     filingType,
-    autoCompleteFilingTypes,
     hideNoData,
     isLoading,
     search,
+    autoCompleteFilingTypes,
     delayedSearch,
     itemText
   }

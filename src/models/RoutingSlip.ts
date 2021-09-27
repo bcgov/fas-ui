@@ -41,12 +41,15 @@ export interface LinkedRoutingSlips{
 }
 
 export interface ManualTransactionDetails{
+  // we would need the key that we can use during iterator (v-for)
+  key?: number
   quantity?: number,
   referenceNumber?: string,
   total?: number,
   futureFiling?: boolean,
   priority?: boolean,
   filingType?: FilingType
+  availableAmountForManualTransaction?: number
 }
 
 export interface GetRoutingSlipRequestPayload {

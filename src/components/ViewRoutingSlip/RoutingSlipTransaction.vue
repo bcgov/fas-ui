@@ -34,12 +34,12 @@
               data-test="form-routing-slip-manual-transactions"
               class="mt-2"
               >
-                <div v-for="(transaction, index) in manualTransactionsList" :key="index">
+                <div v-for="(transaction, index) in manualTransactionsList" :key="transaction.key">
                   <AddManualTransactionDetails
                   :index = index
                   :manualTransaction="transaction"
-                  @updateManualTransaction="updateManualTransactionDetails($event,index)"
-                  @removeManualTransactionRow="removeManualTransactionRow(index)"
+                  @updateManualTransaction="updateManualTransactionDetails($event)"
+                  @removeManualTransactionRow="removeManualTransactionRow($event)"
                   :data-test="getIndexedTag('add-manual-transaction-details', index)"/>
                   <v-row dense class="mr-8">
                     <v-col cols="12">
@@ -48,10 +48,17 @@
                   </v-row>
                 </div>
               </v-form>
-            <v-row dense class="mr-8">
-              <v-col cols="6">
-                <v-btn
-                  large
+            <v-row v-if="status">
+              <v-col cols="12">
+                <p class="mb-0">
+                  <span class="pl-1 red--text">{{ $t(status) }}</span>
+                </p>
+              </v-col>
+            </v-row>
+              <v-row dense class="mr-8">
+                <v-col cols="6">
+                  <v-btn
+                    large
                   text
                   color="primary"
                   class="px-0"
@@ -123,7 +130,10 @@ import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
       isValid,
       removeManualTransactionRow,
       updateManualTransactionDetails,
-      hideManualTransaction
+      hideManualTransaction,
+      availableAmountForManualTransaction,
+      status
+
     } = useRoutingSlipTransaction()
     return {
       formRoutingSlipManualTransactions,
@@ -138,7 +148,9 @@ import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
       isValid,
       removeManualTransactionRow,
       updateManualTransactionDetails,
-      hideManualTransaction
+      hideManualTransaction,
+      availableAmountForManualTransaction,
+      status
     }
   }
 })

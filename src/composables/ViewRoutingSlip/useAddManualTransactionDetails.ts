@@ -1,4 +1,4 @@
-import { nextTick, onMounted, ref, toRefs } from '@vue/composition-api'
+import { computed, nextTick, onMounted, ref, toRefs, watch } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { GetFeeRequestParams } from '@/models/Payment'
@@ -24,6 +24,17 @@ export default function useAddManualTransactionDetails (props, context) {
     'getFeeByCorpTypeAndFilingType'
   ])
 
+  const errorMessage = computed(() => {
+    /* We need to check if total exceeds remaining amount and
+    if the availableAmountForManualTransaction is greater than 0 as any change in prior transaction records affect the remaining amount of this record
+    */
+    const msg = manualTransactionDetails.value.quantity && (
+      manualTransactionDetails.value.availableAmountForManualTransaction < manualTransactionDetails.value.total ||
+      manualTransactionDetails.value.availableAmountForManualTransaction < 0)
+      ? 'Amount exceeds the routing slip\'s current balance' : ''
+    return msg
+  })
+
   // Calculate total fee from pay-api service, triggered if its dependent values are changed
   async function calculateTotal () {
     try {
@@ -37,9 +48,7 @@ export default function useAddManualTransactionDetails (props, context) {
             futureFiling: manualTransactionDetails.value.futureFiling
           }
         }
-        nextTick(async () => {
-          manualTransactionDetails.value.total = await getFeeByCorpTypeAndFilingType(getFeeRequestParams)
-        })
+        manualTransactionDetails.value.total = await getFeeByCorpTypeAndFilingType(getFeeRequestParams)
       } else {
         manualTransactionDetails.value.total = null
       }
@@ -59,17 +68,22 @@ export default function useAddManualTransactionDetails (props, context) {
 
   // Emit this remove row event, that is consumed in parent and slice the v-model array of parent
   function removeManualTransactionRowEventHandler () {
-    context.emit('removeManualTransactionRow', index)
+    context.emit('removeManualTransactionRow', index.value)
   }
 
   // Emits the updated manual transactio ndetail event to the parent
   function emitManualTransactionDetails () {
-    context.emit('updateManualTransaction', manualTransactionDetails.value, index)
+    context.emit('updateManualTransaction', { transaction: manualTransactionDetails.value, index: index.value })
   }
 
   function getIndexedTag (tag, index): string {
     return `${tag}-${index}`
   }
+
+  // watch manualTransaction object, assign availableAmountForManualTransaction property.
+  watch(manualTransaction, () => {
+    manualTransactionDetails.value.availableAmountForManualTransaction = manualTransaction.value.availableAmountForManualTransaction
+  }, { deep: true })
 
   onMounted(() => {
     manualTransactionDetails.value = JSON.parse(JSON.stringify(manualTransaction.value))
@@ -82,6 +96,7 @@ export default function useAddManualTransactionDetails (props, context) {
     delayedCalculateTotal,
     calculateTotal,
     getIndexedTag,
-    emitManualTransactionDetails
+    emitManualTransactionDetails,
+    errorMessage
   }
 }

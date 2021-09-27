@@ -1,7 +1,7 @@
 import { GetRoutingSlipRequestPayload, ManualTransactionDetails } from '@/models/RoutingSlip'
+import { computed, ref } from '@vue/composition-api'
 
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
-import { ref } from '@vue/composition-api'
 import { useLoader } from '@/composables/common/useLoader'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
@@ -24,6 +24,8 @@ export default function useRoutingSlipTransaction () {
 
   const { isLoading, toggleLoading } = useLoader()
 
+  const status = ref<string>('')
+
   function showManualTransaction (): void {
     // Show manual transaction component through toggling showAddManualTransaction
     // only show the component and not toggle it back to hide the component
@@ -36,6 +38,12 @@ export default function useRoutingSlipTransaction () {
 
   async function addManualTransactions () {
     let error = false
+    const isExcessAmount:boolean = availableAmountForManualTransaction() < 0
+    if (isExcessAmount) {
+      error = true
+      status.value = 'cantAddTransactions'
+      return
+    }
     if (isValid()) {
       // show loader
       toggleLoading()
@@ -68,8 +76,19 @@ export default function useRoutingSlipTransaction () {
     error = false
   }
 
+  /*
+  return the avaialble amount
+ */
+  function availableAmountForManualTransaction () {
+    // iterate all manualTransactionsList and find sum
+    // reduce it from the remainingAmount amount and return
+    const sum = manualTransactionsList.value.reduce((sum, current) => sum + current?.total, 0)
+    return routingSlip.value.remainingAmount - sum
+  }
+
   function resetManualTransaction () {
     // change to function if needed
+    status.value = ''
     toggleShowAddManualTransaction(false)
     manualTransactionsList.value = []
   }
@@ -82,12 +101,17 @@ export default function useRoutingSlipTransaction () {
 
   function getDefaultRow (): ManualTransactionDetails {
     // By default, the flags futureFiling, priority are false
+    const amount = availableAmountForManualTransaction()
     return {
+      // we would need this column with unique value to be used for iterator. we cannot use index as it would be inconsistent with push/pop
+      key: Math.random(),
       futureFiling: false,
       priority: false,
       total: null,
       referenceNumber: null,
-      filingType: null
+      filingType: null,
+      availableAmountForManualTransaction: amount
+
     } as ManualTransactionDetails
   }
 
@@ -97,6 +121,7 @@ export default function useRoutingSlipTransaction () {
 
   // Add one row to the list
   function addManualTransactionRow () {
+    status.value = ''
     manualTransactionsList.value.push(getDefaultRow())
   }
 
@@ -106,6 +131,7 @@ export default function useRoutingSlipTransaction () {
 
   // Remove one row to the list
   function removeManualTransactionRow (index: number) {
+    status.value = ''
     manualTransactionsList.value.splice(index, 1)
   }
 
@@ -113,11 +139,25 @@ export default function useRoutingSlipTransaction () {
   Cannot use output-sync or v-model, since it is not allowed on iterable list;
   therefore using event listener, we update the properties of the parent list elements
   */
-  async function updateManualTransactionDetails (
-    transaction: ManualTransactionDetails,
-    index: number
-  ) {
-    manualTransactionsList.value[index] = { ...transaction }
+  function updateManualTransactionDetails (payload: {index: number, transaction: ManualTransactionDetails}) {
+    // assigning individual properties rather than spread or splice as computed/watch not recognizing it
+    manualTransactionsList.value[payload.index].filingType = JSON.parse(JSON.stringify(payload.transaction.filingType))
+    manualTransactionsList.value[payload.index].futureFiling = payload.transaction.futureFiling
+    manualTransactionsList.value[payload.index].priority = payload.transaction.priority
+    manualTransactionsList.value[payload.index].quantity = payload.transaction.quantity
+    manualTransactionsList.value[payload.index].referenceNumber = payload.transaction.referenceNumber
+    manualTransactionsList.value[payload.index].total = payload.transaction.total
+    updateAvailableAmountForManualTransaction()
+    status.value = ''
+  }
+
+  // Update the availableAmountForManualTransaction property in each item of the manual transaction list
+  function updateAvailableAmountForManualTransaction (): void {
+    // We dont need the first item as it would have the entire remainingAmount of the routingslip
+    for (let i = 1; i <= manualTransactionsList.value.length - 1; i++) {
+      manualTransactionsList.value[i].availableAmountForManualTransaction =
+      routingSlip.value.remainingAmount - manualTransactionsList.value[i - 1].total
+    }
   }
 
   function hideManualTransaction (): void {
@@ -134,9 +174,11 @@ export default function useRoutingSlipTransaction () {
     addManualTransactionRow,
     addManualTransactions,
     isLastChild,
+    availableAmountForManualTransaction,
     isValid,
     removeManualTransactionRow,
     updateManualTransactionDetails,
-    hideManualTransaction
+    hideManualTransaction,
+    status
   }
 }
