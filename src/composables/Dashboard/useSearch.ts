@@ -254,7 +254,9 @@ export function useSearch (props) {
   }
 
   function openFasWeb (): string {
-    return `${ConfigHelper.getFasWebUrl()}?redirectFromAuth=true`
+    if (isLibraryMode.value) {
+      return `${ConfigHelper.getFasWebUrl()}?redirectFromAuth=true`
+    }
   }
 
   return {
