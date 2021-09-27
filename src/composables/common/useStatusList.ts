@@ -2,7 +2,7 @@ import { Code } from '@/models/Code'
 import { ref, computed, toRefs, onMounted, watch } from '@vue/composition-api'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
-const codeModule = createNamespacedHelpers('codes') // specific module name
+const codeModule = createNamespacedHelpers('fasCodes') // specific module name
 const { useState, useMutations, useActions } = codeModule
 
 export function useStatusList (props, context) {
@@ -25,7 +25,7 @@ export function useStatusList (props, context) {
   const { getRoutingSlipStatusList } = useActions(['getRoutingSlipStatusList'])
 
   const routingSlipStatus = computed(() => {
-    return routingSlipStatusList?.value
+    return routingSlipStatusList.value
   })
 
   onMounted(() => {
@@ -53,7 +53,7 @@ export function useStatusList (props, context) {
    */
 
   function selectedStatusObject (code: string) {
-    return routingSlipStatus.value.filter(
+    return routingSlipStatus.value?.filter(
       statusList => statusList.code === code
     )
   }

@@ -40,6 +40,8 @@ async function syncSession () {
     })
   }
 }
+// setting to window to avoid library build undefined issue for global loader
+(window as any).fasStore = store
 
 function renderVue () {
   new Vue({
@@ -50,4 +52,5 @@ function renderVue () {
     render: h => h(App)
   }).$mount('#app')
   Vue.directive('can', can)
+  
 }

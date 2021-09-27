@@ -1,8 +1,8 @@
 import Axios from 'axios'
 import ConfigHelper from '@/util/config-helper'
 import { SessionStorageKeys } from '@/util/constants'
-import store from '@/store'
-
+// import store from '@/store'
+// using fasStore from window to avoid library build issue.
 const axios = Axios.create()
 
 axios.defaults.showGlobalLoader = false // by default, false
@@ -14,9 +14,9 @@ axios.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
-    // we would want showGlobalLoader only if the request has that configuration set to true
+    const fasStore = window && (window as any).fasStore
     if (config.showGlobalLoader) {
-      store.commit('indicator/incrementActiveCalls')
+      fasStore.commit('indicator/incrementActiveCalls')
     }
     return config
   },
@@ -25,20 +25,24 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   response => {
+    const fasStore = window && (window as any).fasStore
+
     // decrement active calls count by one
-    if (response.config.showGlobalLoader && store.getters['indicator/isThereActiveCalls']) {
-      store.commit('indicator/decrementActiveCalls')
+    if (response.config.showGlobalLoader && fasStore.getters['indicator/isThereActiveCalls']) {
+      fasStore.commit('indicator/decrementActiveCalls')
     }
     return response
   },
   error => {
+    const fasStore = window && (window as any).fasStore
+
     // decrement active calls count by one
-    if (error.config.showGlobalLoader && store.getters['indicator/isThereActiveCalls']) {
-      store.commit('indicator/decrementActiveCalls')
+    if (error.config.showGlobalLoader && fasStore.getters['indicator/isThereActiveCalls']) {
+      fasStore.commit('indicator/decrementActiveCalls')
     }
     // call has failed in this case. And if the config showGlobalErrorHandling is true, then update store
     if (error.config.showGlobalErrorHandling && error?.response?.status >= 500) {
-      store.commit('indicator/setHasCallFailed', { hasCallFailed: true })
+      fasStore.commit('indicator/setHasCallFailed', { hasCallFailed: true })
     }
     return Promise.reject(error)
   }

@@ -30,8 +30,7 @@ const storeOptions: StoreOptions<RootState> = {
   modules: {
     routingSlip,
     indicator,
-    codes
+    fasCodes: codes
   }
 }
-
 export default new Vuex.Store<RootState>(storeOptions)

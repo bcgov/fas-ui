@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="fas-search">
     <v-row
-      class="d-flex flex-row justify-space-between align-center"
+      class="d-flex flex-row align-center"
+      :class="isLibraryMode ? 'justify-end' : 'justify-space-between'"
       no-gutters
     >
-      <v-col cols="4">
+      <v-col cols="4" v-if="!isLibraryMode">
         <v-btn
           class="font-weight-bold"
           large
@@ -19,6 +20,14 @@
           Add New Routing Slip
         </v-btn>
       </v-col>
+      <v-col cols="3" align-self="center" v-if="isLibraryMode">
+        <v-btn x-large dark outlined color="primary">
+          Access Fee Account System
+          <v-icon dark small class="ml-2 font-weight-bold">
+            mdi-open-in-new
+          </v-icon>
+        </v-btn>
+      </v-col>
       <v-col cols="2">
         <search-column-filter-component v-model="headerSearch" hide-details>
         </search-column-filter-component>
@@ -26,11 +35,13 @@
     </v-row>
     <v-row class="mt-0">
       <v-col>
-        <div class="header-bg-color d-flex align-center py-5 mb-0 ">
+        <div class="header-bg-color d-flex align-center py-5 mb-0 rounded-t-lg">
           <v-icon color="primary" class="ml-5">
             mdi-view-list
           </v-icon>
-          <h4 class="ml-2 mb-0 font-weight-bold">Search Routing Slip</h4>
+          <h4 class="ml-2 mb-0 font-weight-bold">
+            {{ isLibraryMode ? 'Recent Routing Slip' : 'Search Routing Slip' }}
+          </h4>
         </div>
         <v-form>
           <v-row dense class="row-margin">
@@ -295,7 +306,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { useSearch } from '@/composables/Dashboard/useSearch'
 import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
 import SearchColumnFilterComponent from '@/components/common/SearchColumnFilterComponent.vue'
@@ -367,97 +378,13 @@ export default class Search extends Vue {
   public colors = commonUtil.statusListColor
   public appendCurrencySymbol = commonUtil.appendCurrencySymbol
   public formatDisplayDate = commonUtil.formatDisplayDate
+
+  @Prop({ default: () => false }) isLibraryMode: boolean
 }
 </script>
-<style lang="scss" scoped>
+
+<style lang="scss" >
 @import '$assets/scss/theme.scss';
+@import '$assets/scss/search.scss';
 
-.button-search {
-  display: flex;
-  height: 62% !important;
-  width: 100%;
-}
-.advanced-search {
-  color: var(--v-primary-base) !important;
-  font-size: 1rem;
-  cursor: pointer;
-}
-.row-margin {
-  margin: -5px !important;
-}
-.header-bg-color {
-  background-color: $BCgovBlue0;
-}
-
-//@at-root
-// .text-input-style {
-//   height: 41px !important;
-// }
-.clear-filter {
-  font-size: 14px;
-  font-weight: normal;
-}
-.action {
-  width: 125px;
-}
-.header-row-1 {
-  th {
-    font-size: 12px !important;
-    font-weight: bold !important;
-    color: $BCgovBlack !important;
-  }
-}
-</style>
-
-<style lang="scss">
-.v-text-field--outlined > .v-input__control > .v-input__slot {
-  min-height: 41px !important;
-}
-.no-data {
-  border-bottom: thin solid rgba(0, 0, 0, 0.12);
-  margin: 0px -15px;
-}
-
-// style to match design, small inputs intable
-.header-row-2 {
-  th {
-    padding: 18px 3px 18px 3px;
-    border-bottom: thin solid rgba(0, 0, 0, 0.12);
-  }
-  th:first-child {
-    padding-left: 14px;
-  }
-  .v-label,
-  .v-input {
-    font-size: 14px;
-    font-weight: normal;
-  }
-  .v-text-field .v-input__control .v-input__slot {
-    min-height: auto !important;
-    height: 40px !important;
-  }
-
-  .v-text-field--filled .v-label,
-  .v-text-field--full-width .v-label {
-    top: 10px !important;
-    font-weight: normal;
-  }
-  .v-text-field--enclosed .v-input__append-inner,
-  .v-text-field--enclosed .v-input__append-outer,
-  .v-text-field--enclosed .v-input__prepend-inner,
-  .v-text-field--enclosed .v-input__prepend-outer,
-  .v-text-field--full-width .v-input__append-inner,
-  .v-text-field--full-width .v-input__append-outer,
-  .v-text-field--full-width .v-input__prepend-inner,
-  .v-text-field--full-width .v-input__prepend-outer {
-    margin-top: 10px !important;
-  }
-}
-tr.rs-search-result > td {
-  padding: 20px 15px !important;
-}
-
-.v-data-table--fixed-header > .v-data-table__wrapper > table > thead > tr > th {
-  z-index: 1 !important;
-}
 </style>

@@ -23,7 +23,7 @@ describe('StatusList.vue', () => {
     store = new Vuex.Store({
       strict: false,
       modules: {
-        codes: codesModule
+        fasCodes: codesModule
       }
     })
 
