@@ -49,10 +49,11 @@ export default function usePaymentInformation (_, context) {
     isExpanded.value = !isExpanded.value
   }
 
+  const appendQueryParamsIfNeeded = commonUtil.appendQueryParamsIfNeeded
+
   function navigateTo (routingSlipNumber: number, childNumber: number): string {
-    const redirectFromAuth = context.root.$route?.query?.redirectFromAuth
-    return redirectFromAuth ? `/view-routing-slip/${routingSlipNumber}/${childNumber}?redirectFromAuth=true`
-      : `/view-routing-slip/${routingSlipNumber}/${childNumber}`
+    const route = context.root.$route
+    return appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipNumber}/${childNumber}`, route)
   }
 
   return {

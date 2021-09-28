@@ -1,4 +1,5 @@
 import { BreadcrumbItem } from '@/models/BreadcrumbItem'
+import CommonUtils from '@/util/common-util'
 import ConfigHelper from '@/util/config-helper'
 import { computed } from '@vue/composition-api'
 
@@ -12,6 +13,8 @@ export function useBreadCrumb (_, context) {
       return generateBreadcrumbItems(context.root.$route)
     }
   })
+
+  const appendQueryParamsIfNeeded = CommonUtils.appendQueryParamsIfNeeded
 
   function generateBreadcrumbItems (route: any): BreadcrumbItem[] {
     switch (route.name) {
@@ -99,11 +102,6 @@ export function useBreadCrumb (_, context) {
       } as BreadcrumbItem)
     }
     return items
-  }
-
-  function appendQueryParamsIfNeeded (targetUrl: string, route: any): string {
-    const redirectFromAuth = route.query?.redirectFromAuth
-    return redirectFromAuth ? `${targetUrl}?redirectFromAuth=true` : targetUrl
   }
 
   function goBack (): void {
