@@ -1,13 +1,15 @@
-import { computed, reactive, ref, watch } from '@vue/composition-api'
+import { computed, reactive, ref, toRefs, watch } from '@vue/composition-api'
 
+import ConfigHelper from '@/util/config-helper'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
-import { useStatusList } from '@/composables/common/useStatusList'
 import { useLoader } from '@/composables/common/useLoader'
+import { useStatusList } from '@/composables/common/useStatusList'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useActions, useState, useMutations, useGetters } = routingSlipModule
 
-export function useSearch () {
+export function useSearch (props, context) {
+  const { isLibraryMode } = toRefs(props)
   // vuex action and state
   const { searchRoutingSlip, resetSearchParams } = useActions([
     'searchRoutingSlip',
@@ -247,6 +249,22 @@ export function useSearch () {
     return ['-']
   }
 
+  function navigateTo (routingSlipNumber: number) : void {
+    if (isLibraryMode.value) {
+      // this would hit when on library mode where we have to navigate to FAS UI using window.location
+      // we append queryparams so that we can persist breadcrumbs across different components and refresh issue
+      window.location.href = `${ConfigHelper.getFasWebUrl()}view-routing-slip/${routingSlipNumber}?redirectFromAuth=true`
+    } else {
+      context.root.$router.push(`/view-routing-slip/${routingSlipNumber}`)
+    }
+  }
+
+  function openFasWeb (): string {
+    if (isLibraryMode.value) {
+      return `${ConfigHelper.getFasWebUrl()}?redirectFromAuth=true`
+    }
+  }
+
   return {
     headerSearch,
     displayedHeaderSearch,
@@ -267,6 +285,8 @@ export function useSearch () {
     formatFolioResult,
     showExpandedFolio,
     toggleFolio,
-    isLoading
+    isLoading,
+    navigateTo,
+    openFasWeb
   }
 }

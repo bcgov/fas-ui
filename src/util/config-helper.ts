@@ -1,5 +1,4 @@
 import { SessionStorageKeys } from '@/util/constants'
-
 import axios from 'axios'
 
 /**
@@ -14,7 +13,8 @@ export default class ConfigHelper {
     // sbc common components need the following keys
     sessionStorage.setItem(SessionStorageKeys.AuthApiUrl, ConfigHelper.getAuthAPIUrl())
     sessionStorage.setItem(SessionStorageKeys.StatusApiUrl, ConfigHelper.getStatusAPIUrl())
-    sessionStorage.setItem(SessionStorageKeys.AuthWebUrl, ConfigHelper.getSelfURL())
+    sessionStorage.setItem(SessionStorageKeys.AuthWebUrl, ConfigHelper.getAuthWebUrl())
+    sessionStorage.setItem(SessionStorageKeys.FasWebUrl, ConfigHelper.getFasWebUrl())
   }
 
   /**
@@ -39,6 +39,14 @@ export default class ConfigHelper {
 
   static getAuthAPIUrl () {
     return ConfigHelper.getValue('AUTH_API_URL') + ConfigHelper.getValue('AUTH_API_VERSION')
+  }
+
+  static getAuthWebUrl () {
+    return ConfigHelper.getValue('AUTH_WEB_URL')
+  }
+
+  static getFasWebUrl () {
+    return ConfigHelper.getValue('FAS_WEB_URL')
   }
 
   static getStatusAPIUrl () {

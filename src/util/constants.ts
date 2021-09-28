@@ -6,7 +6,8 @@ export enum SessionStorageKeys {
   SessionSynced = 'SESSION_SYNCED',
   AuthApiUrl = 'AUTH_API_URL',
   AuthWebUrl = 'AUTH_WEB_URL',
-  StatusApiUrl = 'STATUS_API_URL'
+  StatusApiUrl = 'STATUS_API_URL',
+  FasWebUrl = 'FAS_WEB_URL'
 }
 
 export enum DateFilterCodes {

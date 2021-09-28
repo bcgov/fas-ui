@@ -11,15 +11,18 @@ While upgrading to vue 3 please check full plugin and do necessary modifications
   or inside component style tag us without scope (global scope needed),
   @import '~fas-ui/src/assets/scss/search.scss';
   */
+
 import OurVue from 'vue'
 import Search from '@/components/Dashboard/Search.vue'
 import VueCompositionAPI from '@vue/composition-api'
-// stores needed fro search
-import routingSlip from '@/store/modules/routingSlip'
 import codes from '@/store/modules/codes'
-import indicator from '@/store/modules/indicator'
-// lang files
 import i18n from '@/plugins/i18n'
+import indicator from '@/store/modules/indicator'
+import routingSlip from '@/store/modules/routingSlip'
+
+// stores needed fro search
+
+// lang files
 
 /**
  * install function

@@ -1,13 +1,12 @@
-import { Role } from '@/util/constants'
 import CreateRoutingSlipView from '../views/CreateRoutingSlipView.vue'
 import Dashboard from '../views/Dashboard.vue'
 import PageNotFound from '../views/PageNotFound.vue'
+import { Role } from '@/util/constants'
+import { RouteConfig } from 'vue-router'
 import SigninView from '@/views/auth/SigninView.vue'
 import SignoutView from '@/views/auth/SignoutView.vue'
 import Unauthorized from '@/views/Unauthorized.vue'
-
 import ViewRoutingSlip from '../views/ViewRoutingSlip.vue'
-import { RouteConfig } from 'vue-router'
 
 const routes: Array<RouteConfig> = [
   { path: '/', name: 'root', redirect: 'home' },
@@ -32,6 +31,16 @@ const routes: Array<RouteConfig> = [
   {
     path: '/view-routing-slip/:slipId?',
     name: 'view-routing-slip',
+    component: ViewRoutingSlip,
+    props: true,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: [Role.FAS_VIEW]
+    }
+  },
+  {
+    path: '/view-routing-slip/:parentSlipId/:slipId?',
+    name: 'view-routing-slip-child',
     component: ViewRoutingSlip,
     props: true,
     meta: {

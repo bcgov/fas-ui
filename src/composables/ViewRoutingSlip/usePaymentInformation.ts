@@ -10,7 +10,7 @@ const routingSlipModule = createNamespacedHelpers('routingSlip') // specific mod
 const { useState, useGetters } = routingSlipModule
 
 // Composable function to inject Props, options and values to PaymentInformation component
-export default function usePaymentInformation () {
+export default function usePaymentInformation (_, context) {
   // UI control variables
   const isExpanded = ref<boolean>(false)
 
@@ -49,6 +49,13 @@ export default function usePaymentInformation () {
     isExpanded.value = !isExpanded.value
   }
 
+  const appendQueryParamsIfNeeded = commonUtil.appendQueryParamsIfNeeded
+
+  function navigateTo (routingSlipNumber: number, childNumber: number): string {
+    const route = context.root.$route
+    return appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipNumber}/${childNumber}`, route)
+  }
+
   return {
     routingSlip,
     isExpanded,
@@ -58,6 +65,7 @@ export default function usePaymentInformation () {
     isRoutingSlipLinked,
     totalAmount,
     remainingAmount,
-    viewPaymentInformation
+    viewPaymentInformation,
+    navigateTo
   }
 }

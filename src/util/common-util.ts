@@ -100,4 +100,9 @@ export default class CommonUtils {
     Object.keys(params)
       .map(k => `${k}=${encodeURI(params[k])}`)
       .join('&')
+
+  static appendQueryParamsIfNeeded (targetUrl: string, route: any): string {
+    const redirectFromAuth = route.query?.redirectFromAuth
+    return redirectFromAuth ? `${targetUrl}?redirectFromAuth=true` : targetUrl
+  }
 }

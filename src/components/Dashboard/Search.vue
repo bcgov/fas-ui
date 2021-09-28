@@ -21,14 +21,20 @@
         </v-btn>
       </v-col>
       <v-col cols="3" align-self="center" v-if="isLibraryMode">
-        <v-btn x-large dark outlined color="primary">
+        <v-btn
+          x-large
+          dark
+          outlined
+          color="primary"
+          :href="openFasWeb"
+        >
           Access Fee Account System
           <v-icon dark small class="ml-2 font-weight-bold">
             mdi-open-in-new
           </v-icon>
         </v-btn>
       </v-col>
-      <v-col cols="2">
+      <v-col cols="3">
         <search-column-filter-component v-model="headerSearch" hide-details>
         </search-column-filter-component>
       </v-col>
@@ -287,7 +293,7 @@
                           <v-btn
                             color="primary"
                             class=""
-                            :to="`/view-routing-slip/${item.number}`"
+                            @click="navigateTo(item.number)"
                           >
                             Open
                           </v-btn>
@@ -317,8 +323,8 @@ import { useDashboard } from '@/composables/Dashboard'
 import can from '@/directives/can'
 
 @Component({
-  setup (_, context) {
-    const { addRoutingSlip } = useDashboard(_, context)
+  setup (props, context) {
+    const { addRoutingSlip } = useDashboard(props, context)
     const {
       headerSearch,
       displayedHeaderSearch,
@@ -339,8 +345,10 @@ import can from '@/directives/can'
       formatFolioResult,
       showExpandedFolio,
       toggleFolio,
-      isLoading
-    } = useSearch()
+      isLoading,
+      navigateTo,
+      openFasWeb
+    } = useSearch(props, context)
     return {
       headerSearch,
       displayedHeaderSearch,
@@ -362,7 +370,9 @@ import can from '@/directives/can'
       formatFolioResult,
       showExpandedFolio,
       toggleFolio,
-      isLoading
+      isLoading,
+      navigateTo,
+      openFasWeb
     }
   },
   components: {
@@ -383,8 +393,7 @@ export default class Search extends Vue {
 }
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 @import '$assets/scss/theme.scss';
 @import '$assets/scss/search.scss';
-
 </style>
