@@ -7,10 +7,12 @@ Currently, displayed in Dashboard and ViewRoutingslip views
 */
 export function useBreadCrumb (_, context) {
   const items = computed(() => {
-    if (typeof context.root.$route.meta.breadCrumb === 'function') {
-      return context.root.$route.meta.breadCrumb.call(context, context.root.$route)
+    if (context.root.$route && context.root.$route.meta) {
+      if (typeof context.root.$route.meta.breadCrumb === 'function') {
+        return context.root.$route.meta.breadCrumb.call(context, context.root.$route)
+      }
+      return context.root.$route.meta.breadCrumb
     }
-    return context.root.$route.meta.breadCrumb
   })
 
   function goBack (): void {
