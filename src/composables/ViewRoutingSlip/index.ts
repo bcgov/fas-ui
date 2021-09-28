@@ -7,3 +7,4 @@ export { default as useRoutingSlipAutoComplete } from './useRoutingSlipAutoCompl
 export { default as useRoutingSlipTransaction } from './useRoutingSlipTransaction'
 export { default as useAddManualTransactionDetails } from './useAddManualTransactionDetails'
 export { default as useFilingTypeAutoComplete } from './useFilingTypeAutoComplete'
+export { default as useLinkedRoutingSlipDetails } from './useLinkedRoutingSlipDetails'

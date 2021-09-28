@@ -8,7 +8,7 @@ import { useStatusList } from '@/composables/common/useStatusList'
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useActions, useState, useMutations, useGetters } = routingSlipModule
 
-export function useSearch (props) {
+export function useSearch (props, context) {
   const { isLibraryMode } = toRefs(props)
   // vuex action and state
   const { searchRoutingSlip, resetSearchParams } = useActions([
@@ -249,8 +249,14 @@ export function useSearch (props) {
     return ['-']
   }
 
-  function navigateTo (routingSlipNumber: number) : string {
-    return isLibraryMode.value ? `${ConfigHelper.getFasWebUrl()}view-routing-slip/${routingSlipNumber}?redirectFromAuth=true` : `/view-routing-slip/${routingSlipNumber}`
+  function navigateTo (routingSlipNumber: number) : void {
+    if (isLibraryMode.value) {
+      // this would hit when on library mode where we have to navigate to FAS UI using window.location
+      // we append queryparams so that we can persist breadcrumbs across different components and refresh issue
+      window.location.href = `${ConfigHelper.getFasWebUrl()}view-routing-slip/${routingSlipNumber}?redirectFromAuth=true`
+    } else {
+      context.root.$router.push(`/view-routing-slip/${routingSlipNumber}`)
+    }
   }
 
   function openFasWeb (): string {

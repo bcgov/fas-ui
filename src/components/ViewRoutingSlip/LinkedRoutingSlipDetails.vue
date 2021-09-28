@@ -4,7 +4,7 @@
       {{ formatSiNumber }} </span
     >
     <router-link
-      :to="parentRoutingSlipNumber ? `/view-routing-slip/${parentRoutingSlipNumber}/${routingSlipNumber}` : `/view-routing-slip/${routingSlipNumber}`"
+      :to="navigateTo()"
       class="font-weight-bold"
     >
       {{ routingSlipNumber }}
@@ -20,8 +20,18 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import commonUtil from '@/util/common-util'
+import { useLinkedRoutingSlipDetails } from '@/composables/ViewRoutingSlip'
 
-@Component({})
+@Component({
+  setup (props, context) {
+    const {
+      navigateTo
+    } = useLinkedRoutingSlipDetails(props, context)
+    return {
+      navigateTo
+    }
+  }
+})
 export default class LinkedRoutingSlipDetails extends Vue {
   @Prop({ default: '' }) private siNumber: string
   @Prop({ default: '' }) private routingSlipNumber: string

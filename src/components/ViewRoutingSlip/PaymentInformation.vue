@@ -58,7 +58,7 @@
                     :key="i" class="d-flex flex-column">
                       <div class="d-flex mt-6 mb-3">
                         <p class="ma-0">Linked with: </p>
-                        <router-link :to="`/view-routing-slip/${routingSlip.number}/${child.number}`">
+                        <router-link :to="navigateTo(routingSlip.number, child.number)">
                           <span :data-test="getIndexedTag('text-review-routing-slip', i)"
                           class="font-weight-bold pl-1">{{ child.number }}</span>
                         </router-link>
@@ -109,7 +109,7 @@ import { PaymentMethods } from '@/util/constants'
   directives: {
     can
   },
-  setup () {
+  setup (_, context) {
     const {
       routingSlip,
       isExpanded,
@@ -119,8 +119,9 @@ import { PaymentMethods } from '@/util/constants'
       isRoutingSlipLinked,
       totalAmount,
       remainingAmount,
-      viewPaymentInformation
-    } = usePaymentInformation()
+      viewPaymentInformation,
+      navigateTo
+    } = usePaymentInformation(_, context)
     return {
       routingSlip,
       isExpanded,
@@ -130,7 +131,8 @@ import { PaymentMethods } from '@/util/constants'
       isRoutingSlipLinked,
       totalAmount,
       remainingAmount,
-      viewPaymentInformation
+      viewPaymentInformation,
+      navigateTo
     }
   }
 })
