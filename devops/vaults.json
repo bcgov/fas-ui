@@ -19,5 +19,12 @@
       "status-api",
       "pay-api"
     ]
-  }
+  },
+  {
+        "vault": "web-url",
+        "application": [
+            "auth-web",
+            "fas-ui"
+        ]
+    },
 ]
