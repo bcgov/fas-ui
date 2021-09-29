@@ -26,7 +26,7 @@
           dark
           outlined
           color="primary"
-          :href="openFasWeb"
+          @click="openFasWeb"
         >
           Access Fee Account System
           <v-icon dark small class="ml-2 font-weight-bold">

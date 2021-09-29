@@ -259,9 +259,9 @@ export function useSearch (props, context) {
     }
   }
 
-  function openFasWeb (): string {
+  function openFasWeb (): void {
     if (isLibraryMode.value) {
-      return `${ConfigHelper.getFasWebUrl()}?redirectFromAuth=true`
+      window.location.href = `${ConfigHelper.getFasWebUrl()}?redirectFromAuth=true`
     }
   }
 
