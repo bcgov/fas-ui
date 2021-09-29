@@ -15,6 +15,7 @@ export function useBreadCrumb (_, context) {
   })
 
   const appendQueryParamsIfNeeded = CommonUtils.appendQueryParamsIfNeeded
+  const authWebUrl = `${ConfigHelper.getAuthWebUrl()}business/auth/staff/dashboard/active`
 
   function generateBreadcrumbItems (route: any): BreadcrumbItem[] {
     switch (route.name) {
@@ -37,7 +38,7 @@ export function useBreadCrumb (_, context) {
           /* For redirecting to parent dashboard ( for Vuetify Breadcrumb to navigate )
           Reason: Behind the scenes, Vuetify breadcrumb calls router.push for :to property and
           window.location for :href property */
-          href: `${ConfigHelper.getAuthWebUrl()}`
+          href: authWebUrl
         } as BreadcrumbItem,
         {
           text: 'FAS Dashboard',
@@ -67,7 +68,7 @@ export function useBreadCrumb (_, context) {
       items.unshift({
         text: 'Staff Dashboard',
         disabled: false,
-        href: `${ConfigHelper.getAuthWebUrl()}`
+        href: authWebUrl
       } as BreadcrumbItem)
     }
     return items
@@ -98,7 +99,7 @@ export function useBreadCrumb (_, context) {
       items.unshift({
         text: 'Staff Dashboard',
         disabled: false,
-        href: `${ConfigHelper.getAuthWebUrl()}`
+        href: authWebUrl
       } as BreadcrumbItem)
     }
     return items
