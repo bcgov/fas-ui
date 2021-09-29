@@ -26,7 +26,7 @@
           dark
           outlined
           color="primary"
-          :href="openFasWeb"
+          :href="fasUrl"
         >
           Access Fee Account System
           <v-icon dark small class="ml-2 font-weight-bold">
@@ -347,7 +347,7 @@ import can from '@/directives/can'
       toggleFolio,
       isLoading,
       navigateTo,
-      openFasWeb
+      fasUrl
     } = useSearch(props, context)
     return {
       headerSearch,
@@ -372,7 +372,7 @@ import can from '@/directives/can'
       toggleFolio,
       isLoading,
       navigateTo,
-      openFasWeb
+      fasUrl
     }
   },
   components: {

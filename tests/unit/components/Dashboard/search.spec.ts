@@ -6,6 +6,12 @@ import Vuetify from 'vuetify'
 import Vuex from 'vuex'
 import { routingSlip } from '../../test-data/mock-routing-slip'
 
+jest.mock('@/util/config-helper', () => ({
+  getFasWebUrl () {
+    return 'test' // set some default value
+  }
+}))
+
 describe('Search.vue', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
