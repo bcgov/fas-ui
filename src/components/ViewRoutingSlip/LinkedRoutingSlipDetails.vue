@@ -1,7 +1,7 @@
 <template>
   <div class="mb-4">
-    <span class="font-weight-bold" v-if="formatSiNumber !== ''">
-      {{ formatSiNumber }} </span
+    <span class="font-weight-bold" v-if="siNumber !== ''">
+      {{ siNumber }}. </span
     >
     <router-link
       :to="navigateTo()"
@@ -40,15 +40,6 @@ export default class LinkedRoutingSlipDetails extends Vue {
 
   public colors = commonUtil.statusListColor
   public formatDisplayDate = commonUtil.formatDisplayDate
-  get formatSiNumber () {
-    let siNumber = ''
-    if (this.siNumber && this.siNumber !== '') {
-      // for padding zero for single digits to match design
-      siNumber = this.siNumber?.toString().padStart(2, '0')
-      siNumber = `${siNumber}.`
-    }
-    return siNumber
-  }
 }
 </script>
 

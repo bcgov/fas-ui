@@ -74,7 +74,7 @@ export default class CommonUtils {
     switch (status) {
       case SlipStatus.ACTIVE:
       case SlipStatus.COMPLETE:
-        color = 'green'
+        color = 'success'
         break
       case SlipStatus.BOUNCED:
       case SlipStatus.NSF:

@@ -14,9 +14,6 @@
           </header>
         </v-col>
 
-        <v-col cols="12">
-          <print-routing-slip />
-        </v-col>
         <v-col cols="12" class="mb-5">
           <routing-slip-info />
         </v-col>
@@ -37,7 +34,9 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import {
-  PrintRoutingSlip, RoutingSlipInfo, PaymentInformation, RoutingSlipTransaction,
+  RoutingSlipInfo,
+  PaymentInformation,
+  RoutingSlipTransaction,
   LinkRoutingSlip
 } from '@/components/ViewRoutingSlip'
 import BreadCrumb from '@/components/common/BreadCrumb.vue'
@@ -45,7 +44,6 @@ import { useViewRoutingSlip } from '@/composables/ViewRoutingSlip'
 
 @Component({
   components: {
-    PrintRoutingSlip,
     RoutingSlipInfo,
     PaymentInformation,
     RoutingSlipTransaction,

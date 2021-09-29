@@ -123,10 +123,9 @@ input:-webkit-autofill:active {
   position: relative;
 }
 
-.cursor-pointer{
+.cursor-pointer {
   cursor: pointer;
 }
-
 
 .small-text-input {
   .v-text-field--filled .v-label,
@@ -137,5 +136,26 @@ input:-webkit-autofill:active {
   .v-text-field .v-input__control .v-input__slot {
     min-height: auto !important;
     height: 42px !important;
+  }
+}
+// FAS UI overrides for vuetify to match BC gov standerds
+.theme--light {
+  .v-input--is-disabled,
+  .v-input--is-disabled input,
+  .v-input--is-disabled textarea {
+    color: $gray9 !important;
+    opacity: 0.9;
+  }
+  .v-label--is-disabled {
+    color: $gray9 !important;
+  }
+
+  // .v-data-table
+  .v-data-table {
+    color: $gray7;
+    > .v-data-table__wrapper > table > thead > tr > th {
+      color: $gray9;
+      font-size: 14px;
+    }
   }
 }

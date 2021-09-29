@@ -3,7 +3,7 @@
     <header class="d-flex flex-column mb-0">
       <div class="d-flex justify-space-between">
         <div>
-          <h3 data-test="title">02.Payment Information</h3>
+          <h3 data-test="title">Payment Information</h3>
           <p>
             {{ $t('paymentInformationSubText') }}
           </p>

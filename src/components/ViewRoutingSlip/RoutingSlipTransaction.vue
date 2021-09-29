@@ -3,7 +3,7 @@
     <header class="d-flex flex-column mb-4">
       <div>
         <div>
-          <h3 data-test="title">04.Routing Slip Transaction</h3>
+          <h3 data-test="title">Routing Slip Transaction</h3>
           <p>
             {{ $t('routingSlipTransactionSubText') }}
           </p>
