@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class="d-flex flex-column mb-0">
-      <h3 data-test="title">{{ tabNumber }}.Linking Routing Slip</h3>
+      <h3 data-test="title">Linking Routing Slip</h3>
       <p>{{ $t('linkRoutingSlipSubText') }}</p>
     </header>
     <v-card class="pl-5 py-2 small-text-input">
@@ -86,7 +86,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import commonUtil from '@/util/common-util'
 import { useLinkRoutingSlip } from '@/composables/ViewRoutingSlip'
 import can from '@/directives/can'
@@ -128,7 +128,6 @@ import RoutingSlipAutoComplete from '@/components/ViewRoutingSlip/RoutingSlipAut
 })
 export default class LinkRoutingSlip extends Vue {
   public formatDisplayDate = commonUtil.formatDisplayDate
-  @Prop({ default: '03' }) private tabNumber
 }
 </script>
 

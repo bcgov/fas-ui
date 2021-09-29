@@ -1,6 +1,6 @@
 
 import ViewRoutingSlip from '@/views/ViewRoutingSlip.vue'
-import { PrintRoutingSlip, RoutingSlipInfo, PaymentInformation } from '@/components/ViewRoutingSlip'
+import { RoutingSlipInfo, PaymentInformation } from '@/components/ViewRoutingSlip'
 
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import Vuetify from 'vuetify'
@@ -40,7 +40,6 @@ describe('ViewRoutingSlip.vue', () => {
       localVue,
       vuetify
     })
-    expect(wrapper.findComponent(PrintRoutingSlip).exists()).toBe(true)
     expect(wrapper.findComponent(RoutingSlipInfo).exists()).toBe(true)
     expect(wrapper.findComponent(PaymentInformation).exists()).toBe(true)
   })
