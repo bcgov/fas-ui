@@ -10,6 +10,7 @@ const { useActions, useState, useMutations, useGetters } = routingSlipModule
 
 export function useSearch (props, context) {
   const { isLibraryMode } = toRefs(props)
+  const fasUrl = `${ConfigHelper.getFasWebUrl()}?redirectFromAuth=true`
   // vuex action and state
   const { searchRoutingSlip, resetSearchParams } = useActions([
     'searchRoutingSlip',
@@ -259,12 +260,6 @@ export function useSearch (props, context) {
     }
   }
 
-  function openFasWeb (): void {
-    if (isLibraryMode.value) {
-      window.location.href = `${ConfigHelper.getFasWebUrl()}?redirectFromAuth=true`
-    }
-  }
-
   return {
     headerSearch,
     displayedHeaderSearch,
@@ -287,6 +282,6 @@ export function useSearch (props, context) {
     toggleFolio,
     isLoading,
     navigateTo,
-    openFasWeb
+    fasUrl
   }
 }
