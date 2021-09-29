@@ -60,7 +60,7 @@ describe('RoutingSlipInfo.vue', () => {
         can () { /* stub */ }
       }
     })
-    expect(wrapper.find('[data-test="title"]').text()).toBe('01.Routing Slip Information')
+    expect(wrapper.find('[data-test="title"]').text()).toBe('Routing Slip Information')
     expect(wrapper.find('[data-test="label-status"]').exists()).toBeTruthy()
   })
 
