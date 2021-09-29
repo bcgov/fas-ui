@@ -15,7 +15,7 @@ export function useBreadCrumb (_, context) {
   })
 
   const appendQueryParamsIfNeeded = CommonUtils.appendQueryParamsIfNeeded
-  const authWebUrl = `${ConfigHelper.getAuthWebUrl()}business/auth/staff/dashboard/active`
+  const authWebUrl = `${ConfigHelper.getAuthWebUrl()}staff/dashboard`
 
   function generateBreadcrumbItems (route: any): BreadcrumbItem[] {
     switch (route.name) {
