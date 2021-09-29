@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class="d-flex flex-column mb-0">
-      <h3 data-test="title">01.Routing Slip Information</h3>
+      <h3 data-test="title">Routing Slip Information</h3>
       <p>{{ $t('routingSlipInfoSubText') }}</p>
     </header>
     <v-card class="pl-5 py-2">
@@ -39,7 +39,7 @@
               <v-col class="col-6 col-sm-9">
                 <span
                   :class="colors(routingSlipDetails.status)"
-                  class="slip-status font-weight-bold"
+                  class="slip-status "
                   data-test="label-status"
                   >{{ getStatusLabel(routingSlipDetails.status) }}</span
                 >
@@ -51,7 +51,10 @@
                 Status
               </v-col>
               <v-col class="col-6 col-sm-9 status-list">
-                <status-list v-model="currentStatus" label="Status"></status-list>
+                <status-list
+                  v-model="currentStatus"
+                  label="Status"
+                ></status-list>
               </v-col>
             </v-row>
 
@@ -59,7 +62,13 @@
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 Name of Person Submitting
               </v-col>
-              <v-col class="col-6 col-sm-9" v-if="routingSlipDetails.paymentAccount && routingSlipDetails.paymentAccount.accountName">
+              <v-col
+                class="col-6 col-sm-9"
+                v-if="
+                  routingSlipDetails.paymentAccount &&
+                    routingSlipDetails.paymentAccount.accountName
+                "
+              >
                 {{ routingSlipDetails.paymentAccount.accountName }}
               </v-col>
             </v-row>
@@ -116,7 +125,7 @@ import can from '@/directives/can'
   directives: {
     can
   },
-  setup (props) {
+  setup(props) {
     const {
       routingSlipDetails,
       editMode,
@@ -151,7 +160,7 @@ export default class RoutingSlipInfo extends Vue {
 .row + .row {
   margin-top: 7px !important;
 }
-.status-list{
+.status-list {
   max-width: 400px;
 }
 </style>

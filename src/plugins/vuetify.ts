@@ -15,6 +15,9 @@ export default new Vuetify({
     },
     themes: {
       light: {
+        primary: '#1669BB',
+        error: '#D3272C',
+        success: '#2E8540',
         grey: {
           base: '#adb5bd',
           lighten5: '#f8f9fa',

@@ -230,7 +230,6 @@
                         <td v-if="canShowColumn('status')">
                           <span
                             :class="colors(item.status)"
-                            class="font-weight-bold"
                             data-test="label-status"
                             >{{
                               getStatusLabel(item.status)
