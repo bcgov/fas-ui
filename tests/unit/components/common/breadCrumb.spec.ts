@@ -6,6 +6,12 @@ import Vuetify from 'vuetify'
 import Vuex from 'vuex'
 import routes from '@/router/routes'
 
+jest.mock('@/util/config-helper', () => ({
+  getAuthWebUrl () {
+    return 'test' // set some default value
+  }
+}))
+
 describe('BreadCrumb.vue', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
