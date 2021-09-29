@@ -18,6 +18,7 @@ export default new Vuetify({
         primary: '#1669BB',
         error: '#D3272C',
         success: '#2E8540',
+        anchor: '#1669BB',
         grey: {
           base: '#adb5bd',
           lighten5: '#f8f9fa',
@@ -56,8 +57,7 @@ export default new Vuetify({
         },
         navMenuBg: {
           base: '#26527d'
-        },
-        anchor: '#1A5A96'
+        }
       }
     }
   }
