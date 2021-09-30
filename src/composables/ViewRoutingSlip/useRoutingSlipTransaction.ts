@@ -100,12 +100,12 @@ export default function useRoutingSlipTransaction () {
   }
 
   function getDefaultRow (): ManualTransactionDetails {
-    // By default, the flags futureFiling, priority are false
+    // By default, the flags futureEffective, priority are false
     const amount = availableAmountForManualTransaction()
     return {
       // we would need this column with unique value to be used for iterator. we cannot use index as it would be inconsistent with push/pop
       key: Math.random(),
-      futureFiling: false,
+      futureEffective: false,
       priority: false,
       total: null,
       referenceNumber: null,
@@ -142,7 +142,7 @@ export default function useRoutingSlipTransaction () {
   function updateManualTransactionDetails (payload: {index: number, transaction: ManualTransactionDetails}) {
     // assigning individual properties rather than spread or splice as computed/watch not recognizing it
     manualTransactionsList.value[payload.index].filingType = JSON.parse(JSON.stringify(payload.transaction.filingType))
-    manualTransactionsList.value[payload.index].futureFiling = payload.transaction.futureFiling
+    manualTransactionsList.value[payload.index].futureEffective = payload.transaction.futureEffective
     manualTransactionsList.value[payload.index].priority = payload.transaction.priority
     manualTransactionsList.value[payload.index].quantity = payload.transaction.quantity
     manualTransactionsList.value[payload.index].referenceNumber = payload.transaction.referenceNumber

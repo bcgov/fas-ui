@@ -363,7 +363,7 @@ export default class RoutingSlipModule extends VuexModule {
     const {
       referenceNumber,
       filingType,
-      futureFiling,
+      futureEffective,
       priority,
       quantity
     } = transation
@@ -382,7 +382,7 @@ export default class RoutingSlipModule extends VuexModule {
         filingTypes: [
           {
             filingTypeCode: filingType.filingTypeCode.code,
-            futureEffective: futureFiling,
+            futureEffective: futureEffective,
             priority: priority,
             quantity: parseInt(quantity)
           }

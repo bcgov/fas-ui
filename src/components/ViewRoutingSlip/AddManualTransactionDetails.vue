@@ -72,7 +72,7 @@
       <v-checkbox
         class="ma-0"
         label="Future Effective Filing Fee"
-        v-model="manualTransactionDetails.futureFiling"
+        v-model="manualTransactionDetails.futureEffective"
         hide-details
         :data-test="getIndexedTag('check-future-effective', index)"
         @change="calculateTotal()"

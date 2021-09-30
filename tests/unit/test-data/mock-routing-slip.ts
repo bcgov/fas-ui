@@ -229,7 +229,7 @@ export const filingType: any = [
 ]
 
 export const manualTransactionDetails: ManualTransactionDetails = {
-  futureFiling: false,
+  futureEffective: false,
   priority: true,
   referenceNumber: 'test',
   filingType: {

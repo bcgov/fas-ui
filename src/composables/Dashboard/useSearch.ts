@@ -2,6 +2,7 @@ import { computed, reactive, ref, toRefs, watch } from '@vue/composition-api'
 
 import ConfigHelper from '@/util/config-helper'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
+import debounce from '@/util/debounce'
 import { useLoader } from '@/composables/common/useLoader'
 import { useStatusList } from '@/composables/common/useStatusList'
 
@@ -212,6 +213,10 @@ export function useSearch (props, context) {
     toggleLoading()
   }
 
+  const debouncedSearch = debounce(() => {
+    searchNow()
+  }, 200)
+
   // get label of status
   function getStatusLabel (code: string) {
     return statusLabel(code)
@@ -273,6 +278,7 @@ export function useSearch (props, context) {
     canShowColumn,
     applyDateFilter,
     searchNow,
+    debouncedSearch,
     searchRoutingSlipResult,
     getStatusLabel,
     searchParamsExist,
