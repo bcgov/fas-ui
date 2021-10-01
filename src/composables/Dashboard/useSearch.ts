@@ -1,5 +1,6 @@
 import { computed, reactive, ref, toRefs, watch } from '@vue/composition-api'
 
+import CommonUtils from '@/util/common-util'
 import ConfigHelper from '@/util/config-helper'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import debounce from '@/util/debounce'
@@ -215,7 +216,9 @@ export function useSearch (props, context) {
 
   const debouncedSearch = debounce(() => {
     searchNow()
-  }, 200)
+  })
+
+  const appendQueryParamsIfNeeded = CommonUtils.appendQueryParamsIfNeeded
 
   // get label of status
   function getStatusLabel (code: string) {
@@ -260,11 +263,8 @@ export function useSearch (props, context) {
       // This scenario would hit when the FAS Search is displayed as a plugin in Staff dashboard
       // we append queryparams so that we can persist breadcrumbs across different components and refresh issue
       window.location.href = `${ConfigHelper.getFasWebUrl()}view-routing-slip/${routingSlipNumber}?redirectFromAuth=true`
-    } else if (context.root.$route && context.root.$route.query?.redirectFromAuth) {
-      // This scenario would hit when we click "Access Fee Account System" from Staff dashboard and search for a routingslip in FAS Dashboard
-      context.root.$router.push(`/view-routing-slip/${routingSlipNumber}?redirectFromAuth=true`)
     } else {
-      context.root.$router.push(`/view-routing-slip/${routingSlipNumber}`)
+      context.root.$router.push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipNumber}`, context.root.$route))
     }
   }
 
