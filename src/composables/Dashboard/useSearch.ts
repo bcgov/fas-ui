@@ -257,9 +257,12 @@ export function useSearch (props, context) {
 
   function navigateTo (routingSlipNumber: number) : void {
     if (isLibraryMode.value) {
-      // this would hit when on library mode where we have to navigate to FAS UI using window.location
+      // This scenario would hit when the FAS Search is displayed as a plugin in Staff dashboard
       // we append queryparams so that we can persist breadcrumbs across different components and refresh issue
       window.location.href = `${ConfigHelper.getFasWebUrl()}view-routing-slip/${routingSlipNumber}?redirectFromAuth=true`
+    } else if (context.root.$route && context.root.$route.query?.redirectFromAuth) {
+      // This scenario would hit when we click "Access Fee Account System" from Staff dashboard and search for a routingslip in FAS Dashboard
+      context.root.$router.push(`/view-routing-slip/${routingSlipNumber}?redirectFromAuth=true`)
     } else {
       context.root.$router.push(`/view-routing-slip/${routingSlipNumber}`)
     }

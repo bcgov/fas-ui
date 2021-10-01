@@ -125,7 +125,7 @@ import can from '@/directives/can'
   directives: {
     can
   },
-  setup(props) {
+  setup (props) {
     const {
       routingSlipDetails,
       editMode,

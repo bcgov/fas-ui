@@ -79,11 +79,15 @@ export function useCreateRoutingSlip (_, context) {
       if (isReviewMode.value === true) {
         await createRoutingSlip()
         // on success redirect to view
-        context.root.$router.push({
-          path: `/view-routing-slip/${routingSlipDetails.value.number}`
-        })
+        // Check if we had come from Staff dashboard
+        const route = context.root.$route
+        if (route.query?.redirectFromAuth) {
+          context.root.$router.push(`/view-routing-slip/${routingSlipDetails.value.number}?redirectFromAuth=true`)
+        } else {
+          context.root.$router.push(`/view-routing-slip/${routingSlipDetails.value.number}`)
+        }
       }
-    } catch (error) {
+    } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('error ', error?.response)
     }
