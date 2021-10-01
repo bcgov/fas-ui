@@ -46,7 +46,7 @@ export interface ManualTransactionDetails{
   quantity?: number,
   referenceNumber?: string,
   total?: number,
-  futureFiling?: boolean,
+  futureEffective?: boolean,
   priority?: boolean,
   filingType?: FilingType
   availableAmountForManualTransaction?: number

@@ -45,7 +45,7 @@ export default function useAddManualTransactionDetails (props, context) {
           requestParams: {
             quantity: manualTransactionDetails.value.quantity,
             priority: manualTransactionDetails.value.priority,
-            futureFiling: manualTransactionDetails.value.futureFiling
+            futureEffective: manualTransactionDetails.value.futureEffective
           }
         }
         manualTransactionDetails.value.total = await getFeeByCorpTypeAndFilingType(getFeeRequestParams)

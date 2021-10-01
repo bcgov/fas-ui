@@ -106,7 +106,7 @@
                           filled
                           placeholder="Routing Slip Number"
                           v-model.trim="routingSlipNumber"
-                          @change="searchNow()"
+                          @input="debouncedSearch()"
                           dense
                           hide-details="auto"
                         />
@@ -123,7 +123,7 @@
                           filled
                           placeholder="Receipt Number"
                           v-model.trim="receiptNumber"
-                          @change="searchNow()"
+                          @input="debouncedSearch()"
                           hide-details="auto"
                         />
                       </th>
@@ -159,7 +159,7 @@
                           filled
                           placeholder="Folio Number"
                           v-model="folioNumber"
-                          @change="searchNow()"
+                          @input="debouncedSearch()"
                           hide-details="auto"
                         />
                       </th>
@@ -171,7 +171,7 @@
                           filled
                           placeholder="Initiator"
                           v-model.trim="initiator"
-                          @change="searchNow()"
+                          @input="debouncedSearch()"
                           hide-details="auto"
                         />
                       </th>
@@ -183,7 +183,7 @@
                           filled
                           placeholder="Total Amount"
                           v-model.trim="totalAmount"
-                          @change="searchNow()"
+                          @input="debouncedSearch()"
                           hide-details="auto"
                         />
                       </th>
@@ -337,6 +337,7 @@ import can from '@/directives/can'
       searchRoutingSlipResult,
       applyDateFilter,
       searchNow,
+      debouncedSearch,
       canShowColumn,
       getStatusLabel,
       searchParamsExist,
@@ -361,6 +362,7 @@ import can from '@/directives/can'
       searchRoutingSlipResult,
       applyDateFilter,
       searchNow,
+      debouncedSearch,
       canShowColumn,
       getStatusLabel,
       addRoutingSlip,

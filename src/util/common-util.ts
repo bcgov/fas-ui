@@ -102,7 +102,7 @@ export default class CommonUtils {
       .join('&')
 
   static appendQueryParamsIfNeeded (targetUrl: string, route: any): string {
-    const redirectFromAuth = route.query?.redirectFromAuth
-    return redirectFromAuth ? `${targetUrl}?redirectFromAuth=true` : targetUrl
+    const requestParams = CommonUtils.createQueryParams(route.query)
+    return requestParams ? `${targetUrl}?${requestParams}` : targetUrl
   }
 }

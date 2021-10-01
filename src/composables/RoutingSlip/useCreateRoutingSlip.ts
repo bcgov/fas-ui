@@ -1,5 +1,6 @@
 import { computed, reactive, ref } from '@vue/composition-api'
 
+import CommonUtils from '@/util/common-util'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import i18n from '@/plugins/i18n'
 
@@ -37,6 +38,8 @@ export function useCreateRoutingSlip (_, context) {
   const createRoutingSlipLabel = computed(() => {
     return isReviewMode.value ? 'Create' : 'Review and Create'
   })
+
+  const appendQueryParamsIfNeeded = CommonUtils.appendQueryParamsIfNeeded
 
   function isValid (): boolean {
     // We would want to trigger validate() of all the children
@@ -79,11 +82,10 @@ export function useCreateRoutingSlip (_, context) {
       if (isReviewMode.value === true) {
         await createRoutingSlip()
         // on success redirect to view
-        context.root.$router.push({
-          path: `/view-routing-slip/${routingSlipDetails.value.number}`
-        })
+        // Check if we had come from Staff dashboard
+        context.root.$router.push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipDetails.value.number}`, context.root.$route))
       }
-    } catch (error) {
+    } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('error ', error?.response)
     }
@@ -111,7 +113,7 @@ export function useCreateRoutingSlip (_, context) {
 
   function modalDialogClose () {
     modalDialogRef.value.close()
-    context.root.$router.push('home')
+    context.root.$router.push(appendQueryParamsIfNeeded('/home', context.root.$route))
   }
 
   return {

@@ -41,7 +41,7 @@ export interface GetFeeRequestParams {
   requestParams: {
     quantity?: number
     priority?: boolean
-    futureFiling?: boolean
+    futureEffective?: boolean
   }
 }
 
