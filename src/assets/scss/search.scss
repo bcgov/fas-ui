@@ -25,14 +25,45 @@
     font-size: 14px;
     font-weight: normal;
   }
+  .header-action,
   .action {
-    width: 125px;
+    min-width: 100px !important;
+    position: sticky;
+    left: 0;
+    right: 0;
+    background-color: $BCgovInputBG;
   }
   .header-row-1 {
     th {
       font-size: 14px;
       font-weight: bold !important;
       // color: $BCgovBlack !important;
+      min-width: 130px;
+    }
+
+    // colum width
+    .header {
+      &-routing-slip {
+        min-width: 185px;
+      }
+      &-receiptNumber{
+        min-width: 147px;
+      }
+      &-date{
+        min-width: 113px;
+      }
+      &-status{
+        min-width: 135px;
+      }
+      &-folioNumber{
+        min-width: 153px;
+      }
+      &-initiator{
+        min-width: 171px;
+      }
+      &-total{
+        min-width: 130px;
+      }
     }
   }
 
@@ -47,11 +78,11 @@
   // style to match design, small inputs intable
   .header-row-2 {
     th {
-      padding: 18px 3px 18px 3px;
+      padding: 18px 3px 18px 3px !important;
       border-bottom: thin solid rgba(0, 0, 0, 0.12);
     }
     th:first-child {
-      padding-left: 14px;
+      padding-left: 14px !important;
     }
     .v-label,
     .v-input {

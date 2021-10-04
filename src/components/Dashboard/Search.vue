@@ -21,13 +21,7 @@
         </v-btn>
       </v-col>
       <v-col cols="3" align-self="center" v-if="isLibraryMode">
-        <v-btn
-          x-large
-          dark
-          outlined
-          color="primary"
-          :href="fasUrl"
-        >
+        <v-btn x-large dark outlined color="primary" :href="fasUrl">
           Access Fee Account System
           <v-icon dark small class="ml-2 font-weight-bold">
             mdi-open-in-new
@@ -84,120 +78,122 @@
                           v-for="(header, i) in displayedHeaderSearch"
                           :scope="i"
                           :key="'find-header-' + i"
-                          :class="
-                            header.value !== '' ? 'text-start' : 'text-end'
-                          "
+                          :class="[
+                            header.value !== '' ? 'text-start' : 'text-end',
+                            header.className && `header-${header.className}`
+                          ]"
                           class="font-weight-bold"
                         >
                           {{ header.text }}
                         </th>
                       </tr>
-                    </thead>
-                    <tr class="header-row-2 mt-2 px-2">
-                      <th
-                        scope="routingSlipNumber"
-                        v-if="canShowColumn('routingSlipNumber')"
-                      >
-                        <!-- canShowColumn {{canShowColumn('routingSlipNumber')}} -->
-                        <v-text-field
-                          id="routingSlipNumber"
-                          autocomplete="off"
-                          class="text-input-style "
-                          filled
-                          placeholder="Routing Slip Number"
-                          v-model.trim="routingSlipNumber"
-                          @input="debouncedSearch()"
-                          dense
-                          hide-details="auto"
-                        />
-                      </th>
 
-                      <th
-                        scope="receiptNumber"
-                        v-if="canShowColumn('receiptNumber')"
-                      >
-                        <v-text-field
-                          id="receiptNumber"
-                          autocomplete="off"
-                          class="text-input-style "
-                          filled
-                          placeholder="Receipt Number"
-                          v-model.trim="receiptNumber"
-                          @input="debouncedSearch()"
-                          hide-details="auto"
-                        />
-                      </th>
-                      <th scope="date" v-if="canShowColumn('date')">
-                        <date-range-filter
-                          class="text-input-style"
-                          v-model="dateFilter"
-                          @applied="searchNow()"
-                          hide-details="auto"
-                          placeholder="Date"
+                      <tr class="header-row-2 mt-2 px-2">
+                        <th
+                          scope="routingSlipNumber"
+                          v-if="canShowColumn('routingSlipNumber')"
                         >
-                        </date-range-filter>
-                      </th>
-                      <th scope="status" v-if="canShowColumn('status')">
-                        <div class="mt-1">
-                          <status-list
+                          <!-- canShowColumn {{canShowColumn('routingSlipNumber')}} -->
+                          <v-text-field
+                            id="routingSlipNumber"
+                            autocomplete="off"
                             class="text-input-style "
-                            v-model="status"
-                            @change="searchNow()"
+                            filled
+                            placeholder="Routing Slip Number"
+                            v-model.trim="routingSlipNumber"
+                            @input="debouncedSearch()"
+                            dense
                             hide-details="auto"
-                            placeholder="Status"
-                          ></status-list>
-                        </div>
-                      </th>
-                      <th
-                        scope="folioNumber"
-                        v-if="canShowColumn('folioNumber')"
-                      >
-                        <v-text-field
-                          id="folioNumber"
-                          autocomplete="off"
-                          class="text-input-style "
-                          filled
-                          placeholder="Folio Number"
-                          v-model="folioNumber"
-                          @input="debouncedSearch()"
-                          hide-details="auto"
-                        />
-                      </th>
-                      <th scope="initiator" v-if="canShowColumn('initiator')">
-                        <v-text-field
-                          id="initiator"
-                          autocomplete="off"
-                          class="text-input-style "
-                          filled
-                          placeholder="Initiator"
-                          v-model.trim="initiator"
-                          @input="debouncedSearch()"
-                          hide-details="auto"
-                        />
-                      </th>
-                      <th scope="total" v-if="canShowColumn('total')">
-                        <v-text-field
-                          id="total"
-                          autocomplete="off"
-                          class="text-input-style "
-                          filled
-                          placeholder="Total Amount"
-                          v-model.trim="totalAmount"
-                          @input="debouncedSearch()"
-                          hide-details="auto"
-                        />
-                      </th>
-                      <th class="action" scope="action">
-                        <span
-                          class="clear-filter primary--text cursor-pointer"
-                          v-if="!searchParamsExist"
-                          @click="clearFilter"
-                          >Clear Filters<v-icon small color="primary"
-                            >mdi-close</v-icon
-                          ></span
+                          />
+                        </th>
+
+                        <th
+                          scope="receiptNumber"
+                          v-if="canShowColumn('receiptNumber')"
                         >
-                      </th>
-                    </tr>
+                          <v-text-field
+                            id="receiptNumber"
+                            autocomplete="off"
+                            class="text-input-style "
+                            filled
+                            placeholder="Receipt Number"
+                            v-model.trim="receiptNumber"
+                            @input="debouncedSearch()"
+                            hide-details="auto"
+                          />
+                        </th>
+                        <th scope="date" v-if="canShowColumn('date')">
+                          <date-range-filter
+                            class="text-input-style"
+                            v-model="dateFilter"
+                            @applied="searchNow()"
+                            hide-details="auto"
+                            placeholder="Date"
+                          >
+                          </date-range-filter>
+                        </th>
+                        <th scope="status" v-if="canShowColumn('status')">
+                          <div class="mt-1">
+                            <status-list
+                              class="text-input-style "
+                              v-model="status"
+                              @change="searchNow()"
+                              hide-details="auto"
+                              placeholder="Status"
+                            ></status-list>
+                          </div>
+                        </th>
+                        <th
+                          scope="folioNumber"
+                          v-if="canShowColumn('folioNumber')"
+                        >
+                          <v-text-field
+                            id="folioNumber"
+                            autocomplete="off"
+                            class="text-input-style "
+                            filled
+                            placeholder="Folio Number"
+                            v-model="folioNumber"
+                            @input="debouncedSearch()"
+                            hide-details="auto"
+                          />
+                        </th>
+                        <th scope="initiator" v-if="canShowColumn('initiator')">
+                          <v-text-field
+                            id="initiator"
+                            autocomplete="off"
+                            class="text-input-style "
+                            filled
+                            placeholder="Initiator"
+                            v-model.trim="initiator"
+                            @input="debouncedSearch()"
+                            hide-details="auto"
+                          />
+                        </th>
+                        <th scope="total" v-if="canShowColumn('total')">
+                          <v-text-field
+                            id="total"
+                            autocomplete="off"
+                            class="text-input-style "
+                            filled
+                            placeholder="Total Amount"
+                            v-model.trim="totalAmount"
+                            @input="debouncedSearch()"
+                            hide-details="auto"
+                          />
+                        </th>
+                        <th class="action" scope="action">
+                          <span
+                            class="clear-filter primary--text cursor-pointer"
+                            v-if="!searchParamsExist"
+                            @click="clearFilter"
+                            >Clear Filters<v-icon small color="primary"
+                              >mdi-close</v-icon
+                            ></span
+                          >
+                        </th>
+                      </tr>
+                    </thead>
                   </template>
 
                   <template v-slot:item="{ item }">
@@ -288,7 +284,7 @@
                             }}
                           </span>
                         </td>
-                        <td>
+                        <td class="action" >
                           <v-btn
                             color="primary"
                             class=""
