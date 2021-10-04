@@ -18,7 +18,7 @@
       }}
     </v-col>
     <v-col class="col-3 font-weight-bold">
-      Name of Person Submitting
+      Entity Number
     </v-col>
     <v-col class="col-9" data-test="txt-routing-slip-name">
       {{ accountInfo && accountInfo.accountName ? accountInfo.accountName : '-' }}

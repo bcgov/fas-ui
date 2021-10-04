@@ -62,6 +62,9 @@ export function useCreateRoutingSlipDetails () {
   const routingSlipDateRules = CommonUtils.requiredFieldRule(
     'A Routing Slip Date is required'
   )
+  const entityNumberRules = CommonUtils.requiredFieldRule(
+    'An Entity Number is required'
+  )
 
   function isValid (): boolean {
     // Current version of Vuetify returns validate() as true even if :error-message is not null on v-text-field
@@ -87,6 +90,7 @@ export function useCreateRoutingSlipDetails () {
     accountName,
     numberRules,
     routingSlipDateRules,
+    entityNumberRules,
     routingSlipDetails,
     isUniqueNumber,
     errorMessage,

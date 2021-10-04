@@ -60,7 +60,7 @@
 
             <v-row>
               <v-col class="col-6 col-sm-3 font-weight-bold">
-                Name of Person Submitting
+                Entity Number
               </v-col>
               <v-col
                 class="col-6 col-sm-9"

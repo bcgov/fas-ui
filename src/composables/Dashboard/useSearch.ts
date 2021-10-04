@@ -46,6 +46,13 @@ export function useSearch (props, context) {
       display: true
     },
     {
+      text: 'Entity Number',
+      align: 'start',
+      value: 'entityNumber',
+      sortable: false,
+      display: false
+    },
+    {
       text: 'Date',
       align: 'start',
       sortable: false,
@@ -67,11 +74,11 @@ export function useSearch (props, context) {
       display: true
     },
     {
-      text: 'Initiator',
+      text: 'Cheque Number',
       align: 'start',
-      value: 'initiator',
+      value: 'chequeNumber',
       sortable: false,
-      display: true
+      display: false
     },
     {
       text: 'Total Amount',
@@ -91,6 +98,7 @@ export function useSearch (props, context) {
   ])
 
   const showExpandedFolio = ref([])
+  const showExpandedCheque = ref([])
   // to make sure not updating result on keyup
   const searchParamsChanged = ref(false)
 
@@ -164,7 +172,7 @@ export function useSearch (props, context) {
     }
   })
 
-  const initiator: any = computed({
+  const entityNumber: any = computed({
     get: () => {
       return searchRoutingSlipParams.value.initiator || ''
     },
@@ -198,6 +206,19 @@ export function useSearch (props, context) {
       setSearchRoutingSlipParams({
         ...searchRoutingSlipParams.value,
         dateFilter: modalValue
+      })
+      searchParamsChanged.value = true
+    }
+  })
+
+  const chequeNumber: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value.chequeNumber || ''
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        chequeNumber: modalValue
       })
       searchParamsChanged.value = true
     }
@@ -240,6 +261,19 @@ export function useSearch (props, context) {
       showExpandedFolio.value.push(id)
     }
   }
+
+  function toggleCheque (id: number) {
+    //  to show and hide multiple folio on click
+    // remove from array if already existing else add to array
+    if (showExpandedFolio.value.includes(id)) {
+      showExpandedFolio.value = showExpandedFolio.value.filter(function (item) {
+        return item !== id
+      })
+    } else {
+      showExpandedFolio.value.push(id)
+    }
+  }
+
   function formatFolioResult (routingSlip) {
     // to make sure not updating on keyup
     if (
@@ -276,8 +310,9 @@ export function useSearch (props, context) {
     receiptNumber,
     dateFilter,
     folioNumber,
-    initiator,
+    entityNumber,
     totalAmount,
+    chequeNumber,
     canShowColumn,
     applyDateFilter,
     searchNow,
@@ -289,6 +324,7 @@ export function useSearch (props, context) {
     formatFolioResult,
     showExpandedFolio,
     toggleFolio,
+    toggleCheque,
     isLoading,
     navigateTo,
     fasUrl
