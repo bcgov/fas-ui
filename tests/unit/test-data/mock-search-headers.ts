@@ -3,49 +3,56 @@ export const headerSearch = [
     text: 'Routing Slip Number',
     align: 'start',
     value: 'routingSlipNumber',
-    display: true
+    display: true,
+    className: 'routing-slip'
   },
   {
     text: 'Receipt Number',
     align: 'start',
     sortable: false,
     value: 'receiptNumber',
-    display: true
+    display: true,
+    className: 'receiptNumber'
   },
   {
     text: 'Date',
     align: 'start',
     sortable: false,
     value: 'date',
-    display: true
+    display: true,
+    className: 'date'
   },
   {
     text: 'Status',
     align: 'start',
     sortable: false,
     value: 'status',
-    display: true
+    display: true,
+    className: 'status'
   },
   {
     text: 'Folio Number',
     align: 'start',
     value: 'folioNumber',
     sortable: false,
-    display: true
+    display: true,
+    className: 'folioNumber'
   },
   {
     text: 'Initiator',
     align: 'start',
     value: 'initiator',
     sortable: false,
-    display: true
+    display: true,
+    className: 'initiator'
   },
   {
     text: 'Total Amount',
     align: 'right',
     value: 'total',
     sortable: false,
-    display: true
+    display: true,
+    className: 'total'
   },
   {
     text: 'Actions',
@@ -53,7 +60,8 @@ export const headerSearch = [
     value: '',
     sortable: false,
     display: true,
-    hideInSearchColumnFilter: true
+    hideInSearchColumnFilter: true,
+    className: 'action'
   }
 ]
 
