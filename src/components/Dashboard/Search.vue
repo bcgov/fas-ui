@@ -122,6 +122,21 @@
                             hide-details="auto"
                           />
                         </th>
+                        <th
+                          scope="entityNumber"
+                          v-if="canShowColumn('entityNumber')"
+                        >
+                          <v-text-field
+                            id="entityNumber"
+                            autocomplete="off"
+                            class="text-input-style "
+                            filled
+                            placeholder="Entity Number"
+                            v-model.trim="entityNumber"
+                            @input="debouncedSearch()"
+                            hide-details="auto"
+                          />
+                        </th>
                         <th scope="date" v-if="canShowColumn('date')">
                           <date-range-filter
                             class="text-input-style"
@@ -158,14 +173,14 @@
                             hide-details="auto"
                           />
                         </th>
-                        <th scope="initiator" v-if="canShowColumn('initiator')">
+                        <th scope="chequeNumber" v-if="canShowColumn('chequeNumber')">
                           <v-text-field
-                            id="initiator"
+                            id="chequeNumber"
                             autocomplete="off"
                             class="text-input-style "
                             filled
-                            placeholder="Initiator"
-                            v-model.trim="initiator"
+                            placeholder="Cheque Number"
+                            v-model.trim="chequeNumber"
                             @input="debouncedSearch()"
                             hide-details="auto"
                           />

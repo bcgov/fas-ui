@@ -52,7 +52,8 @@ export function useSearch (props, context) {
       align: 'start',
       value: 'entityNumber',
       sortable: false,
-      display: false
+      display: true,
+      className: 'entityNumber'
     },
     {
       text: 'Date',
@@ -83,8 +84,8 @@ export function useSearch (props, context) {
       align: 'start',
       value: 'chequeNumber',
       sortable: false,
-      display: true,
-      className: 'initiator'
+      display: false,
+      className: 'chequeNumber'
     },
     {
       text: 'Total Amount',
