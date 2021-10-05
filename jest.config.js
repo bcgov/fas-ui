@@ -35,7 +35,8 @@ module.exports = {
     'src/**/*.{js,vue}',
     '!src/main.js',
     '!src/App.vue',
-    '!src/service-worker.js'
+    '!src/service-worker.js',
+    '!src/lib-setup.js'
 
   ],
   coverageReporters: ['json', 'lcov', 'text', 'clover', 'html']
