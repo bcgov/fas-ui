@@ -52,7 +52,7 @@ export function useSearch (props, context) {
       align: 'start',
       value: 'entityNumber',
       sortable: false,
-      display: true,
+      display: false,
       className: 'entityNumber'
     },
     {
