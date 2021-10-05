@@ -28,7 +28,7 @@
           </v-icon>
         </v-btn>
       </v-col>
-      <v-col cols="3">
+      <v-col cols="2">
         <search-column-filter-component v-model="headerSearch" hide-details>
         </search-column-filter-component>
       </v-col>
@@ -58,6 +58,7 @@
                   fixed-header
                   height="40rem"
                   :loading="isLoading"
+                  disable-pagination
                 >
                   <template v-slot:no-data>
                     <div
