@@ -79,7 +79,6 @@ export default function useTransactionDataTable (props) {
     invoiceDisplay,
     headerTranscations,
     invoiceCount,
-    routingSlip,
     transformInvoices
   }
 }
