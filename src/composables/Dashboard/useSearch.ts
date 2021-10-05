@@ -12,7 +12,9 @@ const { useActions, useState, useMutations, useGetters } = routingSlipModule
 
 export function useSearch (props, context) {
   const { isLibraryMode } = toRefs(props)
-  const fasUrl = `${ConfigHelper.getFasWebUrl()}?redirectFromAuth=true`
+  // Adding openFromAuth=true queryparams so that we can build breadcrumbs
+  // Eg of a typical breadcrumb flow = Staff Dashboard -> FAS Dashboard -> View Routing Slip: test -> View Routing Slip: testchild
+  const fasUrl = `${ConfigHelper.getFasWebUrl()}?openFromAuth=true`
   // vuex action and state
   const { searchRoutingSlip, resetSearchParams } = useActions([
     'searchRoutingSlip',
@@ -305,7 +307,9 @@ export function useSearch (props, context) {
     if (isLibraryMode.value) {
       // This scenario would hit when the FAS Search is displayed as a plugin in Staff dashboard
       // we append queryparams so that we can persist breadcrumbs across different components and refresh issue
-      window.location.href = `${ConfigHelper.getFasWebUrl()}view-routing-slip/${routingSlipNumber}?redirectFromAuth=true`
+      // Adding viewFromAuth=true queryparams so that we can build breadcrumbs
+      // Eg of a typical breadcrumb flow = Staff Dashboard -> View Routing Slip: test -> View Routing Slip: testchild
+      window.location.href = `${ConfigHelper.getFasWebUrl()}view-routing-slip/${routingSlipNumber}?viewFromAuth=true`
     } else {
       context.root.$router.push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipNumber}`, context.root.$route))
     }

@@ -24,7 +24,7 @@
             :disabled="item.disabled"
             exact
           >
-            <span class="my-2 text-color text-decoration-underline"> {{ item.text }} </span>
+            <span class="my-2 text-color" :class="item.disabled ? '' : 'text-decoration-underline'"> {{ item.text }} </span>
           </v-breadcrumbs-item>
         </template>
       </v-breadcrumbs>

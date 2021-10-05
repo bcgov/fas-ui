@@ -42,9 +42,9 @@
         </v-row>
         <template v-if="!isRoutingSlipLinked">
           <v-row no-gutters v-if="invoiceCount > 0" data-test="invoice-exist-error-msg">
-            <v-icon>mdi-information-outline</v-icon>
-            <p class="mb-0">
-              <span class="pl-1 text-color" v-html="$t('cantLinkSinceInvoicesExistMsg')"></span>
+            <v-icon class="align-start">mdi-information-outline</v-icon>
+            <p class="mb-0 ml-2">
+              <span class="text-color" v-html="$t('cantLinkSinceInvoicesExistMsg')"></span>
             </p>
           </v-row>
         <v-row no-gutters v-else>
@@ -147,5 +147,8 @@ export default class LinkRoutingSlip extends Vue {
   padding: 13px 19px;
   border-left: 8px solid $bcgovBorderblue;
   border-radius: 6px;
+}
+.align-start {
+  align-items: flex-start !important;
 }
 </style>

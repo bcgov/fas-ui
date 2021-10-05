@@ -30,7 +30,7 @@ export function useBreadCrumb (_, context) {
   }
 
   function generateBreadcrumbForHome (route: any): BreadcrumbItem[] {
-    if (route.query?.redirectFromAuth) {
+    if (route.query?.openFromAuth || route.query?.viewFromAuth) {
       return [
         {
           text: 'Staff Dashboard',
@@ -52,55 +52,56 @@ export function useBreadCrumb (_, context) {
   function generateBreadcrumbForViewRoutingSlip (route: any): BreadcrumbItem[] {
     const slipId = route.params.slipId
     const items = [
-        {
-          text: 'FAS Dashboard',
-          disabled: false,
-          to: appendQueryParamsIfNeeded('/home', route)
-        } as BreadcrumbItem,
-        {
-          text: `View Routing Slip: ${slipId}`,
-          disabled: true,
-          to: appendQueryParamsIfNeeded(`/view-routing-slip/${slipId}`, route)
-        } as BreadcrumbItem
-    ]
-    // Append parent dashboard if redirectFromAuth property set to true
-    if (route.query?.redirectFromAuth) {
-      items.unshift({
-        text: 'Staff Dashboard',
+      {
+        text: 'FAS Dashboard',
         disabled: false,
-        href: authWebUrl
-      } as BreadcrumbItem)
-    }
-    return items
+        to: appendQueryParamsIfNeeded('/home', route)
+      } as BreadcrumbItem,
+      {
+        text: `View Routing Slip: ${slipId}`,
+        disabled: true,
+        to: appendQueryParamsIfNeeded(`/view-routing-slip/${slipId}`, route)
+      } as BreadcrumbItem
+    ]
+    return appendParentAndFasHomePageItems(items, route)
   }
 
   function generateBreadcrumbForViewChildRoutingSlip (route: any): BreadcrumbItem[] {
     const slipId = route.params.slipId
     const parentSlipId = route.params.parentSlipId
     const items = [
-        {
-          text: 'FAS Dashboard',
-          disabled: false,
-          to: appendQueryParamsIfNeeded('/home', route)
-        } as BreadcrumbItem,
-        {
-          text: `View Routing Slip: ${parentSlipId}`,
-          disabled: false,
-          to: appendQueryParamsIfNeeded(`/view-routing-slip/${parentSlipId}`, route)
-        } as BreadcrumbItem,
-        {
-          text: `View Routing Slip: ${slipId}`,
-          disabled: true,
-          to: appendQueryParamsIfNeeded(`/view-routing-slip/${slipId}`, route)
-        } as BreadcrumbItem
+      {
+        text: 'FAS Dashboard',
+        disabled: false,
+        to: appendQueryParamsIfNeeded('/home', route)
+      } as BreadcrumbItem,
+      {
+        text: `View Routing Slip: ${parentSlipId}`,
+        disabled: false,
+        to: appendQueryParamsIfNeeded(`/view-routing-slip/${parentSlipId}`, route)
+      } as BreadcrumbItem,
+      {
+        text: `View Routing Slip: ${slipId}`,
+        disabled: true,
+        to: appendQueryParamsIfNeeded(`/view-routing-slip/${slipId}`, route)
+      } as BreadcrumbItem
     ]
 
-    if (route.query?.redirectFromAuth) {
+    return appendParentAndFasHomePageItems(items, route)
+  }
+
+  function appendParentAndFasHomePageItems (items: BreadcrumbItem[], route: any) {
+    // Append parent dashboard if openFromAuth property set to true
+    if (route.query?.openFromAuth || route.query?.viewFromAuth) {
       items.unshift({
         text: 'Staff Dashboard',
         disabled: false,
         href: authWebUrl
       } as BreadcrumbItem)
+      // If we clicked View from a parent dashboard(Sbc Auth), then we need to remove FAS Dashboard breadcrumb item
+      if (route.query?.viewFromAuth) {
+        items.splice(1, 1)
+      }
     }
     return items
   }
