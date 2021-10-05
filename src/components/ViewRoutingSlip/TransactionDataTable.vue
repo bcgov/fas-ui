@@ -9,7 +9,7 @@
     <v-data-table
     :headers="headerTranscations"
     :items="invoiceDisplay"
-    class="elevation-1"
+    class="elevation-1 fas-transactions"
     hide-default-footer
     disable-pagination
     >
@@ -70,4 +70,10 @@ export default class TransactionDataTable extends Vue {
   .header-bg-color {
     background-color: $BCgovBlue0;
   }
+
+</style>
+<style lang="scss">
+.fas-transactions tbody tr td {
+    padding: 20px 15px !important;
+}
 </style>
