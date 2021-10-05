@@ -173,14 +173,14 @@
                             hide-details="auto"
                           />
                         </th>
-                        <th scope="chequeNumber" v-if="canShowColumn('chequeNumber')">
+                        <th scope="chequeReceiptNumber" v-if="canShowColumn('chequeReceiptNumber')">
                           <v-text-field
-                            id="chequeNumber"
+                            id="chequeReceiptNumber"
                             autocomplete="off"
                             class="text-input-style "
                             filled
                             placeholder="Cheque Number"
-                            v-model.trim="chequeNumber"
+                            v-model.trim="chequeReceiptNumber"
                             @input="debouncedSearch()"
                             hide-details="auto"
                           />
@@ -290,7 +290,47 @@
                             </div>
                           </template>
                         </td>
-                        <td v-if="canShowColumn('chequeNumber')">
+                        <td v-if="canShowColumn('chequeReceiptNumber')">
+                          <template v-if="item.paymentAccount &&
+                            item.paymentAccount.paymentMethod === PaymentMethods.CHEQUE">
+                            <span
+                            v-if="
+                              item.payments && item.payments.length > 0 &&
+                                !showExpandedCheque.includes(item.payments[0].chequeReceiptNumber)
+                            "
+                            @click="toggleCheque(item.payments[0].chequeReceiptNumber)"
+                            class="cursor-pointer"
+                          >
+                            {{ item.payments[0].chequeReceiptNumber }}
+                            <v-icon
+                              small
+                              v-if="item.payments.length > 1"
+                              color="primary"
+                            >
+                              mdi-menu-down</v-icon
+                            ></span
+                          >
+                          <template v-if="showExpandedCheque.includes(item.payments[0].chequeReceiptNumber)">
+                            <div
+                              v-for="(payment, index) in item.payments"
+                              :key="index"
+                              @click="index === 0 ? toggleCheque(item.payments[0].chequeReceiptNumber) : ''"
+                              :class="index === 0 ? 'cursor-pointer' : ''"
+                            >
+                              <span>
+                                {{ payment.chequeReceiptNumber }}
+                                <v-icon
+                                  small
+                                  v-if="index === 0"
+                                  color="primary"
+                                >
+                                  mdi-menu-up</v-icon
+                                ></span
+                              >
+                            </div>
+                          </template>
+                          </template>
+                          <template v-else>-</template>
                         </td>
                         <td v-if="canShowColumn('total')" class="text-right">
                           <span class="font-weight-bold text-end">
@@ -333,6 +373,7 @@ import statusListComponent from '@/components/common/StatusList.vue'
 import commonUtil from '@/util/common-util'
 import { useDashboard } from '@/composables/Dashboard'
 import can from '@/directives/can'
+import { PaymentMethods } from '@/util/constants'
 
 @Component({
   setup (props, context) {
@@ -347,7 +388,7 @@ import can from '@/directives/can'
       folioNumber,
       entityNumber,
       totalAmount,
-      chequeNumber,
+      chequeReceiptNumber,
       searchRoutingSlipResult,
       applyDateFilter,
       searchNow,
@@ -358,6 +399,7 @@ import can from '@/directives/can'
       clearFilter,
       formatFolioResult,
       showExpandedFolio,
+      showExpandedCheque,
       toggleFolio,
       toggleCheque,
       isLoading,
@@ -374,7 +416,7 @@ import can from '@/directives/can'
       folioNumber,
       entityNumber,
       totalAmount,
-      chequeNumber,
+      chequeReceiptNumber,
       searchRoutingSlipResult,
       applyDateFilter,
       searchNow,
@@ -386,6 +428,7 @@ import can from '@/directives/can'
       clearFilter,
       formatFolioResult,
       showExpandedFolio,
+      showExpandedCheque,
       toggleFolio,
       toggleCheque,
       isLoading,
@@ -406,6 +449,8 @@ export default class Search extends Vue {
   public colors = commonUtil.statusListColor
   public appendCurrencySymbol = commonUtil.appendCurrencySymbol
   public formatDisplayDate = commonUtil.formatDisplayDate
+
+  PaymentMethods = PaymentMethods
 
   @Prop({ default: () => false }) isLibraryMode: boolean
 }

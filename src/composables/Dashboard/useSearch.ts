@@ -82,10 +82,10 @@ export function useSearch (props, context) {
     {
       text: 'Cheque Number',
       align: 'start',
-      value: 'chequeNumber',
+      value: 'chequeReceiptNumber',
       sortable: false,
       display: false,
-      className: 'chequeNumber'
+      className: 'cheque-receipt-number'
     },
     {
       text: 'Total Amount',
@@ -220,14 +220,14 @@ export function useSearch (props, context) {
     }
   })
 
-  const chequeNumber: any = computed({
+  const chequeReceiptNumber: any = computed({
     get: () => {
-      return searchRoutingSlipParams.value.chequeNumber || ''
+      return searchRoutingSlipParams.value.chequeReceiptNumber || ''
     },
     set: (modalValue: any) => {
       setSearchRoutingSlipParams({
         ...searchRoutingSlipParams.value,
-        chequeNumber: modalValue
+        chequeReceiptNumber: modalValue
       })
       searchParamsChanged.value = true
     }
@@ -274,12 +274,12 @@ export function useSearch (props, context) {
   function toggleCheque (id: number) {
     //  to show and hide multiple folio on click
     // remove from array if already existing else add to array
-    if (showExpandedFolio.value.includes(id)) {
-      showExpandedFolio.value = showExpandedFolio.value.filter(function (item) {
+    if (showExpandedCheque.value.includes(id)) {
+      showExpandedCheque.value = showExpandedCheque.value.filter(function (item) {
         return item !== id
       })
     } else {
-      showExpandedFolio.value.push(id)
+      showExpandedCheque.value.push(id)
     }
   }
 
@@ -321,7 +321,7 @@ export function useSearch (props, context) {
     folioNumber,
     entityNumber,
     totalAmount,
-    chequeNumber,
+    chequeReceiptNumber,
     canShowColumn,
     applyDateFilter,
     searchNow,
@@ -332,6 +332,7 @@ export function useSearch (props, context) {
     clearFilter,
     formatFolioResult,
     showExpandedFolio,
+    showExpandedCheque,
     toggleFolio,
     toggleCheque,
     isLoading,
