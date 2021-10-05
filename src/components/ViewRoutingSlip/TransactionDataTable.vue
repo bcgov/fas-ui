@@ -49,13 +49,15 @@ import { Component, Vue } from 'vue-property-decorator'
       invoiceDisplay,
       headerTranscations,
       invoiceCount,
-      transformInvoices
+      transformInvoices,
+      routingSlip
     } = useTransactionDataTable(props)
     return {
       invoiceDisplay,
       headerTranscations,
       invoiceCount,
-      transformInvoices
+      transformInvoices,
+      routingSlip
     }
   }
 })

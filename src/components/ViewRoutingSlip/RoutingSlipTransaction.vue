@@ -97,7 +97,7 @@
       </v-container>
     </v-card>
     <div class="d-flex flex-column">
-      <transaction-data-table />
+      <transaction-data-table :key="routingSlip.number" />
     </div>
   </div>
 </template>
@@ -132,7 +132,8 @@ import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
       updateManualTransactionDetails,
       hideManualTransaction,
       availableAmountForManualTransaction,
-      status
+      status,
+      routingSlip
 
     } = useRoutingSlipTransaction()
     return {
@@ -150,7 +151,8 @@ import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
       updateManualTransactionDetails,
       hideManualTransaction,
       availableAmountForManualTransaction,
-      status
+      status,
+      routingSlip
     }
   }
 })

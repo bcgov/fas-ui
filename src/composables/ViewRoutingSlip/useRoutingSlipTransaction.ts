@@ -179,6 +179,7 @@ export default function useRoutingSlipTransaction () {
     removeManualTransactionRow,
     updateManualTransactionDetails,
     hideManualTransaction,
-    status
+    status,
+    routingSlip
   }
 }
