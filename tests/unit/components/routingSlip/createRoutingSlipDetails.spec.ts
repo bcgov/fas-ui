@@ -47,7 +47,7 @@ describe('CreateRoutingSlipDetails.vue', () => {
     expect(wrapper.find('p').exists()).toBeTruthy()
     expect(wrapper.find('p').text()).toBe('Routing slip')
     expect(wrapper.find("[data-test='txtNumberId']").exists()).toBeTruthy()
-    expect(wrapper.find("[data-test='txtAccountName']").exists()).toBeTruthy()
+    expect(wrapper.find("[data-test='txtEntityNumber']").exists()).toBeTruthy()
     expect(wrapper.find("[data-test='txtRoutingSlipDate']").exists()).toBeTruthy()
   })
 })

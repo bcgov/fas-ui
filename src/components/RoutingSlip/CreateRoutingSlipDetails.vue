@@ -29,10 +29,9 @@
           <v-col cols="6" class="py-0">
             <v-text-field
               filled
-              label="Name of Person or Business Submitting (optional)"
-              req
-              persistent-hint
-              data-test="txtAccountName"
+              label="Entity Number"
+              :rules="entityNumberRules"
+              data-test="txtEntityNumber"
               v-model.trim="accountName"
             >
             </v-text-field>
@@ -60,6 +59,7 @@ import { useCreateRoutingSlipDetails } from '@/composables/RoutingSlip'
       accountName,
       numberRules,
       routingSlipDateRules,
+      entityNumberRules,
       isValid,
       checkRoutingNumberAvailable,
       routingSlipDetails,
@@ -73,6 +73,7 @@ import { useCreateRoutingSlipDetails } from '@/composables/RoutingSlip'
       accountName,
       numberRules,
       routingSlipDateRules,
+      entityNumberRules,
       isValid,
       checkRoutingNumberAvailable,
       routingSlipDetails,
