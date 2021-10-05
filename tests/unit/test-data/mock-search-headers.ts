@@ -15,6 +15,14 @@ export const headerSearch = [
     className: 'receiptNumber'
   },
   {
+    text: 'Entity Number',
+    align: 'start',
+    value: 'entityNumber',
+    sortable: false,
+    display: false,
+    className: 'entityNumber'
+  },
+  {
     text: 'Date',
     align: 'start',
     sortable: false,
@@ -39,12 +47,12 @@ export const headerSearch = [
     className: 'folioNumber'
   },
   {
-    text: 'Initiator',
+    text: 'Cheque Number',
     align: 'start',
-    value: 'initiator',
+    value: 'chequeReceiptNumber',
     sortable: false,
-    display: true,
-    className: 'initiator'
+    display: false,
+    className: 'cheque-receipt-number'
   },
   {
     text: 'Total Amount',
@@ -70,49 +78,64 @@ export const updatedHeaderSearch = [
     text: 'Routing Slip Number',
     align: 'start',
     value: 'routingSlipNumber',
-    display: false
+    display: true,
+    className: 'routing-slip'
   },
   {
     text: 'Receipt Number',
     align: 'start',
     sortable: false,
     value: 'receiptNumber',
-    display: false
+    display: true,
+    className: 'receiptNumber'
+  },
+  {
+    text: 'Entity Number',
+    align: 'start',
+    value: 'entityNumber',
+    sortable: false,
+    display: true,
+    className: 'entityNumber'
   },
   {
     text: 'Date',
     align: 'start',
     sortable: false,
     value: 'date',
-    display: true
+    display: true,
+    className: 'date'
   },
   {
     text: 'Status',
     align: 'start',
     sortable: false,
     value: 'status',
-    display: true
+    display: true,
+    className: 'status'
   },
   {
     text: 'Folio Number',
     align: 'start',
     value: 'folioNumber',
     sortable: false,
-    display: true
+    display: true,
+    className: 'folioNumber'
   },
   {
-    text: 'Initiator',
+    text: 'Cheque Number',
     align: 'start',
-    value: 'initiator',
+    value: 'chequeReceiptNumber',
     sortable: false,
-    display: true
+    display: true,
+    className: 'cheque-receipt-number'
   },
   {
     text: 'Total Amount',
     align: 'right',
     value: 'total',
     sortable: false,
-    display: true
+    display: true,
+    className: 'total'
   },
   {
     text: 'Actions',
@@ -120,6 +143,7 @@ export const updatedHeaderSearch = [
     value: '',
     sortable: false,
     display: true,
-    hideInSearchColumnFilter: true
+    hideInSearchColumnFilter: true,
+    className: 'action'
   }
 ]
