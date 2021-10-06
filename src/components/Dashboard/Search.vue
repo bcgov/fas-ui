@@ -5,7 +5,7 @@
       :class="isLibraryMode ? 'justify-end' : 'justify-space-between'"
       no-gutters
     >
-      <v-col cols="4" v-if="!isLibraryMode">
+      <v-col  sm="4" cols="12" v-if="!isLibraryMode">
         <v-btn
           class="font-weight-bold"
           large
@@ -20,7 +20,7 @@
           Add New Routing Slip
         </v-btn>
       </v-col>
-      <v-col cols="3" align-self="center" v-if="isLibraryMode">
+      <v-col sm="3" cols="12" align-self="center" v-if="isLibraryMode">
         <v-btn x-large dark outlined color="primary" :href="fasUrl">
           Access Fee Account System
           <v-icon dark small class="ml-2 font-weight-bold">
@@ -28,12 +28,12 @@
           </v-icon>
         </v-btn>
       </v-col>
-      <v-col cols="2">
+      <v-col sm="2" cols="12">
         <search-column-filter-component v-model="headerSearch" hide-details>
         </search-column-filter-component>
       </v-col>
     </v-row>
-    <v-row class="mt-4" no-gutters>
+    <v-row class="mt-0">
       <v-col>
         <div class="header-bg-color d-flex align-center py-5 mb-0 rounded-t-lg">
           <v-icon color="primary" class="ml-5">
@@ -59,6 +59,7 @@
                   height="40rem"
                   :loading="isLoading"
                   disable-pagination
+                  :mobile-breakpoint="0"
                 >
                   <template v-slot:no-data>
                     <div
@@ -174,7 +175,10 @@
                             hide-details="auto"
                           />
                         </th>
-                        <th scope="chequeReceiptNumber" v-if="canShowColumn('chequeReceiptNumber')">
+                        <th
+                          scope="chequeReceiptNumber"
+                          v-if="canShowColumn('chequeReceiptNumber')"
+                        >
                           <v-text-field
                             id="chequeReceiptNumber"
                             autocomplete="off"
@@ -198,7 +202,7 @@
                             hide-details="auto"
                           />
                         </th>
-                        <th class="action" scope="action">
+                        <th class="action text-right" scope="action">
                           <span
                             class="clear-filter primary--text cursor-pointer"
                             v-if="!searchParamsExist"
@@ -292,44 +296,68 @@
                           </template>
                         </td>
                         <td v-if="canShowColumn('chequeReceiptNumber')">
-                          <template v-if="item.paymentAccount &&
-                            item.paymentAccount.paymentMethod === PaymentMethods.CHEQUE">
-                            <span
+                          <template
                             v-if="
-                              item.payments && item.payments.length > 0 &&
-                                !showExpandedCheque.includes(item.payments[0].chequeReceiptNumber)
+                              item.paymentAccount &&
+                                item.paymentAccount.paymentMethod ===
+                                  PaymentMethods.CHEQUE
                             "
-                            @click="toggleCheque(item.payments[0].chequeReceiptNumber)"
-                            class="cursor-pointer"
                           >
-                            {{ item.payments[0].chequeReceiptNumber }}
-                            <v-icon
-                              small
-                              v-if="item.payments.length > 1"
-                              color="primary"
+                            <span
+                              v-if="
+                                item.payments &&
+                                  item.payments.length > 0 &&
+                                  !showExpandedCheque.includes(
+                                    item.payments[0].chequeReceiptNumber
+                                  )
+                              "
+                              @click="
+                                toggleCheque(
+                                  item.payments[0].chequeReceiptNumber
+                                )
+                              "
+                              class="cursor-pointer"
                             >
-                              mdi-menu-down</v-icon
-                            ></span
-                          >
-                          <template v-if="showExpandedCheque.includes(item.payments[0].chequeReceiptNumber)">
-                            <div
-                              v-for="(payment, index) in item.payments"
-                              :key="index"
-                              @click="index === 0 ? toggleCheque(item.payments[0].chequeReceiptNumber) : ''"
-                              :class="index === 0 ? 'cursor-pointer' : ''"
-                            >
-                              <span>
-                                {{ payment.chequeReceiptNumber }}
-                                <v-icon
-                                  small
-                                  v-if="index === 0"
-                                  color="primary"
-                                >
-                                  mdi-menu-up</v-icon
-                                ></span
+                              {{ item.payments[0].chequeReceiptNumber }}
+                              <v-icon
+                                small
+                                v-if="item.payments.length > 1"
+                                color="primary"
                               >
-                            </div>
-                          </template>
+                                mdi-menu-down</v-icon
+                              ></span
+                            >
+                            <template
+                              v-if="
+                                showExpandedCheque.includes(
+                                  item.payments[0].chequeReceiptNumber
+                                )
+                              "
+                            >
+                              <div
+                                v-for="(payment, index) in item.payments"
+                                :key="index"
+                                @click="
+                                  index === 0
+                                    ? toggleCheque(
+                                        item.payments[0].chequeReceiptNumber
+                                      )
+                                    : ''
+                                "
+                                :class="index === 0 ? 'cursor-pointer' : ''"
+                              >
+                                <span>
+                                  {{ payment.chequeReceiptNumber }}
+                                  <v-icon
+                                    small
+                                    v-if="index === 0"
+                                    color="primary"
+                                  >
+                                    mdi-menu-up</v-icon
+                                  ></span
+                                >
+                              </div>
+                            </template>
                           </template>
                           <template v-else>-</template>
                         </td>
@@ -342,7 +370,7 @@
                             }}
                           </span>
                         </td>
-                        <td class="action" >
+                        <td class="action text-right">
                           <v-btn
                             color="primary"
                             class=""
