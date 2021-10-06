@@ -17,8 +17,6 @@ describe('Dashboard.vue', () => {
         $vuetify: jest.fn()
       }
     })
-    // eslint-disable-next-line no-console
-    console.log('wrapper', wrapper.html())
     await wrapper.vm.$nextTick()
     expect(wrapper.find('h1').exists()).toBeTruthy()
     expect(wrapper.find('h1').text()).toBe('FAS Staff Dashboard')
