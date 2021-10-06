@@ -2,11 +2,12 @@
   <v-container class="view-container">
     <v-row>
       <v-col>
+        $vuetify:{{$vuetify.breakpoint.xs}}
         <header class="view-header flex-column mb-0">
-          <div class="d-flex justify-space-between">
+          <div class="d-flex justify-space-between" :class="{'flex-column': $vuetify.breakpoint.xs}">
             <div>
               <h1 class="view-header__title">FAS Staff Dashboard</h1>
-              <p class="mb-16">
+              <p  :class="{'mb-16': !$vuetify.breakpoint.xs}">
                 {{ $t('dashboardSubText') }}
               </p>
             </div>
