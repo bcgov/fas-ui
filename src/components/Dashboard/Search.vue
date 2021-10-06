@@ -33,7 +33,7 @@
         </search-column-filter-component>
       </v-col>
     </v-row>
-    <v-row class="mt-0">
+    <v-row class="mt-4" no-gutters>
       <v-col>
         <div class="header-bg-color d-flex align-center py-5 mb-0 rounded-t-lg">
           <v-icon color="primary" class="ml-5">
