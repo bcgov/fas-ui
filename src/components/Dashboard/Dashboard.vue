@@ -2,7 +2,6 @@
   <v-container class="view-container">
     <v-row>
       <v-col>
-        $vuetify:{{$vuetify.breakpoint.xs}}
         <header class="view-header flex-column mb-0">
           <div class="d-flex justify-space-between" :class="{'flex-column': $vuetify.breakpoint.xs}">
             <div>
