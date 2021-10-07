@@ -86,6 +86,13 @@
               Status</span
             >
           </v-col>
+          <v-col class="col-12">
+            <address-form
+              ref="mailingAddress"
+              :editing="true"
+              :schema="baseAddressSchema"
+            />
+          </v-col>
         </v-row>
       </v-card-text>
       <v-card-actions class="pr-10 justify-end pa-3 pb-5" v-if="editMode">
@@ -116,11 +123,13 @@
 import { Component, Vue } from 'vue-property-decorator'
 import commonUtil from '@/util/common-util'
 import { useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
+import AddressForm from '@/components/common/AddressForm.vue'
 import statusList from '@/components/common/StatusList.vue'
 import can from '@/directives/can'
 
 @Component({
   components: {
+    AddressForm,
     statusList
   },
   directives: {
@@ -136,7 +145,8 @@ import can from '@/directives/can'
       getStatusLabel,
       isRoutingSlipAChild,
       statusChange,
-      showAddress
+      showAddress,
+      baseAddressSchema
     } = useRoutingSlipInfo(props)
 
     return {
@@ -148,7 +158,8 @@ import can from '@/directives/can'
       getStatusLabel,
       isRoutingSlipAChild,
       statusChange,
-      showAddress
+      showAddress,
+      baseAddressSchema
     }
   }
 })
