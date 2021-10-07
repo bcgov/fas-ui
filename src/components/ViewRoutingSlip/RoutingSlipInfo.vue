@@ -54,6 +54,7 @@
                 <status-list
                   v-model="currentStatus"
                   label="Status"
+                  @change="statusChange"
                 ></status-list>
               </v-col>
             </v-row>
@@ -133,7 +134,9 @@ import can from '@/directives/can'
       currentStatus,
       updateStatus,
       getStatusLabel,
-      isRoutingSlipAChild
+      isRoutingSlipAChild,
+      statusChange,
+      showAddress
     } = useRoutingSlipInfo(props)
 
     return {
@@ -143,7 +146,9 @@ import can from '@/directives/can'
       currentStatus,
       updateStatus,
       getStatusLabel,
-      isRoutingSlipAChild
+      isRoutingSlipAChild,
+      statusChange,
+      showAddress
     }
   }
 })
