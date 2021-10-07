@@ -2,6 +2,7 @@ import { computed, reactive, ref, toRefs, watch } from '@vue/composition-api'
 
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { useStatusList } from '@/composables/common/useStatusList'
+import { SlipStatus } from '@/util/constants'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useActions, useState, useGetters } = routingSlipModule
@@ -14,6 +15,7 @@ export default function useRoutingSlipInfo (props) {
   const { isRoutingSlipAChild } = useGetters(['isRoutingSlipAChild'])
 
   const editMode = ref<boolean>(false)
+  const showAddress = ref<boolean>(false)
   const currentStatus = ref('')
   // passign value as blank to avoid warning
   const { statusLabel } = useStatusList(reactive({ value: '' }), {})
@@ -47,6 +49,14 @@ export default function useRoutingSlipInfo (props) {
     return statusLabel(code)
   }
 
+  function statusChange (status) {
+    if ((status && status.code) && (status.code === SlipStatus.BOUNCED)) {
+      showAddress.value = true
+    } else {
+      showAddress.value = false
+    }
+  }
+
   return {
     routingSlip,
     editMode,
@@ -55,6 +65,8 @@ export default function useRoutingSlipInfo (props) {
     currentStatus,
     updateStatus,
     getStatusLabel,
-    isRoutingSlipAChild
+    isRoutingSlipAChild,
+    statusChange,
+    showAddress
   }
 }
