@@ -2,6 +2,8 @@
  * Place to put all the custom utility methods
  */
 
+import { Address, BaseAddressModel } from '@/models/Address'
+
 import { SlipStatus } from '@/util/constants'
 import moment from 'moment'
 
@@ -104,5 +106,31 @@ export default class CommonUtils {
   static appendQueryParamsIfNeeded (targetUrl: string, route: any): string {
     const requestParams = CommonUtils.createQueryParams(route.query)
     return requestParams ? `${targetUrl}?${requestParams}` : targetUrl
+  }
+
+  // for converting address object of sbc-auth to as needed for BaseAddress component
+  static convertAddressForComponent (address: Address) : BaseAddressModel {
+    return {
+      addressCity: address.city,
+      addressCountry: address.country,
+      addressRegion: address.region,
+      deliveryInstructions: address.deliveryInstructions,
+      postalCode: address.postalCode,
+      streetAddress: address.street,
+      streetAddressAdditional: address.streetAdditional
+    }
+  }
+
+  // for converting address object of BaseAddress component to as needed for sbc-auth
+  static convertAddressForAuth (iaddress: BaseAddressModel) : Address {
+    return {
+      city: iaddress.addressCity,
+      country: iaddress.addressCountry,
+      region: iaddress.addressRegion,
+      deliveryInstructions: iaddress.deliveryInstructions,
+      postalCode: iaddress.postalCode,
+      street: iaddress.streetAddress,
+      streetAdditional: iaddress.streetAddressAdditional
+    }
   }
 }
