@@ -55,6 +55,7 @@ export default function useRoutingSlipInfo (props) {
   }
 
   function statusChange (status) {
+    //  change to refund status once status available
     if ((status && status.code) && (status.code === SlipStatus.BOUNCED)) {
       showAddress.value = true
     } else {
