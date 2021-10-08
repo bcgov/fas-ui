@@ -61,7 +61,6 @@
               </v-row>
               <v-row>
                 <v-col class="col-3 font-weight-bold">
-                  <!---- wrapping inside {{}} to ignore & special character--->
                   {{ 'Name of Person or Organization & Address' }}
                 </v-col>
                 <v-col class="col-9">
