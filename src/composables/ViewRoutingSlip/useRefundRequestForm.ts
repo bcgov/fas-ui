@@ -1,5 +1,5 @@
 import { Address, BaseAddressModel } from '@/models/Address'
-import { computed, onMounted, ref, toRefs, watch } from '@vue/composition-api'
+import { ref, toRefs, watch } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { RefundRequestDetails } from '@/models/RoutingSlip'
@@ -15,6 +15,7 @@ export default function useRefundRequestForm (props, context) {
   const inputaddress = ref<BaseAddressModel>({} as BaseAddressModel)
 
   const refundRequestForm = ref<HTMLFormElement>()
+  const addressForm = ref<HTMLFormElement>()
 
   const nameRules = CommonUtils.requiredFieldRule()
 
@@ -26,7 +27,9 @@ export default function useRefundRequestForm (props, context) {
   }
 
   function isValid (): boolean {
-    return refundRequestForm.value?.validate() && isAddressValid.value
+    // Trigger both the form children validations
+    const nameValidate = refundRequestForm.value?.validate()
+    return addressForm.value?.triggerValidate() && nameValidate && isAddressValid.value
   }
 
   // watch input elements name and address, and if anything changes, bubble up the values back to parent;
@@ -51,6 +54,7 @@ export default function useRefundRequestForm (props, context) {
     nameRules,
     name,
     address,
+    addressForm,
     addressValidity,
     isValid
   }

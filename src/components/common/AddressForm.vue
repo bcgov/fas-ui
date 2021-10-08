@@ -22,13 +22,17 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
   setup (props, context) {
     const {
       inputaddress,
+      baseAddress,
       emitUpdateAddress,
-      emitAddressValidity
+      emitAddressValidity,
+      triggerValidate
     } = useAddressForm(props, context)
     return {
       inputaddress,
+      baseAddress,
       emitUpdateAddress,
-      emitAddressValidity
+      emitAddressValidity,
+      triggerValidate
     }
   }
 })
