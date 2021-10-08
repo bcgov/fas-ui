@@ -10,6 +10,7 @@ export function useAddressForm (props, context) {
   // using `toRefs` to create a Reactive Reference to the `user` property of props
   const { address } = toRefs(props)
   const inputaddress = ref<BaseAddressModel>({} as BaseAddressModel)
+  const baseAddress = ref<HTMLFormElement>()
 
   onMounted(() => {
     if (address.value) {
@@ -29,9 +30,16 @@ export function useAddressForm (props, context) {
     context.emit('valid', isValid)
   }
 
+  function triggerValidate (): boolean {
+    // validate form fields and show error message for address component from sbc-common-component
+    return baseAddress.value?.$refs?.addressForm.validate()
+  }
+
   return {
     inputaddress,
+    baseAddress,
     emitUpdateAddress,
-    emitAddressValidity
+    emitAddressValidity,
+    triggerValidate
   }
 }

@@ -10,7 +10,7 @@
     >
     </v-text-field>
     <address-form
-      ref="baseAddress"
+      ref="addressForm"
       :editing="isEditing"
       :schema="baseAddressSchema"
       :address="inputaddress"
@@ -38,7 +38,9 @@ import { RefundRequestDetails } from '@/models/RoutingSlip'
       nameRules,
       name,
       address,
-      addressValidity
+      addressForm,
+      addressValidity,
+      isValid
     } = useRefundRequestForm(props, context)
 
     return {
@@ -48,6 +50,8 @@ import { RefundRequestDetails } from '@/models/RoutingSlip'
       nameRules,
       name,
       address,
+      addressForm,
+      isValid,
       addressValidity
     }
   }

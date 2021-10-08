@@ -24,13 +24,17 @@ import 'sbc-common-components/public/js/addresscomplete-2.30.min.js'
   setup (props, context) {
     const {
       inputaddress,
+      baseAddress,
       emitUpdateAddress,
-      emitAddressValidity
+      emitAddressValidity,
+      triggerValidate
     } = useAddressForm(props, context)
     return {
       inputaddress,
+      baseAddress,
       emitUpdateAddress,
-      emitAddressValidity
+      emitAddressValidity,
+      triggerValidate
     }
   }
 })

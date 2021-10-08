@@ -46,8 +46,10 @@ export default function useRoutingSlipInfo (props) {
 
   // update routign slip status on click of done
   async function updateStatus () {
-    await updateRoutingSlipStatus(currentStatus.value)
-    toggleEdit(false)
+    if (refundRequestForm.value.isValid()) {
+      await updateRoutingSlipStatus(currentStatus.value)
+      toggleEdit(false)
+    }
   }
   // get label of status
   function getStatusLabel (code: string) {
