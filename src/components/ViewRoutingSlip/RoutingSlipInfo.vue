@@ -46,18 +46,36 @@
               </v-col>
             </v-row>
             <!-- show only on edit -->
-            <v-row v-else>
-              <v-col class="col-6 col-sm-3 font-weight-bold">
-                Status
-              </v-col>
-              <v-col class="col-6 col-sm-9 status-list">
-                <status-list
-                  v-model="currentStatus"
-                  label="Status"
-                  @change="statusChange"
-                ></status-list>
-              </v-col>
-            </v-row>
+            <template v-else>
+              <v-row>
+                <v-col class="col-6 col-sm-3 font-weight-bold">
+                  Status
+                </v-col>
+                <v-col class="col-6 col-sm-9 status-list">
+                  <status-list
+                    v-model="currentStatus"
+                    label="Status"
+                    @change="statusChange"
+                  ></status-list>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col class="col-3 font-weight-bold">
+                  <!---- wrapping inside {{}} to ignore & special character--->
+                  {{ 'Name of Person or Organization & Address' }}
+                </v-col>
+                <v-col class="col-9">
+                  <refund-request-form
+                  ref="refundRequestForm"
+                  :inputRefundRequestDetails="refundRequestDetails"
+                  :isEditing="true"
+                  @update:refundRequestDetails="refundRequestDetails = $event"
+                  >
+                  </refund-request-form>
+                </v-col>
+              </v-row>
+
+            </template>
 
             <v-row>
               <v-col class="col-6 col-sm-3 font-weight-bold">
@@ -74,7 +92,6 @@
               </v-col>
             </v-row>
           </v-col>
-
           <v-col class="col-1 col-sm-2 d-flex justify-end pr-5"
             ><span
               class="primary--text cursor-pointer"
@@ -85,13 +102,6 @@
               ><v-icon color="primary" size="20"> mdi-pencil</v-icon> Edit
               Status</span
             >
-          </v-col>
-          <v-col class="col-12">
-            <address-form
-              ref="mailingAddress"
-              :editing="true"
-              :schema="baseAddressSchema"
-            />
           </v-col>
         </v-row>
       </v-card-text>
@@ -123,13 +133,13 @@
 import { Component, Vue } from 'vue-property-decorator'
 import commonUtil from '@/util/common-util'
 import { useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
-import AddressForm from '@/components/common/AddressForm.vue'
 import statusList from '@/components/common/StatusList.vue'
+import RefundRequestForm from '@/components/ViewRoutingSlip/RefundRequestForm.vue'
 import can from '@/directives/can'
 
 @Component({
   components: {
-    AddressForm,
+    RefundRequestForm,
     statusList
   },
   directives: {
@@ -146,7 +156,8 @@ import can from '@/directives/can'
       isRoutingSlipAChild,
       statusChange,
       showAddress,
-      baseAddressSchema
+      refundRequestForm,
+      refundRequestDetails
     } = useRoutingSlipInfo(props)
 
     return {
@@ -159,7 +170,8 @@ import can from '@/directives/can'
       isRoutingSlipAChild,
       statusChange,
       showAddress,
-      baseAddressSchema
+      refundRequestForm,
+      refundRequestDetails
     }
   }
 })

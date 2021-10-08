@@ -1,7 +1,7 @@
 import { computed, reactive, ref, toRefs, watch } from '@vue/composition-api'
 
+import { RefundRequestDetails } from '@/models/RoutingSlip'
 import { SlipStatus } from '@/util/constants'
-import { addressSchema } from '@/schema/address-schema'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { useStatusList } from '@/composables/common/useStatusList'
 
@@ -18,7 +18,10 @@ export default function useRoutingSlipInfo (props) {
   const editMode = ref<boolean>(false)
   const showAddress = ref<boolean>(false)
   const currentStatus = ref('')
-  const baseAddressSchema = ref<any>(addressSchema)
+
+  const refundRequestForm = ref<HTMLFormElement>()
+  const refundRequestDetails = ref<RefundRequestDetails>(null)
+
   // passign value as blank to avoid warning
   const { statusLabel } = useStatusList(reactive({ value: '' }), {})
 
@@ -70,6 +73,7 @@ export default function useRoutingSlipInfo (props) {
     isRoutingSlipAChild,
     statusChange,
     showAddress,
-    baseAddressSchema
+    refundRequestForm,
+    refundRequestDetails
   }
 }

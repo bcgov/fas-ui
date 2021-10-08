@@ -1,5 +1,6 @@
 import { FilingType, Payment } from './Payment'
 
+import { Address } from './Address'
 import { Invoice } from './Invoice'
 
 // Each Routing Slip is tied to an account - PayBC
@@ -55,4 +56,9 @@ export interface ManualTransactionDetails{
 export interface GetRoutingSlipRequestPayload {
   routingSlipNumber: string,
   showGlobalLoader?: boolean
+}
+
+export interface RefundRequestDetails {
+  name?: string,
+  address?: Address
 }
