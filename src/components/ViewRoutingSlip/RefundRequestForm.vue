@@ -7,8 +7,10 @@
     v-model.trim="name"
     data-test="txtName"
     :rules="nameRules"
+    v-if="isEditing"
     >
     </v-text-field>
+    <span v-else>{{ name }}</span>
     <address-form
       ref="addressForm"
       :editing="isEditing"

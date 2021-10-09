@@ -43,9 +43,9 @@ export default function useRefundRequestForm (props, context) {
     if (inputRefundRequestDetails.value) {
       // convert to address format to component
       name.value = inputRefundRequestDetails.value?.name
-      inputaddress.value = CommonUtils.convertAddressForComponent(inputRefundRequestDetails.value?.address)
+      inputaddress.value = inputRefundRequestDetails.value?.address
     }
-  })
+  }, { deep: true, immediate: true })
 
   return {
     baseAddressSchema,

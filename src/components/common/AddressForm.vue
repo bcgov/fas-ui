@@ -37,7 +37,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
   }
 })
 export default class AddressForm extends Vue {
-  @Prop({ default: true }) editing: boolean
+  @Prop({ default: false }) editing: boolean
   @Prop({ default: () => ({} as Address) }) address: Address
   @Prop({ default: {} }) schema: any
 }
