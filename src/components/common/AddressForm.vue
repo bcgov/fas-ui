@@ -14,6 +14,8 @@ import { useAddressForm } from '@/composables/common'
 import { Address } from '@/models/Address'
 import BaseAddress from 'sbc-common-components/src/components/BaseAddress.vue'
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import 'sbc-common-components/public/css/addresscomplete-2.30.min.css'
+import 'sbc-common-components/public/js/addresscomplete-2.30.min.js'
 
 @Component({
   components: {
