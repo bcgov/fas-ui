@@ -15,7 +15,7 @@
       ref="addressForm"
       :editing="isEditing"
       :schema="baseAddressSchema"
-      :address="inputaddress"
+      :address="address"
       @update:address="address=$event"
       @valid="addressValidity"
     >
@@ -36,7 +36,6 @@ import { RefundRequestDetails } from '@/models/RoutingSlip'
     const {
       baseAddressSchema,
       refundRequestForm,
-      inputaddress,
       nameRules,
       name,
       address,
@@ -48,7 +47,6 @@ import { RefundRequestDetails } from '@/models/RoutingSlip'
     return {
       baseAddressSchema,
       refundRequestForm,
-      inputaddress,
       nameRules,
       name,
       address,

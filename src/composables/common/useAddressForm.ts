@@ -1,5 +1,5 @@
 import { Address, BaseAddressModel } from '@/models/Address'
-import { onMounted, ref, toRefs } from '@vue/composition-api'
+import { computed, onMounted, ref, toRefs } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 
@@ -9,15 +9,11 @@ Composable function for Address component that is displayed at view routing slip
 export function useAddressForm (props, context) {
   // using `toRefs` to create a Reactive Reference to the `user` property of props
   const { address } = toRefs(props)
-  const inputaddress = ref<BaseAddressModel>({} as BaseAddressModel)
   const baseAddress = ref<HTMLFormElement>()
 
-  onMounted(() => {
-    if (address.value) {
-      // convert to address format to component
-      inputaddress.value = CommonUtils.convertAddressForComponent(address.value)
-      emitUpdateAddress(inputaddress.value)
-    }
+  const inputaddress = computed(() => {
+    const inputFormattedAddress: BaseAddressModel = CommonUtils.convertAddressForComponent(address.value)
+    return inputFormattedAddress
   })
 
   function emitUpdateAddress (iaddress: BaseAddressModel): void {

@@ -12,7 +12,6 @@ export default function useRefundRequestForm (props, context) {
 
   const baseAddressSchema = ref<any>(addressSchema)
   const isAddressValid = ref<boolean>(false)
-  const inputaddress = ref<BaseAddressModel>({} as BaseAddressModel)
 
   const refundRequestForm = ref<HTMLFormElement>()
   const addressForm = ref<HTMLFormElement>()
@@ -43,14 +42,13 @@ export default function useRefundRequestForm (props, context) {
     if (inputRefundRequestDetails.value) {
       // convert to address format to component
       name.value = inputRefundRequestDetails.value?.name
-      inputaddress.value = inputRefundRequestDetails.value?.address
+      address.value = inputRefundRequestDetails.value?.address
     }
   }, { deep: true, immediate: true })
 
   return {
     baseAddressSchema,
     refundRequestForm,
-    inputaddress,
     nameRules,
     name,
     address,
