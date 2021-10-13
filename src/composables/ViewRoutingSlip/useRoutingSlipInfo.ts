@@ -47,8 +47,11 @@ export default function useRoutingSlipInfo (props) {
 
   // update routign slip status on click of done
   async function updateStatus () {
-    if (refundRequestForm.value.isValid()) {
-      await updateRoutingSlipStatus(currentStatus.value)
+    // need to call validate only of its refund
+    const isFormValid = isRefundProcess(currentStatus.value) ? refundRequestForm.value.isValid() : true
+    if (isFormValid) {
+      const statusDetails = { status: currentStatus.value, ...refundRequestDetails.value }
+      await updateRoutingSlipStatus(statusDetails)
       toggleEdit(false)
     }
   }
@@ -56,16 +59,20 @@ export default function useRoutingSlipInfo (props) {
   function getStatusLabel (code: string) {
     return statusLabel(code)
   }
+  function isRefundProcess (status) {
+    return [
+      SlipStatus.REFUNDREQUEST,
+      SlipStatus.REFUNDAUTHORIZED,
+      SlipStatus.REFUNDCOMPLETED
+    ].includes(status?.code)
+  }
 
   function statusChange (status) {
     // TODO change to computed for supervisor role
     showAddress.value = false
     errorMessage.value = ''
-    // TODO remove BOUNCED status
-    const showAddressStatus = [SlipStatus.BOUNCED,
-      SlipStatus.REFUNDREQUEST,
-      SlipStatus.REFUNDAUTHORIZED,
-      SlipStatus.REFUNDCOMPLETED].includes(status.code)
+
+    const showAddressStatus = isRefundProcess(status)
 
     // TODO confirm show error on 0
     const showValidationError = routingSlipDetails.value.remainingAmount === 0

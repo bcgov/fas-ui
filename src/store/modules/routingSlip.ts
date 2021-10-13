@@ -16,6 +16,7 @@ import {
 
 import CommonUtils from '@/util/common-util'
 import RoutingSlipService from '@/services/routingSlip.services'
+import { SlipStatus } from '@/util/constants'
 
 @Module({ namespaced: true, stateFactory: true })
 export default class RoutingSlipModule extends VuexModule {
@@ -148,7 +149,7 @@ export default class RoutingSlipModule extends VuexModule {
       }
       // all other case routing is existing so can't use this number
       return false
-    } catch (error: any) {
+    } catch (error) {
       // eslint-disable-next-line no-console
       console.error('error ', error.response?.data)
       // on error we return true where the can use this routing number which should brake on create and show error message
@@ -157,36 +158,51 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Action({ commit: 'setRoutingSlip', rawError: true })
-  public async getRoutingSlip (getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload): Promise<RoutingSlipDetails> {
+  public async getRoutingSlip (
+    getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload
+  ): Promise<RoutingSlipDetails> {
     try {
-      const response = await RoutingSlipService.getRoutingSlip(getRoutingSlipRequestPayload.routingSlipNumber, getRoutingSlipRequestPayload?.showGlobalLoader)
+      const response = await RoutingSlipService.getRoutingSlip(
+        getRoutingSlipRequestPayload.routingSlipNumber,
+        getRoutingSlipRequestPayload?.showGlobalLoader
+      )
 
       if (response && response.data && response.status === 200) {
         return response.data
       }
       // TODO : need to handle if slip not existing
-    } catch (error: any) {
+    } catch (error) {
       // eslint-disable-next-line no-console
       console.error('error ', error.response?.data) // 500 errors may not return data
     }
   }
 
-  @Action({ commit: 'setRoutingSlip', rawError: true })
+  @Action({ rawError: true })
   public async updateRoutingSlipStatus (
-    status: any
+    statusDetails: any
   ): Promise<RoutingSlipDetails> {
     const context: any = this.context
     const slipNumber = context.state.routingSlip.number
+
     // update status
     try {
-      const response = await RoutingSlipService.updateRoutingSlipStatus(
-        status,
-        slipNumber
-      )
+      let response
+      if (statusDetails?.status?.code === SlipStatus.REFUNDREQUEST) {
+        response = await RoutingSlipService.updateRoutingSlipRefund(
+          statusDetails,
+          slipNumber
+        )
+      } else {
+        response = await RoutingSlipService.updateRoutingSlipStatus(
+          statusDetails.status,
+          slipNumber
+        )
+      }
       if (response && response.data && response.status === 200) {
+        context.commit('setRoutingSlipDetails', response.data)
         return response.data
       }
-    } catch (error: any) {
+    } catch (error) {
       // eslint-disable-next-line no-console
       console.error('error ', error.response?.data)
     }
@@ -281,7 +297,7 @@ export default class RoutingSlipModule extends VuexModule {
           error: false
         }
       }
-    } catch (error: any) {
+    } catch (error) {
       if (error.response.status === 400) {
         return { error: true, details: error.response?.data }
       }
@@ -305,7 +321,7 @@ export default class RoutingSlipModule extends VuexModule {
       }
       // 204 non content response
       context.commit('setLinkedRoutingSlips', linkedRoutingSlips)
-    } catch (error: any) {
+    } catch (error) {
       this.context.commit('setLinkedRoutingSlips', undefined)
       // eslint-disable-next-line no-console
       console.error('error ', error.response?.data) // 500 errors may not return data
@@ -320,7 +336,7 @@ export default class RoutingSlipModule extends VuexModule {
     )
     try {
       return await RoutingSlipService.getDailyReport(formatedDate, type, false)
-    } catch (error: any) {
+    } catch (error) {
       // eslint-disable-next-line no-console
       console.error('error ', error.response?.data) // 500 errors may not return data
       return error.response
