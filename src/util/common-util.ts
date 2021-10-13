@@ -76,11 +76,14 @@ export default class CommonUtils {
     switch (status) {
       case SlipStatus.ACTIVE:
       case SlipStatus.COMPLETE:
+      case SlipStatus.REFUNDCOMPLETED:
         color = 'success'
         break
       case SlipStatus.BOUNCED:
       case SlipStatus.NSF:
       case SlipStatus.LINKED:
+      case SlipStatus.REFUNDREQUEST:
+      case SlipStatus.REFUNDAUTHORIZED:
         color = 'error'
         break
     }

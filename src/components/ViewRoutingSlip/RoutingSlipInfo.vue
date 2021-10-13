@@ -69,7 +69,8 @@
                     v-model="currentStatus"
                     label="Status"
                     @change="statusChange"
-                    hide-details
+                    :hide-details="errorMessage === ''"
+                    :error-messages="errorMessage"
                   ></status-list>
                 </v-col>
               </v-row>
@@ -162,7 +163,8 @@ import can from '@/directives/can'
       statusChange,
       showAddress,
       refundRequestForm,
-      refundRequestDetails
+      refundRequestDetails,
+      errorMessage
     } = useRoutingSlipInfo(props)
 
     return {
@@ -176,7 +178,8 @@ import can from '@/directives/can'
       statusChange,
       showAddress,
       refundRequestForm,
-      refundRequestDetails
+      refundRequestDetails,
+      errorMessage
     }
   }
 })

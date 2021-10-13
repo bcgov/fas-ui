@@ -18,6 +18,7 @@ export default function useRoutingSlipInfo (props) {
   const editMode = ref<boolean>(false)
   const showAddress = ref<boolean>(false)
   const currentStatus = ref('')
+  const errorMessage = ref<string>('')
 
   const refundRequestForm = ref<HTMLFormElement>()
   const refundRequestDetails = ref<RefundRequestDetails>(null)
@@ -57,11 +58,23 @@ export default function useRoutingSlipInfo (props) {
   }
 
   function statusChange (status) {
+    // TODO change to computed for supervisor role
+    showAddress.value = false
+    errorMessage.value = ''
+    // TODO remove BOUNCED status
+    const showAddressStatus = [SlipStatus.BOUNCED,
+      SlipStatus.REFUNDREQUEST,
+      SlipStatus.REFUNDAUTHORIZED,
+      SlipStatus.REFUNDCOMPLETED].includes(status.code)
+
+    // TODO confirm show error on 0
+    const showValidationError = routingSlipDetails.value.remainingAmount === 0
     //  change to refund status once status available
-    if ((status && status.code) && (status.code === SlipStatus.BOUNCED)) {
+    if (showAddressStatus && !showValidationError) {
       showAddress.value = true
-    } else {
+    } else if (showValidationError) {
       showAddress.value = false
+      errorMessage.value = 'There is not enough funds for refund'
     }
   }
 
@@ -77,6 +90,7 @@ export default function useRoutingSlipInfo (props) {
     statusChange,
     showAddress,
     refundRequestForm,
-    refundRequestDetails
+    refundRequestDetails,
+    errorMessage
   }
 }
