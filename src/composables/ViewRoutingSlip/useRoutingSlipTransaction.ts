@@ -155,8 +155,12 @@ export default function useRoutingSlipTransaction () {
   function updateAvailableAmountForManualTransaction (): void {
     // We dont need the first item as it would have the entire remainingAmount of the routingslip
     for (let i = 1; i <= manualTransactionsList.value.length - 1; i++) {
-      manualTransactionsList.value[i].availableAmountForManualTransaction =
-      routingSlip.value.remainingAmount - manualTransactionsList.value[i - 1].total
+      // if previous record has no total, then the available amount is carried over to the next record
+      if (manualTransactionsList.value[i - 1].total > 0) {
+        manualTransactionsList.value[i].availableAmountForManualTransaction = routingSlip.value.remainingAmount - manualTransactionsList.value[i - 1].total
+      } else {
+        manualTransactionsList.value[i].availableAmountForManualTransaction = manualTransactionsList.value[i - 1].availableAmountForManualTransaction
+      }
     }
   }
 
