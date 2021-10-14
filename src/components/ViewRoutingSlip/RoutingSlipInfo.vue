@@ -4,16 +4,29 @@
       <h3 data-test="title">Routing Slip Information</h3>
       <p>{{ $t('routingSlipInfoSubText') }}</p>
     </header>
-    <v-card class="pl-5 py-2">
+    <v-card class="pl-5 py-2 pr-5">
       <v-card-text>
         <v-row no-gutters>
-          <v-col class="col-12 col-sm-10 ">
+          <v-col class="col-12 col-sm-12 ">
             <v-row>
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 Routing Slip - Unique ID
               </v-col>
-              <v-col class="col-6 col-sm-9">
-                {{ routingSlipDetails.number }}
+              <v-col class="col-6 col-sm-9 d-flex justify-space-between">
+                <div>
+                  {{ routingSlipDetails.number }}
+                </div>
+                <div>
+                  <span
+                    class="primary--text cursor-pointer"
+                    @click="toggleEdit(true)"
+                    v-if="!isRoutingSlipAChild"
+                    data-test="btn-edit"
+                    v-can:fas_edit.hide
+                    ><v-icon color="primary" size="20"> mdi-pencil</v-icon> Edit
+                    Status</span
+                  >
+                </div>
               </v-col>
             </v-row>
 
@@ -46,17 +59,40 @@
               </v-col>
             </v-row>
             <!-- show only on edit -->
-            <v-row v-else>
-              <v-col class="col-6 col-sm-3 font-weight-bold">
-                Status
-              </v-col>
-              <v-col class="col-6 col-sm-9 status-list">
-                <status-list
-                  v-model="currentStatus"
-                  label="Status"
-                ></status-list>
-              </v-col>
-            </v-row>
+            <template v-else>
+              <v-row>
+                <v-col class="col-6 col-sm-3 font-weight-bold">
+                  Status
+                </v-col>
+                <v-col class="col-6 col-sm-9 status-list">
+                  <status-list
+                    v-model="currentStatus"
+                    label="Status"
+                    @change="statusChange"
+                    :hide-details="errorMessage === ''"
+                    :error-messages="errorMessage"
+                  ></status-list>
+                </v-col>
+              </v-row>
+              <v-expand-transition>
+                <v-row v-if="showAddress">
+                  <v-col class="col-3 font-weight-bold">
+                    Name of Person or Organization & Address
+                  </v-col>
+                  <v-col class="col-9">
+                    <refund-request-form
+                      ref="refundRequestForm"
+                      :inputRefundRequestDetails="refundRequestDetails"
+                      :isEditing="true"
+                      @update:refundRequestDetails="
+                        refundRequestDetails = $event
+                      "
+                    >
+                    </refund-request-form>
+                  </v-col>
+                </v-row>
+              </v-expand-transition>
+            </template>
 
             <v-row>
               <v-col class="col-6 col-sm-3 font-weight-bold">
@@ -73,21 +109,9 @@
               </v-col>
             </v-row>
           </v-col>
-
-          <v-col class="col-1 col-sm-2 d-flex justify-end pr-5"
-            ><span
-              class="primary--text cursor-pointer"
-              @click="toggleEdit(true)"
-              v-if="!isRoutingSlipAChild"
-              data-test="btn-edit"
-              v-can:fas_edit.hide
-              ><v-icon color="primary" size="20"> mdi-pencil</v-icon> Edit
-              Status</span
-            >
-          </v-col>
         </v-row>
       </v-card-text>
-      <v-card-actions class="pr-10 justify-end pa-3 pb-5" v-if="editMode">
+      <v-card-actions class="pr-4 justify-end pa-3 pb-5" v-if="editMode">
         <v-btn
           large
           color="primary"
@@ -116,10 +140,12 @@ import { Component, Vue } from 'vue-property-decorator'
 import commonUtil from '@/util/common-util'
 import { useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
 import statusList from '@/components/common/StatusList.vue'
+import RefundRequestForm from '@/components/ViewRoutingSlip/RefundRequestForm.vue'
 import can from '@/directives/can'
 
 @Component({
   components: {
+    RefundRequestForm,
     statusList
   },
   directives: {
@@ -133,7 +159,12 @@ import can from '@/directives/can'
       currentStatus,
       updateStatus,
       getStatusLabel,
-      isRoutingSlipAChild
+      isRoutingSlipAChild,
+      statusChange,
+      showAddress,
+      refundRequestForm,
+      refundRequestDetails,
+      errorMessage
     } = useRoutingSlipInfo(props)
 
     return {
@@ -143,7 +174,12 @@ import can from '@/directives/can'
       currentStatus,
       updateStatus,
       getStatusLabel,
-      isRoutingSlipAChild
+      isRoutingSlipAChild,
+      statusChange,
+      showAddress,
+      refundRequestForm,
+      refundRequestDetails,
+      errorMessage
     }
   }
 })

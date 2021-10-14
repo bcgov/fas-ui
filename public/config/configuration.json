@@ -1,4 +1,5 @@
 {
+  "ADDRESS_COMPLETE_KEY": "RH99-RN99-GB72-FW86",
   "SENTRY_DSN": "",
   "SENTRY_ENABLE": "false",
   "STATUS_API_URL": "https://status-api-dev.apps.silver.devops.gov.bc.ca",

@@ -1,5 +1,7 @@
 import { computed, reactive, ref, toRefs, watch } from '@vue/composition-api'
 
+import { RefundRequestDetails } from '@/models/RoutingSlip'
+import { SlipStatus } from '@/util/constants'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { useStatusList } from '@/composables/common/useStatusList'
 
@@ -14,7 +16,13 @@ export default function useRoutingSlipInfo (props) {
   const { isRoutingSlipAChild } = useGetters(['isRoutingSlipAChild'])
 
   const editMode = ref<boolean>(false)
+  const showAddress = ref<boolean>(false)
   const currentStatus = ref('')
+  const errorMessage = ref<string>('')
+
+  const refundRequestForm = ref<HTMLFormElement>()
+  const refundRequestDetails = ref<RefundRequestDetails>(null)
+
   // passign value as blank to avoid warning
   const { statusLabel } = useStatusList(reactive({ value: '' }), {})
 
@@ -39,12 +47,42 @@ export default function useRoutingSlipInfo (props) {
 
   // update routign slip status on click of done
   async function updateStatus () {
-    await updateRoutingSlipStatus(currentStatus.value)
-    toggleEdit(false)
+    // need to call validate only of its refund
+    const isFormValid = isRefundProcess(currentStatus.value) ? refundRequestForm.value.isValid() : true
+    if (isFormValid) {
+      const statusDetails = { status: currentStatus.value, ...refundRequestDetails.value }
+      await updateRoutingSlipStatus(statusDetails)
+      toggleEdit(false)
+    }
   }
   // get label of status
   function getStatusLabel (code: string) {
     return statusLabel(code)
+  }
+  function isRefundProcess (status) {
+    return [
+      SlipStatus.REFUNDREQUEST,
+      SlipStatus.REFUNDAUTHORIZED,
+      SlipStatus.REFUNDCOMPLETED
+    ].includes(status?.code)
+  }
+
+  function statusChange (status) {
+    // TODO change to computed for supervisor role
+    showAddress.value = false
+    errorMessage.value = ''
+
+    const showAddressStatus = isRefundProcess(status)
+
+    // TODO confirm show error on 0
+    const showValidationError = routingSlipDetails.value.remainingAmount === 0
+    //  change to refund status once status available
+    if (showAddressStatus && !showValidationError) {
+      showAddress.value = true
+    } else if (showValidationError) {
+      showAddress.value = false
+      errorMessage.value = 'There is not enough funds for refund'
+    }
   }
 
   return {
@@ -55,6 +93,11 @@ export default function useRoutingSlipInfo (props) {
     currentStatus,
     updateStatus,
     getStatusLabel,
-    isRoutingSlipAChild
+    isRoutingSlipAChild,
+    statusChange,
+    showAddress,
+    refundRequestForm,
+    refundRequestDetails,
+    errorMessage
   }
 }
