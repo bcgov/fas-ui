@@ -1,7 +1,7 @@
 import { Invoice, InvoiceDisplay, LineItem, Reference } from '@/models/Invoice'
-import { ref, toRefs, watch } from '@vue/composition-api'
+import { InvoiceStatus, SlipStatus } from '@/util/constants'
+import { computed, reactive, ref, toRefs, watch } from '@vue/composition-api'
 
-import { InvoiceStatus } from '@/util/constants'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
@@ -41,12 +41,33 @@ export default function useTransactionDataTable (props) {
       align: 'start',
       value: 'createdName',
       sortable: false
+    },
+    {
+      text: 'Actions',
+      align: 'end',
+      value: 'actions',
+      sortable: false
     }
   ]
 
   // vuex getter and state
   const { invoiceCount } = useGetters(['invoiceCount'])
   const { routingSlip } = useState(['routingSlip'])
+
+  const modalDialogRef = ref<HTMLFormElement>()
+  // modal dialog props and events
+  const modalDialogDetails = reactive<any>({
+    modalDialogTitle: 'Cancel Transaction?',
+    modalDialogText: 'Canceling a transaction will place the transaction amount back to the routing slip.',
+    modalDialogOkText: 'Cancel Transaction',
+    modalDialogCancelText: 'Cancel',
+    modalDialogIcon: 'mdi-alert-circle-outline',
+    modalDialogIconColor: 'error'
+  })
+
+  const canShowCancelButton = computed(() => {
+    return ![SlipStatus.NSF, SlipStatus.REFUNDAUTHORIZED, SlipStatus.REFUNDCOMPLETED, SlipStatus.REFUNDREQUEST].includes(routingSlip.value.status)
+  })
 
   // We are watching routingslip parent object and if any changes, we update the invoice and pass it along to transaction table to display
   watch(routingSlip, () => {
@@ -71,14 +92,44 @@ export default function useTransactionDataTable (props) {
       invoiceDisplayObject.invoiceNumber = invoice?.references?.find((reference: Reference) => reference?.statusCode === InvoiceStatus.COMPLETED)?.invoiceNumber
       invoiceDisplayObject.total = invoice?.total
       invoiceDisplayObject.createdName = invoice?.createdName || invoice?.createdBy
+      invoiceDisplayObject.statusCode = invoice.statusCode
       invoiceDisplay.value.push(invoiceDisplayObject)
     }
+  }
+
+  // Cancel Routing slip transaction
+  function cancel () {
+    modalDialogRef.value.open()
+  }
+
+  function modalDialogConfirm () {
+    modalDialogRef.value.close()
+  }
+
+  function modalDialogClose () {
+    modalDialogRef.value.close()
+  }
+
+  function isInvoiceCancelled (invoice: Invoice): boolean {
+    return invoice.statusCode === InvoiceStatus.REFUNDED
+  }
+
+  function getIndexedTag (tag, index): string {
+    return `${tag}-${index}`
   }
 
   return {
     invoiceDisplay,
     headerTranscations,
     invoiceCount,
-    transformInvoices
+    transformInvoices,
+    modalDialogRef,
+    modalDialogDetails,
+    canShowCancelButton,
+    cancel,
+    modalDialogConfirm,
+    modalDialogClose,
+    isInvoiceCancelled,
+    getIndexedTag
   }
 }

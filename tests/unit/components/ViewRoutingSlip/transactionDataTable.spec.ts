@@ -1,11 +1,10 @@
 import { createLocalVue, mount } from '@vue/test-utils'
+import { routingSlip, routingSlipWithCancelledInvoice } from '../../test-data/mock-routing-slip'
 
 import { InvoiceDisplay } from '@/models/Invoice'
-import RoutingSlipModule from '@/store/modules/routingSlip'
 import { TransactionDataTable } from '@/components/ViewRoutingSlip'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
-import { routingSlip } from '../../test-data/mock-routing-slip'
 
 describe('TransactionDataTable.vue', () => {
   const localVue = createLocalVue()
@@ -35,7 +34,10 @@ describe('TransactionDataTable.vue', () => {
     const wrapper = mount(TransactionDataTable, {
       localVue,
       vuetify,
-      store
+      store,
+      directives: {
+        can () { /* stub */ }
+      }
     })
     expect(wrapper.find('[data-test="title"]').text()).toBe('Transactions')
   })
@@ -44,7 +46,10 @@ describe('TransactionDataTable.vue', () => {
     const wrapper: any = mount(TransactionDataTable, {
       localVue,
       vuetify,
-      store
+      store,
+      directives: {
+        can () { /* stub */ }
+      }
     })
     await wrapper.vm.$nextTick()
     await wrapper.vm.$nextTick()
@@ -60,5 +65,48 @@ describe('TransactionDataTable.vue', () => {
     expect(invoiceDisplay[1].createdName).toBe('testIDIR')
     expect(invoiceDisplay[0].invoiceNumber).toBe(undefined)
     expect(invoiceDisplay[1].invoiceNumber).toBe('REGD00010652')
+  })
+
+  it('invoice cancel button behaviour', async () => {
+    const cancelledRoutingSlipModule = {
+      namespaced: true,
+      state: {
+        routingSlip: routingSlipWithCancelledInvoice
+      }
+    }
+    store = new Vuex.Store({
+      strict: false,
+      modules: {
+        routingSlip: cancelledRoutingSlipModule
+      }
+    })
+    const stubConfirm = jest.fn()
+    const stubCancel = jest.fn()
+    const wrapper: any = mount(TransactionDataTable, {
+      localVue,
+      vuetify,
+      store,
+      mocks: {
+        modalDialogConfirm: stubConfirm,
+        modalDialogClose: stubCancel
+      },
+      directives: {
+        can () { /* stub */ }
+      }
+    })
+    await wrapper.vm.$nextTick()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('[data-test="btn-invoice-cancel-0"]').exists()).toBeTruthy()
+    expect(wrapper.find('[data-test="btn-invoice-cancel-1"]').exists()).toBeTruthy()
+    wrapper.find('[data-test="btn-invoice-cancel-0"]').trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('[data-test="dialog-confirm-cancellation"]').exists()).toBeTruthy()
+    await wrapper.find('[data-test="dialog-ok-button"]').trigger('click')
+    expect(stubConfirm).toHaveBeenCalledTimes(1)
+    await wrapper.find('[data-test="dialog-cancel-button"]').trigger('click')
+    expect(stubCancel).toHaveBeenCalledTimes(1)
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('[data-test="text-cancel-0"]').exists()).toBeTruthy()
+    expect(wrapper.find('[data-test="btn-invoice-cancel-1"]').exists()).toBeTruthy()
   })
 })

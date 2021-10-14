@@ -1,22 +1,11 @@
 <template>
   <div>
     <header class="d-flex flex-column mb-0">
-      <div class="d-flex justify-space-between">
-        <div>
-          <h3 data-test="title">Payment Information</h3>
-          <p>
-            {{ $t('paymentInformationSubText') }}
-          </p>
-        </div>
-        <v-btn
-          large
-          color="primary"
-          data-test="btn-add-fund"
-          v-can:fas_edit.hide
-        >
-          <v-icon class="mr-1">mdi-plus</v-icon>
-          <span>Add Additional Funds</span>
-        </v-btn>
+      <div>
+        <h3 data-test="title">Payment Information</h3>
+        <p>
+          {{ $t('paymentInformationSubText') }}
+        </p>
       </div>
     </header>
     <v-card class="pl-5 py-2">
