@@ -59,7 +59,6 @@ describe('PaymentInformation.vue', () => {
       }
     })
     expect(wrapper.find('[data-test="title"]').text()).toBe('Payment Information')
-    expect(wrapper.find('[data-test="btn-add-fund"]').exists()).toBeTruthy()
     expect(wrapper.find('[data-test="btn-view-payment-information"]').exists()).toBeTruthy()
   })
   it('populates correct value', async () => {
