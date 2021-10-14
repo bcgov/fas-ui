@@ -31,7 +31,10 @@ export enum SlipStatus {
   REFUND = 'REFUND',
   LAST = 'LAST',
   HOLD = 'HOLD',
-  LINKED = 'LINKED'
+  LINKED = 'LINKED',
+  REFUNDREQUEST = 'REFUND_REQUEST',
+  REFUNDAUTHORIZED = 'REFUND_AUTHORIZED',
+  REFUNDCOMPLETED = 'REFUND_COMPLETED'
 }
 
 export enum Role {
@@ -46,7 +49,8 @@ export enum Role {
 }
 
 export enum InvoiceStatus {
-  COMPLETED = 'COMPLETED'
+  COMPLETED = 'COMPLETED',
+  REFUNDED = 'REFUNDED'
 }
 
 export const AXIOS_ERROR_ALERT_TIME_OUT = 5000

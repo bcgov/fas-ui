@@ -31,7 +31,8 @@ export const invoice: Invoice[] = [
         statusCode: 'ACTIVE'
       }
     ],
-    total: 1000
+    total: 1000,
+    statusCode: 'COMPLETED'
   },
   {
     businessIdentifier: 'CP000140135',
@@ -51,7 +52,56 @@ export const invoice: Invoice[] = [
         statusCode: 'COMPLETED'
       }
     ],
-    total: 10000
+    total: 10000,
+    statusCode: 'COMPLETED'
+  }
+]
+
+export const cancelledInvoice: Invoice[] = [
+  {
+    businessIdentifier: 'CP0001405',
+    corpTypeCode: 'CP',
+    createdBy: 'SERVICE-ACCOUNT-ENTITY-SERVICE-ACCOUNT',
+    createdOn: '2021-07-15T17:57:32.432827',
+    id: 1,
+    lineItems: [
+      {
+        description: 'Annual Report'
+      },
+      {
+        description: '2.0 Version1'
+      }
+    ],
+    references: [
+      {
+        id: 8427,
+        invoiceNumber: 'REGD00010652',
+        statusCode: 'ACTIVE'
+      }
+    ],
+    total: 1000,
+    statusCode: 'REFUNDED'
+  },
+  {
+    businessIdentifier: 'CP000140135',
+    corpTypeCode: 'CP',
+    createdName: 'testIDIR',
+    createdOn: '2021-07-15T17:57:32.432827',
+    id: 1,
+    lineItems: [
+      {
+        description: 'Annual Report'
+      }
+    ],
+    references: [
+      {
+        id: 8427,
+        invoiceNumber: 'REGD00010652',
+        statusCode: 'COMPLETED'
+      }
+    ],
+    total: 10000,
+    statusCode: 'COMPLETED'
   }
 ]
 
@@ -74,6 +124,27 @@ export const routingSlip: RoutingSlip = {
   status: 'ACTIVE',
   total: 1000,
   invoices: invoice
+}
+
+export const routingSlipWithCancelledInvoice: RoutingSlip = {
+  id: 4,
+  number: '123',
+  paymentAccount: { billable: true, name: 'test', paymentMethod: 'CHEQUE' },
+  payments: [
+    {
+      chequeReceiptNumber: '123',
+      createdBy: 'user',
+      id: 7636,
+      paymentMethod: 'CHEQUE',
+      paidAmount: 123,
+      paymentDate: '2021-07-15'
+    }
+  ],
+  remainingAmount: 1000,
+  routingSlipDate: '2021-07-08',
+  status: 'ACTIVE',
+  total: 1000,
+  invoices: cancelledInvoice
 }
 
 export const routingSlipDetails: RoutingSlipDetails = {

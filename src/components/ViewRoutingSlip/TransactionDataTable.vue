@@ -35,27 +35,78 @@
         </p>
       </div>
     </template>
+    <template v-slot:[`item.actions`]="{ item, index }">
+      <template v-if="canShowCancelButton">
+        <v-btn
+          outlined
+          color="primary"
+          v-can:fas_transaction.hide
+          :data-test="getIndexedTag('btn-invoice-cancel', index)"
+          @click="cancel"
+        >
+          Cancel
+        </v-btn>
+      </template>
+      <span v-if="isInvoiceCancelled(item)" :data-test="getIndexedTag('text-cancel', index)" class="cancel-text-color"> Cancelled </span>
+    </template>
     </v-data-table>
+    <!-- Confirmation Dialog - to be displayed after clicking cancel on a transaction -->
+    <ModalDialog
+      ref="modalDialogRef"
+      :title="modalDialogDetails.modalDialogTitle"
+      :text="modalDialogDetails.modalDialogText"
+      dialog-class="notify-dialog"
+      data-test="dialog-confirm-cancellation"
+      max-width="679"
+      max-height="310"
+      :icon="modalDialogDetails.modalDialogIcon"
+      :iconColor="modalDialogDetails.modalDialogIconColor"
+    >
+      <template v-slot:actions>
+        <v-btn large color="primary" @click="modalDialogConfirm()" data-test="dialog-ok-button" class="font-weight-bold btn-actions">{{ modalDialogDetails.modalDialogOkText }}</v-btn>
+        <v-btn large color="primary" outlined @click="modalDialogClose()" data-test="dialog-cancel-button" class="ml-3 btn-actions">{{ modalDialogDetails.modalDialogCancelText }}</v-btn>
+      </template>
+    </ModalDialog>
   </div>
 </template>
 <script lang="ts">
 import { useTransactionDataTable } from '@/composables/ViewRoutingSlip'
 import commonUtil from '@/util/common-util'
+import ModalDialog from '@/components/common/ModalDialog.vue'
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
+  components: {
+    ModalDialog
+  },
   setup (props) {
     const {
       invoiceDisplay,
       headerTranscations,
       invoiceCount,
-      transformInvoices
+      transformInvoices,
+      modalDialogRef,
+      modalDialogDetails,
+      canShowCancelButton,
+      cancel,
+      modalDialogConfirm,
+      modalDialogClose,
+      getIndexedTag,
+      isInvoiceCancelled
     } = useTransactionDataTable(props)
     return {
       invoiceDisplay,
       headerTranscations,
       invoiceCount,
-      transformInvoices
+      transformInvoices,
+      modalDialogRef,
+      modalDialogDetails,
+      canShowCancelButton,
+      cancel,
+      modalDialogConfirm,
+      modalDialogClose,
+      getIndexedTag,
+      isInvoiceCancelled
     }
   }
 })
@@ -70,10 +121,10 @@ export default class TransactionDataTable extends Vue {
   .header-bg-color {
     background-color: $BCgovBlue0;
   }
-
-</style>
-<style lang="scss">
-.fas-transactions tbody tr td {
-    padding: 20px 15px !important;
-}
+  .fas-transactions tbody tr td {
+      padding: 20px 15px !important;
+  }
+  .cancel-text-color {
+    color: $BCgovInputError;
+  }
 </style>
