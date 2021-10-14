@@ -37,6 +37,16 @@ export default class RoutingSlip {
     )
   }
 
+  public static async updateRoutingSlipRefund (
+    details: string,
+    routingSlipNumber: number
+  ): Promise<AxiosResponse> {
+    return axios.patch(
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}/refund`,
+      details
+    )
+  }
+
   public static async getSearchRoutingSlip (
     searchParams: RoutingSlip,
     showGlobalLoader: boolean = false
