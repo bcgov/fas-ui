@@ -66,8 +66,8 @@ export default function useRoutingSlipInfo (props) {
         )
         currentStatus.value = statusObject[0] ? statusObject[0] : ''
         if (routingSlipDetails.value?.refunds && routingSlipDetails.value?.refunds[0]) {
-          const details = routingSlipDetails.value?.refunds[0].details.replaceAll('\'', '"')
-          refundRequestDetails.value = JSON.parse((details))
+          const details = routingSlipDetails.value?.refunds[0].details
+          refundRequestDetails.value = JSON.parse(JSON.stringify(details))
           //  if approver, show as edit mode
           if (CommonUtils.isApproverRole()) {
             editMode.value = true
