@@ -1,41 +1,78 @@
 import { computed, reactive, ref, toRefs, watch } from '@vue/composition-api'
 
 import { RefundRequestDetails } from '@/models/RoutingSlip'
-import { SlipStatus } from '@/util/constants'
+import { SlipStatus, Role } from '@/util/constants'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { useStatusList } from '@/composables/common/useStatusList'
+import { Code } from '@/models/Code'
+import CommonUtils from '@/util/common-util'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useActions, useState, useGetters } = routingSlipModule
+
+const codeModule = createNamespacedHelpers('fasCodes') // specific module name
+const { useState: useCodeState } = codeModule
 
 // Composable function to inject Props, options and values to useRoutingSlipInfo component
 export default function useRoutingSlipInfo (props) {
   // store
   const { routingSlip } = useState(['routingSlip'])
+  const { routingSlipStatusList } = useCodeState(['routingSlipStatusList'])
   const { updateRoutingSlipStatus } = useActions(['updateRoutingSlipStatus'])
   const { isRoutingSlipAChild } = useGetters(['isRoutingSlipAChild'])
 
   const editMode = ref<boolean>(false)
-  const showAddress = ref<boolean>(false)
-  const currentStatus = ref('')
+  const showAddressEditMode = ref<boolean>(CommonUtils.isApproverRole())
+  const currentStatus = ref<Code>(null)
   const errorMessage = ref<string>('')
 
   const refundRequestForm = ref<HTMLFormElement>()
   const refundRequestDetails = ref<RefundRequestDetails>(null)
 
   // passign value as blank to avoid warning
-  const { statusLabel } = useStatusList(reactive({ value: '' }), {})
+  const { statusLabel, selectedStatusObject } = useStatusList(
+    reactive({ value: '' }),
+    {}
+  )
 
   const routingSlipDetails = computed(() => {
     return routingSlip.value || {}
   })
 
+  const canRequestRefund = computed(() => {
+    return routingSlipDetails.value.remainingAmount > 0 || false
+  })
+
+  const showAddress = computed(() => {
+    if (editMode.value) {
+      return (isRefundProcess(currentStatus?.value) && canRequestRefund.value) || false
+    }
+
+    return isRefundProcess(currentStatus?.value) || false
+  })
+
   // since we have to return different value
   watch(
-    routingSlipDetails,
+    [routingSlipDetails, routingSlipStatusList],
     () => {
-      if (currentStatus.value !== routingSlipDetails.value.status) {
-        currentStatus.value = routingSlipDetails.value.status
+      // routingSlipStatusList need to avoid async data issues
+      if (
+        routingSlipStatusList.value.length > 0 &&
+        (!currentStatus.value ||
+          currentStatus.value?.code !== routingSlipDetails.value.status)
+      ) {
+        const statusObject = selectedStatusObject(
+          routingSlipDetails.value.status
+        )
+        currentStatus.value = statusObject[0] ? statusObject[0] : ''
+        if (routingSlipDetails.value?.refunds && routingSlipDetails.value?.refunds[0]) {
+          const details = routingSlipDetails.value?.refunds[0].details.replaceAll('\'', '"')
+          refundRequestDetails.value = JSON.parse((details))
+          //  if approver, show as edit mode
+          if (CommonUtils.isApproverRole()) {
+            editMode.value = true
+          }
+        }
       }
     },
     { immediate: true, deep: true }
@@ -48,9 +85,14 @@ export default function useRoutingSlipInfo (props) {
   // update routign slip status on click of done
   async function updateStatus () {
     // need to call validate only of its refund
-    const isFormValid = isRefundProcess(currentStatus.value) ? refundRequestForm.value.isValid() : true
+    const isFormValid = isRefundProcess(currentStatus.value)
+      ? refundRequestForm.value.isValid()
+      : true
     if (isFormValid) {
-      const statusDetails = { status: currentStatus.value, ...refundRequestDetails.value }
+      const statusDetails = {
+        status: currentStatus.value.code,
+        details: refundRequestDetails.value
+      }
       await updateRoutingSlipStatus(statusDetails)
       toggleEdit(false)
     }
@@ -69,18 +111,16 @@ export default function useRoutingSlipInfo (props) {
 
   function statusChange (status) {
     // TODO change to computed for supervisor role
-    showAddress.value = false
+    // showAddress.value = false
     errorMessage.value = ''
 
     const showAddressStatus = isRefundProcess(status)
 
-    // TODO confirm show error on 0
-    const showValidationError = routingSlipDetails.value.remainingAmount === 0
     //  change to refund status once status available
-    if (showAddressStatus && !showValidationError) {
-      showAddress.value = true
-    } else if (showValidationError) {
-      showAddress.value = false
+    if (showAddressStatus && canRequestRefund.value) {
+      showAddressEditMode.value = true
+    } else if (!canRequestRefund.value) {
+      // showAddressEditMode.value = false
       errorMessage.value = 'There is not enough funds for refund'
     }
   }
@@ -98,6 +138,8 @@ export default function useRoutingSlipInfo (props) {
     showAddress,
     refundRequestForm,
     refundRequestDetails,
-    errorMessage
+    errorMessage,
+    showAddressEditMode
+
   }
 }

@@ -4,9 +4,9 @@
 
 import { Address, BaseAddressModel } from '@/models/Address'
 
-import { SlipStatus } from '@/util/constants'
+import { Role, SlipStatus } from '@/util/constants'
 import moment from 'moment'
-
+import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
 export default class CommonUtils {
   // Formatting date in the desired format for displaying in the template
   static formatDisplayDate (date: Date, format?: string) {
@@ -135,5 +135,10 @@ export default class CommonUtils {
       street: iaddress.streetAddress,
       streetAdditional: iaddress.streetAddressAdditional
     }
+  }
+
+  static isApproverRole () {
+    const approverRole:any = [Role.FAS_REFUND_APPROVER]
+    return KeyCloakService.verifyRoles(approverRole, [])
   }
 }

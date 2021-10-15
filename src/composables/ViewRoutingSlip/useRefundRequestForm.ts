@@ -33,7 +33,7 @@ export default function useRefundRequestForm (props, context) {
 
   // watch input elements name and address, and if anything changes, bubble up the values back to parent;
   watch([name, address], () => {
-    const refundRequestDetails: RefundRequestDetails = { name: name.value, address: address.value } as RefundRequestDetails
+    const refundRequestDetails: RefundRequestDetails = { name: name.value, mailingAddress: address.value } as RefundRequestDetails
     context.emit('update:refundRequestDetails', refundRequestDetails)
   })
 
@@ -42,7 +42,7 @@ export default function useRefundRequestForm (props, context) {
     if (inputRefundRequestDetails.value) {
       // convert to address format to component
       name.value = inputRefundRequestDetails.value?.name
-      address.value = inputRefundRequestDetails.value?.address
+      address.value = inputRefundRequestDetails.value?.mailingAddress
     }
   }, { deep: true, immediate: true })
 

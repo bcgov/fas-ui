@@ -44,7 +44,6 @@
                 }}
               </v-col>
             </v-row>
-
             <v-row v-if="!editMode">
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 Status
@@ -74,25 +73,23 @@
                   ></status-list>
                 </v-col>
               </v-row>
-              <v-expand-transition>
-                <v-row v-if="showAddress">
-                  <v-col class="col-3 font-weight-bold">
-                    Name of Person or Organization & Address
-                  </v-col>
-                  <v-col class="col-9">
-                    <refund-request-form
-                      ref="refundRequestForm"
-                      :inputRefundRequestDetails="refundRequestDetails"
-                      :isEditing="true"
-                      @update:refundRequestDetails="
-                        refundRequestDetails = $event
-                      "
-                    >
-                    </refund-request-form>
-                  </v-col>
-                </v-row>
-              </v-expand-transition>
             </template>
+            <v-expand-transition>
+              <v-row v-if="showAddress">
+                <v-col class="col-3 font-weight-bold">
+                  Name of Person or Organization & Address
+                </v-col>
+                <v-col class="col-9">
+                  <refund-request-form
+                    ref="refundRequestForm"
+                    :inputRefundRequestDetails="refundRequestDetails"
+                    :isEditing="showAddressEditMode"
+                    @update:refundRequestDetails="refundRequestDetails = $event"
+                  >
+                  </refund-request-form>
+                </v-col>
+              </v-row>
+            </v-expand-transition>
 
             <v-row>
               <v-col class="col-6 col-sm-3 font-weight-bold">
@@ -164,7 +161,8 @@ import can from '@/directives/can'
       showAddress,
       refundRequestForm,
       refundRequestDetails,
-      errorMessage
+      errorMessage,
+      showAddressEditMode
     } = useRoutingSlipInfo(props)
 
     return {
@@ -179,7 +177,8 @@ import can from '@/directives/can'
       showAddress,
       refundRequestForm,
       refundRequestDetails,
-      errorMessage
+      errorMessage,
+      showAddressEditMode
     }
   }
 })
