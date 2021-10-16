@@ -50,6 +50,7 @@
               </v-col>
               <v-col class="col-6 col-sm-9">
                 <span
+                :key="routingSlipDetails.status"
                   :class="colors(routingSlipDetails.status)"
                   class="slip-status "
                   data-test="label-status"
@@ -70,6 +71,7 @@
                     @change="statusChange"
                     :hide-details="errorMessage === ''"
                     :error-messages="errorMessage"
+                    :disabled="isStatusDisabled"
                   ></status-list>
                 </v-col>
               </v-row>
@@ -162,7 +164,8 @@ import can from '@/directives/can'
       refundRequestForm,
       refundRequestDetails,
       errorMessage,
-      showAddressEditMode
+      showAddressEditMode,
+      isStatusDisabled
     } = useRoutingSlipInfo(props)
 
     return {
@@ -178,7 +181,8 @@ import can from '@/directives/can'
       refundRequestForm,
       refundRequestDetails,
       errorMessage,
-      showAddressEditMode
+      showAddressEditMode,
+      isStatusDisabled
     }
   }
 })

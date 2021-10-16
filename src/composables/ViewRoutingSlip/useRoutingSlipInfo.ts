@@ -43,6 +43,11 @@ export default function useRoutingSlipInfo (props) {
     return routingSlipDetails.value.remainingAmount > 0 || false
   })
 
+  const isStatusDisabled = computed(() => {
+    // if refund process saved show status as disable
+    return CommonUtils.isRefundProcessStatus(routingSlipDetails.value?.status) || false
+  })
+
   const showAddress = computed(() => {
     if (editMode.value) {
       return (isRefundProcess(currentStatus?.value) && canRequestRefund.value) || false
@@ -69,9 +74,12 @@ export default function useRoutingSlipInfo (props) {
           const details = routingSlipDetails.value?.refunds[0].details
           refundRequestDetails.value = JSON.parse(JSON.stringify(details))
           //  if approver, show as edit mode
-          if (CommonUtils.isApproverRole()) {
+          if (CommonUtils.isApproverRole() && CommonUtils.isRefundProcessStatus(routingSlipDetails.value.status)) {
             editMode.value = true
           }
+        } else {
+          editMode.value = false
+          refundRequestDetails.value = null
         }
       }
     },
@@ -85,28 +93,34 @@ export default function useRoutingSlipInfo (props) {
   // update routign slip status on click of done
   async function updateStatus () {
     // need to call validate only of its refund
-    const isFormValid = isRefundProcess(currentStatus.value)
-      ? refundRequestForm.value.isValid()
-      : true
-    if (isFormValid) {
-      const statusDetails = {
-        status: currentStatus.value.code,
-        details: refundRequestDetails.value
-      }
+    const statusDetails = {
+      status: currentStatus.value.code,
+      details: refundRequestDetails.value
+    }
+    if (isRefundProcess(currentStatus.value)) {
+      updateRefund(currentStatus.value.code)
+    } else {
       await updateRoutingSlipStatus(statusDetails)
       toggleEdit(false)
     }
   }
+
+  async function updateRefund (status:any = SlipStatus.REFUNDREQUEST) {
+    if (refundRequestForm.value.isValid()) {
+      const statusDetails = {
+        status: status,
+        details: refundRequestDetails.value
+      }
+      await updateRoutingSlipStatus(statusDetails)
+    }
+  }
+
   // get label of status
   function getStatusLabel (code: string) {
     return statusLabel(code)
   }
   function isRefundProcess (status) {
-    return [
-      SlipStatus.REFUNDREQUEST,
-      SlipStatus.REFUNDAUTHORIZED,
-      SlipStatus.REFUNDCOMPLETED
-    ].includes(status?.code)
+    return CommonUtils.isRefundProcessStatus(status?.code)
   }
 
   function statusChange (status) {
@@ -139,7 +153,8 @@ export default function useRoutingSlipInfo (props) {
     refundRequestForm,
     refundRequestDetails,
     errorMessage,
-    showAddressEditMode
+    showAddressEditMode,
+    isStatusDisabled
 
   }
 }

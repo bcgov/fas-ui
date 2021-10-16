@@ -187,7 +187,7 @@ export default class RoutingSlipModule extends VuexModule {
     // update status
     try {
       let response
-      if (statusDetails?.status === SlipStatus.REFUNDREQUEST) {
+      if (CommonUtils.isRefundProcessStatus(statusDetails?.status)) {
         response = await RoutingSlipService.updateRoutingSlipRefund(
           statusDetails,
           slipNumber
@@ -198,9 +198,9 @@ export default class RoutingSlipModule extends VuexModule {
           slipNumber
         )
       }
-      if (response && response.data && response.status === 200) {
-        if (statusDetails?.status !== SlipStatus.REFUNDREQUEST) {
-          context.commit('setRoutingSlipDetails', response.data)
+      if (response && response.data && (response.status === 200 || response.status === 202)) {
+        if (!CommonUtils.isRefundProcessStatus(statusDetails?.status)) {
+          context.commit('setRoutingSlip', response.data)
         } else {
           const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: slipNumber }
           context.dispatch('getRoutingSlip', getRoutingSlipRequestPayload)

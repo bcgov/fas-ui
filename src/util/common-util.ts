@@ -141,4 +141,12 @@ export default class CommonUtils {
     const approverRole:any = [Role.FAS_REFUND_APPROVER]
     return KeyCloakService.verifyRoles(approverRole, [])
   }
+
+  static isRefundProcessStatus (status) {
+    return [
+      SlipStatus.REFUNDREQUEST,
+      SlipStatus.REFUNDAUTHORIZED,
+      SlipStatus.REFUNDCOMPLETED
+    ].includes(status)
+  }
 }
