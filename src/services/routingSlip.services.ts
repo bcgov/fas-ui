@@ -41,8 +41,8 @@ export default class RoutingSlip {
     details: string,
     routingSlipNumber: number
   ): Promise<AxiosResponse> {
-    return axios.patch(
-      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}/refund`,
+    return axios.post(
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}/refunds`,
       details
     )
   }

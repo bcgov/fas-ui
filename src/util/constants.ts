@@ -45,7 +45,8 @@ export enum Role {
   FAS_VIEW = 'fas_view',
   FAS_CREATE = 'fas_create',
   FAS_LNK = 'fas_link',
-  FAS_TRANSACTION = 'fas_transaction'
+  FAS_TRANSACTION = 'fas_transaction',
+  FAS_REFUND_APPROVER='fas_refund_approver'
 }
 
 export enum InvoiceStatus {

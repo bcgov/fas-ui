@@ -60,5 +60,5 @@ export interface GetRoutingSlipRequestPayload {
 
 export interface RefundRequestDetails {
   name?: string,
-  address?: Address
+  mailingAddress?: Address
 }
