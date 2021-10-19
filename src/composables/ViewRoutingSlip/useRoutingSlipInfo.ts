@@ -73,19 +73,19 @@ export default function useRoutingSlipInfo (props) {
   // since we have to return different value
   watch(
     [routingSlipDetails, routingSlipStatusList],
-    ([newEoutingSlipDetails], [oldRoutinSlip]) => {
+    ([newRoutingSlipDetails], [oldRoutinSlip]) => {
       // routingSlipStatusList need to avoid async data issues
       if (
         routingSlipStatusList.value.length > 0 &&
         (!currentStatus.value ||
-          currentStatus.value?.code !== newEoutingSlipDetails.status)
+          currentStatus.value?.code !== newRoutingSlipDetails.status)
       ) {
-        currentStatus.value = getStatusObject(newEoutingSlipDetails.status)
+        currentStatus.value = getStatusObject(newRoutingSlipDetails.status)
       }
       // to update address
-      if (oldRoutinSlip?.number !== newEoutingSlipDetails.number || oldRoutinSlip?.status !== newEoutingSlipDetails.status) {
-        if (newEoutingSlipDetails?.refunds && newEoutingSlipDetails?.refunds[0]) {
-          const details = newEoutingSlipDetails?.refunds[0].details
+      if (oldRoutinSlip?.number !== newRoutingSlipDetails.number || oldRoutinSlip?.status !== newRoutingSlipDetails.status) {
+        if (newRoutingSlipDetails?.refunds && newRoutingSlipDetails?.refunds[0]) {
+          const details = newRoutingSlipDetails?.refunds[0].details
           refundRequestDetails.value = JSON.parse(JSON.stringify(details))
         } else {
           refundRequestDetails.value = null
