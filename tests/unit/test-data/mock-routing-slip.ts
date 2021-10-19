@@ -7,6 +7,7 @@ import {
 } from '@/models/RoutingSlip'
 
 import { Invoice } from '@/models/Invoice'
+import { InvoiceStatus } from '@/util/constants'
 import { Payment } from '@/models/Payment'
 
 export const invoice: Invoice[] = [
@@ -80,7 +81,7 @@ export const cancelledInvoice: Invoice[] = [
       }
     ],
     total: 1000,
-    statusCode: 'REFUNDED'
+    statusCode: InvoiceStatus.DELETE_ACCEPTED
   },
   {
     businessIdentifier: 'CP000140135',
