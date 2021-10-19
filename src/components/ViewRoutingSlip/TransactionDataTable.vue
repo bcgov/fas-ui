@@ -42,7 +42,7 @@
           color="primary"
           v-can:fas_transaction.hide
           :data-test="getIndexedTag('btn-invoice-cancel', index)"
-          @click="cancel"
+          @click="cancel(item.id)"
         >
           Cancel
         </v-btn>
@@ -63,7 +63,7 @@
       :iconColor="modalDialogDetails.modalDialogIconColor"
     >
       <template v-slot:actions>
-        <v-btn large color="primary" @click="modalDialogConfirm()" data-test="dialog-ok-button" class="font-weight-bold btn-actions">{{ modalDialogDetails.modalDialogOkText }}</v-btn>
+        <v-btn large color="primary" @click="modalDialogConfirm()" data-test="dialog-ok-button" :loading="isLoading" class="font-weight-bold btn-actions">{{ modalDialogDetails.modalDialogOkText }}</v-btn>
         <v-btn large color="primary" outlined @click="modalDialogClose()" data-test="dialog-cancel-button" class="ml-3 btn-actions">{{ modalDialogDetails.modalDialogCancelText }}</v-btn>
       </template>
     </ModalDialog>
@@ -88,6 +88,7 @@ import { Component, Vue } from 'vue-property-decorator'
       modalDialogRef,
       modalDialogDetails,
       canShowCancelButton,
+      isLoading,
       cancel,
       modalDialogConfirm,
       modalDialogClose,
@@ -102,6 +103,7 @@ import { Component, Vue } from 'vue-property-decorator'
       modalDialogRef,
       modalDialogDetails,
       canShowCancelButton,
+      isLoading,
       cancel,
       modalDialogConfirm,
       modalDialogClose,

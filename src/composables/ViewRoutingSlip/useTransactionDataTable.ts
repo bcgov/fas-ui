@@ -1,8 +1,9 @@
 import { Invoice, InvoiceDisplay, LineItem, Reference } from '@/models/Invoice'
 import { InvoiceStatus, SlipStatus } from '@/util/constants'
 import { computed, reactive, ref, toRefs, watch } from '@vue/composition-api'
+import { createNamespacedHelpers, useActions } from 'vuex-composition-helpers'
 
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
+import { GetRoutingSlipRequestPayload } from '@/models/RoutingSlip'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useGetters, useState } = routingSlipModule
@@ -53,6 +54,7 @@ export default function useTransactionDataTable (props) {
   // vuex getter and state
   const { invoiceCount } = useGetters(['invoiceCount'])
   const { routingSlip } = useState(['routingSlip'])
+  const { cancelRoutingSlipInvoice, getRoutingSlip } = useActions(['updateRoutingSlipStatus', 'getRoutingSlip'])
 
   const modalDialogRef = ref<HTMLFormElement>()
   // modal dialog props and events
@@ -68,6 +70,9 @@ export default function useTransactionDataTable (props) {
   const canShowCancelButton = computed(() => {
     return ![SlipStatus.NSF, SlipStatus.REFUNDAUTHORIZED, SlipStatus.REFUNDCOMPLETED, SlipStatus.REFUNDREQUEST].includes(routingSlip.value.status)
   })
+
+  const currentInvoiceIdForCancelling = ref<number>(undefined)
+  const isLoading = ref<boolean>(false)
 
   // We are watching routingslip parent object and if any changes, we update the invoice and pass it along to transaction table to display
   watch(routingSlip, () => {
@@ -98,20 +103,39 @@ export default function useTransactionDataTable (props) {
   }
 
   // Cancel Routing slip transaction
-  function cancel () {
+  function cancel (invoiceId: number): void {
+    currentInvoiceIdForCancelling.value = invoiceId
     modalDialogRef.value.open()
   }
 
-  function modalDialogConfirm () {
-    modalDialogRef.value.close()
+  // Call cancel invoice method
+  async function modalDialogConfirm () {
+    try {
+      if (currentInvoiceIdForCancelling.value) {
+        isLoading.value = true
+        await cancelRoutingSlipInvoice(currentInvoiceIdForCancelling.value)
+        const currentRoutingSlipId = routingSlip.value?.number || ''
+        const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: currentRoutingSlipId }
+        // Refresh the slip
+        await getRoutingSlip(getRoutingSlipRequestPayload)
+      }
+    } catch (error: any) {
+      // eslint-disable-next-line no-console
+      console.error('error ', error?.response)
+    } finally {
+      isLoading.value = false
+      modalDialogRef.value.close()
+    }
   }
 
+  // If user clicks cancel on the confirmation dialog, close it
   function modalDialogClose () {
     modalDialogRef.value.close()
   }
 
+  // Incase routing slip status is DELETE_ACCEPTED, display 'cancelled'
   function isInvoiceCancelled (invoice: Invoice): boolean {
-    return invoice.statusCode === InvoiceStatus.REFUNDED
+    return invoice.statusCode === InvoiceStatus.DELETE_ACCEPTED
   }
 
   function getIndexedTag (tag, index): string {
@@ -126,6 +150,7 @@ export default function useTransactionDataTable (props) {
     modalDialogRef,
     modalDialogDetails,
     canShowCancelButton,
+    isLoading,
     cancel,
     modalDialogConfirm,
     modalDialogClose,

@@ -130,4 +130,14 @@ export default class RoutingSlip {
 
     )
   }
+
+  public static async cancelRoutingSlipInvoice (
+    invoiceId: number,
+    showGlobalLoader: boolean = false
+  ): Promise<AxiosResponse> {
+    return axios.post(
+      `${ConfigHelper.getPayAPIURL()}/payment-requests/${invoiceId}/refunds`,
+      { showGlobalLoader: showGlobalLoader }
+    )
+  }
 }
