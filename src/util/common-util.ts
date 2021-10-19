@@ -172,7 +172,9 @@ export default class CommonUtils {
   static isEditEnableBystatus (status) {
     return ![
       SlipStatus.REFUNDCOMPLETED,
-      SlipStatus.REFUNDAUTHORIZED
+      SlipStatus.REFUNDAUTHORIZED,
+      SlipStatus.REFUNDREQUEST
+
     ].includes(status)
   }
 }

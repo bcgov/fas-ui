@@ -73,23 +73,26 @@ export default function useRoutingSlipInfo (props) {
   // since we have to return different value
   watch(
     [routingSlipDetails, routingSlipStatusList],
-    () => {
+    ([newRoutingSlipDetails], [oldRoutinSlip]) => {
       // routingSlipStatusList need to avoid async data issues
       if (
         routingSlipStatusList.value.length > 0 &&
         (!currentStatus.value ||
-          currentStatus.value?.code !== routingSlipDetails.value.status)
+          currentStatus.value?.code !== newRoutingSlipDetails.status)
       ) {
-        currentStatus.value = getStatusObject(routingSlipDetails.value.status)
-        if (routingSlipDetails.value?.refunds && routingSlipDetails.value?.refunds[0]) {
-          const details = routingSlipDetails.value?.refunds[0].details
+        currentStatus.value = getStatusObject(newRoutingSlipDetails.status)
+      }
+      // to update address
+      if (oldRoutinSlip?.number !== newRoutingSlipDetails.number || oldRoutinSlip?.status !== newRoutingSlipDetails.status) {
+        if (newRoutingSlipDetails?.refunds && newRoutingSlipDetails?.refunds[0]) {
+          const details = newRoutingSlipDetails?.refunds[0].details
           refundRequestDetails.value = JSON.parse(JSON.stringify(details))
         } else {
           refundRequestDetails.value = null
         }
-        //  if approver and status requested, show as edit mode
-        editMode.value = isApproverRole && CommonUtils.isRefundRequestStatus(routingSlipDetails.value.status)
       }
+      //  if approver and status requested, show as edit mode
+      editMode.value = isApproverRole && CommonUtils.isRefundRequestStatus(routingSlipDetails.value.status)
     },
     { immediate: true, deep: true }
   )
