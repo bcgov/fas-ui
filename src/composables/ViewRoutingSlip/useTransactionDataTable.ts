@@ -1,12 +1,12 @@
 import { Invoice, InvoiceDisplay, LineItem, Reference } from '@/models/Invoice'
 import { InvoiceStatus, SlipStatus } from '@/util/constants'
-import { computed, reactive, ref, toRefs, watch } from '@vue/composition-api'
-import { createNamespacedHelpers, useActions } from 'vuex-composition-helpers'
+import { computed, reactive, ref, watch } from '@vue/composition-api'
 
 import { GetRoutingSlipRequestPayload } from '@/models/RoutingSlip'
+import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useGetters, useState } = routingSlipModule
+const { useGetters, useState, useActions } = routingSlipModule
 
 // Composable function to inject Props, options and values to TransactionDataTable component
 export default function useTransactionDataTable (props) {
