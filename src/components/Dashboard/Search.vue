@@ -22,7 +22,7 @@
       </v-col>
       <v-col sm="3" cols="12" align-self="center" v-if="isLibraryMode">
         <v-btn x-large dark outlined color="primary" :href="fasUrl">
-          Access Fee Account System
+          Access Fee Accounting System
           <v-icon dark small class="ml-2 font-weight-bold">
             mdi-open-in-new
           </v-icon>
