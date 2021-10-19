@@ -1,5 +1,11 @@
 [
   {
+    "vault": "shared",
+    "application": [
+        "address-key"
+    ]
+  },
+  {
     "vault": "keycloak",
     "application": [
       "base",
