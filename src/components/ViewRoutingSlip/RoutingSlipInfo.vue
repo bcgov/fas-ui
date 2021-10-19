@@ -16,7 +16,7 @@
                 <div>
                   {{ routingSlipDetails.number }}
                 </div>
-                <div>
+                <div v-if="isEditable">
                   <span
                     class="primary--text cursor-pointer"
                     @click="toggleEdit(true)"
@@ -71,7 +71,7 @@
                     @change="statusChange"
                     :hide-details="errorMessage === ''"
                     :error-messages="errorMessage"
-                    :disabled="isStatusDisabled"
+                    :disabled="isApprovalFlow"
                   ></status-list>
                 </v-col>
               </v-row>
@@ -114,18 +114,18 @@
         <v-btn
           large
           color="primary"
-          @click="updateStatus()"
+          @click="updateStatus(isApprovalFlow)"
           class="px-8 font-weight-bold"
           data-test="btn-edit-routing-done"
         >
-          <span>Done</span>
+          <span>{{isApprovalFlow ? 'Authorize' :  'Done'}}</span>
         </v-btn>
         <v-btn
           large
           outlined
           class="px-7"
           color="primary"
-          @click="toggleEdit(false)"
+          @click="cancelOrReject(isApprovalFlow)"
           data-test="btn-edit-routing-cancel"
         >
           <span>Cancel</span>
@@ -165,7 +165,9 @@ import can from '@/directives/can'
       refundRequestDetails,
       errorMessage,
       showAddressEditMode,
-      isStatusDisabled
+      isApprovalFlow,
+      cancelOrReject,
+      isEditable
     } = useRoutingSlipInfo(props)
 
     return {
@@ -182,7 +184,9 @@ import can from '@/directives/can'
       refundRequestDetails,
       errorMessage,
       showAddressEditMode,
-      isStatusDisabled
+      isApprovalFlow,
+      cancelOrReject,
+      isEditable
     }
   }
 })

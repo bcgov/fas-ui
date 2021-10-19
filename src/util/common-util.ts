@@ -142,11 +142,37 @@ export default class CommonUtils {
     return KeyCloakService.verifyRoles(approverRole, [])
   }
 
+  /**
+   * check its in refunc process
+   * @param  {string} status
+   */
   static isRefundProcessStatus (status) {
     return [
       SlipStatus.REFUNDREQUEST,
       SlipStatus.REFUNDAUTHORIZED,
-      SlipStatus.REFUNDCOMPLETED
+      SlipStatus.REFUNDCOMPLETED,
+      SlipStatus.REFUNDREJECTED
+    ].includes(status)
+  }
+
+  /**
+   * status is refundrequest
+   * @param  {string} status
+   */
+  static isRefundRequestStatus (status) {
+    return [
+      SlipStatus.REFUNDREQUEST
+    ].includes(status)
+  }
+
+  /**
+   * status permission allow to chaneg details
+   * @param  {string} status
+   */
+  static isEditEnableBystatus (status) {
+    return ![
+      SlipStatus.REFUNDCOMPLETED,
+      SlipStatus.REFUNDAUTHORIZED
     ].includes(status)
   }
 }
