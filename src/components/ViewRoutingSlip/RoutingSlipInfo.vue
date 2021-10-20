@@ -114,7 +114,7 @@
         <v-btn
           large
           color="primary"
-          @click="updateStatus(isApprovalFlow)"
+          @click="updateStatus()"
           class="px-8 font-weight-bold"
           data-test="btn-edit-routing-done"
         >
@@ -125,7 +125,7 @@
           outlined
           class="px-7"
           color="primary"
-          @click="cancelOrReject(isApprovalFlow)"
+          @click="cancelOrReject()"
           data-test="btn-edit-routing-cancel"
         >
           <span>Cancel</span>

@@ -109,8 +109,8 @@ export default function useRoutingSlipInfo (props) {
     currentStatus.value = getStatusObject(routingSlipDetails.value.status)
     isAddressEditable.value = edit
   }
-  function cancelOrReject (isApprovalFlowEnabled) {
-    if (isApprovalFlowEnabled) {
+  function cancelOrReject () {
+    if (isApprovalFlow.value) {
       updateRefund(SlipStatus.REFUNDREJECTED)
     } else {
       toggleEdit(false)
@@ -118,17 +118,16 @@ export default function useRoutingSlipInfo (props) {
   }
 
   // update routign slip status on click of done
-  async function updateStatus (isApprovalFlowEnabled:boolean = false) {
+  async function updateStatus () {
     // need to call validate only of its refund
     const statusDetails = {
       status: currentStatus.value.code,
       details: refundRequestDetails.value
     }
+
     if (isRefundProcess(currentStatus.value)) {
-      const status = isApprovalFlowEnabled ? SlipStatus.REFUNDAUTHORIZED : currentStatus.value.code
+      const status = isApprovalFlow.value ? SlipStatus.REFUNDAUTHORIZED : currentStatus.value.code
       updateRefund(status)
-      // TODO : mat be need to do this only on approval flow not on reject
-      toggleEdit(false)
     } else {
       await updateRoutingSlipStatus(statusDetails)
       toggleEdit(false)
@@ -142,6 +141,7 @@ export default function useRoutingSlipInfo (props) {
         details: refundRequestDetails.value
       }
       await updateRoutingSlipStatus(statusDetails)
+      toggleEdit(false)
     }
   }
 
