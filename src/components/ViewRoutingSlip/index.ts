@@ -8,3 +8,4 @@ export { default as LinkedRoutingSlipDetails } from './LinkedRoutingSlipDetails.
 export { default as RoutingSlipAutoComplete } from './RoutingSlipAutoComplete.vue'
 export { default as AddManualTransactionDetails } from './AddManualTransactionDetails.vue'
 export { default as FilingTypeAutoComplete } from './FilingTypeAutoComplete.vue'
+export { default as RefundRequestForm } from './RefundRequestForm.vue'

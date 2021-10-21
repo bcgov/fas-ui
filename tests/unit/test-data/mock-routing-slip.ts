@@ -2,9 +2,11 @@ import {
   AccountInfo,
   LinkedRoutingSlips,
   ManualTransactionDetails,
+  RefundRequestDetails,
   RoutingSlip,
   RoutingSlipDetails
 } from '@/models/RoutingSlip'
+import { Address, BaseAddressModel } from '@/models/Address'
 
 import { Invoice } from '@/models/Invoice'
 import { InvoiceStatus } from '@/util/constants'
@@ -318,4 +320,17 @@ export const manualTransactionDetails: ManualTransactionDetails = {
     priorityFee: null
   },
   quantity: 1
+}
+
+export const address: Address = {
+  city: 'Victoria', country: 'CA', postalCode: 'V9B 6A2', region: 'BC', street: '799 McCallum Rd', streetAdditional: ''
+}
+
+export const baseAddress: BaseAddressModel = {
+  addressCity: 'Victoria', addressCountry: 'CA', postalCode: 'V9B 6A2', addressRegion: 'BC', streetAddress: '799 McCallum Rd', streetAddressAdditional: ''
+}
+
+export const refundRequestDetails: RefundRequestDetails = {
+  name: 'test',
+  mailingAddress: { city: 'Victoria', country: 'CA', postalCode: 'V9B 6A2', region: 'BC', street: '799 McCallum Rd', streetAdditional: ''}
 }
