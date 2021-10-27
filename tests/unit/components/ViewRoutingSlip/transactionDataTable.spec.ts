@@ -1,5 +1,5 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import { routingSlip, routingSlipWithCancelledInvoice } from '../../test-data/mock-routing-slip'
+import { routingSlip, routingSlipRefundRequested, routingSlipWithCancelledInvoice } from '../../test-data/mock-routing-slip'
 
 import { InvoiceDisplay } from '@/models/Invoice'
 import { TransactionDataTable } from '@/components/ViewRoutingSlip'
@@ -96,17 +96,47 @@ describe('TransactionDataTable.vue', () => {
     })
     await wrapper.vm.$nextTick()
     await wrapper.vm.$nextTick()
-    expect(wrapper.find('[data-test="btn-invoice-cancel-0"]').exists()).toBeTruthy()
+    expect(wrapper.find('[data-test="text-cancel-0"]').exists()).toBeTruthy()
     expect(wrapper.find('[data-test="btn-invoice-cancel-1"]').exists()).toBeTruthy()
-    wrapper.find('[data-test="btn-invoice-cancel-0"]').trigger('click')
+    wrapper.find('[data-test="btn-invoice-cancel-1"]').trigger('click')
     await wrapper.vm.$nextTick()
     expect(wrapper.find('[data-test="dialog-confirm-cancellation"]').exists()).toBeTruthy()
     await wrapper.find('[data-test="dialog-ok-button"]').trigger('click')
     expect(stubConfirm).toHaveBeenCalledTimes(1)
     await wrapper.find('[data-test="dialog-cancel-button"]').trigger('click')
     expect(stubCancel).toHaveBeenCalledTimes(1)
+  })
+
+  it('invoice cancel button disabled based on routingslip', async () => {
+    const routingSlipModule = {
+      namespaced: true,
+      state: {
+        routingSlip: routingSlipRefundRequested
+      }
+    }
+    store = new Vuex.Store({
+      strict: false,
+      modules: {
+        routingSlip: routingSlipModule
+      }
+    })
+    const stubConfirm = jest.fn()
+    const stubCancel = jest.fn()
+    const wrapper: any = mount(TransactionDataTable, {
+      localVue,
+      vuetify,
+      store,
+      mocks: {
+        modalDialogConfirm: stubConfirm,
+        modalDialogClose: stubCancel
+      },
+      directives: {
+        can () { /* stub */ }
+      }
+    })
     await wrapper.vm.$nextTick()
-    expect(wrapper.find('[data-test="text-cancel-0"]').exists()).toBeTruthy()
-    expect(wrapper.find('[data-test="btn-invoice-cancel-1"]').exists()).toBeTruthy()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('[data-test="btn-invoice-cancel-0"]').element.disabled).toBe(true)
+    expect(wrapper.find('[data-test="btn-invoice-cancel-1"]').element.disabled).toBe(true)
   })
 })

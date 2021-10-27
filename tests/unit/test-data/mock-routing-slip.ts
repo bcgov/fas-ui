@@ -2,11 +2,14 @@ import {
   AccountInfo,
   LinkedRoutingSlips,
   ManualTransactionDetails,
+  RefundRequestDetails,
   RoutingSlip,
   RoutingSlipDetails
 } from '@/models/RoutingSlip'
+import { Address, BaseAddressModel } from '@/models/Address'
 
 import { Invoice } from '@/models/Invoice'
+import { InvoiceStatus } from '@/util/constants'
 import { Payment } from '@/models/Payment'
 
 export const invoice: Invoice[] = [
@@ -80,7 +83,7 @@ export const cancelledInvoice: Invoice[] = [
       }
     ],
     total: 1000,
-    statusCode: 'REFUNDED'
+    statusCode: InvoiceStatus.REFUNDREQUEST
   },
   {
     businessIdentifier: 'CP000140135',
@@ -145,6 +148,27 @@ export const routingSlipWithCancelledInvoice: RoutingSlip = {
   status: 'ACTIVE',
   total: 1000,
   invoices: cancelledInvoice
+}
+
+export const routingSlipRefundRequested: RoutingSlip = {
+  id: 4,
+  number: '123',
+  paymentAccount: { billable: true, name: 'test', paymentMethod: 'CHEQUE' },
+  payments: [
+    {
+      chequeReceiptNumber: '123',
+      createdBy: 'user',
+      id: 7636,
+      paymentMethod: 'CHEQUE',
+      paidAmount: 123,
+      paymentDate: '2021-07-15'
+    }
+  ],
+  remainingAmount: 1000,
+  routingSlipDate: '2021-07-08',
+  status: 'REFUND_REQUESTED',
+  total: 1000,
+  invoices: invoice
 }
 
 export const routingSlipDetails: RoutingSlipDetails = {
@@ -317,4 +341,17 @@ export const manualTransactionDetails: ManualTransactionDetails = {
     priorityFee: null
   },
   quantity: 1
+}
+
+export const address: Address = {
+  city: 'Victoria', country: 'CA', postalCode: 'V9B 6A2', region: 'BC', street: '799 McCallum Rd', streetAdditional: ''
+}
+
+export const baseAddress: BaseAddressModel = {
+  addressCity: 'Victoria', addressCountry: 'CA', postalCode: 'V9B 6A2', addressRegion: 'BC', streetAddress: '799 McCallum Rd', streetAddressAdditional: ''
+}
+
+export const refundRequestDetails: RefundRequestDetails = {
+  name: 'test',
+  mailingAddress: { city: 'Victoria', country: 'CA', postalCode: 'V9B 6A2', region: 'BC', street: '799 McCallum Rd', streetAdditional: '' }
 }

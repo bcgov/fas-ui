@@ -52,4 +52,5 @@ export interface InvoiceDisplay {
   createdName?: string
   createdBy?: string
   description?: string[]
+  id?: number
 }
