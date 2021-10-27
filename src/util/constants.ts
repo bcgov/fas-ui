@@ -47,12 +47,15 @@ export enum Role {
   FAS_CREATE = 'fas_create',
   FAS_LNK = 'fas_link',
   FAS_TRANSACTION = 'fas_transaction',
-  FAS_REFUND_APPROVER='fas_refund_approver'
+  FAS_REFUND_APPROVER='fas_refund_approver',
+  FAS_REFUND = 'fas_refund'
 }
 
 export enum InvoiceStatus {
   COMPLETED = 'COMPLETED',
-  REFUNDED = 'REFUNDED'
+  REFUNDED = 'REFUNDED',
+  DELETE_ACCEPTED = 'DELETE_ACCEPTED',
+  REFUNDREQUEST = 'REFUND_REQUESTED'
 }
 
 export const AXIOS_ERROR_ALERT_TIME_OUT = 5000

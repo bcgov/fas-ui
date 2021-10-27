@@ -36,18 +36,19 @@
       </div>
     </template>
     <template v-slot:[`item.actions`]="{ item, index }">
-      <template v-if="canShowCancelButton">
+      <span v-if="item.statusCode === InvoiceStatus.REFUNDREQUEST" :data-test="getIndexedTag('text-cancel', index)" class="cancel-text-color font-weight-bold"> Cancelled </span>
+      <template v-else>
         <v-btn
           outlined
           color="primary"
-          v-can:fas_transaction.hide
+          v-can:fas_refund.hide
           :data-test="getIndexedTag('btn-invoice-cancel', index)"
-          @click="cancel"
+          @click="cancel(item.id)"
+          :disabled="disableCancelButton"
         >
           Cancel
         </v-btn>
       </template>
-      <span v-if="isInvoiceCancelled(item)" :data-test="getIndexedTag('text-cancel', index)" class="cancel-text-color"> Cancelled </span>
     </template>
     </v-data-table>
     <!-- Confirmation Dialog - to be displayed after clicking cancel on a transaction -->
@@ -63,8 +64,8 @@
       :iconColor="modalDialogDetails.modalDialogIconColor"
     >
       <template v-slot:actions>
-        <v-btn large color="primary" @click="modalDialogConfirm()" data-test="dialog-ok-button" class="font-weight-bold btn-actions">{{ modalDialogDetails.modalDialogOkText }}</v-btn>
-        <v-btn large color="primary" outlined @click="modalDialogClose()" data-test="dialog-cancel-button" class="ml-3 btn-actions">{{ modalDialogDetails.modalDialogCancelText }}</v-btn>
+        <v-btn large color="primary" @click="modalDialogConfirm" data-test="dialog-ok-button" :loading="isLoading" class="font-weight-bold btn-actions">{{ modalDialogDetails.modalDialogOkText }}</v-btn>
+        <v-btn large color="primary" outlined @click="modalDialogClose" data-test="dialog-cancel-button" class="ml-3 btn-actions">{{ modalDialogDetails.modalDialogCancelText }}</v-btn>
       </template>
     </ModalDialog>
   </div>
@@ -74,6 +75,7 @@ import { useTransactionDataTable } from '@/composables/ViewRoutingSlip'
 import commonUtil from '@/util/common-util'
 import ModalDialog from '@/components/common/ModalDialog.vue'
 import { Component, Vue } from 'vue-property-decorator'
+import { InvoiceStatus } from '@/util/constants'
 
 @Component({
   components: {
@@ -87,12 +89,12 @@ import { Component, Vue } from 'vue-property-decorator'
       transformInvoices,
       modalDialogRef,
       modalDialogDetails,
-      canShowCancelButton,
+      isLoading,
       cancel,
       modalDialogConfirm,
       modalDialogClose,
       getIndexedTag,
-      isInvoiceCancelled
+      disableCancelButton
     } = useTransactionDataTable(props)
     return {
       invoiceDisplay,
@@ -101,18 +103,19 @@ import { Component, Vue } from 'vue-property-decorator'
       transformInvoices,
       modalDialogRef,
       modalDialogDetails,
-      canShowCancelButton,
+      isLoading,
       cancel,
       modalDialogConfirm,
       modalDialogClose,
       getIndexedTag,
-      isInvoiceCancelled
+      disableCancelButton
     }
   }
 })
 export default class TransactionDataTable extends Vue {
   public formatDisplayDate = commonUtil.formatDisplayDate
   public appendCurrencySymbol = commonUtil.appendCurrencySymbol
+  public InvoiceStatus = InvoiceStatus
 }
 
 </script>

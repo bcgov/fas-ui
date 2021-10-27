@@ -419,4 +419,9 @@ export default class RoutingSlipModule extends VuexModule {
     )
     return response
   }
+
+  @Action({ rawError: true })
+  public async cancelRoutingSlipInvoice (invoiceId: number): Promise<any> {
+    return await RoutingSlipService.cancelRoutingSlipInvoice(invoiceId)
+  }
 }
