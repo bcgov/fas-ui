@@ -8,7 +8,7 @@ module.exports = {
       'jest-transform-stub',
     '^.+\\.tsx?$': 'ts-jest'
   },
-  transformIgnorePatterns: ['/node_modules/(?!sbc-common-components/.*|vuex-composition-helpers)'],
+  transformIgnorePatterns: ['/node_modules/(?!sbc-common-components/.*|vuex-composition-helpers|@bcrs-shared-components/.*)'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1'
   },
