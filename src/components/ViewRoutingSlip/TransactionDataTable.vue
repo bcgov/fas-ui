@@ -58,8 +58,8 @@
       :text="modalDialogDetails.modalDialogText"
       dialog-class="notify-dialog"
       data-test="dialog-confirm-cancellation"
-      max-width="679"
-      max-height="310"
+      max-width="639"
+      max-height="327"
       :icon="modalDialogDetails.modalDialogIcon"
       :iconColor="modalDialogDetails.modalDialogIconColor"
     >
@@ -124,10 +124,12 @@ export default class TransactionDataTable extends Vue {
   .header-bg-color {
     background-color: $BCgovBlue0;
   }
-  .fas-transactions tbody tr td {
+  .v-data-table {
+    ::v-deep .v-data-table__wrapper>table>tbody>tr>td {
       padding: 20px 15px !important;
+    }
   }
   .cancel-text-color {
-    color: $BCgovInputError;
+    color: $BCgovTextError;
   }
 </style>
