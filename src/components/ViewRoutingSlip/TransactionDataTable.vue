@@ -36,7 +36,7 @@
       </div>
     </template>
     <template v-slot:[`item.actions`]="{ item, index }">
-      <span v-if="item.statusCode === InvoiceStatus.REFUNDREQUEST" :data-test="getIndexedTag('text-cancel', index)" class="cancel-text-color font-weight-bold"> Cancelled </span>
+      <span v-if="item.statusCode === InvoiceStatus.REFUNDREQUEST" :data-test="getIndexedTag('text-cancel', index)" class="error--text font-weight-bold"> Cancelled </span>
       <template v-else>
         <v-btn
           outlined
@@ -128,8 +128,5 @@ export default class TransactionDataTable extends Vue {
     ::v-deep .v-data-table__wrapper>table>tbody>tr>td {
       padding: 20px 15px !important;
     }
-  }
-  .cancel-text-color {
-    color: $BCgovTextError;
   }
 </style>
