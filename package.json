@@ -18,6 +18,10 @@
     "build:lib": "vue-cli-service build --name lib --target lib --dest lib src/lib-setup.js"
   },
   "dependencies": {
+    "@bcrs-shared-components/enums": "1.0.13",
+    "@bcrs-shared-components/interfaces": "1.0.23",
+    "@bcrs-shared-components/mixins": "1.0.0",
+    "@bcrs-shared-components/staff-comments": "1.1.1",
     "@vue/composition-api": "^1.0.0-rc.12",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
