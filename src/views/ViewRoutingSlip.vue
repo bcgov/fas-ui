@@ -13,7 +13,9 @@
             </template>
           </header>
         </v-col>
-
+        <v-col cols="12" class="mb-1 py-0 pl-0">
+          <staff-comments :routingSlipNumber="slipId" />
+        </v-col>
         <v-col cols="12" class="mb-5">
           <routing-slip-info />
         </v-col>
@@ -37,7 +39,7 @@ import {
   RoutingSlipInfo,
   PaymentInformation,
   RoutingSlipTransaction,
-  LinkRoutingSlip
+  LinkRoutingSlip, StaffComments
 } from '@/components/ViewRoutingSlip'
 import BreadCrumb from '@/components/common/BreadCrumb.vue'
 import { useViewRoutingSlip } from '@/composables/ViewRoutingSlip'
@@ -48,7 +50,8 @@ import { useViewRoutingSlip } from '@/composables/ViewRoutingSlip'
     PaymentInformation,
     RoutingSlipTransaction,
     LinkRoutingSlip,
-    BreadCrumb
+    BreadCrumb,
+    StaffComments
   },
   setup (props) {
     useViewRoutingSlip(props)

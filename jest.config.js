@@ -8,7 +8,7 @@ module.exports = {
       'jest-transform-stub',
     '^.+\\.tsx?$': 'ts-jest'
   },
-  transformIgnorePatterns: ['/node_modules/(?!sbc-common-components/.*|vuex-composition-helpers)'],
+  transformIgnorePatterns: ['/node_modules/(?!sbc-common-components/.*|vuex-composition-helpers|@bcrs-shared-components/.*)'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1'
   },
@@ -29,7 +29,7 @@ module.exports = {
     }
   },
   preset: '@vue/cli-plugin-unit-jest/presets/typescript-and-babel',
-  setupFilesAfterEnv: ['./jest.setup.ts'],
+  setupFilesAfterEnv: ['./jest.setup.ts', 'jest-localstorage-mock'],
   collectCoverage: true,
   collectCoverageFrom: [
     'src/**/*.{js,vue}',
