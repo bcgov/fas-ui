@@ -29,7 +29,7 @@ module.exports = {
     }
   },
   preset: '@vue/cli-plugin-unit-jest/presets/typescript-and-babel',
-  setupFilesAfterEnv: ['./jest.setup.ts'],
+  setupFilesAfterEnv: ['./jest.setup.ts', 'jest-localstorage-mock'],
   collectCoverage: true,
   collectCoverageFrom: [
     'src/**/*.{js,vue}',

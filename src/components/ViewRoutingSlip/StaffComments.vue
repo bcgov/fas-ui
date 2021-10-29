@@ -21,7 +21,7 @@ export default class PrintRoutingSlip extends Vue {
     @Prop({ required: true }) readonly routingSlipNumber: string
     // Creating URL since all services are handled by component , passing only URL
     get url () {
-      return `${ConfigHelper.getFasAPIURL()}/routing-slips/${this.routingSlipNumber}/comments` || ''
+      return `${ConfigHelper.getFasAPIURL()}/routing-slips/${this.routingSlipNumber}/comments`
     }
 }
 </script>
