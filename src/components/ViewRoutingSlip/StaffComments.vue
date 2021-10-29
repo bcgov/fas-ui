@@ -15,7 +15,7 @@ import ConfigHelper from '@/util/config-helper'
     StaffComments
   }
 })
-export default class PrintRoutingSlip extends Vue {
+export default class StaffCommentsComp extends Vue {
     readonly axios = axios // for template
     // RS number is taking from props, since we dont have any functionality here. so no need of compostion api now
     @Prop({ required: true }) readonly routingSlipNumber: string
