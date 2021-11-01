@@ -1,6 +1,6 @@
 <template>
   <div class="staff-comment">
-    <StaffComments  :url="url" :axios="axios" :businessId="routingSlipNumber"/>
+    <StaffComments  :url="url" :axios="axios" :businessId="routingSlipNumber" :key="routingSlipNumber" maxLength="2000"/>
   </div>
 </template>
 <script lang="ts">
