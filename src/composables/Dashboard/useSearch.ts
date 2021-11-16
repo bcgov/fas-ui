@@ -1,4 +1,4 @@
-import { computed, reactive, ref, toRefs, watch } from '@vue/composition-api'
+import { computed, onMounted, reactive, ref, toRefs, watch } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import ConfigHelper from '@/util/config-helper'
@@ -245,6 +245,13 @@ export function useSearch (props, context) {
     searchParamsChanged.value = false
     toggleLoading()
   }
+
+  onMounted(() => {
+    // To be triggered when coming back to FAS home page from a breadcrumb and if there are any search params present
+    if (!searchParamsExist.value) {
+      searchNow()
+    }
+  })
 
   const debouncedSearch = debounce(() => {
     searchNow()
