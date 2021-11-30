@@ -44,7 +44,7 @@
               <span>-</span> Current Balance:
               {{
                 item.remainingAmount
-                  ? appendCurrencySymbol(item.total.toFixed(2))
+                  ? appendCurrencySymbol(item.remainingAmount.toFixed(2))
                   : '$0.00'
               }}</span
             >

@@ -142,6 +142,10 @@ export default function useTransactionDataTable (props) {
     return [SlipStatus.NSF, SlipStatus.REFUNDAUTHORIZED, SlipStatus.REFUNDCOMPLETED, SlipStatus.REFUNDREQUEST].includes(routingSlip.value.status)
   })
 
+  function isAlreadyCancelled (currentStatus) {
+    return [InvoiceStatus.REFUNDREQUEST, InvoiceStatus.REFUNDED].includes(currentStatus)
+  }
+
   return {
     invoiceDisplay,
     headerTranscations,
@@ -154,6 +158,7 @@ export default function useTransactionDataTable (props) {
     modalDialogConfirm,
     modalDialogClose,
     getIndexedTag,
-    disableCancelButton
+    disableCancelButton,
+    isAlreadyCancelled
   }
 }
