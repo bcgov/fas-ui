@@ -36,7 +36,7 @@
       </div>
     </template>
     <template v-slot:[`item.actions`]="{ item, index }">
-      <span v-if="item.statusCode === InvoiceStatus.REFUNDREQUEST" :data-test="getIndexedTag('text-cancel', index)" class="error--text font-weight-bold"> Cancelled </span>
+      <span v-if="isAlreadyCancelled(item.statusCode)" :data-test="getIndexedTag('text-cancel', index)" class="error--text font-weight-bold"> Cancelled </span>
       <template v-else>
         <v-btn
           outlined
@@ -94,7 +94,8 @@ import { InvoiceStatus } from '@/util/constants'
       modalDialogConfirm,
       modalDialogClose,
       getIndexedTag,
-      disableCancelButton
+      disableCancelButton,
+      isAlreadyCancelled
     } = useTransactionDataTable(props)
     return {
       invoiceDisplay,
@@ -108,7 +109,8 @@ import { InvoiceStatus } from '@/util/constants'
       modalDialogConfirm,
       modalDialogClose,
       getIndexedTag,
-      disableCancelButton
+      disableCancelButton,
+      isAlreadyCancelled
     }
   }
 })
