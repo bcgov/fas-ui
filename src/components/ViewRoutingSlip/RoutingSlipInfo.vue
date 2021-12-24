@@ -77,20 +77,15 @@
               </v-row>
             </template>
             <v-expand-transition>
-              <v-row v-if="showAddress">
-                <v-col class="col-3 font-weight-bold">
-                  Name of Person or Organization & Address
-                </v-col>
-                <v-col class="col-9">
-                  <refund-request-form
-                    ref="refundRequestForm"
-                    :inputRefundRequestDetails="refundRequestDetails"
-                    :isEditing="showAddressEditMode"
-                    @update:refundRequestDetails="refundRequestDetails = $event"
-                  >
-                  </refund-request-form>
-                </v-col>
-              </v-row>
+              <template v-if="showAddress">
+                <refund-request-form
+                  ref="refundRequestForm"
+                  :inputRefundRequestDetails="refundRequestDetails"
+                  :isEditing="showAddressEditMode"
+                  @update:refundRequestDetails="refundRequestDetails = $event"
+                >
+                </refund-request-form>
+              </template>
             </v-expand-transition>
 
             <v-row>

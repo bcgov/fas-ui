@@ -17,9 +17,11 @@ export default function useRefundRequestForm (props, context) {
   const addressForm = ref<HTMLFormElement>()
 
   const nameRules = CommonUtils.requiredFieldRule()
+  const chequeAdviceRules = CommonUtils.optionalFieldRule('This field should be maximum of 40 characters', 40)
 
   const name = ref<string>('')
   const address = ref<Address>(undefined)
+  const chequeAdvice = ref<string>('')
 
   function addressValidity (isValid: boolean): void {
     isAddressValid.value = isValid
@@ -32,8 +34,8 @@ export default function useRefundRequestForm (props, context) {
   }
 
   // watch input elements name and address, and if anything changes, bubble up the values back to parent;
-  watch([name, address], () => {
-    const refundRequestDetails: RefundRequestDetails = { name: name.value, mailingAddress: address.value } as RefundRequestDetails
+  watch([name, address, chequeAdvice], () => {
+    const refundRequestDetails: RefundRequestDetails = { name: name.value, mailingAddress: address.value, chequeAdvice: chequeAdvice.value } as RefundRequestDetails
     context.emit('update:refundRequestDetails', refundRequestDetails)
   })
 
@@ -43,6 +45,7 @@ export default function useRefundRequestForm (props, context) {
       // convert to address format to component
       name.value = inputRefundRequestDetails.value?.name
       address.value = inputRefundRequestDetails.value?.mailingAddress
+      chequeAdvice.value = inputRefundRequestDetails.value?.chequeAdvice
     }
   }, { deep: true, immediate: true })
 
@@ -50,7 +53,9 @@ export default function useRefundRequestForm (props, context) {
     baseAddressSchema,
     refundRequestForm,
     nameRules,
+    chequeAdviceRules,
     name,
+    chequeAdvice,
     address,
     addressForm,
     addressValidity,
