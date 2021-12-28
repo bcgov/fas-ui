@@ -8,7 +8,7 @@
             <template>
               <h1 class="view-header__title pt-4">View Routing Slip: {{ slipId }}</h1>
               <p>
-                Review and verify details for this routing slip
+                {{ $t('reviewRoutingSlipText') }}
               </p>
             </template>
           </header>

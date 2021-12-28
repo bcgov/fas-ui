@@ -13,12 +13,6 @@
 
             <DailyReport />
           </div>
-          <div>
-            <h2>Search for Routing Slip</h2>
-            <p class="mb-5">
-              {{ $t('searchSubText') }}
-            </p>
-          </div>
         </header>
         <div>
           <Search />
