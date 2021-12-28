@@ -17,9 +17,6 @@
             </v-btn>
           </div>
           <h1 class="view-header__title pt-3" data-test="title">Add Routing Slip</h1>
-          <p>
-            {{ $t('createRoutingSlipSubText') }}
-          </p>
         </header>
         <div class="header-bg-color d-flex align-center py-5 mb-0 mt-10">
           <v-icon color="primary" class="ml-8">
