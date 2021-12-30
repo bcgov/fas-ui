@@ -1,10 +1,9 @@
 <template>
   <div>
-    <header class="d-flex flex-column mb-0">
+    <header class="d-flex flex-column">
       <h3 data-test="title">Routing Slip Information</h3>
-      <p>{{ $t('routingSlipInfoSubText') }}</p>
     </header>
-    <v-card class="pl-5 py-2 pr-5">
+    <v-card class="pl-5 py-2 mt-5 pr-5">
       <v-card-text>
         <v-row no-gutters>
           <v-col class="col-12 col-sm-12 ">
@@ -60,20 +59,15 @@
             </v-row>
 
             <v-expand-transition>
-              <v-row v-if="showAddress">
-                <v-col class="col-3 font-weight-bold">
-                  Name of Person or Organization & Address
-                </v-col>
-                <v-col class="col-9">
-                  <refund-request-form
-                    ref="refundRequestForm"
-                    :inputRefundRequestDetails="refundRequestDetails"
-                    :isEditing="showAddressEditMode"
-                    @update:refundRequestDetails="refundRequestDetails = $event"
-                  >
-                  </refund-request-form>
-                </v-col>
-              </v-row>
+              <template v-if="showAddress">
+                <refund-request-form
+                  ref="refundRequestForm"
+                  :inputRefundRequestDetails="refundRequestDetails"
+                  :isEditing="showAddressEditMode"
+                  @update:refundRequestDetails="refundRequestDetails = $event"
+                >
+                </refund-request-form>
+              </template>
             </v-expand-transition>
 
             <v-row>

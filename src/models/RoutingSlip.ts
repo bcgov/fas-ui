@@ -10,6 +10,20 @@ export interface AccountInfo {
   billable?: boolean
   paymentMethod?: string
 }
+
+export interface RefundRequestDetails {
+  name?: string,
+  mailingAddress?: Address
+  chequeAdvice?: string
+}
+
+export interface Refund {
+  details?: RefundRequestDetails
+  id?: number
+  reason?: string
+  requestedBy?: string
+  requestedDate?: string
+}
 // Class for storing values in CreateRoutingSlip component - for POST endpoint
 export interface RoutingSlip {
   id?: number
@@ -24,7 +38,8 @@ export interface RoutingSlip {
   invoices?: Invoice[]
   status?: string
   createdName?:string,
-  parentNumber?:string
+  parentNumber?:string,
+  refunds?:Refund[]
 }
 // Class for storing values in CreateRoutingSlipDetails component
 export interface RoutingSlipDetails {
@@ -56,9 +71,4 @@ export interface ManualTransactionDetails{
 export interface GetRoutingSlipRequestPayload {
   routingSlipNumber: string,
   showGlobalLoader?: boolean
-}
-
-export interface RefundRequestDetails {
-  name?: string,
-  mailingAddress?: Address
 }
