@@ -173,8 +173,8 @@ export default class CommonUtils {
     return ![
       SlipStatus.REFUNDCOMPLETED,
       SlipStatus.REFUNDAUTHORIZED,
-      SlipStatus.REFUNDREQUEST
-
+      SlipStatus.NSF,
+      SlipStatus.LINKED
     ].includes(status)
   }
 }

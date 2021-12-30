@@ -17,15 +17,15 @@
                   {{ routingSlipDetails.number }}
                 </div>
                 <div v-if="isEditable">
-                  <span
-                    class="primary--text cursor-pointer"
-                    @click="toggleEdit(true)"
-                    v-if="!isRoutingSlipAChild"
-                    data-test="btn-edit"
-                    v-can:fas_edit.hide
-                    ><v-icon color="primary" size="20"> mdi-pencil</v-icon> Edit
-                    Status</span
-                  >
+                <status-menu
+                    v-model="currentStatus"
+                    label="Status"
+                    @update:statusChange="statusChange"
+                    :hide-details="errorMessage === ''"
+                    :error-messages="errorMessage"
+                    :disabled="isApprovalFlow"
+                    :allowedStatusList="allowedStatusList"
+                  ></status-menu>
                 </div>
               </v-col>
             </v-row>
@@ -44,7 +44,7 @@
                 }}
               </v-col>
             </v-row>
-            <v-row v-if="!editMode">
+            <v-row >
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 Status
               </v-col>
@@ -58,24 +58,7 @@
                 >
               </v-col>
             </v-row>
-            <!-- show only on edit -->
-            <template v-else>
-              <v-row>
-                <v-col class="col-6 col-sm-3 font-weight-bold">
-                  Status
-                </v-col>
-                <v-col class="col-6 col-sm-9 status-list">
-                  <status-list
-                    v-model="currentStatus"
-                    label="Status"
-                    @change="statusChange"
-                    :hide-details="errorMessage === ''"
-                    :error-messages="errorMessage"
-                    :disabled="isApprovalFlow"
-                  ></status-list>
-                </v-col>
-              </v-row>
-            </template>
+
             <v-expand-transition>
               <v-row v-if="showAddress">
                 <v-col class="col-3 font-weight-bold">
@@ -110,7 +93,7 @@
           </v-col>
         </v-row>
       </v-card-text>
-      <v-card-actions class="pr-4 justify-end pa-3 pb-5" v-if="editMode">
+      <v-card-actions class="pr-4 justify-end pa-3 pb-5" v-if="addMoreDetails">
         <v-btn
           large
           color="primary"
@@ -132,20 +115,39 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <ModalDialog
+      ref="modalDialogRef"
+      :title="$t('NSFWarningTitle')"
+      :text="$t('NSFWarningText')"
+      dialog-class="notify-dialog"
+      max-width="679"
+      max-height="310"
+      icon="mdi-alert-circle-outline"
+      iconColor="error"
+    >
+      <template v-slot:actions>
+        <v-btn large color="error" @click="updateStatus()" data-test="dialog-ok-button" class="px-5 font-weight-bold btn-actions">Place status to NSF</v-btn>
+        <v-btn large color="primary" outlined @click="cancelOrReject()" data-test="dialog-ok-button" class="ml-3 btn-actions"  >Cancel</v-btn>
+      </template>
+    </ModalDialog>
+
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import commonUtil from '@/util/common-util'
 import { useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
-import statusList from '@/components/common/StatusList.vue'
+import ModalDialog from '@/components/common/ModalDialog.vue'
+import StatusMenu from '@/components/common/StatusMenu.vue'
+
 import RefundRequestForm from '@/components/ViewRoutingSlip/RefundRequestForm.vue'
 import can from '@/directives/can'
 
 @Component({
   components: {
     RefundRequestForm,
-    statusList
+    StatusMenu,
+    ModalDialog
   },
   directives: {
     can
@@ -153,8 +155,7 @@ import can from '@/directives/can'
   setup (props) {
     const {
       routingSlipDetails,
-      editMode,
-      toggleEdit,
+      addMoreDetails,
       currentStatus,
       updateStatus,
       getStatusLabel,
@@ -167,13 +168,14 @@ import can from '@/directives/can'
       showAddressEditMode,
       isApprovalFlow,
       cancelOrReject,
-      isEditable
+      isEditable,
+      allowedStatusList,
+      modalDialogRef
     } = useRoutingSlipInfo(props)
 
     return {
       routingSlipDetails,
-      editMode,
-      toggleEdit,
+      addMoreDetails,
       currentStatus,
       updateStatus,
       getStatusLabel,
@@ -186,7 +188,9 @@ import can from '@/directives/can'
       showAddressEditMode,
       isApprovalFlow,
       cancelOrReject,
-      isEditable
+      isEditable,
+      allowedStatusList,
+      modalDialogRef
     }
   }
 })
