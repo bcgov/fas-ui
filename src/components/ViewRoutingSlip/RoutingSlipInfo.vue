@@ -18,12 +18,12 @@
                 <div v-if="isEditable">
                 <status-menu
                     v-model="currentStatus"
-                    label="Status"
                     @update:statusChange="statusChange"
                     :hide-details="errorMessage === ''"
                     :error-messages="errorMessage"
                     :disabled="isApprovalFlow"
                     :allowedStatusList="allowedStatusList"
+                    data-test="btn-edit"
                   ></status-menu>
                 </div>
               </v-col>
