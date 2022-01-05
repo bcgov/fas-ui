@@ -33,7 +33,7 @@ export default function useRoutingSlipInfo (props) {
   const isApproverRole = CommonUtils.isApproverRole()
 
   // passign value as blank to avoid warning
-  const { statusLabel, selectedStatusObject } = useStatusMenu(
+  const { statusLabel, getSelectedStatusObject } = useStatusMenu(
     reactive({ value: '' }),
     {}
   )
@@ -72,7 +72,7 @@ export default function useRoutingSlipInfo (props) {
   })
   const allowedStatusList = computed(() => {
     // get allowd status from API and add here
-    return [] // 'COMPLETE', 'ACTIVE', 'REFUND_REQUESTED', 'CANCEL_REFUND_REQUEST'
+    return routingSlipDetails.value?.allowedStatuses || ['COMPLETE', 'ACTIVE', 'REFUND_REQUESTED', 'CANCEL_REFUND_REQUEST'] // 'COMPLETE', 'ACTIVE', 'REFUND_REQUESTED', 'CANCEL_REFUND_REQUEST'
   })
 
   const isEditable = computed(() => {
@@ -88,7 +88,7 @@ export default function useRoutingSlipInfo (props) {
   // since we have to return different value
   watch(
     [routingSlipDetails, routingSlipStatusList],
-    ([newRoutingSlipDetails], [oldRoutinSlip]) => {
+    ([newRoutingSlipDetails], [oldRoutingSlip]) => {
       // routingSlipStatusList need to avoid async data issues
       if (
         routingSlipStatusList.value.length > 0 &&
@@ -99,8 +99,8 @@ export default function useRoutingSlipInfo (props) {
       }
       // to update address
       if (
-        oldRoutinSlip?.number !== newRoutingSlipDetails.number ||
-        oldRoutinSlip?.status !== newRoutingSlipDetails.status
+        oldRoutingSlip?.number !== newRoutingSlipDetails.number ||
+        oldRoutingSlip?.status !== newRoutingSlipDetails.status
       ) {
         if (
           newRoutingSlipDetails?.refunds &&
@@ -116,7 +116,7 @@ export default function useRoutingSlipInfo (props) {
     { immediate: true, deep: true }
   )
   function getStatusObject (status) {
-    const statusObject = selectedStatusObject(status)
+    const statusObject = getSelectedStatusObject(status)
     return statusObject[0] ? statusObject[0] : ''
   }
 
@@ -146,17 +146,17 @@ export default function useRoutingSlipInfo (props) {
   // update routign slip status on click of done
   async function updateStatus () {
     // need to call validate only of its refund
-    const overRideStatus = currentStatus.value.code === SlipStatus.CANCEL_REFUND_REQUEST ? SlipStatus.REFUNDREJECTED : currentStatus.value.code
+    const overrideStatus = currentStatus.value.code === SlipStatus.CANCEL_REFUND_REQUEST ? SlipStatus.REFUNDREJECTED : currentStatus.value.code
 
     const statusDetails = {
-      status: overRideStatus,
+      status: overrideStatus,
       details: refundRequestDetails.value
     }
 
     if (isRefundProcess(currentStatus.value)) {
       const status = isApprovalFlow.value
         ? SlipStatus.REFUNDAUTHORIZED
-        : overRideStatus
+        : overrideStatus
       updateRefund(status)
     } else {
       await updateRoutingSlipStatus(statusDetails)

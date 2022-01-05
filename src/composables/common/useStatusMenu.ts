@@ -58,7 +58,7 @@ export function useStatusMenu (props, context) {
    * @returns {string} description - label
    */
   function statusLabel (code: string) {
-    const codeArray = selectedStatusObject(code)
+    const codeArray = getSelectedStatusObject(code)
     return codeArray[0]?.description || ''
   }
 
@@ -69,7 +69,7 @@ export function useStatusMenu (props, context) {
    * @returns [{code, description}]
    */
 
-  function selectedStatusObject (code: string) {
+  function getSelectedStatusObject (code: string) {
     return routingSlipStatus.value?.filter(
       (statusList) => statusList.code === code
     )
@@ -83,7 +83,7 @@ export function useStatusMenu (props, context) {
     routingAllowedSlipStatus,
     currentStatus,
     statusLabel,
-    selectedStatusObject,
+    getSelectedStatusObject,
     allowedStatusList,
     setStatus
   }
