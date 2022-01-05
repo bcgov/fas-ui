@@ -100,7 +100,7 @@ describe('RoutingSlipInfo.vue', () => {
     expect(wrapper.findComponent(StatusMenu).exists()).toBeTruthy()
 
     // fix selected value by passing props
-    wrapper.find('[data-test="btn-edit"]').trigger('click')
+    // wrapper.find('[data-test="btn-edit"]').trigger('click')
     // await wrapper.vm.$nextTick()
 
     // expect(wrapper.findComponent(StatusMenu).exists()).toBeTruthy()
