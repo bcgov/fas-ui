@@ -78,7 +78,7 @@ export default function useRoutingSlipInfo (props) {
   const isEditable = computed(() => {
     // if user can edit by status
     const isEditableStatus =
-      CommonUtils.isEditEnableBystatus(routingSlipDetails.value?.status) ||
+      CommonUtils.isEditEnabledBystatus(routingSlipDetails.value?.status) ||
       false
     return CommonUtils.isRefundRequestStatus(routingSlipDetails.value.status)
       ? isApproverRole

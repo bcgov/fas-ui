@@ -174,7 +174,7 @@ export default class CommonUtils {
    * status permission allow to chaneg details
    * @param  {string} status
    */
-  static isEditEnableBystatus (status) {
+  static isEditEnabledBystatus (status) {
     return ![
       SlipStatus.REFUNDCOMPLETED,
       SlipStatus.REFUNDAUTHORIZED,
