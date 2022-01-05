@@ -72,7 +72,7 @@ export default function useRoutingSlipInfo (props) {
   })
   const allowedStatusList = computed(() => {
     // get allowd status from API and add here
-    return routingSlipDetails.value?.allowedStatuses || ['COMPLETE', 'ACTIVE', 'REFUND_REQUESTED', 'CANCEL_REFUND_REQUEST'] // 'COMPLETE', 'ACTIVE', 'REFUND_REQUESTED', 'CANCEL_REFUND_REQUEST'
+    return routingSlipDetails.value?.allowedStatuses || [] // 'COMPLETE', 'ACTIVE', 'REFUND_REQUESTED', 'CANCEL_REFUND_REQUEST'
   })
 
   const isEditable = computed(() => {
