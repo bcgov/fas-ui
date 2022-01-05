@@ -7,7 +7,7 @@ export enum SessionStorageKeys {
   AuthApiUrl = 'AUTH_API_URL',
   AuthWebUrl = 'AUTH_WEB_URL',
   StatusApiUrl = 'STATUS_API_URL',
-  FasWebUrl = 'FAS_WEB_URL'
+  FasWebUrl = 'FAS_WEB_URL',
 }
 
 export enum DateFilterCodes {
@@ -15,12 +15,12 @@ export enum DateFilterCodes {
   YESTERDAY = 'YESTERDAY',
   LASTWEEK = 'LASTWEEK',
   LASTMONTH = 'LASTMONTH',
-  CUSTOMRANGE = 'CUSTOMRANGE'
+  CUSTOMRANGE = 'CUSTOMRANGE',
 }
 
 export enum PaymentMethods {
   CASH = 'CASH',
-  CHEQUE = 'CHEQUE'
+  CHEQUE = 'CHEQUE',
 }
 
 export enum SlipStatus {
@@ -35,7 +35,22 @@ export enum SlipStatus {
   REFUNDREQUEST = 'REFUND_REQUESTED',
   REFUNDAUTHORIZED = 'REFUND_AUTHORIZED',
   REFUNDCOMPLETED = 'REFUND_COMPLETED',
-  REFUNDREJECTED = 'REFUND_REJECTED'
+  REFUNDREJECTED = 'REFUND_REJECTED',
+  CANCEL_REFUND_REQUEST = 'CANCEL_REFUND_REQUEST',
+}
+
+export enum SlipStatusLabel {
+  ACTIVE = 'Place routing slip to active',
+  NSF = 'Place routing slip to NSF',
+  HOLD = 'Place routing slip on hold',
+  LINKED = 'LINKED',
+  REFUND_REQUESTED = 'Refund request',
+  WRITE_OFF_REQUESTED = 'Write off request',
+  CANCEL_REFUND_REQUEST = 'Cancel refund request',
+}
+
+export enum SupervisorSlipStatusLabel {
+  REFUND_REQUESTED = 'Review refund request',
 }
 
 export enum Role {
@@ -47,15 +62,15 @@ export enum Role {
   FAS_CREATE = 'fas_create',
   FAS_LNK = 'fas_link',
   FAS_TRANSACTION = 'fas_transaction',
-  FAS_REFUND_APPROVER='fas_refund_approver',
-  FAS_REFUND = 'fas_refund'
+  FAS_REFUND_APPROVER = 'fas_refund_approver',
+  FAS_REFUND = 'fas_refund',
 }
 
 export enum InvoiceStatus {
   COMPLETED = 'COMPLETED',
   REFUNDED = 'REFUNDED',
   DELETE_ACCEPTED = 'DELETE_ACCEPTED',
-  REFUNDREQUEST = 'REFUND_REQUESTED'
+  REFUNDREQUEST = 'REFUND_REQUESTED',
 }
 
 export const AXIOS_ERROR_ALERT_TIME_OUT = 5000

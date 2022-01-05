@@ -3,7 +3,7 @@ import { computed, reactive, ref, watch } from '@vue/composition-api'
 import { RefundRequestDetails } from '@/models/RoutingSlip'
 import { SlipStatus } from '@/util/constants'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
-import { useStatusList } from '@/composables/common/useStatusList'
+import { useStatusMenu } from '@/composables/common/useStatusMenu'
 import { Code } from '@/models/Code'
 import CommonUtils from '@/util/common-util'
 
@@ -21,17 +21,19 @@ export default function useRoutingSlipInfo (props) {
   const { updateRoutingSlipStatus } = useActions(['updateRoutingSlipStatus'])
   const { isRoutingSlipAChild } = useGetters(['isRoutingSlipAChild'])
 
-  const editMode = ref<boolean>(false)
+  const addMoreDetails = ref<boolean>(false)
   const isAddressEditable = ref<boolean>(false)
   const currentStatus = ref<Code>(null)
   const errorMessage = ref<string>('')
+
+  const modalDialogRef = ref<HTMLFormElement>()
 
   const refundRequestForm = ref<HTMLFormElement>()
   const refundRequestDetails = ref<RefundRequestDetails>(null)
   const isApproverRole = CommonUtils.isApproverRole()
 
   // passign value as blank to avoid warning
-  const { statusLabel, selectedStatusObject } = useStatusList(
+  const { statusLabel, getSelectedStatusObject } = useStatusMenu(
     reactive({ value: '' }),
     {}
   )
@@ -46,34 +48,47 @@ export default function useRoutingSlipInfo (props) {
 
   const isApprovalFlow = computed(() => {
     // if refund process saved show status as disable
-    return (isApproverRole && CommonUtils.isRefundProcessStatus(routingSlipDetails.value?.status)) || false
+    return (
+      (isApproverRole &&
+        CommonUtils.isRefundProcessStatus(routingSlipDetails.value?.status)) ||
+      false
+    )
   })
 
   const showAddress = computed(() => {
-    if (editMode.value) {
-      return (isRefundProcess(currentStatus?.value) && canRequestRefund.value) || false
+    if (addMoreDetails.value) {
+      return (
+        (isRefundProcess(currentStatus?.value) && canRequestRefund.value) ||
+        false
+      )
     }
 
-    return isRefundProcess(currentStatus?.value) || false
+    return false // isRefundProcess(currentStatus?.value) || false
   })
 
   const showAddressEditMode = computed(() => {
     // need show address as editable also as view
-    if (isAddressEditable.value) {
-      return true
-    }
-    return (isApproverRole && CommonUtils.isRefundRequestStatus(routingSlipDetails.value.status)) || false
+    return isAddressEditable.value
+  })
+  const allowedStatusList = computed(() => {
+    // get allowd status from API and add here
+    return routingSlipDetails.value?.allowedStatuses || ['COMPLETE', 'ACTIVE', 'REFUND_REQUESTED', 'CANCEL_REFUND_REQUEST'] // 'COMPLETE', 'ACTIVE', 'REFUND_REQUESTED', 'CANCEL_REFUND_REQUEST'
   })
 
   const isEditable = computed(() => {
     // if user can edit by status
-    return CommonUtils.isEditEnableBystatus(routingSlipDetails.value?.status) || false
+    const isEditableStatus =
+      CommonUtils.isEditEnabledBystatus(routingSlipDetails.value?.status) ||
+      false
+    return CommonUtils.isRefundRequestStatus(routingSlipDetails.value.status)
+      ? isApproverRole
+      : isEditableStatus
   })
 
   // since we have to return different value
   watch(
     [routingSlipDetails, routingSlipStatusList],
-    ([newRoutingSlipDetails], [oldRoutinSlip]) => {
+    ([newRoutingSlipDetails], [oldRoutingSlip]) => {
       // routingSlipStatusList need to avoid async data issues
       if (
         routingSlipStatusList.value.length > 0 &&
@@ -83,65 +98,86 @@ export default function useRoutingSlipInfo (props) {
         currentStatus.value = getStatusObject(newRoutingSlipDetails.status)
       }
       // to update address
-      if (oldRoutinSlip?.number !== newRoutingSlipDetails.number || oldRoutinSlip?.status !== newRoutingSlipDetails.status) {
-        if (newRoutingSlipDetails?.refunds && newRoutingSlipDetails?.refunds[0]) {
+      if (
+        oldRoutingSlip?.number !== newRoutingSlipDetails.number ||
+        oldRoutingSlip?.status !== newRoutingSlipDetails.status
+      ) {
+        if (
+          newRoutingSlipDetails?.refunds &&
+          newRoutingSlipDetails?.refunds[0]
+        ) {
           const details = newRoutingSlipDetails?.refunds[0].details
           refundRequestDetails.value = JSON.parse(JSON.stringify(details))
         } else {
           refundRequestDetails.value = null
         }
       }
-      //  if approver and status requested, show as edit mode
-      editMode.value = isApproverRole && CommonUtils.isRefundRequestStatus(routingSlipDetails.value.status)
     },
     { immediate: true, deep: true }
   )
   function getStatusObject (status) {
-    const statusObject = selectedStatusObject(
-      status
-    )
+    const statusObject = getSelectedStatusObject(status)
     return statusObject[0] ? statusObject[0] : ''
   }
 
-  function toggleEdit (edit: boolean) {
-    editMode.value = edit
-    // reset to orginal status on toggle
-    currentStatus.value = getStatusObject(routingSlipDetails.value.status)
-    isAddressEditable.value = edit
-  }
   function cancelOrReject () {
     if (isApprovalFlow.value) {
       updateRefund(SlipStatus.REFUNDREJECTED)
-    } else {
-      toggleEdit(false)
+    } else if (isRefundProcess(currentStatus.value)) {
+      resettoOldStatus()
+    } else if (isNFSProcess(currentStatus.value)) {
+      modalDialogClose()
     }
+  }
+
+  function resettoOldStatus () {
+    // reset to orginal status on toggle
+    currentStatus.value = getStatusObject(routingSlipDetails.value.status)
+    addMoreDetails.value = false
+  }
+  // no additional steps needed before calling API
+  function directStatusUpdate () {
+    return (
+      !isRefundProcess(currentStatus.value) &&
+      !isNFSProcess(currentStatus.value)
+    )
   }
 
   // update routign slip status on click of done
   async function updateStatus () {
     // need to call validate only of its refund
+    const overrideStatus = currentStatus.value.code === SlipStatus.CANCEL_REFUND_REQUEST ? SlipStatus.REFUNDREJECTED : currentStatus.value.code
+
     const statusDetails = {
-      status: currentStatus.value.code,
+      status: overrideStatus,
       details: refundRequestDetails.value
     }
 
     if (isRefundProcess(currentStatus.value)) {
-      const status = isApprovalFlow.value ? SlipStatus.REFUNDAUTHORIZED : currentStatus.value.code
+      const status = isApprovalFlow.value
+        ? SlipStatus.REFUNDAUTHORIZED
+        : overrideStatus
       updateRefund(status)
     } else {
       await updateRoutingSlipStatus(statusDetails)
-      toggleEdit(false)
+      if (isNFSProcess(currentStatus.value)) {
+        modalDialogClose()
+      }
     }
   }
 
-  async function updateRefund (status:any = SlipStatus.REFUNDREQUEST) {
+  function modalDialogClose () {
+    modalDialogRef.value.close()
+  }
+
+  async function updateRefund (status: any = SlipStatus.REFUNDREQUEST) {
     if (refundRequestForm.value.isValid()) {
       const statusDetails = {
         status: status,
         details: refundRequestDetails.value
       }
       await updateRoutingSlipStatus(statusDetails)
-      toggleEdit(false)
+      addMoreDetails.value = false
     }
   }
 
@@ -153,13 +189,18 @@ export default function useRoutingSlipInfo (props) {
     return CommonUtils.isRefundProcessStatus(status?.code)
   }
 
+  function isNFSProcess (status) {
+    return status.code === SlipStatus.NSF
+  }
+
+  // TODO where to show error message
   function statusChange (status) {
     // TODO change to computed for supervisor role
-    // showAddress.value = false
+
     errorMessage.value = ''
 
     const showAddressStatus = isRefundProcess(status)
-
+    currentStatus.value = status
     //  change to refund status once status available
     if (showAddressStatus && canRequestRefund.value) {
       isAddressEditable.value = true
@@ -167,13 +208,20 @@ export default function useRoutingSlipInfo (props) {
       // showAddressEditMode.value = false
       errorMessage.value = 'There is not enough funds for refund'
     }
+    // isAddressEditable.value = false
+    if (directStatusUpdate()) {
+      updateStatus()
+    } else if (isNFSProcess(currentStatus.value)) {
+      modalDialogRef.value.open()
+    } else if (isRefundProcess(currentStatus.value)) {
+      addMoreDetails.value = true
+    }
   }
 
   return {
     routingSlip,
-    editMode,
+    addMoreDetails,
     routingSlipDetails,
-    toggleEdit,
     currentStatus,
     updateStatus,
     getStatusLabel,
@@ -186,6 +234,8 @@ export default function useRoutingSlipInfo (props) {
     showAddressEditMode,
     isApprovalFlow,
     cancelOrReject,
-    isEditable
+    isEditable,
+    allowedStatusList,
+    modalDialogRef
   }
 }
