@@ -1,5 +1,5 @@
 import { Code } from '@/models/Code'
-import { SlipStatusLabel } from '@/util/constants'
+import { SlipStatusLabel, SupervisorSlipStatusLabel } from '@/util/constants'
 import { ref, computed, toRefs, onMounted, watch } from '@vue/composition-api'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
@@ -8,7 +8,7 @@ const { useState, useActions } = codeModule
 
 export function useStatusMenu (props, context) {
   // default value set blank incase if we didnt pass props
-  const { value = ref(''), allowedStatusList = ref([]) } = toRefs(props)
+  const { value = ref(''), allowedStatusList = ref([]), isApprovalFlow = ref(false) } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change
   const currentStatus = computed({
@@ -25,26 +25,30 @@ export function useStatusMenu (props, context) {
 
   const { getRoutingSlipStatusList } = useActions(['getRoutingSlipStatusList'])
 
+  const routingAllowedSlipStatus = computed(() => {
+    return getFormattedStatusList()
+  })
   const routingSlipStatus = computed(() => {
-    return getFormattedStatusLsist()
+    return routingSlipStatusList.value
   })
 
   onMounted(() => {
-    // getting status list mouint and setting inside store
+    // getting status list mount and setting inside store
     // will make call once till page refresh
     getRoutingSlipStatusList()
   })
 
-  function getFormattedStatusLsist () {
-    let filterStatus = routingSlipStatusList.value
-    if (allowedStatusList.value && allowedStatusList.value.length > 0) {
-      filterStatus = routingSlipStatusList.value && routingSlipStatusList.value.filter(status => allowedStatusList.value.includes(status.code))
-    }
+  function getFormattedStatusList () {
+    let filterStatus = []
 
-    return filterStatus.map(statusList => {
-      statusList.label = SlipStatusLabel[statusList.code] || statusList.description
+    filterStatus = allowedStatusList.value.map((status) => {
+      const statusList: any = {}
+      statusList.label = (isApprovalFlow.value && SupervisorSlipStatusLabel[status] ? SupervisorSlipStatusLabel[status] : SlipStatusLabel[status]) || ''
+      statusList.code = status
       return statusList
-    })
+    }).filter((status) => status.label !== '')
+
+    return filterStatus
   }
 
   /**
@@ -67,7 +71,7 @@ export function useStatusMenu (props, context) {
 
   function selectedStatusObject (code: string) {
     return routingSlipStatus.value?.filter(
-      statusList => statusList.code === code
+      (statusList) => statusList.code === code
     )
   }
 
@@ -76,6 +80,7 @@ export function useStatusMenu (props, context) {
   }
   return {
     routingSlipStatus,
+    routingAllowedSlipStatus,
     currentStatus,
     statusLabel,
     selectedStatusObject,

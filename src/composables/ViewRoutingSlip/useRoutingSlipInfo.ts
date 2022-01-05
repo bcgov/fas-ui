@@ -63,7 +63,7 @@ export default function useRoutingSlipInfo (props) {
       )
     }
 
-    return isRefundProcess(currentStatus?.value) || false
+    return false // isRefundProcess(currentStatus?.value) || false
   })
 
   const showAddressEditMode = computed(() => {
@@ -72,7 +72,7 @@ export default function useRoutingSlipInfo (props) {
   })
   const allowedStatusList = computed(() => {
     // get allowd status from API and add here
-    return [] // 'COMPLETE', 'ACTIVE'
+    return [] // 'COMPLETE', 'ACTIVE', 'REFUND_REQUESTED', 'CANCEL_REFUND_REQUEST'
   })
 
   const isEditable = computed(() => {
@@ -146,15 +146,17 @@ export default function useRoutingSlipInfo (props) {
   // update routign slip status on click of done
   async function updateStatus () {
     // need to call validate only of its refund
+    const overRideStatus = currentStatus.value.code === SlipStatus.CANCEL_REFUND_REQUEST ? SlipStatus.REFUNDREJECTED : currentStatus.value.code
+
     const statusDetails = {
-      status: currentStatus.value.code,
+      status: overRideStatus,
       details: refundRequestDetails.value
     }
 
     if (isRefundProcess(currentStatus.value)) {
       const status = isApprovalFlow.value
         ? SlipStatus.REFUNDAUTHORIZED
-        : currentStatus.value.code
+        : overRideStatus
       updateRefund(status)
     } else {
       await updateRoutingSlipStatus(statusDetails)
@@ -175,6 +177,7 @@ export default function useRoutingSlipInfo (props) {
         details: refundRequestDetails.value
       }
       await updateRoutingSlipStatus(statusDetails)
+      addMoreDetails.value = false
     }
   }
 

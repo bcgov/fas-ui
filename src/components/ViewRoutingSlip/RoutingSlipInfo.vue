@@ -19,9 +19,8 @@
                 <status-menu
                     v-model="currentStatus"
                     @update:statusChange="statusChange"
-                    :hide-details="errorMessage === ''"
                     :error-messages="errorMessage"
-                    :disabled="isApprovalFlow"
+                    :isApprovalFlow="isApprovalFlow"
                     :allowedStatusList="allowedStatusList"
                     data-test="btn-edit"
                   ></status-menu>
