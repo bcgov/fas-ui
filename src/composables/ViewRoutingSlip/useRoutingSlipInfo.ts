@@ -44,14 +44,14 @@ export default function useRoutingSlipInfo (props) {
   })
 
   const modalText = computed(() => {
-    let title = i18n.t('NSFWarningTitle')
-    let subText = i18n.t('NSFWarningText')
+    let title = i18n?.t('NSFWarningTitle')
+    let subText = i18n?.t('NSFWarningText')
     const icon = 'mdi-help-circle-outline'
     let confirmBtnText = 'Place status to NSF'
     const cancelBtnText = 'Cancel'
     if (isWriteOfProcess(currentStatus.value)) {
-      title = i18n.t('WriteOffWarningTitle')
-      subText = i18n.t('WriteOffWarningText')
+      title = i18n?.t('WriteOffWarningTitle')
+      subText = i18n?.t('WriteOffWarningText')
       confirmBtnText = 'Authorize Write off'
     }
     return { title, subText, icon, confirmBtnText, cancelBtnText }
