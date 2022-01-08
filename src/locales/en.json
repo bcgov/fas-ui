@@ -25,5 +25,7 @@
   "cantAddTransactions": "Transaction can't be added, since the filling type total amount exceeds the routing slip's current balance",
   "reviewRoutingSlipText": "Manage, and review details for this routing slip",
   "NSFWarningText":"By placing status to NSF, this routing slip will not be usable, and current transactions will change to pending until it has been repaid by having another slip linked to it.",
-  "NSFWarningTitle":"Place Routing Slip to NSF?"
+  "NSFWarningTitle":"Place Routing Slip to NSF?",
+  "WriteOffWarningTitle":"Authorize Write-off?",
+  "WriteOffWarningText":"By approving write-off, the routing slip balance will close, and no further transactions may be made using this routing slip."
 }

@@ -1,5 +1,5 @@
 <template>
-  <v-menu v-if="routingAllowedSlipStatus.length > 0">
+  <v-menu nudge-left="0" offset-x v-if="routingAllowedSlipStatus.length > 0">
     <template v-slot:activator="{ on, attrs }">
       <v-btn dark icon v-bind="attrs" v-on="on">
         <v-icon color="primary" size="20">mdi-dots-vertical</v-icon>
