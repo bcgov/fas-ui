@@ -90,12 +90,12 @@ export function useSearch (props, context) {
       className: 'cheque-receipt-number'
     },
     {
-      text: 'Total Amount',
+      text: 'Balance',
       align: 'right',
-      value: 'total',
+      value: 'remainingAmount',
       sortable: false,
       display: true,
-      className: 'total'
+      className: 'remainingAmount'
     },
     {
       text: 'Actions',
@@ -196,14 +196,14 @@ export function useSearch (props, context) {
     }
   })
 
-  const totalAmount: any = computed({
+  const remainingAmount: any = computed({
     get: () => {
-      return searchRoutingSlipParams.value.totalAmount || ''
+      return searchRoutingSlipParams.value.remainingAmount || ''
     },
     set: (modalValue: any) => {
       setSearchRoutingSlipParams({
         ...searchRoutingSlipParams.value,
-        totalAmount: modalValue
+        remainingAmount: modalValue
       })
       searchParamsChanged.value = true
     }
@@ -331,7 +331,7 @@ export function useSearch (props, context) {
     dateFilter,
     folioNumber,
     entityNumber,
-    totalAmount,
+    remainingAmount,
     chequeReceiptNumber,
     canShowColumn,
     applyDateFilter,

@@ -98,6 +98,6 @@ describe('Search.vue', () => {
     expect(wrapper.vm.canShowColumn('folioNumber')).toBeTruthy()
     expect(wrapper.vm.canShowColumn('entityNumber')).toBeTruthy()
     expect(wrapper.vm.canShowColumn('chequeReceiptNumber')).toBeTruthy()
-    expect(wrapper.vm.canShowColumn('total')).toBeTruthy()
+    expect(wrapper.vm.canShowColumn('remainingAmount')).toBeTruthy()
   })
 })
