@@ -72,14 +72,10 @@ export default function useRoutingSlipInfo (props) {
   })
 
   const showAddress = computed(() => {
-    // if (addMoreDetails.value) {
     return (
       (isRefundProcess(currentStatus?.value) && canRequestRefund.value) ||
         false
     )
-    // }
-
-    // return false // isRefundProcess(currentStatus?.value) || false
   })
 
   const showAddressEditMode = computed(() => {
@@ -127,7 +123,6 @@ export default function useRoutingSlipInfo (props) {
         } else {
           refundRequestDetails.value = null
         }
-        // addMoreDetails.value = true
       }
     },
     { immediate: true, deep: true }
