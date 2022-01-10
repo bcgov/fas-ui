@@ -190,14 +190,14 @@
                             hide-details="auto"
                           />
                         </th>
-                        <th scope="total" v-if="canShowColumn('total')">
+                        <th scope="remainingAmount" v-if="canShowColumn('remainingAmount')">
                           <v-text-field
-                            id="total"
+                            id="remainingAmount"
                             autocomplete="off"
                             class="text-input-style "
                             filled
-                            placeholder="Total Amount"
-                            v-model.trim="totalAmount"
+                            placeholder="Balance"
+                            v-model.trim="remainingAmount"
                             @input="debouncedSearch()"
                             hide-details="auto"
                           />
@@ -361,11 +361,11 @@
                           </template>
                           <template v-else>-</template>
                         </td>
-                        <td v-if="canShowColumn('total')" class="text-right">
+                        <td v-if="canShowColumn('remainingAmount')" class="text-right">
                           <span class="font-weight-bold text-end">
                             {{
-                              item.total
-                                ? appendCurrencySymbol(item.total.toFixed(2))
+                              item.remainingAmount
+                                ? appendCurrencySymbol(item.remainingAmount.toFixed(2))
                                 : '-'
                             }}
                           </span>
@@ -416,7 +416,7 @@ import { PaymentMethods } from '@/util/constants'
       dateFilter,
       folioNumber,
       entityNumber,
-      totalAmount,
+      remainingAmount,
       chequeReceiptNumber,
       searchRoutingSlipResult,
       applyDateFilter,
@@ -444,7 +444,7 @@ import { PaymentMethods } from '@/util/constants'
       dateFilter,
       folioNumber,
       entityNumber,
-      totalAmount,
+      remainingAmount,
       chequeReceiptNumber,
       searchRoutingSlipResult,
       applyDateFilter,
