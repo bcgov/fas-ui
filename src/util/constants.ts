@@ -37,6 +37,10 @@ export enum SlipStatus {
   REFUNDCOMPLETED = 'REFUND_COMPLETED',
   REFUNDREJECTED = 'REFUND_REJECTED',
   CANCEL_REFUND_REQUEST = 'CANCEL_REFUND_REQUEST',
+  CANCELWRITEOFFREQUEST='CANCEL_WRITE_OFF_REQUEST',
+  WRITEOFFAUTHORIZED='WRITE_OFF_AUTHORIZED',
+  WRITEOFFREQUESTED='WRITE_OFF_REQUESTED',
+  WRITEOFFCOMPLETED='WRITE_OFF_COMPLETED'
 }
 
 export enum SlipStatusLabel {
@@ -47,10 +51,9 @@ export enum SlipStatusLabel {
   REFUND_REQUESTED = 'Refund request',
   WRITE_OFF_REQUESTED = 'Write off request',
   CANCEL_REFUND_REQUEST = 'Cancel refund request',
-}
-
-export enum SupervisorSlipStatusLabel {
-  REFUND_REQUESTED = 'Review refund request',
+  REFUND_AUTHORIZED='Review refund request',
+  WRITE_OFF_AUTHORIZED='Review Write off request',
+  CANCEL_WRITE_OFF_REQUEST='Cancel Write off request'
 }
 
 export enum Role {

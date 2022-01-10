@@ -1,5 +1,5 @@
 import { Code } from '@/models/Code'
-import { SlipStatusLabel, SupervisorSlipStatusLabel } from '@/util/constants'
+import { SlipStatusLabel } from '@/util/constants'
 import { ref, computed, toRefs, onMounted, watch } from '@vue/composition-api'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
@@ -43,7 +43,7 @@ export function useStatusMenu (props, context) {
 
     filterStatus = allowedStatusList.value.map((status) => {
       const statusList: any = {}
-      statusList.label = (isApprovalFlow.value && SupervisorSlipStatusLabel[status] ? SupervisorSlipStatusLabel[status] : SlipStatusLabel[status]) || ''
+      statusList.label = SlipStatusLabel[status] || ''
       statusList.code = status
       return statusList
     }).filter((status) => status.label !== '')

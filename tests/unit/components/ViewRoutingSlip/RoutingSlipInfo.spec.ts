@@ -17,6 +17,7 @@ describe('RoutingSlipInfo.vue', () => {
   const MyStub = {
     template: '<div />'
   }
+  const i18n = () => { return t => '' }
 
   beforeEach(() => {
     const routingSlipModule = {
@@ -59,7 +60,8 @@ describe('RoutingSlipInfo.vue', () => {
       },
       stubs: {
         RefundRequestForm: MyStub
-      }
+      },
+      mocks: { i18n }
     })
     expect(wrapper.find('[data-test="title"]').text()).toBe('Routing Slip Information')
     expect(wrapper.find('[data-test="label-status"]').exists()).toBeTruthy()
@@ -93,7 +95,8 @@ describe('RoutingSlipInfo.vue', () => {
         currentStatus: SlipStatus.REFUNDREQUEST,
         editMode: true,
         isAddressEditable: true
-      }
+      },
+      mocks: { i18n }
     })
 
     expect(wrapper.find('[data-test="label-status"]').exists()).toBeTruthy()

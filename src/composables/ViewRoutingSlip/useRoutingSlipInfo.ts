@@ -6,6 +6,7 @@ import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { useStatusMenu } from '@/composables/common/useStatusMenu'
 import { Code } from '@/models/Code'
 import CommonUtils from '@/util/common-util'
+import i18n from '@/plugins/i18n'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useActions, useState, useGetters } = routingSlipModule
@@ -40,6 +41,20 @@ export default function useRoutingSlipInfo (props) {
 
   const routingSlipDetails = computed(() => {
     return routingSlip.value || {}
+  })
+
+  const modalText = computed(() => {
+    let title = i18n?.t('NSFWarningTitle')
+    let subText = i18n?.t('NSFWarningText')
+    const icon = 'mdi-help-circle-outline'
+    let confirmBtnText = 'Place status to NSF'
+    const cancelBtnText = 'Cancel'
+    if (isWriteOfProcess(currentStatus.value)) {
+      title = i18n?.t('WriteOffWarningTitle')
+      subText = i18n?.t('WriteOffWarningText')
+      confirmBtnText = 'Authorize Write off'
+    }
+    return { title, subText, icon, confirmBtnText, cancelBtnText }
   })
 
   const canRequestRefund = computed(() => {
@@ -125,7 +140,7 @@ export default function useRoutingSlipInfo (props) {
       updateRefund(SlipStatus.REFUNDREJECTED)
     } else if (isRefundProcess(currentStatus.value)) {
       resettoOldStatus()
-    } else if (isNFSProcess(currentStatus.value)) {
+    } else if (showConfirmationModal(currentStatus.value)) {
       modalDialogClose()
     }
   }
@@ -139,7 +154,7 @@ export default function useRoutingSlipInfo (props) {
   function directStatusUpdate () {
     return (
       !isRefundProcess(currentStatus.value) &&
-      !isNFSProcess(currentStatus.value)
+      !showConfirmationModal(currentStatus.value)
     )
   }
 
@@ -160,9 +175,10 @@ export default function useRoutingSlipInfo (props) {
       updateRefund(status)
     } else {
       await updateRoutingSlipStatus(statusDetails)
-      if (isNFSProcess(currentStatus.value)) {
+      if (showConfirmationModal(currentStatus.value)) {
         modalDialogClose()
       }
+      addMoreDetails.value = false
     }
   }
 
@@ -189,8 +205,16 @@ export default function useRoutingSlipInfo (props) {
     return CommonUtils.isRefundProcessStatus(status?.code)
   }
 
-  function isNFSProcess (status) {
-    return status.code === SlipStatus.NSF
+  function isNSFProcess (status) {
+    return status?.code === SlipStatus.NSF
+  }
+
+  function isWriteOfProcess (status) {
+    return status?.code === SlipStatus.WRITEOFFAUTHORIZED
+  }
+
+  function showConfirmationModal (status) {
+    return isWriteOfProcess(status) || isNSFProcess(status)
   }
 
   // TODO where to show error message
@@ -211,7 +235,7 @@ export default function useRoutingSlipInfo (props) {
     // isAddressEditable.value = false
     if (directStatusUpdate()) {
       updateStatus()
-    } else if (isNFSProcess(currentStatus.value)) {
+    } else if (showConfirmationModal(currentStatus.value)) {
       modalDialogRef.value.open()
     } else if (isRefundProcess(currentStatus.value)) {
       addMoreDetails.value = true
@@ -236,6 +260,7 @@ export default function useRoutingSlipInfo (props) {
     cancelOrReject,
     isEditable,
     allowedStatusList,
-    modalDialogRef
+    modalDialogRef,
+    modalText
   }
 }

@@ -82,6 +82,7 @@ export default class CommonUtils {
       case SlipStatus.ACTIVE:
       case SlipStatus.COMPLETE:
       case SlipStatus.REFUNDCOMPLETED:
+      case SlipStatus.WRITEOFFCOMPLETED:
         color = 'success'
         break
       case SlipStatus.BOUNCED:
@@ -89,6 +90,8 @@ export default class CommonUtils {
       case SlipStatus.LINKED:
       case SlipStatus.REFUNDREQUEST:
       case SlipStatus.REFUNDAUTHORIZED:
+      case SlipStatus.WRITEOFFAUTHORIZED:
+      case SlipStatus.WRITEOFFREQUESTED:
         color = 'error'
         break
     }

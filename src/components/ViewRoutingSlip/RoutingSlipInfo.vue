@@ -15,6 +15,7 @@
                 <div>
                   {{ routingSlipDetails.number }}
                 </div>
+
                 <div v-if="isEditable">
                 <status-menu
                     v-model="currentStatus"
@@ -110,16 +111,16 @@
     </v-card>
     <ModalDialog
       ref="modalDialogRef"
-      :title="$t('NSFWarningTitle')"
-      :text="$t('NSFWarningText')"
+      :title="modalText.title"
+      :text="modalText.subText"
       dialog-class="notify-dialog"
-      max-width="679"
+      max-width="680"
       max-height="310"
-      icon="mdi-alert-circle-outline"
-      iconColor="error"
+      :icon="modalText.icon"
+      iconColor="primary"
     >
       <template v-slot:actions>
-        <v-btn large color="error" @click="updateStatus()" data-test="dialog-ok-button" class="px-5 font-weight-bold btn-actions">Place status to NSF</v-btn>
+        <v-btn large color="primary" @click="updateStatus()" data-test="dialog-ok-button" class="px-5 font-weight-bold btn-actions">{{modalText.confirmBtnText}}</v-btn>
         <v-btn large color="primary" outlined @click="cancelOrReject()" data-test="dialog-ok-button" class="ml-3 btn-actions"  >Cancel</v-btn>
       </template>
     </ModalDialog>
@@ -163,7 +164,7 @@ import can from '@/directives/can'
       cancelOrReject,
       isEditable,
       allowedStatusList,
-      modalDialogRef
+      modalDialogRef, modalText
     } = useRoutingSlipInfo(props)
 
     return {
@@ -183,7 +184,8 @@ import can from '@/directives/can'
       cancelOrReject,
       isEditable,
       allowedStatusList,
-      modalDialogRef
+      modalDialogRef,
+      modalText
     }
   }
 })
