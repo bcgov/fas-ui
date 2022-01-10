@@ -94,6 +94,7 @@
           @click="updateStatus()"
           class="px-8 font-weight-bold"
           data-test="btn-edit-routing-done"
+          :loading="isLoading"
         >
           <span>{{isApprovalFlow ? 'Authorize' :  'Done'}}</span>
         </v-btn>
@@ -164,7 +165,9 @@ import can from '@/directives/can'
       cancelOrReject,
       isEditable,
       allowedStatusList,
-      modalDialogRef, modalText
+      modalDialogRef,
+      modalText,
+      isLoading
     } = useRoutingSlipInfo(props)
 
     return {
@@ -185,7 +188,8 @@ import can from '@/directives/can'
       isEditable,
       allowedStatusList,
       modalDialogRef,
-      modalText
+      modalText,
+      isLoading
     }
   }
 })
