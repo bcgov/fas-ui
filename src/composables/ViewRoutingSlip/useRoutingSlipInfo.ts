@@ -23,6 +23,7 @@ export default function useRoutingSlipInfo (props) {
   const { isRoutingSlipAChild } = useGetters(['isRoutingSlipAChild'])
 
   const addMoreDetails = ref<boolean>(false)
+  const isLoading = ref<boolean>(false)
   const isAddressEditable = ref<boolean>(false)
   const currentStatus = ref<Code>(null)
   const errorMessage = ref<string>('')
@@ -71,14 +72,14 @@ export default function useRoutingSlipInfo (props) {
   })
 
   const showAddress = computed(() => {
-    if (addMoreDetails.value) {
-      return (
-        (isRefundProcess(currentStatus?.value) && canRequestRefund.value) ||
+    // if (addMoreDetails.value) {
+    return (
+      (isRefundProcess(currentStatus?.value) && canRequestRefund.value) ||
         false
-      )
-    }
+    )
+    // }
 
-    return false // isRefundProcess(currentStatus?.value) || false
+    // return false // isRefundProcess(currentStatus?.value) || false
   })
 
   const showAddressEditMode = computed(() => {
@@ -126,6 +127,7 @@ export default function useRoutingSlipInfo (props) {
         } else {
           refundRequestDetails.value = null
         }
+        // addMoreDetails.value = true
       }
     },
     { immediate: true, deep: true }
@@ -162,7 +164,7 @@ export default function useRoutingSlipInfo (props) {
   async function updateStatus () {
     // need to call validate only of its refund
     const overrideStatus = currentStatus.value.code === SlipStatus.CANCEL_REFUND_REQUEST ? SlipStatus.REFUNDREJECTED : currentStatus.value.code
-
+    isLoading.value = true
     const statusDetails = {
       status: overrideStatus,
       details: refundRequestDetails.value
@@ -172,7 +174,7 @@ export default function useRoutingSlipInfo (props) {
       const status = isApprovalFlow.value
         ? SlipStatus.REFUNDAUTHORIZED
         : overrideStatus
-      updateRefund(status)
+      await updateRefund(status)
     } else {
       await updateRoutingSlipStatus(statusDetails)
       if (showConfirmationModal(currentStatus.value)) {
@@ -180,6 +182,7 @@ export default function useRoutingSlipInfo (props) {
       }
       addMoreDetails.value = false
     }
+    isLoading.value = false
   }
 
   function modalDialogClose () {
@@ -194,6 +197,7 @@ export default function useRoutingSlipInfo (props) {
       }
       await updateRoutingSlipStatus(statusDetails)
       addMoreDetails.value = false
+      isAddressEditable.value = false
     }
   }
 
@@ -261,6 +265,7 @@ export default function useRoutingSlipInfo (props) {
     isEditable,
     allowedStatusList,
     modalDialogRef,
-    modalText
+    modalText,
+    isLoading
   }
 }
