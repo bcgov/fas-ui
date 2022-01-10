@@ -55,12 +55,12 @@ export const headerSearch = [
     className: 'cheque-receipt-number'
   },
   {
-    text: 'Total Amount',
+    text: 'Balance',
     align: 'right',
-    value: 'total',
+    value: 'remainingAmount',
     sortable: false,
     display: true,
-    className: 'total'
+    className: 'remainingAmount'
   },
   {
     text: 'Actions',
@@ -130,12 +130,12 @@ export const updatedHeaderSearch = [
     className: 'cheque-receipt-number'
   },
   {
-    text: 'Total Amount',
+    text: 'Balance',
     align: 'right',
-    value: 'total',
+    value: 'remainingAmount',
     sortable: false,
     display: true,
-    className: 'total'
+    className: 'remainingAmount'
   },
   {
     text: 'Actions',
