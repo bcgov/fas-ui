@@ -113,13 +113,15 @@
     <ModalDialog
       ref="modalDialogRef"
       :title="modalText.title"
-      :text="modalText.subText"
       dialog-class="notify-dialog"
       max-width="680"
       max-height="310"
       :icon="modalText.icon"
       iconColor="primary"
     >
+    <template v-slot:text>
+        <p class="mb-0 px-6" v-html="modalText.subText"></p>
+      </template>
       <template v-slot:actions>
         <v-btn large color="primary" @click="updateStatus()" data-test="dialog-ok-button" class="px-5 font-weight-bold btn-actions">{{modalText.confirmBtnText}}</v-btn>
         <v-btn large color="primary" outlined @click="cancelOrReject()" data-test="dialog-ok-button" class="ml-3 btn-actions"  >Cancel</v-btn>
