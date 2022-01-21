@@ -52,7 +52,7 @@ export enum SlipStatusLabel {
   WRITE_OFF_REQUESTED = 'Write off request',
   CANCEL_REFUND_REQUEST = 'Cancel refund request',
   REFUND_AUTHORIZED='Review refund request',
-  WRITE_OFF_AUTHORIZED='Review Write off request',
+  WRITE_OFF_AUTHORIZED='Authorize Write off request',
   CANCEL_WRITE_OFF_REQUEST='Cancel Write off request'
 }
 
