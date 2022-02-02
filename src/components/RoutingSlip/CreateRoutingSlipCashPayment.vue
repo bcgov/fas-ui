@@ -1,7 +1,7 @@
 <template>
     <v-form ref="createRoutingSlipCashPaymentForm">
         <v-row class="d-flex pa-0 ma-0 justify-between">
-            <v-col cols="6" class="py-0">
+            <v-col :cols="getColumnWidth" class="py-0">
                 <v-text-field
                 filled
                 label="Receipt Number"
@@ -12,10 +12,10 @@
                 >
                 </v-text-field>
             </v-col>
-            <v-col cols="6" class="py-0">
+            <v-col :cols="getColumnWidth" class="py-0">
                 <v-text-field
                 filled
-                label="Amount ($)"
+                label="Amount(CAD$)"
                 persistent-hint
                 v-model.number="paidAmount"
                 type="number"
@@ -25,6 +25,30 @@
                 >
                 </v-text-field>
             </v-col>
+            <v-col cols="4" class="py-0" v-if="isAmountPaidInUsd">
+                <v-text-field
+                filled
+                label="Amount(USD$)"
+                persistent-hint
+                v-model.number="paidUsdAmount"
+                type="number"
+                data-test="txtPaidUsdAmount"
+                :rules="paidUsdAmountRules"
+                class="textNumber"
+                >
+                </v-text-field>
+            </v-col>
+        </v-row>
+        <v-row class="pa-0 ma-0 justify-end">
+          <v-col cols="3" class="d-flex justify-end py-0">
+            <v-checkbox
+              v-model="isAmountPaidInUsd"
+              label="Funds received in USD"
+              hide-details
+              class="ma-0"
+              @change="changeAmountPaidInUsd"
+            ></v-checkbox>
+          </v-col>
         </v-row>
     </v-form>
 </template>
@@ -38,18 +62,28 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip'
     const {
       chequeReceiptNumber,
       paidAmount,
+      paidUsdAmount,
       createRoutingSlipCashPaymentForm,
       receiptNumberRules,
       paidAmountRules,
-      isValid
+      paidUsdAmountRules,
+      isValid,
+      isAmountPaidInUsd,
+      getColumnWidth,
+      changeAmountPaidInUsd
     } = useCreateRoutingSlipCashPayment()
     return {
       chequeReceiptNumber,
       paidAmount,
+      paidUsdAmount,
       createRoutingSlipCashPaymentForm,
       receiptNumberRules,
       paidAmountRules,
-      isValid
+      paidUsdAmountRules,
+      isValid,
+      isAmountPaidInUsd,
+      getColumnWidth,
+      changeAmountPaidInUsd
     }
   }
 })

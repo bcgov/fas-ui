@@ -96,7 +96,7 @@
         </v-row>
       </v-container>
     </v-card>
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column" v-if="routingSlip && routingSlip.number">
       <transaction-data-table :key="routingSlip.number" />
     </div>
   </div>

@@ -12,6 +12,7 @@ const { useMutations, useState } = routingSlipModule
 export function useCreateRoutingSlipChequePayment () {
   const chequeList = ref<Payment[]>([])
   const createRoutingSlipChequePaymentForm = ref<HTMLFormElement>()
+  const isAmountPaidInUsd = ref<boolean>(false)
 
   const { chequePayment } = useState(['chequePayment'])
   const { setChequePayment } = useMutations(['setChequePayment'])
@@ -25,6 +26,7 @@ export function useCreateRoutingSlipChequePayment () {
   // Input field rules
   const chequeNumberRules = CommonUtils.requiredFieldRule('A Cheque number is required')
   const paidAmountRules = CommonUtils.requiredFieldRule('Paid Amount is required')
+  const paidUsdAmountRules = CommonUtils.requiredFieldRule('Paid Amount in USD is required')
 
   // Compute individual cheque paid amount to calculate total paid amount
   const totalAmount = computed(() => {
@@ -41,6 +43,8 @@ export function useCreateRoutingSlipChequePayment () {
     } else {
       addCheque()
     }
+    // Check if payment has USD values, then set flag back to true - handle case when clicking back from review page
+    isAmountPaidInUsd.value = chequeList.value.some((payment: Payment) => payment.paidUsdAmount > 0)
   })
 
   // For UI Cheque list - start
@@ -65,16 +69,32 @@ export function useCreateRoutingSlipChequePayment () {
     return createRoutingSlipChequePaymentForm.value?.validate()
   }
 
+  const getColumnWidth = computed(() => {
+    return isAmountPaidInUsd.value ? 3 : 4
+  })
+
+  function changeAmountPaidInUsd () {
+    if (!isAmountPaidInUsd.value) {
+      chequeList.value.forEach((payment: Payment) => {
+        payment.paidUsdAmount = 0
+      })
+    }
+  }
+
   return {
     totalAmount,
     chequeList,
     createRoutingSlipChequePaymentForm,
     chequeNumberRules,
     paidAmountRules,
+    paidUsdAmountRules,
+    isAmountPaidInUsd,
     getDefaultRow,
     getIndexedTag,
     addCheque,
     removeCheque,
-    isValid
+    isValid,
+    getColumnWidth,
+    changeAmountPaidInUsd
   }
 }

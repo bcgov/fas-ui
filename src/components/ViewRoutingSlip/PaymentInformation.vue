@@ -18,6 +18,7 @@
               </v-col>
               <v-col v-if="routingSlip" class="col-6 col-sm-9 status-list" data-test="total">
                 {{ totalAmount }}
+                <span v-if="routingSlip.totalUsd && routingSlip.totalUsd > 0"> {{ '(Funds converted USD to CAD)' }}</span>
               </v-col>
             </v-row>
             <v-row no-gutters v-if="routingSlip" class="mb-2">
