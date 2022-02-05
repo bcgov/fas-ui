@@ -133,9 +133,8 @@ export default function useRoutingSlipInfo (props) {
   }
 
   function cancelOrReject () {
-    if (isApprovalFlow.value) {
-      updateRefund(SlipStatus.REFUNDREJECTED)
-    } else if (isRefundProcess(currentStatus.value)) {
+    // rest status and set close addMoreDetails on cancel click
+    if (isApprovalFlow.value || isRefundProcess(currentStatus.value)) {
       resettoOldStatus()
     } else if (showConfirmationModal(currentStatus.value)) {
       modalDialogClose()
