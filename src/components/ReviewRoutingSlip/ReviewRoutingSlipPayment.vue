@@ -8,8 +8,8 @@
     </v-col>
   <v-col cols="10">
     <!--- cheque children if payment is cheque, else cash child --->
-    <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentMethodCheque" :chequePayment="chequePayment"/>
-    <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="cashPayment"/>
+    <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentMethodCheque" :chequePayment="chequePayment" :isAmountPaidInUsd="isAmountPaidInUsd"/>
+    <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="cashPayment" :isAmountPaidInUsd="isAmountPaidInUsd"/>
   </v-col>
   <template v-if="isPaymentMethodCheque">
     <v-col class="col-3 font-weight-bold">
@@ -38,6 +38,7 @@ export default class ReviewRoutingSlipPayment extends Vue {
   @Prop({ default: undefined }) isPaymentMethodCheque: boolean
   @Prop({ default: () => null }) cashPayment: Payment
   @Prop({ default: () => null }) chequePayment: Payment[]
+  @Prop({ default: undefined }) isAmountPaidInUsd: boolean
 
   public appendCurrencySymbol = commonUtil.appendCurrencySymbol
 

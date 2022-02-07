@@ -18,6 +18,7 @@
               </v-col>
               <v-col v-if="routingSlip" class="col-6 col-sm-9 status-list" data-test="total">
                 {{ totalAmount }}
+                <span v-if="routingSlip.totalUsd && routingSlip.totalUsd > 0">(Funds converted USD to CAD)</span>
               </v-col>
             </v-row>
             <v-row no-gutters v-if="routingSlip" class="mb-2">
@@ -39,8 +40,8 @@
             <v-row no-gutters v-if="isExpanded && routingSlip && routingSlip.payments" class="mb-10">
               <v-expand-transition>
                 <v-col cols="11">
-                  <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentCheque" :chequePayment="routingSlip.payments"/>
-                  <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="routingSlip.payments[0]"/>
+                  <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentCheque" :chequePayment="routingSlip.payments" :isAmountPaidInUsd="isRoutingSlipPaidInUsd"/>
+                  <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="routingSlip.payments[0]" :isAmountPaidInUsd="isRoutingSlipPaidInUsd0"/>
                   <div v-if="isRoutingSlipLinked && !isRoutingSlipAChild && linkedRoutingSlips.children" class="d-flex flex-column">
                     <div
                     v-for="(child, i) in linkedRoutingSlips.children"
@@ -108,6 +109,7 @@ import { PaymentMethods } from '@/util/constants'
       isRoutingSlipLinked,
       totalAmount,
       remainingAmount,
+      isRoutingSlipPaidInUsd,
       viewPaymentInformation,
       navigateTo
     } = usePaymentInformation(_, context)
@@ -120,6 +122,7 @@ import { PaymentMethods } from '@/util/constants'
       isRoutingSlipLinked,
       totalAmount,
       remainingAmount,
+      isRoutingSlipPaidInUsd,
       viewPaymentInformation,
       navigateTo
     }

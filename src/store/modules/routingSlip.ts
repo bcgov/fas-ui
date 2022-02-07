@@ -35,6 +35,9 @@ export default class RoutingSlipModule extends VuexModule {
 
   linkedRoutingSlips: LinkedRoutingSlips = undefined
 
+  // used for USD to CAD conversion
+  isAmountPaidInUsd: boolean = false
+
   public get invoiceCount (): number {
     return this.routingSlip?.invoices?.length
   }
@@ -111,6 +114,11 @@ export default class RoutingSlipModule extends VuexModule {
   @Mutation
   public setLinkedRoutingSlips (linkedRoutingSlips: LinkedRoutingSlips) {
     this.linkedRoutingSlips = linkedRoutingSlips
+  }
+
+  @Mutation
+  public setIsAmountPaidInUsd (isAmountPaidInUsd: boolean) {
+    this.isAmountPaidInUsd = isAmountPaidInUsd
   }
 
   @Action({ commit: 'setRoutingSlip', rawError: true })

@@ -10,6 +10,7 @@ export interface Payment {
   paymentSystem?: string // FAS incase of this app
   receiptNumber?: number
   statusCode?: string
+  paidUsdAmount?: number // For payments paid is USD
 }
 
 export interface CorpTypeCode {

@@ -13,8 +13,8 @@ export function useCreateRoutingSlipChequePayment () {
   const chequeList = ref<Payment[]>([])
   const createRoutingSlipChequePaymentForm = ref<HTMLFormElement>()
 
-  const { chequePayment } = useState(['chequePayment'])
-  const { setChequePayment } = useMutations(['setChequePayment'])
+  const { chequePayment, isAmountPaidInUsd } = useState(['chequePayment', 'isAmountPaidInUsd'])
+  const { setChequePayment, setIsAmountPaidInUsd } = useMutations(['setChequePayment', 'setIsAmountPaidInUsd'])
 
   // watch any changes and update to store
   watch(chequeList, () => {
@@ -25,6 +25,7 @@ export function useCreateRoutingSlipChequePayment () {
   // Input field rules
   const chequeNumberRules = CommonUtils.requiredFieldRule('A Cheque number is required')
   const paidAmountRules = CommonUtils.requiredFieldRule('Paid Amount is required')
+  const paidUsdAmountRules = CommonUtils.requiredFieldRule('Paid Amount in USD is required')
 
   // Compute individual cheque paid amount to calculate total paid amount
   const totalAmount = computed(() => {
@@ -32,6 +33,15 @@ export function useCreateRoutingSlipChequePayment () {
       return acc + payment.paidAmount
     }, 0)
     // return value
+  })
+
+  const isTheAmountPaidInUsd = computed({
+    get: () => {
+      return isAmountPaidInUsd.value
+    },
+    set: (modalValue: any) => {
+      setIsAmountPaidInUsd(modalValue)
+    }
   })
 
   // By default, we have one cheque row in UI
@@ -65,16 +75,23 @@ export function useCreateRoutingSlipChequePayment () {
     return createRoutingSlipChequePaymentForm.value?.validate()
   }
 
+  const getColumnWidth = computed(() => {
+    return isTheAmountPaidInUsd.value ? 3 : 4
+  })
+
   return {
     totalAmount,
     chequeList,
     createRoutingSlipChequePaymentForm,
     chequeNumberRules,
     paidAmountRules,
+    paidUsdAmountRules,
+    isTheAmountPaidInUsd,
     getDefaultRow,
     getIndexedTag,
     addCheque,
     removeCheque,
-    isValid
+    isValid,
+    getColumnWidth
   }
 }

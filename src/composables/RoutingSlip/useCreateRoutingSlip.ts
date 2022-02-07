@@ -1,11 +1,12 @@
 import { computed, reactive, ref } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
+import { Payment } from '@/models/Payment'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import i18n from '@/plugins/i18n'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useActions, useState } = routingSlipModule
+const { useActions, useMutations, useState } = routingSlipModule
 
 // Composable function to inject Props, options and values to CreateRoutingSlip component
 // CreateRoutingSlip component holds two behaviors - create routing slip & review routing slip modes
@@ -16,10 +17,12 @@ export function useCreateRoutingSlip (_, context) {
   const modalDialogRef = ref<HTMLFormElement>()
 
   // vuex action and state
-  const { createRoutingSlip } = useActions([
-    'createRoutingSlip'
+  const { createRoutingSlip } = useActions(['createRoutingSlip'])
+  const { routingSlipDetails, isAmountPaidInUsd, isPaymentMethodCheque, chequePayment, cashPayment } = useState([
+    'routingSlipDetails', 'isAmountPaidInUsd',
+    'isPaymentMethodCheque', 'chequePayment', 'cashPayment'
   ])
-  const { routingSlipDetails } = useState(['routingSlipDetails'])
+  const { setChequePayment, setCashPayment } = useMutations(['setChequePayment', 'setCashPayment'])
 
   // modal dialog props and events
   const modalDialogDetails = reactive<any>({
@@ -58,6 +61,21 @@ export function useCreateRoutingSlip (_, context) {
   function reviewAndCreate (): void {
     // set to review mode value
     if (isValid()) {
+      // check if isAmountToUsd flag is set to 0, so then set paymentUsdAmount fields to 0
+      if (!isAmountPaidInUsd.value) {
+        if (isPaymentMethodCheque.value) {
+          // copy the state and then set the paidUsdAmount to 0
+          const chequeList = JSON.parse(JSON.stringify(chequePayment.value)).forEach((payment: Payment) => {
+            payment.paidUsdAmount = 0
+          })
+          setChequePayment(chequeList)
+        } else {
+          setCashPayment({
+            ...cashPayment.value,
+            paidUsdAmount: 0
+          })
+        }
+      }
       toggleReviewMode(true)
     }
   }

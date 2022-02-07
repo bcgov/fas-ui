@@ -12,8 +12,8 @@ export function useCreateRoutingSlipCashPayment () {
   const createRoutingSlipCashPaymentForm = ref<HTMLFormElement>()
 
   // vuex state and mutations
-  const { cashPayment } = useState(['cashPayment'])
-  const { setCashPayment } = useMutations(['setCashPayment'])
+  const { cashPayment, isAmountPaidInUsd } = useState(['cashPayment', 'isAmountPaidInUsd'])
+  const { setCashPayment, setIsAmountPaidInUsd } = useMutations(['setCashPayment', 'setIsAmountPaidInUsd'])
 
   // using same v-model value for getting value and update parent on change
   const chequeReceiptNumber:any = computed({
@@ -43,9 +43,37 @@ export function useCreateRoutingSlipCashPayment () {
     }
   })
 
+  // using same v-model value for getting value and update parent on change
+  const paidUsdAmount:any = computed({
+    get: () => {
+      return cashPayment.value.paidUsdAmount || null
+    },
+    set: (modalValue: any) => {
+      setCashPayment({
+        ...cashPayment.value,
+        paidUsdAmount: modalValue,
+        paymentMethod: PaymentMethods.CASH
+      })
+    }
+  })
+
+  const isTheAmountPaidInUsd = computed({
+    get: () => {
+      return isAmountPaidInUsd.value
+    },
+    set: (modalValue: any) => {
+      setIsAmountPaidInUsd(modalValue)
+    }
+  })
+
   // Input field rules
   const receiptNumberRules = CommonUtils.requiredFieldRule('A Receipt number is required')
   const paidAmountRules = CommonUtils.requiredFieldRule('Paid Amount is required')
+  const paidUsdAmountRules = CommonUtils.requiredFieldRule('Paid Amount in USD is required')
+
+  const getColumnWidth = computed(() => {
+    return isTheAmountPaidInUsd.value ? 4 : 6
+  })
 
   function isValid (): boolean {
     return createRoutingSlipCashPaymentForm.value?.validate()
@@ -54,10 +82,13 @@ export function useCreateRoutingSlipCashPayment () {
   return {
     chequeReceiptNumber,
     paidAmount,
+    paidUsdAmount,
     createRoutingSlipCashPaymentForm,
     receiptNumberRules,
     paidAmountRules,
-    isValid
-
+    paidUsdAmountRules,
+    isValid,
+    isTheAmountPaidInUsd,
+    getColumnWidth
   }
 }

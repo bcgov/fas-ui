@@ -34,6 +34,10 @@ export default function useRefundRequestForm (props, context) {
 
   function isValid (): boolean {
     // Trigger both the form children validations
+    // if the status is refund requested that means it is in approval flow where we need to check for only the chequeAdvice form validation
+    if (isApprovalFlow.value && isEditing.value) {
+      return refundRequestForm.value?.validate()
+    }
     const nameValidate = refundRequestForm.value?.validate()
     return addressForm.value?.triggerValidate() && nameValidate && isAddressValid.value
   }
