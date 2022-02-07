@@ -11,8 +11,8 @@ export function useCreateRoutingSlipPayment () {
   const createRoutingSlipCashPaymentRef = ref<HTMLFormElement>(null)
 
   // vuex state and mutations
-  const { isPaymentMethodCheque } = useState(['isPaymentMethodCheque'])
-  const { setIsPaymentMethodCheque } = useMutations(['setIsPaymentMethodCheque'])
+  const { isPaymentMethodCheque } = useState(['isPaymentMethodCheque', 'isAmountPaidInUsd'])
+  const { setIsPaymentMethodCheque, setIsAmountPaidInUsd } = useMutations(['setIsPaymentMethodCheque', 'setIsAmountPaidInUsd'])
 
   // using same v-model value for getting value and update parent on change
   const isPaymentCheque:any = computed({
@@ -21,6 +21,8 @@ export function useCreateRoutingSlipPayment () {
     },
     set: (modalValue: any) => {
       setIsPaymentMethodCheque(modalValue)
+      // reset the isAmountPaidInUsd flag as we use same state for both payment methods
+      setIsAmountPaidInUsd(false)
     }
   })
 

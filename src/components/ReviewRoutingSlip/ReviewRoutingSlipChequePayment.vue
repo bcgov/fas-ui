@@ -1,7 +1,7 @@
 <template>
   <div class="parent-container">
     <v-row class="d-flex justify-between" v-for="(payment, i) in chequePayment" :key="i">
-      <v-col :cols="payment.paidUsdAmount > 0 ? 3 : 4">
+      <v-col :cols="isAmountPaidInUsd ? 3 : 4">
         <v-text-field
         filled
         disabled
@@ -13,7 +13,7 @@
         >
         </v-text-field>
       </v-col>
-      <v-col :cols="payment.paidUsdAmount > 0 ? 3 : 4">
+      <v-col :cols="isAmountPaidInUsd ? 3 : 4">
         <v-text-field
         filled
         disabled
@@ -25,7 +25,7 @@
         >
         </v-text-field>
       </v-col>
-      <v-col :cols="payment.paidUsdAmount > 0 ? 3 : 4">
+      <v-col :cols="isAmountPaidInUsd ? 3 : 4">
         <v-text-field
         filled
         disabled
@@ -38,7 +38,7 @@
         >
         </v-text-field>
       </v-col>
-      <v-col cols="3" v-if="payment.paidUsdAmount && payment.paidUsdAmount > 0">
+      <v-col cols="3" v-if="isAmountPaidInUsd">
         <v-text-field
         filled
         disabled
@@ -63,6 +63,7 @@ import commonUtil from '@/util/common-util'
 @Component({})
 export default class ReviewRoutingSlipChequePayment extends Vue {
   @Prop({ default: null }) chequePayment: Payment[]
+  @Prop({ default: false }) isAmountPaidInUsd: boolean
   public formatDisplayDate = commonUtil.formatDisplayDate
 
   public getIndexedTag (tag, index): string {

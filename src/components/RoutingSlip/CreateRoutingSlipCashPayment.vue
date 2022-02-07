@@ -25,7 +25,7 @@
                 >
                 </v-text-field>
             </v-col>
-            <v-col cols="4" class="py-0" v-if="isAmountPaidInUsd">
+            <v-col cols="4" class="py-0" v-if="isTheAmountPaidInUsd">
                 <v-text-field
                 filled
                 label="Amount(USD$)"
@@ -42,11 +42,10 @@
         <v-row class="pa-0 ma-0 justify-end">
           <v-col cols="3" class="d-flex justify-end py-0">
             <v-checkbox
-              v-model="isAmountPaidInUsd"
+              v-model="isTheAmountPaidInUsd"
               label="Funds received in USD"
               hide-details
               class="ma-0"
-              @change="changeAmountPaidInUsd"
             ></v-checkbox>
           </v-col>
         </v-row>
@@ -68,9 +67,8 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip'
       paidAmountRules,
       paidUsdAmountRules,
       isValid,
-      isAmountPaidInUsd,
-      getColumnWidth,
-      changeAmountPaidInUsd
+      isTheAmountPaidInUsd,
+      getColumnWidth
     } = useCreateRoutingSlipCashPayment()
     return {
       chequeReceiptNumber,
@@ -81,9 +79,8 @@ import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip'
       paidAmountRules,
       paidUsdAmountRules,
       isValid,
-      isAmountPaidInUsd,
-      getColumnWidth,
-      changeAmountPaidInUsd
+      isTheAmountPaidInUsd,
+      getColumnWidth
     }
   }
 })

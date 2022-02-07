@@ -1,6 +1,6 @@
 <template>
   <v-row class="d-flex justify-between" v-if="cashPayment">
-    <v-col :cols="cashPayment.paidUsdAmount > 0 ? 4: 6">
+    <v-col :cols="isAmountPaidInUsd ? 4: 6">
       <v-text-field
       filled
       disabled
@@ -12,7 +12,7 @@
       >
       </v-text-field>
     </v-col>
-    <v-col :cols="cashPayment.paidUsdAmount > 0 ? 4: 6">
+    <v-col :cols="isAmountPaidInUsd > 0 ? 4: 6">
       <v-text-field
       filled
       disabled
@@ -25,7 +25,7 @@
       >
       </v-text-field>
     </v-col>
-    <v-col cols="4" v-if="cashPayment.paidUsdAmount && cashPayment.paidUsdAmount > 0">
+    <v-col cols="4" v-if="isAmountPaidInUsd">
       <v-text-field
       filled
       disabled
@@ -48,5 +48,6 @@ import { Payment } from '@/models/Payment'
 @Component({})
 export default class ReviewRoutingSlipCashPayment extends Vue {
   @Prop({ default: null }) cashPayment: Payment
+  @Prop({ default: false }) isAmountPaidInUsd: boolean
 }
 </script>

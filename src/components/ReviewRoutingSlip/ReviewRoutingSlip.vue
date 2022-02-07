@@ -1,7 +1,7 @@
 <template>
   <v-container class="view-container pl-9">
     <review-routing-slip-details class="mb-10" data-test="review-routing-slip-details" :routingSlipDetails="routingSlipDetails" :accountInfo="accountInfo"/>
-    <review-routing-slip-payment data-test="review-routing-slip-payment" :isPaymentMethodCheque="isPaymentMethodCheque" :cashPayment="cashPayment" :chequePayment="chequePayment"/>
+    <review-routing-slip-payment data-test="review-routing-slip-payment" :isPaymentMethodCheque="isPaymentMethodCheque" :cashPayment="cashPayment" :chequePayment="chequePayment" :isAmountPaidInUsd="isAmountPaidInUsd"/>
   </v-container>
 </template>
 <script lang="ts">
@@ -21,14 +21,16 @@ import { useReviewRoutingSlip } from '@/composables/ReviewRoutingSlip'
       chequePayment,
       accountInfo,
       cashPayment,
-      isPaymentMethodCheque
+      isPaymentMethodCheque,
+      isAmountPaidInUsd
     } = useReviewRoutingSlip()
     return {
       routingSlipDetails,
       chequePayment,
       accountInfo,
       cashPayment,
-      isPaymentMethodCheque
+      isPaymentMethodCheque,
+      isAmountPaidInUsd
     }
   }
 })
