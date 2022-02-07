@@ -59,12 +59,13 @@
             </v-row>
 
             <v-expand-transition>
-              <template v-if="showAddress">
+              <template v-if="showAddress && addMoreDetails">
                 <refund-request-form
                   ref="refundRequestForm"
                   :inputRefundRequestDetails="refundRequestDetails"
                   :isEditing="showAddressEditMode"
                   @update:refundRequestDetails="refundRequestDetails = $event"
+                  :isApprovalFlow="isApprovalFlow"
                 >
                 </refund-request-form>
               </template>

@@ -12,13 +12,13 @@
         v-model.trim="name"
         data-test="txtName"
         :rules="nameRules"
-        v-if="isEditing"
+        v-if="canEdit"
         >
         </v-text-field>
         <span v-else>{{ name }}</span>
         <address-form
           ref="addressForm"
-          :editing="isEditing"
+          :editing="canEdit"
           :schema="baseAddressSchema"
           :address="address"
           @update:address="address=$event"
@@ -27,12 +27,12 @@
         </address-form>
       </v-col>
       <v-col class="col-3 font-weight-bold"
-        :class="isEditing ? 'pt-0' : ''">
+        :class="canEdit ? 'pt-0' : ''">
         Cheque Advice
       </v-col>
       <v-col
         class="col-9"
-        :class="isEditing ? 'pt-0' : ''">
+        :class="canEdit ? 'pt-0' : ''">
         <v-text-field
         filled
         label="Additional Information"
@@ -69,7 +69,8 @@ import { RefundRequestDetails } from '@/models/RoutingSlip'
       address,
       addressForm,
       addressValidity,
-      isValid
+      isValid,
+      canEdit
     } = useRefundRequestForm(props, context)
 
     return {
@@ -82,12 +83,14 @@ import { RefundRequestDetails } from '@/models/RoutingSlip'
       address,
       addressForm,
       addressValidity,
-      isValid
+      isValid,
+      canEdit
     }
   }
 })
 export default class RefundRequestForm extends Vue {
   @Prop({ default: () => null }) inputRefundRequestDetails: RefundRequestDetails
   @Prop({ default: () => false }) isEditing: boolean
+  @Prop({ default: () => false }) isApprovalFlow: boolean
 }
 </script>

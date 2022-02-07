@@ -1,5 +1,5 @@
 import { Address, BaseAddressModel } from '@/models/Address'
-import { ref, toRefs, watch } from '@vue/composition-api'
+import { computed, ref, toRefs, watch } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { RefundRequestDetails } from '@/models/RoutingSlip'
@@ -8,7 +8,7 @@ import { addressSchema } from '@/schema'
 // Composable function to inject Props, options and values to RefundRequestForm component
 export default function useRefundRequestForm (props, context) {
   // using `toRefs` to create a Reactive Reference to the `slipId` property of props
-  const { inputRefundRequestDetails } = toRefs(props)
+  const { inputRefundRequestDetails, isApprovalFlow, isEditing } = toRefs(props)
 
   const baseAddressSchema = ref<any>(addressSchema)
   const isAddressValid = ref<boolean>(false)
@@ -22,6 +22,11 @@ export default function useRefundRequestForm (props, context) {
   const name = ref<string>('')
   const address = ref<Address>(undefined)
   const chequeAdvice = ref<string>('')
+
+  const canEdit = computed(() => {
+    // except "chequeAdvice" , all other field are not editable in approval process
+    return !isApprovalFlow.value && isEditing.value
+  })
 
   function addressValidity (isValid: boolean): void {
     isAddressValid.value = isValid
@@ -59,6 +64,7 @@ export default function useRefundRequestForm (props, context) {
     address,
     addressForm,
     addressValidity,
-    isValid
+    isValid,
+    canEdit
   }
 }
