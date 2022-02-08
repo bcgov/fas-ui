@@ -61,12 +61,12 @@ export function useCreateRoutingSlip (_, context) {
   function reviewAndCreate (): void {
     // set to review mode value
     if (isValid()) {
-      // check if isAmountToUsd flag is set to 0, so then set paymentUsdAmount fields to 0
+      // check if isAmountToUsd flag is set to true, so then set paymentUsdAmount fields to 0
       if (!isAmountPaidInUsd.value) {
         if (isPaymentMethodCheque.value) {
           // copy the state and then set the paidUsdAmount to 0
-          const chequeList = JSON.parse(JSON.stringify(chequePayment.value)).forEach((payment: Payment) => {
-            payment.paidUsdAmount = 0
+          const chequeList = JSON.parse(JSON.stringify(chequePayment.value)).map((payment: Payment) => {
+            return { ...payment, paidUsdAmount: 0 }
           })
           setChequePayment(chequeList)
         } else {
