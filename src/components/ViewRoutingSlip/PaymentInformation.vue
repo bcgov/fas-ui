@@ -41,7 +41,7 @@
               <v-expand-transition>
                 <v-col cols="11">
                   <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentCheque" :chequePayment="routingSlip.payments" :isAmountPaidInUsd="isRoutingSlipPaidInUsd"/>
-                  <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="routingSlip.payments[0]" :isAmountPaidInUsd="isRoutingSlipPaidInUsd0"/>
+                  <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="routingSlip.payments[0]" :isAmountPaidInUsd="isRoutingSlipPaidInUsd"/>
                   <div v-if="isRoutingSlipLinked && !isRoutingSlipAChild && linkedRoutingSlips.children" class="d-flex flex-column">
                     <div
                     v-for="(child, i) in linkedRoutingSlips.children"
