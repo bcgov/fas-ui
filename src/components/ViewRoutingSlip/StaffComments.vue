@@ -12,7 +12,7 @@ import ConfigHelper from '@/util/config-helper'
 // @Component
 @Component({
   components: {
-    StaffComments
+    StaffComments: Vue.extend(StaffComments)
   }
 })
 export default class StaffCommentsComp extends Vue {
