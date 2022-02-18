@@ -1,6 +1,5 @@
 <template>
   <div>
-    <bread-crumb/>
     <v-container class="view-container">
       <v-row>
         <v-col cols="12">
@@ -41,7 +40,6 @@ import {
   RoutingSlipTransaction,
   LinkRoutingSlip, StaffComments
 } from '@/components/ViewRoutingSlip'
-import BreadCrumb from '@/components/common/BreadCrumb.vue'
 import { useViewRoutingSlip } from '@/composables/ViewRoutingSlip'
 
 @Component({
@@ -50,7 +48,6 @@ import { useViewRoutingSlip } from '@/composables/ViewRoutingSlip'
     PaymentInformation,
     RoutingSlipTransaction,
     LinkRoutingSlip,
-    BreadCrumb,
     StaffComments
   },
   setup (props) {

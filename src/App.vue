@@ -14,11 +14,13 @@
         :showActions="true"
       >
       </sbc-header>
+      <bread-crumb />
       <!-- error alert -->
       <error-alert-component
       :message="$t('errorAlertMessage')"
       v-if="hasCallFailed"
       ></error-alert-component>
+
     </div>
     <!-- body content -->
     <div class="app-body">
@@ -41,13 +43,16 @@ import SbcHeader from 'sbc-common-components/src/components/SbcHeader.vue'
 import SbcLoader from 'sbc-common-components/src/components/SbcLoader.vue'
 import { useLoader, useErrorAlert } from './composables/common'
 
+import BreadCrumb from '@/components/common/BreadCrumb.vue'
+
 @Component({
   components: {
     SbcHeader,
     SbcFooter,
     SbcLoader,
     LoaderComponent,
-    ErrorAlertComponent
+    ErrorAlertComponent,
+    BreadCrumb
   },
   setup () {
     /* Getter will return number of axios calls that are in progress with request.config.globalloading set to true
@@ -56,9 +61,11 @@ import { useLoader, useErrorAlert } from './composables/common'
     const { isThereActiveCalls } = useLoader()
     /* if hasCallFailed is true, then we display the error alert component. */
     const { hasCallFailed } = useErrorAlert()
+
     return {
       hasCallFailed,
       isThereActiveCalls
+
     }
   }
 })
@@ -90,5 +97,8 @@ export default class App extends Vue {
   .app-body {
     flex: 1 1 auto;
     position: relative;
+  }
+  .sbc-header{
+    height: 70px
   }
 </style>
