@@ -1,12 +1,12 @@
 <template>
   <v-menu  bottom
             left
-            offset-x
-            nudge-left="0"
+            offset-y
+
              v-if="routingAllowedSlipStatus.length > 0">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn dark icon v-bind="attrs" v-on="on">
-        <v-icon color="primary" size="20">mdi-dots-vertical</v-icon>
+      <v-btn color="primary"  v-bind="attrs" v-on="on">
+        <v-icon  size="15" class="mr-2">mdi-pencil</v-icon> Edit Status
       </v-btn>
     </template>
 
