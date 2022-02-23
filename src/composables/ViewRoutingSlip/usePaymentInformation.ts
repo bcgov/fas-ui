@@ -48,7 +48,7 @@ export default function usePaymentInformation (_, context) {
   })
 
   const isRoutingSlipChildPaidInUsd = computed(() => {
-    return linkedRoutingSlips.value.children.length > 0 && linkedRoutingSlips.value.children[0].totalUsd && linkedRoutingSlips.value.children[0].totalUsd > 0
+    return linkedRoutingSlips.value && linkedRoutingSlips.value.children.length > 0 && linkedRoutingSlips.value.children[0].totalUsd && linkedRoutingSlips.value.children[0].totalUsd > 0
   })
 
   function viewPaymentInformation (): void {
