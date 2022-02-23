@@ -47,6 +47,10 @@ export default function usePaymentInformation (_, context) {
     return routingSlip.value.totalUsd && routingSlip.value.totalUsd > 0
   })
 
+  const isRoutingSlipChildPaidInUsd = computed(() => {
+    return linkedRoutingSlips.value.children.length > 0 && linkedRoutingSlips.value.children[0].totalUsd && linkedRoutingSlips.value.children[0].totalUsd > 0
+  })
+
   function viewPaymentInformation (): void {
     // expand/collapse view payment information children
     // update the cheque store if payment method is cheque, cash store otherwise
@@ -67,6 +71,7 @@ export default function usePaymentInformation (_, context) {
     linkedRoutingSlips,
     isRoutingSlipAChild,
     isRoutingSlipLinked,
+    isRoutingSlipChildPaidInUsd,
     totalAmount,
     remainingAmount,
     isRoutingSlipPaidInUsd,
