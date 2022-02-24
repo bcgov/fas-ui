@@ -18,7 +18,7 @@
               </v-col>
               <v-col v-if="routingSlip" class="col-6 col-sm-9 status-list" data-test="total">
                 {{ totalAmount }}
-                <span v-if="routingSlip.totalUsd && routingSlip.totalUsd > 0">(Funds converted USD to CAD)</span>
+                <span v-if="isRoutingSlipPaidInUsd || isRoutingSlipChildPaidInUsd">(Funds converted USD to CAD)</span>
               </v-col>
             </v-row>
             <v-row no-gutters v-if="routingSlip" class="mb-2">
@@ -55,10 +55,12 @@
                       </div>
                       <review-routing-slip-cheque-payment :data-test="getIndexedTag('cheque-child-payment', i)"
                       v-if="child.payments[0].paymentMethod === PaymentMethods.CHEQUE"
-                      :chequePayment="child.payments"/>
+                      :chequePayment="child.payments"
+                      :isAmountPaidInUsd="child.payments[0].paidUsdAmount && child.payments[0].paidUsdAmount>0"/>
                       <review-routing-slip-cash-payment :data-test="getIndexedTag('cash-child-payment', i)"
                       v-else
-                      :cashPayment="child.payments[0]"/>
+                      :cashPayment="child.payments[0]"
+                      :isAmountPaidInUsd="child.payments[0].paidUsdAmount && child.payments[0].paidUsdAmount>0"/>
                     </div>
                   </div>
                 </v-col>
@@ -110,6 +112,7 @@ import { PaymentMethods } from '@/util/constants'
       totalAmount,
       remainingAmount,
       isRoutingSlipPaidInUsd,
+      isRoutingSlipChildPaidInUsd,
       viewPaymentInformation,
       navigateTo
     } = usePaymentInformation(_, context)
@@ -123,6 +126,7 @@ import { PaymentMethods } from '@/util/constants'
       totalAmount,
       remainingAmount,
       isRoutingSlipPaidInUsd,
+      isRoutingSlipChildPaidInUsd,
       viewPaymentInformation,
       navigateTo
     }
