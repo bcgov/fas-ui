@@ -68,8 +68,13 @@ export function useCreateRoutingSlipCashPayment () {
 
   // Input field rules
   const receiptNumberRules = CommonUtils.requiredFieldRule('A Receipt number is required')
-  const paidAmountRules = CommonUtils.requiredFieldRule('Paid Amount is required')
   const paidUsdAmountRules = CommonUtils.requiredFieldRule('Paid Amount in USD is required')
+  const paidAmountRules = [
+    v => !!v || 'Paid Amount is required',
+    v => {
+      return v >= 0 || 'Valid Paid Amount is required'
+    }
+  ]
 
   const getColumnWidth = computed(() => {
     return isTheAmountPaidInUsd.value ? 4 : 6

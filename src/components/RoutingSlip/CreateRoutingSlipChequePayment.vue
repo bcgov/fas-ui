@@ -17,9 +17,10 @@
           <v-col :cols="getColumnWidth" class="py-0">
             <date-picker
               v-model="cheque.paymentDate"
-              label="Cheque Date (optional)"
+              label="Cheque Date"
               :data-test="getIndexedTag('paymentDate', index)"
               clearable
+              :rules="paymentDateRules"
             ></date-picker>
           </v-col>
           <v-col :cols="getColumnWidth" class="py-0">
@@ -116,6 +117,7 @@ import { useCreateRoutingSlipChequePayment } from '@/composables/RoutingSlip'
       chequeNumberRules,
       paidAmountRules,
       paidUsdAmountRules,
+      paymentDateRules,
       isTheAmountPaidInUsd,
       getColumnWidth,
       getDefaultRow,
@@ -131,6 +133,7 @@ import { useCreateRoutingSlipChequePayment } from '@/composables/RoutingSlip'
       chequeNumberRules,
       paidAmountRules,
       paidUsdAmountRules,
+      paymentDateRules,
       isTheAmountPaidInUsd,
       getColumnWidth,
       getDefaultRow,

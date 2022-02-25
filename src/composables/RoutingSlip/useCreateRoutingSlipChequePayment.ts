@@ -24,8 +24,15 @@ export function useCreateRoutingSlipChequePayment () {
 
   // Input field rules
   const chequeNumberRules = CommonUtils.requiredFieldRule('A Cheque number is required')
-  const paidAmountRules = CommonUtils.requiredFieldRule('Paid Amount is required')
   const paidUsdAmountRules = CommonUtils.requiredFieldRule('Paid Amount in USD is required')
+  const paymentDateRules = CommonUtils.requiredFieldRule('Cheque date is required')
+
+  const paidAmountRules = [
+    v => !!v || 'Paid Amount is required',
+    v => {
+      return v >= 0 || 'Valid Paid Amount is required'
+    }
+  ]
 
   // Compute individual cheque paid amount to calculate total paid amount
   const totalAmount = computed(() => {
@@ -86,6 +93,7 @@ export function useCreateRoutingSlipChequePayment () {
     chequeNumberRules,
     paidAmountRules,
     paidUsdAmountRules,
+    paymentDateRules,
     isTheAmountPaidInUsd,
     getDefaultRow,
     getIndexedTag,

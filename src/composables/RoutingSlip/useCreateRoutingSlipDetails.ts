@@ -58,7 +58,11 @@ export function useCreateRoutingSlipDetails () {
   // Input field rules
   const numberRules = [
     v => !!v || 'A Routing Slip Number is required',
-    v => (v.length === 9) || 'A Routing Slip Number must be 9 characters long'
+    v => (v.length === 9) || 'A Routing Slip Number must be 9 characters long',
+    v => {
+      const pattern = /^\d+$/
+      return pattern.test(v) || 'Valid Routing Slip Number is required'
+    }
   ]
 
   const routingSlipDateRules = CommonUtils.requiredFieldRule(
