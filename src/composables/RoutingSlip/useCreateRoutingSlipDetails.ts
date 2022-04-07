@@ -36,7 +36,7 @@ export function useCreateRoutingSlipDetails () {
     get: () => {
       return routingSlipDetails.value?.routingSlipDate || ''
     },
-    set: (modalValue: Date) => {
+    set: (modalValue: string) => {
       setRoutingSlipDetails({
         ...routingSlipDetails.value,
         routingSlipDate: modalValue

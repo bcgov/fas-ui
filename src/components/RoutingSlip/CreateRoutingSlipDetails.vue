@@ -46,6 +46,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import DatePicker from '@/components/common/DatePicker.vue'
 import { useCreateRoutingSlipDetails } from '@/composables/RoutingSlip'
+import moment from 'moment'
 
 @Component({
   components: {
@@ -66,6 +67,9 @@ import { useCreateRoutingSlipDetails } from '@/composables/RoutingSlip'
       isUniqueNumber,
       errorMessage
     } = useCreateRoutingSlipDetails()
+
+    routingSlipDate.value = routingSlipDate.value || moment().format('YYYY-MM-DD')
+
     return {
       createRoutingSlipDetailsForm,
       number,
