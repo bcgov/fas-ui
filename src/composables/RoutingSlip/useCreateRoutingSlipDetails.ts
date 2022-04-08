@@ -2,6 +2,7 @@ import { computed, ref } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
+import moment from 'moment'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useState, useMutations, useActions } = routingSlipModule
@@ -34,7 +35,7 @@ export function useCreateRoutingSlipDetails () {
 
   const routingSlipDate = computed({
     get: () => {
-      return routingSlipDetails.value?.routingSlipDate || ''
+      return routingSlipDetails.value?.routingSlipDate
     },
     set: (modalValue: string) => {
       setRoutingSlipDetails({
@@ -43,6 +44,11 @@ export function useCreateRoutingSlipDetails () {
       })
     }
   })
+
+  // Initialize with current date.
+  if (routingSlipDate.value === undefined) {
+    routingSlipDate.value = moment().format('YYYY-MM-DD')
+  }
 
   const accountName = computed({
     get: () => {
