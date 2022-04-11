@@ -87,10 +87,8 @@ export function useCreateRoutingSlipDetails () {
   async function checkRoutingNumberAvailable () {
     if (number.value?.length > 0) {
       const validateRoutingNumber = await checkRoutingNumber()
-      const routingNumberExists = validateRoutingNumber.error &&
-                                  validateRoutingNumber.details === 'exists'
-      const invalidRoutingSlipDigits = validateRoutingNumber.error &&
-                                       validateRoutingNumber.details?.type === ApiErrors.FAS_INVALID_ROUTING_SLIP_DIGITS
+      const routingNumberExists = validateRoutingNumber === 'exists'
+      const invalidRoutingSlipDigits = validateRoutingNumber === 'invalidDigits'
       isUniqueNumber.value = !routingNumberExists
 
       // need to show error message if routing slip exists.

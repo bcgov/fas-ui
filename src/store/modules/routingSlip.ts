@@ -16,7 +16,7 @@ import {
 
 import CommonUtils from '@/util/common-util'
 import RoutingSlipService from '@/services/routingSlip.services'
-import { SlipStatus } from '@/util/constants'
+import { ApiErrors, SlipStatus } from '@/util/constants'
 
 @Module({ namespaced: true, stateFactory: true })
 export default class RoutingSlipModule extends VuexModule {
@@ -152,19 +152,19 @@ export default class RoutingSlipModule extends VuexModule {
       // if routing number existing we will get 200 as response
       // else we will get 204
       if (response.status === 204) {
-        return { error: false }
+        return ''
       }
       // all other case routing is existing so can't use this number
-      return { error: true, details: 'exists' }
+      return 'exists'
     } catch (error) {
-      if (error.response.status === 400) {
-        return { error: true, details: error.response?.data }
+      if (error.response.status === 400 && error.response?.data?.type === ApiErrors.FAS_INVALID_ROUTING_SLIP_DIGITS) {
+        return 'invalidDigits'
       }
 
       // eslint-disable-next-line no-console
       console.error('error ', error.response?.data)
       // on error we allow the routing number which should break on create and show error message
-      return { error: false }
+      return ''
     }
   }
 
