@@ -90,7 +90,7 @@ export function useCreateRoutingSlipDetails () {
       const routingNumberExists = validateRoutingNumber.error &&
                                   validateRoutingNumber.details === 'exists'
       const invalidRoutingSlipDigits = validateRoutingNumber.error &&
-                                       validateRoutingNumber.details?.type === ApiErrors.FAS_INVALID_ROUTING_SLIP_NUMBER
+                                       validateRoutingNumber.details?.type === ApiErrors.FAS_INVALID_ROUTING_SLIP_DIGITS
       isUniqueNumber.value = !routingNumberExists
 
       // need to show error message if routing slip exists.
