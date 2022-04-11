@@ -66,7 +66,6 @@ import { useCreateRoutingSlipDetails } from '@/composables/RoutingSlip'
       isUniqueNumber,
       errorMessage
     } = useCreateRoutingSlipDetails()
-
     return {
       createRoutingSlipDetailsForm,
       number,
