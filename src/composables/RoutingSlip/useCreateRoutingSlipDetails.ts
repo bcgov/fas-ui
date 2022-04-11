@@ -3,6 +3,7 @@ import { computed, ref } from '@vue/composition-api'
 import CommonUtils from '@/util/common-util'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import moment from 'moment'
+import { ApiErrors } from '@/util/constants'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useState, useMutations, useActions } = routingSlipModule
@@ -85,13 +86,23 @@ export function useCreateRoutingSlipDetails () {
 
   async function checkRoutingNumberAvailable () {
     if (number.value?.length > 0) {
-      const isRoutingNumberAvailable = await checkRoutingNumber()
-      isUniqueNumber.value = isRoutingNumberAvailable
-      // need to show error message if routign slip is not already existing.
+      const validateRoutingNumber = await checkRoutingNumber()
+      const routingNumberExists = validateRoutingNumber.error &&
+                                  validateRoutingNumber.details === 'exists'
+      const invalidRoutingSlipDigits = validateRoutingNumber.error &&
+                                       validateRoutingNumber.details?.type === ApiErrors.FAS_INVALID_ROUTING_SLIP_NUMBER
+      isUniqueNumber.value = !routingNumberExists
+
+      // need to show error message if routing slip exists.
       // re-using same vuetify error field set as blank when there are no errors
-      errorMessage.value = !isRoutingNumberAvailable
-        ? 'Routing Slip number already presents. Enter a new number or edit details of this routing slip'
-        : ''
+      const errorMessageSuffix = 'Enter a new number or edit details of this routing slip'
+      if (routingNumberExists) {
+        errorMessage.value = `Routing Slip number already present. ${errorMessageSuffix}`
+      } else if (invalidRoutingSlipDigits) {
+        errorMessage.value = `Routing Slip number is invalid. ${errorMessageSuffix}`
+      } else {
+        errorMessage.value = ''
+      }
     }
   }
 

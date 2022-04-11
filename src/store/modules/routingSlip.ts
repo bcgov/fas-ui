@@ -144,24 +144,27 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public async checkRoutingNumber (): Promise<boolean> {
+  public async checkRoutingNumber (): Promise<any> {
     const context: any = this.context
     try {
-      const routingumber = context.state.routingSlipDetails.number
-      const response = await RoutingSlipService.getRoutingSlip(routingumber)
+      const routingNumber = context.state.routingSlipDetails.number
+      const response = await RoutingSlipService.getRoutingSlip(routingNumber)
       // if routing number existing we will get 200 as response
       // else we will get 204
       if (response.status === 204) {
-        // we will return truw,so can use this routing number
-        return true
+        return { error: false }
       }
       // all other case routing is existing so can't use this number
-      return false
+      return { error: true, details: 'exists' }
     } catch (error) {
+      if (error.response.status === 400) {
+        return { error: true, details: error.response?.data }
+      }
+
       // eslint-disable-next-line no-console
       console.error('error ', error.response?.data)
-      // on error we return true where the can use this routing number which should brake on create and show error message
-      return true
+      // on error we allow the routing number which should break on create and show error message
+      return { error: false }
     }
   }
 
