@@ -63,7 +63,6 @@ import { useCreateRoutingSlipDetails } from '@/composables/RoutingSlip'
       isValid,
       checkRoutingNumberAvailable,
       routingSlipDetails,
-      isUniqueNumber,
       errorMessage
     } = useCreateRoutingSlipDetails()
     return {
@@ -77,7 +76,6 @@ import { useCreateRoutingSlipDetails } from '@/composables/RoutingSlip'
       isValid,
       checkRoutingNumberAvailable,
       routingSlipDetails,
-      isUniqueNumber,
       errorMessage
     }
   }

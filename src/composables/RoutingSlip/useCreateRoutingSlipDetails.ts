@@ -18,7 +18,6 @@ export function useCreateRoutingSlipDetails () {
   const { checkRoutingNumber } = useActions(['checkRoutingNumber'])
 
   // local variables
-  const isUniqueNumber = ref<boolean>(true)
   const errorMessage = ref<string>('')
 
   // using same v-model value for getting value and update parent on change
@@ -89,7 +88,6 @@ export function useCreateRoutingSlipDetails () {
       const validateRoutingNumber = await checkRoutingNumber()
       const routingNumberExists = validateRoutingNumber === 'exists'
       const invalidRoutingSlipDigits = validateRoutingNumber === 'invalidDigits'
-      isUniqueNumber.value = !routingNumberExists
 
       // need to show error message if routing slip exists.
       // re-using same vuetify error field set as blank when there are no errors
@@ -113,7 +111,6 @@ export function useCreateRoutingSlipDetails () {
     routingSlipDateRules,
     entityNumberRules,
     routingSlipDetails,
-    isUniqueNumber,
     errorMessage,
     isValid,
     checkRoutingNumberAvailable
