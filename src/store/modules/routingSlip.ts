@@ -144,7 +144,7 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public async checkRoutingNumber (): Promise<any> {
+  public async checkRoutingNumber (): Promise<CreateRoutingSlipStatus> {
     const context: any = this.context
     try {
       const routingNumber = context.state.routingSlipDetails.number
