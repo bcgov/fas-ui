@@ -89,7 +89,6 @@ export function useCreateRoutingSlipDetails () {
       // need to show error message if routing slip exists.
       // re-using same vuetify error field set as blank when there are no errors
       const errorMessageSuffix = 'Enter a new number or edit details of this routing slip'
-
       switch (validateRoutingNumber) {
         case CreateRoutingSlipStatus.EXISTS:
           errorMessage.value = `Routing Slip number already present. ${errorMessageSuffix}`
