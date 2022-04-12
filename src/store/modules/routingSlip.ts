@@ -16,7 +16,7 @@ import {
 
 import CommonUtils from '@/util/common-util'
 import RoutingSlipService from '@/services/routingSlip.services'
-import { SlipStatus } from '@/util/constants'
+import { ApiErrors, CreateRoutingSlipStatus, SlipStatus } from '@/util/constants'
 
 @Module({ namespaced: true, stateFactory: true })
 export default class RoutingSlipModule extends VuexModule {
@@ -144,24 +144,27 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public async checkRoutingNumber (): Promise<boolean> {
+  public async checkRoutingNumber (): Promise<CreateRoutingSlipStatus> {
     const context: any = this.context
     try {
-      const routingumber = context.state.routingSlipDetails.number
-      const response = await RoutingSlipService.getRoutingSlip(routingumber)
+      const routingNumber = context.state.routingSlipDetails.number
+      const response = await RoutingSlipService.getRoutingSlip(routingNumber)
       // if routing number existing we will get 200 as response
       // else we will get 204
       if (response.status === 204) {
-        // we will return truw,so can use this routing number
-        return true
+        return CreateRoutingSlipStatus.VALID
       }
       // all other case routing is existing so can't use this number
-      return false
+      return CreateRoutingSlipStatus.EXISTS
     } catch (error) {
+      if (error.response?.status === 400 && error.response?.data?.type === ApiErrors.FAS_INVALID_ROUTING_SLIP_DIGITS) {
+        return CreateRoutingSlipStatus.INVALID_DIGITS
+      }
+
       // eslint-disable-next-line no-console
       console.error('error ', error.response?.data)
-      // on error we return true where the can use this routing number which should brake on create and show error message
-      return true
+      // on error we allow the routing number which should break on create and show error message
+      return CreateRoutingSlipStatus.VALID
     }
   }
 

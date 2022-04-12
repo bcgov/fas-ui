@@ -76,4 +76,14 @@ export enum InvoiceStatus {
   REFUNDREQUEST = 'REFUND_REQUESTED',
 }
 
+export enum ApiErrors {
+  FAS_INVALID_ROUTING_SLIP_DIGITS = 'FAS_INVALID_ROUTING_SLIP_DIGITS'
+}
+
+export enum CreateRoutingSlipStatus {
+  VALID = 'VALID',
+  EXISTS = 'EXISTS',
+  INVALID_DIGITS = 'INVALID_DIGITS',
+}
+
 export const AXIOS_ERROR_ALERT_TIME_OUT = 5000
