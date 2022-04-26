@@ -148,7 +148,7 @@
                             autocomplete="off"
                             class="text-input-style "
                             filled
-                            placeholder="Created By"
+                            placeholder="Created by"
                             v-model.trim="initiator"
                             @input="debouncedSearch()"
                             hide-details="auto"
