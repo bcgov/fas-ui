@@ -52,10 +52,18 @@ export function useSearch (props, context) {
     {
       text: 'Entity Number',
       align: 'start',
-      value: 'entityNumber',
+      value: 'accountName',
       sortable: false,
       display: false,
-      className: 'entityNumber'
+      className: 'accountName'
+    },
+    {
+      text: 'Created by',
+      align: 'start',
+      value: 'createdName',
+      sortable: false,
+      display: false,
+      className: 'createdName'
     },
     {
       text: 'Date',
@@ -183,7 +191,20 @@ export function useSearch (props, context) {
     }
   })
 
-  const entityNumber: any = computed({
+  const accountName: any = computed({
+    get: () => {
+      return searchRoutingSlipParams.value?.accountName || ''
+    },
+    set: (modalValue: any) => {
+      setSearchRoutingSlipParams({
+        ...searchRoutingSlipParams.value,
+        accountName: modalValue
+      })
+      searchParamsChanged.value = true
+    }
+  })
+
+  const initiator: any = computed({
     get: () => {
       return searchRoutingSlipParams.value.initiator || ''
     },
@@ -304,8 +325,8 @@ export function useSearch (props, context) {
     const { invoices } = routingSlip
     if (invoices) {
       return invoices
-        .filter(invoice => invoice.folioNumber)
-        .map(value => value.folioNumber)
+        .filter(invoice => invoice.businessIdentifier)
+        .map(value => value.businessIdentifier)
     }
     return ['-']
   }
@@ -330,7 +351,7 @@ export function useSearch (props, context) {
     receiptNumber,
     dateFilter,
     folioNumber,
-    entityNumber,
+    accountName,
     remainingAmount,
     chequeReceiptNumber,
     canShowColumn,
@@ -348,6 +369,7 @@ export function useSearch (props, context) {
     toggleCheque,
     isLoading,
     navigateTo,
-    fasUrl
+    fasUrl,
+    initiator
   }
 }
