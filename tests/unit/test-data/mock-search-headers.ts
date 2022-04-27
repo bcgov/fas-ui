@@ -100,10 +100,18 @@ export const updatedHeaderSearch = [
   {
     text: 'Entity Number',
     align: 'start',
-    value: 'entityNumber',
+    value: 'accountName',
     sortable: false,
     display: true,
-    className: 'entityNumber'
+    className: 'accountName'
+  },
+  {
+    text: 'Created by',
+    align: 'start',
+    value: 'createdName',
+    sortable: false,
+    display: false,
+    className: 'createdName'
   },
   {
     text: 'Date',

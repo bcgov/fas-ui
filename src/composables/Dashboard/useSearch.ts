@@ -43,7 +43,7 @@ export function useSearch (props, context) {
 
   const headerSearch: any = computed({
     get: () => {
-      return headerSearchTitle.value
+      return headerSearchTitle.value || []
     },
     set: (modalValue: any) => {
       setSearchHeaders(modalValue)
@@ -53,7 +53,7 @@ export function useSearch (props, context) {
   // columntoshow component and update the local object if display = true
   const displayedHeaderSearch: any = computed(() => {
     const displayed = []
-    for (let i = 0; i < headerSearch.value.length; i++) {
+    for (let i = 0; i < headerSearch.value?.length; i++) {
       if (headerSearch.value[i].display) {
         displayed.push(headerSearch.value[i])
       }
