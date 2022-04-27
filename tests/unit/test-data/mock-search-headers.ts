@@ -17,10 +17,18 @@ export const headerSearch = [
   {
     text: 'Entity Number',
     align: 'start',
-    value: 'entityNumber',
+    value: 'accountName',
     sortable: false,
     display: false,
-    className: 'entityNumber'
+    className: 'accountName'
+  },
+  {
+    text: 'Created by',
+    align: 'start',
+    value: 'createdName',
+    sortable: false,
+    display: false,
+    className: 'createdName'
   },
   {
     text: 'Date',

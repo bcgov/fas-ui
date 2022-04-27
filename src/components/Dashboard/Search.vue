@@ -125,16 +125,31 @@
                           />
                         </th>
                         <th
-                          scope="entityNumber"
-                          v-if="canShowColumn('entityNumber')"
+                          scope="accountName"
+                          v-if="canShowColumn('accountName')"
                         >
                           <v-text-field
-                            id="entityNumber"
+                            id="accountName"
                             autocomplete="off"
                             class="text-input-style "
                             filled
                             placeholder="Entity Number"
-                            v-model.trim="entityNumber"
+                            v-model.trim="accountName"
+                            @input="debouncedSearch()"
+                            hide-details="auto"
+                          />
+                        </th>
+                        <th
+                          scope="createdName"
+                          v-if="canShowColumn('createdName')"
+                        >
+                          <v-text-field
+                            id="createdName"
+                            autocomplete="off"
+                            class="text-input-style "
+                            filled
+                            placeholder="Created by"
+                            v-model.trim="initiator"
                             @input="debouncedSearch()"
                             hide-details="auto"
                           />
@@ -233,7 +248,10 @@
                               : '-'
                           }}
                         </td>
-                        <td v-if="canShowColumn('entityNumber')">
+                        <td v-if="canShowColumn('accountName')">
+                          {{ item.paymentAccount.accountName ? item.paymentAccount.accountName : '-' }}
+                        </td>
+                         <td v-if="canShowColumn('createdName')">
                           {{ item.createdName ? item.createdName : '-' }}
                         </td>
                         <td v-if="canShowColumn('date')">
@@ -415,7 +433,7 @@ import { PaymentMethods } from '@/util/constants'
       receiptNumber,
       dateFilter,
       folioNumber,
-      entityNumber,
+      accountName,
       remainingAmount,
       chequeReceiptNumber,
       searchRoutingSlipResult,
@@ -433,7 +451,8 @@ import { PaymentMethods } from '@/util/constants'
       toggleCheque,
       isLoading,
       navigateTo,
-      fasUrl
+      fasUrl,
+      initiator
     } = useSearch(props, context)
     return {
       headerSearch,
@@ -443,7 +462,7 @@ import { PaymentMethods } from '@/util/constants'
       receiptNumber,
       dateFilter,
       folioNumber,
-      entityNumber,
+      accountName,
       remainingAmount,
       chequeReceiptNumber,
       searchRoutingSlipResult,
@@ -462,7 +481,8 @@ import { PaymentMethods } from '@/util/constants'
       toggleCheque,
       isLoading,
       navigateTo,
-      fasUrl
+      fasUrl,
+      initiator
     }
   },
   components: {
