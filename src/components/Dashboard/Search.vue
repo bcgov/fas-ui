@@ -165,7 +165,7 @@
                           </date-range-filter>
                         </th>
                         <th scope="status" v-if="canShowColumn('status')">
-                          <div class="mt-1">
+                          <div class="mt-0">
                             <status-list
                               class="text-input-style "
                               v-model="status"

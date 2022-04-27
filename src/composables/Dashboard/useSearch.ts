@@ -20,106 +20,35 @@ export function useSearch (props, context) {
     'searchRoutingSlip',
     'resetSearchParams'
   ])
-  const { searchRoutingSlipParams, searchRoutingSlipResult } = useState([
+  const { searchRoutingSlipParams, searchRoutingSlipResult, headerSearchTitle } = useState([
     'searchRoutingSlipParams',
-    'searchRoutingSlipResult'
+    'searchRoutingSlipResult',
+    'headerSearchTitle'
   ])
 
-  const { setSearchRoutingSlipParams } = useMutations([
-    'setSearchRoutingSlipParams'
+  const { setSearchRoutingSlipParams, setSearchHeaders } = useMutations([
+    'setSearchRoutingSlipParams',
+    'setSearchHeaders'
   ])
 
   const { searchParamsExist } = useGetters(['searchParamsExist'])
 
   const { statusLabel } = useStatusList(reactive({ value: '' }), {})
   const { isLoading, toggleLoading } = useLoader()
-  const headerSearch = ref<any[]>([
-    {
-      text: 'Routing Slip Number',
-      align: 'start',
-      value: 'routingSlipNumber',
-      display: true,
-      className: 'routing-slip'
-    },
-    {
-      text: 'Receipt Number',
-      align: 'start',
-      sortable: false,
-      value: 'receiptNumber',
-      display: true,
-      className: 'receiptNumber'
-    },
-    {
-      text: 'Entity Number',
-      align: 'start',
-      value: 'accountName',
-      sortable: false,
-      display: false,
-      className: 'accountName'
-    },
-    {
-      text: 'Created by',
-      align: 'start',
-      value: 'createdName',
-      sortable: false,
-      display: false,
-      className: 'createdName'
-    },
-    {
-      text: 'Date',
-      align: 'start',
-      sortable: false,
-      value: 'date',
-      display: true,
-      className: 'date'
-    },
-    {
-      text: 'Status',
-      align: 'start',
-      sortable: false,
-      value: 'status',
-      display: true,
-      className: 'status'
-    },
-    {
-      text: 'Folio Number',
-      align: 'start',
-      value: 'folioNumber',
-      sortable: false,
-      display: true,
-      className: 'folioNumber'
-    },
-    {
-      text: 'Cheque Number',
-      align: 'start',
-      value: 'chequeReceiptNumber',
-      sortable: false,
-      display: false,
-      className: 'cheque-receipt-number'
-    },
-    {
-      text: 'Balance',
-      align: 'right',
-      value: 'remainingAmount',
-      sortable: false,
-      display: true,
-      className: 'remainingAmount'
-    },
-    {
-      text: 'Actions',
-      align: 'start',
-      value: '',
-      sortable: false,
-      display: true,
-      hideInSearchColumnFilter: true,
-      className: 'action'
-    }
-  ])
 
   const showExpandedFolio = ref([])
   const showExpandedCheque = ref([])
   // to make sure not updating result on keyup
   const searchParamsChanged = ref(false)
+
+  const headerSearch: any = computed({
+    get: () => {
+      return headerSearchTitle.value
+    },
+    set: (modalValue: any) => {
+      setSearchHeaders(modalValue)
+    }
+  })
 
   // columntoshow component and update the local object if display = true
   const displayedHeaderSearch: any = computed(() => {
