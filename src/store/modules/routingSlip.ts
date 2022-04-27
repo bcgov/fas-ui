@@ -59,7 +59,7 @@ export default class RoutingSlipModule extends VuexModule {
       className: 'accountName'
     },
     {
-      text: 'Created by',
+      text: 'Created By',
       align: 'start',
       value: 'createdName',
       sortable: false,
@@ -83,7 +83,7 @@ export default class RoutingSlipModule extends VuexModule {
       className: 'status'
     },
     {
-      text: 'Folio Number',
+      text: 'Reference Number',
       align: 'start',
       value: 'folioNumber',
       sortable: false,

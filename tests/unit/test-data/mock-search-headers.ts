@@ -130,7 +130,7 @@ export const updatedHeaderSearch = [
     className: 'status'
   },
   {
-    text: 'Folio Number',
+    text: 'Reference Number',
     align: 'start',
     value: 'folioNumber',
     sortable: false,
