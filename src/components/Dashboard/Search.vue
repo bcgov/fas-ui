@@ -148,7 +148,7 @@
                             autocomplete="off"
                             class="text-input-style "
                             filled
-                            placeholder="Created by"
+                            placeholder="Created By"
                             v-model.trim="initiator"
                             @input="debouncedSearch()"
                             hide-details="auto"
@@ -184,7 +184,7 @@
                             autocomplete="off"
                             class="text-input-style "
                             filled
-                            placeholder="Folio Number"
+                            placeholder="Reference Numbers"
                             v-model="folioNumber"
                             @input="debouncedSearch()"
                             hide-details="auto"
