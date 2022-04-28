@@ -85,10 +85,10 @@ export default class RoutingSlipModule extends VuexModule {
     {
       text: 'Reference Number',
       align: 'start',
-      value: 'folioNumber',
+      value: 'businessIdentifier',
       sortable: false,
       display: true,
-      className: 'folioNumber'
+      className: 'businessIdentifier'
     },
     {
       text: 'Cheque Number',

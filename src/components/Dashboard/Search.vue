@@ -176,16 +176,16 @@
                           </div>
                         </th>
                         <th
-                          scope="folioNumber"
-                          v-if="canShowColumn('folioNumber')"
+                          scope="businessIdentifier"
+                          v-if="canShowColumn('businessIdentifier')"
                         >
                           <v-text-field
-                            id="folioNumber"
+                            id="businessIdentifier"
                             autocomplete="off"
                             class="text-input-style "
                             filled
                             placeholder="Reference Numbers"
-                            v-model="folioNumber"
+                            v-model="businessIdentifier"
                             @input="debouncedSearch()"
                             hide-details="auto"
                           />
@@ -275,7 +275,7 @@
                             }}</span
                           >
                         </td>
-                        <td v-if="canShowColumn('folioNumber')">
+                        <td v-if="canShowColumn('businessIdentifier')">
                           <span
                             v-if="
                               formatFolioResult(item).length > 0 &&
@@ -432,7 +432,7 @@ import { PaymentMethods } from '@/util/constants'
       routingSlipNumber,
       receiptNumber,
       dateFilter,
-      folioNumber,
+      businessIdentifier,
       accountName,
       remainingAmount,
       chequeReceiptNumber,
@@ -461,7 +461,7 @@ import { PaymentMethods } from '@/util/constants'
       routingSlipNumber,
       receiptNumber,
       dateFilter,
-      folioNumber,
+      businessIdentifier,
       accountName,
       remainingAmount,
       chequeReceiptNumber,
