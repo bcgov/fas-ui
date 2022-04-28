@@ -107,14 +107,14 @@ export function useSearch (props, context) {
     }
   })
 
-  const folioNumber: any = computed({
+  const businessIdentifier: any = computed({
     get: () => {
-      return searchRoutingSlipParams.value.folioNumber || ''
+      return searchRoutingSlipParams.value.businessIdentifier || ''
     },
     set: (modalValue: any) => {
       setSearchRoutingSlipParams({
         ...searchRoutingSlipParams.value,
-        folioNumber: modalValue
+        businessIdentifier: modalValue
       })
       searchParamsChanged.value = true
     }
@@ -246,12 +246,13 @@ export function useSearch (props, context) {
     // to make sure not updating on keyup
     if (
       !searchParamsChanged.value &&
-      folioNumber.value &&
-      folioNumber.value !== ''
+      businessIdentifier.value &&
+      businessIdentifier.value !== ''
     ) {
-      return [folioNumber.value]
+      return [businessIdentifier.value]
     }
     const { invoices } = routingSlip
+
     if (invoices) {
       return invoices
         .filter(invoice => invoice.businessIdentifier)
@@ -279,7 +280,7 @@ export function useSearch (props, context) {
     routingSlipNumber,
     receiptNumber,
     dateFilter,
-    folioNumber,
+    businessIdentifier,
     accountName,
     remainingAmount,
     chequeReceiptNumber,
