@@ -51,10 +51,8 @@ export default class RoutingSlip {
     searchParams: RoutingSlip,
     showGlobalLoader: boolean = false
   ): Promise<AxiosResponse> {
-    // for time being settign limit to avoid overloading
-    const pagination = '?page=1&limit=20'
     return axios.post(
-      `${ConfigHelper.getFasAPIURL()}/routing-slips/queries${pagination}`,
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/queries`,
       searchParams,
       { showGlobalLoader: showGlobalLoader }
     )
