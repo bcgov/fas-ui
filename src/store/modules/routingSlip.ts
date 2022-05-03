@@ -357,7 +357,7 @@ export default class RoutingSlipModule extends VuexModule {
     }
     // for time being setting limit to avoid overloading
     searchRoutingSlipParams.page = 1
-    searchRoutingSlipParams.limit = 20
+    searchRoutingSlipParams.limit = 50
 
     if (Object.keys(searchRoutingSlipParams).length > 0) {
       // need to reset result of there is no search params
