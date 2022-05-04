@@ -185,7 +185,7 @@
                             class="text-input-style "
                             filled
                             placeholder="Reference Numbers"
-                            v-model="businessIdentifier"
+                            v-model.trim="businessIdentifier"
                             @input="debouncedSearch()"
                             hide-details="auto"
                           />
