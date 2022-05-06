@@ -24,14 +24,19 @@ export function useCreateRoutingSlipChequePayment () {
 
   // Input field rules
   const chequeNumberRules = CommonUtils.requiredFieldRule('A Cheque number is required')
-  const paidUsdAmountRules = CommonUtils.requiredFieldRule('Paid Amount in USD is required')
   const paymentDateRules = CommonUtils.requiredFieldRule('Cheque date is required')
+
+  const paidUsdAmountRules = [
+    v => !!v || 'Paid Amount in USD is required',
+    v => v && (/^\d+(\.\d{1,2})?$/.test(v) || 'Paid Amount in USD can only be up to 2 decimal places')
+  ]
 
   const paidAmountRules = [
     v => !!v || 'Paid Amount is required',
     v => {
       return v >= 0 || 'Valid Paid Amount is required'
-    }
+    },
+    v => v && (/^\d+(\.\d{1,2})?$/.test(v) || 'Paid Amount can only be up to 2 decimal places')
   ]
 
   // Compute individual cheque paid amount to calculate total paid amount
