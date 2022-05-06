@@ -32,7 +32,7 @@
         label="Amount(CAD$)"
         persistent-hint
         hide-details
-        :value="payment.paidAmount"
+        :value="payment.paidAmount.toFixed(2)"
         type="number"
         :data-test="getIndexedTag('txt-paid-amount', i)"
         >
@@ -45,7 +45,7 @@
         label="Amount(USD$)"
         persistent-hint
         hide-details
-        :value="payment.paidUsdAmount"
+        :value="payment.paidUsdAmount.toFixed(2)"
         type="number"
         :data-test="getIndexedTag('txt-paid-amount', i)"
         >

@@ -19,7 +19,7 @@
       label="Amount(CAD$)"
       persistent-hint
       hide-details
-      :value="cashPayment.paidAmount"
+      :value="cashPayment.paidAmount.toFixed(2)"
       type="number"
       data-test="txt-paid-amount"
       >
@@ -32,7 +32,7 @@
       label="Amount(USD$)"
       persistent-hint
       hide-details
-      :value="cashPayment.paidUsdAmount"
+      :value="cashPayment.paidUsdAmount.toFixed(2)"
       type="number"
       data-test="txt-paid-amount"
       >
