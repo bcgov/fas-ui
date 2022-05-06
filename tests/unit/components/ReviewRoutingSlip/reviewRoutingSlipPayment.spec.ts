@@ -29,7 +29,7 @@ describe('ReviewRoutingSlipPayment.vue', () => {
     expect(wrapper.find('[data-test="payment-info"]').text()).toEqual('Cheque')
     expect(wrapper.find('[data-test="review-routing-slip-cheque-payment"]').exists()).toBeTruthy()
     expect(wrapper.find('[data-test="review-routing-slip-cash-payment"]').exists()).toBeFalsy()
-    expect(wrapper.find('[data-test="total"]').text()).toEqual('$200')
+    expect(wrapper.find('[data-test="total"]').text()).toEqual('$200.00')
   })
 
   it('validates component behaviour', async () => {

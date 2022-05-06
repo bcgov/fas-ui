@@ -22,6 +22,6 @@ describe('ReviewRoutingSlipCashPayment.vue', () => {
     })
 
     expect(wrapper.find('[data-test="txt-receipt-number"]').element.value).toEqual(cashPayment.chequeReceiptNumber)
-    expect(wrapper.find('[data-test="txt-paid-amount"]').element.value).toEqual(cashPayment.paidAmount.toString())
+    expect(wrapper.find('[data-test="txt-paid-amount"]').element.value).toEqual(cashPayment.paidAmount.toFixed(2).toString())
   })
 })
