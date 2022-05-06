@@ -35,6 +35,10 @@ export default function useAddManualTransactionDetails (props, context) {
     return msg
   })
 
+  const totalFormatted = computed(() => {
+    return manualTransaction.value?.total?.toFixed(2)
+  })
+
   // Calculate total fee from pay-api service, triggered if its dependent values are changed
   async function calculateTotal () {
     try {
@@ -97,6 +101,7 @@ export default function useAddManualTransactionDetails (props, context) {
     calculateTotal,
     getIndexedTag,
     emitManualTransactionDetails,
-    errorMessage
+    errorMessage,
+    totalFormatted
   }
 }
