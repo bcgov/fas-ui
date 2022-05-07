@@ -43,7 +43,7 @@
         label="$ Amount"
         persistent-hint
         :data-test="getIndexedTag('txt-amount', index)"
-        v-model="manualTransactionDetails.total"
+        v-model="totalFormatted"
       >
       </v-text-field>
       <div class="close-icon">
@@ -105,7 +105,8 @@ import { ManualTransactionDetails } from '@/models/RoutingSlip'
       delayedCalculateTotal,
       getIndexedTag,
       emitManualTransactionDetails,
-      errorMessage
+      errorMessage,
+      totalFormatted
     } = useAddManualTransactionDetails(props, context)
     return {
       manualTransactionDetails,
@@ -115,7 +116,8 @@ import { ManualTransactionDetails } from '@/models/RoutingSlip'
       delayedCalculateTotal,
       getIndexedTag,
       emitManualTransactionDetails,
-      errorMessage
+      errorMessage,
+      totalFormatted
     }
   }
 })

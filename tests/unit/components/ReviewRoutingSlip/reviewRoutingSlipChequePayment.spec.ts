@@ -22,10 +22,10 @@ describe('ReviewRoutingSlipChequePayment.vue', () => {
 
     expect(wrapper.find('[data-test="txt-cheque-receipt-number-0"]').element.value).toEqual(chequePayment[0].chequeReceiptNumber)
     expect(wrapper.find('[data-test="txt-cheque-date-0"]').element.value).toEqual('-')
-    expect(wrapper.find('[data-test="txt-paid-amount-0"]').element.value).toEqual(chequePayment[0].paidAmount.toString())
+    expect(wrapper.find('[data-test="txt-paid-amount-0"]').element.value).toEqual(chequePayment[0].paidAmount.toFixed(2).toString())
 
     expect(wrapper.find('[data-test="txt-cheque-receipt-number-1"]').element.value).toEqual(chequePayment[1].chequeReceiptNumber)
     expect(wrapper.find('[data-test="txt-cheque-date-1"]').element.value).toEqual('-')
-    expect(wrapper.find('[data-test="txt-paid-amount-1"]').element.value).toEqual(chequePayment[1].paidAmount.toString())
+    expect(wrapper.find('[data-test="txt-paid-amount-1"]').element.value).toEqual(chequePayment[1].paidAmount.toFixed(2).toString())
   })
 })

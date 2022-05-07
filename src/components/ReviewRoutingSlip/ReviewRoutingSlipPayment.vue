@@ -16,7 +16,7 @@
       Total Amount
     </v-col>
     <v-col class="col-9" data-test="total">
-      {{ appendCurrencySymbol(totalAmount) }}
+      {{ appendCurrencySymbol(totalAmount.toFixed(2)) }}
     </v-col>
   </template>
   </v-row>
