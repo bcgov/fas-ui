@@ -12,9 +12,9 @@
 
     <v-list dense>
       <template v-for="(item, i) in routingAllowedSlipStatus">
-        <v-list-item v-if="item.label !== ''" :key="i" class="menu-list" >
+        <v-list-item v-if="item.label !== ''" :key="i" class="menu-list" @click="setStatus(item)" >
           <v-list-item-content>
-          <v-list-item-title @click="setStatus(item)">{{
+          <v-list-item-title>{{
             item.label
           }}</v-list-item-title>
           </v-list-item-content>
