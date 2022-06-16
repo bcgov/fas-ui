@@ -23,7 +23,8 @@
     "vault": "API",
     "application": [
       "status-api",
-      "pay-api"
+      "pay-api",
+      "auth-api"
     ]
   },
   {
