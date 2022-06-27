@@ -36,7 +36,7 @@ export function useCreateRoutingSlipChequePayment () {
     v => {
       return v >= 0 || 'Valid Paid Amount is required'
     },
-    v => v && (/^\d+(\.\d{1,2})?$/.test(v) || 'Paid Amount can only be up to 2 decimal places')
+    v => v === undefined || (/^\d+(\.\d{1,2})?$/.test(v) || 'Paid Amount can only be up to 2 decimal places')
   ]
 
   // Compute individual cheque paid amount to calculate total paid amount
