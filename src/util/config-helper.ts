@@ -15,6 +15,9 @@ export default class ConfigHelper {
     sessionStorage.setItem(SessionStorageKeys.StatusApiUrl, ConfigHelper.getStatusAPIUrl())
     sessionStorage.setItem(SessionStorageKeys.AuthWebUrl, ConfigHelper.getAuthWebUrl())
     sessionStorage.setItem(SessionStorageKeys.FasWebUrl, ConfigHelper.getFasWebUrl())
+    if (ConfigHelper.getSiteminderLogoutUrl()) {
+      sessionStorage.setItem(SessionStorageKeys.SiteminderLogoutUrl, ConfigHelper.getSiteminderLogoutUrl())
+    }
   }
 
   /**
@@ -51,6 +54,10 @@ export default class ConfigHelper {
 
   static getStatusAPIUrl () {
     return ConfigHelper.getValue('STATUS_API_URL') + ConfigHelper.getValue('STATUS_API_VERSION')
+  }
+
+  static getSiteminderLogoutUrl () {
+    return ConfigHelper.getValue('SITEMINDER_LOGOUT_URL')
   }
 
   static getValue (key: String) {

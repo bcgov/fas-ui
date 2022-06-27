@@ -8,6 +8,7 @@ export enum SessionStorageKeys {
   AuthWebUrl = 'AUTH_WEB_URL',
   StatusApiUrl = 'STATUS_API_URL',
   FasWebUrl = 'FAS_WEB_URL',
+  SiteminderLogoutUrl = 'SITEMINDER_LOGOUT_URL'
 }
 
 export enum DateFilterCodes {

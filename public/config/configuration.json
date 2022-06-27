@@ -7,5 +7,6 @@
   "PAY_API_URL": "https://pay-api-dev.apps.silver.devops.gov.bc.ca",
   "PAY_API_VERSION": "/api/v1",
   "AUTH_WEB_URL": "https://dev.bcregistry.ca/business/auth/",
-  "FAS_WEB_URL": "https://fas-dev.apps.silver.devops.gov.bc.ca/"
+  "FAS_WEB_URL": "https://fas-dev.apps.silver.devops.gov.bc.ca/",
+  "SITEMINDER_LOGOUT_URL": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi"
 }
