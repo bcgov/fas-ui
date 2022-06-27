@@ -41,10 +41,10 @@ export function useCreateRoutingSlipChequePayment () {
 
   // Compute individual cheque paid amount to calculate total paid amount
   const totalAmount = computed(() => {
-    return chequeList.value.reduce((acc, payment: Payment) => {
+    const total = chequeList.value.reduce((acc, payment: Payment) => {
       return acc + payment.paidAmount
     }, 0)
-    // return value
+    return total.toFixed(2)
   })
 
   const isTheAmountPaidInUsd = computed({
