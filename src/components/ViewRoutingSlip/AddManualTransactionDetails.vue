@@ -16,7 +16,7 @@
         persistent-hint
         :data-test="getIndexedTag('txt-quantity', index)"
         required
-        :rules="requiredFieldRule"
+        :rules="quantityRules"
         v-model="manualTransactionDetails.quantity"
         type="number"
         @input="delayedCalculateTotal()"
@@ -28,6 +28,7 @@
         filled
         label="Incorporation/Reference Number (optional)"
         persistent-hint
+        :rules="referenceNumberRules"
         :data-test="getIndexedTag('txt-incorporation', index)"
         v-model.trim="manualTransactionDetails.referenceNumber"
         @input="emitManualTransactionDetails()"
@@ -106,7 +107,9 @@ import { ManualTransactionDetails } from '@/models/RoutingSlip'
       getIndexedTag,
       emitManualTransactionDetails,
       errorMessage,
-      totalFormatted
+      totalFormatted,
+      referenceNumberRules,
+      quantityRules
     } = useAddManualTransactionDetails(props, context)
     return {
       manualTransactionDetails,
@@ -117,7 +120,9 @@ import { ManualTransactionDetails } from '@/models/RoutingSlip'
       getIndexedTag,
       emitManualTransactionDetails,
       errorMessage,
-      totalFormatted
+      totalFormatted,
+      referenceNumberRules,
+      quantityRules
     }
   }
 })

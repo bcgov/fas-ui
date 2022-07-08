@@ -84,6 +84,16 @@ export default function useAddManualTransactionDetails (props, context) {
     return `${tag}-${index}`
   }
 
+  // Input field rules
+  const referenceNumberRules = [
+    v => (v.length <= 20) || 'Incorporation/Reference Number should be less than 20 characters long'
+  ]
+
+  const quantityRules = [
+    v => !!v || 'This field is required',
+    v => (v > 0) || 'Quantity should be grater than 0'
+  ]
+
   // watch manualTransaction object, assign availableAmountForManualTransaction property.
   watch(manualTransaction, () => {
     manualTransactionDetails.value.availableAmountForManualTransaction = manualTransaction.value.availableAmountForManualTransaction
@@ -102,6 +112,8 @@ export default function useAddManualTransactionDetails (props, context) {
     getIndexedTag,
     emitManualTransactionDetails,
     errorMessage,
-    totalFormatted
+    totalFormatted,
+    referenceNumberRules,
+    quantityRules
   }
 }
