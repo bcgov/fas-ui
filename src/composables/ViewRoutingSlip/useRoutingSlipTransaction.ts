@@ -165,6 +165,7 @@ export default function useRoutingSlipTransaction () {
   }
 
   function hideManualTransaction (): void {
+    manualTransactionsList.value = [] // reset the list
     toggleShowAddManualTransaction(false)
   }
 
