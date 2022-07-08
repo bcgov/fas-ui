@@ -91,7 +91,7 @@ export default function useAddManualTransactionDetails (props, context) {
 
   const quantityRules = [
     v => !!v || 'This field is required',
-    v => (v > 0) || 'Quantity should be grater than 0'
+    v => (v > 0) || 'Quantity should be greater than 0'
   ]
 
   // watch manualTransaction object, assign availableAmountForManualTransaction property.
