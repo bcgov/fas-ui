@@ -86,7 +86,7 @@ export default function useAddManualTransactionDetails (props, context) {
 
   // Input field rules
   const referenceNumberRules = [
-    v => (v.length <= 20) || 'Incorporation/Reference Number should be less than 20 characters long'
+    v => ((v || '').length <= 20) || 'Incorporation/Reference Number should not be more than 20 characters'
   ]
 
   const quantityRules = [
