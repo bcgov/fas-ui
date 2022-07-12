@@ -1,6 +1,6 @@
 {
   "name": "fas-ui",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "main": "./lib/lib.umd.min.js",
   "files": [
