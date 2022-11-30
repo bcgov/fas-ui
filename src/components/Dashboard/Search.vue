@@ -211,21 +211,24 @@
                             autocomplete="off"
                             class="text-input-style "
                             filled
-                            placeholder="Balance"
+                            placeholder="212529 (enter text)"
                             v-model.trim="remainingAmount"
                             @input="debouncedSearch()"
                             hide-details="auto"
                           />
                         </th>
-                        <th class="action text-right" scope="action">
-                          <span
-                            class="clear-filter primary--text cursor-pointer"
-                            v-if="!searchParamsExist"
-                            @click="clearFilter"
-                            >Clear Filters<v-icon small color="primary"
-                              >mdi-close</v-icon
-                            ></span
-                          >
+                        <th>
+                          <v-btn v-if="!searchParamsExist"
+                          outlined
+                          color="primary"
+                          class="action-btn clear-filter-button"
+                          @click="clearFilter"
+                        >
+                          <span class="clear-filter cursor-pointer">
+                            Clear Filter
+                            <v-icon small color="primary">mdi-close</v-icon>
+                          </span>
+                        </v-btn>
                         </th>
                       </tr>
                     </thead>
@@ -508,4 +511,11 @@ export default class Search extends Vue {
 <style lang="scss">
 @import '$assets/scss/theme.scss';
 @import '$assets/scss/search.scss';
+.clear-filter-button {
+    padding: 7px !important;
+  }
+
+  .clear-filter {
+    line-height: 1.5;
+  }
 </style>
