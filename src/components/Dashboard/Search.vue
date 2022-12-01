@@ -511,20 +511,4 @@ export default class Search extends Vue {
 <style lang="scss">
 @import '$assets/scss/theme.scss';
 @import '$assets/scss/search.scss';
-.clear-filter-button {
-    padding: 7px !important;
-  }
-
-.clear-filter {
-  line-height: 1.5;
-}
-
-.text-input-style input {
-  color: #212529!important;
-}
-
-.v-text-field--placeholder input::placeholder{
-  color: #495057!important;
-}
-
 </style>
