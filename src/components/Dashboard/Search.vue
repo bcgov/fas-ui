@@ -156,7 +156,7 @@
                         </th>
                         <th scope="date" v-if="canShowColumn('date')">
                           <date-range-filter
-                            class="text-input-style"
+                            class="text-input-style "
                             v-model="dateFilter"
                             @applied="searchNow()"
                             hide-details="auto"
@@ -217,15 +217,18 @@
                             hide-details="auto"
                           />
                         </th>
-                        <th class="action text-right" scope="action">
-                          <span
-                            class="clear-filter primary--text cursor-pointer"
-                            v-if="!searchParamsExist"
-                            @click="clearFilter"
-                            >Clear Filters<v-icon small color="primary"
-                              >mdi-close</v-icon
-                            ></span
-                          >
+                        <th>
+                          <v-btn v-if="!searchParamsExist"
+                          outlined
+                          color="primary"
+                          class="action-btn clear-filter-button"
+                          @click="clearFilter"
+                        >
+                          <span class="clear-filter cursor-pointer">
+                            Clear Filter
+                            <v-icon small color="primary">mdi-close</v-icon>
+                          </span>
+                        </v-btn>
                         </th>
                       </tr>
                     </thead>

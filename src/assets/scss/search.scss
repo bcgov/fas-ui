@@ -1,5 +1,9 @@
 @import '$assets/scss/theme.scss';
 .fas-search {
+  .text-input-style input {
+    color: #212529!important;
+  }
+
   .button-search {
     display: flex;
     height: 62% !important;
@@ -21,10 +25,17 @@
   // .text-input-style {
   //   height: 41px !important;
   // }
+
+  .clear-filter-button {
+    padding: 7px !important;
+  }
+
   .clear-filter {
     font-size: 14px;
     font-weight: normal;
+    line-height: 1.5;
   }
+
   .header-action,
   .action {
     width: 100px !important;
@@ -78,6 +89,10 @@
         min-width: 185px;
       }
     }
+  }
+
+  .v-text-field--placeholder input::placeholder{
+    color: #495057!important;
   }
 
   .v-text-field--outlined > .v-input__control > .v-input__slot {
