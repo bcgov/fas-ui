@@ -156,7 +156,7 @@
                         </th>
                         <th scope="date" v-if="canShowColumn('date')">
                           <date-range-filter
-                            class="text-input-style"
+                            class="text-input-style "
                             v-model="dateFilter"
                             @applied="searchNow()"
                             hide-details="auto"
@@ -211,7 +211,7 @@
                             autocomplete="off"
                             class="text-input-style "
                             filled
-                            placeholder="212529 (enter text)"
+                            placeholder="Balance"
                             v-model.trim="remainingAmount"
                             @input="debouncedSearch()"
                             hide-details="auto"
@@ -515,7 +515,16 @@ export default class Search extends Vue {
     padding: 7px !important;
   }
 
-  .clear-filter {
-    line-height: 1.5;
-  }
+.clear-filter {
+  line-height: 1.5;
+}
+
+.text-input-style input {
+  color: #212529!important;
+}
+
+.v-text-field--placeholder input::placeholder{
+  color: #495057!important;
+}
+
 </style>

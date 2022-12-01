@@ -6,13 +6,12 @@ import { Address, BaseAddressModel } from '@/models/Address'
 import { Role, SlipStatus } from '@/util/constants'
 
 import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
-import moment from 'moment'
+import * as moment from 'moment-timezone'
 
 export default class CommonUtils {
   // Formatting date in the desired format for displaying in the template
   static formatDisplayDate (date: Date, format?: string) {
     if (date) {
-      const moment = require('moment-timezone')
       return moment.tz(date, 'Canada/Vancouver').format(format || 'MMM DD, YYYY')
     } else {
       return ''
