@@ -10,9 +10,11 @@ import * as moment from 'moment-timezone'
 
 export default class CommonUtils {
   // Formatting date in the desired format for displaying in the template
-  static formatDisplayDate (date: Date, format?: string) {
-    if (date) {
-      return moment.tz(date, 'Canada/Vancouver').format(format || 'MMM DD, YYYY')
+  static formatDisplayDate (utcDate: Date, format?: string) {
+    if (utcDate) {
+      const utcMomentDate = moment.utc(utcDate)
+      utcMomentDate.add(8, 'hours')
+      return moment.tz(utcMomentDate, 'Canada/Vancouver').format(format || 'MMM DD, YYYY')
     } else {
       return ''
     }
