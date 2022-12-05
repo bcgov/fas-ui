@@ -14,7 +14,7 @@ export default class CommonUtils {
     if (utcDate) {
       const utcMomentDate = moment.utc(utcDate)
       utcMomentDate.add(8, 'hours')
-      return moment.tz(utcMomentDate, 'Canada/Vancouver').format(format || 'MMM DD, YYYY')
+      return moment.tz(utcMomentDate, 'America/Vancouver').format(format || 'MMM DD, YYYY')
     } else {
       return ''
     }
