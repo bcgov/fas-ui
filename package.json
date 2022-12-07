@@ -27,7 +27,6 @@
     "core-js": "^3.6.5",
     "install": "^0.13.0",
     "moment": "^2.29.1",
-    "moment-timezone": "^0.5.39",
     "npm": "^7.19.0",
     "register-service-worker": "^1.7.1",
     "sbc-common-components": "2.4.54",

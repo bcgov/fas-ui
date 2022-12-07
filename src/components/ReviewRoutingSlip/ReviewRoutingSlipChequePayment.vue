@@ -20,7 +20,7 @@
         label="Cheque Date"
         persistent-hint
         hide-details
-        :value="payment.paymentDate ? formatDisplayDate(payment.paymentDate, 'MMMM DD, YYYY') : '-'"
+        :value="payment.paymentDate ? formatDisplayDate(payment.paymentDate.split('T')[0], 'MMMM DD, YYYY') : '-'"
         :data-test="getIndexedTag('txt-cheque-date', i)"
         >
         </v-text-field>
