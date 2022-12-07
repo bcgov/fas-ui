@@ -1,8 +1,6 @@
----
-description: bcrs-entities-create-ui readme
-ignore: true
----
+[![Lifecycle:Stable](https://img.shields.io/badge/Lifecycle-Stable-97ca00)](https://github.com/bcgov/fas-ui/)
 
+# FAS-UI 
 ## About
 
 TBD.
