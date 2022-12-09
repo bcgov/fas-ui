@@ -92,6 +92,7 @@ export default class CommonUtils {
       case SlipStatus.REFUNDAUTHORIZED:
       case SlipStatus.WRITEOFFAUTHORIZED:
       case SlipStatus.WRITEOFFREQUESTED:
+      case SlipStatus.VOID:
         color = 'error'
         break
     }

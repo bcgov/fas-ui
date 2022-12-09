@@ -41,7 +41,9 @@ export enum SlipStatus {
   CANCELWRITEOFFREQUEST='CANCEL_WRITE_OFF_REQUEST',
   WRITEOFFAUTHORIZED='WRITE_OFF_AUTHORIZED',
   WRITEOFFREQUESTED='WRITE_OFF_REQUESTED',
-  WRITEOFFCOMPLETED='WRITE_OFF_COMPLETED'
+  WRITEOFFCOMPLETED='WRITE_OFF_COMPLETED',
+  VOID='VOID',
+  CORRECTION='CORRECTION'
 }
 
 export enum SlipStatusLabel {
@@ -54,7 +56,9 @@ export enum SlipStatusLabel {
   CANCEL_REFUND_REQUEST = 'Cancel refund request',
   REFUND_AUTHORIZED='Review refund request',
   WRITE_OFF_AUTHORIZED='Authorize Write off request',
-  CANCEL_WRITE_OFF_REQUEST='Cancel Write off request'
+  CANCEL_WRITE_OFF_REQUEST='Cancel Write off request',
+  VOID='Void Routing Slip',
+  // CORRECTION='Correct Routing Slip' - Future
 }
 
 export enum Role {

@@ -54,6 +54,10 @@ export default function useRoutingSlipInfo (props) {
       title = i18n?.t('WriteOffWarningTitle')
       subText = i18n?.t('WriteOffWarningText')
       confirmBtnText = 'Authorize Write off'
+    } else if (isVoidProcess(currentStatus.value)) {
+      title = i18n?.t('VoidWarningTitle')
+      subText = i18n?.t('VoidWarningText')
+      confirmBtnText = 'Void Routing Slip'
     }
     return { title, subText, icon, confirmBtnText, cancelBtnText }
   })
@@ -211,8 +215,12 @@ export default function useRoutingSlipInfo (props) {
     return status?.code === SlipStatus.WRITEOFFAUTHORIZED
   }
 
+  function isVoidProcess (status) {
+    return status?.code === SlipStatus.VOID
+  }
+
   function showConfirmationModal (status) {
-    return isWriteOfProcess(status) || isNSFProcess(status)
+    return isWriteOfProcess(status) || isNSFProcess(status) || isVoidProcess(status)
   }
 
   // TODO where to show error message

@@ -146,6 +146,10 @@ export default class RoutingSlipModule extends VuexModule {
     )
   }
 
+  public get isRoutingSlipVoid (): boolean {
+    return this.routingSlip?.status === SlipStatus.VOID
+  }
+
   @Mutation
   public setRoutingSlipDetails (routingSlipDetails: RoutingSlipDetails) {
     this.routingSlipDetails = routingSlipDetails
@@ -296,7 +300,7 @@ export default class RoutingSlipModule extends VuexModule {
           slipNumber
         )
       }
-      if (response && response.data && (response.status === 200 || response.status === 202)) {
+      if (response?.data && (response.status === 200 || response.status === 202)) {
         if (!CommonUtils.isRefundProcessStatus(statusDetails?.status)) {
           context.commit('setRoutingSlip', response.data)
         } else {
