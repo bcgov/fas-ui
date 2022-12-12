@@ -41,45 +41,49 @@
           </v-col>
         </v-row>
         <template v-if="!isRoutingSlipLinked">
-          <v-row no-gutters v-if="invoiceCount > 0" data-test="invoice-exist-error-msg">
+          <v-row no-gutters v-if="invoiceCount > 0 " data-test="invoice-exist-error-msg">
             <v-icon class="align-start">mdi-information-outline</v-icon>
             <p class="mb-0 ml-2">
-              <span class="text-color" v-html="$t('cantLinkSinceInvoicesExistMsg')"></span>
+              <span class="text-color" v-if="routingSlip.status == SlipStatus.VOID" v-html="$t('cantLinkBecauseVoidedMsg')"></span>
+              <span class="text-color" v-else v-html="$t('cantLinkSinceInvoicesExistMsg')"></span>
             </p>
           </v-row>
-        <v-row no-gutters v-else>
-          <v-col cols="12" sm="10">
-            <v-row data-test="search-link-header">
-              <v-col class="col-6 col-sm-8 font-weight-bold mt-1">
-                This routing slip has no linked routing slips
-              </v-col>
+          <v-row no-gutters v-else>
+            <v-col cols="12" sm="10">
+              <v-row data-test="search-link-header">
+               <v-col class="col-6 col-sm-8 font-weight-bold mt-1" v-if="routingSlip.status == SlipStatus.VOID">
+                  {{$t('cantLinkBecauseVoidedMsg')}}
+                </v-col>
+                <v-col v-else class="col-6 col-sm-8 font-weight-bold mt-1">
+                  This routing slip has no linked routing slips
+                </v-col>
 
-              <v-col cols="6" sm="8" v-if="showSearch">
-                <div class="d-flex" key="action">
-                  <RoutingSlipAutoComplete
-                    data-test="routing-slip-auto-complete"
-                    @toggleSearch="toggleSearch()"
-                  />
-                </div>
-              </v-col>
-            </v-row>
-          </v-col>
+                <v-col cols="6" sm="8" v-if="showSearch">
+                  <div class="d-flex" key="action">
+                    <RoutingSlipAutoComplete
+                      data-test="routing-slip-auto-complete"
+                      @toggleSearch="toggleSearch()"
+                    />
+                  </div>
+                </v-col>
+              </v-row>
+            </v-col>
 
-          <v-col class="col-1 col-sm-2 d-flex justify-end pr-5">
-            <v-btn
-              large
-              color="primary"
-              data-test="btn-add-link-rs"
-              v-can:fas_edit.hide
-              :disabled="showSearch"
-              @click="toggleSearch()"
-              v-can:fas_link.hide
-            >
-              <v-icon class="mr-1">mdi-plus</v-icon>
-              <span class="font">Link Routing Slip</span>
-            </v-btn>
-          </v-col>
-        </v-row>
+            <v-col class="col-1 col-sm-2 d-flex justify-end pr-5">
+              <v-btn
+                large
+                color="primary"
+                data-test="btn-add-link-rs"
+                v-can:fas_edit.hide
+                :disabled="showSearch || routingSlip.status == SlipStatus.VOID"
+                @click="toggleSearch()"
+                v-can:fas_link.hide
+              >
+                <v-icon class="mr-1">mdi-plus</v-icon>
+                <span class="font">Link Routing Slip</span>
+              </v-btn>
+            </v-col>
+          </v-row>
         </template>
       </v-card-text>
     </v-card>
@@ -88,6 +92,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import commonUtil from '@/util/common-util'
+import { SlipStatus } from '@/util/constants'
 import { useLinkRoutingSlip } from '@/composables/ViewRoutingSlip'
 import can from '@/directives/can'
 import LinkedRoutingSlipDetails from '@/components/ViewRoutingSlip/LinkedRoutingSlipDetails.vue'
@@ -114,6 +119,7 @@ import RoutingSlipAutoComplete from '@/components/ViewRoutingSlip/RoutingSlipAut
     } = useLinkRoutingSlip()
 
     return {
+      SlipStatus,
       showSearch,
       toggleSearch,
       isRoutingSlipLinked,

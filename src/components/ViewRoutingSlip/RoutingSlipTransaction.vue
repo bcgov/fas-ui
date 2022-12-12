@@ -14,7 +14,7 @@
           data-test="btn-add-transaction"
           v-can:fas_transaction.hide
           @click="showManualTransaction"
-          v-if="!isRoutingSlipAChild"
+          v-if="!isRoutingSlipAChild && routingSlip.status !== SlipStatus.VOID"
         >
           <v-icon class="mr-1">mdi-plus</v-icon>
           <span class="font">Add Transaction Manually</span>
@@ -106,6 +106,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import AddManualTransactionDetails from './AddManualTransactionDetails.vue'
 import TransactionDataTable from './TransactionDataTable.vue'
 import can from '@/directives/can'
+import { SlipStatus } from '@/util/constants'
 import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
 
 @Component({
@@ -152,7 +153,8 @@ import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
       hideManualTransaction,
       availableAmountForManualTransaction,
       status,
-      routingSlip
+      routingSlip,
+      SlipStatus
     }
   }
 })

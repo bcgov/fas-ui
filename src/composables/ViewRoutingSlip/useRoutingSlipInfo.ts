@@ -7,6 +7,7 @@ import { useStatusMenu } from '@/composables/common/useStatusMenu'
 import { Code } from '@/models/Code'
 import CommonUtils from '@/util/common-util'
 import i18n from '@/plugins/i18n'
+import { ApiError } from '@/models/ApiError'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
 const { useActions, useState, useGetters } = routingSlipModule
@@ -27,6 +28,7 @@ export default function useRoutingSlipInfo (props) {
   const isAddressEditable = ref<boolean>(false)
   const currentStatus = ref<Code>(null)
   const errorMessage = ref<string>('')
+  const apiError = ref<ApiError>(null)
 
   const modalDialogRef = ref<HTMLFormElement>()
 
@@ -47,15 +49,25 @@ export default function useRoutingSlipInfo (props) {
   const modalText = computed(() => {
     let title = i18n?.t('NSFWarningTitle')
     let subText = i18n?.t('NSFWarningText')
-    const icon = 'mdi-help-circle-outline'
+    let icon = 'mdi-help-circle-outline'
     let confirmBtnText = 'Place status to NSF'
     const cancelBtnText = 'Cancel'
-    if (isWriteOfProcess(currentStatus.value)) {
+    let isError = false
+    if (apiError.value) {
+      title = apiError.value?.title || 'Server error'
+      subText = apiError.value?.detail || apiError.value?.type || 'Server error'
+      isError = true
+      icon = 'mdi-alert-circle-outline'
+    } else if (isWriteOfProcess(currentStatus.value)) {
       title = i18n?.t('WriteOffWarningTitle')
       subText = i18n?.t('WriteOffWarningText')
       confirmBtnText = 'Authorize Write off'
+    } else if (isVoidProcess(currentStatus.value)) {
+      title = i18n?.t('VoidWarningTitle')
+      subText = i18n?.t('VoidWarningText')
+      confirmBtnText = 'Void Routing Slip'
     }
-    return { title, subText, icon, confirmBtnText, cancelBtnText }
+    return { title, subText, icon, confirmBtnText, cancelBtnText, isError }
   })
 
   const canRequestRefund = computed(() => {
@@ -170,17 +182,28 @@ export default function useRoutingSlipInfo (props) {
         : overrideStatus
       await updateRefund(status)
     } else {
-      await updateRoutingSlipStatus(statusDetails)
+      const response = await updateRoutingSlipStatus(statusDetails)
       if (showConfirmationModal(currentStatus.value)) {
         modalDialogClose()
       }
       addMoreDetails.value = false
+      if (response.status !== 200) {
+        apiError.value = response?.data
+        modalDialogRef.value.open()
+      }
     }
     isLoading.value = false
   }
 
   function modalDialogClose () {
     modalDialogRef.value.close()
+  }
+
+  async function closeErrorDialog () {
+    modalDialogClose()
+    // Wait 1 second, for the dialog animation to complete.
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    apiError.value = null
   }
 
   async function updateRefund (status: any = SlipStatus.REFUNDREQUEST) {
@@ -211,8 +234,12 @@ export default function useRoutingSlipInfo (props) {
     return status?.code === SlipStatus.WRITEOFFAUTHORIZED
   }
 
+  function isVoidProcess (status) {
+    return status?.code === SlipStatus.VOID
+  }
+
   function showConfirmationModal (status) {
-    return isWriteOfProcess(status) || isNSFProcess(status)
+    return isWriteOfProcess(status) || isNSFProcess(status) || isVoidProcess(status)
   }
 
   // TODO where to show error message
@@ -260,6 +287,7 @@ export default function useRoutingSlipInfo (props) {
     allowedStatusList,
     modalDialogRef,
     modalText,
-    isLoading
+    isLoading,
+    closeErrorDialog
   }
 }
