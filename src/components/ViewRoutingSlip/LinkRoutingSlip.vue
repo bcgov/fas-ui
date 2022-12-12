@@ -51,7 +51,10 @@
           <v-row no-gutters v-else>
             <v-col cols="12" sm="10">
               <v-row data-test="search-link-header">
-                <v-col class="col-6 col-sm-8 font-weight-bold mt-1">
+               <v-col class="col-6 col-sm-8 font-weight-bold mt-1" v-if="routingSlip.status == SlipStatus.VOID">
+                  {{$t('cantLinkBecauseVoidedMsg')}}
+                </v-col>
+                <v-col v-else class="col-6 col-sm-8 font-weight-bold mt-1">
                   This routing slip has no linked routing slips
                 </v-col>
 
@@ -72,7 +75,7 @@
                 color="primary"
                 data-test="btn-add-link-rs"
                 v-can:fas_edit.hide
-                :disabled="showSearch"
+                :disabled="showSearch || routingSlip.status == SlipStatus.VOID"
                 @click="toggleSearch()"
                 v-can:fas_link.hide
               >

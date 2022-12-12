@@ -307,11 +307,12 @@ export default class RoutingSlipModule extends VuexModule {
           const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: slipNumber }
           context.dispatch('getRoutingSlip', getRoutingSlipRequestPayload)
         }
-        return response.data
+        return response
       }
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error('error ', error.response?.data)
+      console.error('error ', error.response)
+      return error?.response
     }
   }
 
