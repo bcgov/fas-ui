@@ -95,8 +95,12 @@ export default function useRoutingSlipInfo (props) {
     return isAddressEditable.value
   })
   const allowedStatusList = computed(() => {
-    // get allowd status from API and add here
-    return routingSlipDetails.value?.allowedStatuses || [] // 'COMPLETE', 'ACTIVE', 'REFUND_REQUESTED', 'CANCEL_REFUND_REQUEST'
+    // get allowed status from API and add here
+    let allowedStatuses = routingSlipDetails.value?.allowedStatuses || []
+    if (!CommonUtils.isVoidRole()) {
+      allowedStatuses = allowedStatuses?.filter((status) => status !== SlipStatus.VOID)
+    }
+    return allowedStatuses
   })
 
   const isEditable = computed(() => {

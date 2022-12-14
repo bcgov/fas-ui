@@ -72,6 +72,8 @@ export enum Role {
   FAS_TRANSACTION = 'fas_transaction',
   FAS_REFUND_APPROVER = 'fas_refund_approver',
   FAS_REFUND = 'fas_refund',
+  FAS_VOID = 'fas_void',
+  FAS_CORRECTION = 'fas_correction'
 }
 
 export enum InvoiceStatus {

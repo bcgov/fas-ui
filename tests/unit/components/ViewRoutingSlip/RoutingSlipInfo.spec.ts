@@ -51,6 +51,7 @@ describe('RoutingSlipInfo.vue', () => {
 
   it('renders component', () => {
     jest.spyOn(CommonUtils, 'isApproverRole').mockReturnValue(false)
+    jest.spyOn(CommonUtils, 'isVoidRole').mockReturnValue(false)
     const wrapper = shallowMount(RoutingSlipInfo, {
       store,
       localVue,
@@ -69,6 +70,7 @@ describe('RoutingSlipInfo.vue', () => {
 
   it('should have StatusMenu component', async () => {
     jest.spyOn(CommonUtils, 'isApproverRole').mockReturnValue(false)
+    jest.spyOn(CommonUtils, 'isVoidRole').mockReturnValue(false)
     const wrapper = shallowMount(RoutingSlipInfo, {
       store,
       localVue,
@@ -84,6 +86,7 @@ describe('RoutingSlipInfo.vue', () => {
 
   it('Refund approval/cancel flow', async () => {
     jest.spyOn(CommonUtils, 'isApproverRole').mockReturnValue(false)
+    jest.spyOn(CommonUtils, 'isVoidRole').mockReturnValue(false)
     const wrapper: any = mount(RoutingSlipInfo, {
       store,
       localVue,

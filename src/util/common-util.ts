@@ -151,6 +151,11 @@ export default class CommonUtils {
     return KeyCloakService.verifyRoles(approverRole, [])
   }
 
+  static isVoidRole () {
+    const voidRole:any = [Role.FAS_VOID]
+    return KeyCloakService.verifyRoles(voidRole, [])
+  }
+
   /**
    * check its in refunc process
    * @param  {string} status
