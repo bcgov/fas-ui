@@ -118,7 +118,7 @@
       max-width="680"
       max-height="310"
       :icon="modalText.icon"
-      :iconColor="modalText.isError ? 'error' : 'primary'"
+      iconColor="error"
     >
     <template v-slot:text>
         <p class="mb-0 px-6" v-html="modalText.subText"></p>
