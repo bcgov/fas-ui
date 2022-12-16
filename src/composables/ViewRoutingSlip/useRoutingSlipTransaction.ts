@@ -20,7 +20,7 @@ export default function useRoutingSlipTransaction () {
 
   const { routingSlip } = useState(['routingSlip'])
 
-  const { isRoutingSlipAChild } = useGetters(['isRoutingSlipAChild'])
+  const { isRoutingSlipAChild, isRoutingSlipVoid } = useGetters(['isRoutingSlipAChild', 'isRoutingSlipVoid'])
 
   const { isLoading, toggleLoading } = useLoader()
 
@@ -174,6 +174,7 @@ export default function useRoutingSlipTransaction () {
     showAddManualTransaction,
     manualTransactionsList,
     isRoutingSlipAChild,
+    isRoutingSlipVoid,
     isLoading,
     showManualTransaction,
     addManualTransactionRow,
