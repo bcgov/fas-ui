@@ -44,14 +44,14 @@
           <v-row no-gutters v-if="invoiceCount > 0 " data-test="invoice-exist-error-msg">
             <v-icon class="align-start">mdi-information-outline</v-icon>
             <p class="mb-0 ml-2">
-              <span class="text-color" v-if="routingSlip.status == SlipStatus.VOID" v-html="$t('cantLinkBecauseVoidedMsg')"></span>
+              <span class="text-color" v-if="isRoutingSlipVoid" v-html="$t('cantLinkBecauseVoidedMsg')"></span>
               <span class="text-color" v-else v-html="$t('cantLinkSinceInvoicesExistMsg')"></span>
             </p>
           </v-row>
           <v-row no-gutters v-else>
             <v-col cols="12" sm="10">
               <v-row data-test="search-link-header">
-               <v-col class="col-6 col-sm-8 font-weight-bold mt-1" v-if="routingSlip.status == SlipStatus.VOID">
+               <v-col class="col-6 col-sm-8 font-weight-bold mt-1" v-if="isRoutingSlipVoid">
                   {{$t('cantLinkBecauseVoidedMsg')}}
                 </v-col>
                 <v-col v-else class="col-6 col-sm-8 font-weight-bold mt-1">
@@ -75,7 +75,7 @@
                 color="primary"
                 data-test="btn-add-link-rs"
                 v-can:fas_edit.hide
-                :disabled="showSearch || routingSlip.status == SlipStatus.VOID"
+                :disabled="showSearch || isRoutingSlipVoid"
                 @click="toggleSearch()"
                 v-can:fas_link.hide
               >
@@ -111,6 +111,7 @@ import RoutingSlipAutoComplete from '@/components/ViewRoutingSlip/RoutingSlipAut
       toggleSearch,
       isRoutingSlipLinked,
       isRoutingSlipAChild,
+      isRoutingSlipVoid,
       isLoading,
       invoiceCount,
       childRoutingSlipDetails,
@@ -124,6 +125,7 @@ import RoutingSlipAutoComplete from '@/components/ViewRoutingSlip/RoutingSlipAut
       toggleSearch,
       isRoutingSlipLinked,
       isRoutingSlipAChild,
+      isRoutingSlipVoid,
       isLoading,
       invoiceCount,
       childRoutingSlipDetails,

@@ -11,7 +11,7 @@ export default function useLinkRoutingSlip () {
   const { routingSlip, linkedRoutingSlips } = useState([
     'routingSlip', 'linkedRoutingSlips'
   ])
-  const { isRoutingSlipAChild, isRoutingSlipLinked, invoiceCount } = useGetters(['isRoutingSlipAChild', 'isRoutingSlipLinked', 'invoiceCount'])
+  const { isRoutingSlipAChild, isRoutingSlipLinked, isRoutingSlipVoid, invoiceCount } = useGetters(['isRoutingSlipAChild', 'isRoutingSlipLinked', 'isRoutingSlipVoid', 'invoiceCount'])
   const showSearch = ref<boolean>(false)
 
   const isLoading = ref<boolean>(false)
@@ -34,6 +34,7 @@ export default function useLinkRoutingSlip () {
     toggleSearch,
     isRoutingSlipLinked,
     isRoutingSlipAChild,
+    isRoutingSlipVoid,
     invoiceCount,
     routingSlip,
     isLoading,
