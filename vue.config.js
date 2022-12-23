@@ -11,6 +11,15 @@ const aboutText2 = (sbcName && sbcVersion) ? `${sbcName} v${sbcVersion}` : ''
 
 module.exports = {
   configureWebpack: {
+    externals: [
+      function (context, request, callback) {
+        // If library, use externals, otherwise the Vue/ composition-api instance in Auth-web will have issues.
+        if (process.env.VUE_CLI_BUILD_TARGET === 'lib' && (/^@vue\/composition-api$/.test(request) || /^vue$/.test(request))) {
+          return callback(null, request)
+        }
+        callback()
+      }
+    ],
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
@@ -25,7 +34,6 @@ module.exports = {
     devtool: 'source-map',
     resolve: {
       alias: {
-        vue: path.resolve('./node_modules/vue'),
         $assets: path.resolve('./src/assets/')
       }
     }
