@@ -225,7 +225,7 @@
                           @click="clearFilter"
                         >
                           <span class="clear-filter cursor-pointer">
-                            Clear Filter
+                            Clear Filters
                             <v-icon small color="primary">mdi-close</v-icon>
                           </span>
                         </v-btn>
