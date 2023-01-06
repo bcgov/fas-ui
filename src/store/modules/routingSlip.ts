@@ -16,7 +16,7 @@ import {
 
 import CommonUtils from '@/util/common-util'
 import RoutingSlipService from '@/services/routingSlip.services'
-import { ApiErrors, CreateRoutingSlipStatus, SlipStatus } from '@/util/constants'
+import { ApiErrors, CreateRoutingSlipStatus, PaymentMethods, SlipStatus } from '@/util/constants'
 
 @Module({ namespaced: true, stateFactory: true })
 export default class RoutingSlipModule extends VuexModule {
@@ -148,6 +148,33 @@ export default class RoutingSlipModule extends VuexModule {
 
   public get isRoutingSlipVoid (): boolean {
     return this.routingSlip?.status === SlipStatus.VOID
+  }
+
+  @Mutation
+  public updateRoutingSlipChequeNumber (chequeNumToChange) {
+    const payments = (this.routingSlip as RoutingSlip)?.payments.map((payment: Payment, i: number) => {
+      if (chequeNumToChange.idx === i) {
+        console.log(chequeNumToChange.chequeNum)
+        payment.chequeReceiptNumber = chequeNumToChange.chequeNum
+      }
+      return { ...payment }
+    })
+    this.routingSlip.payments = payments
+  }
+
+  @Mutation
+  public updateRoutingSlipAmount (amountToChange) {
+    const payments = (this.routingSlip as RoutingSlip)?.payments.map((payment: Payment, i: number) => {
+      if (amountToChange.idx === i) {
+        if (payment.paidAmount && payment.paidAmount > 0) {
+          payment.paidAmount = amountToChange.amount
+        } else {
+          payment.paidUsdAmount = amountToChange.amount
+        }
+      }
+      return { ...payment }
+    })
+    this.routingSlip.payments = payments
   }
 
   @Mutation

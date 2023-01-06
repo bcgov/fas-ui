@@ -14,7 +14,6 @@
         >
         </v-text-field>
       </v-col>
-      <v-col>{{payment.chequeReceiptNumber}}</v-col>
       <v-col :cols="isAmountPaidInUsd ? 3 : 4">
         <v-text-field
         filled
@@ -34,9 +33,10 @@
         label="Amount(CAD$)"
         persistent-hint
         hide-details
-        :value="payment.paidAmount.toFixed(2)"
+        :value="Number(payment.paidAmount).toFixed(2)"
         type="number"
         :data-test="getIndexedTag('txt-paid-amount', i)"
+        @input="e => adjustRoutingSlipAmount(e, i)"
         >
         </v-text-field>
       </v-col>
@@ -47,9 +47,10 @@
         label="Amount(USD$)"
         persistent-hint
         hide-details
-        :value="payment.paidUsdAmount.toFixed(2)"
+        :value="Number(payment.paidUsdAmount).toFixed(2)"
         type="number"
         :data-test="getIndexedTag('txt-paid-amount', i)"
+        @input="e => adjustRoutingSlipChequeAmount(e, i)"
         >
         </v-text-field>
       </v-col>
@@ -66,10 +67,12 @@ import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
 @Component({
   setup (_, context) {
     const {
-      adjustRoutingSlipChequeNumber
+      adjustRoutingSlipChequeNumber,
+      adjustRoutingSlipAmount
     } = usePaymentInformation(_, context)
     return {
-      adjustRoutingSlipChequeNumber
+      adjustRoutingSlipChequeNumber,
+      adjustRoutingSlipAmount
     }
   }
 })

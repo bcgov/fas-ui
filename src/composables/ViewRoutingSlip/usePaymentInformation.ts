@@ -7,7 +7,7 @@ import commonUtil from '@/util/common-util'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useState, useGetters, useActions } = routingSlipModule
+const { useState, useGetters, useActions, useMutations } = routingSlipModule
 
 // Composable function to inject Props, options and values to PaymentInformation component
 export default function usePaymentInformation (_, context) {
@@ -16,9 +16,12 @@ export default function usePaymentInformation (_, context) {
   const isEditable = ref<boolean>(false)
 
   // vuex getter and state
-  const { routingSlip, linkedRoutingSlips } = useState(['routingSlip', 'linkedRoutingSlips'])
+  const { routingSlip, linkedRoutingSlips, chequePayment } = useState(['routingSlip', 'linkedRoutingSlips', 'chequePayment'])
   const { isRoutingSlipAChild, isRoutingSlipLinked } = useGetters(['isRoutingSlipAChild', 'isRoutingSlipLinked'])
   const { adjustRoutingSlip } = useActions(['adjustRoutingSlip'])
+  const { updateRoutingSlipAmount, updateRoutingSlipChequeNumber } = useMutations(['updateRoutingSlipAmount', 'updateRoutingSlipChequeNumber'])
+
+  const paymentsCopy = Object.assign({}, (routingSlip.value as RoutingSlip)?.payments)
 
   // As per current business rule, a routingslip has one-to-one relation with payment method (Cash/Cheque)
   // Therefore, we can determine the payment method of the current routingslip from the first payment record
@@ -27,6 +30,22 @@ export default function usePaymentInformation (_, context) {
     // to prevent lazy load
     return payments && payments[0].paymentMethod === PaymentMethods.CHEQUE
   })
+
+  function adjustRoutingSlipChequeNumber (num: string, i: number) {
+    const chequeNumToChange = {
+      chequeNum: num,
+      idx: i
+    }
+    updateRoutingSlipChequeNumber(chequeNumToChange)
+  }
+
+  function adjustRoutingSlipAmount (num: number, i: number) {
+    const amountToChange = {
+      amount: num,
+      idx: i
+    }
+    updateRoutingSlipAmount(amountToChange)
+  }
 
   // Backend returns individual routing slip total. Therefore, we need to sum up the children routing slips as well
   const totalAmount = computed(() => {
@@ -66,11 +85,6 @@ export default function usePaymentInformation (_, context) {
     isEditable.value = !isEditable.value
   }
 
-  function adjustRoutingSlipChequeNumber (value, i) {
-    console.log(value, i)
-    // TODO update local routingslip model
-  }
-
   function viewPaymentInformation (): void {
     // expand/collapse view payment information children
     // update the cheque store if payment method is cheque, cash store otherwise
@@ -97,6 +111,7 @@ export default function usePaymentInformation (_, context) {
     remainingAmount,
     isRoutingSlipPaidInUsd,
     adjustRoutingSlipChequeNumber,
+    adjustRoutingSlipAmount,
     adjustRoutingSlipHandler,
     adjustRoutingSlipStatus,
     viewPaymentInformation,
