@@ -3,19 +3,20 @@
     <v-col :cols="isAmountPaidInUsd ? 4: 6">
       <v-text-field
       filled
-      disabled
+      :disabled="!isEditable"
       label="Receipt Number"
       persistent-hint
       hide-details
       :value="cashPayment.chequeReceiptNumber"
       data-test="txt-receipt-number"
+      v-model="cashPayment.chequeReceiptNumber"
       >
       </v-text-field>
     </v-col>
     <v-col :cols="isAmountPaidInUsd > 0 ? 4: 6">
       <v-text-field
       filled
-      disabled
+      :disabled="!isEditable"
       label="Amount(CAD$)"
       persistent-hint
       hide-details
@@ -28,7 +29,7 @@
     <v-col cols="4" v-if="isAmountPaidInUsd">
       <v-text-field
       filled
-      disabled
+      :disabled="!isEditable"
       label="Amount(USD$)"
       persistent-hint
       hide-details
@@ -49,5 +50,6 @@ import { Payment } from '@/models/Payment'
 export default class ReviewRoutingSlipCashPayment extends Vue {
   @Prop({ default: null }) cashPayment: Payment
   @Prop({ default: false }) isAmountPaidInUsd: boolean
+  @Prop({ default: false }) isEditable: boolean
 }
 </script>

@@ -4,15 +4,17 @@
       <v-col :cols="isAmountPaidInUsd ? 3 : 4">
         <v-text-field
         filled
-        disabled
+        :disabled="!isEditable"
         label="Cheque Number"
         persistent-hint
         hide-details
         :value="payment.chequeReceiptNumber"
         :data-test="getIndexedTag('txt-cheque-receipt-number', i)"
+        @input="e => adjustRoutingSlipChequeNumber(e, i)"
         >
         </v-text-field>
       </v-col>
+      <v-col>{{payment.chequeReceiptNumber}}</v-col>
       <v-col :cols="isAmountPaidInUsd ? 3 : 4">
         <v-text-field
         filled
@@ -28,7 +30,7 @@
       <v-col :cols="isAmountPaidInUsd ? 3 : 4">
         <v-text-field
         filled
-        disabled
+        :disabled="!isEditable"
         label="Amount(CAD$)"
         persistent-hint
         hide-details
@@ -41,7 +43,7 @@
       <v-col cols="3" v-if="isAmountPaidInUsd">
         <v-text-field
         filled
-        disabled
+        :disabled="isEditable"
         label="Amount(USD$)"
         persistent-hint
         hide-details
@@ -59,11 +61,22 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Payment } from '@/models/Payment'
 import commonUtil from '@/util/common-util'
+import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
 
-@Component({})
+@Component({
+  setup (_, context) {
+    const {
+      adjustRoutingSlipChequeNumber
+    } = usePaymentInformation(_, context)
+    return {
+      adjustRoutingSlipChequeNumber
+    }
+  }
+})
 export default class ReviewRoutingSlipChequePayment extends Vue {
   @Prop({ default: null }) chequePayment: Payment[]
   @Prop({ default: false }) isAmountPaidInUsd: boolean
+  @Prop({ default: false }) isEditable: boolean
   public formatDisplayDate = commonUtil.formatDisplayDate
 
   public getIndexedTag (tag, index): string {
