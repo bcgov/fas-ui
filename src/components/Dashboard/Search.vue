@@ -166,12 +166,13 @@
                         </th>
                         <th scope="status" v-if="canShowColumn('status')">
                           <div class="mt-0">
+                          <!-- Placeholder work around, until we upgrade Vuetify in sbc-auth -->
                             <status-list
                               class="text-input-style "
                               v-model="status"
                               @change="searchNow()"
                               hide-details="auto"
-                              placeholder="Status"
+                              :placeholder="!status ? 'Status' : ''"
                             ></status-list>
                           </div>
                         </th>
@@ -225,7 +226,7 @@
                           @click="clearFilter"
                         >
                           <span class="clear-filter cursor-pointer">
-                            Clear Filter
+                            Clear Filters
                             <v-icon small color="primary">mdi-close</v-icon>
                           </span>
                         </v-btn>
