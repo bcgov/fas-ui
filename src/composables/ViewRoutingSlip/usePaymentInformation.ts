@@ -16,7 +16,7 @@ export default function usePaymentInformation (_, context) {
   const isEditable = ref<boolean>(false)
 
   // vuex getter and state
-  const { routingSlip, linkedRoutingSlips, chequePayment } = useState(['routingSlip', 'linkedRoutingSlips', 'chequePayment'])
+  const { routingSlip, linkedRoutingSlips } = useState(['routingSlip', 'linkedRoutingSlips'])
   const { isRoutingSlipAChild, isRoutingSlipLinked } = useGetters(['isRoutingSlipAChild', 'isRoutingSlipLinked'])
   const { adjustRoutingSlip } = useActions(['adjustRoutingSlip'])
   const { updateRoutingSlipAmount, updateRoutingSlipChequeNumber } = useMutations(['updateRoutingSlipAmount', 'updateRoutingSlipChequeNumber'])
