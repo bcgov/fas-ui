@@ -36,10 +36,14 @@
                   }}</v-icon>
                 </v-btn>
               </v-col>
-              <v-col class="font-weight-bold d-flex justify-end" v-if="isExpanded && routingSlip && routingSlip.payments && $route.meta.allowedRoles.includes(Role.FAS_CORRECTION)">
-                <v-btn color="primary" @click="adjustRoutingSlipStatus" :disabled=isEditable>
-                  <v-icon  size="15" class="mr-2">mdi-pencil</v-icon> Adjust Routing Slip
-                </v-btn>
+              <v-col class="font-weight-bold d-flex justify-end" v-if="!isEditable && isExpanded && routingSlip && routingSlip.payments && $route.meta.allowedRoles.includes(Role.FAS_CORRECTION)">
+                <span
+                    class="primary--text cursor-pointer"
+                    @click="adjustRoutingSlipStatus"
+                  >
+                    <v-icon color="primary" size="20"> mdi-pencil</v-icon>
+                    Adjust Routing Slip
+                </span>
               </v-col>
             </v-row>
             <v-row no-gutters v-if="isExpanded && routingSlip && routingSlip.payments" class="mb-10">
@@ -62,18 +66,21 @@
                       v-if="child.payments[0].paymentMethod === PaymentMethods.CHEQUE"
                       :chequePayment="child.payments"
                       :isAmountPaidInUsd="child.payments[0].paidUsdAmount && child.payments[0].paidUsdAmount>0"
-                      :isEditable="isEditable"/>
+                      :isEditable="isEditable"
+                      :isALinkedChild="true"/>
                       <review-routing-slip-cash-payment :data-test="getIndexedTag('cash-child-payment', i)"
                       v-else
                       :cashPayment="child.payments[0]"
                       :isAmountPaidInUsd="child.payments[0].paidUsdAmount && child.payments[0].paidUsdAmount>0"
-                      :isEditable="isEditable"/>
+                      :isEditable="isEditable"
+                      :isALinkedChild="true"/>
                     </div>
                   </div>
                 </v-col>
               </v-expand-transition>
-              <v-col class="font-weight-bold d-flex justify-end button-margin" v-if="isEditable">
+              <v-col class="font-weight-bold d-flex justify-end mt-6" v-if="isEditable">
                 <v-btn
+                 large
                   color="primary"
                   class="px-10"
                   data-test="btn-add-transaction"
@@ -82,6 +89,7 @@
                   <span>Save</span>
                 </v-btn>
                 <v-btn
+                  large
                   outlined
                   color="primary"
                   class="ml-3"

@@ -4,7 +4,7 @@
       <v-col :cols="isAmountPaidInUsd ? 3 : 4">
         <v-text-field
         filled
-        :disabled="!isEditable"
+        :disabled="!isEditable || isALinkedChild"
         label="Cheque Number"
         persistent-hint
         hide-details
@@ -29,7 +29,7 @@
       <v-col :cols="isAmountPaidInUsd ? 3 : 4">
         <v-text-field
         filled
-        :disabled="!isEditable"
+        :disabled="!isEditable || isALinkedChild"
         label="Amount(CAD$)"
         persistent-hint
         hide-details
@@ -43,7 +43,7 @@
       <v-col cols="3" v-if="isAmountPaidInUsd">
         <v-text-field
         filled
-        :disabled="isEditable"
+        :disabled="isEditable || isALinkedChild"
         label="Amount(USD$)"
         persistent-hint
         hide-details
@@ -80,6 +80,7 @@ export default class ReviewRoutingSlipChequePayment extends Vue {
   @Prop({ default: null }) chequePayment: Payment[]
   @Prop({ default: false }) isAmountPaidInUsd: boolean
   @Prop({ default: false }) isEditable: boolean
+  @Prop({ default: false }) isALinkedChild: boolean
   public formatDisplayDate = commonUtil.formatDisplayDate
 
   public getIndexedTag (tag, index): string {

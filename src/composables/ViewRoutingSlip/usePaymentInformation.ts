@@ -21,8 +21,6 @@ export default function usePaymentInformation (_, context) {
   const { adjustRoutingSlip } = useActions(['adjustRoutingSlip'])
   const { updateRoutingSlipAmount, updateRoutingSlipChequeNumber } = useMutations(['updateRoutingSlipAmount', 'updateRoutingSlipChequeNumber'])
 
-  const paymentsCopy = Object.assign({}, (routingSlip.value as RoutingSlip)?.payments)
-
   // As per current business rule, a routingslip has one-to-one relation with payment method (Cash/Cheque)
   // Therefore, we can determine the payment method of the current routingslip from the first payment record
   const isPaymentCheque = computed(() => {
@@ -31,7 +29,7 @@ export default function usePaymentInformation (_, context) {
     return payments && payments[0].paymentMethod === PaymentMethods.CHEQUE
   })
 
-  function adjustRoutingSlipChequeNumber (num: string, i: number) {
+  function adjustRoutingSlipChequeNumber (num: string, i: number = 0) {
     const chequeNumToChange = {
       chequeNum: num,
       idx: i
@@ -39,7 +37,7 @@ export default function usePaymentInformation (_, context) {
     updateRoutingSlipChequeNumber(chequeNumToChange)
   }
 
-  function adjustRoutingSlipAmount (num: number, i: number) {
+  function adjustRoutingSlipAmount (num: number, i: number = 0) {
     const amountToChange = {
       amount: num,
       idx: i
@@ -72,9 +70,10 @@ export default function usePaymentInformation (_, context) {
     return linkedRoutingSlips.value && linkedRoutingSlips.value.children.length > 0 && linkedRoutingSlips.value.children[0].totalUsd && linkedRoutingSlips.value.children[0].totalUsd > 0
   })
 
-  async function adjustRoutingSlipHandler () {
+  function adjustRoutingSlipHandler () {
     try {
-      // console.log(payments)
+      adjustRoutingSlip()
+      isEditable.value = !isEditable.value
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('error ', error?.response)

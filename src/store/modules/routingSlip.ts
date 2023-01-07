@@ -154,7 +154,6 @@ export default class RoutingSlipModule extends VuexModule {
   public updateRoutingSlipChequeNumber (chequeNumToChange) {
     const payments = (this.routingSlip as RoutingSlip)?.payments.map((payment: Payment, i: number) => {
       if (chequeNumToChange.idx === i) {
-        console.log(chequeNumToChange.chequeNum)
         payment.chequeReceiptNumber = chequeNumToChange.chequeNum
       }
       return { ...payment }
@@ -340,6 +339,22 @@ export default class RoutingSlipModule extends VuexModule {
       // eslint-disable-next-line no-console
       console.error('error ', error.response)
       return error?.response
+    }
+  }
+
+  @Action({ rawError: true })
+  public async adjustRoutingSlip (): Promise<RoutingSlip> {
+    const context: any = this.context
+    // build the RoutingSlip Request JSON object that needs to be sent.
+    const routingSlipRequest: Array<object> = context.state.routingSlip.payments
+    const slipNumber = context.state.routingSlip.number
+
+    const response = await RoutingSlipService.adjustRoutingSlip(
+      routingSlipRequest,
+      slipNumber
+    )
+    if (response && response.data && response.status === 200) {
+      return response.data
     }
   }
 

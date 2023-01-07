@@ -93,4 +93,8 @@ export enum CreateRoutingSlipStatus {
   INVALID_DIGITS = 'INVALID_DIGITS',
 }
 
+export enum PatchActions {
+  UPDATE_STATUS = 'updateStatus'
+}
+
 export const AXIOS_ERROR_ALERT_TIME_OUT = 5000
