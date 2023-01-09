@@ -35,7 +35,7 @@ const routes: Array<RouteConfig> = [
     props: true,
     meta: {
       requiresAuth: true,
-      allowedRoles: [Role.FAS_VIEW, Role.FAS_CORRECTION]
+      allowedRoles: [Role.FAS_VIEW]
     }
   },
   {

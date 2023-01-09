@@ -36,21 +36,30 @@
                   }}</v-icon>
                 </v-btn>
               </v-col>
-              <v-col class="font-weight-bold d-flex justify-end" v-if="!isEditable && isExpanded && routingSlip && routingSlip.payments && $route.meta.allowedRoles.includes(Role.FAS_CORRECTION)">
+              <v-col class="font-weight-bold d-flex justify-end" v-if="!isEditable && isExpanded && routingSlip && routingSlip.payments">
                 <span
                     class="primary--text cursor-pointer"
                     @click="adjustRoutingSlipStatus"
                   >
                     <v-icon color="primary" size="20"> mdi-pencil</v-icon>
-                    Adjust Routing Slip
+                    Edit Routing Slip
                 </span>
               </v-col>
             </v-row>
             <v-row no-gutters v-if="isExpanded && routingSlip && routingSlip.payments" class="mb-10">
               <v-expand-transition>
                 <v-col cols="11">
-                  <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentCheque" :chequePayment="routingSlip.payments" :isAmountPaidInUsd="isRoutingSlipPaidInUsd" :isEditable="isEditable"/>
-                  <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="routingSlip.payments[0]" :isAmountPaidInUsd="isRoutingSlipPaidInUsd" :isEditable="isEditable"/>
+                  <review-routing-slip-cheque-payment
+                    data-test="review-routing-slip-cheque-payment"
+                    v-if="isPaymentCheque"
+                    :chequePayment="routingSlip.payments"
+                    :isAmountPaidInUsd="isRoutingSlipPaidInUsd"
+                    :isEditable="isEditable"/>
+                  <review-routing-slip-cash-payment
+                    data-test="review-routing-slip-cash-payment"
+                    v-else :cashPayment="routingSlip.payments[0]"
+                    :isAmountPaidInUsd="isRoutingSlipPaidInUsd"
+                    :isEditable="isEditable"/>
                   <div v-if="isRoutingSlipLinked && !isRoutingSlipAChild && linkedRoutingSlips.children" class="d-flex flex-column">
                     <div
                     v-for="(child, i) in linkedRoutingSlips.children"
@@ -184,11 +193,5 @@ export default class PaymentInformation extends Vue {
 <style lang="scss">
 .pay-info .col {
   padding-left: 0px;
-}
-.button-margin {
-  margin-top: 0.5em;
-  .v-btn {
-    margin-left: 2em;
-  }
 }
 </style>

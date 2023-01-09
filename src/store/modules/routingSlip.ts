@@ -1,5 +1,7 @@
 import {
   AccountInfo,
+  AdjustRoutingSlipCashPrams,
+  AdjustRoutingSlipChequePrams,
   GetRoutingSlipRequestPayload,
   LinkedRoutingSlips,
   RoutingSlip,
@@ -151,9 +153,9 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Mutation
-  public updateRoutingSlipChequeNumber (chequeNumToChange) {
-    const payments = (this.routingSlip as RoutingSlip)?.payments.map((payment: Payment, i: number) => {
-      if (chequeNumToChange.idx === i) {
+  public updateRoutingSlipChequeNumber (chequeNumToChange: AdjustRoutingSlipChequePrams) {
+    const payments = this.routingSlip.payments.map((payment: Payment, i: number) => {
+      if (chequeNumToChange.paymentIndex === i) {
         payment.chequeReceiptNumber = chequeNumToChange.chequeNum
       }
       return { ...payment }
@@ -162,9 +164,9 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Mutation
-  public updateRoutingSlipAmount (amountToChange) {
-    const payments = (this.routingSlip as RoutingSlip)?.payments.map((payment: Payment, i: number) => {
-      if (amountToChange.idx === i) {
+  public updateRoutingSlipAmount (amountToChange: AdjustRoutingSlipCashPrams) {
+    const payments = this.routingSlip.payments.map((payment: Payment, i: number) => {
+      if (amountToChange.paymentIndex === i) {
         if (payment.paidAmount && payment.paidAmount > 0) {
           payment.paidAmount = amountToChange.amount
         } else {
@@ -346,14 +348,14 @@ export default class RoutingSlipModule extends VuexModule {
   public async adjustRoutingSlip (): Promise<RoutingSlip> {
     const context: any = this.context
     // build the RoutingSlip Request JSON object that needs to be sent.
-    const routingSlipRequest: Array<object> = context.state.routingSlip.payments
+    const routingSlipRequest: Payment[] = context.state.routingSlip.payments
     const slipNumber = context.state.routingSlip.number
 
     const response = await RoutingSlipService.adjustRoutingSlip(
       routingSlipRequest,
       slipNumber
     )
-    if (response && response.data && response.status === 200) {
+    if (response?.data && response.status === 200) {
       return response.data
     }
   }

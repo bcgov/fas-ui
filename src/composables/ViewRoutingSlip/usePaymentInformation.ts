@@ -2,7 +2,7 @@ import { computed, ref } from '@vue/composition-api'
 
 import { Payment } from '@/models/Payment'
 import { PaymentMethods } from '@/util/constants'
-import { RoutingSlip } from '@/models/RoutingSlip'
+import { AdjustRoutingSlipCashPrams, AdjustRoutingSlipChequePrams, RoutingSlip } from '@/models/RoutingSlip'
 import commonUtil from '@/util/common-util'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
@@ -29,18 +29,18 @@ export default function usePaymentInformation (_, context) {
     return payments && payments[0].paymentMethod === PaymentMethods.CHEQUE
   })
 
-  function adjustRoutingSlipChequeNumber (num: string, i: number = 0) {
-    const chequeNumToChange = {
+  function adjustRoutingSlipChequeNumber (num: string, paymentIndex: number = 0) {
+    const chequeNumToChange: AdjustRoutingSlipChequePrams = {
       chequeNum: num,
-      idx: i
+      paymentIndex: paymentIndex
     }
     updateRoutingSlipChequeNumber(chequeNumToChange)
   }
 
-  function adjustRoutingSlipAmount (num: number, i: number = 0) {
-    const amountToChange = {
+  function adjustRoutingSlipAmount (num: number, paymentIndex: number = 0) {
+    const amountToChange: AdjustRoutingSlipCashPrams = {
       amount: num,
-      idx: i
+      paymentIndex: paymentIndex
     }
     updateRoutingSlipAmount(amountToChange)
   }
@@ -73,7 +73,7 @@ export default function usePaymentInformation (_, context) {
   function adjustRoutingSlipHandler () {
     try {
       adjustRoutingSlip()
-      isEditable.value = !isEditable.value
+      adjustRoutingSlipStatus()
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('error ', error?.response)
