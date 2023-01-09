@@ -36,21 +36,21 @@
         :value="Number(payment.paidAmount).toFixed(2)"
         type="number"
         :data-test="getIndexedTag('txt-paid-amount', i)"
-        @input="e => adjustRoutingSlipAmount(e, i)"
+        @input="e => adjustRoutingSlipCheckAmount(e, i, false)"
         >
         </v-text-field>
       </v-col>
       <v-col cols="3" v-if="isAmountPaidInUsd">
         <v-text-field
         filled
-        :disabled="isEditable || isALinkedChild"
+        :disabled="!isEditable || isALinkedChild"
         label="Amount(USD$)"
         persistent-hint
         hide-details
         :value="Number(payment.paidUsdAmount).toFixed(2)"
         type="number"
         :data-test="getIndexedTag('txt-paid-amount', i)"
-        @input="e => adjustRoutingSlipChequeAmount(e, i)"
+        @input="e => adjustRoutingSlipCheckAmount(e, i, true)"
         >
         </v-text-field>
       </v-col>
@@ -68,11 +68,11 @@ import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
   setup (_, context) {
     const {
       adjustRoutingSlipChequeNumber,
-      adjustRoutingSlipAmount
+      adjustRoutingSlipCheckAmount
     } = usePaymentInformation(_, context)
     return {
       adjustRoutingSlipChequeNumber,
-      adjustRoutingSlipAmount
+      adjustRoutingSlipCheckAmount
     }
   }
 })

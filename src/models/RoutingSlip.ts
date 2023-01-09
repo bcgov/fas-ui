@@ -79,7 +79,8 @@ export interface AdjustRoutingSlipChequePrams {
   paymentIndex: number
 }
 
-export interface AdjustRoutingSlipCashPrams {
+export interface AdjustRoutingSlipAmountPrams {
   amount: number,
   paymentIndex: number
+  isRoutingSlipPaidInUsd: boolean
 }

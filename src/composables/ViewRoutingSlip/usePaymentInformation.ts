@@ -2,7 +2,7 @@ import { computed, ref } from '@vue/composition-api'
 
 import { Payment } from '@/models/Payment'
 import { PaymentMethods } from '@/util/constants'
-import { AdjustRoutingSlipCashPrams, AdjustRoutingSlipChequePrams, RoutingSlip } from '@/models/RoutingSlip'
+import { AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, RoutingSlip } from '@/models/RoutingSlip'
 import commonUtil from '@/util/common-util'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
@@ -19,7 +19,7 @@ export default function usePaymentInformation (_, context) {
   const { routingSlip, linkedRoutingSlips } = useState(['routingSlip', 'linkedRoutingSlips'])
   const { isRoutingSlipAChild, isRoutingSlipLinked } = useGetters(['isRoutingSlipAChild', 'isRoutingSlipLinked'])
   const { adjustRoutingSlip } = useActions(['adjustRoutingSlip'])
-  const { updateRoutingSlipAmount, updateRoutingSlipChequeNumber } = useMutations(['updateRoutingSlipAmount', 'updateRoutingSlipChequeNumber'])
+  const { updateRoutingSlipAmount, updateRoutingSlipChequeNumber, updateRoutingSlipChequeAmount } = useMutations(['updateRoutingSlipAmount', 'updateRoutingSlipChequeNumber', 'updateRoutingSlipChequeAmount'])
 
   // As per current business rule, a routingslip has one-to-one relation with payment method (Cash/Cheque)
   // Therefore, we can determine the payment method of the current routingslip from the first payment record
@@ -38,11 +38,21 @@ export default function usePaymentInformation (_, context) {
   }
 
   function adjustRoutingSlipAmount (num: number, paymentIndex: number = 0) {
-    const amountToChange: AdjustRoutingSlipCashPrams = {
+    const amountToChange: AdjustRoutingSlipAmountPrams = {
       amount: num,
-      paymentIndex: paymentIndex
+      paymentIndex: paymentIndex,
+      isRoutingSlipPaidInUsd: isRoutingSlipChildPaidInUsd.value
     }
     updateRoutingSlipAmount(amountToChange)
+  }
+
+  function adjustRoutingSlipCheckAmount (num: number, paymentIndex: number = 0, isUsdChange: boolean) {
+    const amountToChange: AdjustRoutingSlipAmountPrams = {
+      amount: num,
+      paymentIndex: paymentIndex,
+      isRoutingSlipPaidInUsd: isUsdChange
+    }
+    updateRoutingSlipChequeAmount(amountToChange)
   }
 
   // Backend returns individual routing slip total. Therefore, we need to sum up the children routing slips as well
@@ -111,6 +121,7 @@ export default function usePaymentInformation (_, context) {
     isRoutingSlipPaidInUsd,
     adjustRoutingSlipChequeNumber,
     adjustRoutingSlipAmount,
+    adjustRoutingSlipCheckAmount,
     adjustRoutingSlipHandler,
     adjustRoutingSlipStatus,
     viewPaymentInformation,

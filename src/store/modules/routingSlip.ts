@@ -1,6 +1,6 @@
 import {
   AccountInfo,
-  AdjustRoutingSlipCashPrams,
+  AdjustRoutingSlipAmountPrams,
   AdjustRoutingSlipChequePrams,
   GetRoutingSlipRequestPayload,
   LinkedRoutingSlips,
@@ -164,13 +164,29 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Mutation
-  public updateRoutingSlipAmount (amountToChange: AdjustRoutingSlipCashPrams) {
+  public updateRoutingSlipChequeAmount (amountToChange: AdjustRoutingSlipAmountPrams) {
+    console.log(amountToChange)
     const payments = this.routingSlip.payments.map((payment: Payment, i: number) => {
       if (amountToChange.paymentIndex === i) {
-        if (payment.paidAmount && payment.paidAmount > 0) {
-          payment.paidAmount = amountToChange.amount
-        } else {
+        if (amountToChange.isRoutingSlipPaidInUsd) {
           payment.paidUsdAmount = amountToChange.amount
+        } else {
+          payment.paidAmount = amountToChange.amount
+        }
+      }
+      return { ...payment }
+    })
+    this.routingSlip.payments = payments
+  }
+
+  @Mutation
+  public updateRoutingSlipAmount (amountToChange: AdjustRoutingSlipAmountPrams) {
+    const payments = this.routingSlip.payments.map((payment: Payment, i: number) => {
+      if (amountToChange.paymentIndex === i) {
+        if (amountToChange.isRoutingSlipPaidInUsd) {
+          payment.paidUsdAmount = amountToChange.amount
+        } else {
+          payment.paidAmount = amountToChange.amount
         }
       }
       return { ...payment }

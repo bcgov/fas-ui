@@ -23,7 +23,7 @@
       :value="Number(cashPayment.paidAmount).toFixed(2)"
       type="number"
       data-test="txt-paid-amount"
-      @input="e => adjustRoutingSlipAmount(e)"
+      @input="e => adjustRoutingSlipAmount(e, isUsdChange)"
       >
       </v-text-field>
     </v-col>
@@ -37,7 +37,7 @@
       :value="Number(cashPayment.paidUsdAmount).toFixed(2)"
       type="number"
       data-test="txt-paid-amount"
-      @input="e => adjustRoutingSlipAmount(e)"
+      @input="e => adjustRoutingSlipAmount(e, isUsdChange)"
       >
       </v-text-field>
     </v-col>
