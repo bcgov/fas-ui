@@ -14,12 +14,13 @@ export default function usePaymentInformation (_, context) {
   // UI control variables
   const isExpanded = ref<boolean>(false)
   const isEditable = ref<boolean>(false)
+  const routingSlipBeforeEdit = ref<object>({})
 
   // vuex getter and state
   const { routingSlip, linkedRoutingSlips } = useState(['routingSlip', 'linkedRoutingSlips'])
   const { isRoutingSlipAChild, isRoutingSlipLinked } = useGetters(['isRoutingSlipAChild', 'isRoutingSlipLinked'])
   const { adjustRoutingSlip } = useActions(['adjustRoutingSlip'])
-  const { updateRoutingSlipAmount, updateRoutingSlipChequeNumber, updateRoutingSlipChequeAmount } = useMutations(['updateRoutingSlipAmount', 'updateRoutingSlipChequeNumber', 'updateRoutingSlipChequeAmount'])
+  const { updateRoutingSlipAmount, updateRoutingSlipChequeNumber, updateRoutingSlipChequeAmount, setRoutingSlip } = useMutations(['updateRoutingSlipAmount', 'updateRoutingSlipChequeNumber', 'updateRoutingSlipChequeAmount', 'setRoutingSlip'])
 
   // As per current business rule, a routingslip has one-to-one relation with payment method (Cash/Cheque)
   // Therefore, we can determine the payment method of the current routingslip from the first payment record
@@ -27,6 +28,10 @@ export default function usePaymentInformation (_, context) {
     const payments = (routingSlip.value as RoutingSlip)?.payments
     // to prevent lazy load
     return payments && payments[0].paymentMethod === PaymentMethods.CHEQUE
+  })
+
+  const displayEditRoutingSlip = computed(() => {
+    return !isEditable.value && isExpanded.value && routingSlip.value && routingSlip.value.payments
   })
 
   function adjustRoutingSlipChequeNumber (num: string, paymentIndex: number = 0) {
@@ -82,6 +87,7 @@ export default function usePaymentInformation (_, context) {
 
   function adjustRoutingSlipHandler () {
     try {
+      routingSlipBeforeEdit.value = JSON.parse(JSON.stringify(routingSlip.value))
       adjustRoutingSlip()
       adjustRoutingSlipStatus()
     } catch (error: any) {
@@ -92,6 +98,19 @@ export default function usePaymentInformation (_, context) {
 
   function adjustRoutingSlipStatus () {
     isEditable.value = !isEditable.value
+  }
+
+  function cancelRoutingSlipAdjust () {
+    adjustRoutingSlipStatus()
+  }
+
+  function cancelEditPayment () {
+    setRoutingSlip(routingSlipBeforeEdit.value)
+    adjustRoutingSlipStatus()
+  }
+  function editPayment () {
+    routingSlipBeforeEdit.value = JSON.parse(JSON.stringify(routingSlip.value))
+    adjustRoutingSlipStatus()
   }
 
   function viewPaymentInformation (): void {
@@ -119,11 +138,15 @@ export default function usePaymentInformation (_, context) {
     totalAmount,
     remainingAmount,
     isRoutingSlipPaidInUsd,
+    displayEditRoutingSlip,
     adjustRoutingSlipChequeNumber,
     adjustRoutingSlipAmount,
     adjustRoutingSlipCheckAmount,
     adjustRoutingSlipHandler,
     adjustRoutingSlipStatus,
+    cancelEditPayment,
+    editPayment,
+    cancelRoutingSlipAdjust,
     viewPaymentInformation,
     navigateTo
   }

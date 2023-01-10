@@ -2,19 +2,39 @@ import { createLocalVue, mount } from '@vue/test-utils'
 
 import { ReviewRoutingSlipChequePayment } from '@/components/ReviewRoutingSlip'
 import Vuetify from 'vuetify'
+import Vuex from 'vuex'
 import { chequePayment } from '../../test-data/mock-routing-slip'
 
 describe('ReviewRoutingSlipChequePayment.vue', () => {
   const localVue = createLocalVue()
   localVue.use(Vuetify)
+  let store
   beforeEach(() => {
     jest.resetModules()
     jest.clearAllMocks()
+    const routingSlipModule = {
+      namespaced: true,
+      state: {
+        routingSlipDetails: {}
+      },
+      actions: {
+        createRoutingSlip: jest.fn(),
+        resetRoutingSlipDetails: jest.fn()
+      }
+    }
+
+    store = new Vuex.Store({
+      strict: false,
+      modules: {
+        routingSlip: routingSlipModule
+      }
+    })
   })
 
   it('renders component', () => {
     const wrapper: any = mount(ReviewRoutingSlipChequePayment, {
       localVue,
+      store,
       propsData: {
         chequePayment: chequePayment
       }

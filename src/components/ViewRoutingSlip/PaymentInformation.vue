@@ -36,12 +36,13 @@
                   }}</v-icon>
                 </v-btn>
               </v-col>
-              <v-col class="font-weight-bold d-flex justify-end" v-if="!isEditable && isExpanded && routingSlip && routingSlip.payments">
+              <v-col class="d-flex justify-end" v-can:fas_correction.hide v-if="displayEditRoutingSlip">
                 <span
                     class="primary--text cursor-pointer"
-                    @click="adjustRoutingSlipStatus"
+                    @click="editPayment"
+                    size="14"
                   >
-                    <v-icon color="primary" size="20"> mdi-pencil</v-icon>
+                    <v-icon color="primary" size="14"> mdi-pencil</v-icon>
                     Edit Routing Slip
                 </span>
               </v-col>
@@ -87,12 +88,12 @@
                   </div>
                 </v-col>
               </v-expand-transition>
-              <v-col class="font-weight-bold d-flex justify-end mt-6" v-if="isEditable">
+              <v-col class="d-flex justify-end mt-6" v-if="isEditable">
                 <v-btn
                  large
                   color="primary"
                   class="px-10"
-                  data-test="btn-add-transaction"
+                  data-test="btn-save-edit-transaction"
                   @click="adjustRoutingSlipHandler"
                 >
                   <span>Save</span>
@@ -103,9 +104,9 @@
                   color="primary"
                   class="ml-3"
                   data-test="btn-cancel"
-                  @click="adjustRoutingSlipStatus"
+                  @click="cancelEditPayment"
                 >
-                  <span class="font-weight-bold">Cancel</span>
+                  <span>Cancel</span>
                 </v-btn>
               </v-col>
             </v-row>
@@ -157,8 +158,12 @@ import { PaymentMethods, Role } from '@/util/constants'
       remainingAmount,
       isRoutingSlipPaidInUsd,
       isRoutingSlipChildPaidInUsd,
+      displayEditRoutingSlip,
       adjustRoutingSlipHandler,
       adjustRoutingSlipStatus,
+      cancelRoutingSlipAdjust,
+      editPayment,
+      cancelEditPayment,
       viewPaymentInformation,
       navigateTo
     } = usePaymentInformation(_, context)
@@ -174,8 +179,12 @@ import { PaymentMethods, Role } from '@/util/constants'
       remainingAmount,
       isRoutingSlipPaidInUsd,
       isRoutingSlipChildPaidInUsd,
+      displayEditRoutingSlip,
       adjustRoutingSlipHandler,
       adjustRoutingSlipStatus,
+      cancelRoutingSlipAdjust,
+      editPayment,
+      cancelEditPayment,
       viewPaymentInformation,
       navigateTo
     }

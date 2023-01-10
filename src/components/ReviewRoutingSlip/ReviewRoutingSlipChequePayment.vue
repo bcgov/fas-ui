@@ -33,7 +33,7 @@
         label="Amount(CAD$)"
         persistent-hint
         hide-details
-        :value="Number(payment.paidAmount).toFixed(2)"
+        :value="payment.paidAmount"
         type="number"
         :data-test="getIndexedTag('txt-paid-amount', i)"
         @input="e => adjustRoutingSlipCheckAmount(e, i, false)"
@@ -47,7 +47,7 @@
         label="Amount(USD$)"
         persistent-hint
         hide-details
-        :value="Number(payment.paidUsdAmount).toFixed(2)"
+        :value="payment.paidUsdAmount"
         type="number"
         :data-test="getIndexedTag('txt-paid-amount', i)"
         @input="e => adjustRoutingSlipCheckAmount(e, i, true)"

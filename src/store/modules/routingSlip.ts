@@ -165,7 +165,6 @@ export default class RoutingSlipModule extends VuexModule {
 
   @Mutation
   public updateRoutingSlipChequeAmount (amountToChange: AdjustRoutingSlipAmountPrams) {
-    console.log(amountToChange)
     const payments = this.routingSlip.payments.map((payment: Payment, i: number) => {
       if (amountToChange.paymentIndex === i) {
         if (amountToChange.isRoutingSlipPaidInUsd) {

@@ -9,7 +9,7 @@
       hide-details
       :value="cashPayment.chequeReceiptNumber"
       data-test="txt-receipt-number"
-      @input="e => adjustRoutingSlipChequeNumber(e)"
+      v-model="cashPayment.chequeReceiptNumber"
       >
       </v-text-field>
     </v-col>
@@ -20,10 +20,10 @@
       label="Amount(CAD$)"
       persistent-hint
       hide-details
-      :value="Number(cashPayment.paidAmount).toFixed(2)"
+      :value="cashPayment.paidAmount"
       type="number"
       data-test="txt-paid-amount"
-      @input="e => adjustRoutingSlipAmount(e, isUsdChange)"
+      @input="e => adjustRoutingSlipAmount(e, isAmountPaidInUsd)"
       >
       </v-text-field>
     </v-col>
@@ -34,10 +34,10 @@
       label="Amount(USD$)"
       persistent-hint
       hide-details
-      :value="Number(cashPayment.paidUsdAmount).toFixed(2)"
+      :value="cashPayment.paidUsdAmount"
       type="number"
       data-test="txt-paid-amount"
-      @input="e => adjustRoutingSlipAmount(e, isUsdChange)"
+      @input="e => adjustRoutingSlipAmount(e, isAmountPaidInUsd)"
       >
       </v-text-field>
     </v-col>
