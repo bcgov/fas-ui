@@ -164,21 +164,6 @@ export default class RoutingSlipModule extends VuexModule {
   }
 
   @Mutation
-  public updateRoutingSlipChequeAmount (amountToChange: AdjustRoutingSlipAmountPrams) {
-    const payments = this.routingSlip.payments.map((payment: Payment, i: number) => {
-      if (amountToChange.paymentIndex === i) {
-        if (amountToChange.isRoutingSlipPaidInUsd) {
-          payment.paidUsdAmount = amountToChange.amount
-        } else {
-          payment.paidAmount = amountToChange.amount
-        }
-      }
-      return { ...payment }
-    })
-    this.routingSlip.payments = payments
-  }
-
-  @Mutation
   public updateRoutingSlipAmount (amountToChange: AdjustRoutingSlipAmountPrams) {
     const payments = this.routingSlip.payments.map((payment: Payment, i: number) => {
       if (amountToChange.paymentIndex === i) {
@@ -355,7 +340,6 @@ export default class RoutingSlipModule extends VuexModule {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('error ', error.response)
-      return error?.response
     }
   }
 
@@ -365,13 +349,18 @@ export default class RoutingSlipModule extends VuexModule {
     // build the RoutingSlip Request JSON object that needs to be sent.
     const routingSlipRequest: Payment[] = context.state.routingSlip.payments
     const slipNumber = context.state.routingSlip.number
-
-    const response = await RoutingSlipService.adjustRoutingSlip(
-      routingSlipRequest,
-      slipNumber
-    )
-    if (response?.data && response.status === 200) {
-      return response.data
+    try {
+      const response = await RoutingSlipService.adjustRoutingSlip(
+        routingSlipRequest,
+        slipNumber
+      )
+      if (response?.data && response.status === 200) {
+        return response.data
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('error ', error.response)
+      return error?.response
     }
   }
 

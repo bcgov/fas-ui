@@ -36,7 +36,7 @@
         :value="payment.paidAmount"
         type="number"
         :data-test="getIndexedTag('txt-paid-amount', i)"
-        @input="e => adjustRoutingSlipCheckAmount(e, i, false)"
+        @input="e => adjustRoutingSlipAmount(e, false, i)"
         >
         </v-text-field>
       </v-col>
@@ -50,7 +50,7 @@
         :value="payment.paidUsdAmount"
         type="number"
         :data-test="getIndexedTag('txt-paid-amount', i)"
-        @input="e => adjustRoutingSlipCheckAmount(e, i, true)"
+        @input="e => adjustRoutingSlipAmount(e, true, i)"
         >
         </v-text-field>
       </v-col>
@@ -68,11 +68,11 @@ import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
   setup (_, context) {
     const {
       adjustRoutingSlipChequeNumber,
-      adjustRoutingSlipCheckAmount
+      adjustRoutingSlipAmount
     } = usePaymentInformation(_, context)
     return {
       adjustRoutingSlipChequeNumber,
-      adjustRoutingSlipCheckAmount
+      adjustRoutingSlipAmount
     }
   }
 })

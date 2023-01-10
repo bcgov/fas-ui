@@ -1,8 +1,8 @@
 import { computed, ref } from '@vue/composition-api'
 
 import { Payment } from '@/models/Payment'
-import { PaymentMethods } from '@/util/constants'
-import { AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, RoutingSlip } from '@/models/RoutingSlip'
+import { PaymentMethods, SlipStatus } from '@/util/constants'
+import { AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload, RoutingSlip } from '@/models/RoutingSlip'
 import commonUtil from '@/util/common-util'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
@@ -19,8 +19,8 @@ export default function usePaymentInformation (_, context) {
   // vuex getter and state
   const { routingSlip, linkedRoutingSlips } = useState(['routingSlip', 'linkedRoutingSlips'])
   const { isRoutingSlipAChild, isRoutingSlipLinked } = useGetters(['isRoutingSlipAChild', 'isRoutingSlipLinked'])
-  const { adjustRoutingSlip } = useActions(['adjustRoutingSlip'])
-  const { updateRoutingSlipAmount, updateRoutingSlipChequeNumber, updateRoutingSlipChequeAmount, setRoutingSlip } = useMutations(['updateRoutingSlipAmount', 'updateRoutingSlipChequeNumber', 'updateRoutingSlipChequeAmount', 'setRoutingSlip'])
+  const { adjustRoutingSlip, getRoutingSlip } = useActions(['adjustRoutingSlip', 'getRoutingSlip'])
+  const { updateRoutingSlipChequeNumber, updateRoutingSlipAmount, setRoutingSlip } = useMutations(['updateRoutingSlipChequeNumber', 'updateRoutingSlipAmount', 'updateRoutingSlipAmount', 'setRoutingSlip'])
 
   // As per current business rule, a routingslip has one-to-one relation with payment method (Cash/Cheque)
   // Therefore, we can determine the payment method of the current routingslip from the first payment record
@@ -42,22 +42,13 @@ export default function usePaymentInformation (_, context) {
     updateRoutingSlipChequeNumber(chequeNumToChange)
   }
 
-  function adjustRoutingSlipAmount (num: number, paymentIndex: number = 0) {
+  function adjustRoutingSlipAmount (num: number, isUsdChange: boolean, paymentIndex: number = 0) {
     const amountToChange: AdjustRoutingSlipAmountPrams = {
-      amount: num,
-      paymentIndex: paymentIndex,
-      isRoutingSlipPaidInUsd: isRoutingSlipChildPaidInUsd.value
-    }
-    updateRoutingSlipAmount(amountToChange)
-  }
-
-  function adjustRoutingSlipCheckAmount (num: number, paymentIndex: number = 0, isUsdChange: boolean) {
-    const amountToChange: AdjustRoutingSlipAmountPrams = {
-      amount: num,
+      amount: Number(num),
       paymentIndex: paymentIndex,
       isRoutingSlipPaidInUsd: isUsdChange
     }
-    updateRoutingSlipChequeAmount(amountToChange)
+    updateRoutingSlipAmount(amountToChange)
   }
 
   // Backend returns individual routing slip total. Therefore, we need to sum up the children routing slips as well
@@ -85,14 +76,15 @@ export default function usePaymentInformation (_, context) {
     return linkedRoutingSlips.value && linkedRoutingSlips.value.children.length > 0 && linkedRoutingSlips.value.children[0].totalUsd && linkedRoutingSlips.value.children[0].totalUsd > 0
   })
 
-  function adjustRoutingSlipHandler () {
-    try {
+  async function adjustRoutingSlipHandler () {
+    const response = await adjustRoutingSlip()
+    if (response.status === SlipStatus.CORRECTION) {
       routingSlipBeforeEdit.value = JSON.parse(JSON.stringify(routingSlip.value))
-      adjustRoutingSlip()
       adjustRoutingSlipStatus()
-    } catch (error: any) {
-      // eslint-disable-next-line no-console
-      console.error('error ', error?.response)
+      const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value.number }
+      await getRoutingSlip(getRoutingSlipRequestPayload)
+    } else {
+      cancelEditPayment()
     }
   }
 
@@ -141,7 +133,6 @@ export default function usePaymentInformation (_, context) {
     displayEditRoutingSlip,
     adjustRoutingSlipChequeNumber,
     adjustRoutingSlipAmount,
-    adjustRoutingSlipCheckAmount,
     adjustRoutingSlipHandler,
     adjustRoutingSlipStatus,
     cancelEditPayment,
