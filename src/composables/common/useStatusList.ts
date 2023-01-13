@@ -41,7 +41,6 @@ export function useStatusList (props, context) {
    */
 
   function selectedStatusObject (code: string) {
-    debugger
     return routingSlipStatusList.value?.filter(
       statusList => statusList.code === code
     )

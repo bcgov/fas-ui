@@ -477,7 +477,6 @@ export const cancelRoutingSlipInvoice = async (invoiceId: number) => {
 export const routingSlipStatusList = ref<Code[]>([])
 
 export const getRoutingSlipStatusList = async () => {
-  debugger
   if (routingSlipStatusList.value.length === 0) {
     const response: any = await CodesService.getCodes(
       'routing_slip_statuses'
