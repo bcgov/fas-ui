@@ -1,6 +1,7 @@
 <template>
   <v-select
-    :items="routingSlipStatus"
+    :key="routingSlipStatusList"
+    :items="routingSlipStatusList"
     v-model="currentStatus"
     filled
     item-text="description"
@@ -24,9 +25,9 @@ import { useStatusList } from '@/composables/common'
 
 @Component({
   setup (props, context) {
-    const { routingSlipStatus, currentStatus } = useStatusList(props, context)
+    const { routingSlipStatusList, currentStatus } = useStatusList(props, context)
     return {
-      routingSlipStatus,
+      routingSlipStatusList,
       currentStatus
     }
   }

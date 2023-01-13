@@ -1,5 +1,5 @@
 import { Code } from '@/models/Code'
-import { ref, computed, toRefs, onMounted, watch } from '@vue/composition-api'
+import { ref, computed, toRefs, onMounted } from '@vue/composition-api'
 import { getRoutingSlipStatusList, routingSlipStatusList } from '../state'
 
 export function useStatusList (props, context) {
@@ -14,11 +14,6 @@ export function useStatusList (props, context) {
     set: (modalValue: Code) => {
       context.emit('input', modalValue.code)
     }
-  })
-
-  // state , action , mutation from vuex store
-  const routingSlipStatus = computed(() => {
-    return routingSlipStatusList.value
   })
 
   onMounted(() => {
@@ -46,13 +41,14 @@ export function useStatusList (props, context) {
    */
 
   function selectedStatusObject (code: string) {
-    return routingSlipStatus.value?.filter(
+    debugger
+    return routingSlipStatusList.value?.filter(
       statusList => statusList.code === code
     )
   }
 
   return {
-    routingSlipStatus,
+    routingSlipStatusList,
     currentStatus,
     statusLabel,
     selectedStatusObject

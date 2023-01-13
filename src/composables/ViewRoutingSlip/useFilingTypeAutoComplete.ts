@@ -29,7 +29,7 @@ export default function useFilingTypeAutoComplete (props, context) {
       isLoading.value = true
       // start searching after typing 3 char
       if (search.value.length > 2) {
-        autoCompleteFilingTypes.value = await getAutoCompleteFilingTypes(search.value)
+        await getAutoCompleteFilingTypes(search.value)
       }
     } catch (error: any) {
       autoCompleteFilingTypes.value = []
