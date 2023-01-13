@@ -1,28 +1,16 @@
 import { computed, reactive, ref, watch } from '@vue/composition-api'
 
-import { RefundRequestDetails } from '@/models/RoutingSlip'
+import { RefundRequestDetails, RoutingSlip } from '@/models/RoutingSlip'
 import { SlipStatus } from '@/util/constants'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { useStatusMenu } from '@/composables/common/useStatusMenu'
 import { Code } from '@/models/Code'
 import CommonUtils from '@/util/common-util'
 import i18n from '@/plugins/i18n'
 import { ApiError } from '@/models/ApiError'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useActions, useState, useGetters } = routingSlipModule
-
-const codeModule = createNamespacedHelpers('fasCodes') // specific module name
-const { useState: useCodeState } = codeModule
+import { isRoutingSlipAChild, routingSlip, routingSlipStatusList, updateRoutingSlipStatus } from '../state'
 
 // Composable function to inject Props, options and values to useRoutingSlipInfo component
 export default function useRoutingSlipInfo (props) {
-  // store
-  const { routingSlip } = useState(['routingSlip'])
-  const { routingSlipStatusList } = useCodeState(['routingSlipStatusList'])
-  const { updateRoutingSlipStatus } = useActions(['updateRoutingSlipStatus'])
-  const { isRoutingSlipAChild } = useGetters(['isRoutingSlipAChild'])
-
   const addMoreDetails = ref<boolean>(false)
   const isLoading = ref<boolean>(false)
   const isAddressEditable = ref<boolean>(false)
@@ -42,7 +30,7 @@ export default function useRoutingSlipInfo (props) {
     {}
   )
 
-  const routingSlipDetails = computed(() => {
+  const routingSlipDetails = computed<RoutingSlip>(() => {
     return routingSlip.value || {}
   })
 

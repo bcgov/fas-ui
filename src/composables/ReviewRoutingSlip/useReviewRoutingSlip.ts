@@ -1,15 +1,7 @@
-import { computed } from '@vue/composition-api'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useState } = routingSlipModule
+import { accountInfo, cashPayment, chequePayment, isAmountPaidInUsd, isPaymentMethodCheque, routingSlipDetails } from '../state'
 
 // Composable function to inject Props, options and values to reviewRoutingSlip component
 export function useReviewRoutingSlip () {
-  // store
-  const { routingSlipDetails, chequePayment, accountInfo, cashPayment, isPaymentMethodCheque, isAmountPaidInUsd } =
-  useState(['routingSlipDetails', 'chequePayment', 'accountInfo', 'cashPayment', 'isPaymentMethodCheque', 'isAmountPaidInUsd'])
-
   return {
     routingSlipDetails,
     chequePayment,

@@ -1,37 +1,17 @@
-import { computed, onMounted, reactive, ref, toRefs, watch } from '@vue/composition-api'
+import { computed, onMounted, reactive, ref, toRefs } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import ConfigHelper from '@/util/config-helper'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import debounce from '@/util/debounce'
 import { useLoader } from '@/composables/common/useLoader'
 import { useStatusList } from '@/composables/common/useStatusList'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useActions, useState, useMutations, useGetters } = routingSlipModule
+import { headerSearchTitle, resetSearchParams, searchParamsExist, searchRoutingSlip, searchRoutingSlipParams, searchRoutingSlipResult } from '../state'
 
 export function useSearch (props, context) {
   const { isLibraryMode } = toRefs(props)
   // Adding openFromAuth=true queryparams so that we can build breadcrumbs
   // Eg of a typical breadcrumb flow = Staff Dashboard -> FAS Dashboard -> View Routing Slip: test -> View Routing Slip: testchild
   const fasUrl = `${ConfigHelper.getFasWebUrl()}?openFromAuth=true`
-  // vuex action and state
-  const { searchRoutingSlip, resetSearchParams } = useActions([
-    'searchRoutingSlip',
-    'resetSearchParams'
-  ])
-  const { searchRoutingSlipParams, searchRoutingSlipResult, headerSearchTitle } = useState([
-    'searchRoutingSlipParams',
-    'searchRoutingSlipResult',
-    'headerSearchTitle'
-  ])
-
-  const { setSearchRoutingSlipParams, setSearchHeaders } = useMutations([
-    'setSearchRoutingSlipParams',
-    'setSearchHeaders'
-  ])
-
-  const { searchParamsExist } = useGetters(['searchParamsExist'])
 
   const { statusLabel } = useStatusList(reactive({ value: '' }), {})
   const { isLoading, toggleLoading } = useLoader()
@@ -46,7 +26,7 @@ export function useSearch (props, context) {
       return headerSearchTitle.value || []
     },
     set: (modalValue: any) => {
-      setSearchHeaders(modalValue)
+      headerSearchTitle.value = modalValue
     }
   })
 
@@ -73,10 +53,10 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.routingSlipNumber || ''
     },
     set: (modalValue: any) => {
-      setSearchRoutingSlipParams({
+      searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
         routingSlipNumber: modalValue
-      })
+      }
       searchParamsChanged.value = true
     }
   })
@@ -86,10 +66,10 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.receiptNumber || ''
     },
     set: (modalValue: any) => {
-      setSearchRoutingSlipParams({
+      searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
         receiptNumber: modalValue
-      })
+      }
       searchParamsChanged.value = true
     }
   })
@@ -99,10 +79,10 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.status || ''
     },
     set: (modalValue: any) => {
-      setSearchRoutingSlipParams({
+      searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
         status: modalValue
-      })
+      }
       searchParamsChanged.value = true
     }
   })
@@ -112,10 +92,10 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.businessIdentifier || ''
     },
     set: (modalValue: any) => {
-      setSearchRoutingSlipParams({
+      searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
         businessIdentifier: modalValue
-      })
+      }
       searchParamsChanged.value = true
     }
   })
@@ -125,10 +105,10 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value?.accountName || ''
     },
     set: (modalValue: any) => {
-      setSearchRoutingSlipParams({
+      searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
         accountName: modalValue
-      })
+      }
       searchParamsChanged.value = true
     }
   })
@@ -138,10 +118,10 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.initiator || ''
     },
     set: (modalValue: any) => {
-      setSearchRoutingSlipParams({
+      searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
         initiator: modalValue
-      })
+      }
       searchParamsChanged.value = true
     }
   })
@@ -151,10 +131,10 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.remainingAmount || ''
     },
     set: (modalValue: any) => {
-      setSearchRoutingSlipParams({
+      searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
         remainingAmount: modalValue
-      })
+      }
       searchParamsChanged.value = true
     }
   })
@@ -164,10 +144,10 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.dateFilter || []
     },
     set: (modalValue: any) => {
-      setSearchRoutingSlipParams({
+      searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
         dateFilter: modalValue
-      })
+      }
       searchParamsChanged.value = true
     }
   })
@@ -177,10 +157,10 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.chequeReceiptNumber || ''
     },
     set: (modalValue: any) => {
-      setSearchRoutingSlipParams({
+      searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
         chequeReceiptNumber: modalValue
-      })
+      }
       searchParamsChanged.value = true
     }
   })

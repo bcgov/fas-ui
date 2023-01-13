@@ -3,23 +3,17 @@ import { computed, onMounted, ref, watch } from '@vue/composition-api'
 import CommonUtils from '@/util/common-util'
 import { Payment } from '@/models/Payment'
 import { PaymentMethods } from '@/util/constants'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useMutations, useState } = routingSlipModule
+import { chequePayment, isAmountPaidInUsd } from '../state'
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
 export function useCreateRoutingSlipChequePayment () {
   const chequeList = ref<Payment[]>([])
   const createRoutingSlipChequePaymentForm = ref<HTMLFormElement>()
 
-  const { chequePayment, isAmountPaidInUsd } = useState(['chequePayment', 'isAmountPaidInUsd'])
-  const { setChequePayment, setIsAmountPaidInUsd } = useMutations(['setChequePayment', 'setIsAmountPaidInUsd'])
-
   // watch any changes and update to store
   watch(chequeList, () => {
     // to avoid vuex array, send clone copy of object
-    setChequePayment(JSON.parse(JSON.stringify(chequeList.value)))
+    chequePayment.value = (JSON.parse(JSON.stringify(chequeList.value)))
   }, { deep: true })
 
   // Input field rules
@@ -52,7 +46,7 @@ export function useCreateRoutingSlipChequePayment () {
       return isAmountPaidInUsd.value
     },
     set: (modalValue: any) => {
-      setIsAmountPaidInUsd(modalValue)
+      isAmountPaidInUsd.value = modalValue
     }
   })
 

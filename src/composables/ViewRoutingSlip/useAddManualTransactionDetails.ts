@@ -3,11 +3,8 @@ import { computed, nextTick, onMounted, ref, toRefs, watch } from '@vue/composit
 import CommonUtils from '@/util/common-util'
 import { GetFeeRequestParams } from '@/models/Payment'
 import { ManualTransactionDetails } from '@/models/RoutingSlip'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import debounce from '@/util/debounce'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useActions } = routingSlipModule
+import { getFeeByCorpTypeAndFilingType } from '../state'
 
 // Composable function to inject Props, options and values to AddManualTransactionDetails component
 export default function useAddManualTransactionDetails (props, context) {
@@ -18,11 +15,6 @@ export default function useAddManualTransactionDetails (props, context) {
 
   // Input field rules
   const requiredFieldRule = CommonUtils.requiredFieldRule()
-
-  // vuex action and state
-  const { getFeeByCorpTypeAndFilingType } = useActions([
-    'getFeeByCorpTypeAndFilingType'
-  ])
 
   const errorMessage = computed(() => {
     /* We need to check if total exceeds remaining amount and

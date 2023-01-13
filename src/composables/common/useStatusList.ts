@@ -1,9 +1,6 @@
 import { Code } from '@/models/Code'
 import { ref, computed, toRefs, onMounted, watch } from '@vue/composition-api'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
-
-const codeModule = createNamespacedHelpers('fasCodes') // specific module name
-const { useState, useMutations, useActions } = codeModule
+import { getRoutingSlipStatusList, routingSlipStatusList } from '../state'
 
 export function useStatusList (props, context) {
   // default value set blank incase if we didnt pass props
@@ -20,10 +17,6 @@ export function useStatusList (props, context) {
   })
 
   // state , action , mutation from vuex store
-  const { routingSlipStatusList } = useState(['routingSlipStatusList'])
-
-  const { getRoutingSlipStatusList } = useActions(['getRoutingSlipStatusList'])
-
   const routingSlipStatus = computed(() => {
     return routingSlipStatusList.value
   })

@@ -1,12 +1,8 @@
 import { computed, ref, toRefs } from '@vue/composition-api'
 
-import CommonUtils from '@/util/common-util'
 import { FilingType } from '@/models/Payment'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import debounce from '@/util/debounce'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useState, useActions } = routingSlipModule
+import { getAutoCompleteFilingTypes } from '../state'
 
 // Composable function to inject Props, options and values to useFIlingTypeAutoComplete component
 export default function useFilingTypeAutoComplete (props, context) {
@@ -21,11 +17,6 @@ export default function useFilingTypeAutoComplete (props, context) {
       context.emit('input', modalValue)
     }
   })
-
-  // store
-  const { getAutoCompleteFilingTypes } = useActions([
-    'getAutoCompleteFilingTypes'
-  ])
 
   const isLoading = ref<boolean>(false)
   const hideNoData = ref<boolean>(true)

@@ -1,32 +1,12 @@
-import { reactive, ref } from '@vue/composition-api'
+import { ref } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { GetRoutingSlipRequestPayload } from '@/models/RoutingSlip'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import debounce from '@/util/debounce'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useState, useActions } = routingSlipModule
+import { autoCompleteRoutingSlips, getAutoCompleteRoutingSlips, getLinkedRoutingSlips, getRoutingSlip, routingSlip, saveLinkRoutingSlip } from '../state'
 
 // Composable function to inject Props, options and values to useRoutingSlipInfo component
 export default function useLinkRoutingSlip (_, context) {
-  // store
-  const { autoCompleteRoutingSlips, routingSlip } = useState([
-    'autoCompleteRoutingSlips',
-    'routingSlip'
-  ])
-  const {
-    getAutoCompleteRoutingSlips,
-    saveLinkRoutingSlip,
-    getRoutingSlip,
-    getLinkedRoutingSlips
-  } = useActions([
-    'getAutoCompleteRoutingSlips',
-    'saveLinkRoutingSlip',
-    'getRoutingSlip',
-    'getLinkedRoutingSlips'
-  ])
-
   const errorMessage = ref('')
   const isLoading = ref<boolean>(false)
   const hideNoData = ref<boolean>(false)

@@ -1,17 +1,9 @@
 import { computed, ref } from '@vue/composition-api'
-
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useState, useGetters } = routingSlipModule
+import { invoiceCount, isRoutingSlipAChild, isRoutingSlipLinked, isRoutingSlipVoid, linkedRoutingSlips, routingSlip } from '../state'
 
 // Composable function to inject Props, options and values to useRoutingSlipInfo component
 export default function useLinkRoutingSlip () {
   // store
-  const { routingSlip, linkedRoutingSlips } = useState([
-    'routingSlip', 'linkedRoutingSlips'
-  ])
-  const { isRoutingSlipAChild, isRoutingSlipLinked, isRoutingSlipVoid, invoiceCount } = useGetters(['isRoutingSlipAChild', 'isRoutingSlipLinked', 'isRoutingSlipVoid', 'invoiceCount'])
   const showSearch = ref<boolean>(false)
 
   const isLoading = ref<boolean>(false)
