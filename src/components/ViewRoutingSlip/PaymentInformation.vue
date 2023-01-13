@@ -8,10 +8,10 @@
         </p>
       </div>
     </header>
-    <v-card class="pl-5 py-2">
+    <v-card class="pl-5 py-2 mt-5 pr-5">
       <v-card-text>
         <v-row no-gutters>
-          <v-col class="col-12 col-sm-10 ">
+          <v-col class="col-12 col-sm-12 ">
             <v-row no-gutters>
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 Total Amount Received
@@ -36,12 +36,31 @@
                   }}</v-icon>
                 </v-btn>
               </v-col>
+              <v-col class="d-flex justify-end" v-can:fas_correction.hide v-if="displayEditRoutingSlip">
+                <span
+                    class="primary--text cursor-pointer"
+                    @click="editPayment"
+                    size="14"
+                  >
+                    <v-icon color="primary" size="14"> mdi-pencil</v-icon>
+                    Edit Routing Slip
+                </span>
+              </v-col>
             </v-row>
             <v-row no-gutters v-if="isExpanded && routingSlip && routingSlip.payments" class="mb-10">
               <v-expand-transition>
                 <v-col cols="11">
-                  <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentCheque" :chequePayment="routingSlip.payments" :isAmountPaidInUsd="isRoutingSlipPaidInUsd"/>
-                  <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="routingSlip.payments[0]" :isAmountPaidInUsd="isRoutingSlipPaidInUsd"/>
+                  <review-routing-slip-cheque-payment
+                    data-test="review-routing-slip-cheque-payment"
+                    v-if="isPaymentCheque"
+                    :chequePayment="routingSlip.payments"
+                    :isAmountPaidInUsd="isRoutingSlipPaidInUsd"
+                    :isEditable="isEditable"/>
+                  <review-routing-slip-cash-payment
+                    data-test="review-routing-slip-cash-payment"
+                    v-else :cashPayment="routingSlip.payments[0]"
+                    :isAmountPaidInUsd="isRoutingSlipPaidInUsd"
+                    :isEditable="isEditable"/>
                   <div v-if="isRoutingSlipLinked && !isRoutingSlipAChild && linkedRoutingSlips.children" class="d-flex flex-column">
                     <div
                     v-for="(child, i) in linkedRoutingSlips.children"
@@ -56,15 +75,40 @@
                       <review-routing-slip-cheque-payment :data-test="getIndexedTag('cheque-child-payment', i)"
                       v-if="child.payments[0].paymentMethod === PaymentMethods.CHEQUE"
                       :chequePayment="child.payments"
-                      :isAmountPaidInUsd="child.payments[0].paidUsdAmount && child.payments[0].paidUsdAmount>0"/>
+                      :isAmountPaidInUsd="child.payments[0].paidUsdAmount && child.payments[0].paidUsdAmount>0"
+                      :isEditable="isEditable"
+                      :isALinkedChild="true"/>
                       <review-routing-slip-cash-payment :data-test="getIndexedTag('cash-child-payment', i)"
                       v-else
                       :cashPayment="child.payments[0]"
-                      :isAmountPaidInUsd="child.payments[0].paidUsdAmount && child.payments[0].paidUsdAmount>0"/>
+                      :isAmountPaidInUsd="child.payments[0].paidUsdAmount && child.payments[0].paidUsdAmount>0"
+                      :isEditable="isEditable"
+                      :isALinkedChild="true"/>
                     </div>
                   </div>
                 </v-col>
               </v-expand-transition>
+              <v-col class="d-flex justify-end mt-6" v-if="isEditable">
+                <v-btn
+                 large
+                  color="primary"
+                  class="px-10"
+                  data-test="btn-save-edit-transaction"
+                  @click="adjustRoutingSlipHandler"
+                >
+                  <span>Save</span>
+                </v-btn>
+                <v-btn
+                  large
+                  outlined
+                  color="primary"
+                  class="ml-3"
+                  data-test="btn-cancel"
+                  @click="cancelEditPayment"
+                >
+                  <span>Cancel</span>
+                </v-btn>
+              </v-col>
             </v-row>
 
             <v-row no-gutters>
@@ -91,7 +135,7 @@ import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
 import ReviewRoutingSlipCashPayment from '@/components/ReviewRoutingSlip/ReviewRoutingSlipCashPayment.vue'
 import ReviewRoutingSlipChequePayment from '@/components/ReviewRoutingSlip/ReviewRoutingSlipChequePayment.vue'
 import can from '@/directives/can'
-import { PaymentMethods } from '@/util/constants'
+import { PaymentMethods, Role } from '@/util/constants'
 
 @Component({
   components: {
@@ -105,6 +149,7 @@ import { PaymentMethods } from '@/util/constants'
     const {
       routingSlip,
       isExpanded,
+      isEditable,
       isPaymentCheque,
       linkedRoutingSlips,
       isRoutingSlipAChild,
@@ -113,12 +158,19 @@ import { PaymentMethods } from '@/util/constants'
       remainingAmount,
       isRoutingSlipPaidInUsd,
       isRoutingSlipChildPaidInUsd,
+      displayEditRoutingSlip,
+      adjustRoutingSlipHandler,
+      adjustRoutingSlipStatus,
+      cancelRoutingSlipAdjust,
+      editPayment,
+      cancelEditPayment,
       viewPaymentInformation,
       navigateTo
     } = usePaymentInformation(_, context)
     return {
       routingSlip,
       isExpanded,
+      isEditable,
       isPaymentCheque,
       linkedRoutingSlips,
       isRoutingSlipAChild,
@@ -127,6 +179,12 @@ import { PaymentMethods } from '@/util/constants'
       remainingAmount,
       isRoutingSlipPaidInUsd,
       isRoutingSlipChildPaidInUsd,
+      displayEditRoutingSlip,
+      adjustRoutingSlipHandler,
+      adjustRoutingSlipStatus,
+      cancelRoutingSlipAdjust,
+      editPayment,
+      cancelEditPayment,
       viewPaymentInformation,
       navigateTo
     }
@@ -134,6 +192,7 @@ import { PaymentMethods } from '@/util/constants'
 })
 export default class PaymentInformation extends Vue {
   public PaymentMethods = PaymentMethods
+  public Role = Role
 
   public getIndexedTag (tag, index): string {
     return `${tag}-${index}`

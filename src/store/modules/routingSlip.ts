@@ -1,5 +1,7 @@
 import {
   AccountInfo,
+  AdjustRoutingSlipAmountPrams,
+  AdjustRoutingSlipChequePrams,
   GetRoutingSlipRequestPayload,
   LinkedRoutingSlips,
   RoutingSlip,
@@ -16,7 +18,7 @@ import {
 
 import CommonUtils from '@/util/common-util'
 import RoutingSlipService from '@/services/routingSlip.services'
-import { ApiErrors, CreateRoutingSlipStatus, SlipStatus } from '@/util/constants'
+import { ApiErrors, CreateRoutingSlipStatus, PaymentMethods, SlipStatus } from '@/util/constants'
 
 @Module({ namespaced: true, stateFactory: true })
 export default class RoutingSlipModule extends VuexModule {
@@ -148,6 +150,32 @@ export default class RoutingSlipModule extends VuexModule {
 
   public get isRoutingSlipVoid (): boolean {
     return this.routingSlip?.status === SlipStatus.VOID
+  }
+
+  @Mutation
+  public updateRoutingSlipChequeNumber (chequeNumToChange: AdjustRoutingSlipChequePrams) {
+    const payments = this.routingSlip.payments.map((payment: Payment, i: number) => {
+      if (chequeNumToChange.paymentIndex === i) {
+        payment.chequeReceiptNumber = chequeNumToChange.chequeNum
+      }
+      return { ...payment }
+    })
+    this.routingSlip.payments = payments
+  }
+
+  @Mutation
+  public updateRoutingSlipAmount (amountToChange: AdjustRoutingSlipAmountPrams) {
+    const payments = this.routingSlip.payments.map((payment: Payment, i: number) => {
+      if (amountToChange.paymentIndex === i) {
+        if (amountToChange.isRoutingSlipPaidInUsd) {
+          payment.paidUsdAmount = amountToChange.amount
+        } else {
+          payment.paidAmount = amountToChange.amount
+        }
+      }
+      return { ...payment }
+    })
+    this.routingSlip.payments = payments
   }
 
   @Mutation
@@ -308,6 +336,26 @@ export default class RoutingSlipModule extends VuexModule {
           context.dispatch('getRoutingSlip', getRoutingSlipRequestPayload)
         }
         return response
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('error ', error.response)
+    }
+  }
+
+  @Action({ rawError: true })
+  public async adjustRoutingSlip (): Promise<RoutingSlip> {
+    const context: any = this.context
+    // build the RoutingSlip Request JSON object that needs to be sent.
+    const routingSlipRequest: Payment[] = context.state.routingSlip.payments
+    const slipNumber = context.state.routingSlip.number
+    try {
+      const response = await RoutingSlipService.adjustRoutingSlip(
+        routingSlipRequest,
+        slipNumber
+      )
+      if (response?.data && response.status === 200) {
+        return response.data
       }
     } catch (error) {
       // eslint-disable-next-line no-console

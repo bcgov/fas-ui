@@ -73,3 +73,14 @@ export interface GetRoutingSlipRequestPayload {
   routingSlipNumber: string,
   showGlobalLoader?: boolean
 }
+
+export interface AdjustRoutingSlipChequePrams {
+  chequeNum: string,
+  paymentIndex: number
+}
+
+export interface AdjustRoutingSlipAmountPrams {
+  amount: number,
+  paymentIndex: number,
+  isRoutingSlipPaidInUsd: boolean
+}

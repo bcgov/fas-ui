@@ -4,12 +4,13 @@
       <v-col :cols="isAmountPaidInUsd ? 3 : 4">
         <v-text-field
         filled
-        disabled
+        :disabled="!isEditable || isALinkedChild"
         label="Cheque Number"
         persistent-hint
         hide-details
         :value="payment.chequeReceiptNumber"
         :data-test="getIndexedTag('txt-cheque-receipt-number', i)"
+        @input="e => adjustRoutingSlipChequeNumber(e, i)"
         >
         </v-text-field>
       </v-col>
@@ -28,26 +29,28 @@
       <v-col :cols="isAmountPaidInUsd ? 3 : 4">
         <v-text-field
         filled
-        disabled
+        :disabled="!isEditable || isALinkedChild"
         label="Amount(CAD$)"
         persistent-hint
         hide-details
-        :value="payment.paidAmount.toFixed(2)"
+        :value="payment.paidAmount"
         type="number"
         :data-test="getIndexedTag('txt-paid-amount', i)"
+        @input="e => adjustRoutingSlipAmount(e, false, i)"
         >
         </v-text-field>
       </v-col>
       <v-col cols="3" v-if="isAmountPaidInUsd">
         <v-text-field
         filled
-        disabled
+        :disabled="!isEditable || isALinkedChild"
         label="Amount(USD$)"
         persistent-hint
         hide-details
-        :value="payment.paidUsdAmount.toFixed(2)"
+        :value="payment.paidUsdAmount"
         type="number"
         :data-test="getIndexedTag('txt-paid-amount', i)"
+        @input="e => adjustRoutingSlipAmount(e, true, i)"
         >
         </v-text-field>
       </v-col>
@@ -59,11 +62,25 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Payment } from '@/models/Payment'
 import commonUtil from '@/util/common-util'
+import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
 
-@Component({})
+@Component({
+  setup (_, context) {
+    const {
+      adjustRoutingSlipChequeNumber,
+      adjustRoutingSlipAmount
+    } = usePaymentInformation(_, context)
+    return {
+      adjustRoutingSlipChequeNumber,
+      adjustRoutingSlipAmount
+    }
+  }
+})
 export default class ReviewRoutingSlipChequePayment extends Vue {
   @Prop({ default: null }) chequePayment: Payment[]
   @Prop({ default: false }) isAmountPaidInUsd: boolean
+  @Prop({ default: false }) isEditable: boolean
+  @Prop({ default: false }) isALinkedChild: boolean
   public formatDisplayDate = commonUtil.formatDisplayDate
 
   public getIndexedTag (tag, index): string {

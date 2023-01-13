@@ -9,15 +9,33 @@ describe('ReviewRoutingSlipPayment.vue', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   const vuetify = new Vuetify({})
-
+  let store
   beforeEach(() => {
     jest.resetModules()
     jest.clearAllMocks()
+    const routingSlipModule = {
+      namespaced: true,
+      state: {
+        routingSlipDetails: {}
+      },
+      actions: {
+        createRoutingSlip: jest.fn(),
+        resetRoutingSlipDetails: jest.fn()
+      }
+    }
+
+    store = new Vuex.Store({
+      strict: false,
+      modules: {
+        routingSlip: routingSlipModule
+      }
+    })
   })
 
   it('renders component', async () => {
     const wrapper: any = mount(ReviewRoutingSlipPayment, {
       localVue,
+      store,
       vuetify,
       propsData: {
         chequePayment: chequePayment,
@@ -35,6 +53,7 @@ describe('ReviewRoutingSlipPayment.vue', () => {
   it('validates component behaviour', async () => {
     const wrapper: any = mount(ReviewRoutingSlipPayment, {
       localVue,
+      store,
       vuetify,
       propsData: {
         chequePayment: chequePayment,

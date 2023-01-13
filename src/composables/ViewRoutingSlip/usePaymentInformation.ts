@@ -1,22 +1,26 @@
 import { computed, ref } from '@vue/composition-api'
 
 import { Payment } from '@/models/Payment'
-import { PaymentMethods } from '@/util/constants'
-import { RoutingSlip } from '@/models/RoutingSlip'
+import { PaymentMethods, SlipStatus } from '@/util/constants'
+import { AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload, RoutingSlip } from '@/models/RoutingSlip'
 import commonUtil from '@/util/common-util'
 import { createNamespacedHelpers } from 'vuex-composition-helpers'
 
 const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useState, useGetters } = routingSlipModule
+const { useState, useGetters, useActions, useMutations } = routingSlipModule
 
 // Composable function to inject Props, options and values to PaymentInformation component
 export default function usePaymentInformation (_, context) {
   // UI control variables
   const isExpanded = ref<boolean>(false)
+  const isEditable = ref<boolean>(false)
+  const routingSlipBeforeEdit = ref<RoutingSlip>({})
 
   // vuex getter and state
   const { routingSlip, linkedRoutingSlips } = useState(['routingSlip', 'linkedRoutingSlips'])
   const { isRoutingSlipAChild, isRoutingSlipLinked } = useGetters(['isRoutingSlipAChild', 'isRoutingSlipLinked'])
+  const { adjustRoutingSlip, getRoutingSlip } = useActions(['adjustRoutingSlip', 'getRoutingSlip'])
+  const { updateRoutingSlipChequeNumber, updateRoutingSlipAmount, setRoutingSlip } = useMutations(['updateRoutingSlipChequeNumber', 'updateRoutingSlipAmount', 'updateRoutingSlipAmount', 'setRoutingSlip'])
 
   // As per current business rule, a routingslip has one-to-one relation with payment method (Cash/Cheque)
   // Therefore, we can determine the payment method of the current routingslip from the first payment record
@@ -25,6 +29,27 @@ export default function usePaymentInformation (_, context) {
     // to prevent lazy load
     return payments && payments[0].paymentMethod === PaymentMethods.CHEQUE
   })
+
+  const displayEditRoutingSlip = computed(() => {
+    return !isEditable.value && isExpanded.value && routingSlip.value && routingSlip.value.payments
+  })
+
+  function adjustRoutingSlipChequeNumber (num: string, paymentIndex: number = 0) {
+    const chequeNumToChange: AdjustRoutingSlipChequePrams = {
+      chequeNum: num,
+      paymentIndex: paymentIndex
+    }
+    updateRoutingSlipChequeNumber(chequeNumToChange)
+  }
+
+  function adjustRoutingSlipAmount (num: number, isUsdChange: boolean, paymentIndex: number = 0) {
+    const amountToChange: AdjustRoutingSlipAmountPrams = {
+      amount: Number(num),
+      paymentIndex: paymentIndex,
+      isRoutingSlipPaidInUsd: isUsdChange
+    }
+    updateRoutingSlipAmount(amountToChange)
+  }
 
   // Backend returns individual routing slip total. Therefore, we need to sum up the children routing slips as well
   const totalAmount = computed(() => {
@@ -51,6 +76,35 @@ export default function usePaymentInformation (_, context) {
     return linkedRoutingSlips.value && linkedRoutingSlips.value.children.length > 0 && linkedRoutingSlips.value.children[0].totalUsd && linkedRoutingSlips.value.children[0].totalUsd > 0
   })
 
+  async function adjustRoutingSlipHandler () {
+    const response = await adjustRoutingSlip()
+    if (response.status === SlipStatus.CORRECTION) {
+      routingSlipBeforeEdit.value = JSON.parse(JSON.stringify(routingSlip.value))
+      adjustRoutingSlipStatus()
+      const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value.number }
+      await getRoutingSlip(getRoutingSlipRequestPayload)
+    } else {
+      cancelEditPayment()
+    }
+  }
+
+  function adjustRoutingSlipStatus () {
+    isEditable.value = !isEditable.value
+  }
+
+  function cancelRoutingSlipAdjust () {
+    adjustRoutingSlipStatus()
+  }
+
+  function cancelEditPayment () {
+    setRoutingSlip(routingSlipBeforeEdit.value)
+    adjustRoutingSlipStatus()
+  }
+  function editPayment () {
+    routingSlipBeforeEdit.value = JSON.parse(JSON.stringify(routingSlip.value))
+    adjustRoutingSlipStatus()
+  }
+
   function viewPaymentInformation (): void {
     // expand/collapse view payment information children
     // update the cheque store if payment method is cheque, cash store otherwise
@@ -67,6 +121,7 @@ export default function usePaymentInformation (_, context) {
   return {
     routingSlip,
     isExpanded,
+    isEditable,
     isPaymentCheque,
     linkedRoutingSlips,
     isRoutingSlipAChild,
@@ -75,6 +130,14 @@ export default function usePaymentInformation (_, context) {
     totalAmount,
     remainingAmount,
     isRoutingSlipPaidInUsd,
+    displayEditRoutingSlip,
+    adjustRoutingSlipChequeNumber,
+    adjustRoutingSlipAmount,
+    adjustRoutingSlipHandler,
+    adjustRoutingSlipStatus,
+    cancelEditPayment,
+    editPayment,
+    cancelRoutingSlipAdjust,
     viewPaymentInformation,
     navigateTo
   }

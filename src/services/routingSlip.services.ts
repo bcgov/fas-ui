@@ -1,9 +1,10 @@
 import { AxiosResponse } from 'axios'
 import CommonUtils from '@/util/common-util'
 import ConfigHelper from '@/util/config-helper'
-import { GetFeeRequestParams } from '@/models/Payment'
+import { GetFeeRequestParams, Payment } from '@/models/Payment'
 import { LinkRoutingSlipPrams } from '@/models/RoutingSlip'
 import axios from '@/util/http-util'
+import { CreateRoutingSlipStatus, PatchActions, SlipStatus } from '@/util/constants'
 
 export default class RoutingSlip {
   public static async getRoutingSlip (
@@ -24,6 +25,20 @@ export default class RoutingSlip {
       `${ConfigHelper.getFasAPIURL()}/routing-slips`,
       routingSlipRequest,
       { showGlobalLoader: showGlobalLoader }
+    )
+  }
+
+  public static async adjustRoutingSlip (
+    routingSlipRequest: Payment[],
+    routingSlipNumber: string
+  ): Promise<AxiosResponse> {
+    const payload = {
+      status: SlipStatus.CORRECTION,
+      payments: routingSlipRequest
+    }
+    return axios.patch(
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}?action=${PatchActions.UPDATE_STATUS}`,
+      payload
     )
   }
 
