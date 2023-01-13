@@ -14,7 +14,7 @@ export default function usePaymentInformation (_, context) {
   // UI control variables
   const isExpanded = ref<boolean>(false)
   const isEditable = ref<boolean>(false)
-  const routingSlipBeforeEdit = ref<object>({})
+  const routingSlipBeforeEdit = ref<RoutingSlip>({})
 
   // vuex getter and state
   const { routingSlip, linkedRoutingSlips } = useState(['routingSlip', 'linkedRoutingSlips'])
