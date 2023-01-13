@@ -130,9 +130,9 @@ export default function useRoutingSlipInfo (props) {
     },
     { immediate: true, deep: true }
   )
-  function getStatusObject (status) {
+  function getStatusObject (status) : Code {
     const statusObject = getSelectedStatusObject(status)
-    return statusObject[0] ? statusObject[0] : ''
+    return statusObject[0] || {}
   }
 
   function cancelOrReject () {

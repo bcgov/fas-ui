@@ -1,5 +1,5 @@
 // To handle codes tables such as SuspensionReasonCode, etc
 export interface Code {
-    code: string;
-    description: string;
+    code?: string;
+    description?: string;
 }
