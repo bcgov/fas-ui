@@ -37,14 +37,15 @@
                 </v-btn>
               </v-col>
               <v-col class="d-flex justify-end" v-can:fas_correction.hide v-if="displayEditRoutingSlip">
-                <span
-                    class="primary--text cursor-pointer"
-                    @click="editPayment"
-                    size="14"
-                  >
-                    <v-icon color="primary" size="14"> mdi-pencil</v-icon>
-                    Edit Routing Slip
-                </span>
+                <v-btn
+                  text
+                  class="px-0 primary--text cursor-pointer"
+                  color="primary"
+                  @click="editPayment"
+                >
+                  <v-icon color="primary" size="14"> mdi-pencil</v-icon>
+                  <span>Edit Routing Slip</span>
+                </v-btn>
               </v-col>
             </v-row>
             <v-row no-gutters v-if="isExpanded && routingSlip && routingSlip.payments" class="mb-10">
