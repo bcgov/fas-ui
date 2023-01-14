@@ -4,7 +4,7 @@ import { linkedRoutingSlipsWithChequeChildren, linkedRoutingSlipsWithChildren, r
 import { PaymentInformation } from '@/components/ViewRoutingSlip'
 import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
+
 import { linkedRoutingSlips, routingSlip } from '@/composables/state'
 
 describe('PaymentInformation.vue', () => {

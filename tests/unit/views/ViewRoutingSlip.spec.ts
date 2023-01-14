@@ -4,11 +4,10 @@ import { RoutingSlipInfo, PaymentInformation } from '@/components/ViewRoutingSli
 
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
 
 describe('ViewRoutingSlip.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
+
   const vuetify = new Vuetify({})
   beforeEach(() => {
     jest.resetModules()

@@ -7,6 +7,7 @@ Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 
+// Note: This is still required for sbc-common-components to work.
 const storeOptions: StoreOptions<RootState> = {
   strict: debug,
   state: () => ({

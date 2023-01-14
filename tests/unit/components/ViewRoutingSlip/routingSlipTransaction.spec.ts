@@ -2,13 +2,13 @@ import { createLocalVue, mount } from '@vue/test-utils'
 
 import { RoutingSlipTransaction } from '@/components/ViewRoutingSlip'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
+
 import { routingSlipMock } from '../../test-data/mock-routing-slip'
 import { routingSlip } from '@/composables/state'
 
 describe('RoutingSlipTransaction.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
+
   const vuetify = new Vuetify({})
   const MyStub = {
     template: '<div />'

@@ -1,6 +1,6 @@
 import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
 import CreateRoutingSlipChequePayment from '@/components/RoutingSlip/CreateRoutingSlipChequePayment.vue'
-import Vuex from 'vuex'
+
 import Vuetify from 'vuetify'
 import { chequePayment } from '@/composables/state'
 

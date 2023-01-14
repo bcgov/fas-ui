@@ -2,12 +2,12 @@ import { createLocalVue, mount } from '@vue/test-utils'
 
 import { RefundRequestForm } from '@/components/ViewRoutingSlip'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
+
 import { refundRequestDetails } from '../../test-data/mock-routing-slip'
 
 describe('RefundRequestForm.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
+
   const vuetify = new Vuetify({})
   const MyStub = {
     template: '<div />'

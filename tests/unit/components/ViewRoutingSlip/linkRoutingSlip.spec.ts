@@ -4,7 +4,7 @@ import { linkedRoutingSlipsWithChequeChildren, linkedRoutingSlipsWithChildren, r
 import { LinkRoutingSlip } from '@/components/ViewRoutingSlip'
 import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
+
 import { invoiceCount, linkedRoutingSlips, routingSlip } from '@/composables/state'
 import * as state from '@/composables/state'
 import { ref } from '@vue/composition-api'

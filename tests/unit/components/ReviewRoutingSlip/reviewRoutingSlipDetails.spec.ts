@@ -3,11 +3,10 @@ import { createLocalVue, mount } from '@vue/test-utils'
 
 import { ReviewRoutingSlipDetails } from '@/components/ReviewRoutingSlip'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
 
 describe('ReviewRoutingSlipDetails.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
+
   const vuetify = new Vuetify({})
 
   beforeEach(() => {

@@ -2,7 +2,7 @@ import { createLocalVue, mount } from '@vue/test-utils'
 
 import { ReviewRoutingSlipChequePayment } from '@/components/ReviewRoutingSlip'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
+
 import { chequePaymentMock } from '../../test-data/mock-routing-slip'
 
 describe('ReviewRoutingSlipChequePayment.vue', () => {

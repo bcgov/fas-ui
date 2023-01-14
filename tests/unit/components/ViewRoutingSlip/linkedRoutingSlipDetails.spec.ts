@@ -3,11 +3,10 @@ import { createLocalVue, mount } from '@vue/test-utils'
 import { LinkedRoutingSlipDetails } from '@/components/ViewRoutingSlip'
 import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
 
 describe('LinkedRoutingSlipDetails.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
+
   const vuetify = new Vuetify({})
   const router = new VueRouter()
   const MyStub = {

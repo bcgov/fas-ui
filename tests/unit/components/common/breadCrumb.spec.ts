@@ -3,7 +3,6 @@ import { createLocalVue, mount } from '@vue/test-utils'
 import BreadCrumb from '@/components/common/BreadCrumb.vue'
 import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
 import routes from '@/router/routes'
 
 jest.mock('@/util/config-helper', () => ({
@@ -14,7 +13,6 @@ jest.mock('@/util/config-helper', () => ({
 
 describe('BreadCrumb.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
   const vuetify = new Vuetify({})
   beforeEach(() => {
     jest.resetModules()
