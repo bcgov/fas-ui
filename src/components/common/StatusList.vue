@@ -1,6 +1,5 @@
 <template>
   <v-select
-    :key="routingSlipStatusList"
     :items="routingSlipStatusList"
     v-model="currentStatus"
     filled
