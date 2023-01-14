@@ -24,7 +24,7 @@ describe('RoutingSlipInfo.vue', () => {
     jest.spyOn(CommonUtils, 'isApproverRole').mockReturnValue(false)
     jest.spyOn(CommonUtils, 'isVoidRole').mockReturnValue(false)
     jest.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
-    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca')
+    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
     const wrapper = shallowMount(RoutingSlipInfo, {
       localVue,
       vuetify,
@@ -44,7 +44,7 @@ describe('RoutingSlipInfo.vue', () => {
     jest.spyOn(CommonUtils, 'isApproverRole').mockReturnValue(false)
     jest.spyOn(CommonUtils, 'isVoidRole').mockReturnValue(false)
     jest.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
-    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca')
+    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
     const wrapper = shallowMount(RoutingSlipInfo, {
       localVue,
       vuetify,
@@ -61,7 +61,7 @@ describe('RoutingSlipInfo.vue', () => {
     jest.spyOn(CommonUtils, 'isApproverRole').mockReturnValue(false)
     jest.spyOn(CommonUtils, 'isVoidRole').mockReturnValue(false)
     jest.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
-    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca')
+    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
     const wrapper: any = mount(RoutingSlipInfo, {
       localVue,
       vuetify,

@@ -20,7 +20,7 @@ describe('Search.vue', () => {
   })
   it('Should have h4 title', () => {
     jest.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
-    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca')
+    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
     const wrapper = shallowMount(Search, {
       localVue,
       vuetify,
@@ -33,7 +33,7 @@ describe('Search.vue', () => {
   })
   it('displayed search header behaviour', async () => {
     jest.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
-    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca')
+    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
 
     const MyStub = {
       template: '<div />'
