@@ -22,7 +22,6 @@ describe('ReviewRoutingSlipPayment.vue', () => {
         resetRoutingSlipDetails: jest.fn()
       }
     }
-
   })
 
   it('renders component', async () => {

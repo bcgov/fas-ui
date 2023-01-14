@@ -11,8 +11,6 @@ describe('ReviewRoutingSlipChequePayment.vue', () => {
   beforeEach(() => {
     jest.resetModules()
     jest.clearAllMocks()
-
-
   })
 
   it('renders component', () => {
