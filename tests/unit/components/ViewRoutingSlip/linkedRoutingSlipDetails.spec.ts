@@ -1,4 +1,3 @@
-import { autoCompleteRoutingSlips, routingSlip } from '../../test-data/mock-routing-slip'
 import { createLocalVue, mount } from '@vue/test-utils'
 
 import { LinkedRoutingSlipDetails } from '@/components/ViewRoutingSlip'

@@ -1,44 +1,23 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import { linkedRoutingSlipsWithChequeChildren, linkedRoutingSlipsWithChildren, routingSlip } from '../../test-data/mock-routing-slip'
+import { linkedRoutingSlipsWithChequeChildren, linkedRoutingSlipsWithChildren, routingSlipMock } from '../../test-data/mock-routing-slip'
 
 import { PaymentInformation } from '@/components/ViewRoutingSlip'
 import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
+import { linkedRoutingSlips, routingSlip } from '@/composables/state'
 
 describe('PaymentInformation.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
   const vuetify = new Vuetify({})
   const router = new VueRouter()
-  let store
   const MyStub = {
     template: '<div />'
   }
 
   beforeEach(() => {
-    const routingSlipModule = {
-      namespaced: true,
-      state: {
-        routingSlip: routingSlip,
-        linkedRoutingSlips: linkedRoutingSlipsWithChildren
-      },
-      getters: {
-        isRoutingSlipAChild: jest.fn().mockReturnValue(false),
-        isRoutingSlipLinked: jest.fn().mockReturnValue(true)
-      },
-      mutations: {
-        setChequePayment: jest.fn(),
-        setCashPayment: jest.fn()
-      }
-    }
-
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        routingSlip: routingSlipModule
-      }
-    })
+    routingSlip.value = routingSlipMock
+    linkedRoutingSlips.value = linkedRoutingSlipsWithChildren
 
     jest.resetModules()
     jest.clearAllMocks()
@@ -46,7 +25,6 @@ describe('PaymentInformation.vue', () => {
 
   it('renders component', () => {
     const wrapper = mount(PaymentInformation, {
-      store,
       localVue,
       vuetify,
       router,
@@ -63,7 +41,6 @@ describe('PaymentInformation.vue', () => {
   })
   it('populates correct value', async () => {
     const wrapper: any = mount(PaymentInformation, {
-      store,
       localVue,
       vuetify,
       router,
@@ -82,7 +59,6 @@ describe('PaymentInformation.vue', () => {
 
   it('renders cheque component properly', async () => {
     const wrapper: any = mount(PaymentInformation, {
-      store,
       localVue,
       vuetify,
       router,
@@ -104,37 +80,18 @@ describe('PaymentInformation.vue', () => {
   })
 
   it('renders cash component properly', async () => {
-    const routingSlipModule = {
-      namespaced: true,
-      state: {
-        routingSlip: {
-          id: 4,
-          number: '123',
-          paymentAccount: { billable: true, name: 'test', paymentMethod: 'CASH' },
-          payments: [{ chequeReceiptNumber: '123', createdBy: 'KRAMMOOR@IDIR', id: 7636, paymentMethod: 'CASH', paidAmount: 123 }],
-          remainingAmount: 123,
-          routingSlipDate: '2021-07-08',
-          status: 'ACTIVE',
-          total: 12345
-        }
-      },
-      mutations: {
-        setChequePayment: jest.fn(),
-        setCashPayment: jest.fn()
-      },
-      directives: {
-        can () { /* stub */ }
-      }
+    routingSlip.value = {
+      id: 4,
+      number: '123',
+      paymentAccount: { billable: true, name: 'test', paymentMethod: 'CASH' },
+      payments: [{ chequeReceiptNumber: '123', createdBy: 'KRAMMOOR@IDIR', id: 7636, paymentMethod: 'CASH', paidAmount: 123 }],
+      remainingAmount: 123,
+      routingSlipDate: '2021-07-08',
+      status: 'ACTIVE',
+      total: 12345
     }
 
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        routingSlip: routingSlipModule
-      }
-    })
     const wrapper: any = mount(PaymentInformation, {
-      store,
       localVue,
       vuetify,
       router,
@@ -157,7 +114,6 @@ describe('PaymentInformation.vue', () => {
 
   it('renders linked cash routing slip payment info properly', async () => {
     const wrapper: any = mount(PaymentInformation, {
-      store,
       localVue,
       vuetify,
       router,
@@ -184,30 +140,10 @@ describe('PaymentInformation.vue', () => {
   })
 
   it('renders linked cheque routing slip payment info properly', async () => {
-    const routingSlipModule = {
-      namespaced: true,
-      state: {
-        routingSlip: routingSlip,
-        linkedRoutingSlips: linkedRoutingSlipsWithChequeChildren
-      },
-      getters: {
-        isRoutingSlipAChild: jest.fn().mockReturnValue(false),
-        isRoutingSlipLinked: jest.fn().mockReturnValue(true)
-      },
-      mutations: {
-        setChequePayment: jest.fn(),
-        setCashPayment: jest.fn()
-      }
-    }
+    routingSlip.value = routingSlipMock
+    linkedRoutingSlips.value = linkedRoutingSlipsWithChequeChildren
 
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        routingSlip: routingSlipModule
-      }
-    })
     const wrapper: any = mount(PaymentInformation, {
-      store,
       localVue,
       vuetify,
       router,

@@ -1,4 +1,4 @@
-import { autoCompleteRoutingSlips, routingSlip } from '../../test-data/mock-routing-slip'
+import { autoCompleteRoutingSlips, routingSlipMock } from '../../test-data/mock-routing-slip'
 import { createLocalVue, mount } from '@vue/test-utils'
 
 import { RoutingSlipAutoComplete } from '@/components/ViewRoutingSlip'
@@ -9,40 +9,17 @@ describe('RoutingSlipAutoComplete.vue', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   const vuetify = new Vuetify({})
-  let store
   const MyStub = {
     template: '<div />'
   }
 
   beforeEach(() => {
-    const routingSlipModule = {
-      namespaced: true,
-      state: {
-        autoCompleteRoutingSlips: autoCompleteRoutingSlips,
-        routingSlip: routingSlip
-      },
-      actions: {
-        getAutoCompleteRoutingSlips: jest.fn(),
-        saveLinkRoutingSlip: jest.fn(),
-        getRoutingSlip: jest.fn(),
-        getLinkedRoutingSlips: jest.fn()
-      }
-    }
-
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        routingSlip: routingSlipModule
-      }
-    })
-
     jest.resetModules()
     jest.clearAllMocks()
   })
 
   it('renders component', () => {
     const wrapper: any = mount(RoutingSlipAutoComplete, {
-      store,
       localVue,
       vuetify,
       stubs: {
@@ -57,7 +34,6 @@ describe('RoutingSlipAutoComplete.vue', () => {
   it('UI behaviour', async () => {
     const stub = jest.fn()
     const wrapper: any = mount(RoutingSlipAutoComplete, {
-      store,
       localVue,
       vuetify,
       stubs: {

@@ -2,38 +2,23 @@ import { createLocalVue, shallowMount } from '@vue/test-utils'
 import StatusList from '@/components/common/StatusList.vue'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
-import { routingSlipStatusList } from '../../test-data/mock-code'
+import { routingSlipStatusListMock } from '../../test-data/mock-code'
+import * as state from '@/composables/state'
+import { routingSlipStatusList } from '@/composables/state'
 
 describe('StatusList.vue', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   const vuetify = new Vuetify({})
-  let store
   beforeEach(() => {
-    const codesModule = {
-      namespaced: true,
-      state: {
-        routingSlipStatusList
-      },
-      actions: {
-        getRoutingSlipStatusList: jest.fn()
-      }
-    }
-
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        fasCodes: codesModule
-      }
-    })
-
+    routingSlipStatusList.value = routingSlipStatusListMock
+    jest.spyOn(state, 'getFeeByCorpTypeAndFilingType').mockResolvedValue(0)
     jest.resetModules()
     jest.clearAllMocks()
   })
 
   it('renders status list', () => {
     const wrapper = shallowMount(StatusList, {
-      store,
       localVue,
       vuetify,
       propsData: {

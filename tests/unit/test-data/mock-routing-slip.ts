@@ -108,7 +108,7 @@ export const cancelledInvoice: Invoice[] = [
   }
 ]
 
-export const routingSlip: RoutingSlip = {
+export const routingSlipMock: RoutingSlip = {
   id: 4,
   number: '123',
   paymentAccount: { billable: true, name: 'test', paymentMethod: 'CHEQUE' },
@@ -171,16 +171,16 @@ export const routingSlipRefundRequested: RoutingSlip = {
   invoices: invoice
 }
 
-export const routingSlipDetails: RoutingSlipDetails = {
+export const routingSlipDetailsMock: RoutingSlipDetails = {
   number: 'RoutingTEST123',
   routingSlipDate: '2021-08-13'
 }
 
-export const accountInfo: AccountInfo = {
+export const accountInfoMock: AccountInfo = {
   accountName: 'Thomas Wayne'
 }
 
-export const chequePayment: Payment[] = [
+export const chequePaymentMock: Payment[] = [
   {
     chequeReceiptNumber: 'CHEQUE1',
     paidAmount: 100,
@@ -193,7 +193,7 @@ export const chequePayment: Payment[] = [
   }
 ]
 
-export const cashPayment: Payment = {
+export const cashPaymentMock: Payment = {
   chequeReceiptNumber: 'CASH123',
   paidAmount: 1000,
   paymentMethod: 'CASH'

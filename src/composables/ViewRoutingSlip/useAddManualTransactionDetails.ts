@@ -1,4 +1,4 @@
-import { computed, nextTick, onMounted, ref, toRefs, watch } from '@vue/composition-api'
+import { computed, onMounted, ref, toRefs, watch } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { GetFeeRequestParams } from '@/models/Payment'
@@ -67,7 +67,7 @@ export default function useAddManualTransactionDetails (props, context) {
     context.emit('removeManualTransactionRow', index.value)
   }
 
-  // Emits the updated manual transactio ndetail event to the parent
+  // Emits the updated manual transaction detail event to the parent
   function emitManualTransactionDetails () {
     context.emit('updateManualTransaction', { transaction: manualTransactionDetails.value, index: index.value })
   }

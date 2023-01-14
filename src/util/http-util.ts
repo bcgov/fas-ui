@@ -32,8 +32,6 @@ axios.interceptors.response.use(
     return response
   },
   error => {
-    const fasStore = window && (window as any).fasStore
-
     // decrement active calls count by one
     if (error.config.showGlobalLoader && isThereActiveCalls.value) {
       activeCalls.value--

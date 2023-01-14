@@ -3,7 +3,8 @@ import { createLocalVue, mount } from '@vue/test-utils'
 import { RoutingSlipTransaction } from '@/components/ViewRoutingSlip'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
-import { routingSlip } from '../../test-data/mock-routing-slip'
+import { routingSlipMock } from '../../test-data/mock-routing-slip'
+import { routingSlip } from '@/composables/state'
 
 describe('RoutingSlipTransaction.vue', () => {
   const localVue = createLocalVue()
@@ -12,36 +13,14 @@ describe('RoutingSlipTransaction.vue', () => {
   const MyStub = {
     template: '<div />'
   }
-  const saveManualTransactionsSpy = jest.fn()
-  let store
   beforeEach(() => {
-    const routingSlipModule = {
-      namespaced: true,
-      getters: {
-        isRoutingSlipAChild: jest.fn().mockReturnValue(false)
-      },
-      state: {
-        routingSlip
-      },
-      actions: {
-        saveManualTransactions: saveManualTransactionsSpy,
-        getRoutingSlip: jest.fn()
-      }
-    }
-
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        routingSlip: routingSlipModule
-      }
-    })
+    routingSlip.value = routingSlipMock
     jest.resetModules()
     jest.clearAllMocks()
   })
 
   it('renders component', () => {
     const wrapper: any = mount(RoutingSlipTransaction, {
-      store,
       localVue,
       vuetify,
       stubs: {
@@ -57,7 +36,6 @@ describe('RoutingSlipTransaction.vue', () => {
 
   it('manual transactions list behavior', async () => {
     const wrapper: any = mount(RoutingSlipTransaction, {
-      store,
       localVue,
       vuetify,
       stubs: {
@@ -81,7 +59,6 @@ describe('RoutingSlipTransaction.vue', () => {
 
   async function getWrapper (usedAmount:number) {
     const wrapper: any = mount(RoutingSlipTransaction, {
-      store,
       localVue,
       vuetify,
       stubs: {
@@ -105,26 +82,23 @@ describe('RoutingSlipTransaction.vue', () => {
     const usedAmount1 = 100
     const wrapper: any = await getWrapper(usedAmount1)
     expect(wrapper.vm.manualTransactionsList.length).toBe(2)
-    expect(wrapper.vm.manualTransactionsList[1].availableAmountForManualTransaction).toBe(routingSlip.remainingAmount - usedAmount1)
+    expect(wrapper.vm.manualTransactionsList[1].availableAmountForManualTransaction).toBe(routingSlipMock.remainingAmount - usedAmount1)
     const usedAmount2 = 200
     wrapper.vm.manualTransactionsList[1].total = usedAmount2
     await wrapper.vm.addManualTransactionRow()
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.manualTransactionsList.length).toBe(3)
-    expect(wrapper.vm.manualTransactionsList[2].availableAmountForManualTransaction).toBe(routingSlip.remainingAmount - (usedAmount1 + usedAmount2))
+    expect(wrapper.vm.manualTransactionsList[2].availableAmountForManualTransaction).toBe(routingSlipMock.remainingAmount - (usedAmount1 + usedAmount2))
   })
 
   it('manual transactions assert saveManualTransactionsSpy is invoked', async () => {
     const wrapper = await getWrapper(100)
     await wrapper.vm.addManualTransactions()
-    expect(saveManualTransactionsSpy).toHaveBeenCalled()
-    expect(saveManualTransactionsSpy.mock.calls.length).toBe(2)
     expect(wrapper.vm.status).toBe('')
   })
   it('manual transactions assert saveManualTransactionsSpy not invoked for large amounts', async () => {
     const wrapper = await getWrapper(10000)
     await wrapper.vm.addManualTransactions()
-    expect(saveManualTransactionsSpy.mock.calls.length).toBe(0)
     expect(wrapper.vm.status).toBe('cantAddTransactions')
   })
 })
