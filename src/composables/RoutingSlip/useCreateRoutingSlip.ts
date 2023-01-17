@@ -2,27 +2,24 @@ import { computed, reactive, ref } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { Payment } from '@/models/Payment'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import i18n from '@/plugins/i18n'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useActions, useMutations, useState } = routingSlipModule
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to CreateRoutingSlip component
 // CreateRoutingSlip component holds two behaviors - create routing slip & review routing slip modes
 export function useCreateRoutingSlip (_, context) {
+  const {
+    cashPayment,
+    chequePayment,
+    createRoutingSlip,
+    isAmountPaidInUsd,
+    isPaymentMethodCheque,
+    routingSlipDetails
+  } = useRoutingSlip()
   const createRoutingSlipForm = ref<HTMLFormElement>()
   const createRoutingSlipDetailsRef = ref<HTMLFormElement>()
   const createRoutingSlipPaymentRef = ref<HTMLFormElement>()
   const modalDialogRef = ref<HTMLFormElement>()
-
-  // vuex action and state
-  const { createRoutingSlip } = useActions(['createRoutingSlip'])
-  const { routingSlipDetails, isAmountPaidInUsd, isPaymentMethodCheque, chequePayment, cashPayment } = useState([
-    'routingSlipDetails', 'isAmountPaidInUsd',
-    'isPaymentMethodCheque', 'chequePayment', 'cashPayment'
-  ])
-  const { setChequePayment, setCashPayment } = useMutations(['setChequePayment', 'setCashPayment'])
 
   // modal dialog props and events
   const modalDialogDetails = reactive<any>({
@@ -68,12 +65,12 @@ export function useCreateRoutingSlip (_, context) {
           const chequeList = JSON.parse(JSON.stringify(chequePayment.value)).map((payment: Payment) => {
             return { ...payment, paidUsdAmount: 0 }
           })
-          setChequePayment(chequeList)
+          chequePayment.value = chequeList
         } else {
-          setCashPayment({
+          cashPayment.value = {
             ...cashPayment.value,
             paidUsdAmount: 0
-          })
+          }
         }
       }
       toggleReviewMode(true)

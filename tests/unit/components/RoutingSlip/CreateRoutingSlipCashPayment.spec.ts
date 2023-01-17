@@ -2,30 +2,14 @@ import { mount, shallowMount } from '@vue/test-utils'
 
 import CreateRoutingSlipCashPayment from '@/components/RoutingSlip/CreateRoutingSlipCashPayment.vue'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('CreateRoutingSlipCashPayment.vue', () => {
   let store
-  const cashPayment = { chequeReceiptNumber: '1234', paidAmount: '20' }
   const vuetify = new Vuetify({})
+  const { cashPayment } = useRoutingSlip()
   beforeEach(() => {
-    const routingSlip: any = {
-      namespaced: true,
-      state: {
-        cashPayment
-      },
-      actions: {},
-      mutations: { setCashPayment: jest.fn() },
-      getters: {}
-    }
-    store = new Vuex.Store({
-      state: {},
-      strict: false,
-      modules: {
-        routingSlip: routingSlip
-      }
-    })
-
+    cashPayment.value = { chequeReceiptNumber: '1234', paidAmount: 20 }
     jest.resetModules()
     jest.clearAllMocks()
   })
@@ -42,14 +26,13 @@ describe('CreateRoutingSlipCashPayment.vue', () => {
 
   it('Should have Receipt Number input field and inital value from store', () => {
     const wrapper = mount(CreateRoutingSlipCashPayment, {
-      store,
       vuetify
     })
 
     const reciptNumber: any = wrapper.find('[data-test="txtReceiptNumber"]')
     const txtPaidAmount: any = wrapper.find('[data-test="txtPaidAmount"]')
-    expect(reciptNumber.element.value).toBe(cashPayment.chequeReceiptNumber)
-    expect(txtPaidAmount.element.value).toBe(cashPayment.paidAmount)
+    expect(reciptNumber.element.value).toBe(cashPayment.value.chequeReceiptNumber)
+    expect(txtPaidAmount.element.value).toBe(cashPayment.value.paidAmount.toString())
   })
 
   it('Should update Receipt Number on change', () => {

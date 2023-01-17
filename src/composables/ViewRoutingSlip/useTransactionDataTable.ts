@@ -3,13 +3,11 @@ import { InvoiceStatus, SlipStatus } from '@/util/constants'
 import { computed, reactive, ref, watch } from '@vue/composition-api'
 
 import { GetRoutingSlipRequestPayload } from '@/models/RoutingSlip'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useGetters, useState, useActions } = routingSlipModule
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to TransactionDataTable component
 export default function useTransactionDataTable (props) {
+  const { cancelRoutingSlipInvoice, getRoutingSlip, invoiceCount, routingSlip } = useRoutingSlip()
   // ref and i/p variables
   const invoiceDisplay = ref<InvoiceDisplay[]>([])
   const headerTranscations = [
@@ -50,11 +48,6 @@ export default function useTransactionDataTable (props) {
       sortable: false
     }
   ]
-
-  // vuex getter and state
-  const { invoiceCount } = useGetters(['invoiceCount'])
-  const { routingSlip } = useState(['routingSlip'])
-  const { cancelRoutingSlipInvoice, getRoutingSlip } = useActions(['cancelRoutingSlipInvoice', 'getRoutingSlip'])
 
   const modalDialogRef = ref<HTMLFormElement>()
   // modal dialog props and events
@@ -139,7 +132,7 @@ export default function useTransactionDataTable (props) {
 
   // disable cancel button in invoice rows if routing slip has any of these statuses
   const disableCancelButton = computed(() => {
-    return [SlipStatus.NSF, SlipStatus.REFUNDAUTHORIZED, SlipStatus.REFUNDCOMPLETED, SlipStatus.REFUNDREQUEST, SlipStatus.VOID, SlipStatus.CORRECTION].includes(routingSlip.value.status)
+    return [SlipStatus.NSF, SlipStatus.REFUNDAUTHORIZED, SlipStatus.REFUNDCOMPLETED, SlipStatus.REFUNDREQUEST, SlipStatus.VOID, SlipStatus.CORRECTION].includes(routingSlip.value.status as SlipStatus)
   })
 
   function isAlreadyCancelled (currentStatus) {

@@ -1,15 +1,13 @@
-import { cashPayment, chequePayment } from '../../test-data/mock-routing-slip'
+import { cashPaymentMock, chequePaymentMock } from '../../test-data/mock-routing-slip'
 import { createLocalVue, mount } from '@vue/test-utils'
 
 import { ReviewRoutingSlipPayment } from '@/components/ReviewRoutingSlip'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
 
 describe('ReviewRoutingSlipPayment.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
+
   const vuetify = new Vuetify({})
-  let store
   beforeEach(() => {
     jest.resetModules()
     jest.clearAllMocks()
@@ -23,23 +21,15 @@ describe('ReviewRoutingSlipPayment.vue', () => {
         resetRoutingSlipDetails: jest.fn()
       }
     }
-
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        routingSlip: routingSlipModule
-      }
-    })
   })
 
   it('renders component', async () => {
     const wrapper: any = mount(ReviewRoutingSlipPayment, {
       localVue,
-      store,
       vuetify,
       propsData: {
-        chequePayment: chequePayment,
-        cashPayment: cashPayment,
+        chequePayment: chequePaymentMock,
+        cashPayment: cashPaymentMock,
         isPaymentMethodCheque: true
       }
     })
@@ -53,11 +43,10 @@ describe('ReviewRoutingSlipPayment.vue', () => {
   it('validates component behaviour', async () => {
     const wrapper: any = mount(ReviewRoutingSlipPayment, {
       localVue,
-      store,
       vuetify,
       propsData: {
-        chequePayment: chequePayment,
-        cashPayment: cashPayment,
+        chequePayment: chequePaymentMock,
+        cashPayment: cashPaymentMock,
         isPaymentMethodCheque: false
       }
     })

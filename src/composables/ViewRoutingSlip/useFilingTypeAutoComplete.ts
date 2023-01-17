@@ -1,15 +1,12 @@
 import { computed, ref, toRefs } from '@vue/composition-api'
 
-import CommonUtils from '@/util/common-util'
 import { FilingType } from '@/models/Payment'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import debounce from '@/util/debounce'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useState, useActions } = routingSlipModule
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to useFIlingTypeAutoComplete component
 export default function useFilingTypeAutoComplete (props, context) {
+  const { getAutoCompleteFilingTypes } = useRoutingSlip()
   const { value } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change
@@ -22,11 +19,6 @@ export default function useFilingTypeAutoComplete (props, context) {
     }
   })
 
-  // store
-  const { getAutoCompleteFilingTypes } = useActions([
-    'getAutoCompleteFilingTypes'
-  ])
-
   const isLoading = ref<boolean>(false)
   const hideNoData = ref<boolean>(true)
   const autoCompleteFilingTypes = ref<FilingType[]>([])
@@ -38,7 +30,7 @@ export default function useFilingTypeAutoComplete (props, context) {
       isLoading.value = true
       // start searching after typing 3 char
       if (search.value.length > 2) {
-        autoCompleteFilingTypes.value = await getAutoCompleteFilingTypes(search.value)
+        await getAutoCompleteFilingTypes(search.value)
       }
     } catch (error: any) {
       autoCompleteFilingTypes.value = []

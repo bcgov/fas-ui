@@ -2,45 +2,23 @@ import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
 
 import { CreateRoutingSlipPayment } from '@/components/RoutingSlip'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
 
 describe('CreateRoutingSlipPayment.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
+
   localVue.use(Vuetify)
   const vuetify = new Vuetify({})
-  let store
   const MyStub = {
     template: '<div />'
   }
 
   beforeEach(() => {
-    const routingSlipModule = {
-      namespaced: true,
-      state: {
-        isPaymentMethodCheque: true
-      },
-      mutations: {
-        setIsPaymentMethodCheque: jest.fn().mockImplementation(() => {
-          routingSlipModule.state.isPaymentMethodCheque = !routingSlipModule.state.isPaymentMethodCheque
-        })
-      }
-    }
-
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        routingSlip: routingSlipModule
-      }
-    })
-
     jest.resetModules()
     jest.clearAllMocks()
   })
 
   it('renders component', () => {
     const wrapper = mount(CreateRoutingSlipPayment, {
-      store,
       localVue,
       vuetify,
       stubs: {
@@ -55,7 +33,6 @@ describe('CreateRoutingSlipPayment.vue', () => {
   it('change payment between cash and cheque', async () => {
     const stub = jest.fn().mockReturnValue(true)
     const wrapper: any = mount(CreateRoutingSlipPayment, {
-      store,
       localVue,
       vuetify,
       stubs: {

@@ -4,13 +4,11 @@ import { createLocalVue, mount } from '@vue/test-utils'
 import AddressForm from '@/components/common/AddressForm.vue'
 import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
 import { addressSchema } from '@/schema'
 import routes from '@/router/routes'
 
 describe('AddressForm.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
   const vuetify = new Vuetify({})
   const MyStub = {
     template: '<div />'

@@ -2,12 +2,11 @@ import { createLocalVue, mount } from '@vue/test-utils'
 
 import InterimLanding from '@/components//common/InterimLanding.vue'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
 
 describe('InterimLanding.vue', () => {
   it('renders date pricker', async () => {
     const localVue = createLocalVue()
-    localVue.use(Vuex)
+
     const vuetify = new Vuetify({})
     const stub = jest.fn()
     const wrapper: any = mount(InterimLanding, {

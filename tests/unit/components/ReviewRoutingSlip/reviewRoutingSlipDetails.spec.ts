@@ -1,13 +1,12 @@
-import { accountInfo, routingSlipDetails } from '../../test-data/mock-routing-slip'
+import { accountInfoMock, routingSlipDetailsMock } from '../../test-data/mock-routing-slip'
 import { createLocalVue, mount } from '@vue/test-utils'
 
 import { ReviewRoutingSlipDetails } from '@/components/ReviewRoutingSlip'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
 
 describe('ReviewRoutingSlipDetails.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
+
   const vuetify = new Vuetify({})
 
   beforeEach(() => {
@@ -20,15 +19,15 @@ describe('ReviewRoutingSlipDetails.vue', () => {
       localVue,
       vuetify,
       propsData: {
-        routingSlipDetails: routingSlipDetails,
-        accountInfo: accountInfo
+        routingSlipDetails: routingSlipDetailsMock,
+        accountInfo: accountInfoMock
       }
     })
-    expect(wrapper.vm.routingSlipDetails).toStrictEqual(routingSlipDetails)
-    expect(wrapper.vm.accountInfo).toStrictEqual(accountInfo)
+    expect(wrapper.vm.routingSlipDetails).toStrictEqual(routingSlipDetailsMock)
+    expect(wrapper.vm.accountInfo).toStrictEqual(accountInfoMock)
 
-    expect(wrapper.find('[data-test="txt-routing-slip-number"]').text()).toEqual(routingSlipDetails.number)
-    expect(wrapper.find('[data-test="txt-routing-slip-name"]').text()).toEqual(accountInfo.accountName)
+    expect(wrapper.find('[data-test="txt-routing-slip-number"]').text()).toEqual(routingSlipDetailsMock.number)
+    expect(wrapper.find('[data-test="txt-routing-slip-name"]').text()).toEqual(accountInfoMock.accountName)
     expect(wrapper.find('[data-test="txt-routing-slip-date"]').text()).toBe('August 13, 2021')
   })
 })

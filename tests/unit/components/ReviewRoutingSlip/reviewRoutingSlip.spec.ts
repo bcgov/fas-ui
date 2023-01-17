@@ -1,42 +1,24 @@
-import { accountInfo, cashPayment, chequePayment, routingSlipDetails } from '../../test-data/mock-routing-slip'
+import { accountInfoMock, cashPaymentMock, chequePaymentMock, routingSlipDetailsMock } from '../../test-data/mock-routing-slip'
 import { createLocalVue, mount } from '@vue/test-utils'
+import Vuetify from 'vuetify'
 
 import { ReviewRoutingSlip } from '@/components/ReviewRoutingSlip'
-import Vuetify from 'vuetify'
-import Vuex from 'vuex'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('ReviewRoutingSlip.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
   const vuetify = new Vuetify({})
-  let store
   const MyStub = {
     template: '<div />'
   }
+  const { routingSlipDetails, chequePayment, accountInfo, cashPayment, isPaymentMethodCheque } = useRoutingSlip()
 
   beforeEach(() => {
-    const routingSlipModule = {
-      namespaced: true,
-      state: {
-        routingSlipDetails: routingSlipDetails,
-        chequePayment: chequePayment,
-        accountInfo: accountInfo,
-        cashPayment: cashPayment,
-        isPaymentMethodCheque: true
-      },
-      mutations: {
-        setIsPaymentMethodCheque: jest.fn().mockImplementation(() => {
-          routingSlipModule.state.isPaymentMethodCheque = !routingSlipModule.state.isPaymentMethodCheque
-        })
-      }
-    }
-
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        routingSlip: routingSlipModule
-      }
-    })
+    routingSlipDetails.value = routingSlipDetailsMock
+    chequePayment.value = chequePaymentMock
+    accountInfo.value = accountInfoMock
+    cashPayment.value = cashPaymentMock
+    isPaymentMethodCheque.value = true
 
     jest.resetModules()
     jest.clearAllMocks()
@@ -44,7 +26,6 @@ describe('ReviewRoutingSlip.vue', () => {
 
   it('renders component', async () => {
     const wrapper: any = mount(ReviewRoutingSlip, {
-      store,
       localVue,
       vuetify,
       stubs: {
@@ -54,12 +35,12 @@ describe('ReviewRoutingSlip.vue', () => {
     })
     expect(wrapper.find('[data-test="review-routing-slip-details"]').exists()).toBeTruthy()
     expect(wrapper.find('[data-test="review-routing-slip-payment"]').exists()).toBeTruthy()
-    expect(wrapper.vm.routingSlipDetails).toStrictEqual(routingSlipDetails)
-    expect(wrapper.vm.chequePayment).toStrictEqual(chequePayment)
-    expect(wrapper.vm.accountInfo).toStrictEqual(accountInfo)
-    expect(wrapper.vm.cashPayment).toStrictEqual(cashPayment)
+    expect(wrapper.vm.routingSlipDetails).toStrictEqual(routingSlipDetailsMock)
+    expect(wrapper.vm.chequePayment).toStrictEqual(chequePaymentMock)
+    expect(wrapper.vm.accountInfo).toStrictEqual(accountInfoMock)
+    expect(wrapper.vm.cashPayment).toStrictEqual(cashPaymentMock)
     expect(wrapper.vm.isPaymentMethodCheque).toBeTruthy()
-    await store.commit('routingSlip/setIsPaymentMethodCheque')
+    isPaymentMethodCheque.value = false
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.isPaymentMethodCheque).toBeFalsy()
   })

@@ -1,31 +1,18 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import { routingSlip, routingSlipRefundRequested, routingSlipWithCancelledInvoice } from '../../test-data/mock-routing-slip'
+import { routingSlipMock, routingSlipRefundRequested, routingSlipWithCancelledInvoice } from '../../test-data/mock-routing-slip'
 
 import { InvoiceDisplay } from '@/models/Invoice'
 import { TransactionDataTable } from '@/components/ViewRoutingSlip'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('TransactionDataTable.vue', () => {
+  const { routingSlip } = useRoutingSlip()
   const localVue = createLocalVue()
-  localVue.use(Vuex)
   const vuetify = new Vuetify({})
-  let store
 
   beforeEach(() => {
-    const routingSlipModule = {
-      namespaced: true,
-      state: {
-        routingSlip: routingSlip
-      }
-    }
-
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        routingSlip: routingSlipModule
-      }
-    })
+    routingSlip.value = routingSlipMock
     jest.resetModules()
     jest.clearAllMocks()
   })
@@ -34,7 +21,6 @@ describe('TransactionDataTable.vue', () => {
     const wrapper = mount(TransactionDataTable, {
       localVue,
       vuetify,
-      store,
       directives: {
         can () { /* stub */ }
       }
@@ -46,7 +32,6 @@ describe('TransactionDataTable.vue', () => {
     const wrapper: any = mount(TransactionDataTable, {
       localVue,
       vuetify,
-      store,
       directives: {
         can () { /* stub */ }
       }
@@ -68,24 +53,13 @@ describe('TransactionDataTable.vue', () => {
   })
 
   it('invoice cancel button behaviour', async () => {
-    const cancelledRoutingSlipModule = {
-      namespaced: true,
-      state: {
-        routingSlip: routingSlipWithCancelledInvoice
-      }
-    }
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        routingSlip: cancelledRoutingSlipModule
-      }
-    })
+    routingSlip.value = routingSlipWithCancelledInvoice
+
     const stubConfirm = jest.fn()
     const stubCancel = jest.fn()
     const wrapper: any = mount(TransactionDataTable, {
       localVue,
       vuetify,
-      store,
       mocks: {
         modalDialogConfirm: stubConfirm,
         modalDialogClose: stubCancel
@@ -108,24 +82,12 @@ describe('TransactionDataTable.vue', () => {
   })
 
   it('invoice cancel button disabled based on routingslip', async () => {
-    const routingSlipModule = {
-      namespaced: true,
-      state: {
-        routingSlip: routingSlipRefundRequested
-      }
-    }
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        routingSlip: routingSlipModule
-      }
-    })
+    routingSlip.value = routingSlipRefundRequested
     const stubConfirm = jest.fn()
     const stubCancel = jest.fn()
     const wrapper: any = mount(TransactionDataTable, {
       localVue,
       vuetify,
-      store,
       mocks: {
         modalDialogConfirm: stubConfirm,
         modalDialogClose: stubCancel

@@ -1,4 +1,4 @@
-export const routingSlipStatusList = [
+export const routingSlipStatusListMock = [
   {
     code: 'ACTIVE',
     description: 'Active'

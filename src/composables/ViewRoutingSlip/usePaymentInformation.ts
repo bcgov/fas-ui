@@ -1,26 +1,28 @@
 import { computed, ref } from '@vue/composition-api'
 
-import { Payment } from '@/models/Payment'
 import { PaymentMethods, SlipStatus } from '@/util/constants'
 import { AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload, RoutingSlip } from '@/models/RoutingSlip'
 import commonUtil from '@/util/common-util'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useState, useGetters, useActions, useMutations } = routingSlipModule
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to PaymentInformation component
 export default function usePaymentInformation (_, context) {
+  const {
+    adjustRoutingSlip,
+    getRoutingSlip,
+    isRoutingSlipAChild,
+    isRoutingSlipLinked,
+    linkedRoutingSlips,
+    routingSlip,
+    updateRoutingSlipAmount,
+    updateRoutingSlipChequeNumber
+  } = useRoutingSlip()
   // UI control variables
   const isExpanded = ref<boolean>(false)
   const isEditable = ref<boolean>(false)
   const routingSlipBeforeEdit = ref<RoutingSlip>({})
 
   // vuex getter and state
-  const { routingSlip, linkedRoutingSlips } = useState(['routingSlip', 'linkedRoutingSlips'])
-  const { isRoutingSlipAChild, isRoutingSlipLinked } = useGetters(['isRoutingSlipAChild', 'isRoutingSlipLinked'])
-  const { adjustRoutingSlip, getRoutingSlip } = useActions(['adjustRoutingSlip', 'getRoutingSlip'])
-  const { updateRoutingSlipChequeNumber, updateRoutingSlipAmount, setRoutingSlip } = useMutations(['updateRoutingSlipChequeNumber', 'updateRoutingSlipAmount', 'updateRoutingSlipAmount', 'setRoutingSlip'])
 
   // As per current business rule, a routingslip has one-to-one relation with payment method (Cash/Cheque)
   // Therefore, we can determine the payment method of the current routingslip from the first payment record
@@ -97,7 +99,7 @@ export default function usePaymentInformation (_, context) {
   }
 
   function cancelEditPayment () {
-    setRoutingSlip(routingSlipBeforeEdit.value)
+    routingSlip.value = routingSlipBeforeEdit.value
     adjustRoutingSlipStatus()
   }
   function editPayment () {

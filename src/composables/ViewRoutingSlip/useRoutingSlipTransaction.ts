@@ -1,26 +1,22 @@
 import { GetRoutingSlipRequestPayload, ManualTransactionDetails } from '@/models/RoutingSlip'
-import { computed, ref } from '@vue/composition-api'
+import { ref } from '@vue/composition-api'
 
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { useLoader } from '@/composables/common/useLoader'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useState, useActions, useGetters } = routingSlipModule
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to RoutingSlipTransaction component
 export default function useRoutingSlipTransaction () {
+  const {
+    getRoutingSlip,
+    isRoutingSlipAChild,
+    isRoutingSlipVoid,
+    routingSlip,
+    saveManualTransactions
+  } = useRoutingSlip()
   // UI control variables
   const showAddManualTransaction = ref<boolean>(false)
   const formRoutingSlipManualTransactions = ref<HTMLFormElement>()
   const manualTransactionsList = ref<ManualTransactionDetails[]>([])
-  const { saveManualTransactions, getRoutingSlip } = useActions([
-    'saveManualTransactions',
-    'getRoutingSlip'
-  ])
-
-  const { routingSlip } = useState(['routingSlip'])
-
-  const { isRoutingSlipAChild, isRoutingSlipVoid } = useGetters(['isRoutingSlipAChild', 'isRoutingSlipVoid'])
 
   const { isLoading, toggleLoading } = useLoader()
 

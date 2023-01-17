@@ -1,11 +1,9 @@
 import { Code } from '@/models/Code'
-import { ref, computed, toRefs, onMounted, watch } from '@vue/composition-api'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
-
-const codeModule = createNamespacedHelpers('fasCodes') // specific module name
-const { useState, useMutations, useActions } = codeModule
+import { ref, computed, toRefs, onMounted } from '@vue/composition-api'
+import { useCodes } from '../useCodes'
 
 export function useStatusList (props, context) {
+  const { getRoutingSlipStatusList, routingSlipStatusList } = useCodes()
   // default value set blank incase if we didnt pass props
   const { value = ref('') } = toRefs(props)
 
@@ -17,15 +15,6 @@ export function useStatusList (props, context) {
     set: (modalValue: Code) => {
       context.emit('input', modalValue.code)
     }
-  })
-
-  // state , action , mutation from vuex store
-  const { routingSlipStatusList } = useState(['routingSlipStatusList'])
-
-  const { getRoutingSlipStatusList } = useActions(['getRoutingSlipStatusList'])
-
-  const routingSlipStatus = computed(() => {
-    return routingSlipStatusList.value
   })
 
   onMounted(() => {
@@ -53,13 +42,13 @@ export function useStatusList (props, context) {
    */
 
   function selectedStatusObject (code: string) {
-    return routingSlipStatus.value?.filter(
+    return routingSlipStatusList.value?.filter(
       statusList => statusList.code === code
     )
   }
 
   return {
-    routingSlipStatus,
+    routingSlipStatusList,
     currentStatus,
     statusLabel,
     selectedStatusObject

@@ -1,12 +1,10 @@
 import { Code } from '@/models/Code'
 import { SlipStatusLabel } from '@/util/constants'
-import { ref, computed, toRefs, onMounted, watch } from '@vue/composition-api'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
-
-const codeModule = createNamespacedHelpers('fasCodes') // specific module name
-const { useState, useActions } = codeModule
+import { ref, computed, toRefs, onMounted } from '@vue/composition-api'
+import { useCodes } from '../useCodes'
 
 export function useStatusMenu (props, context) {
+  const { getRoutingSlipStatusList, routingSlipStatusList } = useCodes()
   // default value set blank incase if we didnt pass props
   const { value = ref(''), allowedStatusList = ref([]), isApprovalFlow = ref(false) } = toRefs(props)
 
@@ -21,10 +19,6 @@ export function useStatusMenu (props, context) {
   })
 
   // state , action , mutation from vuex store
-  const { routingSlipStatusList } = useState(['routingSlipStatusList'])
-
-  const { getRoutingSlipStatusList } = useActions(['getRoutingSlipStatusList'])
-
   const routingAllowedSlipStatus = computed(() => {
     return getFormattedStatusList()
   })

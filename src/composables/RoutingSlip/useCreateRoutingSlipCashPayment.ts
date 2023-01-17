@@ -2,18 +2,12 @@ import { computed, ref } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { PaymentMethods } from '@/util/constants'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useState, useMutations } = routingSlipModule
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
 export function useCreateRoutingSlipCashPayment () {
+  const { cashPayment, isAmountPaidInUsd } = useRoutingSlip()
   const createRoutingSlipCashPaymentForm = ref<HTMLFormElement>()
-
-  // vuex state and mutations
-  const { cashPayment, isAmountPaidInUsd } = useState(['cashPayment', 'isAmountPaidInUsd'])
-  const { setCashPayment, setIsAmountPaidInUsd } = useMutations(['setCashPayment', 'setIsAmountPaidInUsd'])
 
   // using same v-model value for getting value and update parent on change
   const chequeReceiptNumber:any = computed({
@@ -21,11 +15,11 @@ export function useCreateRoutingSlipCashPayment () {
       return cashPayment.value.chequeReceiptNumber || ''
     },
     set: (modalValue: any) => {
-      setCashPayment({
+      cashPayment.value = {
         ...cashPayment.value,
         chequeReceiptNumber: modalValue,
         paymentMethod: PaymentMethods.CASH
-      })
+      }
     }
   })
 
@@ -35,11 +29,11 @@ export function useCreateRoutingSlipCashPayment () {
       return cashPayment.value.paidAmount || null
     },
     set: (modalValue: any) => {
-      setCashPayment({
+      cashPayment.value = {
         ...cashPayment.value,
         paidAmount: modalValue,
         paymentMethod: PaymentMethods.CASH
-      })
+      }
     }
   })
 
@@ -49,11 +43,11 @@ export function useCreateRoutingSlipCashPayment () {
       return cashPayment.value.paidUsdAmount || null
     },
     set: (modalValue: any) => {
-      setCashPayment({
+      cashPayment.value = {
         ...cashPayment.value,
         paidUsdAmount: modalValue,
         paymentMethod: PaymentMethods.CASH
-      })
+      }
     }
   })
 
@@ -62,7 +56,7 @@ export function useCreateRoutingSlipCashPayment () {
       return isAmountPaidInUsd.value
     },
     set: (modalValue: any) => {
-      setIsAmountPaidInUsd(modalValue)
+      isAmountPaidInUsd.value = modalValue
     }
   })
 
