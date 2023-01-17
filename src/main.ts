@@ -3,6 +3,7 @@
 import '@mdi/font/css/materialdesignicons.min.css' // icon library (https://materialdesignicons.com/)
 import 'core-js/stable' // to polyfill ECMAScript features
 import './registerServiceWorker'
+import './shims-vue-composition-api'
 
 import App from './App.vue'
 import CommonUtils from '@/util/common-util'
@@ -56,5 +57,4 @@ function renderVue () {
     render: h => h(App)
   }).$mount('#app')
   Vue.directive('can', can)
-  
 }

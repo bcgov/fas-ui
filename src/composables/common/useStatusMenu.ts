@@ -1,9 +1,10 @@
 import { Code } from '@/models/Code'
 import { SlipStatusLabel } from '@/util/constants'
 import { ref, computed, toRefs, onMounted } from '@vue/composition-api'
-import { getRoutingSlipStatusList, routingSlipStatusList } from '../state'
+import { useCodes } from '../useCodes'
 
 export function useStatusMenu (props, context) {
+  const { getRoutingSlipStatusList, routingSlipStatusList } = useCodes()
   // default value set blank incase if we didnt pass props
   const { value = ref(''), allowedStatusList = ref([]), isApprovalFlow = ref(false) } = toRefs(props)
 

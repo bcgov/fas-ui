@@ -1,9 +1,10 @@
 import CommonUtils from '@/util/common-util'
 import { computed, ref } from '@vue/composition-api'
 import moment from 'moment'
-import { getDailyReportByDate } from '../state'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 export function useDailyReport () {
+  const { getDailyReportByDate } = useRoutingSlip()
   // vuex action and state
   const selectedDate = ref<string>('')
   const showCalendar = ref<boolean>(false)

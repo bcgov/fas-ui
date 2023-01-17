@@ -2,10 +2,11 @@ import { computed, ref, toRefs } from '@vue/composition-api'
 
 import { FilingType } from '@/models/Payment'
 import debounce from '@/util/debounce'
-import { getAutoCompleteFilingTypes } from '../state'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to useFIlingTypeAutoComplete component
 export default function useFilingTypeAutoComplete (props, context) {
+  const { getAutoCompleteFilingTypes } = useRoutingSlip()
   const { value } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change

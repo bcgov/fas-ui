@@ -4,10 +4,11 @@ import CommonUtils from '@/util/common-util'
 import { GetFeeRequestParams } from '@/models/Payment'
 import { ManualTransactionDetails } from '@/models/RoutingSlip'
 import debounce from '@/util/debounce'
-import { getFeeByCorpTypeAndFilingType } from '../state'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to AddManualTransactionDetails component
 export default function useAddManualTransactionDetails (props, context) {
+  const { getFeeByCorpTypeAndFilingType } = useRoutingSlip()
   const { manualTransaction, index } = toRefs(props)
 
   // Object that holds the input fields - seed it using property
@@ -44,7 +45,9 @@ export default function useAddManualTransactionDetails (props, context) {
             futureEffective: manualTransactionDetails.value.futureEffective
           }
         }
+        console.log(manualTransactionDetails.value.total)
         manualTransactionDetails.value.total = await getFeeByCorpTypeAndFilingType(getFeeRequestParams)
+        console.log(manualTransactionDetails.value.total)
       } else {
         manualTransactionDetails.value.total = null
       }

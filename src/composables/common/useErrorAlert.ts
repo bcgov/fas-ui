@@ -5,10 +5,10 @@ Global Error Handler is used in App.vue
 
 import { AXIOS_ERROR_ALERT_TIME_OUT } from '@/util/constants'
 import { watch } from '@vue/composition-api'
-import { hasCallFailed } from '../state'
+import { useIndicators } from '../useIndicators'
 
 export function useErrorAlert () {
-  // vuex state and getters
+  const { hasCallFailed } = useIndicators()
   // We are watching hasCallFailed and if it is true, we set it back to false after an interval.
   // While the value was true, errorhandler component alert would be displayed
   watch(hasCallFailed, (newValue: boolean) => {

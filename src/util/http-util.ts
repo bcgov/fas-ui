@@ -1,10 +1,12 @@
 import Axios from 'axios'
 import ConfigHelper from '@/util/config-helper'
 import { SessionStorageKeys } from '@/util/constants'
-import { activeCalls, hasCallFailed, isThereActiveCalls } from '@/composables/state'
+import { useIndicators } from '@/composables/useIndicators'
 // import store from '@/store'
 // using fasStore from window to avoid library build issue.
 const axios = Axios.create()
+
+const { activeCalls, hasCallFailed, isThereActiveCalls } = useIndicators()
 
 axios.defaults.showGlobalLoader = false // by default, false
 axios.defaults.showGlobalErrorHandling = true

@@ -1,8 +1,9 @@
 import { computed, ref } from '@vue/composition-api'
-import { isAmountPaidInUsd, isPaymentMethodCheque } from '../state'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
 export function useCreateRoutingSlipPayment () {
+  const { isAmountPaidInUsd, isPaymentMethodCheque } = useRoutingSlip()
   const createRoutingSlipChequePaymentRef = ref<HTMLFormElement>(null)
   const createRoutingSlipCashPaymentRef = ref<HTMLFormElement>(null)
 

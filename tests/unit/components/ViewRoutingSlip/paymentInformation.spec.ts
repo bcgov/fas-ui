@@ -5,7 +5,7 @@ import { PaymentInformation } from '@/components/ViewRoutingSlip'
 import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
 
-import { linkedRoutingSlips, routingSlip } from '@/composables/state'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('PaymentInformation.vue', () => {
   const localVue = createLocalVue()
@@ -14,6 +14,7 @@ describe('PaymentInformation.vue', () => {
   const MyStub = {
     template: '<div />'
   }
+  const { routingSlip, linkedRoutingSlips } = useRoutingSlip()
 
   beforeEach(() => {
     routingSlip.value = routingSlipMock

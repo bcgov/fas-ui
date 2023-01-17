@@ -4,9 +4,10 @@ import { RoutingSlipTransaction } from '@/components/ViewRoutingSlip'
 import Vuetify from 'vuetify'
 
 import { routingSlipMock } from '../../test-data/mock-routing-slip'
-import { routingSlip } from '@/composables/state'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('RoutingSlipTransaction.vue', () => {
+  const { routingSlip } = useRoutingSlip()
   const localVue = createLocalVue()
 
   const vuetify = new Vuetify({})

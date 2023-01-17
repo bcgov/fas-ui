@@ -3,11 +3,19 @@ import { computed, reactive, ref } from '@vue/composition-api'
 import CommonUtils from '@/util/common-util'
 import { Payment } from '@/models/Payment'
 import i18n from '@/plugins/i18n'
-import { cashPayment, chequePayment, createRoutingSlip, isAmountPaidInUsd, isPaymentMethodCheque, routingSlipDetails } from '../state'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to CreateRoutingSlip component
 // CreateRoutingSlip component holds two behaviors - create routing slip & review routing slip modes
 export function useCreateRoutingSlip (_, context) {
+  const {
+    cashPayment,
+    chequePayment,
+    createRoutingSlip,
+    isAmountPaidInUsd,
+    isPaymentMethodCheque,
+    routingSlipDetails
+  } = useRoutingSlip()
   const createRoutingSlipForm = ref<HTMLFormElement>()
   const createRoutingSlipDetailsRef = ref<HTMLFormElement>()
   const createRoutingSlipPaymentRef = ref<HTMLFormElement>()

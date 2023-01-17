@@ -3,10 +3,11 @@ import { InvoiceStatus, SlipStatus } from '@/util/constants'
 import { computed, reactive, ref, watch } from '@vue/composition-api'
 
 import { GetRoutingSlipRequestPayload } from '@/models/RoutingSlip'
-import { cancelRoutingSlipInvoice, getRoutingSlip, invoiceCount, routingSlip } from '../state'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to TransactionDataTable component
 export default function useTransactionDataTable (props) {
+  const { cancelRoutingSlipInvoice, getRoutingSlip, invoiceCount, routingSlip } = useRoutingSlip()
   // ref and i/p variables
   const invoiceDisplay = ref<InvoiceDisplay[]>([])
   const headerTranscations = [

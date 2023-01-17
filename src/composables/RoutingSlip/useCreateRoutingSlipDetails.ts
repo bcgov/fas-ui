@@ -3,10 +3,11 @@ import { computed, ref } from '@vue/composition-api'
 import CommonUtils from '@/util/common-util'
 import moment from 'moment'
 import { CreateRoutingSlipStatus } from '@/util/constants'
-import { accountInfo, checkRoutingNumber, routingSlipDetails } from '../state'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
 export function useCreateRoutingSlipDetails () {
+  const { accountInfo, checkRoutingNumber, routingSlipDetails } = useRoutingSlip()
   const createRoutingSlipDetailsForm = ref<HTMLFormElement>()
 
   // local variables

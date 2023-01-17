@@ -1,10 +1,11 @@
 import { toRefs, watch } from '@vue/composition-api'
 
 import { GetRoutingSlipRequestPayload } from '@/models/RoutingSlip'
-import { getLinkedRoutingSlips, getRoutingSlip, routingSlip } from '../state'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to useViewRoutingSlip component
 export default function useViewRoutingSlip (props) {
+  const { getLinkedRoutingSlips, getRoutingSlip, routingSlip } = useRoutingSlip()
   // using `toRefs` to create a Reactive Reference to the `slipId` property of props
   const { slipId } = toRefs(props)
 

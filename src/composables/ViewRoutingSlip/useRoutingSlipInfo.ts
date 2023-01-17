@@ -7,10 +7,13 @@ import { Code } from '@/models/Code'
 import CommonUtils from '@/util/common-util'
 import i18n from '@/plugins/i18n'
 import { ApiError } from '@/models/ApiError'
-import { isRoutingSlipAChild, routingSlip, routingSlipStatusList, updateRoutingSlipStatus } from '../state'
+import { useCodes } from '../useCodes'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to useRoutingSlipInfo component
 export default function useRoutingSlipInfo (props) {
+  const { isRoutingSlipAChild, routingSlip, updateRoutingSlipStatus } = useRoutingSlip()
+  const { routingSlipStatusList } = useCodes()
   const addMoreDetails = ref<boolean>(false)
   const isLoading = ref<boolean>(false)
   const isAddressEditable = ref<boolean>(false)

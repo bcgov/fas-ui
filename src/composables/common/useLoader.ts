@@ -6,9 +6,10 @@ While, isLoading can be used inside an individual component - <loader-component 
 */
 
 import { ref } from '@vue/composition-api'
-import { isThereActiveCalls } from '../state'
+import { useIndicators } from '../useIndicators'
 
 export function useLoader () {
+  const { isThereActiveCalls } = useIndicators()
   const isLoading = ref<boolean>(false)
   // vuex getters
   function changeLoadingStatus (isLoadingStatus: boolean): void {

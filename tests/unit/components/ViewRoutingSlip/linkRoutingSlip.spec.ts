@@ -1,15 +1,13 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import { linkedRoutingSlipsWithChequeChildren, linkedRoutingSlipsWithChildren, routingSlipMock } from '../../test-data/mock-routing-slip'
-
-import { LinkRoutingSlip } from '@/components/ViewRoutingSlip'
 import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
 
-import { invoiceCount, linkedRoutingSlips, routingSlip } from '@/composables/state'
-import * as state from '@/composables/state'
-import { ref } from '@vue/composition-api'
+import { linkedRoutingSlipsWithChildren, routingSlipMock } from '../../test-data/mock-routing-slip'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
+import { LinkRoutingSlip } from '@/components/ViewRoutingSlip'
 
 describe('LinkRoutingSlip.vue', () => {
+  const { linkedRoutingSlips, routingSlip } = useRoutingSlip()
   const localVue = createLocalVue()
   const vuetify = new Vuetify({})
   const router = new VueRouter()

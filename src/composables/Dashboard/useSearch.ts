@@ -5,9 +5,17 @@ import ConfigHelper from '@/util/config-helper'
 import debounce from '@/util/debounce'
 import { useLoader } from '@/composables/common/useLoader'
 import { useStatusList } from '@/composables/common/useStatusList'
-import { headerSearchTitle, resetSearchParams, searchParamsExist, searchRoutingSlip, searchRoutingSlipParams, searchRoutingSlipResult } from '../state'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 export function useSearch (props, context) {
+  const {
+    headerSearchTitle,
+    resetSearchParams,
+    searchParamsExist,
+    searchRoutingSlip,
+    searchRoutingSlipParams,
+    searchRoutingSlipResult
+  } = useRoutingSlip()
   const { isLibraryMode } = toRefs(props)
   // Adding openFromAuth=true queryparams so that we can build breadcrumbs
   // Eg of a typical breadcrumb flow = Staff Dashboard -> FAS Dashboard -> View Routing Slip: test -> View Routing Slip: testchild

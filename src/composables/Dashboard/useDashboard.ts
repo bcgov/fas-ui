@@ -1,7 +1,8 @@
 import CommonUtils from '@/util/common-util'
-import { resetRoutingSlipDetails } from '../state'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 export function useDashboard (_, context) {
+  const { resetRoutingSlipDetails } = useRoutingSlip()
   const appendQueryParamsIfNeeded = CommonUtils.appendQueryParamsIfNeeded
 
   function addRoutingSlip (): void {

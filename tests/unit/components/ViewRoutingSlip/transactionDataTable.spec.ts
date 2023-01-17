@@ -4,9 +4,10 @@ import { routingSlipMock, routingSlipRefundRequested, routingSlipWithCancelledIn
 import { InvoiceDisplay } from '@/models/Invoice'
 import { TransactionDataTable } from '@/components/ViewRoutingSlip'
 import Vuetify from 'vuetify'
-import { routingSlip } from '@/composables/state'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('TransactionDataTable.vue', () => {
+  const { routingSlip } = useRoutingSlip()
   const localVue = createLocalVue()
   const vuetify = new Vuetify({})
 

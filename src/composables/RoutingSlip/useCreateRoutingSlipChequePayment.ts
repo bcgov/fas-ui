@@ -3,10 +3,11 @@ import { computed, onMounted, ref, watch } from '@vue/composition-api'
 import CommonUtils from '@/util/common-util'
 import { Payment } from '@/models/Payment'
 import { PaymentMethods } from '@/util/constants'
-import { chequePayment, isAmountPaidInUsd } from '../state'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
 export function useCreateRoutingSlipChequePayment () {
+  const { chequePayment, isAmountPaidInUsd } = useRoutingSlip()
   const chequeList = ref<Payment[]>([])
   const createRoutingSlipChequePaymentForm = ref<HTMLFormElement>()
 

@@ -2,11 +2,12 @@ import { mount, shallowMount } from '@vue/test-utils'
 
 import CreateRoutingSlipCashPayment from '@/components/RoutingSlip/CreateRoutingSlipCashPayment.vue'
 import Vuetify from 'vuetify'
-import { cashPayment } from '@/composables/state'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('CreateRoutingSlipCashPayment.vue', () => {
   let store
   const vuetify = new Vuetify({})
+  const { cashPayment } = useRoutingSlip()
   beforeEach(() => {
     cashPayment.value = { chequeReceiptNumber: '1234', paidAmount: 20 }
     jest.resetModules()

@@ -1,9 +1,9 @@
 import { accountInfoMock, cashPaymentMock, chequePaymentMock, routingSlipDetailsMock } from '../../test-data/mock-routing-slip'
 import { createLocalVue, mount } from '@vue/test-utils'
+import Vuetify from 'vuetify'
 
 import { ReviewRoutingSlip } from '@/components/ReviewRoutingSlip'
-import Vuetify from 'vuetify'
-import { accountInfo, cashPayment, chequePayment, isPaymentMethodCheque, routingSlip, routingSlipDetails } from '@/composables/state'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('ReviewRoutingSlip.vue', () => {
   const localVue = createLocalVue()
@@ -11,6 +11,7 @@ describe('ReviewRoutingSlip.vue', () => {
   const MyStub = {
     template: '<div />'
   }
+  const { routingSlipDetails, chequePayment, accountInfo, cashPayment, isPaymentMethodCheque } = useRoutingSlip()
 
   beforeEach(() => {
     routingSlipDetails.value = routingSlipDetailsMock

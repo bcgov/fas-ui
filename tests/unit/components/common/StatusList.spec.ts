@@ -3,8 +3,10 @@ import StatusList from '@/components/common/StatusList.vue'
 import Vuetify from 'vuetify'
 
 import { routingSlipStatusListMock } from '../../test-data/mock-code'
-import * as state from '@/composables/state'
-import { routingSlipStatusList } from '@/composables/state'
+import { useCodes } from '@/composables/useCodes'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
+
+const { routingSlipStatusList } = useCodes()
 
 describe('StatusList.vue', () => {
   const localVue = createLocalVue()
@@ -12,7 +14,7 @@ describe('StatusList.vue', () => {
   const vuetify = new Vuetify({})
   beforeEach(() => {
     routingSlipStatusList.value = routingSlipStatusListMock
-    jest.spyOn(state, 'getFeeByCorpTypeAndFilingType').mockResolvedValue(0)
+    jest.spyOn(useRoutingSlip(), 'getFeeByCorpTypeAndFilingType').mockResolvedValue(0)
     jest.resetModules()
     jest.clearAllMocks()
   })

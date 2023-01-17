@@ -1,8 +1,16 @@
 import { computed, ref } from '@vue/composition-api'
-import { invoiceCount, isRoutingSlipAChild, isRoutingSlipLinked, isRoutingSlipVoid, linkedRoutingSlips, routingSlip } from '../state'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to useRoutingSlipInfo component
 export default function useLinkRoutingSlip () {
+  const {
+    invoiceCount,
+    isRoutingSlipAChild,
+    isRoutingSlipLinked,
+    isRoutingSlipVoid,
+    linkedRoutingSlips,
+    routingSlip
+  } = useRoutingSlip()
   // store
   const showSearch = ref<boolean>(false)
 

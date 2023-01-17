@@ -1,16 +1,16 @@
 import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
-import { headerSearch } from '../../test-data/mock-search-headers'
+import Vuetify from 'vuetify'
 
 import { Search } from '@/components/Dashboard'
-import Vuetify from 'vuetify'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
+import { headerSearch } from '../../test-data/mock-search-headers'
 import { routingSlipMock } from '../../test-data/mock-routing-slip'
-import { headerSearchTitle, routingSlip } from '@/composables/state'
-
 import ConfigHelper, * as f from '@/util/config-helper'
 
 describe('Search.vue', () => {
   const localVue = createLocalVue()
   const vuetify = new Vuetify({})
+  const { headerSearchTitle, routingSlip } = useRoutingSlip()
   beforeEach(() => {
     routingSlip.value = routingSlipMock
     headerSearchTitle.value = headerSearch

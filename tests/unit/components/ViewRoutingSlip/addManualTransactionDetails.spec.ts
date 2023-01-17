@@ -1,17 +1,16 @@
 import { createLocalVue, mount } from '@vue/test-utils'
 import { filingType, manualTransactionDetails as manualTransactionDetailsMock } from '../../test-data/mock-routing-slip'
-
+import RoutingSlipService from '@/services/routingSlip.services'
 import AddManualTransactionDetails from '@/components/ViewRoutingSlip/AddManualTransactionDetails.vue'
 import Vuetify from 'vuetify'
-import * as state from '@/composables/state'
-import { autoCompleteRoutingSlips } from '@/composables/state'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('addManualTransactionDetails.vue', () => {
+  const { autoCompleteRoutingSlips } = useRoutingSlip()
   const localVue = createLocalVue()
   const vuetify = new Vuetify({})
   beforeEach(() => {
     autoCompleteRoutingSlips.value = filingType
-
     jest.resetModules()
     jest.clearAllMocks()
   })
@@ -73,7 +72,8 @@ describe('addManualTransactionDetails.vue', () => {
         manualTransaction: manualTransactionDetailsMock
       }
     })
-    jest.spyOn(state, 'getFeeByCorpTypeAndFilingType').mockResolvedValue(100)
+    const mockedResponse = { data: { total: 100 }, status: 200, statusText: '', headers: {}, config: {} }
+    jest.spyOn(RoutingSlipService, 'getFeeByCorpTypeAndFilingType').mockResolvedValue(mockedResponse)
     // to add first array of input on mount
     await wrapper.vm.$nextTick()
     await wrapper.vm.calculateTotal()

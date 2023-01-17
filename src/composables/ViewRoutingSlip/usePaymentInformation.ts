@@ -3,10 +3,20 @@ import { computed, ref } from '@vue/composition-api'
 import { PaymentMethods, SlipStatus } from '@/util/constants'
 import { AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload, RoutingSlip } from '@/models/RoutingSlip'
 import commonUtil from '@/util/common-util'
-import { adjustRoutingSlip, getRoutingSlip, isRoutingSlipAChild, isRoutingSlipLinked, linkedRoutingSlips, routingSlip, updateRoutingSlipAmount, updateRoutingSlipChequeNumber } from '../state'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to PaymentInformation component
 export default function usePaymentInformation (_, context) {
+  const {
+    adjustRoutingSlip,
+    getRoutingSlip,
+    isRoutingSlipAChild,
+    isRoutingSlipLinked,
+    linkedRoutingSlips,
+    routingSlip,
+    updateRoutingSlipAmount,
+    updateRoutingSlipChequeNumber
+  } = useRoutingSlip()
   // UI control variables
   const isExpanded = ref<boolean>(false)
   const isEditable = ref<boolean>(false)

@@ -2,10 +2,11 @@ import { computed, ref } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { PaymentMethods } from '@/util/constants'
-import { cashPayment, isAmountPaidInUsd } from '../state'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
 export function useCreateRoutingSlipCashPayment () {
+  const { cashPayment, isAmountPaidInUsd } = useRoutingSlip()
   const createRoutingSlipCashPaymentForm = ref<HTMLFormElement>()
 
   // using same v-model value for getting value and update parent on change

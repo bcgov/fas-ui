@@ -1,8 +1,9 @@
 import { Code } from '@/models/Code'
 import { ref, computed, toRefs, onMounted } from '@vue/composition-api'
-import { getRoutingSlipStatusList, routingSlipStatusList } from '../state'
+import { useCodes } from '../useCodes'
 
 export function useStatusList (props, context) {
+  const { getRoutingSlipStatusList, routingSlipStatusList } = useCodes()
   // default value set blank incase if we didnt pass props
   const { value = ref('') } = toRefs(props)
 

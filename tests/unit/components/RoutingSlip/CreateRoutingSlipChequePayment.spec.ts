@@ -2,9 +2,10 @@ import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
 import CreateRoutingSlipChequePayment from '@/components/RoutingSlip/CreateRoutingSlipChequePayment.vue'
 
 import Vuetify from 'vuetify'
-import { chequePayment } from '@/composables/state'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('CreateRoutingSlipChequePayment.vue', () => {
+  const { chequePayment } = useRoutingSlip()
   const localVue = createLocalVue()
   localVue.use(Vuetify)
   const vuetify = new Vuetify({})
