@@ -3,13 +3,12 @@
     <v-col :cols="isAmountPaidInUsd ? 4: 6">
       <v-text-field
       filled
-      :disabled="!isEditable || isALinkedChild"
+      disabled
       label="Receipt Number"
       persistent-hint
       hide-details
       :value="cashPayment.chequeReceiptNumber"
       data-test="txt-receipt-number"
-      @input="e => adjustRoutingSlipChequeNumber(e)"
       >
       </v-text-field>
     </v-col>
