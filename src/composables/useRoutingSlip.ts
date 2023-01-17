@@ -332,7 +332,6 @@ export const useRoutingSlip = () => {
     const response = await RoutingSlipService.getFeeByCorpTypeAndFilingType(
       getFeeRequestParams
     )
-    console.log(response)
     if (response && response.data && response.status === 200) {
       return response.data?.total
     }

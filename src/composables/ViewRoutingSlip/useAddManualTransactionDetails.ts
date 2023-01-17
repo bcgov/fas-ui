@@ -45,9 +45,7 @@ export default function useAddManualTransactionDetails (props, context) {
             futureEffective: manualTransactionDetails.value.futureEffective
           }
         }
-        console.log(manualTransactionDetails.value.total)
         manualTransactionDetails.value.total = await getFeeByCorpTypeAndFilingType(getFeeRequestParams)
-        console.log(manualTransactionDetails.value.total)
       } else {
         manualTransactionDetails.value.total = null
       }
