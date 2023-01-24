@@ -5,17 +5,13 @@ While, isLoading can be used inside an individual component - <loader-component 
 <load>
 */
 
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import { ref } from '@vue/composition-api'
-
-const loadingStatusModule = createNamespacedHelpers('indicator') // specific module name
-const { useGetters } = loadingStatusModule
+import { useIndicators } from '../useIndicators'
 
 export function useLoader () {
+  const { isThereActiveCalls } = useIndicators()
   const isLoading = ref<boolean>(false)
   // vuex getters
-  const { isThereActiveCalls } = useGetters(['isThereActiveCalls'])
-
   function changeLoadingStatus (isLoadingStatus: boolean): void {
     isLoading.value = isLoadingStatus
   }

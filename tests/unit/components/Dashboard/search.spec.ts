@@ -1,66 +1,27 @@
 import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
-import { headerSearch, updatedHeaderSearch } from '../../test-data/mock-search-headers'
+import Vuetify from 'vuetify'
 
 import { Search } from '@/components/Dashboard'
-import Vuetify from 'vuetify'
-import Vuex from 'vuex'
-import { routingSlip } from '../../test-data/mock-routing-slip'
-
-jest.mock('@/util/config-helper', () => ({
-  getFasWebUrl () {
-    return 'test' // set some default value
-  }
-}))
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
+import { headerSearch } from '../../test-data/mock-search-headers'
+import { routingSlipMock } from '../../test-data/mock-routing-slip'
+import ConfigHelper, * as f from '@/util/config-helper'
 
 describe('Search.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
   const vuetify = new Vuetify({})
-  let store
+  const { headerSearchTitle, routingSlip } = useRoutingSlip()
   beforeEach(() => {
-    const routingSlipModule = {
-      namespaced: true,
-      state: {
-        routingSlip: routingSlip,
-        searchRoutingSlipParams: [],
-        searchRoutingSlipResult: [],
-        headerSearchTitle: headerSearch
-      },
-      actions: {
-        searchRoutingSlip: jest.fn()
-      },
-      mutations: {
-        setChequePayment: jest.fn(),
-        setCashPayment: jest.fn(),
-        setSearchRoutingSlipParams: jest.fn(),
-        setSearchHeaders: jest.fn()
-      }
-    }
-
-    const codesModule = {
-      namespaced: true,
-      state: {
-        routingSlipStatusList: []
-      },
-      actions: {
-        getRoutingSlipStatusList: jest.fn()
-      }
-    }
-
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        routingSlip: routingSlipModule,
-        fasCodes: codesModule
-      }
-    })
+    routingSlip.value = routingSlipMock
+    headerSearchTitle.value = headerSearch
 
     jest.resetModules()
     jest.clearAllMocks()
   })
   it('Should have h4 title', () => {
+    jest.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
+    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
     const wrapper = shallowMount(Search, {
-      store,
       localVue,
       vuetify,
       directives: {
@@ -71,11 +32,13 @@ describe('Search.vue', () => {
     expect(wrapper.find('h4').text()).toBe('Search Routing Slip')
   })
   it('displayed search header behaviour', async () => {
+    jest.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
+    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
+
     const MyStub = {
       template: '<div />'
     }
     const wrapper: any = mount(Search, {
-      store,
       localVue,
       vuetify,
       stubs: {

@@ -2,11 +2,10 @@ import { createLocalVue, mount } from '@vue/test-utils'
 
 import ErrorAlertComponent from '@/components/common/ErrorAlertComponent.vue'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
 
 describe('ErrorAlertComponent.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
+
   const vuetify = new Vuetify({})
 
   beforeEach(() => {

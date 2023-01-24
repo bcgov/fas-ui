@@ -1,21 +1,14 @@
 import { computed, ref } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import moment from 'moment'
 import { CreateRoutingSlipStatus } from '@/util/constants'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useState, useMutations, useActions } = routingSlipModule
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
 export function useCreateRoutingSlipDetails () {
+  const { accountInfo, checkRoutingNumber, routingSlipDetails } = useRoutingSlip()
   const createRoutingSlipDetailsForm = ref<HTMLFormElement>()
-
-  // state , action , mutation from vuex store
-  const { routingSlipDetails, accountInfo } = useState(['routingSlipDetails', 'accountInfo'])
-  const { setRoutingSlipDetails, setAccountInfo } = useMutations(['setRoutingSlipDetails', 'setAccountInfo'])
-  const { checkRoutingNumber } = useActions(['checkRoutingNumber'])
 
   // local variables
   const errorMessage = ref<string>('')
@@ -26,10 +19,10 @@ export function useCreateRoutingSlipDetails () {
       return routingSlipDetails.value?.number || ''
     },
     set: (modalValue: string) => {
-      setRoutingSlipDetails({
+      routingSlipDetails.value = {
         ...routingSlipDetails.value,
         number: modalValue
-      })
+      }
     }
   })
 
@@ -38,10 +31,10 @@ export function useCreateRoutingSlipDetails () {
       return routingSlipDetails.value?.routingSlipDate
     },
     set: (modalValue: string) => {
-      setRoutingSlipDetails({
+      routingSlipDetails.value = {
         ...routingSlipDetails.value,
         routingSlipDate: modalValue
-      })
+      }
     }
   })
 
@@ -55,9 +48,9 @@ export function useCreateRoutingSlipDetails () {
       return accountInfo.value?.accountName || ''
     },
     set: (modalValue: string) => {
-      setAccountInfo({
+      accountInfo.value = {
         accountName: modalValue
-      })
+      }
     }
   })
 

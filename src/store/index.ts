@@ -2,14 +2,12 @@ import Vuex, { StoreOptions } from 'vuex'
 
 import { RootState } from './types'
 import Vue from 'vue'
-import codes from '@/store/modules/codes'
-import indicator from '@/store/modules/indicator'
-import routingSlip from '@/store/modules/routingSlip'
 
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 
+// Note: This is still required for sbc-common-components to work.
 const storeOptions: StoreOptions<RootState> = {
   strict: debug,
   state: () => ({
@@ -28,9 +26,6 @@ const storeOptions: StoreOptions<RootState> = {
     }
   },
   modules: {
-    routingSlip,
-    indicator,
-    fasCodes: codes
   }
 }
 export default new Vuex.Store<RootState>(storeOptions)

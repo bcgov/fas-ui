@@ -1,46 +1,27 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import { filingType, manualTransactionDetails } from '../../test-data/mock-routing-slip'
-
+import { filingType, manualTransactionDetails as manualTransactionDetailsMock } from '../../test-data/mock-routing-slip'
+import RoutingSlipService from '@/services/routingSlip.services'
 import AddManualTransactionDetails from '@/components/ViewRoutingSlip/AddManualTransactionDetails.vue'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('addManualTransactionDetails.vue', () => {
+  const { autoCompleteRoutingSlips } = useRoutingSlip()
   const localVue = createLocalVue()
-  localVue.use(Vuex)
   const vuetify = new Vuetify({})
-  let store
   beforeEach(() => {
-    const routingSlipModule = {
-      namespaced: true,
-      state: {
-        autoCompleteFilingTypes: filingType
-      },
-      actions: {
-        getAutoCompleteFilingTypes: jest.fn(),
-        getFeeByCorpTypeAndFilingType: jest.fn().mockResolvedValue(100)
-      }
-    }
-
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        routingSlip: routingSlipModule
-      }
-    })
-
+    autoCompleteRoutingSlips.value = filingType
     jest.resetModules()
     jest.clearAllMocks()
   })
 
   it('renders component', async () => {
     const wrapper: any = mount(AddManualTransactionDetails, {
-      store,
       vuetify,
       localVue,
       propsData: {
         index: 0,
-        manualTransaction: manualTransactionDetails
+        manualTransaction: manualTransactionDetailsMock
       }
     })
     // to add first array of input on mount
@@ -57,12 +38,11 @@ describe('addManualTransactionDetails.vue', () => {
   it('behavior testing', async () => {
     const stub = jest.fn()
     const wrapper: any = mount(AddManualTransactionDetails, {
-      store,
       vuetify,
       localVue,
       propsData: {
         index: 1,
-        manualTransaction: manualTransactionDetails
+        manualTransaction: manualTransactionDetailsMock
       },
       mocks: {
         removeManualTransactionRowEventHandler: stub
@@ -85,14 +65,15 @@ describe('addManualTransactionDetails.vue', () => {
 
   it('calculate total', async () => {
     const wrapper: any = mount(AddManualTransactionDetails, {
-      store,
       vuetify,
       localVue,
       propsData: {
         index: 0,
-        manualTransaction: manualTransactionDetails
+        manualTransaction: manualTransactionDetailsMock
       }
     })
+    const mockedResponse = { data: { total: 100 }, status: 200, statusText: '', headers: {}, config: {} }
+    jest.spyOn(RoutingSlipService, 'getFeeByCorpTypeAndFilingType').mockResolvedValue(mockedResponse)
     // to add first array of input on mount
     await wrapper.vm.$nextTick()
     await wrapper.vm.calculateTotal()

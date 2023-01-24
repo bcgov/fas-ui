@@ -1,9 +1,12 @@
 import Axios from 'axios'
 import ConfigHelper from '@/util/config-helper'
 import { SessionStorageKeys } from '@/util/constants'
+import { useIndicators } from '@/composables/useIndicators'
 // import store from '@/store'
 // using fasStore from window to avoid library build issue.
 const axios = Axios.create()
+
+const { activeCalls, hasCallFailed, isThereActiveCalls } = useIndicators()
 
 axios.defaults.showGlobalLoader = false // by default, false
 axios.defaults.showGlobalErrorHandling = true
@@ -14,9 +17,8 @@ axios.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
-    const fasStore = window && (window as any).fasStore
     if (config.showGlobalLoader) {
-      fasStore.commit('indicator/incrementActiveCalls')
+      activeCalls.value++
     }
     return config
   },
@@ -25,24 +27,20 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   response => {
-    const fasStore = window && (window as any).fasStore
-
     // decrement active calls count by one
-    if (response.config.showGlobalLoader && fasStore.getters['indicator/isThereActiveCalls']) {
-      fasStore.commit('indicator/decrementActiveCalls')
+    if (response.config.showGlobalLoader && isThereActiveCalls.value) {
+      activeCalls.value--
     }
     return response
   },
   error => {
-    const fasStore = window && (window as any).fasStore
-
     // decrement active calls count by one
-    if (error.config.showGlobalLoader && fasStore.getters['indicator/isThereActiveCalls']) {
-      fasStore.commit('indicator/decrementActiveCalls')
+    if (error.config.showGlobalLoader && isThereActiveCalls.value) {
+      activeCalls.value--
     }
     // call has failed in this case. And if the config showGlobalErrorHandling is true, then update store
     if (error.config.showGlobalErrorHandling && error?.response?.status >= 500) {
-      fasStore.commit('indicator/setHasCallFailed', { hasCallFailed: true })
+      hasCallFailed.value = true
     }
     return Promise.reject(error)
   }

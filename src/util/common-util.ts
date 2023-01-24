@@ -100,7 +100,7 @@ export default class CommonUtils {
     return textColor ? `${color}--text` : color
   }
 
-  static appendCurrencySymbol (currency: number) {
+  static appendCurrencySymbol (currency: number | string) {
     return '$' + currency
   }
 

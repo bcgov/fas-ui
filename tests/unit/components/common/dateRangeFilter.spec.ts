@@ -2,11 +2,9 @@ import { createLocalVue, mount } from '@vue/test-utils'
 
 import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
 
 describe('DateRangeFilter.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
   const vuetify = new Vuetify({})
   const value = ['2021-08-04', '2021-08-05']
   it('renders date range filter', () => {

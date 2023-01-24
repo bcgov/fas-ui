@@ -1,16 +1,14 @@
-import { computed, nextTick, onMounted, ref, toRefs, watch } from '@vue/composition-api'
+import { computed, onMounted, ref, toRefs, watch } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { GetFeeRequestParams } from '@/models/Payment'
 import { ManualTransactionDetails } from '@/models/RoutingSlip'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
 import debounce from '@/util/debounce'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useActions } = routingSlipModule
+import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to AddManualTransactionDetails component
 export default function useAddManualTransactionDetails (props, context) {
+  const { getFeeByCorpTypeAndFilingType } = useRoutingSlip()
   const { manualTransaction, index } = toRefs(props)
 
   // Object that holds the input fields - seed it using property
@@ -18,11 +16,6 @@ export default function useAddManualTransactionDetails (props, context) {
 
   // Input field rules
   const requiredFieldRule = CommonUtils.requiredFieldRule()
-
-  // vuex action and state
-  const { getFeeByCorpTypeAndFilingType } = useActions([
-    'getFeeByCorpTypeAndFilingType'
-  ])
 
   const errorMessage = computed(() => {
     /* We need to check if total exceeds remaining amount and
@@ -75,7 +68,7 @@ export default function useAddManualTransactionDetails (props, context) {
     context.emit('removeManualTransactionRow', index.value)
   }
 
-  // Emits the updated manual transactio ndetail event to the parent
+  // Emits the updated manual transaction detail event to the parent
   function emitManualTransactionDetails () {
     context.emit('updateManualTransaction', { transaction: manualTransactionDetails.value, index: index.value })
   }

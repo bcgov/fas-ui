@@ -4,47 +4,18 @@ import CommonUtils from '@/util/common-util'
 import { RoutingSlipInfo } from '@/components/ViewRoutingSlip'
 import { SlipStatus } from '@/util/constants'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
-import { routingSlip } from '../../test-data/mock-routing-slip'
-import { routingSlipStatusList } from '../../test-data/mock-code'
 import StatusMenu from '@/components/common/StatusMenu.vue'
+import ConfigHelper from '@/util/config-helper'
 
 describe('RoutingSlipInfo.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
   const vuetify = new Vuetify({})
-  let store
   const MyStub = {
     template: '<div />'
   }
   const i18n = () => { return t => '' }
 
   beforeEach(() => {
-    const routingSlipModule = {
-      namespaced: true,
-      state: {
-        routingSlip: routingSlip
-      }
-    }
-
-    const codesModule = {
-      namespaced: true,
-      state: {
-        routingSlipStatusList
-      },
-      actions: {
-        getRoutingSlipStatusList: jest.fn()
-      }
-    }
-
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        routingSlip: routingSlipModule,
-        fasCodes: codesModule
-      }
-    })
-
     jest.resetModules()
     jest.clearAllMocks()
   })
@@ -52,8 +23,9 @@ describe('RoutingSlipInfo.vue', () => {
   it('renders component', () => {
     jest.spyOn(CommonUtils, 'isApproverRole').mockReturnValue(false)
     jest.spyOn(CommonUtils, 'isVoidRole').mockReturnValue(false)
+    jest.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
+    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
     const wrapper = shallowMount(RoutingSlipInfo, {
-      store,
       localVue,
       vuetify,
       directives: {
@@ -71,8 +43,9 @@ describe('RoutingSlipInfo.vue', () => {
   it('should have StatusMenu component', async () => {
     jest.spyOn(CommonUtils, 'isApproverRole').mockReturnValue(false)
     jest.spyOn(CommonUtils, 'isVoidRole').mockReturnValue(false)
+    jest.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
+    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
     const wrapper = shallowMount(RoutingSlipInfo, {
-      store,
       localVue,
       vuetify,
       directives: {
@@ -87,8 +60,9 @@ describe('RoutingSlipInfo.vue', () => {
   it('Refund approval/cancel flow', async () => {
     jest.spyOn(CommonUtils, 'isApproverRole').mockReturnValue(false)
     jest.spyOn(CommonUtils, 'isVoidRole').mockReturnValue(false)
+    jest.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
+    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
     const wrapper: any = mount(RoutingSlipInfo, {
-      store,
       localVue,
       vuetify,
       directives: {

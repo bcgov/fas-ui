@@ -1,13 +1,8 @@
 import CommonUtils from '@/util/common-util'
-import { createNamespacedHelpers } from 'vuex-composition-helpers'
-
-const routingSlipModule = createNamespacedHelpers('routingSlip') // specific module name
-const { useActions } = routingSlipModule
+import { useRoutingSlip } from '../useRoutingSlip'
 
 export function useDashboard (_, context) {
-  // vuex action and state
-  const { resetRoutingSlipDetails } = useActions(['resetRoutingSlipDetails'])
-
+  const { resetRoutingSlipDetails } = useRoutingSlip()
   const appendQueryParamsIfNeeded = CommonUtils.appendQueryParamsIfNeeded
 
   function addRoutingSlip (): void {

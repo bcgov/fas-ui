@@ -1,12 +1,11 @@
-import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 
 import { CreateRoutingSlipDetails } from '@/components/RoutingSlip'
 import Vuetify from 'vuetify'
-import Vuex from 'vuex'
 
 describe('CreateRoutingSlipDetails.vue', () => {
   const localVue = createLocalVue()
-  localVue.use(Vuex)
+
   const vuetify = new Vuetify({})
   let store
   const MyStub = {
@@ -14,28 +13,6 @@ describe('CreateRoutingSlipDetails.vue', () => {
   }
 
   beforeEach(() => {
-    const routingSlipModule = {
-      namespaced: true,
-      state: {
-        routingSlipDetails: {},
-        accountInfo: {}
-      },
-      action: {
-        checkRoutingNumber: jest.fn()
-      },
-      mutations: {
-        setRoutingSlipDetails: jest.fn(),
-        setAccountInfo: jest.fn()
-      }
-    }
-
-    store = new Vuex.Store({
-      strict: false,
-      modules: {
-        routingSlip: routingSlipModule
-      }
-    })
-
     jest.resetModules()
     jest.clearAllMocks()
   })

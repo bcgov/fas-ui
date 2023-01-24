@@ -1,40 +1,23 @@
 import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
 import CreateRoutingSlipChequePayment from '@/components/RoutingSlip/CreateRoutingSlipChequePayment.vue'
-import Vuex from 'vuex'
+
 import Vuetify from 'vuetify'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('CreateRoutingSlipChequePayment.vue', () => {
-  let store
+  const { chequePayment } = useRoutingSlip()
   const localVue = createLocalVue()
-  localVue.use(Vuex)
   localVue.use(Vuetify)
   const vuetify = new Vuetify({})
-  const chequePayment = [{ chequeReceiptNumber: '1234', paymentDat: '', paidAmount: '20' }]
+  const chequePaymentMock = [{ chequeReceiptNumber: '1234', paymentDate: '', paidAmount: 20 }]
   beforeEach(() => {
-    const routingSlip: any = {
-      namespaced: true,
-      state: {
-        chequePayment
-      },
-      actions: {},
-      mutations: { setChequePayment: jest.fn() },
-      getters: {}
-    }
-    store = new Vuex.Store({
-      state: {},
-      strict: false,
-      modules: {
-        routingSlip: routingSlip
-      }
-    })
-
+    chequePayment.value = chequePaymentMock
     jest.resetModules()
     jest.clearAllMocks()
   })
 
   it('renders with 3 input', async () => {
     const wrapper = shallowMount(CreateRoutingSlipChequePayment, {
-      store
     })
     // to add first array of input on mount
     await wrapper.vm.$nextTick()
@@ -50,9 +33,7 @@ describe('CreateRoutingSlipChequePayment.vue', () => {
   it('On click of add button it should add one row of input', async () => {
     const wrapper:any = mount(CreateRoutingSlipChequePayment, {
       localVue,
-      vuetify,
-      store
-
+      vuetify
     })
     await wrapper.vm.$nextTick()
     // spying on method
@@ -68,9 +49,7 @@ describe('CreateRoutingSlipChequePayment.vue', () => {
   it('On  click of remove button it should remove one row of input', async () => {
     const wrapper:any = mount(CreateRoutingSlipChequePayment, {
       localVue,
-      vuetify,
-      store
-
+      vuetify
     })
     await wrapper.vm.$nextTick()
     // spying on method
