@@ -53,7 +53,7 @@ export function useCreateRoutingSlipChequePayment () {
 
   // By default, we have one cheque row in UI
   onMounted(() => {
-    if (chequePayment.value.length > 0) {
+    if (chequePayment.value?.length > 0) {
       chequeList.value = chequePayment.value.slice(0)
     } else {
       addCheque()

@@ -12,7 +12,7 @@ export function useCreateRoutingSlipCashPayment () {
   // using same v-model value for getting value and update parent on change
   const chequeReceiptNumber:any = computed({
     get: () => {
-      return cashPayment.value.chequeReceiptNumber || ''
+      return cashPayment.value?.chequeReceiptNumber || ''
     },
     set: (modalValue: any) => {
       cashPayment.value = {
@@ -26,7 +26,7 @@ export function useCreateRoutingSlipCashPayment () {
   // using same v-model value for getting value and update parent on change
   const paidAmount:any = computed({
     get: () => {
-      return cashPayment.value.paidAmount || null
+      return cashPayment.value?.paidAmount || null
     },
     set: (modalValue: any) => {
       cashPayment.value = {
@@ -40,7 +40,7 @@ export function useCreateRoutingSlipCashPayment () {
   // using same v-model value for getting value and update parent on change
   const paidUsdAmount:any = computed({
     get: () => {
-      return cashPayment.value.paidUsdAmount || null
+      return cashPayment.value?.paidUsdAmount || null
     },
     set: (modalValue: any) => {
       cashPayment.value = {
