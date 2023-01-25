@@ -102,12 +102,10 @@ export default function usePaymentInformation (_, context) {
   }
 
   function cancelEditPayment () {
-    debugger
     routingSlip.value = routingSlipBeforeEdit.value
     adjustRoutingSlipStatus()
   }
   function editPayment () {
-    debugger
     routingSlipBeforeEdit.value = JSON.parse(JSON.stringify(routingSlip.value))
     adjustRoutingSlipStatus()
   }
