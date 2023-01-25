@@ -81,6 +81,10 @@ export default function usePaymentInformation (_, context) {
     return linkedRoutingSlips.value && linkedRoutingSlips.value.children.length > 0 && linkedRoutingSlips.value.children[0].totalUsd && linkedRoutingSlips.value.children[0].totalUsd > 0
   })
 
+  const hasPaymentChanges = computed(() => {
+    return !commonUtil.isDeepEqual(routingSlip.value, routingSlipBeforeEdit.value)
+  })
+
   async function adjustRoutingSlipHandler () {
     const response = await adjustRoutingSlip(hasChequeNumberChanged.value)
     if (response.status === SlipStatus.CORRECTION) {
@@ -144,6 +148,7 @@ export default function usePaymentInformation (_, context) {
     editPayment,
     cancelRoutingSlipAdjust,
     viewPaymentInformation,
-    navigateTo
+    navigateTo,
+    hasPaymentChanges
   }
 }

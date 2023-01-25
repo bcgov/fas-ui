@@ -92,6 +92,7 @@
               <v-col class="d-flex justify-end mt-6" v-if="isEditable">
                 <v-btn
                  large
+                  :disabled="!hasPaymentChanges"
                   color="primary"
                   class="px-10"
                   data-test="btn-save-edit-transaction"
@@ -166,7 +167,8 @@ import { PaymentMethods, Role } from '@/util/constants'
       editPayment,
       cancelEditPayment,
       viewPaymentInformation,
-      navigateTo
+      navigateTo,
+      hasPaymentChanges
     } = usePaymentInformation(_, context)
     return {
       routingSlip,
@@ -187,7 +189,8 @@ import { PaymentMethods, Role } from '@/util/constants'
       editPayment,
       cancelEditPayment,
       viewPaymentInformation,
-      navigateTo
+      navigateTo,
+      hasPaymentChanges
     }
   }
 })
