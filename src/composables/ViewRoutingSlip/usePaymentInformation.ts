@@ -5,6 +5,8 @@ import { AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingS
 import commonUtil from '@/util/common-util'
 import { useRoutingSlip } from '../useRoutingSlip'
 
+const routingSlipBeforeEdit = ref<RoutingSlip>({})
+
 // Composable function to inject Props, options and values to PaymentInformation component
 export default function usePaymentInformation (_, context) {
   const {
@@ -20,7 +22,6 @@ export default function usePaymentInformation (_, context) {
   // UI control variables
   const isExpanded = ref<boolean>(false)
   const isEditable = ref<boolean>(false)
-  const routingSlipBeforeEdit = ref<RoutingSlip>({})
   const hasChequeNumberChanged = ref<boolean>(false)
 
   // vuex getter and state
@@ -43,7 +44,7 @@ export default function usePaymentInformation (_, context) {
       paymentIndex: paymentIndex
     }
     updateRoutingSlipChequeNumber(chequeNumToChange)
-    hasChequeNumberChanged.value = true
+    hasChequeNumberChanged.value = num !== routingSlipBeforeEdit.value?.payments[paymentIndex]?.chequeReceiptNumber
   }
 
   function adjustRoutingSlipAmount (num: number, isUsdChange: boolean, paymentIndex: number = 0) {
@@ -78,6 +79,10 @@ export default function usePaymentInformation (_, context) {
 
   const isRoutingSlipChildPaidInUsd = computed(() => {
     return linkedRoutingSlips.value && linkedRoutingSlips.value.children.length > 0 && linkedRoutingSlips.value.children[0].totalUsd && linkedRoutingSlips.value.children[0].totalUsd > 0
+  })
+
+  const hasPaymentChanges = computed(() => {
+    return !commonUtil.isDeepEqual(routingSlip.value, routingSlipBeforeEdit.value)
   })
 
   async function adjustRoutingSlipHandler () {
@@ -143,6 +148,7 @@ export default function usePaymentInformation (_, context) {
     editPayment,
     cancelRoutingSlipAdjust,
     viewPaymentInformation,
-    navigateTo
+    navigateTo,
+    hasPaymentChanges
   }
 }
