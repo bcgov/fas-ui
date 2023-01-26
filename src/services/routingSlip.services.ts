@@ -29,12 +29,12 @@ export default class RoutingSlip {
   }
 
   public static async adjustRoutingSlip (
-    routingSlipRequest: Payment[],
+    payments: Payment[],
     routingSlipNumber: string
   ): Promise<AxiosResponse> {
     const payload = {
       status: SlipStatus.CORRECTION,
-      payments: routingSlipRequest
+      payments: payments
     }
     return axios.patch(
       `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}?action=${PatchActions.UPDATE_STATUS}`,

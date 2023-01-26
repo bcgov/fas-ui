@@ -4,6 +4,7 @@ import { PaymentMethods, SlipStatus } from '@/util/constants'
 import { AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload, RoutingSlip } from '@/models/RoutingSlip'
 import commonUtil from '@/util/common-util'
 import { useRoutingSlip } from '../useRoutingSlip'
+import { Payment } from '@/models/Payment'
 
 const routingSlipBeforeEdit = ref<RoutingSlip>({})
 
@@ -84,13 +85,8 @@ export default function usePaymentInformation (_, context) {
   })
 
   async function adjustRoutingSlipHandler () {
-    let hasChequeNumberChanged = false
-    routingSlip.value.payments.forEach((payment, index) => {
-      if (payment.chequeReceiptNumber !== routingSlipBeforeEdit.value?.payments[index]?.chequeReceiptNumber) {
-        hasChequeNumberChanged = true
-      }
-    })
-    const response = await adjustRoutingSlip(hasChequeNumberChanged)
+    const paymentRequest: Payment[] = filterUnchangedChequeReceiptNumbersFromPayment()
+    const response = await adjustRoutingSlip(paymentRequest)
     if (response.status === SlipStatus.CORRECTION) {
       adjustRoutingSlipStatus()
       const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value.number }
@@ -98,6 +94,16 @@ export default function usePaymentInformation (_, context) {
     } else {
       cancelEditPayment()
     }
+  }
+
+  const filterUnchangedChequeReceiptNumbersFromPayment = () => {
+    const paymentRequest: Payment[] = routingSlip.value.payments
+    paymentRequest.forEach((payment, index) => {
+      if (payment.chequeReceiptNumber === routingSlipBeforeEdit.value?.payments[index]?.chequeReceiptNumber) {
+        delete payment.chequeReceiptNumber
+      }
+    })
+    return paymentRequest
   }
 
   function adjustRoutingSlipStatus () {
