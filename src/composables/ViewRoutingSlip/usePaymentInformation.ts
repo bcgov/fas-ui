@@ -22,7 +22,6 @@ export default function usePaymentInformation (_, context) {
   // UI control variables
   const isExpanded = ref<boolean>(false)
   const isEditable = ref<boolean>(false)
-  const hasChequeNumberChanged = ref<boolean>(false)
 
   // vuex getter and state
 
@@ -44,7 +43,6 @@ export default function usePaymentInformation (_, context) {
       paymentIndex: paymentIndex
     }
     updateRoutingSlipChequeNumber(chequeNumToChange)
-    hasChequeNumberChanged.value = num !== routingSlipBeforeEdit.value?.payments[paymentIndex]?.chequeReceiptNumber
   }
 
   function adjustRoutingSlipAmount (num: number, isUsdChange: boolean, paymentIndex: number = 0) {
@@ -86,9 +84,14 @@ export default function usePaymentInformation (_, context) {
   })
 
   async function adjustRoutingSlipHandler () {
-    const response = await adjustRoutingSlip(hasChequeNumberChanged.value)
+    let hasChequeNumberChanged = false
+    routingSlip.value.payments.forEach((payment, index) => {
+      if (payment.chequeReceiptNumber !== routingSlipBeforeEdit.value.payments[index].chequeReceiptNumber) {
+        hasChequeNumberChanged = true
+      }
+    })
+    const response = await adjustRoutingSlip(hasChequeNumberChanged)
     if (response.status === SlipStatus.CORRECTION) {
-      routingSlipBeforeEdit.value = JSON.parse(JSON.stringify(routingSlip.value))
       adjustRoutingSlipStatus()
       const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value.number }
       await getRoutingSlip(getRoutingSlipRequestPayload)

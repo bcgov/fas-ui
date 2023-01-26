@@ -172,16 +172,16 @@ export const useRoutingSlip = () => {
 
   const adjustRoutingSlip = async (hasChequeNumberChanged: boolean): Promise<RoutingSlip> => {
     // build the RoutingSlip Request JSON object that needs to be sent.
-    const routingSlipRequest: Payment[] = routingSlip.value.payments
+    const paymentRequest: Payment[] = routingSlip.value.payments
     if (!hasChequeNumberChanged) {
-      for (const rs in routingSlipRequest) {
-        delete routingSlipRequest[rs].chequeReceiptNumber
+      for (const rs in paymentRequest) {
+        delete paymentRequest[rs].chequeReceiptNumber
       }
     }
     const slipNumber = routingSlip.value.number
     try {
       const response = await RoutingSlipService.adjustRoutingSlip(
-        routingSlipRequest,
+        paymentRequest,
         slipNumber
       )
       if (response?.data && response.status === 200) {
