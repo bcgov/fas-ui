@@ -86,7 +86,7 @@ export default function usePaymentInformation (_, context) {
   async function adjustRoutingSlipHandler () {
     let hasChequeNumberChanged = false
     routingSlip.value.payments.forEach((payment, index) => {
-      if (payment.chequeReceiptNumber !== routingSlipBeforeEdit.value.payments[index].chequeReceiptNumber) {
+      if (payment.chequeReceiptNumber !== routingSlipBeforeEdit.value?.payments[index]?.chequeReceiptNumber) {
         hasChequeNumberChanged = true
       }
     })
