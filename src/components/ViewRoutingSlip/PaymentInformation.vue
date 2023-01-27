@@ -42,7 +42,7 @@
                   class="px-0 primary--text cursor-pointer"
                   color="primary"
                   @click="editPayment"
-                  :disable="enableEditRoutingSlip"
+                  :disabled="!enableEditRoutingSlip"
                 >
                   <v-icon color="primary" size="14"> mdi-pencil</v-icon>
                   <span>Edit Routing Slip</span>
