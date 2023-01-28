@@ -243,15 +243,6 @@ export const useRoutingSlip = () => {
     searchRoutingSlipResult.value = []
   }
 
-  const getAutoCompleteFilingTypes = async (searchParams) => {
-    const response = await RoutingSlipService.getSearchFilingType(searchParams)
-    if (response && response.data && response.status === 200) {
-      autoCompleteRoutingSlips.value = response.data?.items
-      return
-    }
-    autoCompleteRoutingSlips.value = []
-  }
-
   const saveLinkRoutingSlip = async (
     parentRoutingSlipNumber: string
   ): Promise<any> => {
@@ -412,7 +403,6 @@ export const useRoutingSlip = () => {
     resetRoutingSlipDetails,
     resetSearchParams,
     searchRoutingSlip,
-    getAutoCompleteFilingTypes,
     saveLinkRoutingSlip,
     getLinkedRoutingSlips,
     getDailyReportByDate,
