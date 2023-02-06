@@ -86,14 +86,10 @@ export default function usePaymentInformation (_, context) {
 
   async function adjustRoutingSlipHandler () {
     const paymentRequest: Payment[] = filterUnchangedChequeReceiptNumbersFromPayment()
-    const response = await adjustRoutingSlip(paymentRequest)
-    if (response.status === SlipStatus.CORRECTION) {
-      adjustRoutingSlipStatus()
-      const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value.number }
-      await getRoutingSlip(getRoutingSlipRequestPayload)
-    } else {
-      cancelEditPayment()
-    }
+    await adjustRoutingSlip(paymentRequest)
+    adjustRoutingSlipStatus()
+    const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value.number }
+    await getRoutingSlip(getRoutingSlipRequestPayload)
   }
 
   const filterUnchangedChequeReceiptNumbersFromPayment = () => {
