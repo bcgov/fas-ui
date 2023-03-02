@@ -35,7 +35,12 @@ export default function usePaymentInformation (_, context) {
   })
 
   const displayEditRoutingSlip = computed(() => {
-    return !isEditable.value && isExpanded.value && routingSlip.value && routingSlip.value.payments
+    return !isEditable.value && isExpanded.value &&
+        routingSlip.value && routingSlip.value.payments
+  })
+
+  const enableEditRoutingSlip = computed(() => {
+    return [SlipStatus.ACTIVE, SlipStatus.COMPLETE, SlipStatus.CORRECTION].includes(routingSlip.value.status as SlipStatus)
   })
 
   function adjustRoutingSlipChequeNumber (num: string, paymentIndex: number = 0) {
@@ -86,14 +91,10 @@ export default function usePaymentInformation (_, context) {
 
   async function adjustRoutingSlipHandler () {
     const paymentRequest: Payment[] = filterUnchangedChequeReceiptNumbersFromPayment()
-    const response = await adjustRoutingSlip(paymentRequest)
-    if (response.status === SlipStatus.CORRECTION) {
-      adjustRoutingSlipStatus()
-      const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value.number }
-      await getRoutingSlip(getRoutingSlipRequestPayload)
-    } else {
-      cancelEditPayment()
-    }
+    await adjustRoutingSlip(paymentRequest)
+    adjustRoutingSlipStatus()
+    const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value.number }
+    await getRoutingSlip(getRoutingSlipRequestPayload)
   }
 
   const filterUnchangedChequeReceiptNumbersFromPayment = () => {
@@ -149,6 +150,7 @@ export default function usePaymentInformation (_, context) {
     remainingAmount,
     isRoutingSlipPaidInUsd,
     displayEditRoutingSlip,
+    enableEditRoutingSlip,
     adjustRoutingSlipChequeNumber,
     adjustRoutingSlipAmount,
     adjustRoutingSlipHandler,

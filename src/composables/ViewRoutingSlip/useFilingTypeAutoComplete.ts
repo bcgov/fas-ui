@@ -2,11 +2,10 @@ import { computed, ref, toRefs } from '@vue/composition-api'
 
 import { FilingType } from '@/models/Payment'
 import debounce from '@/util/debounce'
-import { useRoutingSlip } from '../useRoutingSlip'
+import RoutingSlipService from '@/services/routingSlip.services'
 
 // Composable function to inject Props, options and values to useFIlingTypeAutoComplete component
 export default function useFilingTypeAutoComplete (props, context) {
-  const { getAutoCompleteFilingTypes } = useRoutingSlip()
   const { value } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change
@@ -30,7 +29,12 @@ export default function useFilingTypeAutoComplete (props, context) {
       isLoading.value = true
       // start searching after typing 3 char
       if (search.value.length > 2) {
-        autoCompleteFilingTypes.value = await getAutoCompleteFilingTypes(search.value)
+        const response = await RoutingSlipService.getSearchFilingType(search.value)
+        if (response && response.data && response.status === 200) {
+          autoCompleteFilingTypes.value = response.data?.items
+        } else {
+          autoCompleteFilingTypes.value = []
+        }
       }
     } catch (error: any) {
       autoCompleteFilingTypes.value = []
