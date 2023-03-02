@@ -39,8 +39,7 @@ export default function useLinkRoutingSlip (_, context) {
     isLoading.value = true
     // start searching after typing 3 char
     if (search.value.length > 2) {
-      await getAutoCompleteRoutingSlips(search.value)
-
+      autoCompleteRoutingSlips.value = await getAutoCompleteRoutingSlips(search.value)
       hideNoData.value = false
     } else {
       hideNoData.value = true
