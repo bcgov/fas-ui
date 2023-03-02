@@ -246,10 +246,9 @@ export const useRoutingSlip = () => {
   const getAutoCompleteFilingTypes = async (searchParams) => {
     const response = await RoutingSlipService.getSearchFilingType(searchParams)
     if (response && response.data && response.status === 200) {
-      autoCompleteRoutingSlips.value = response.data?.items
-      return
+      return response.data?.items
     }
-    autoCompleteRoutingSlips.value = []
+    return []
   }
 
   const saveLinkRoutingSlip = async (
