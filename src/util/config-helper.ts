@@ -1,15 +1,7 @@
 import { SessionStorageKeys } from '@/util/constants'
-import axios from 'axios'
-
-/**
- * the configs are used since process.env doesnt play well when we hae only one build config and multiple deployments..so going for this
- */
-const url = `${process.env.VUE_APP_PATH}config/configuration.json`
 
 export default class ConfigHelper {
   static async fetchConfig () {
-    const response = await axios.get(url)
-    sessionStorage.setItem(SessionStorageKeys.ApiConfigKey, JSON.stringify(response.data))
     // sbc common components need the following keys
     sessionStorage.setItem(SessionStorageKeys.AuthApiUrl, ConfigHelper.getAuthAPIUrl())
     sessionStorage.setItem(SessionStorageKeys.StatusApiUrl, ConfigHelper.getStatusAPIUrl())
@@ -33,7 +25,7 @@ export default class ConfigHelper {
   }
 
   static getPayAPIURL () {
-    return ConfigHelper.getValue('PAY_API_URL') + ConfigHelper.getValue('PAY_API_VERSION')
+    return `${process.env.VUE_APP_PAY_API_URL}` + `${process.env.VUE_APP_PAY_API_VERSION}`
   }
 
   static getFasAPIURL () {
@@ -41,28 +33,39 @@ export default class ConfigHelper {
   }
 
   static getAuthAPIUrl () {
-    return ConfigHelper.getValue('AUTH_API_URL') + ConfigHelper.getValue('AUTH_API_VERSION')
+    return `${process.env.VUE_APP_AUTH_API_URL}` + `${process.env.VUE_APP_AUTH_API_VERSION}`
   }
 
   static getAuthWebUrl () {
-    return ConfigHelper.getValue('AUTH_WEB_URL')
+    return `${process.env.VUE_APP_AUTH_WEB_URL}`
   }
 
   static getFasWebUrl () {
-    return ConfigHelper.getValue('FAS_WEB_URL')
+    return `${process.env.VUE_APP_FAS_WEB_URL}`
   }
 
   static getStatusAPIUrl () {
-    return ConfigHelper.getValue('STATUS_API_URL') + ConfigHelper.getValue('STATUS_API_VERSION')
+    return `${process.env.VUE_APP_STATUS_API_URL}` + `${process.env.VUE_APP_STATUS_API_VERSION}`
   }
 
   static getSiteminderLogoutUrl () {
-    return ConfigHelper.getValue('SITEMINDER_LOGOUT_URL')
+    return `${process.env.VUE_APP_SITEMINDER_LOGOUT_URL}`
   }
 
-  static getValue (key: String) {
-    // @ts-ignore
-    return JSON.parse(sessionStorage.getItem(SessionStorageKeys.ApiConfigKey))[key]
+  static getKeycloakAuthUrl () {
+    return `${process.env.VUE_APP_KEYCLOAK_AUTH_URL}`
+  }
+
+  static getKeycloakRealm () {
+    return `${process.env.VUE_APP_KEYCLOAK_REALM}`
+  }
+
+  static getKeycloakClientId () {
+    return `${process.env.VUE_APP_KEYCLOAK_CLIENTID}`
+  }
+
+  static getAddressCompleteKey () {
+    return `${process.env.VUE_APP_ADDRESS_COMPLETE_KEY}`
   }
 
   static addToSession (key:string, value:any) {
