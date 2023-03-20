@@ -28,14 +28,20 @@ Vue.use(VueCompositionAPI)
  */
 ConfigHelper.saveConfigToSessionStorage().then(async () => {
   // addressCompleteKey is for canada post address lookup, which is to be used in sbc-common-components
-  (<any>window).addressCompleteKey = ConfigHelper.getValue('ADDRESS_COMPLETE_KEY')
+  (<any>window).addressCompleteKey = ConfigHelper.getAddressCompleteKey()
   await syncSession()
   renderVue()
 })
 
 async function syncSession () {
-  const random = new Date().toISOString().substring(0, 10)
-  KeyCloakService.setKeycloakConfigUrl(`${process.env.VUE_APP_PATH}config/kc/keycloak.json?${random}`)
+  const keycloakConfig: any = {
+    url: `${ConfigHelper.getKeycloakAuthUrl()}`,
+    realm: `${ConfigHelper.getKeycloakRealm()}`,
+    clientId: `${ConfigHelper.getKeycloakClientId()}`
+  }
+
+  await KeyCloakService.setKeycloakConfigUrl(keycloakConfig)
+
   // Initialize the token to force login the user
   if (!CommonUtils.isSigningIn() && !CommonUtils.isSigningOut()) {
     await KeyCloakService.initializeToken(null, true, true).then(() => {}).catch(err => {
