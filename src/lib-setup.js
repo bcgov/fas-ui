@@ -15,10 +15,7 @@ While upgrading to vue 3 please check full plugin and do necessary modifications
 import OurVue from 'vue'
 import Search from '@/components/Dashboard/Search.vue'
 import VueCompositionAPI from '@vue/composition-api'
-import codes from '@/store/modules/codes'
 import i18n from '@/plugins/i18n'
-import indicator from '@/store/modules/indicator'
-import routingSlip from '@/store/modules/routingSlip'
 
 // stores needed fro search
 
@@ -68,9 +65,6 @@ function install (Vue, options) {
   // pushing store modules to parent store
   // use unique name to avoid conflict
   if (options.store) {
-    options.store.registerModule('indicator', indicator)
-    options.store.registerModule('routingSlip', routingSlip)
-    options.store.registerModule('fasCodes', codes)
     // options.store.registerModule('store', store)
     window.fasStore = options.store
   } else {
