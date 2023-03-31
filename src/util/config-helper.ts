@@ -4,6 +4,7 @@ export default class ConfigHelper {
   static async fetchConfig () {
     // sbc common components need the following keys
     sessionStorage.setItem(SessionStorageKeys.AuthApiUrl, ConfigHelper.getAuthAPIUrl())
+    sessionStorage.setItem(SessionStorageKeys.PayApiUrl, ConfigHelper.getPayAPIURL())
     sessionStorage.setItem(SessionStorageKeys.StatusApiUrl, ConfigHelper.getStatusAPIUrl())
     sessionStorage.setItem(SessionStorageKeys.AuthWebUrl, ConfigHelper.getAuthWebUrl())
     sessionStorage.setItem(SessionStorageKeys.FasWebUrl, ConfigHelper.getFasWebUrl())
@@ -25,7 +26,8 @@ export default class ConfigHelper {
   }
 
   static getPayAPIURL () {
-    return `${process.env.VUE_APP_PAY_API_URL}` + `${process.env.VUE_APP_PAY_API_VERSION}`
+    const payApiUrl = `${process.env.VUE_APP_PAY_API_URL}` + `${process.env.VUE_APP_PAY_API_VERSION}`
+    return sessionStorage.getItem(SessionStorageKeys.PayApiUrl) || payApiUrl
   }
 
   static getFasAPIURL () {
@@ -33,23 +35,26 @@ export default class ConfigHelper {
   }
 
   static getAuthAPIUrl () {
-    return `${process.env.VUE_APP_AUTH_API_URL}` + `${process.env.VUE_APP_AUTH_API_VERSION}`
+    const authApiUrl = `${process.env.VUE_APP_AUTH_API_URL}` + `${process.env.VUE_APP_AUTH_API_VERSION}`
+    return sessionStorage.getItem(SessionStorageKeys.AuthApiUrl) || authApiUrl
   }
 
   static getAuthWebUrl () {
-    return `${process.env.VUE_APP_AUTH_WEB_URL}`
+    return sessionStorage.getItem(SessionStorageKeys.AuthWebUrl) || `${process.env.VUE_APP_AUTH_WEB_URL}`
   }
 
   static getFasWebUrl () {
-    return `${process.env.VUE_APP_FAS_WEB_URL}`
+    return sessionStorage.getItem(SessionStorageKeys.FasWebUrl) || `${process.env.VUE_APP_FAS_WEB_URL}`
   }
 
   static getStatusAPIUrl () {
-    return `${process.env.VUE_APP_STATUS_API_URL}` + `${process.env.VUE_APP_STATUS_API_VERSION}`
+    const statusApiUrl = `${process.env.VUE_APP_STATUS_API_URL}` + `${process.env.VUE_APP_STATUS_API_VERSION}`
+    return sessionStorage.getItem(SessionStorageKeys.StatusApiUrl) || statusApiUrl
   }
 
   static getSiteminderLogoutUrl () {
-    return `${process.env.VUE_APP_SITEMINDER_LOGOUT_URL}`
+    const logoutUrl = `${process.env.VUE_APP_SITEMINDER_LOGOUT_URL}`
+    return sessionStorage.getItem(SessionStorageKeys.SiteminderLogoutUrl) || logoutUrl
   }
 
   static getKeycloakAuthUrl () {
