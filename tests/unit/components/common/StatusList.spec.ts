@@ -39,7 +39,6 @@ describe('StatusList.vue', () => {
         value: 'ACTIVE'
       }
     })
-  
     // Check if the "Refund Rejected" option is not in the status list
     expect(wrapper.text()).not.toContain('Refund Rejected')
   })
