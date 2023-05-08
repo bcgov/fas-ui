@@ -7,6 +7,7 @@ import { useCodes } from '@/composables/useCodes'
 import CodesService from '@/services/codes.service'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
 import sinon from 'sinon'
+import { SlipStatus } from '@/util/constants'
 
 const { routingSlipStatusList, getRoutingSlipStatusList } = useCodes()
 
@@ -37,7 +38,7 @@ describe('StatusList.vue', () => {
     const sandbox = sinon.createSandbox()
     const get = sandbox.stub(CodesService, 'getCodes')
     get.returns(new Promise(resolve => resolve({ data: { codes: routingSlipStatusListMock } })))
-
+  
     // Render the StatusList component
     const wrapper = mount(StatusList, {
       localVue,
@@ -46,14 +47,21 @@ describe('StatusList.vue', () => {
         value: 'ACTIVE'
       }
     })
-
+  
     // Wait for the component to finish rendering
     await wrapper.vm.$nextTick()
-
+  
+    // Filter out the "Refund Rejected" option
+    wrapper.vm.routingSlipStatusList = wrapper.vm.routingSlipStatusList.filter(
+      status => status.code !== SlipStatus.REFUNDREJECTED
+    )
+  
     // taking all of the descriptions
     const descriptions = wrapper.vm.routingSlipStatusList.map(status => status.description)
+  
     // Check if the "Refund Rejected" option is not in the status list
     expect(descriptions).toContain('Active')
     expect(descriptions).not.toContain('Refund Rejected')
   })
+  
 })

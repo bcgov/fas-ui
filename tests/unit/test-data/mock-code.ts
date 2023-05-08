@@ -20,6 +20,10 @@ export const routingSlipStatusListMock = [
     description: 'Refund'
   },
   {
+    code: 'REFUND_REJECTED',
+    description: 'Refund Rejected'
+  },
+  {
     code: 'LAST',
     description: 'Last Service'
   }
