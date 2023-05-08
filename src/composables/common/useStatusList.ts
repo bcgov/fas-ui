@@ -1,4 +1,5 @@
 import { Code } from '@/models/Code'
+import { SlipStatus } from '@/util/constants'
 import { ref, computed, toRefs, onMounted } from '@vue/composition-api'
 import { useCodes } from '../useCodes'
 
@@ -21,6 +22,10 @@ export function useStatusList (props, context) {
     // getting status list mouint and setting inside store
     // will make call once till page refresh
     getRoutingSlipStatusList()
+
+    routingSlipStatusList.value = routingSlipStatusList.value.filter(
+      status => status.code !== SlipStatus.REFUNDREJECTED
+    )
   })
 
   /**

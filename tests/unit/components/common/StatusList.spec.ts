@@ -51,18 +51,14 @@ describe('StatusList.vue', () => {
     // Wait for the component to finish rendering
     await wrapper.vm.$nextTick()
 
-    // Filter out the "Refund Rejected" option
-    // eslint-disable-next-line no-use-before-define
-    wrapper.vm.routingSlipStatusList = wrapper.vm.routingSlipStatusList.filter(
-      status => status.code !== SlipStatus.REFUNDREJECTED
-    )
-
-    // taking all of the descriptions
-    // eslint-disable-next-line no-use-before-define
+    // Get all of the descriptions from the rendered status list
     const descriptions = wrapper.vm.routingSlipStatusList.map(status => status.description)
 
     // Check if the "Refund Rejected" option is not in the status list
     expect(descriptions).toContain('Active')
     expect(descriptions).not.toContain('Refund Rejected')
+
+    // Clean up the sinon sandbox
+    sandbox.restore()
   })
 })
