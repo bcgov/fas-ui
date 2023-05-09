@@ -52,7 +52,7 @@ describe('StatusList.vue', () => {
     await wrapper.vm.$nextTick()
 
     // Get all of the descriptions from the rendered status list
-    const descriptions = wrapper.vm.routingSlipStatusList.map(status => status.description)
+    const descriptions = wrapper.vm.$data.routingSlipStatusList.map(status => status.description)
 
     // Check if the "Refund Rejected" option is not in the status list
     expect(descriptions).toContain('Active')
