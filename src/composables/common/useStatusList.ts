@@ -22,10 +22,6 @@ export function useStatusList (props, context) {
     // getting status list mouint and setting inside store
     // will make call once till page refresh
     getRoutingSlipStatusList()
-
-    routingSlipStatusList.value = routingSlipStatusList.value.filter(
-      status => status.code !== SlipStatus.REFUNDREJECTED
-    )
   })
 
   /**

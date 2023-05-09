@@ -1,4 +1,4 @@
-import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
+import { createLocalVue, mount, shallowMount, Wrapper } from '@vue/test-utils'
 import StatusList from '@/components/common/StatusList.vue'
 import Vuetify from 'vuetify'
 
@@ -8,39 +8,29 @@ import CodesService from '@/services/codes.service'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
 import sinon from 'sinon'
 import { SlipStatus } from '@/util/constants'
+import axios from '@/util/http-util'
 
 const { routingSlipStatusList, getRoutingSlipStatusList } = useCodes()
 
 describe('StatusList.vue', () => {
+  let wrapper: Wrapper<StatusList, Element>
+  let sandbox
+  let get
+
   const localVue = createLocalVue()
 
   const vuetify = new Vuetify({})
-  beforeEach(() => {
-    routingSlipStatusList.value = routingSlipStatusListMock
+  beforeEach(async () => {
+    routingSlipStatusList.value = []
     jest.spyOn(useRoutingSlip(), 'getFeeByCorpTypeAndFilingType').mockResolvedValue(0)
     jest.resetModules()
     jest.clearAllMocks()
-  })
-
-  it('renders status list', () => {
-    const wrapper = shallowMount(StatusList, {
-      localVue,
-      vuetify,
-      propsData: {
-        value: 'ACTIVE'
-      }
-    })
-    expect(wrapper.find('[data-test="select-status"]').exists()).toBeTruthy()
-  })
-
-  it('removes Refund Rejected option', async () => {
-    // Mock the API call to return the list of routing slip statuses
-    const sandbox = sinon.createSandbox()
-    const get = sandbox.stub(CodesService, 'getCodes')
-    get.returns(new Promise(resolve => resolve({ data: { codes: routingSlipStatusListMock } })))
+    sandbox = sinon.createSandbox()
+    get = sandbox.stub(axios, 'get')
+    get.returns(new Promise(resolve => resolve({ data: { codes: routingSlipStatusListMock }, status: 200 })))
 
     // Render the StatusList component
-    const wrapper = mount(StatusList, {
+    wrapper = mount(StatusList, {
       localVue,
       vuetify,
       propsData: {
@@ -50,15 +40,25 @@ describe('StatusList.vue', () => {
 
     // Wait for the component to finish rendering
     await wrapper.vm.$nextTick()
+    await wrapper.vm.$nextTick()
+  })
 
+  afterEach(() => {
+  // Clean up the sinon sandbox
+    sandbox.restore()
+  })
+
+  it('renders status list', () => {
+    expect(wrapper.find('[data-test="select-status"]').exists()).toBeTruthy()
+  })
+
+  it('removes Refund Rejected option', async () => {
+    expect(get.getCall(0)).not.toBeNull()
     // Get all of the descriptions from the rendered status list
     const descriptions = wrapper.vm.$data.routingSlipStatusList.map(status => status.description)
 
     // Check if the "Refund Rejected" option is not in the status list
     expect(descriptions).toContain('Active')
     expect(descriptions).not.toContain('Refund Rejected')
-
-    // Clean up the sinon sandbox
-    sandbox.restore()
   })
 })
