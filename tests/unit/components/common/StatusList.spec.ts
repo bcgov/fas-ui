@@ -4,13 +4,11 @@ import Vuetify from 'vuetify'
 
 import { routingSlipStatusListMock } from '../../test-data/mock-code'
 import { useCodes } from '@/composables/useCodes'
-import CodesService from '@/services/codes.service'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
 import sinon from 'sinon'
-import { SlipStatus } from '@/util/constants'
 import axios from '@/util/http-util'
 
-const { routingSlipStatusList, getRoutingSlipStatusList } = useCodes()
+const { routingSlipStatusList } = useCodes()
 
 describe('StatusList.vue', () => {
   let wrapper: Wrapper<StatusList, Element>
