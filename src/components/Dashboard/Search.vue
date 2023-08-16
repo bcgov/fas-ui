@@ -415,6 +415,7 @@
 </template>
 
 <script lang="ts">
+import '@/shims-vue-composition-api'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { useSearch } from '@/composables/Dashboard/useSearch'
 import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
