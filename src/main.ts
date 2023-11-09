@@ -1,8 +1,6 @@
 /* eslint-disable */
 
 import '@mdi/font/css/materialdesignicons.min.css' // icon library (https://materialdesignicons.com/)
-import 'core-js/stable' // to polyfill ECMAScript features
-import './registerServiceWorker'
 import './shims-vue-composition-api'
 
 import App from './App.vue'

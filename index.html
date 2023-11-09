@@ -7,15 +7,16 @@
     <title>BC Business Registry FAS</title>
     <link rel="icon" type="image/png" href="static/images/favicon.ico"/>
     <link rel="icon" href="favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <title>VITE_APP_TITLE</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong>We're sorry but VITE_APP_TITLE doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <!-- built files will be auto injected by Vite -->
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

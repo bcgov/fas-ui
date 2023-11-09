@@ -5,7 +5,7 @@ import Vue from 'vue'
 
 Vue.use(Vuex)
 
-const debug = process.env.NODE_ENV !== 'production'
+const debug = import.meta.env.NODE_ENV !== 'production'
 
 // Note: This is still required for sbc-common-components to work.
 const storeOptions: StoreOptions<RootState> = {

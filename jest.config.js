@@ -1,5 +1,5 @@
 
-process.env.VUE_APP_ENABLE_BETA = 'true'
+import.meta.env.VUE_APP_ENABLE_BETA = 'true'
 module.exports = {
   moduleFileExtensions: ['js', 'jsx', 'json', 'vue', 'ts', 'tsx'],
   transform: {
