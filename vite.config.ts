@@ -1,5 +1,4 @@
 import EnvironmentPlugin from 'vite-plugin-environment'
-import { VitePWA } from 'vite-plugin-pwa'
 import { defineConfig } from 'vite'
 import fs from 'fs'
 import path from 'path'
@@ -46,36 +45,6 @@ export default defineConfig({
         }
       }
     }),
-    VitePWA({
-      name: 'Business Registry',
-      themeColor: '#003366',
-      msTileColor: '#fcba19',
-      appleMobileWebAppCapable: 'yes',
-      appleMobileWebAppStatusBarStyle: 'black',
-      manifestOptions: {
-        name: 'Business Registry fas',
-        short_name: 'Business Registry fas',
-        start_url: '',
-        display: 'standalone',
-        theme_color: '#003366',
-        background_color: '#fcba19',
-        scope: '.'
-      },
-      iconPaths: {
-        favicon32: 'img/icons/favicon-32x32.png',
-        favicon16: 'img/icons/favicon-16x16.png',
-        appleTouchIcon: 'img/icons/apple-touch-icon-152x152.png',
-        maskIcon: 'img/icons/safari-pinned-tab.svg',
-        msTileImage: 'img/icons/msapplication-icon-144x144.png'
-      },
-      workboxPluginMode: 'InjectManifest',
-      workboxOptions: {
-        // swSrc is required in InjectManifest mode.
-        swSrc: 'src/service-worker.js',
-        // skip precaching json files such as configs
-        exclude: [/\.json$/]
-      }
-    }),
     EnvironmentPlugin({
       BUILD: 'web' // Fix for Vuelidate, allows process.env with Vite.
     }),
@@ -91,10 +60,11 @@ export default defineConfig({
       '@bcrs-shared-components/mixins': path.resolve(__dirname, './node_modules/@bcrs-shared-components/mixins/index.ts'),
       '@bcrs-shared-components/enums': path.resolve(__dirname, './node_modules/@bcrs-shared-components/enums/index.ts'),
       '@bcrs-shared-components/staff-comments': path.resolve(__dirname, './node_modules/@bcrs-shared-components/staff-comments/index.ts'),
+      '@bcrs-shared-components/interfaces': path.resolve(__dirname, './node_modules/@bcrs-shared-components/interfaces/index.ts'),
       // Fix for module decorator unit tests fail
       'vuex-module-decorators': path.resolve(__dirname, './node_modules/vuex-module-decorators/dist/esm/index.js')
     },
-    extensions: ['.js', '.ts', '.vue', '.json', '.css']
+    extensions: ['.js', '.ts', '.vue', '.json', '.css', '.mjs', '.jsx', 'tsx']
   },
   server: {
     port: 8080,

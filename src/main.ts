@@ -9,9 +9,10 @@ import ConfigHelper from '@/util/config-helper'
 import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
 import Vue from 'vue'
 import VueCompositionAPI from '@vue/composition-api'
+import VueSanitize from 'vue-sanitize-directive'
 import Vuelidate from 'vuelidate'
 import can from '@/directives/can'
-import i18n from './plugins/i18n'
+import initializeI18n from './plugins/i18n'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
@@ -20,7 +21,8 @@ Vue.config.productionTip = false
 
 Vue.use(Vuelidate)
 Vue.use(VueCompositionAPI)
-
+const i18n = initializeI18n(Vue)
+Vue.use(VueSanitize)
 /**
  * The server side configs are necessary for app to work , since they are reference in templates and all
  */
