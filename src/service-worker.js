@@ -1,14 +1,14 @@
-/* eslint-disable no-undef */
+// /* eslint-disable no-undef */
 
-workbox.core.setCacheNameDetails({ prefix: 'fas' })
+// workbox.core.setCacheNameDetails({ prefix: 'fas' })
 
-self.__precacheManifest = [].concat(self.__precacheManifest || [])
-workbox.precaching.suppressWarnings && workbox.precaching.suppressWarnings()
-workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
+// self.__precacheManifest = [].concat(self.__precacheManifest || [])
+// workbox.precaching.suppressWarnings && workbox.precaching.suppressWarnings()
+// workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
 
-// install new service worker when ok, then reload page.
-self.addEventListener && self.addEventListener('message', msg => {
-  if (msg.data.action === 'skipWaiting') {
-    self.skipWaiting()
-  }
-})
+// // install new service worker when ok, then reload page.
+// self.addEventListener && self.addEventListener('message', msg => {
+//   if (msg.data.action === 'skipWaiting') {
+//     self.skipWaiting()
+//   }
+// })

@@ -14,8 +14,8 @@ describe('RefundRequestForm.vue', () => {
   }
 
   beforeEach(() => {
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.resetModules()
+    vi.clearAllMocks()
   })
 
   it('renders component', () => {

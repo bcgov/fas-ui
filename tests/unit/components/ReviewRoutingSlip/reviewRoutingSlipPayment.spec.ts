@@ -9,16 +9,16 @@ describe('ReviewRoutingSlipPayment.vue', () => {
 
   const vuetify = new Vuetify({})
   beforeEach(() => {
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.resetModules()
+    vi.clearAllMocks()
     const routingSlipModule = {
       namespaced: true,
       state: {
         routingSlipDetails: {}
       },
       actions: {
-        createRoutingSlip: jest.fn(),
-        resetRoutingSlipDetails: jest.fn()
+        createRoutingSlip: vi.fn(),
+        resetRoutingSlipDetails: vi.fn()
       }
     }
   })

@@ -8,7 +8,7 @@ describe('InterimLanding.vue', () => {
     const localVue = createLocalVue()
 
     const vuetify = new Vuetify({})
-    const stub = jest.fn()
+    const stub = vi.fn()
     const wrapper: any = mount(InterimLanding, {
       vuetify,
       localVue,

@@ -13,8 +13,8 @@ describe('CreateRoutingSlipPayment.vue', () => {
   }
 
   beforeEach(() => {
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.resetModules()
+    vi.clearAllMocks()
   })
 
   it('renders component', () => {
@@ -31,7 +31,7 @@ describe('CreateRoutingSlipPayment.vue', () => {
   })
 
   it('change payment between cash and cheque', async () => {
-    const stub = jest.fn().mockReturnValue(true)
+    const stub = vi.fn().mockReturnValue(true)
     const wrapper: any = mount(CreateRoutingSlipPayment, {
       localVue,
       vuetify,

@@ -20,9 +20,9 @@ describe('StatusList.vue', () => {
   const vuetify = new Vuetify({})
   beforeEach(async () => {
     routingSlipStatusList.value = []
-    jest.spyOn(useRoutingSlip(), 'getFeeByCorpTypeAndFilingType').mockResolvedValue(0)
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.spyOn(useRoutingSlip(), 'getFeeByCorpTypeAndFilingType').mockResolvedValue(0)
+    vi.resetModules()
+    vi.clearAllMocks()
     sandbox = sinon.createSandbox()
     get = sandbox.stub(axios, 'get')
     get.returns(new Promise(resolve => resolve({ data: { codes: routingSlipStatusListMock }, status: 200 })))

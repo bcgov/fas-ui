@@ -5,7 +5,7 @@ import { SlipStatus } from '@/util/constants'
 import { useStatusMenu } from '@/composables/common/useStatusMenu'
 import { Code } from '@/models/Code'
 import CommonUtils from '@/util/common-util'
-import i18n from '@/plugins/i18n'
+import { useI18n } from 'vue-i18n-composable'
 import { ApiError } from '@/models/ApiError'
 import { useCodes } from '../useCodes'
 import { useRoutingSlip } from '../useRoutingSlip'
@@ -37,9 +37,11 @@ export default function useRoutingSlipInfo (props) {
     return routingSlip.value || {}
   })
 
+  const { t } = useI18n()
+
   const modalText = computed(() => {
-    let title = i18n?.t('NSFWarningTitle')
-    let subText = i18n?.t('NSFWarningText')
+    let title = t('NSFWarningTitle')
+    let subText = t('NSFWarningText')
     const icon = 'mdi-alert-circle-outline'
     let confirmBtnText = 'Place status to NSF'
     const cancelBtnText = 'Cancel'
@@ -49,12 +51,12 @@ export default function useRoutingSlipInfo (props) {
       subText = apiError.value?.detail || apiError.value?.type || 'Server error'
       isError = true
     } else if (isWriteOfProcess(currentStatus.value)) {
-      title = i18n?.t('WriteOffWarningTitle')
-      subText = i18n?.t('WriteOffWarningText')
+      title = t('WriteOffWarningTitle')
+      subText = t('WriteOffWarningText')
       confirmBtnText = 'Authorize Write off'
     } else if (isVoidProcess(currentStatus.value)) {
-      title = i18n?.t('VoidWarningTitle')
-      subText = i18n?.t('VoidWarningText')
+      title = t('VoidWarningTitle')
+      subText = t('VoidWarningText')
       confirmBtnText = 'Void Routing Slip'
     }
     return { title, subText, icon, confirmBtnText, cancelBtnText, isError }

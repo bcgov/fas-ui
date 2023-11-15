@@ -15,12 +15,12 @@ describe('Search.vue', () => {
     routingSlip.value = routingSlipMock
     headerSearchTitle.value = headerSearch
 
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.resetModules()
+    vi.clearAllMocks()
   })
   it('Should have h4 title', () => {
-    jest.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
-    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
+    vi.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
+    vi.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
     const wrapper = shallowMount(Search, {
       localVue,
       vuetify,
@@ -32,8 +32,8 @@ describe('Search.vue', () => {
     expect(wrapper.find('h4').text()).toBe('Search Routing Slip')
   })
   it('displayed search header behaviour', async () => {
-    jest.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
-    jest.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
+    vi.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
+    vi.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
 
     const MyStub = {
       template: '<div />'

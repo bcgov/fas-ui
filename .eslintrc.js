@@ -14,8 +14,8 @@ module.exports = {
     plugins: ['@typescript-eslint']
   },
   rules: {
-    'no-console': import.meta.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': import.meta.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'space-before-function-paren': 1
   },
   overrides: [
@@ -25,7 +25,7 @@ module.exports = {
         '**/tests/unit/**/*.spec.{j,t}s?(x)'
       ],
       env: {
-        jest: true
+        vitest: true
       }
     }
   ]

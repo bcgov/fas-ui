@@ -10,8 +10,8 @@ describe('ViewRoutingSlip.vue', () => {
 
   const vuetify = new Vuetify({})
   beforeEach(() => {
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.resetModules()
+    vi.clearAllMocks()
   })
   it('Should have PrintRoutingSlip, RoutingSlipInfo and PaymentInformation component', () => {
     const wrapper = shallowMount(ViewRoutingSlip, {
