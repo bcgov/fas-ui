@@ -12,6 +12,7 @@ export function useBreadCrumb (_, context) {
     if (context.root.$route && context.root.$route.name) {
       return generateBreadcrumbItems(context.root.$route)
     }
+    return []
   })
 
   const appendQueryParamsIfNeeded = CommonUtils.appendQueryParamsIfNeeded

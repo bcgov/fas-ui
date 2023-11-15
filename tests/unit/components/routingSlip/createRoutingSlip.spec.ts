@@ -5,7 +5,6 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import initialize from '@/plugins/i18n'
 
-
 describe('CreateRoutingSlip.vue', () => {
   const i18n = initialize(Vue)
   const vuetify = new Vuetify({})

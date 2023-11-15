@@ -8,7 +8,7 @@ export default function initialize (vue) {
   function loadLocaleMessages (): LocaleMessages {
     const messages: LocaleMessages = { en: {} }
     Object.keys(enLocals).forEach((key) => {
-      messages['en'][key] = enLocals[key]
+      messages.en[key] = enLocals[key]
     })
     return messages
   }

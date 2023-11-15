@@ -7,9 +7,10 @@ import routes from '@/router/routes'
 
 vi.mock('@/util/config-helper', () => ({
   default: {
-    getAuthWebUrl() {
-    return 'test' // set some default value
-  }}
+    getAuthWebUrl () {
+      return 'test' // set some default value
+    }
+  }
 }))
 
 describe('BreadCrumb.vue', () => {

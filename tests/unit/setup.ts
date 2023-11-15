@@ -19,7 +19,6 @@ Vue.directive('can', can)
 
 config.mocks.$t = () => {}
 
-
 (global as any).IntersectionObserver = class IntersectionObserver {
   private observe () {
     return vi.fn()

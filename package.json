@@ -12,10 +12,11 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview --port 8080",
-    "lint": "eslint . --ext ts,vue --fix src",
-    "lint:nofix": "eslint . --ext ts,vue --no-fix",
+    "lint": "eslint . --ext ts,vue --no-fix",
+    "lint:fix": "eslint . --ext ts,vue --fix src",
     "test:unit": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "build:lib": "vite build --config vite.config.ts"
   },
   "dependencies": {
     "@bcrs-shared-components/base-address": "^2.0.3",
@@ -53,20 +54,18 @@
     "vuex-composition-helpers": "^1.0.23"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.19",
     "@types/vuelidate": "^0.7.15",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/eslint-config-standard": "^5.1.2",
     "@vue/eslint-config-typescript": "^7.0.0",
     "@vue/test-utils": "^1.3.6",
-    "eslint": "^8.46.0",
+    "eslint": "~7.32.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^6.2.2",
-    "jest-localstorage-mock": "^2.4.18",
+    "eslint-plugin-vue": "^7.20.0",
     "jsdom": "^22.1.0",
     "sass": "~1.32.0",
     "sinon": "^15.0.4",

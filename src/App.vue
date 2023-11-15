@@ -1,7 +1,7 @@
 <template>
 <v-app id="app">
-    <div 
-      class="header-group" 
+    <div
+      class="header-group"
       ref="headerGroup"
     >
       <!-- loader  -->

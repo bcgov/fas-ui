@@ -26,6 +26,24 @@ export default defineConfig({
     'import.meta.env.ABOUT_TEXT': generateAboutText(aboutText1, aboutText2)
   },
   envPrefix: 'VUE_APP_', // Need to remove this after fixing vaults. Use import.meta.env with VUE_APP.
+
+  build: {
+    lib: {
+      entry: path.resolve(__dirname, 'src/lib-setup.js'),
+      name: 'lib',
+      fileName: (format) => `your-lib-name.${format}.js`
+    },
+    rollupOptions: {
+      external: ['vue', '@vue/composition-api', 'vue-i18n-composable'],
+      output: {
+        globals: {
+          vue: 'Vue',
+          '@vue/composition-api': 'VueCompositionAPI',
+          'vue-i18n-composable': 'VueI18nComposable'
+        }
+      }
+    }
+  },
   plugins: [
     vue({
       vueTemplateOptions: {
