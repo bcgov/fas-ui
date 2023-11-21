@@ -28,13 +28,26 @@ export default defineConfig({
   envPrefix: 'VUE_APP_', // Need to remove this after fixing vaults. Use import.meta.env with VUE_APP.
 
   build: {
+    sourcemap: true,
     lib: {
       entry: path.resolve(__dirname, 'src/lib-setup.js'),
       name: 'lib',
-      fileName: (format) => `your-lib-name.${format}.js`
+      formats: ['umd'],
+      fileName: (format) => `lib.${format}.min.js`
     },
+    terserOptions: {
+      format: {
+        semicolons: false
+      }
+    },
+    outDir: 'lib',
     rollupOptions: {
-      external: ['vue', '@vue/composition-api', 'vue-i18n-composable'],
+      external: (id) => {
+        if (process.env.VUE_CLI_BUILD_TARGET === 'lib' && (/^@vue\/composition-api$/.test(id) || /^vue$/.test(id))) {
+          return true
+        }
+        return false
+      },
       output: {
         globals: {
           vue: 'Vue',
@@ -42,7 +55,8 @@ export default defineConfig({
           'vue-i18n-composable': 'VueI18nComposable'
         }
       }
-    }
+    },
+    minify: 'terser'
   },
   plugins: [
     vue({

@@ -51,6 +51,41 @@ async function syncSession () {
     })
   }
 }
+
+function registerServiceWorker() {
+  if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+    navigator.serviceWorker.register(`${import.meta.env.BASE_URL}service-worker.js`)
+      .then(registration => {
+        registration.onupdatefound = () => {
+          const installingWorker = registration.installing
+          installingWorker.onstatechange = () => {
+            switch (installingWorker.state) {
+              case 'installed':
+                if (navigator.serviceWorker.controller) {
+                  console.log('New content is available; please refresh.')
+                } else {
+                  console.log('Content is cached for offline use.')
+                }
+                break
+              case 'redundant':
+                console.error('The installing service worker became redundant.')
+                break
+            }
+          };
+          console.log('New content is downloading.')
+        };
+        console.log('Service worker has been registered.')
+      })
+      .catch(error => {
+        console.error('Error during service worker registration:', error)
+      })
+  }
+
+  // Check if the app is offline
+  if (!navigator.onLine) {
+    console.log('No internet connection found. App is running in offline mode.')
+  }
+}
 // setting to window to avoid library build undefined issue for global loader
 (window as any).fasStore = store
 
@@ -63,4 +98,8 @@ function renderVue () {
     render: h => h(App)
   }).$mount('#app')
   Vue.directive('can', can)
+
+  // Register the Service Worker
+  registerServiceWorker()
+
 }
