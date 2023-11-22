@@ -52,6 +52,7 @@ async function syncSession () {
   }
 }
 
+// in Vite, it need to manually include Workbox in service worker.
 function registerServiceWorker() {
   if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
     navigator.serviceWorker.register(`${import.meta.env.BASE_URL}service-worker.js`)
