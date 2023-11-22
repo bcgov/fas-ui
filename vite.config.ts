@@ -21,104 +21,99 @@ const generateAboutText = (aboutText1, aboutText2) => {
         : '""' // Ensure a string is always returned
 }
 
-export default defineConfig({
-  define: {
-    'import.meta.env.ABOUT_TEXT': generateAboutText(aboutText1, aboutText2)
-  },
-  envPrefix: 'VUE_APP_', // Need to remove this after fixing vaults. Use import.meta.env with VUE_APP.
+export default defineConfig(({ mode }) => {
+  return {
+    define: {
+      'import.meta.env.ABOUT_TEXT': generateAboutText(aboutText1, aboutText2)
+    },
+    envPrefix: 'VUE_APP_', // Need to remove this after fixing vaults. Use import.meta.env with VUE_APP.
 
-  build: {
-    sourcemap: true,
-    lib: {
-      entry: path.resolve(__dirname, 'src/lib-setup.js'),
-      name: 'lib',
-      formats: ['umd'],
-      fileName: (format) => `lib.${format}.min.js`
-    },
-    terserOptions: {
-      format: {
-        semicolons: false
-      }
-    },
-    outDir: 'lib',
-    rollupOptions: {
-      external: (id) => {
-        if (process.env.VUE_CLI_BUILD_TARGET === 'lib' && (/^@vue\/composition-api$/.test(id) || /^vue$/.test(id))) {
-          return true
-        }
-        return false
+    build: {
+      sourcemap: true,
+      lib: {
+        entry: path.resolve(__dirname, 'src/lib-setup.js'),
+        name: 'lib',
+        formats: ['umd'],
+        fileName: (format) => `lib.${format}.min.js`
       },
-      output: {
-        globals: {
-          vue: 'Vue',
-          '@vue/composition-api': 'VueCompositionAPI',
-          'vue-i18n-composable': 'VueI18nComposable'
+      terserOptions: {
+        format: {
+          semicolons: false
+        }
+      },
+      rollupOptions: {
+        external: (request) => {
+          // If library, use externals, otherwise the Vue/ composition-api instance in Auth-web will have issues.
+          if (mode === 'lib' && (/^@vue\/composition-api$/.test(request) || /^vue$/.test(request))) {
+            return true
+          }
+          return false
+        }
+      },
+      minify: mode === 'lib' ? false : 'terser'
+    },
+    plugins: [
+      vue({
+        vueTemplateOptions: {
+          transformAssetUrls: {
+            img: ['src', 'data-src'],
+            'v-app-bar': ['image'],
+            'v-avatar': ['image'],
+            'v-banner': ['avatar'],
+            'v-card': ['image'],
+            'v-card-item': ['prependAvatar', 'appendAvatar'],
+            'v-chip': ['prependAvatar', 'appendAvatar'],
+            'v-img': ['src', 'lazySrc', 'srcset'],
+            'v-list-item': ['prependAvatar', 'appendAvatar'],
+            'v-navigation-bar': ['image'],
+            'v-parallax': ['src', 'lazySrc', 'srcset'],
+            'v-toolbar': ['image']
+          }
+        }
+      }),
+      EnvironmentPlugin({
+        BUILD: 'web' // Fix for Vuelidate, allows process.env with Vite.
+      }),
+      postcssNesting,
+      pluginRewriteAll()
+    ],
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+        '~': path.resolve(__dirname, './node_modules'),
+        $assets: path.resolve(__dirname, './src/assets'),
+        // Fix for bcrs-shared-components unit tests fail
+        '@bcrs-shared-components/mixins': path.resolve(__dirname, './node_modules/@bcrs-shared-components/mixins/index.ts'),
+        '@bcrs-shared-components/enums': path.resolve(__dirname, './node_modules/@bcrs-shared-components/enums/index.ts'),
+        '@bcrs-shared-components/staff-comments': path.resolve(__dirname, './node_modules/@bcrs-shared-components/staff-comments/index.ts'),
+        '@bcrs-shared-components/interfaces': path.resolve(__dirname, './node_modules/@bcrs-shared-components/interfaces/index.ts'),
+        // Fix for module decorator unit tests fail
+        'vuex-module-decorators': path.resolve(__dirname, './node_modules/vuex-module-decorators/dist/esm/index.js')
+      },
+      extensions: ['.js', '.ts', '.vue', '.json', '.css', '.mjs', '.jsx', 'tsx']
+    },
+    server: {
+      port: 8080,
+      host: true
+    },
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      setupFiles: './tests/unit/setup.ts',
+      threads: true,
+      // hide Vue Devtools message
+      onConsoleLog: function (log) {
+        if (log.includes('Download the Vue Devtools extension')) {
+          return false
         }
       }
     },
-    minify: 'terser'
-  },
-  plugins: [
-    vue({
-      vueTemplateOptions: {
-        transformAssetUrls: {
-          img: ['src', 'data-src'],
-          'v-app-bar': ['image'],
-          'v-avatar': ['image'],
-          'v-banner': ['avatar'],
-          'v-card': ['image'],
-          'v-card-item': ['prependAvatar', 'appendAvatar'],
-          'v-chip': ['prependAvatar', 'appendAvatar'],
-          'v-img': ['src', 'lazySrc', 'srcset'],
-          'v-list-item': ['prependAvatar', 'appendAvatar'],
-          'v-navigation-bar': ['image'],
-          'v-parallax': ['src', 'lazySrc', 'srcset'],
-          'v-toolbar': ['image']
-        }
-      }
-    }),
-    EnvironmentPlugin({
-      BUILD: 'web' // Fix for Vuelidate, allows process.env with Vite.
-    }),
-    postcssNesting,
-    pluginRewriteAll()
-  ],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      '~': path.resolve(__dirname, './node_modules'),
-      $assets: path.resolve(__dirname, './src/assets'),
-      // Fix for bcrs-shared-components unit tests fail
-      '@bcrs-shared-components/mixins': path.resolve(__dirname, './node_modules/@bcrs-shared-components/mixins/index.ts'),
-      '@bcrs-shared-components/enums': path.resolve(__dirname, './node_modules/@bcrs-shared-components/enums/index.ts'),
-      '@bcrs-shared-components/staff-comments': path.resolve(__dirname, './node_modules/@bcrs-shared-components/staff-comments/index.ts'),
-      '@bcrs-shared-components/interfaces': path.resolve(__dirname, './node_modules/@bcrs-shared-components/interfaces/index.ts'),
-      // Fix for module decorator unit tests fail
-      'vuex-module-decorators': path.resolve(__dirname, './node_modules/vuex-module-decorators/dist/esm/index.js')
-    },
-    extensions: ['.js', '.ts', '.vue', '.json', '.css', '.mjs', '.jsx', 'tsx']
-  },
-  server: {
-    port: 8080,
-    host: true
-  },
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: './tests/unit/setup.ts',
-    threads: true,
-    // hide Vue Devtools message
-    onConsoleLog: function (log) {
-      if (log.includes('Download the Vue Devtools extension')) {
-        return false
-      }
+    optimizeDeps: {
+      // This needs to be done for FAS-UI and sbc-common-components to work.
+      // Otherwise FAS complains about not having Vue.use(VueCompositionAPI)
+      // sbc-common-components will fail at login.
+      // Remove with Vue 3 for most of these.
+      exclude: ['@vue/composition-api', 'sbc-common-components']
     }
-  },
-  optimizeDeps: {
-    // This needs to be done for FAS-UI and sbc-common-components to work.
-    // Otherwise FAS complains about not having Vue.use(VueCompositionAPI)
-    // sbc-common-components will fail at login.
-    // Remove with Vue 3 for most of these.
-    exclude: ['@vue/composition-api', 'sbc-common-components']
   }
 })

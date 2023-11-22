@@ -2,10 +2,9 @@
   "name": "fas-ui",
   "version": "1.2.0",
   "private": true,
-  "main": "./lib/lib.umd.min.js",
+  "main": "./dist/lib.umd.min.js",
   "files": [
-    "lib/lib.umd.min.js",
-    "lib/lib.css",
+    "dist/lib.umd.min.js",
     "src/assets/scss/search.scss"
   ],
   "scripts": {
@@ -16,7 +15,8 @@
     "lint:nofix": "eslint . --ext ts,vue --no-fix",
     "lint:fix": "eslint . --ext ts,vue --fix src",
     "test:unit": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "build:lib": "vite build --mode lib"
   },
   "dependencies": {
     "@bcrs-shared-components/base-address": "^2.0.3",
@@ -36,7 +36,6 @@
     "vite-plugin-environment": "^1.1.3",
     "vite-plugin-rewrite-all": "^1.0.1",
     "vite-plugin-vue2": "^2.0.3",
-    "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-demi": "^0.14.6",
     "vue-i18n": "^8.28.2",
@@ -76,6 +75,7 @@
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.7.1",
-    "vuex-composition-helpers": "^1.0.23"
+    "vuex-composition-helpers": "^1.0.23",
+    "vue": "^2.6.11"
   }
 }
