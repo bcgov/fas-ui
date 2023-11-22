@@ -2,9 +2,9 @@
   "name": "fas-ui",
   "version": "1.2.0",
   "private": true,
-  "main": "./dist/lib.umd.min.js",
+  "main": "./lib/lib.umd.min.js",
   "files": [
-    "dist/lib.umd.min.js",
+    "lib/lib.umd.min.js",
     "src/assets/scss/search.scss"
   ],
   "scripts": {

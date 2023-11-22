@@ -50,7 +50,8 @@ export default defineConfig(({ mode }) => {
           return false
         }
       },
-      minify: mode === 'lib' ? false : 'terser'
+      outDir: 'lib',
+      minify: mode !== 'lib' ? false : 'terser'
     },
     plugins: [
       vue({
