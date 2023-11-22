@@ -3,7 +3,7 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.1.5/workbox-sw.js')
 
 workbox.core.setCacheNameDetails({ prefix: 'fas' })
-
+const CURRENT_CACHE = 'fas-v1'
 // Precache manifest
 self.__precacheManifest = [].concat(self.__precacheManifest || [])
 workbox.precaching.suppressWarnings && workbox.precaching.suppressWarnings()
@@ -15,8 +15,8 @@ self.addEventListener('install', function (e) {
 })
 
 // Unregister and reload on activation
-self.addEventListener('activate', event => {
-  event.waitUntil(
+self.addEventListener('activate', function (e) {
+  e.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
