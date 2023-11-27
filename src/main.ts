@@ -14,7 +14,7 @@ import Vuelidate from 'vuelidate'
 import can from '@/directives/can'
 import initializeI18n from './plugins/i18n'
 import router from './router'
-import store from './store'
+import { getVuexStore, getPiniaStore } from './store'
 import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false
@@ -88,12 +88,13 @@ function registerServiceWorker() {
   }
 }
 // setting to window to avoid library build undefined issue for global loader
-(window as any).fasStore = store
+(window as any).fasStore = getVuexStore
 
-function renderVue () {
+function renderVue() {
   new Vue({
     router,
-    store,
+    store: getVuexStore,
+    pinia: getPiniaStore(),
     vuetify,
     i18n,
     render: h => h(App)
