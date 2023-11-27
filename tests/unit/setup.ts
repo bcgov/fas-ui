@@ -8,7 +8,6 @@ import VueCompositionApi from '@vue/composition-api'
 import Vuetify from 'vuetify'
 import { config } from '@vue/test-utils'
 import { vi } from 'vitest'
-import { createPinia, setActivePinia } from 'pinia'
 
 Vue.use(VueCompositionApi)
 Vue.use(VueTheMask)
@@ -17,7 +16,6 @@ Vue.use(Vuetify)
 Vue.use(VueRouter)
 Vue.use(VueI18n)
 Vue.directive('can', can)
-setActivePinia(createPinia())
 
 config.mocks.$t = () => {}
 
