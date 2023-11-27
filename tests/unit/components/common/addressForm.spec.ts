@@ -14,8 +14,8 @@ describe('AddressForm.vue', () => {
     template: '<div />'
   }
   beforeEach(() => {
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.resetModules()
+    vi.clearAllMocks()
   })
   it('renders component', async () => {
     const router = new VueRouter({ routes })

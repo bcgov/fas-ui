@@ -10,8 +10,8 @@ describe('CreateRoutingSlipCashPayment.vue', () => {
   const { cashPayment } = useRoutingSlip()
   beforeEach(() => {
     cashPayment.value = { chequeReceiptNumber: '1234', paidAmount: 20 }
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.resetModules()
+    vi.clearAllMocks()
   })
 
   it('renders with 2 input', () => {

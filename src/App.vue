@@ -1,11 +1,14 @@
 <template>
 <v-app id="app">
-    <div class="header-group" ref="headerGroup">
+    <div
+      class="header-group"
+      ref="headerGroup"
+    >
       <!-- loader  -->
       <sbc-loader :show="showLoading" />
       <!-- common header -->
         <sbc-header
-        class="sbc-header"
+        class="flex-column"
         :key="$store.state.refreshKey"
         :inAuth="false"
         :show-product-selector="false"

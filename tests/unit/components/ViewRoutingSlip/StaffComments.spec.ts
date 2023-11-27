@@ -2,6 +2,7 @@ import { shallowMount } from '@vue/test-utils'
 import StaffCommentsComp from '@/components/ViewRoutingSlip/StaffComments.vue'
 
 import { StaffComments } from '@bcrs-shared-components/staff-comments'
+import Vue from 'vue'
 
 describe('StaffCommentsComp.vue', () => {
   beforeEach(() => {
@@ -10,7 +11,7 @@ describe('StaffCommentsComp.vue', () => {
       PAY_API_URL: 'https://pay-api-dev.pathfinder.gov.bc.ca/api/v1'
     }
 
-    sessionStorage.__STORE__.AUTH_API_CONFIG = JSON.stringify(config)
+    sessionStorage.AUTH_API_CONFIG = JSON.stringify(config)
   })
   it('Should have StaffComments component', () => {
     const wrapper = shallowMount(StaffCommentsComp, {

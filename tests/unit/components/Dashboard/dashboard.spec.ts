@@ -6,15 +6,15 @@ describe('Dashboard.vue', () => {
   const localVue = createLocalVue()
   const vuetify = new Vuetify({})
 
-  jest.resetModules()
-  jest.clearAllMocks()
+  vi.resetModules()
+  vi.clearAllMocks()
 
   it('renders props.msg when passed', async () => {
     const wrapper = shallowMount(Dashboard, {
       localVue,
       vuetify,
       mocks: {
-        $vuetify: jest.fn()
+        $vuetify: vi.fn()
       }
     })
     await wrapper.vm.$nextTick()

@@ -20,8 +20,8 @@ describe('ReviewRoutingSlip.vue', () => {
     cashPayment.value = cashPaymentMock
     isPaymentMethodCheque.value = true
 
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.resetModules()
+    vi.clearAllMocks()
   })
 
   it('renders component', async () => {

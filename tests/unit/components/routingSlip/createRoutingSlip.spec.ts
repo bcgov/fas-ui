@@ -1,41 +1,48 @@
 import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
 
 import { CreateRoutingSlip } from '@/components/RoutingSlip'
+import Vue from 'vue'
 import Vuetify from 'vuetify'
+import initialize from '@/plugins/i18n'
 
 describe('CreateRoutingSlip.vue', () => {
-  const localVue = createLocalVue()
-
+  const i18n = initialize(Vue)
   const vuetify = new Vuetify({})
+
   let store
   const MyStub = {
     template: '<div />'
   }
 
   beforeEach(() => {
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.resetModules()
+    vi.clearAllMocks()
   })
 
   it('renders component', () => {
     const wrapper = mount(CreateRoutingSlip, {
-      localVue,
       vuetify,
+      i18n,
       stubs: {
         CreateRoutingSlipPayment: MyStub,
         CreateRoutingSlipDetails: MyStub,
         ModalDialog: MyStub
+      },
+      mocks: {
+        modalDialogDetails: {
+          modalDialogTitle: 'Title'
+        }
       }
     })
     expect(wrapper.find('[data-test="title"]').text()).toBe('Add Routing Slip')
   })
 
   it('create button validation', async () => {
-    const stub = jest.fn().mockReturnValue(true)
+    const stub = vi.fn().mockReturnValue(true)
     const wrapper: any = mount(CreateRoutingSlip, {
       store,
-      localVue,
       vuetify,
+      i18n,
       stubs: {
         CreateRoutingSlipPayment: MyStub,
         CreateRoutingSlipDetails: MyStub,
@@ -52,11 +59,11 @@ describe('CreateRoutingSlip.vue', () => {
   })
 
   it('cancel button validation', async () => {
-    const stub = jest.fn().mockReturnValue(true)
+    const stub = vi.fn().mockReturnValue(true)
     const wrapper: any = mount(CreateRoutingSlip, {
       store,
-      localVue,
       vuetify,
+      i18n,
       stubs: {
         CreateRoutingSlipPayment: MyStub,
         CreateRoutingSlipDetails: MyStub,

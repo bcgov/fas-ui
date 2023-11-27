@@ -118,6 +118,7 @@ venv.bak/
 *.bak
 
 # fas-lib
+lib/
 lib/demo.html
 lib/lib.common.js
 lib/lib.common.js.map

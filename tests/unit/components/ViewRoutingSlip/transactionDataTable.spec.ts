@@ -13,8 +13,8 @@ describe('TransactionDataTable.vue', () => {
 
   beforeEach(() => {
     routingSlip.value = routingSlipMock
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.resetModules()
+    vi.clearAllMocks()
   })
 
   it('renders component', () => {
@@ -55,8 +55,8 @@ describe('TransactionDataTable.vue', () => {
   it('invoice cancel button behaviour', async () => {
     routingSlip.value = routingSlipWithCancelledInvoice
 
-    const stubConfirm = jest.fn()
-    const stubCancel = jest.fn()
+    const stubConfirm = vi.fn()
+    const stubCancel = vi.fn()
     const wrapper: any = mount(TransactionDataTable, {
       localVue,
       vuetify,
@@ -83,8 +83,8 @@ describe('TransactionDataTable.vue', () => {
 
   it('invoice cancel button disabled based on routingslip', async () => {
     routingSlip.value = routingSlipRefundRequested
-    const stubConfirm = jest.fn()
-    const stubCancel = jest.fn()
+    const stubConfirm = vi.fn()
+    const stubCancel = vi.fn()
     const wrapper: any = mount(TransactionDataTable, {
       localVue,
       vuetify,

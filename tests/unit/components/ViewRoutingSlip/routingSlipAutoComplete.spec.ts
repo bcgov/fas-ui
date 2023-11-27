@@ -13,8 +13,8 @@ describe('RoutingSlipAutoComplete.vue', () => {
   }
 
   beforeEach(() => {
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.resetModules()
+    vi.clearAllMocks()
   })
 
   it('renders component', () => {
@@ -31,7 +31,7 @@ describe('RoutingSlipAutoComplete.vue', () => {
   })
 
   it('UI behaviour', async () => {
-    const stub = jest.fn()
+    const stub = vi.fn()
     const wrapper: any = mount(RoutingSlipAutoComplete, {
       localVue,
       vuetify,

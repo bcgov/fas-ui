@@ -20,8 +20,8 @@ describe('PaymentInformation.vue', () => {
     routingSlip.value = routingSlipMock
     linkedRoutingSlips.value = linkedRoutingSlipsWithChildren
 
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.resetModules()
+    vi.clearAllMocks()
   })
 
   it('renders component', () => {

@@ -16,8 +16,8 @@ describe('LinkRoutingSlip.vue', () => {
   }
 
   beforeEach(() => {
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.resetModules()
+    vi.clearAllMocks()
   })
 
   it('renders non linked display', async () => {
@@ -82,7 +82,7 @@ describe('LinkRoutingSlip.vue', () => {
   })
 
   function getWrapper () {
-    const stub = jest.fn()
+    const stub = vi.fn()
 
     const msg = 'Invoices exist.so cant link'
     const $t = () => msg

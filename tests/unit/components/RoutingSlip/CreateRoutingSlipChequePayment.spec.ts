@@ -3,17 +3,19 @@ import CreateRoutingSlipChequePayment from '@/components/RoutingSlip/CreateRouti
 
 import Vuetify from 'vuetify'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
+import VueCompositionAPI from '@vue/composition-api'
 
 describe('CreateRoutingSlipChequePayment.vue', () => {
   const { chequePayment } = useRoutingSlip()
   const localVue = createLocalVue()
   localVue.use(Vuetify)
+  localVue.use(VueCompositionAPI)
   const vuetify = new Vuetify({})
   const chequePaymentMock = [{ chequeReceiptNumber: '1234', paymentDate: '', paidAmount: 20 }]
   beforeEach(() => {
     chequePayment.value = chequePaymentMock
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.resetModules()
+    vi.clearAllMocks()
   })
 
   it('renders with 3 input', async () => {
@@ -37,7 +39,7 @@ describe('CreateRoutingSlipChequePayment.vue', () => {
     })
     await wrapper.vm.$nextTick()
     // spying on method
-    const addCheque = jest.spyOn(wrapper.vm, 'addCheque')
+    const addCheque = vi.spyOn(wrapper.vm, 'addCheque')
 
     wrapper.find('[data-test="add-cheque-button"]').trigger('click')
 
@@ -53,8 +55,8 @@ describe('CreateRoutingSlipChequePayment.vue', () => {
     })
     await wrapper.vm.$nextTick()
     // spying on method
-    const addCheque = jest.spyOn(wrapper.vm, 'addCheque')
-    const removeCheque = jest.spyOn(wrapper.vm, 'removeCheque')
+    const addCheque = vi.spyOn(wrapper.vm, 'addCheque')
+    const removeCheque = vi.spyOn(wrapper.vm, 'removeCheque')
 
     // adding one more row
     wrapper.find('[data-test="add-cheque-button"]').trigger('click')

@@ -10,14 +10,21 @@
     "strictNullChecks": false,
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "types": [
+      "vite/client",
+      "vitest/globals",
+      "vuetify"
+    ],
     "skipLibCheck": true,
-    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "baseUrl": ".",
-    "types": ["webpack-env", "jest", "vuetify", "vue"],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },

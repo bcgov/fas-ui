@@ -11,8 +11,8 @@ describe('addManualTransactionDetails.vue', () => {
   const vuetify = new Vuetify({})
   beforeEach(() => {
     autoCompleteRoutingSlips.value = filingType
-    jest.resetModules()
-    jest.clearAllMocks()
+    vi.resetModules()
+    vi.clearAllMocks()
   })
 
   it('renders component', async () => {
@@ -36,7 +36,7 @@ describe('addManualTransactionDetails.vue', () => {
   })
 
   it('behavior testing', async () => {
-    const stub = jest.fn()
+    const stub = vi.fn()
     const wrapper: any = mount(AddManualTransactionDetails, {
       vuetify,
       localVue,
@@ -73,7 +73,7 @@ describe('addManualTransactionDetails.vue', () => {
       }
     })
     const mockedResponse = { data: { total: 100 }, status: 200, statusText: '', headers: {}, config: {} }
-    jest.spyOn(RoutingSlipService, 'getFeeByCorpTypeAndFilingType').mockResolvedValue(mockedResponse)
+    vi.spyOn(RoutingSlipService, 'getFeeByCorpTypeAndFilingType').mockResolvedValue(mockedResponse)
     // to add first array of input on mount
     await wrapper.vm.$nextTick()
     await wrapper.vm.calculateTotal()

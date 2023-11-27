@@ -2,7 +2,7 @@ import { computed, reactive, ref } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { Payment } from '@/models/Payment'
-import i18n from '@/plugins/i18n'
+import { useI18n } from 'vue-i18n-composable'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to CreateRoutingSlip component
@@ -106,16 +106,13 @@ export function useCreateRoutingSlip (_, context) {
     }
   }
 
+  const { t } = useI18n()
   // Cancel Routing slip flow
   function cancel () {
     // Update modal dialog props and display
-    modalDialogDetails.modalDialogTitle = i18n
-      .t('createRoutingSlipCancelTitle')
-      .toString()
+    modalDialogDetails.modalDialogTitle = t('createRoutingSlipCancelTitle').toString()
     modalDialogDetails.modalDialogIcon = 'mdi-alert-circle-outline'
-    modalDialogDetails.modalDialogText = i18n
-      .t('createRoutingSlipCancelText')
-      .toString()
+    modalDialogDetails.modalDialogText = t('createRoutingSlipCancelText').toString()
     modalDialogDetails.modalDialogOkText = 'Leave'
     modalDialogDetails.modalDialogCancelText = 'Cancel'
     isModalDialogInfo.value = false

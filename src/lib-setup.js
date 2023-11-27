@@ -15,7 +15,7 @@ While upgrading to vue 3 please check full plugin and do necessary modifications
 import OurVue from 'vue'
 import Search from '@/components/Dashboard/Search.vue'
 import VueCompositionAPI from '@vue/composition-api'
-import i18n from '@/plugins/i18n'
+import { useI18n } from 'vue-i18n-composable'
 
 // stores needed fro search
 
@@ -53,10 +53,11 @@ function install (Vue, options) {
   // simple hack to inject locale messages. check for better solutions
   // this will not work when chaging lang.
   // need to updated code (since we are not using other lag now, not updating chanegs)
-  if (options.i18n && i18n && i18n.messages) {
+  const { t } = useI18n()
+  if (options.i18n && t && t.messages) {
     options.i18n.mergeLocaleMessage(
       options.i18n.locale,
-      i18n.messages[i18n.locale]
+      t.messages[t.locale]
     )
   } else {
     // eslint-disable-next-line no-console
