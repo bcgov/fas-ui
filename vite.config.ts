@@ -22,6 +22,7 @@ const generateAboutText = (aboutText1, aboutText2) => {
 }
 
 export default defineConfig(({ mode }) => {
+  const isLibBuild = mode === 'lib'
   return {
     define: {
       'import.meta.env.ABOUT_TEXT': generateAboutText(aboutText1, aboutText2)
@@ -30,12 +31,12 @@ export default defineConfig(({ mode }) => {
 
     build: {
       sourcemap: true,
-      lib: {
+      lib: isLibBuild ? {
         entry: path.resolve(__dirname, 'src/lib-setup.js'),
         name: 'lib',
         formats: ['umd'],
         fileName: (format) => `lib.${format}.min.js`
-      },
+      } : undefined,
       terserOptions: {
         format: {
           semicolons: false
@@ -44,14 +45,14 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         external: (request) => {
           // If library, use externals, otherwise the Vue/ composition-api instance in Auth-web will have issues.
-          if (mode === 'lib' && (/^@vue\/composition-api$/.test(request) || /^vue$/.test(request))) {
+          if (isLibBuild && (/^@vue\/composition-api$/.test(request) || /^vue$/.test(request))) {
             return true
           }
           return false
         }
       },
       outDir: 'lib',
-      minify: mode !== 'lib' ? false : 'terser'
+      minify: isLibBuild ? 'terser' : false
     },
     plugins: [
       vue({
