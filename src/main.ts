@@ -17,12 +17,12 @@ import router from './router'
 import { getVuexStore, getPiniaStore } from './store'
 import vuetify from './plugins/vuetify'
 
-Vue.config.productionTip = false
+// Vue.config.productionTip = false
 
-Vue.use(Vuelidate)
-Vue.use(VueCompositionAPI)
-const i18n = initializeI18n(Vue)
-Vue.use(VueSanitize)
+// Vue.use(Vuelidate)
+// Vue.use(VueCompositionAPI)
+// const i18n = initializeI18n(Vue)
+// Vue.use(VueSanitize)
 /**
  * The server side configs are necessary for app to work , since they are reference in templates and all
  */

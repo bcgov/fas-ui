@@ -2,9 +2,8 @@ import EnvironmentPlugin from 'vite-plugin-environment'
 import { defineConfig } from 'vite'
 import fs from 'fs'
 import path from 'path'
-import pluginRewriteAll from 'vite-plugin-rewrite-all'
 import postcssNesting from 'postcss-nesting'
-import { createVuePlugin as vue } from 'vite-plugin-vue2'
+import vue from '@vitejs/plugin-vue'
 
 const packageJson = fs.readFileSync('./package.json') as unknown as string
 const appName = JSON.parse(packageJson).appName
@@ -55,29 +54,12 @@ export default defineConfig(({ mode }) => {
       minify: isLibBuild ? 'terser' : false
     },
     plugins: [
-      vue({
-        vueTemplateOptions: {
-          transformAssetUrls: {
-            img: ['src', 'data-src'],
-            'v-app-bar': ['image'],
-            'v-avatar': ['image'],
-            'v-banner': ['avatar'],
-            'v-card': ['image'],
-            'v-card-item': ['prependAvatar', 'appendAvatar'],
-            'v-chip': ['prependAvatar', 'appendAvatar'],
-            'v-img': ['src', 'lazySrc', 'srcset'],
-            'v-list-item': ['prependAvatar', 'appendAvatar'],
-            'v-navigation-bar': ['image'],
-            'v-parallax': ['src', 'lazySrc', 'srcset'],
-            'v-toolbar': ['image']
-          }
-        }
-      }),
+      // @vitejs/plugin-vue plugin handles Vue Single File Components (SFCs)
+      vue(),
       EnvironmentPlugin({
         BUILD: 'web' // Fix for Vuelidate, allows process.env with Vite.
       }),
-      postcssNesting,
-      pluginRewriteAll()
+      postcssNesting
     ],
     resolve: {
       alias: {
