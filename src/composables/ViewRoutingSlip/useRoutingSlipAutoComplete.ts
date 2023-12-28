@@ -1,4 +1,4 @@
-import { ref } from '@vue/composition-api'
+import { ref } from 'vue'
 
 import CommonUtils from '@/util/common-util'
 import { GetRoutingSlipRequestPayload } from '@/models/RoutingSlip'

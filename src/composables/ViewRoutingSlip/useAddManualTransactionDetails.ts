@@ -1,4 +1,4 @@
-import { computed, onMounted, ref, toRefs, watch } from '@vue/composition-api'
+import { computed, onMounted, ref, toRefs, watch } from 'vue'
 
 import CommonUtils from '@/util/common-util'
 import { GetFeeRequestParams } from '@/models/Payment'

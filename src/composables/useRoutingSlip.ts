@@ -1,4 +1,4 @@
-import { computed, ref } from '@vue/composition-api'
+import { computed, ref } from 'vue'
 import RoutingSlipService from '@/services/routingSlip.services'
 import { AccountInfo, AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload, LinkedRoutingSlips, RoutingSlip, RoutingSlipDetails } from '@/models/RoutingSlip'
 import { ApiErrors, CreateRoutingSlipStatus, headerSearchTitle as headerSearchTitleConstant, SlipStatus } from '@/util/constants'

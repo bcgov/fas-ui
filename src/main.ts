@@ -7,14 +7,14 @@ import App from './App.vue'
 import CommonUtils from '@/util/common-util'
 import ConfigHelper from '@/util/config-helper'
 import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
-import Vue from 'vue'
-import VueCompositionAPI from '@vue/composition-api'
+import { createApp } from 'vue'
+// import VueCompositionAPI from 'vue'
 import VueSanitize from 'vue-sanitize-directive'
 import Vuelidate from 'vuelidate'
 import can from '@/directives/can'
 import initializeI18n from './plugins/i18n'
 import router from './router'
-import { getVuexStore, getPiniaStore } from './store'
+import { vuexStore, piniaStore } from './store'
 import vuetify from './plugins/vuetify'
 
 // Vue.config.productionTip = false
@@ -23,6 +23,7 @@ import vuetify from './plugins/vuetify'
 // Vue.use(VueCompositionAPI)
 // const i18n = initializeI18n(Vue)
 // Vue.use(VueSanitize)
+
 /**
  * The server side configs are necessary for app to work , since they are reference in templates and all
  */
@@ -88,20 +89,17 @@ function registerServiceWorker() {
   }
 }
 // setting to window to avoid library build undefined issue for global loader
-(window as any).fasStore = getVuexStore
+// (window as any).fasStore = getVuexStore
 
 function renderVue () {
-  new Vue({
-    router,
-    store: getVuexStore,
-    pinia: getPiniaStore(),
-    vuetify,
-    i18n,
-    render: h => h(App)
-  }).$mount('#app')
-  Vue.directive('can', can)
-
-  // Register the Service Worker
+  const app = createApp(App)
+  app.use(router)
+  app.use(piniaStore)
+  app.use(vuexStore)
+  app.use(vuetify)
+  app.use(initializeI18n())
+  app.use(VueSanitize)
+  app.directive('can', can)
+  app.mount('#app')
   registerServiceWorker()
-
 }

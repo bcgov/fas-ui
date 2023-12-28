@@ -72,7 +72,7 @@ export default defineConfig(({ mode }) => {
         '@bcrs-shared-components/staff-comments': path.resolve(__dirname, './node_modules/@bcrs-shared-components/staff-comments/index.ts'),
         '@bcrs-shared-components/interfaces': path.resolve(__dirname, './node_modules/@bcrs-shared-components/interfaces/index.ts'),
         // Fix for module decorator unit tests fail
-        'vuex-module-decorators': path.resolve(__dirname, './node_modules/vuex-module-decorators/dist/esm/index.js')
+        // 'vuex-module-decorators': path.resolve(__dirname, './node_modules/vuex-module-decorators/dist/esm/index.js')
       },
       extensions: ['.js', '.ts', '.vue', '.json', '.css', '.mjs', '.jsx', 'tsx']
     },
@@ -97,7 +97,7 @@ export default defineConfig(({ mode }) => {
       // Otherwise FAS complains about not having Vue.use(VueCompositionAPI)
       // sbc-common-components will fail at login.
       // Remove with Vue 3 for most of these.
-      exclude: ['@vue/composition-api', 'sbc-common-components']
+      exclude: ['vue', 'sbc-common-components']
     }
   }
 })

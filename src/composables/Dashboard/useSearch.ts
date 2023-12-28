@@ -1,4 +1,4 @@
-import { computed, onMounted, reactive, ref, toRefs } from '@vue/composition-api'
+import { computed, onMounted, reactive, ref, toRefs } from 'vue'
 
 import CommonUtils from '@/util/common-util'
 import ConfigHelper from '@/util/config-helper'

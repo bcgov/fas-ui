@@ -1,15 +1,11 @@
-import Vuex, { StoreOptions } from 'vuex'
-
+import { createStore } from 'vuex'
+import { createPinia } from 'pinia'
 import { RootState } from './types'
-import Vue from 'vue'
-import { PiniaVuePlugin, createPinia } from 'pinia'
-
-Vue.use(Vuex)
 
 const debug = import.meta.env.NODE_ENV !== 'production'
 
 // Note: This is still required for sbc-common-components to work.
-const vuexStore: StoreOptions<RootState> = {
+const vuexStoreOptions = {
   strict: debug,
   state: () => ({
     refreshKey: 0,
@@ -29,13 +25,6 @@ const vuexStore: StoreOptions<RootState> = {
   modules: {
   }
 }
-export const getVuexStore = new Vuex.Store<RootState>(vuexStore)
 
-/**
- * Configures and returns Pinia Store.
- */
-export function getPiniaStore () {
-  Vue.use(PiniaVuePlugin)
-
-  return createPinia()
-}
+export const vuexStore = createStore<RootState>(vuexStoreOptions)
+export const piniaStore = createPinia()

@@ -4,7 +4,7 @@ Global Error Handler is used in App.vue
 */
 
 import { AXIOS_ERROR_ALERT_TIME_OUT } from '@/util/constants'
-import { watch } from '@vue/composition-api'
+import { watch } from 'vue'
 import { useIndicators } from '../useIndicators'
 
 export function useErrorAlert () {

@@ -1,4 +1,4 @@
-import { ref, computed, toRefs } from '@vue/composition-api'
+import { ref, computed, toRefs } from 'vue'
 
 export function useDatePicker (props, context) {
   // using `toRefs` to create a Reactive Reference to the `user` property of props

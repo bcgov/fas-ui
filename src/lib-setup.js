@@ -14,8 +14,8 @@ While upgrading to vue 3 please check full plugin and do necessary modifications
 
 import OurVue from 'vue'
 import Search from '@/components/Dashboard/Search.vue'
-import VueCompositionAPI from '@vue/composition-api'
-import { useI18n } from 'vue-i18n-composable'
+// import VueCompositionAPI from 'vue'
+import { useI18n } from 'vue-i18n'
 
 // stores needed fro search
 
@@ -42,7 +42,7 @@ function install (Vue, options) {
   // Couldnot find better solution since lack of information available. sorry devs :(
   if (!Object.hasOwnProperty.call(Vue.config.optionMergeStrategies, 'setup')) {
     // if parent is not using VueCompositionAPI api need to push to vue
-    Vue.use(VueCompositionAPI)
+    // Vue.use(VueCompositionAPI)
     // eslint-disable-next-line no-console
     console.info('[FAS-Plugin] VueCompositionAPI is not available in parent so pushing from plugin')
   } else {

@@ -1,5 +1,5 @@
 import CommonUtils from '@/util/common-util'
-import { computed, ref } from '@vue/composition-api'
+import { computed, ref } from 'vue'
 import moment from 'moment'
 import { useRoutingSlip } from '../useRoutingSlip'
 

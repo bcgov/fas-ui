@@ -1,4 +1,4 @@
-import { ref } from '@vue/composition-api'
+import { ref } from 'vue'
 import { Code } from '@/models/Code'
 import CodesService from '@/services/codes.service'
 import { SlipStatus } from '@/util/constants'
