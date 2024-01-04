@@ -1,25 +1,26 @@
 <template>
-  <base-address
+  <!-- <base-address
     ref="baseAddress"
     :editing="editing"
     :schema="schema"
     :address="inputaddress"
     @update:address="emitUpdateAddress"
     @valid="emitAddressValidity"
-  />
+  /> -->
+  <div>address</div>
 </template>
 
 <script lang="ts">
 import { useAddressForm } from '@/composables/common'
 import { Address } from '@/models/Address'
-import BaseAddress from '@bcrs-shared-components/base-address/BaseAddress.vue'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+// import BaseAddress from '@bcrs-shared-components/base-address/BaseAddress.vue'
+import { Component, Prop, Vue } from 'vue-facing-decorator'
 import 'sbc-common-components/public/css/addresscomplete-2.30.min.css'
 import 'sbc-common-components/public/js/addresscomplete-2.30.min.js'
 
 @Component({
   components: {
-    BaseAddress
+    // BaseAddress
   },
   setup (props, context) {
     const {

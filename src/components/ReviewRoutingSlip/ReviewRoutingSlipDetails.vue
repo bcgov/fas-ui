@@ -28,7 +28,7 @@
 <script lang="ts">
 import { AccountInfo, RoutingSlipDetails } from '@/models/RoutingSlip'
 import commonUtil from '@/util/common-util'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-facing-decorator'
 
 @Component({})
 export default class ReviewRoutingSlipDetails extends Vue {

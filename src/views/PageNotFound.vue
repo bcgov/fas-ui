@@ -4,9 +4,8 @@
 </template>
 
 <script lang="ts">
-import { Component } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-facing-decorator'
 import InterimLanding from '@/components/common/InterimLanding.vue'
-import Vue from 'vue'
 @Component({
   components: { InterimLanding }
 })

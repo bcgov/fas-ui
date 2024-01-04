@@ -30,8 +30,7 @@
  * <status-menu v-model="currentStatus" label="Status"></status-menu>
  */
 
-import { Component, Prop } from 'vue-property-decorator'
-import Vue from 'vue'
+import { Component, Prop, Vue } from 'vue-facing-decorator'
 import { useStatusMenu } from '@/composables/common'
 
 @Component({

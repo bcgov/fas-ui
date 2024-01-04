@@ -1,14 +1,10 @@
 import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import { SessionStorageKeys } from '@/util/constants'
 import routes from './routes'
 
-Vue.use(VueRouter)
-
-const router = new VueRouter({
-  mode: 'history',
-  base: import.meta.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes
 })
 

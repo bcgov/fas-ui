@@ -14,7 +14,6 @@ While upgrading to vue 3 please check full plugin and do necessary modifications
 
 import OurVue from 'vue'
 import Search from '@/components/Dashboard/Search.vue'
-// import VueCompositionAPI from 'vue'
 import { useI18n } from 'vue-i18n'
 
 // stores needed fro search
@@ -35,21 +34,6 @@ function install (Vue, options) {
 
   if (install.installed) return
   install.installed = true
-  // since VueCompositionAPI is not giving direct access to property we are checking by using setup api exist in context or not
-  // since setup is a reserved keyword and which is using in vue 3 also, Hope it will not change.
-  // Another solution is Object.hasOwnProperty.call(Vue, '__composition_api_installed__').
-  // we are not using that in futurem, if they change the string no need to brake app
-  // Couldnot find better solution since lack of information available. sorry devs :(
-  if (!Object.hasOwnProperty.call(Vue.config.optionMergeStrategies, 'setup')) {
-    // if parent is not using VueCompositionAPI api need to push to vue
-    // Vue.use(VueCompositionAPI)
-    // eslint-disable-next-line no-console
-    console.info('[FAS-Plugin] VueCompositionAPI is not available in parent so pushing from plugin')
-  } else {
-    // eslint-disable-next-line no-console
-    console.info('[FAS-Plugin] VueCompositionAPI already installed')
-  }
-
   // simple hack to inject locale messages. check for better solutions
   // this will not work when chaging lang.
   // need to updated code (since we are not using other lag now, not updating chanegs)

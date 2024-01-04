@@ -32,7 +32,7 @@
   </transition-group>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-facing-decorator'
 import { useFilingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
 import { FilingType } from '@/models/Payment'
 

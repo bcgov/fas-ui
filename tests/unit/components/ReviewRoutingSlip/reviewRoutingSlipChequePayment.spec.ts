@@ -4,7 +4,6 @@ import { ReviewRoutingSlipChequePayment } from '@/components/ReviewRoutingSlip'
 import Vuetify from 'vuetify'
 
 import { chequePaymentMock } from '../../test-data/mock-routing-slip'
-// import VueCompositionAPI from 'vue'
 
 describe('ReviewRoutingSlipChequePayment.vue', () => {
   const localVue = createLocalVue()

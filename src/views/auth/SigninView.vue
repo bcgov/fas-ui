@@ -4,7 +4,7 @@
 
 <script lang="ts">
 // Libraries
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-facing-decorator'
 // Components
 import SbcSignin from 'sbc-common-components/src/components/SbcSignin.vue'
 // utils

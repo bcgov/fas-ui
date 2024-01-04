@@ -3,7 +3,6 @@ import CreateRoutingSlipChequePayment from '@/components/RoutingSlip/CreateRouti
 
 import Vuetify from 'vuetify'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
-// import VueCompositionAPI from 'vue'
 
 describe('CreateRoutingSlipChequePayment.vue', () => {
   const { chequePayment } = useRoutingSlip()

@@ -3,12 +3,9 @@ import '$assets/scss/base.scss'
 import '$assets/scss/layout.scss'
 import '$assets/scss/overrides.scss'
 
-import Vue from 'vue'
-import Vuetify from 'vuetify'
+import { createVuetify } from 'vuetify'
 
-Vue.use(Vuetify)
-
-export default new Vuetify({
+export default createVuetify({
   theme: {
     options: {
       customProperties: true

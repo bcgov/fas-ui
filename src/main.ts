@@ -8,21 +8,13 @@ import CommonUtils from '@/util/common-util'
 import ConfigHelper from '@/util/config-helper'
 import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
 import { createApp } from 'vue'
-// import VueCompositionAPI from 'vue'
 import VueSanitize from 'vue-sanitize-directive'
 import Vuelidate from 'vuelidate'
 import can from '@/directives/can'
 import initializeI18n from './plugins/i18n'
 import router from './router'
-import { vuexStore, piniaStore } from './store'
+import { piniaStore } from './store'
 import vuetify from './plugins/vuetify'
-
-// Vue.config.productionTip = false
-
-// Vue.use(Vuelidate)
-// Vue.use(VueCompositionAPI)
-// const i18n = initializeI18n(Vue)
-// Vue.use(VueSanitize)
 
 /**
  * The server side configs are necessary for app to work , since they are reference in templates and all
@@ -88,14 +80,11 @@ function registerServiceWorker() {
     console.log('No internet connection found. App is running in offline mode.')
   }
 }
-// setting to window to avoid library build undefined issue for global loader
-// (window as any).fasStore = getVuexStore
 
 function renderVue () {
   const app = createApp(App)
   app.use(router)
   app.use(piniaStore)
-  app.use(vuexStore)
   app.use(vuetify)
   app.use(initializeI18n())
   app.use(VueSanitize)

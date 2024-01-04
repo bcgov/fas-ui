@@ -31,7 +31,7 @@
     "npm": "^7.19.0",
     "pinia": "^2.1.7",
     "postcss-nesting": "^12.0.1",
-    "sbc-common-components": "4.0.0",
+    "sbc-common-components": "4.0.3",
     "vite": "^5.0.0",
     "vite-plugin-environment": "^1.1.3",
     "vue": "^3.3.4",
@@ -47,7 +47,6 @@
     "vuelidate": "^0.7.6",
     "vuelidate-property-decorators": "^1.0.28",
     "vuetify": "^3.4.8",
-    "vuex": "^4.1.0",
     "vuex-composition-helpers": "^1.0.23"
   },
   "devDependencies": {

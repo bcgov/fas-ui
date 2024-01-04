@@ -1,18 +1,18 @@
 <template>
   <div class="staff-comment">
-    <StaffComments  :url="url" :axios="axios" :businessId="routingSlipNumber" :key="routingSlipNumber" maxLength="2000"/>
+    <!-- <StaffComments  :url="url" :axios="axios" :businessId="routingSlipNumber" :key="routingSlipNumber" maxLength="2000"/> -->
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
-import { StaffComments } from '@bcrs-shared-components/staff-comments'
+import { Component, Vue, Prop } from 'vue-facing-decorator'
+// import { StaffComments } from '@bcrs-shared-components/staff-comments'
 import axios from '@/util/http-util'
 import ConfigHelper from '@/util/config-helper'
 
 // @Component
 @Component({
   components: {
-    StaffComments: Vue.extend(StaffComments)
+    // StaffComments: Vue.extend(StaffComments)
   }
 })
 export default class StaffCommentsComp extends Vue {
