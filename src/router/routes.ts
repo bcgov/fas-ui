@@ -66,7 +66,7 @@ const routes: Array<RouteRecordRaw> = [
       requiresAuth: false
     }
   },
-  { path: '*', name: 'notfound', component: PageNotFound },
+  { path: '/:catchAll(.*)*', name: 'notfound', component: PageNotFound },
   {
     path: '/unauthorized',
     name: 'unauthorized',

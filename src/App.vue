@@ -8,16 +8,15 @@
       <sbc-loader :show="showLoading" />
       <!-- common header -->
         <sbc-header
-        class="flex-column"
-        :key="$store.state.refreshKey"
-        :inAuth="false"
-        :show-product-selector="false"
-        :redirectUrlLoginFail="logoutUrl"
-        :redirect-on-logout="logoutUrl"
-        :showActions="true"
-      >
-      </sbc-header>
-      <bread-crumb />
+          class="flex-column"
+          :inAuth="false"
+          :show-product-selector="false"
+          :redirectUrlLoginFail="logoutUrl"
+          :redirect-on-logout="logoutUrl"
+          :showActions="true"
+        >
+        </sbc-header>
+      <!-- <bread-crumb /> -->
       <!-- error alert -->
       <error-alert-component
       :message="$t('errorAlertMessage')"
