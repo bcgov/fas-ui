@@ -3,7 +3,7 @@ Composable function for SearchColumn Filter component. It tracks the columns
 that are present in a parent data-table and tracks display property to true/false
 */
 
-import { computed, toRefs } from '@vue/composition-api'
+import { computed, toRefs } from 'vue'
 
 export function useSearchColumnFilterComponent (props, context) {
   const { value } = toRefs(props)

@@ -5,7 +5,7 @@
 
 <script lang="ts">
 // Libraries
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-facing-decorator'
 // common Components
 import SbcSignout from 'sbc-common-components/src/components/SbcSignout.vue'
 

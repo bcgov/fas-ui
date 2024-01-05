@@ -2,9 +2,8 @@ import EnvironmentPlugin from 'vite-plugin-environment'
 import { defineConfig } from 'vite'
 import fs from 'fs'
 import path from 'path'
-import pluginRewriteAll from 'vite-plugin-rewrite-all'
 import postcssNesting from 'postcss-nesting'
-import { createVuePlugin as vue } from 'vite-plugin-vue2'
+import vue from '@vitejs/plugin-vue'
 
 const packageJson = fs.readFileSync('./package.json') as unknown as string
 const appName = JSON.parse(packageJson).appName
@@ -55,29 +54,12 @@ export default defineConfig(({ mode }) => {
       minify: isLibBuild ? 'terser' : false
     },
     plugins: [
-      vue({
-        vueTemplateOptions: {
-          transformAssetUrls: {
-            img: ['src', 'data-src'],
-            'v-app-bar': ['image'],
-            'v-avatar': ['image'],
-            'v-banner': ['avatar'],
-            'v-card': ['image'],
-            'v-card-item': ['prependAvatar', 'appendAvatar'],
-            'v-chip': ['prependAvatar', 'appendAvatar'],
-            'v-img': ['src', 'lazySrc', 'srcset'],
-            'v-list-item': ['prependAvatar', 'appendAvatar'],
-            'v-navigation-bar': ['image'],
-            'v-parallax': ['src', 'lazySrc', 'srcset'],
-            'v-toolbar': ['image']
-          }
-        }
-      }),
+      // @vitejs/plugin-vue plugin handles Vue Single File Components (SFCs)
+      vue(),
       EnvironmentPlugin({
         BUILD: 'web' // Fix for Vuelidate, allows process.env with Vite.
       }),
-      postcssNesting,
-      pluginRewriteAll()
+      postcssNesting
     ],
     resolve: {
       alias: {
@@ -90,7 +72,8 @@ export default defineConfig(({ mode }) => {
         '@bcrs-shared-components/staff-comments': path.resolve(__dirname, './node_modules/@bcrs-shared-components/staff-comments/index.ts'),
         '@bcrs-shared-components/interfaces': path.resolve(__dirname, './node_modules/@bcrs-shared-components/interfaces/index.ts'),
         // Fix for module decorator unit tests fail
-        'vuex-module-decorators': path.resolve(__dirname, './node_modules/vuex-module-decorators/dist/esm/index.js')
+        // 'vuex-module-decorators': path.resolve(__dirname, './node_modules/vuex-module-decorators/dist/esm/index.js')
+        '@sbc': path.resolve(__dirname, './node_modules/sbc-common-components/src')
       },
       extensions: ['.js', '.ts', '.vue', '.json', '.css', '.mjs', '.jsx', 'tsx']
     },
@@ -109,13 +92,6 @@ export default defineConfig(({ mode }) => {
           return false
         }
       }
-    },
-    optimizeDeps: {
-      // This needs to be done for FAS-UI and sbc-common-components to work.
-      // Otherwise FAS complains about not having Vue.use(VueCompositionAPI)
-      // sbc-common-components will fail at login.
-      // Remove with Vue 3 for most of these.
-      exclude: ['@vue/composition-api', 'sbc-common-components']
     }
   }
 })

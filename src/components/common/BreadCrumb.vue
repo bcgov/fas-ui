@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import { useBreadCrumb } from '@/composables/common'
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-facing-decorator'
 
 @Component({
   setup (_, context) {

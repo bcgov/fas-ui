@@ -14,8 +14,7 @@
 </template>
 
 <script lang="ts">
-import { Component } from 'vue-property-decorator'
-import Vue from 'vue'
+import { Component, Vue } from 'vue-facing-decorator'
 
 @Component
 export default class Unauthorized extends Vue {

@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-facing-decorator'
 import Search from '@/components/Dashboard/Search.vue'
 import DailyReport from '@/components/Dashboard/DailyReport.vue'
 

@@ -1,5 +1,5 @@
 import { Address, BaseAddressModel } from '@/models/Address'
-import { computed, onMounted, ref, toRefs } from '@vue/composition-api'
+import { computed, onMounted, ref, toRefs } from 'vue'
 
 import CommonUtils from '@/util/common-util'
 

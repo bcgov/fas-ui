@@ -39,8 +39,7 @@
  * <date-picker v-model="selectedDate" persist></date-picker></v-col>
  */
 
-import { Component, Prop } from 'vue-property-decorator'
-import Vue from 'vue'
+import { Component, Prop, Vue } from 'vue-facing-decorator'
 import { useDatePicker } from '@/composables/common'
 
 @Component({

@@ -4,12 +4,10 @@ import VueTheMask from 'vue-the-mask'
 import Vuex from 'vuex'
 import VueI18n from 'vue-i18n'
 import can from '@/directives/can'
-import VueCompositionApi from '@vue/composition-api'
 import Vuetify from 'vuetify'
 import { config } from '@vue/test-utils'
 import { vi } from 'vitest'
 
-Vue.use(VueCompositionApi)
 Vue.use(VueTheMask)
 Vue.use(Vuex)
 Vue.use(Vuetify)

@@ -1,4 +1,4 @@
-import { computed, reactive, ref, toRefs } from '@vue/composition-api'
+import { computed, reactive, ref, toRefs } from 'vue'
 
 import CommonUtils from '@/util/common-util'
 import { DateFilterCodes } from '@/util/constants'

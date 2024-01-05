@@ -1,5 +1,5 @@
 import CommonUtils from '@/util/common-util'
-import { toRefs } from '@vue/composition-api'
+import { toRefs } from 'vue'
 
 // Composable function to inject Props, options and values to LinkedRoutingSlipDetails component
 export default function useLinkedRoutingSlipDetails (props, context) {

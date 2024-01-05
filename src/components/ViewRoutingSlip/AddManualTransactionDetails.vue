@@ -89,7 +89,7 @@
 </template>
 <script lang="ts">
 import { useAddManualTransactionDetails } from '@/composables/ViewRoutingSlip'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-facing-decorator'
 import FilingTypeAutoComplete from '@/components/ViewRoutingSlip/FilingTypeAutoComplete.vue'
 import { ManualTransactionDetails } from '@/models/RoutingSlip'
 

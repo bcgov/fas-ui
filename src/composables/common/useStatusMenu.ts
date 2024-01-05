@@ -1,6 +1,6 @@
 import { Code } from '@/models/Code'
 import { SlipStatusLabel } from '@/util/constants'
-import { ref, computed, toRefs, onMounted } from '@vue/composition-api'
+import { ref, computed, toRefs, onMounted } from 'vue'
 import { useCodes } from '../useCodes'
 
 export function useStatusMenu (props, context) {

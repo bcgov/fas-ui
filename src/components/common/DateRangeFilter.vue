@@ -97,8 +97,7 @@
 
 <script lang="ts">
 // this is just took from auth-web
-import { Component, Prop } from 'vue-property-decorator'
-import Vue from 'vue'
+import { Component, Prop, Vue } from 'vue-facing-decorator'
 import { useDateRange } from '@/composables/common'
 
 @Component({

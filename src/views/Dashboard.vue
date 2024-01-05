@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-facing-decorator'
 import { Dashboard } from '@/components/Dashboard' // @ is an alias to /src
 
 @Component({

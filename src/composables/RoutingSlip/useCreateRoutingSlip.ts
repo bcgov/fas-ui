@@ -1,8 +1,8 @@
-import { computed, reactive, ref } from '@vue/composition-api'
+import { computed, reactive, ref } from 'vue'
 
 import CommonUtils from '@/util/common-util'
 import { Payment } from '@/models/Payment'
-import { useI18n } from 'vue-i18n-composable'
+import { useI18n } from 'vue-i18n'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to CreateRoutingSlip component

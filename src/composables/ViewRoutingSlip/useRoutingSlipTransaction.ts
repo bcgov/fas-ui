@@ -1,5 +1,5 @@
 import { GetRoutingSlipRequestPayload, ManualTransactionDetails } from '@/models/RoutingSlip'
-import { ref } from '@vue/composition-api'
+import { ref } from 'vue'
 
 import { useLoader } from '@/composables/common/useLoader'
 import { useRoutingSlip } from '../useRoutingSlip'

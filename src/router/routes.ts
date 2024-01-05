@@ -2,13 +2,13 @@ import CreateRoutingSlipView from '../views/CreateRoutingSlipView.vue'
 import Dashboard from '../views/Dashboard.vue'
 import PageNotFound from '../views/PageNotFound.vue'
 import { Role } from '@/util/constants'
-import { RouteConfig } from 'vue-router'
+import { RouteRecordRaw } from 'vue-router'
 import SigninView from '@/views/auth/SigninView.vue'
 import SignoutView from '@/views/auth/SignoutView.vue'
 import Unauthorized from '@/views/Unauthorized.vue'
 import ViewRoutingSlip from '../views/ViewRoutingSlip.vue'
 
-const routes: Array<RouteConfig> = [
+const routes: Array<RouteRecordRaw> = [
   { path: '/', name: 'root', redirect: 'home' },
   {
     path: '/home',
@@ -66,7 +66,7 @@ const routes: Array<RouteConfig> = [
       requiresAuth: false
     }
   },
-  { path: '*', name: 'notfound', component: PageNotFound },
+  { path: '/:catchAll(.*)*', name: 'notfound', component: PageNotFound },
   {
     path: '/unauthorized',
     name: 'unauthorized',

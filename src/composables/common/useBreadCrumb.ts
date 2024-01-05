@@ -1,7 +1,7 @@
 import { BreadcrumbItem } from '@/models/BreadcrumbItem'
 import CommonUtils from '@/util/common-util'
 import ConfigHelper from '@/util/config-helper'
-import { computed } from '@vue/composition-api'
+import { computed } from 'vue'
 
 /*
 Composable function for BreadCrumb component that is displayed at top of the screen.

@@ -8,16 +8,15 @@
       <sbc-loader :show="showLoading" />
       <!-- common header -->
         <sbc-header
-        class="flex-column"
-        :key="$store.state.refreshKey"
-        :inAuth="false"
-        :show-product-selector="false"
-        :redirectUrlLoginFail="logoutUrl"
-        :redirect-on-logout="logoutUrl"
-        :showActions="true"
-      >
-      </sbc-header>
-      <bread-crumb />
+          class="flex-column"
+          :inAuth="false"
+          :show-product-selector="false"
+          :redirectUrlLoginFail="logoutUrl"
+          :redirect-on-logout="logoutUrl"
+          :showActions="true"
+        >
+        </sbc-header>
+      <!-- <bread-crumb /> -->
       <!-- error alert -->
       <error-alert-component
       :message="$t('errorAlertMessage')"
@@ -35,8 +34,7 @@
   </v-app>
 </template>
 <script lang="ts">
-import Vue from 'vue'
-import { Component } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-facing-decorator'
 
 import ErrorAlertComponent from '@/components/common/ErrorAlertComponent.vue'
 import LoaderComponent from '@/components/common/LoaderComponent.vue'
@@ -73,10 +71,10 @@ import BreadCrumb from '@/components/common/BreadCrumb.vue'
   }
 })
 export default class App extends Vue {
-  private showLoading = true
-  private logoutUrl = ''
+  showLoading = true
+  logoutUrl = ''
 
-  private async mounted (): Promise<void> {
+  async mounted (): Promise<void> {
     this.showLoading = false
   }
 }

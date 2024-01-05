@@ -74,7 +74,7 @@
 import { useTransactionDataTable } from '@/composables/ViewRoutingSlip'
 import commonUtil from '@/util/common-util'
 import ModalDialog from '@/components/common/ModalDialog.vue'
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-facing-decorator'
 import { InvoiceStatus } from '@/util/constants'
 
 @Component({

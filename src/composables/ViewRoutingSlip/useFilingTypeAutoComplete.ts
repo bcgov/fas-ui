@@ -1,4 +1,4 @@
-import { computed, ref, toRefs } from '@vue/composition-api'
+import { computed, ref, toRefs } from 'vue'
 
 import { FilingType } from '@/models/Payment'
 import debounce from '@/util/debounce'

@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-facing-decorator'
 import { Payment } from '@/models/Payment'
 import commonUtil from '@/util/common-util'
 import { usePaymentInformation } from '@/composables/ViewRoutingSlip'

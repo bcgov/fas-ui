@@ -5,7 +5,7 @@
   </v-container>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-facing-decorator'
 import ReviewRoutingSlipDetails from './ReviewRoutingSlipDetails.vue'
 import ReviewRoutingSlipPayment from './ReviewRoutingSlipPayment.vue'
 import { useReviewRoutingSlip } from '@/composables/ReviewRoutingSlip'

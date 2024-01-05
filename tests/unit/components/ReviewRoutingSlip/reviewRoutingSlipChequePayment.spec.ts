@@ -4,12 +4,11 @@ import { ReviewRoutingSlipChequePayment } from '@/components/ReviewRoutingSlip'
 import Vuetify from 'vuetify'
 
 import { chequePaymentMock } from '../../test-data/mock-routing-slip'
-import VueCompositionAPI from '@vue/composition-api'
 
 describe('ReviewRoutingSlipChequePayment.vue', () => {
   const localVue = createLocalVue()
   localVue.use(Vuetify)
-  localVue.use(VueCompositionAPI)
+  // localVue.use(VueCompositionAPI)
   beforeEach(() => {
     vi.resetModules()
     vi.clearAllMocks()

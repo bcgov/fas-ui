@@ -49,7 +49,7 @@
   </v-form>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-facing-decorator'
 import { useRefundRequestForm } from '@/composables/ViewRoutingSlip'
 import AddressForm from '@/components/common/AddressForm.vue'
 import { RefundRequestDetails } from '@/models/RoutingSlip'

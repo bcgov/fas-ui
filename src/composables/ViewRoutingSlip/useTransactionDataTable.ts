@@ -1,6 +1,6 @@
 import { Invoice, InvoiceDisplay, LineItem, Reference } from '@/models/Invoice'
 import { InvoiceStatus, SlipStatus } from '@/util/constants'
-import { computed, reactive, ref, watch } from '@vue/composition-api'
+import { computed, reactive, ref, watch } from 'vue'
 
 import { GetRoutingSlipRequestPayload } from '@/models/RoutingSlip'
 import { useRoutingSlip } from '../useRoutingSlip'
