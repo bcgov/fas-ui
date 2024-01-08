@@ -58,33 +58,39 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { Component, Prop, Vue } from 'vue-facing-decorator'
 import { Payment } from '@/models/Payment'
 import commonUtil from '@/util/common-util'
 import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
+import { defineProps, PropType } from 'vue'
 
-@Component({
-  setup (_, context) {
-    const {
-      adjustRoutingSlipChequeNumber,
-      adjustRoutingSlipAmount
-    } = usePaymentInformation(_, context)
-    return {
-      adjustRoutingSlipChequeNumber,
-      adjustRoutingSlipAmount
-    }
+const props = defineProps({
+  chequePayment: {
+    type: Array as PropType<Payment[]>,
+    default: () => []
+  },
+  isAmountPaidInUsd: {
+    type: Boolean,
+    default: false
+  },
+  isEditable: {
+    type: Boolean,
+    default: false
+  },
+  isALinkedChild: {
+    type: Boolean,
+    default: false
   }
 })
-export default class ReviewRoutingSlipChequePayment extends Vue {
-  @Prop({ default: null }) chequePayment: Payment[]
-  @Prop({ default: false }) isAmountPaidInUsd: boolean
-  @Prop({ default: false }) isEditable: boolean
-  @Prop({ default: false }) isALinkedChild: boolean
-  public formatDisplayDate = commonUtil.formatDisplayDate
 
-  public getIndexedTag (tag, index): string {
-    return `${tag}-${index}`
-  }
-}
+const {
+  adjustRoutingSlipChequeNumber,
+  adjustRoutingSlipAmount
+} = usePaymentInformation()
+
+// Computed and methods
+const formatDisplayDate = commonUtil.formatDisplayDate
+
+const getIndexedTag = (tag, index) => `${tag}-${index}`
 </script>

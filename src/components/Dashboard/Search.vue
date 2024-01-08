@@ -413,101 +413,53 @@
     </v-row>
   </div>
 </template>
-
-<script lang="ts">
-import '@/shims-vue-composition-api'
-import { Component, Prop, Vue } from 'vue-facing-decorator'
-import { useSearch } from '@/composables/Dashboard/useSearch'
+<script setup lang="ts">
+import { ref, computed } from 'vue'
 import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
 import SearchColumnFilterComponent from '@/components/common/SearchColumnFilterComponent.vue'
-import statusListComponent from '@/components/common/StatusList.vue'
-
-import commonUtil from '@/util/common-util'
+import StatusList from '@/components/common/StatusList.vue'
+import { useSearch } from '@/composables/Dashboard/useSearch'
 import { useDashboard } from '@/composables/Dashboard'
-import can from '@/directives/can'
+import commonUtil from '@/util/common-util'
 import { PaymentMethods } from '@/util/constants'
 
-@Component({
-  setup (props, context) {
-    const { addRoutingSlip } = useDashboard(props, context)
-    const {
-      headerSearch,
-      displayedHeaderSearch,
-      status,
-      routingSlipNumber,
-      receiptNumber,
-      dateFilter,
-      businessIdentifier,
-      accountName,
-      remainingAmount,
-      chequeReceiptNumber,
-      searchRoutingSlipResult,
-      applyDateFilter,
-      searchNow,
-      debouncedSearch,
-      canShowColumn,
-      getStatusLabel,
-      searchParamsExist,
-      clearFilter,
-      formatFolioResult,
-      showExpandedFolio,
-      showExpandedCheque,
-      toggleFolio,
-      toggleCheque,
-      isLoading,
-      navigateTo,
-      fasUrl,
-      initiator
-    } = useSearch(props, context)
-    return {
-      headerSearch,
-      displayedHeaderSearch,
-      status,
-      routingSlipNumber,
-      receiptNumber,
-      dateFilter,
-      businessIdentifier,
-      accountName,
-      remainingAmount,
-      chequeReceiptNumber,
-      searchRoutingSlipResult,
-      applyDateFilter,
-      searchNow,
-      debouncedSearch,
-      canShowColumn,
-      getStatusLabel,
-      addRoutingSlip,
-      searchParamsExist,
-      clearFilter,
-      formatFolioResult,
-      showExpandedFolio,
-      showExpandedCheque,
-      toggleFolio,
-      toggleCheque,
-      isLoading,
-      navigateTo,
-      fasUrl,
-      initiator
-    }
-  },
-  components: {
-    DateRangeFilter,
-    SearchColumnFilterComponent,
-    statusList: statusListComponent
-  },
-  directives: {
-    can
-  }
-})
-export default class Search extends Vue {
-  public colors = commonUtil.statusListColor
-  public appendCurrencySymbol = commonUtil.appendCurrencySymbol
-  public formatDisplayDate = commonUtil.formatDisplayDate
+const isLibraryMode = ref(false) // Update this based on how you pass props
 
-  PaymentMethods = PaymentMethods
+const { addRoutingSlip } = useDashboard() // Adjust based on actual usage
+const {
+  headerSearch,
+  displayedHeaderSearch,
+  status,
+  routingSlipNumber,
+  receiptNumber,
+  dateFilter,
+  businessIdentifier,
+  accountName,
+  remainingAmount,
+  chequeReceiptNumber,
+  searchRoutingSlipResult,
+  applyDateFilter,
+  searchNow,
+  debouncedSearch,
+  canShowColumn,
+  getStatusLabel,
+  searchParamsExist,
+  clearFilter,
+  formatFolioResult,
+  showExpandedFolio,
+  showExpandedCheque,
+  toggleFolio,
+  toggleCheque,
+  isLoading,
+  navigateTo,
+  fasUrl,
+  initiator
+} = useSearch()
 
-  @Prop({ default: () => false }) isLibraryMode: boolean
-}
+const colors = computed(() => commonUtil.statusListColor)
+const appendCurrencySymbol = computed(() => commonUtil.appendCurrencySymbol)
+const formatDisplayDate = computed(() => commonUtil.formatDisplayDate)
+
 </script>
 
 <style lang="scss">
