@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 import '@mdi/font/css/materialdesignicons.min.css' // icon library (https://materialdesignicons.com/)
 import './shims-vue-composition-api'
 
@@ -85,6 +84,7 @@ function renderVue () {
   const app = createApp(App)
   app.use(router)
   app.use(piniaStore)
+  app.use(Vuelidate)
   app.use(vuetify)
   app.use(initializeI18n())
   app.use(VueSanitize)

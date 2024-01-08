@@ -4,6 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import postcssNesting from 'postcss-nesting'
 import vue from '@vitejs/plugin-vue'
+import vuetify from 'vite-plugin-vuetify'
 
 const packageJson = fs.readFileSync('./package.json') as unknown as string
 const appName = JSON.parse(packageJson).appName
@@ -56,6 +57,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       // @vitejs/plugin-vue plugin handles Vue Single File Components (SFCs)
       vue(),
+      vuetify(),
       EnvironmentPlugin({
         BUILD: 'web' // Fix for Vuelidate, allows process.env with Vite.
       }),

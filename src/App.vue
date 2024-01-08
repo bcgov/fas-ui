@@ -1,5 +1,5 @@
 <template>
-<v-app id="app">
+  <v-app id="app">
     <div
       class="header-group"
       ref="headerGroup"
@@ -9,6 +9,7 @@
       <!-- common header -->
         <sbc-header
           class="flex-column"
+          :key="refreshKey"
           :inAuth="false"
           :show-product-selector="false"
           :redirectUrlLoginFail="logoutUrl"
@@ -16,7 +17,7 @@
           :showActions="true"
         >
         </sbc-header>
-      <!-- <bread-crumb /> -->
+      <bread-crumb />
       <!-- error alert -->
       <error-alert-component
       :message="$t('errorAlertMessage')"
@@ -33,51 +34,28 @@
     <sbc-footer></sbc-footer>
   </v-app>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
-
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import ErrorAlertComponent from '@/components/common/ErrorAlertComponent.vue'
 import LoaderComponent from '@/components/common/LoaderComponent.vue'
-
 import SbcFooter from 'sbc-common-components/src/components/SbcFooter.vue'
 import SbcHeader from 'sbc-common-components/src/components/SbcHeader.vue'
 import SbcLoader from 'sbc-common-components/src/components/SbcLoader.vue'
-import { useLoader, useErrorAlert } from './composables/common'
-
 import BreadCrumb from '@/components/common/BreadCrumb.vue'
+import { useLoader, useErrorAlert } from './composables/common'
+import { useAppStore } from '@/store/app'
 
-@Component({
-  components: {
-    SbcHeader,
-    SbcFooter,
-    SbcLoader,
-    LoaderComponent,
-    ErrorAlertComponent,
-    BreadCrumb
-  },
-  setup () {
-    /* Getter will return number of axios calls that are in progress with request.config.globalloading set to true
-    This value is used to toggle between showing route and loading progress components
-    if there are active calls, loading component is rendered else router-view */
-    const { isThereActiveCalls } = useLoader()
-    /* if hasCallFailed is true, then we display the error alert component. */
-    const { hasCallFailed } = useErrorAlert()
+const headerGroup = ref(null)
+const showLoading = ref(true)
+const logoutUrl = ref('')
 
-    return {
-      hasCallFailed,
-      isThereActiveCalls
+const { isThereActiveCalls } = useLoader()
+const { hasCallFailed } = useErrorAlert()
+const { refreshKey } = useAppStore()
 
-    }
-  }
+onMounted(() => {
+  showLoading.value = false
 })
-export default class App extends Vue {
-  showLoading = true
-  logoutUrl = ''
-
-  async mounted (): Promise<void> {
-    this.showLoading = false
-  }
-}
 </script>
 
 <style lang="scss">
