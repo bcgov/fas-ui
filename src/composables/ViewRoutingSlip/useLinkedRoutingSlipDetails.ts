@@ -1,8 +1,9 @@
 import CommonUtils from '@/util/common-util'
 import { toRefs } from 'vue'
+import { useRoute } from 'vue-router'
 
 // Composable function to inject Props, options and values to LinkedRoutingSlipDetails component
-export default function useLinkedRoutingSlipDetails (props, context) {
+export default function useLinkedRoutingSlipDetails (props) {
   const { parentRoutingSlipNumber, routingSlipNumber } = toRefs(props)
   const appendQueryParamsIfNeeded = CommonUtils.appendQueryParamsIfNeeded
 
@@ -12,7 +13,7 @@ export default function useLinkedRoutingSlipDetails (props, context) {
     2. Navigate to parent routing slip - at which we redirect to view routing slip and append queryparams if it is a library call.
   */
   function navigateTo (): string {
-    const route = context.root.$route
+    const route = useRoute()
     if (parentRoutingSlipNumber.value) {
       return appendQueryParamsIfNeeded(`/view-routing-slip/${parentRoutingSlipNumber.value}/${routingSlipNumber.value}`, route)
     } else {

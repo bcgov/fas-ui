@@ -59,38 +59,19 @@
 </template>
 
 <script setup lang="ts">
-import { Component, Prop, Vue } from 'vue-facing-decorator'
 import { Payment } from '@/models/Payment'
 import commonUtil from '@/util/common-util'
 import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
-import { defineProps, PropType } from 'vue'
+import { defineProps } from 'vue'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const props = defineProps<{
+  chequePayment: Payment[],
+  isAmountPaidInUsd: boolean,
+  isEditable: boolean,
+  isALinkedChild: boolean
+}>()
 
-const props = defineProps({
-  chequePayment: {
-    type: Array as PropType<Payment[]>,
-    default: () => []
-  },
-  isAmountPaidInUsd: {
-    type: Boolean,
-    default: false
-  },
-  isEditable: {
-    type: Boolean,
-    default: false
-  },
-  isALinkedChild: {
-    type: Boolean,
-    default: false
-  }
-})
-
-const {
-  adjustRoutingSlipChequeNumber,
-  adjustRoutingSlipAmount
-} = usePaymentInformation()
-
-// Computed and methods
+const { adjustRoutingSlipChequeNumber, adjustRoutingSlipAmount } = usePaymentInformation()
 const formatDisplayDate = commonUtil.formatDisplayDate
-
 const getIndexedTag = (tag, index) => `${tag}-${index}`
 </script>

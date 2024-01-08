@@ -100,52 +100,23 @@
   </v-form>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import DatePicker from '@/components/common/DatePicker.vue'
 import { useCreateRoutingSlipChequePayment } from '@/composables/RoutingSlip'
-
-@Component({
-  components: {
-    DatePicker
-  },
-  setup () {
-    const {
-      totalAmount,
-      chequeList,
-      createRoutingSlipChequePaymentForm,
-      chequeNumberRules,
-      paidAmountRules,
-      paidUsdAmountRules,
-      paymentDateRules,
-      isTheAmountPaidInUsd,
-      getColumnWidth,
-      getDefaultRow,
-      getIndexedTag,
-      addCheque,
-      removeCheque,
-      isValid
-    } = useCreateRoutingSlipChequePayment()
-    return {
-      totalAmount,
-      chequeList,
-      createRoutingSlipChequePaymentForm,
-      chequeNumberRules,
-      paidAmountRules,
-      paidUsdAmountRules,
-      paymentDateRules,
-      isTheAmountPaidInUsd,
-      getColumnWidth,
-      getDefaultRow,
-      getIndexedTag,
-      addCheque,
-      removeCheque,
-      isValid
-    }
-  }
-})
-export default class CreateRoutingSlipChequePayment extends Vue {
-}
+const {
+  totalAmount,
+  chequeList,
+  createRoutingSlipChequePaymentForm,
+  chequeNumberRules,
+  paidAmountRules,
+  paidUsdAmountRules,
+  paymentDateRules,
+  isTheAmountPaidInUsd,
+  getColumnWidth,
+  getIndexedTag,
+  addCheque,
+  removeCheque
+} = useCreateRoutingSlipChequePayment()
 </script>
 <style lang="scss" scoped>
   .textNumber input[type='number'] {

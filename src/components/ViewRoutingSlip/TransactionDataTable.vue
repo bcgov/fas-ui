@@ -70,56 +70,29 @@
     </ModalDialog>
   </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import { useTransactionDataTable } from '@/composables/ViewRoutingSlip'
 import commonUtil from '@/util/common-util'
 import ModalDialog from '@/components/common/ModalDialog.vue'
-import { Component, Vue } from 'vue-facing-decorator'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { InvoiceStatus } from '@/util/constants'
 
-@Component({
-  components: {
-    ModalDialog
-  },
-  setup (props) {
-    const {
-      invoiceDisplay,
-      headerTranscations,
-      invoiceCount,
-      transformInvoices,
-      modalDialogRef,
-      modalDialogDetails,
-      isLoading,
-      cancel,
-      modalDialogConfirm,
-      modalDialogClose,
-      getIndexedTag,
-      disableCancelButton,
-      isAlreadyCancelled
-    } = useTransactionDataTable(props)
-    return {
-      invoiceDisplay,
-      headerTranscations,
-      invoiceCount,
-      transformInvoices,
-      modalDialogRef,
-      modalDialogDetails,
-      isLoading,
-      cancel,
-      modalDialogConfirm,
-      modalDialogClose,
-      getIndexedTag,
-      disableCancelButton,
-      isAlreadyCancelled
-    }
-  }
-})
-export default class TransactionDataTable extends Vue {
-  public formatDisplayDate = commonUtil.formatDisplayDate
-  public appendCurrencySymbol = commonUtil.appendCurrencySymbol
-  public InvoiceStatus = InvoiceStatus
-}
-
+const {
+  invoiceDisplay,
+  headerTranscations,
+  invoiceCount,
+  modalDialogRef,
+  modalDialogDetails,
+  isLoading,
+  cancel,
+  modalDialogConfirm,
+  modalDialogClose,
+  getIndexedTag,
+  disableCancelButton,
+  isAlreadyCancelled
+} = useTransactionDataTable()
+const formatDisplayDate = commonUtil.formatDisplayDate
+const appendCurrencySymbol = commonUtil.appendCurrencySymbol
 </script>
 <style lang="scss" scoped>
 @import '$assets/scss/theme.scss';

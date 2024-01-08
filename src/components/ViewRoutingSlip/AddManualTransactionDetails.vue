@@ -87,49 +87,32 @@
     </v-col>
   </v-row>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import { useAddManualTransactionDetails } from '@/composables/ViewRoutingSlip'
-import { Component, Prop, Vue } from 'vue-facing-decorator'
 import FilingTypeAutoComplete from '@/components/ViewRoutingSlip/FilingTypeAutoComplete.vue'
 import { ManualTransactionDetails } from '@/models/RoutingSlip'
 
-@Component({
-  components: {
-    FilingTypeAutoComplete
-  },
-  setup (props, context) {
-    const {
-      manualTransactionDetails,
-      requiredFieldRule,
-      removeManualTransactionRowEventHandler,
-      calculateTotal,
-      delayedCalculateTotal,
-      getIndexedTag,
-      emitManualTransactionDetails,
-      errorMessage,
-      totalFormatted,
-      referenceNumberRules,
-      quantityRules
-    } = useAddManualTransactionDetails(props, context)
-    return {
-      manualTransactionDetails,
-      requiredFieldRule,
-      removeManualTransactionRowEventHandler,
-      calculateTotal,
-      delayedCalculateTotal,
-      getIndexedTag,
-      emitManualTransactionDetails,
-      errorMessage,
-      totalFormatted,
-      referenceNumberRules,
-      quantityRules
-    }
-  }
-})
-export default class AddManualTransactionDetails extends Vue {
-  @Prop({ default: () => undefined }) index: number
-  @Prop({ default: () => null }) manualTransaction: ManualTransactionDetails
-}
+const props = defineProps<{
+  index: number
+  manualTransaction: ManualTransactionDetails
+}>()
+const emits = defineEmits<{
+  removeManualTransactionRow: [index: number]
+  updateManualTransactionDetails: [index: number, manualTransactionDetails: ManualTransactionDetails]
+}>()
+const {
+  manualTransactionDetails,
+  requiredFieldRule,
+  removeManualTransactionRowEventHandler,
+  calculateTotal,
+  delayedCalculateTotal,
+  getIndexedTag,
+  emitManualTransactionDetails,
+  errorMessage,
+  totalFormatted,
+  referenceNumberRules,
+  quantityRules
+} = useAddManualTransactionDetails(props, emits)
 </script>
 <style lang="scss" scoped>
 @import '$assets/scss/theme.scss';

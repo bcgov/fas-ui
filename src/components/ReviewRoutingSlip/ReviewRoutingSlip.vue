@@ -4,35 +4,17 @@
     <review-routing-slip-payment data-test="review-routing-slip-payment" :isPaymentMethodCheque="isPaymentMethodCheque" :cashPayment="cashPayment" :chequePayment="chequePayment" :isAmountPaidInUsd="isAmountPaidInUsd"/>
   </v-container>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import ReviewRoutingSlipDetails from './ReviewRoutingSlipDetails.vue'
 import ReviewRoutingSlipPayment from './ReviewRoutingSlipPayment.vue'
 import { useReviewRoutingSlip } from '@/composables/ReviewRoutingSlip'
 
-@Component({
-  components: {
-    ReviewRoutingSlipDetails,
-    ReviewRoutingSlipPayment
-  },
-  setup () {
-    const {
-      routingSlipDetails,
-      chequePayment,
-      accountInfo,
-      cashPayment,
-      isPaymentMethodCheque,
-      isAmountPaidInUsd
-    } = useReviewRoutingSlip()
-    return {
-      routingSlipDetails,
-      chequePayment,
-      accountInfo,
-      cashPayment,
-      isPaymentMethodCheque,
-      isAmountPaidInUsd
-    }
-  }
-})
-export default class ReviewRoutingSlip extends Vue {}
+const {
+  routingSlipDetails,
+  chequePayment,
+  accountInfo,
+  cashPayment,
+  isPaymentMethodCheque,
+  isAmountPaidInUsd
+} = useReviewRoutingSlip()
 </script>

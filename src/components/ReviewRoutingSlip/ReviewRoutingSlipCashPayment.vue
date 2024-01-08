@@ -43,27 +43,19 @@
   </v-row>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import { Payment } from '@/models/Payment'
 import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
 
-@Component({
-  setup (_, context) {
-    const {
-      adjustRoutingSlipChequeNumber,
-      adjustRoutingSlipAmount
-    } = usePaymentInformation(_, context)
-    return {
-      adjustRoutingSlipChequeNumber,
-      adjustRoutingSlipAmount
-    }
-  }
-})
-export default class ReviewRoutingSlipCashPayment extends Vue {
-  @Prop({ default: null }) cashPayment: Payment
-  @Prop({ default: false }) isAmountPaidInUsd: boolean
-  @Prop({ default: false }) isEditable: boolean
-  @Prop({ default: false }) isALinkedChild: boolean
-}
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const props = defineProps<{
+  cashPayment: Payment,
+  isAmountPaidInUsd: boolean,
+  isEditable: boolean,
+  isALinkedChild: boolean
+}>()
+
+const {
+  adjustRoutingSlipAmount
+} = usePaymentInformation()
 </script>

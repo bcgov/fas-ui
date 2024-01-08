@@ -6,7 +6,7 @@ import debounce from '@/util/debounce'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to useRoutingSlipInfo component
-export default function useLinkRoutingSlip (_, context) {
+export default function useLinkRoutingSlip (emits) {
   const {
     autoCompleteRoutingSlips,
     getAutoCompleteRoutingSlips,
@@ -23,7 +23,7 @@ export default function useLinkRoutingSlip (_, context) {
   const search = ref('')
 
   function toggleSearch () {
-    context.emit('toggleSearch')
+    emits('toggleSearch')
   }
 
   function searchRS () {

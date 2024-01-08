@@ -1,29 +1,22 @@
 <template>
   <div class="staff-comment">
+    <!-- TODO UNCOMMENT THIS -->
     <!-- <StaffComments  :url="url" :axios="axios" :businessId="routingSlipNumber" :key="routingSlipNumber" maxLength="2000"/> -->
   </div>
 </template>
-<script lang="ts">
-import { Component, Vue, Prop } from 'vue-facing-decorator'
-// import { StaffComments } from '@bcrs-shared-components/staff-comments'
+<script setup lang="ts">
+import { StaffComments } from '@bcrs-shared-components/staff-comments'
 import axios from '@/util/http-util'
 import ConfigHelper from '@/util/config-helper'
+import { computed } from 'vue'
 
-// @Component
-@Component({
-  components: {
-    // StaffComments: Vue.extend(StaffComments)
-  }
+const props = defineProps<{
+  routingSlipNumber: string,
+}>()
+
+const url = computed(() => {
+  return `${ConfigHelper.getFasAPIURL()}/routing-slips/${props.routingSlipNumber}/comments`
 })
-export default class StaffCommentsComp extends Vue {
-    readonly axios = axios // for template
-    // RS number is taking from props, since we dont have any functionality here. so no need of compostion api now
-    @Prop({ required: true }) readonly routingSlipNumber: string
-    // Creating URL since all services are handled by component , passing only URL
-    get url () {
-      return `${ConfigHelper.getFasAPIURL()}/routing-slips/${this.routingSlipNumber}/comments`
-    }
-}
 </script>
 <style lang="scss" scoped>
 .staff-comment{

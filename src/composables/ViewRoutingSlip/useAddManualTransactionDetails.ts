@@ -7,7 +7,7 @@ import debounce from '@/util/debounce'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to AddManualTransactionDetails component
-export default function useAddManualTransactionDetails (props, context) {
+export default function useAddManualTransactionDetails (props, emits) {
   const { getFeeByCorpTypeAndFilingType } = useRoutingSlip()
   const { manualTransaction, index } = toRefs(props)
 
@@ -65,12 +65,12 @@ export default function useAddManualTransactionDetails (props, context) {
 
   // Emit this remove row event, that is consumed in parent and slice the v-model array of parent
   function removeManualTransactionRowEventHandler () {
-    context.emit('removeManualTransactionRow', index.value)
+    emits('removeManualTransactionRow', index.value)
   }
 
   // Emits the updated manual transaction detail event to the parent
   function emitManualTransactionDetails () {
-    context.emit('updateManualTransaction', { transaction: manualTransactionDetails.value, index: index.value })
+    emits('updateManualTransaction', { transaction: manualTransactionDetails.value, index: index.value })
   }
 
   function getIndexedTag (tag, index): string {

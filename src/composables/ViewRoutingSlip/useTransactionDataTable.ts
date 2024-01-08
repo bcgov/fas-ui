@@ -6,7 +6,7 @@ import { GetRoutingSlipRequestPayload } from '@/models/RoutingSlip'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to TransactionDataTable component
-export default function useTransactionDataTable (props) {
+export default function useTransactionDataTable () {
   const { cancelRoutingSlipInvoice, getRoutingSlip, invoiceCount, routingSlip } = useRoutingSlip()
   // ref and i/p variables
   const invoiceDisplay = ref<InvoiceDisplay[]>([])

@@ -48,49 +48,32 @@
     </v-row>
   </v-form>
 </template>
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import { useRefundRequestForm } from '@/composables/ViewRoutingSlip'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import AddressForm from '@/components/common/AddressForm.vue'
 import { RefundRequestDetails } from '@/models/RoutingSlip'
 
-@Component({
-  components: {
-    AddressForm
-  },
-  setup (props, context) {
-    const {
-      baseAddressSchema,
-      refundRequestForm,
-      nameRules,
-      chequeAdviceRules,
-      name,
-      chequeAdvice,
-      address,
-      addressForm,
-      addressValidity,
-      isValid,
-      canEdit
-    } = useRefundRequestForm(props, context)
+const props = defineProps<{
+  inputRefundRequestDetails: RefundRequestDetails
+  isEditing: boolean
+  isApprovalFlow: boolean
+}>()
 
-    return {
-      baseAddressSchema,
-      refundRequestForm,
-      nameRules,
-      chequeAdviceRules,
-      name,
-      chequeAdvice,
-      address,
-      addressForm,
-      addressValidity,
-      isValid,
-      canEdit
-    }
-  }
-})
-export default class RefundRequestForm extends Vue {
-  @Prop({ default: () => null }) inputRefundRequestDetails: RefundRequestDetails
-  @Prop({ default: () => false }) isEditing: boolean
-  @Prop({ default: () => false }) isApprovalFlow: boolean
-}
+const emits = defineEmits<{
+  updateRefundRequestDetails: [refundRequestDetails: RefundRequestDetails]
+}>()
+
+const {
+  baseAddressSchema,
+  refundRequestForm,
+  nameRules,
+  chequeAdviceRules,
+  name,
+  chequeAdvice,
+  address,
+  addressForm,
+  addressValidity,
+  canEdit
+} = useRefundRequestForm(props, emits)
 </script>

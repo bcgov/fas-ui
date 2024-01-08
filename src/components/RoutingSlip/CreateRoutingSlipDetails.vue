@@ -42,45 +42,21 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import DatePicker from '@/components/common/DatePicker.vue'
 import { useCreateRoutingSlipDetails } from '@/composables/RoutingSlip'
 
-@Component({
-  components: {
-    DatePicker
-  },
-  setup () {
-    const {
-      createRoutingSlipDetailsForm,
-      number,
-      routingSlipDate,
-      accountName,
-      numberRules,
-      routingSlipDateRules,
-      entityNumberRules,
-      isValid,
-      checkRoutingNumberAvailable,
-      routingSlipDetails,
-      errorMessage
-    } = useCreateRoutingSlipDetails()
-    return {
-      createRoutingSlipDetailsForm,
-      number,
-      routingSlipDate,
-      accountName,
-      numberRules,
-      routingSlipDateRules,
-      entityNumberRules,
-      isValid,
-      checkRoutingNumberAvailable,
-      routingSlipDetails,
-      errorMessage
-    }
-  }
-})
-export default class CreateRoutingSlipDetails extends Vue {}
+const {
+  createRoutingSlipDetailsForm,
+  number,
+  routingSlipDate,
+  accountName,
+  numberRules,
+  routingSlipDateRules,
+  entityNumberRules,
+  checkRoutingNumberAvailable,
+  errorMessage
+} = useCreateRoutingSlipDetails()
 </script>
 <style lang="scss" scoped>
 @import '$assets/scss/theme.scss';

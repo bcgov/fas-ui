@@ -4,10 +4,11 @@ import CommonUtils from '@/util/common-util'
 import { Payment } from '@/models/Payment'
 import { useI18n } from 'vue-i18n'
 import { useRoutingSlip } from '../useRoutingSlip'
+import { useRoute, useRouter } from 'vue-router'
 
 // Composable function to inject Props, options and values to CreateRoutingSlip component
 // CreateRoutingSlip component holds two behaviors - create routing slip & review routing slip modes
-export function useCreateRoutingSlip (_, context) {
+export function useCreateRoutingSlip () {
   const {
     cashPayment,
     chequePayment,
@@ -98,7 +99,7 @@ export function useCreateRoutingSlip (_, context) {
         await createRoutingSlip()
         // on success redirect to view
         // Check if we had come from Staff dashboard
-        context.root.$router.push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipDetails.value.number}`, context.root.$route))
+        useRouter().push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipDetails.value.number}`, useRoute()))
       }
     } catch (error: any) {
       // eslint-disable-next-line no-console
@@ -125,7 +126,7 @@ export function useCreateRoutingSlip (_, context) {
 
   function modalDialogClose () {
     modalDialogRef.value.close()
-    context.root.$router.push(appendQueryParamsIfNeeded('/home', context.root.$route))
+    useRouter().push(appendQueryParamsIfNeeded('/home', useRoute()))
   }
 
   return {

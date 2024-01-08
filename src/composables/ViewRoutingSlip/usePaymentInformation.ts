@@ -5,11 +5,12 @@ import { AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingS
 import commonUtil from '@/util/common-util'
 import { useRoutingSlip } from '../useRoutingSlip'
 import { Payment } from '@/models/Payment'
+import { useRoute } from 'vue-router'
 
 const routingSlipBeforeEdit = ref<RoutingSlip>({})
 
 // Composable function to inject Props, options and values to PaymentInformation component
-export default function usePaymentInformation (_, context) {
+export default function usePaymentInformation () {
   const {
     adjustRoutingSlip,
     getRoutingSlip,
@@ -133,8 +134,7 @@ export default function usePaymentInformation (_, context) {
   const appendQueryParamsIfNeeded = commonUtil.appendQueryParamsIfNeeded
 
   function navigateTo (routingSlipNumber: number, childNumber: number): string {
-    const route = context.root.$route
-    return appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipNumber}/${childNumber}`, route)
+    return appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipNumber}/${childNumber}`, useRoute())
   }
 
   return {

@@ -52,40 +52,20 @@
     </v-form>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import { useCreateRoutingSlipCashPayment } from '@/composables/RoutingSlip'
 
-@Component({
-  setup () {
-    const {
-      chequeReceiptNumber,
-      paidAmount,
-      paidUsdAmount,
-      createRoutingSlipCashPaymentForm,
-      receiptNumberRules,
-      paidAmountRules,
-      paidUsdAmountRules,
-      isValid,
-      isTheAmountPaidInUsd,
-      getColumnWidth
-    } = useCreateRoutingSlipCashPayment()
-    return {
-      chequeReceiptNumber,
-      paidAmount,
-      paidUsdAmount,
-      createRoutingSlipCashPaymentForm,
-      receiptNumberRules,
-      paidAmountRules,
-      paidUsdAmountRules,
-      isValid,
-      isTheAmountPaidInUsd,
-      getColumnWidth
-    }
-  }
-})
-export default class CreateRoutingSlipCashPayment extends Vue {
-}
+const {
+  chequeReceiptNumber,
+  paidAmount,
+  paidUsdAmount,
+  createRoutingSlipCashPaymentForm,
+  receiptNumberRules,
+  paidAmountRules,
+  paidUsdAmountRules,
+  isTheAmountPaidInUsd,
+  getColumnWidth
+} = useCreateRoutingSlipCashPayment()
 </script>
 <style lang="scss" scoped>
   .textNumber input[type='number'] {

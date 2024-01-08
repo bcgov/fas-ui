@@ -31,37 +31,27 @@
     </div>
   </transition-group>
 </template>
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import { useFilingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
 import { FilingType } from '@/models/Payment'
 
-@Component({
-  setup (props, context) {
-    const {
-      filingType,
-      autoCompleteFilingTypes,
-      isLoading,
-      search,
-      delayedSearch,
-      itemText,
-      hideNoData
-    } = useFilingTypeAutoComplete(props, context)
+const props = defineProps<{
+  value: FilingType
+}>()
 
-    return {
-      filingType,
-      autoCompleteFilingTypes,
-      isLoading,
-      search,
-      delayedSearch,
-      itemText,
-      hideNoData
-    }
-  }
-})
-export default class FIlingTypeAutoComplete extends Vue {
-  @Prop({ default: () => null }) value: FilingType
-}
+const emits = defineEmits<{
+  input: [value: FilingType]
+}>()
+
+const {
+  filingType,
+  autoCompleteFilingTypes,
+  isLoading,
+  search,
+  delayedSearch,
+  itemText,
+  hideNoData
+} = useFilingTypeAutoComplete(props, emits)
 </script>
 
 <style lang="scss" scoped>

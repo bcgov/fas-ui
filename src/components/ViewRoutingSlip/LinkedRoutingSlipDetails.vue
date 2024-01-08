@@ -17,30 +17,20 @@
     >
   </div>
 </template>
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import commonUtil from '@/util/common-util'
 import { useLinkedRoutingSlipDetails } from '@/composables/ViewRoutingSlip'
 
-@Component({
-  setup (props, context) {
-    const {
-      navigateTo
-    } = useLinkedRoutingSlipDetails(props, context)
-    return {
-      navigateTo
-    }
-  }
-})
-export default class LinkedRoutingSlipDetails extends Vue {
-  @Prop({ default: '' }) private siNumber: string
-  @Prop({ default: '' }) private routingSlipNumber: string
-  @Prop({ default: '' }) private createdDate: Date | string
-  @Prop({ default: undefined }) private parentRoutingSlipNumber: string
+const props = defineProps<{
+  siNumber: string
+  routingSlipNumber: string
+  createdDate: Date | string
+  parentRoutingSlipNumber: string
+}>()
 
-  public colors = commonUtil.statusListColor
-  public formatDisplayDate = commonUtil.formatDisplayDate
-}
+const { navigateTo } = useLinkedRoutingSlipDetails(props)
+
+const formatDisplayDate = commonUtil.formatDisplayDate
 </script>
 
 <style lang="scss" scoped>

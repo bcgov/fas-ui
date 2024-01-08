@@ -25,16 +25,14 @@
     </v-col>
   </v-row>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import { AccountInfo, RoutingSlipDetails } from '@/models/RoutingSlip'
 import commonUtil from '@/util/common-util'
-import { Component, Prop, Vue } from 'vue-facing-decorator'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const props = defineProps<{
+  routingSlipDetails: RoutingSlipDetails,
+  accountInfo: AccountInfo
+}>()
 
-@Component({})
-export default class ReviewRoutingSlipDetails extends Vue {
-  @Prop({ default: () => null }) routingSlipDetails: RoutingSlipDetails
-  @Prop({ default: () => null }) accountInfo: AccountInfo
-
-  public formatDisplayDate = commonUtil.formatDisplayDate
-}
+const formatDisplayDate = commonUtil.formatDisplayDate
 </script>

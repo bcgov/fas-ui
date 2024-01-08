@@ -74,44 +74,24 @@
     </div>
   </transition-group>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import commonUtil from '@/util/common-util'
 import { useRoutingSlipAutoComplete } from '@/composables/ViewRoutingSlip'
 
-@Component({
-  setup (_, context) {
-    const {
-      toggleSearch,
-      number,
-      numberRules,
-      searchRS,
-      errorMessage,
-      autoCompleteRoutingSlips,
-      isLoading,
-      search,
-      hideNoData,
-      delayedSearch
-    } = useRoutingSlipAutoComplete(_, context)
-
-    return {
-      toggleSearch,
-      number,
-      numberRules,
-      searchRS,
-      errorMessage,
-      autoCompleteRoutingSlips,
-      isLoading,
-      search,
-      hideNoData,
-      delayedSearch
-    }
-  }
-})
-export default class RoutingSlipAutoComplete extends Vue {
-  public formatDisplayDate = commonUtil.formatDisplayDate
-  public appendCurrencySymbol = commonUtil.appendCurrencySymbol
-}
+const {
+  toggleSearch,
+  number,
+  numberRules,
+  searchRS,
+  errorMessage,
+  autoCompleteRoutingSlips,
+  isLoading,
+  search,
+  hideNoData,
+  delayedSearch
+} = useRoutingSlipAutoComplete()
+const formatDisplayDate = commonUtil.formatDisplayDate
+const appendCurrencySymbol = commonUtil.appendCurrencySymbol
 </script>
 
 <style lang="scss" scoped>

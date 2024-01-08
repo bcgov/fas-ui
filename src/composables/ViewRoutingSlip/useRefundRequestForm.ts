@@ -6,7 +6,7 @@ import { RefundRequestDetails } from '@/models/RoutingSlip'
 import { addressSchema } from '@/schema'
 
 // Composable function to inject Props, options and values to RefundRequestForm component
-export default function useRefundRequestForm (props, context) {
+export default function useRefundRequestForm (props, emits) {
   // using `toRefs` to create a Reactive Reference to the `slipId` property of props
   const { inputRefundRequestDetails, isApprovalFlow, isEditing } = toRefs(props)
 
@@ -45,7 +45,7 @@ export default function useRefundRequestForm (props, context) {
   // watch input elements name and address, and if anything changes, bubble up the values back to parent;
   watch([name, address, chequeAdvice], () => {
     const refundRequestDetails: RefundRequestDetails = { name: name.value, mailingAddress: address.value, chequeAdvice: chequeAdvice.value } as RefundRequestDetails
-    context.emit('update:refundRequestDetails', refundRequestDetails)
+    emits('update:refundRequestDetails', refundRequestDetails)
   })
 
   // watch property from parent and if there are any updates, pass on the values to address component

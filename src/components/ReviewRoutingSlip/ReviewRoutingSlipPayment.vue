@@ -21,31 +21,24 @@
   </template>
   </v-row>
 </template>
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import { Payment } from '@/models/Payment'
 import ReviewRoutingSlipCashPayment from './ReviewRoutingSlipCashPayment.vue'
 import ReviewRoutingSlipChequePayment from './ReviewRoutingSlipChequePayment.vue'
 import commonUtil from '@/util/common-util'
+import { computed } from 'vue'
 
-@Component({
-  components: {
-    ReviewRoutingSlipCashPayment,
-    ReviewRoutingSlipChequePayment
-  }
+const props = defineProps<{
+  isPaymentMethodCheque: boolean,
+  cashPayment: Payment,
+  chequePayment: Payment[],
+  isAmountPaidInUsd: boolean
+}>()
+
+const appendCurrencySymbol = commonUtil.appendCurrencySymbol
+const totalAmount = computed(() => {
+  return props.isPaymentMethodCheque ? props.chequePayment.reduce((acc, payment: Payment) => {
+    return acc + payment.paidAmount
+  }, 0) : null
 })
-export default class ReviewRoutingSlipPayment extends Vue {
-  @Prop({ default: undefined }) isPaymentMethodCheque: boolean
-  @Prop({ default: () => null }) cashPayment: Payment
-  @Prop({ default: () => null }) chequePayment: Payment[]
-  @Prop({ default: undefined }) isAmountPaidInUsd: boolean
-
-  public appendCurrencySymbol = commonUtil.appendCurrencySymbol
-
-  get totalAmount (): number {
-    return this.isPaymentMethodCheque ? this.chequePayment.reduce((acc, payment: Payment) => {
-      return acc + payment.paidAmount
-    }, 0) : null
-  }
-}
 </script>

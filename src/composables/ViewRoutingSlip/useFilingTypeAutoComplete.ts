@@ -5,7 +5,7 @@ import debounce from '@/util/debounce'
 import RoutingSlipService from '@/services/routingSlip.services'
 
 // Composable function to inject Props, options and values to useFIlingTypeAutoComplete component
-export default function useFilingTypeAutoComplete (props, context) {
+export default function useFilingTypeAutoComplete (props, emits) {
   const { value } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change
@@ -14,7 +14,7 @@ export default function useFilingTypeAutoComplete (props, context) {
       return value?.value
     },
     set: (modalValue: FilingType) => {
-      context.emit('input', modalValue)
+      emits('input', modalValue)
     }
   })
 

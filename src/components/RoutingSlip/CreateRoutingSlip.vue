@@ -90,57 +90,27 @@
     </ModalDialog>
   </v-container>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import CreateRoutingSlipDetails from '@/components/RoutingSlip/CreateRoutingSlipDetails.vue'
 import CreateRoutingSlipPayment from '@/components/RoutingSlip/CreateRoutingSlipPayment.vue'
 import ModalDialog from '@/components/common/ModalDialog.vue'
 import { useCreateRoutingSlip } from '@/composables/RoutingSlip'
 import ReviewRoutingSlip from '@/components/ReviewRoutingSlip/ReviewRoutingSlip.vue'
 
-@Component({
-  components: {
-    CreateRoutingSlipPayment,
-    CreateRoutingSlipDetails,
-    ModalDialog,
-    ReviewRoutingSlip
-  },
-  setup (_, context) {
-    const {
-      createRoutingSlipForm,
-      createRoutingSlipDetailsRef,
-      createRoutingSlipPaymentRef,
-      modalDialogRef,
-      modalDialogDetails,
-      isModalDialogInfo,
-      createRoutingSlipLabel,
-      isReviewMode,
-      cancel,
-      modalDialogCancel,
-      modalDialogClose,
-      isValid,
-      createandReviewButtonEventHandler,
-      backToEdit
-    } = useCreateRoutingSlip(_, context)
-    return {
-      createRoutingSlipForm,
-      createRoutingSlipDetailsRef,
-      createRoutingSlipPaymentRef,
-      modalDialogRef,
-      modalDialogDetails,
-      isModalDialogInfo,
-      createRoutingSlipLabel,
-      isReviewMode,
-      cancel,
-      modalDialogCancel,
-      modalDialogClose,
-      isValid,
-      createandReviewButtonEventHandler,
-      backToEdit
-    }
-  }
-})
-export default class CreateRoutingSlip extends Vue {}
+const {
+  createRoutingSlipDetailsRef,
+  createRoutingSlipPaymentRef,
+  modalDialogRef,
+  modalDialogDetails,
+  isModalDialogInfo,
+  createRoutingSlipLabel,
+  isReviewMode,
+  cancel,
+  modalDialogCancel,
+  modalDialogClose,
+  createandReviewButtonEventHandler,
+  backToEdit
+} = useCreateRoutingSlip()
 </script>
 <style lang="scss" scoped>
 @import '$assets/scss/theme.scss';

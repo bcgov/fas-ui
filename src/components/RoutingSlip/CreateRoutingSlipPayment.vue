@@ -41,32 +41,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import CreateRoutingSlipCashPayment from '@/components/RoutingSlip/CreateRoutingSlipCashPayment.vue'
 import CreateRoutingSlipChequePayment from '@/components/RoutingSlip/CreateRoutingSlipChequePayment.vue'
 import { useCreateRoutingSlipPayment } from '@/composables/RoutingSlip'
 
-@Component({
-  components: {
-    CreateRoutingSlipChequePayment,
-    CreateRoutingSlipCashPayment
-  },
-  setup () {
-    const {
-      isPaymentCheque,
-      createRoutingSlipChequePaymentRef,
-      createRoutingSlipCashPaymentRef,
-      isValid
-    } = useCreateRoutingSlipPayment()
-    return {
-      isPaymentCheque,
-      createRoutingSlipChequePaymentRef,
-      createRoutingSlipCashPaymentRef,
-      isValid
-    }
-  }
-})
-export default class CreateRoutingSlipPayment extends Vue {
-}
+const {
+  isPaymentCheque,
+  createRoutingSlipChequePaymentRef,
+  createRoutingSlipCashPaymentRef
+} = useCreateRoutingSlipPayment()
 </script>
