@@ -64,39 +64,22 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
+// TODO - Not sure if this is needed
 import Search from '@/components/Dashboard/Search.vue'
+// TODO can might need to be changed to { can }
 import can from '@/directives/can'
 import { useDailyReport } from '@/composables/Dashboard'
 
-@Component({
-  components: {
-    Search
-  },
-  directives: {
-    can
-  },
-  setup () {
-    const {
-      selectedDate,
-      getDailyReport,
-      showCalendar,
-      isDownloading,
-      maxDate,
-      toggleCalendar
-    } = useDailyReport()
-    return {
-      selectedDate,
-      getDailyReport,
-      showCalendar,
-      isDownloading,
-      maxDate,
-      toggleCalendar
-    }
-  }
-})
-export default class DailyReport extends Vue {}
+const {
+  selectedDate,
+  getDailyReport,
+  showCalendar,
+  isDownloading,
+  maxDate,
+  toggleCalendar
+} = useDailyReport()
+
 </script>
 <style lang="scss" scoped>
 .view-heade {

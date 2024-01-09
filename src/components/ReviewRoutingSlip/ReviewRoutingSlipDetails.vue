@@ -28,8 +28,8 @@
 <script setup lang="ts">
 import { AccountInfo, RoutingSlipDetails } from '@/models/RoutingSlip'
 import commonUtil from '@/util/common-util'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const props = defineProps<{
+
+defineProps<{
   routingSlipDetails: RoutingSlipDetails,
   accountInfo: AccountInfo
 }>()

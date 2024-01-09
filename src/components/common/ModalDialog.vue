@@ -41,38 +41,41 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import { useModalDialog } from '@/composables/common'
 
-@Component({
-  setup () {
-    const {
-      isOpen,
-      open,
-      close
-    } = useModalDialog()
-    return {
-      isOpen,
-      open,
-      close
-    }
-  }
+withDefaults(defineProps<{
+  title: string
+  text: string
+  showIcon: boolean
+  showActions: boolean
+  isPersistent: boolean
+  fullscreenOnMobile: boolean
+  isScrollable: boolean
+  dialogClass: string
+  maxWidth: string
+  showCloseIcon: boolean
+  icon: string
+  iconColor: string
+}>(), {
+  title: '',
+  text: '',
+  showIcon: true,
+  showActions: true,
+  isPersistent: false,
+  fullscreenOnMobile: false,
+  isScrollable: false,
+  dialogClass: '',
+  maxWidth: '',
+  showCloseIcon: false,
+  icon: 'mdi-check',
+  iconColor: 'primary'
 })
-export default class InterimLanding extends Vue {
-  @Prop({ default: '' }) private title: string
-  @Prop({ default: '' }) private text: string
-  @Prop({ default: true }) private showIcon: boolean
-  @Prop({ default: true }) private showActions: boolean
-  @Prop({ default: false }) private isPersistent: boolean
-  @Prop({ default: false }) private fullscreenOnMobile: boolean
-  @Prop({ default: false }) private isScrollable: boolean
-  @Prop({ default: '' }) private dialogClass: string
-  @Prop({ default: '' }) private maxWidth: string
-  @Prop({ default: false }) private showCloseIcon: boolean
-  @Prop({ default: 'mdi-check' }) private icon: string
-  @Prop({ default: 'primary' }) private iconColor: string
-}
+
+const {
+  isOpen,
+  close
+} = useModalDialog()
 </script>
 
 <style lang="scss" scoped>

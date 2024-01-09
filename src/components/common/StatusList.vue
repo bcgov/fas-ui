@@ -12,25 +12,19 @@
   ></v-select>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 /** component for status list.
  * example
  * <status-list v-model="currentStatus" label="Status"></status-list>
  */
 
-import { Component, Prop, Vue } from 'vue-facing-decorator'
 import { useStatusList } from '@/composables/common'
 
-@Component({
-  setup (props, context) {
-    const { routingSlipStatusList, currentStatus } = useStatusList(props, context)
-    return {
-      routingSlipStatusList,
-      currentStatus
-    }
-  }
-})
-export default class StatusList extends Vue {
-  @Prop() value: string
-}
+const props = defineProps<{ value: string }>()
+
+const emits = defineEmits<{
+  input: [value: string]
+}>()
+
+const { routingSlipStatusList, currentStatus } = useStatusList(props, emits)
 </script>

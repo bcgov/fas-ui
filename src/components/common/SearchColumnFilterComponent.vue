@@ -35,24 +35,26 @@
   </v-menu>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import { useSearchColumnFilterComponent } from '@/composables/common'
 
-@Component({
-  setup (props, context) {
-    const { selectedHeaderSearchList } = useSearchColumnFilterComponent(
-      props,
-      context
-    )
-    return {
-      selectedHeaderSearchList
-    }
+const props = withDefaults(
+  defineProps<{
+    value: any
+  }>(),
+  {
+    value: []
   }
-})
-export default class SearchColumnFilterComponent extends Vue {
-  @Prop({ default: () => [] }) value: any[]
-}
+)
+
+const emits = defineEmits<{
+  input: [value: any]
+}>()
+
+const { selectedHeaderSearchList } = useSearchColumnFilterComponent(
+  props,
+  emits
+)
 </script>
 <style lang="scss">
   .column-filter > .v-input__control,

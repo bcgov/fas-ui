@@ -13,37 +13,35 @@
 <script lang="ts">
 import { useAddressForm } from '@/composables/common'
 import { Address } from '@/models/Address'
+// TODO put base address back.
 // import BaseAddress from '@bcrs-shared-components/base-address/BaseAddress.vue'
-import { Component, Prop, Vue } from 'vue-facing-decorator'
 import 'sbc-common-components/public/css/addresscomplete-2.30.min.css'
 import 'sbc-common-components/public/js/addresscomplete-2.30.min.js'
 
-@Component({
-  components: {
-    // BaseAddress
-  },
-  setup (props, context) {
-    const {
-      inputaddress,
-      baseAddress,
-      emitUpdateAddress,
-      emitAddressValidity,
-      triggerValidate
-    } = useAddressForm(props, context)
-    return {
-      inputaddress,
-      baseAddress,
-      emitUpdateAddress,
-      emitAddressValidity,
-      triggerValidate
-    }
-  }
-})
-export default class AddressForm extends Vue {
-  @Prop({ default: false }) editing: boolean
-  @Prop({ default: () => ({} as Address) }) address: Address
-  @Prop({ default: {} }) schema: any
-}
+const props = defineProps<{
+  editing: boolean
+  address: Address
+  schema: any
+}>()
+
+const emits = defineEmits<{
+  'update:address': [address: Address]
+  valid: [valid: boolean]
+}>()
+
+// TODO use these.
+const {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  inputaddress,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  baseAddress,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  emitUpdateAddress,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  emitAddressValidity,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  triggerValidate
+} = useAddressForm(props, emits)
 </script>
 
 <style lang="scss" scoped>

@@ -1,9 +1,13 @@
-export function useNavigation (_, context) {
+import { useRouter } from 'vue-router'
+
+export function useNavigation () {
   function goHome () {
-    context.root.$router.push('/')
+    const router = useRouter()
+    router.push('/')
   }
   function gotoPage (page: string) {
-    context.root.$router.push(page)
+    const router = useRouter()
+    router.push(page)
   }
 
   return {

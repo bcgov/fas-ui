@@ -8,7 +8,7 @@ import { computed } from 'vue'
 Composable function for BreadCrumb component that is displayed at top of the screen.
 Currently, displayed in Dashboard and ViewRoutingslip views
 */
-export function useBreadCrumb (_, context) {
+export function useBreadCrumb () {
   const route = useRoute()
   const router = useRouter()
 
