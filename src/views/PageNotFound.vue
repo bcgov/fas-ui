@@ -3,12 +3,6 @@
   </interim-landing>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import InterimLanding from '@/components/common/InterimLanding.vue'
-@Component({
-  components: { InterimLanding }
-})
-export default class PageNotFound extends Vue {
-}
 </script>

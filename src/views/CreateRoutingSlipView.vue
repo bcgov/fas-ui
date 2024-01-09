@@ -4,14 +4,6 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import { CreateRoutingSlip } from '@/components/RoutingSlip'
-
-@Component({
-  components: {
-    CreateRoutingSlip
-  }
-})
-export default class CreateRoutingSlipView extends Vue {}
 </script>

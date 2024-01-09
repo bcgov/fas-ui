@@ -32,8 +32,7 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import {
   RoutingSlipInfo,
   PaymentInformation,
@@ -42,19 +41,8 @@ import {
 } from '@/components/ViewRoutingSlip'
 import { useViewRoutingSlip } from '@/composables/ViewRoutingSlip'
 
-@Component({
-  components: {
-    RoutingSlipInfo,
-    PaymentInformation,
-    RoutingSlipTransaction,
-    LinkRoutingSlip,
-    StaffComments
-  },
-  setup (props) {
-    useViewRoutingSlip(props)
-  }
-})
-export default class ViewRoutingSlip extends Vue {
-  @Prop() slipId: string
-}
+const props = defineProps<{
+  slipId: string
+}>()
+useViewRoutingSlip(props)
 </script>

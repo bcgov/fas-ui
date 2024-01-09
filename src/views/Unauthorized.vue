@@ -13,10 +13,5 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
-
-@Component
-export default class Unauthorized extends Vue {
-}
+<script setup lang="ts">
 </script>
