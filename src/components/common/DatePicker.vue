@@ -29,7 +29,7 @@
   </v-menu>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 /** component for date picker.
  * this is just a wrapper for vuetify date picker
  * can use all attributs from vuetify
@@ -39,25 +39,20 @@
  * <date-picker v-model="selectedDate" persist></date-picker></v-col>
  */
 
-import { Component, Prop, Vue } from 'vue-facing-decorator'
 import { useDatePicker } from '@/composables/common'
 
-@Component({
-  setup (props, context) {
-    const { selectedDate, showDateModal, closeAfterSelection } = useDatePicker(
-      props,
-      context
-    )
-    return {
-      selectedDate,
-      showDateModal,
-      closeAfterSelection
-    }
-  }
-})
-export default class DatePicker extends Vue {
-  @Prop() value: string
-  @Prop({ default: 'Select Date' }) label: string
-  @Prop({ default: false }) persist: boolean
-}
+const props = defineProps<{
+  value: string
+  label: {
+    type: string
+    default: 'Select Date'
+  },
+  persist: boolean
+}>()
+
+const emits = defineEmits<{
+  input: [value: string]
+}>()
+
+const { selectedDate, showDateModal, closeAfterSelection } = useDatePicker(props, emits)
 </script>

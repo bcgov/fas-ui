@@ -23,25 +23,24 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import { useNavigation } from '@/composables/common'
 
-@Component({
-  setup (props, context) {
-    const { goHome } = useNavigation(props, context)
-    return {
-      goHome
-    }
-  }
+const { goHome } = useNavigation()
+
+withDefaults(defineProps<{
+  summary: string
+  description: string
+  icon: string
+  iconColor: string
+  showHomePageBtn: boolean
+}>(), {
+  summary: '',
+  description: '',
+  icon: 'mdi-information-outline',
+  iconColor: 'primary',
+  showHomePageBtn: true
 })
-export default class InterimLanding extends Vue {
-  @Prop({ default: '' }) private summary: string
-  @Prop({ default: '' }) private description: string
-  @Prop({ default: 'mdi-information-outline' }) private icon: string
-  @Prop({ default: 'primary' }) private iconColor: string
-  @Prop({ default: true }) private showHomePageBtn: boolean
-}
 </script>
 
 <style lang="scss" scoped>

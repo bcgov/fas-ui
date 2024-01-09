@@ -99,7 +99,9 @@ export function useCreateRoutingSlip () {
         await createRoutingSlip()
         // on success redirect to view
         // Check if we had come from Staff dashboard
-        useRouter().push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipDetails.value.number}`, useRoute()))
+        const router = useRouter()
+        const route = useRoute()
+        router.push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipDetails.value.number}`, route))
       }
     } catch (error: any) {
       // eslint-disable-next-line no-console
@@ -126,7 +128,9 @@ export function useCreateRoutingSlip () {
 
   function modalDialogClose () {
     modalDialogRef.value.close()
-    useRouter().push(appendQueryParamsIfNeeded('/home', useRoute()))
+    const router = useRouter()
+    const route = useRoute()
+    router.push(appendQueryParamsIfNeeded('/home', route))
   }
 
   return {

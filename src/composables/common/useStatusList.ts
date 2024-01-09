@@ -1,9 +1,8 @@
 import { Code } from '@/models/Code'
-import { SlipStatus } from '@/util/constants'
 import { ref, computed, toRefs, onMounted } from 'vue'
 import { useCodes } from '../useCodes'
 
-export function useStatusList (props, context) {
+export function useStatusList (props, emits) {
   const { getRoutingSlipStatusList, routingSlipStatusList } = useCodes()
   // default value set blank incase if we didnt pass props
   const { value = ref('') } = toRefs(props)
@@ -14,7 +13,7 @@ export function useStatusList (props, context) {
       return value.value || ''
     },
     set: (modalValue: Code) => {
-      context.emit('input', modalValue.code)
+      emits('input', modalValue.code)
     }
   })
 

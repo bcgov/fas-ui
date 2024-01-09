@@ -423,8 +423,9 @@ import { useDashboard } from '@/composables/Dashboard'
 import commonUtil from '@/util/common-util'
 import { PaymentMethods } from '@/util/constants'
 
-const isLibraryMode = ref(false) // Update this based on how you pass props
-
+const props = defineProps({
+  isLibraryMode: Boolean
+})
 const { addRoutingSlip } = useDashboard() // Adjust based on actual usage
 const {
   headerSearch,
@@ -438,7 +439,6 @@ const {
   remainingAmount,
   chequeReceiptNumber,
   searchRoutingSlipResult,
-  applyDateFilter,
   searchNow,
   debouncedSearch,
   canShowColumn,
@@ -454,7 +454,7 @@ const {
   navigateTo,
   fasUrl,
   initiator
-} = useSearch()
+} = useSearch(props)
 
 const colors = computed(() => commonUtil.statusListColor)
 const appendCurrencySymbol = computed(() => commonUtil.appendCurrencySymbol)

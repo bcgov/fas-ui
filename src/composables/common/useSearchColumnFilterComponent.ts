@@ -5,7 +5,7 @@ that are present in a parent data-table and tracks display property to true/fals
 
 import { computed, toRefs } from 'vue'
 
-export function useSearchColumnFilterComponent (props, context) {
+export function useSearchColumnFilterComponent (props, emits) {
   const { value } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change
@@ -14,7 +14,7 @@ export function useSearchColumnFilterComponent (props, context) {
       return value.value
     },
     set: (modalValue: any[]) => {
-      context.emit('input', modalValue)
+      emits('input', modalValue)
     }
   })
 

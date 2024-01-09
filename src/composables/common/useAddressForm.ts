@@ -6,7 +6,7 @@ import CommonUtils from '@/util/common-util'
 /*
 Composable function for Address component that is displayed at view routing slip refund request flow
 */
-export function useAddressForm (props, context) {
+export function useAddressForm (props, emits) {
   // using `toRefs` to create a Reactive Reference to the `user` property of props
   const { address } = toRefs(props)
   const baseAddress = ref<HTMLFormElement>()
@@ -19,11 +19,11 @@ export function useAddressForm (props, context) {
   function emitUpdateAddress (iaddress: BaseAddressModel): void {
     // convert back to Address
     const address = CommonUtils.convertAddressForAuth(iaddress)
-    context.emit('update:address', address)
+    emits('update:address', address)
   }
 
   function emitAddressValidity (isValid: boolean): void {
-    context.emit('valid', isValid)
+    emits('valid', isValid)
   }
 
   function triggerValidate (): boolean {

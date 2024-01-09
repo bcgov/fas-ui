@@ -9,12 +9,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-facing-decorator'
 
-@Component({})
-export default class LoaderComponent extends Vue {
-  @Prop({ default: 50 }) size: number
-  @Prop({ default: 5 }) width: number
-  @Prop({ default: 'primary' }) color: string
-}
+withDefaults(defineProps<{
+  size: number
+  width: number
+  color: string
+}>(), {
+  size: 50,
+  width: 5,
+  color: 'primary'
+})
 </script>

@@ -11,7 +11,7 @@ import { useCodes } from '../useCodes'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to useRoutingSlipInfo component
-export default function useRoutingSlipInfo (props) {
+export default function useRoutingSlipInfo () {
   const { isRoutingSlipAChild, routingSlip, updateRoutingSlipStatus } = useRoutingSlip()
   const { routingSlipStatusList } = useCodes()
   const addMoreDetails = ref<boolean>(false)

@@ -95,49 +95,37 @@
   </v-menu>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 // this is just took from auth-web
-import { Component, Prop, Vue } from 'vue-facing-decorator'
 import { useDateRange } from '@/composables/common'
 
-@Component({
-  setup (props, context) {
-    const {
-      dateFilterRanges,
-      dateRangeSelected,
-      dateFilterSelectedIndex,
-      dateRangeSelectedDisplay,
-      dateFilterSelected,
-      showDateFilter,
-      pickerDate,
-      dateFilterChange,
-      isApplyFilterBtnValid,
-      dateClick,
-      applyDateFilter,
-      showDateRangeSelected,
-      cancelDateFilter
-    } = useDateRange(props, context)
-    return {
-      dateFilterRanges,
-      dateRangeSelected,
-      dateFilterSelectedIndex,
-      dateRangeSelectedDisplay,
-      dateFilterSelected,
-      showDateFilter,
-      pickerDate,
-      dateFilterChange,
-      isApplyFilterBtnValid,
-      dateClick,
-      applyDateFilter,
-      showDateRangeSelected,
-      cancelDateFilter
-    }
+const props = defineProps<{
+  value: string[]
+  label: {
+    type: string
+    default: 'Select Date Range'
   }
-})
-export default class DateRangeFilter extends Vue {
-  @Prop({ default: () => [] }) value: string[]
-  @Prop({ default: 'Select Date Range' }) label: string
-}
+}>()
+
+const emits = defineEmits<{
+  input: [value: string[]],
+  applied: [value: Date[]]
+}>()
+
+const {
+  dateFilterRanges,
+  dateRangeSelected,
+  dateFilterSelectedIndex,
+  dateRangeSelectedDisplay,
+  showDateFilter,
+  pickerDate,
+  dateFilterChange,
+  isApplyFilterBtnValid,
+  dateClick,
+  applyDateFilter,
+  showDateRangeSelected,
+  cancelDateFilter
+} = useDateRange(props, emits)
 </script>
 
 <style lang="scss" scoped>

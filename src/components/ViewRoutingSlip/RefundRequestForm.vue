@@ -16,7 +16,7 @@
         >
         </v-text-field>
         <span v-else>{{ name }}</span>
-        <address-form
+        <AddressForm
           ref="addressForm"
           :editing="canEdit"
           :schema="baseAddressSchema"
@@ -24,7 +24,7 @@
           @update:address="address=$event"
           @valid="addressValidity"
         >
-        </address-form>
+        </AddressForm>
       </v-col>
       <v-col class="col-3 font-weight-bold"
         :class="canEdit ? 'pt-0' : ''">

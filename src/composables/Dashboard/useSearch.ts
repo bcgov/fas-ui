@@ -6,8 +6,9 @@ import debounce from '@/util/debounce'
 import { useLoader } from '@/composables/common/useLoader'
 import { useStatusList } from '@/composables/common/useStatusList'
 import { useRoutingSlip } from '../useRoutingSlip'
+import { useRoute, useRouter } from 'vue-router'
 
-export function useSearch (props, context) {
+export function useSearch (props) {
   const {
     headerSearchTitle,
     resetSearchParams,
@@ -257,7 +258,9 @@ export function useSearch (props, context) {
       // Eg of a typical breadcrumb flow = Staff Dashboard -> View Routing Slip: test -> View Routing Slip: testchild
       window.location.href = `${ConfigHelper.getFasWebUrl()}view-routing-slip/${routingSlipNumber}?viewFromAuth=true`
     } else {
-      context.root.$router.push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipNumber}`, context.root.$route))
+      const router = useRouter()
+      const route = useRoute()
+      router.push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipNumber}`, route))
     }
   }
 

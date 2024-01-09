@@ -1,6 +1,6 @@
 import { ref, computed, toRefs } from 'vue'
 
-export function useDatePicker (props, context) {
+export function useDatePicker (props, emits) {
   // using `toRefs` to create a Reactive Reference to the `user` property of props
   const { value, persist } = toRefs(props)
 
@@ -12,7 +12,7 @@ export function useDatePicker (props, context) {
       return value.value
     },
     set: (modalValue: Date) => {
-      context.emit('input', modalValue)
+      emits('input', modalValue)
     }
   })
 

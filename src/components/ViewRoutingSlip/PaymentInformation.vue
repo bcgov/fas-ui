@@ -132,78 +132,38 @@
     </v-card>
   </div>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
 import ReviewRoutingSlipCashPayment from '@/components/ReviewRoutingSlip/ReviewRoutingSlipCashPayment.vue'
 import ReviewRoutingSlipChequePayment from '@/components/ReviewRoutingSlip/ReviewRoutingSlipChequePayment.vue'
+// TODO might need to fix below
 import can from '@/directives/can'
-import { PaymentMethods, Role } from '@/util/constants'
+import { PaymentMethods } from '@/util/constants'
 
-@Component({
-  components: {
-    ReviewRoutingSlipCashPayment,
-    ReviewRoutingSlipChequePayment
-  },
-  directives: {
-    can
-  },
-  setup (_, context) {
-    const {
-      routingSlip,
-      isExpanded,
-      isEditable,
-      isPaymentCheque,
-      linkedRoutingSlips,
-      isRoutingSlipAChild,
-      isRoutingSlipLinked,
-      totalAmount,
-      remainingAmount,
-      isRoutingSlipPaidInUsd,
-      isRoutingSlipChildPaidInUsd,
-      displayEditRoutingSlip,
-      enableEditRoutingSlip,
-      adjustRoutingSlipHandler,
-      adjustRoutingSlipStatus,
-      cancelRoutingSlipAdjust,
-      editPayment,
-      cancelEditPayment,
-      viewPaymentInformation,
-      navigateTo,
-      hasPaymentChanges
-    } = usePaymentInformation(_, context)
-    return {
-      routingSlip,
-      isExpanded,
-      isEditable,
-      isPaymentCheque,
-      linkedRoutingSlips,
-      isRoutingSlipAChild,
-      isRoutingSlipLinked,
-      totalAmount,
-      remainingAmount,
-      isRoutingSlipPaidInUsd,
-      isRoutingSlipChildPaidInUsd,
-      displayEditRoutingSlip,
-      enableEditRoutingSlip,
-      adjustRoutingSlipHandler,
-      adjustRoutingSlipStatus,
-      cancelRoutingSlipAdjust,
-      editPayment,
-      cancelEditPayment,
-      viewPaymentInformation,
-      navigateTo,
-      hasPaymentChanges
-    }
-  }
-})
-export default class PaymentInformation extends Vue {
-  public PaymentMethods = PaymentMethods
-  public Role = Role
+const {
+  routingSlip,
+  isExpanded,
+  isEditable,
+  isPaymentCheque,
+  linkedRoutingSlips,
+  isRoutingSlipAChild,
+  isRoutingSlipLinked,
+  totalAmount,
+  remainingAmount,
+  isRoutingSlipPaidInUsd,
+  isRoutingSlipChildPaidInUsd,
+  displayEditRoutingSlip,
+  enableEditRoutingSlip,
+  adjustRoutingSlipHandler,
+  editPayment,
+  cancelEditPayment,
+  viewPaymentInformation,
+  navigateTo,
+  hasPaymentChanges
+} = usePaymentInformation()
 
-  public getIndexedTag (tag, index): string {
-    return `${tag}-${index}`
-  }
+const getIndexedTag = (tag, index): string => {
+  return `${tag}-${index}`
 }
 </script>
 <style lang="scss">

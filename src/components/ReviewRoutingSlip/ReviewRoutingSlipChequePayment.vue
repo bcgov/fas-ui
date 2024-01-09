@@ -63,8 +63,8 @@ import { Payment } from '@/models/Payment'
 import commonUtil from '@/util/common-util'
 import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
 import { defineProps } from 'vue'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const props = defineProps<{
+
+defineProps<{
   chequePayment: Payment[],
   isAmountPaidInUsd: boolean,
   isEditable: boolean,

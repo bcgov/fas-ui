@@ -24,31 +24,32 @@
   </v-menu>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 /** component for status menu.
  * example
  * <status-menu v-model="currentStatus" label="Status"></status-menu>
  */
-
-import { Component, Prop, Vue } from 'vue-facing-decorator'
 import { useStatusMenu } from '@/composables/common'
 
-@Component({
-  setup (props, context) {
-    const { routingAllowedSlipStatus, currentStatus, setStatus } =
-      useStatusMenu(props, context)
-    return {
-      routingAllowedSlipStatus,
-      currentStatus,
-      setStatus
-    }
+const props = withDefaults(
+  defineProps<{
+    value: string
+    allowedStatusList: any
+    isApprovalFlow: boolean
+  }>(),
+  {
+    value: '',
+    allowedStatusList: [],
+    isApprovalFlow: false
   }
-})
-export default class StatusMenu extends Vue {
-  @Prop() value: string
-  @Prop() allowedStatusList: []
-  @Prop({ default: false }) isApprovalFlow: boolean
-}
+)
+
+const emits = defineEmits<{
+  input: [value: string]
+  'update:statusChange': [value: string]
+}>()
+
+const { routingAllowedSlipStatus, setStatus } = useStatusMenu(props, emits)
 </script>
 <style lang="scss" scoped>
 .menu-list{

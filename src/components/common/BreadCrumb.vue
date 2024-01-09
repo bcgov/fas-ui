@@ -32,21 +32,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { useBreadCrumb } from '@/composables/common'
-import { Component, Vue } from 'vue-facing-decorator'
-
-@Component({
-  setup (_, context) {
-    const { items, goBack } = useBreadCrumb(_, context)
-    return {
-      items,
-      goBack
-    }
-  }
-})
-export default class BreadCrumb extends Vue {
-}
+const { items, goBack } = useBreadCrumb()
 </script>
 
 <style lang="scss" scoped>

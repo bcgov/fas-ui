@@ -5,7 +5,7 @@ import { DateFilterCodes } from '@/util/constants'
 import moment from 'moment'
 
 export const DATEFILTER_CODES = DateFilterCodes
-export function useDateRange (props, context) {
+export function useDateRange (props, emits) {
   const { value } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change
@@ -14,7 +14,7 @@ export function useDateRange (props, context) {
       return value.value
     },
     set: (modalValue: Date[]) => {
-      context.emit('input', modalValue)
+      emits('input', modalValue)
     }
   })
   // to keep track of old value on cancel rest to this value default value will props passed
@@ -84,11 +84,11 @@ export function useDateRange (props, context) {
         'MM-DD-YYYY'
       )}`
     } else {
-      dateText = `<strong>${dateFilterSelected.value?.label}:</strong> 
+      dateText = `<strong>${dateFilterSelected.value?.label}:</strong>
       ${CommonUtils.formatDisplayDate(
         dateRangeSelected.value[0],
         'MM-DD-YYYY'
-      )} 
+      )}
         - ${CommonUtils.formatDisplayDate(
           dateRangeSelected.value[1],
           'MM-DD-YYYY'
@@ -168,7 +168,7 @@ export function useDateRange (props, context) {
 
   function applyDateFilter () {
     // emit applied event so that we can hook to any @change event in parent. By default, v-model with parent variable is in sync all the time
-    context.emit('applied', dateRangeSelected)
+    emits('applied', dateRangeSelected.value)
     // updating old value on appy click
     oldSelectedRange.value = dateRangeSelected.value
     showDateFilter.value = false
