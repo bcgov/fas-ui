@@ -423,7 +423,12 @@ import { useDashboard } from '@/composables/Dashboard'
 import commonUtil from '@/util/common-util'
 import { PaymentMethods } from '@/util/constants'
 
-const isLibraryMode = ref(false) // Update this based on how you pass props
+// Define props
+const props = withDefaults(defineProps<{
+  isLibraryMode?: boolean
+}>(), {
+  isLibraryMode: false
+})
 
 const { addRoutingSlip } = useDashboard() // Adjust based on actual usage
 const {

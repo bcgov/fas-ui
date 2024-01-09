@@ -7,14 +7,14 @@
       offset-y
       z-index="1"
     >
-      <template v-slot:activator="{ on }">
+      <template v-slot:activator="{ props }">
         <v-btn
+          v-bind="props"
           class="font-weight-bold"
           large
           dark
           color="primary"
           v-can:fas_reports.hide
-          v-on="on"
           data-test="btn-daily-report"
         >
           Daily Report
@@ -33,8 +33,6 @@
         <v-card-text class="mx-4">
           <v-date-picker
             v-model="selectedDate"
-            v-bind="$attrs"
-            v-on="$listeners"
             data-test="date-date-picker"
             elevation="5"
             :max="maxDate"
@@ -42,7 +40,7 @@
           ></v-date-picker>
         </v-card-text>
 
-        <v-card-actions class="pt-0 pb-3">
+        <!-- <v-card-actions class="pt-0 pb-3">
           <v-spacer></v-spacer>
           <v-btn
             color="primary"
@@ -58,45 +56,27 @@
           <v-btn text @click="toggleCalendar(false)" data-test="btn-cancel">
             Cancel
           </v-btn>
-        </v-card-actions>
+        </v-card-actions> -->
       </v-card>
     </v-menu>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { Component, Vue } from 'vue-facing-decorator'
 import Search from '@/components/Dashboard/Search.vue'
 import can from '@/directives/can'
 import { useDailyReport } from '@/composables/Dashboard'
 
-@Component({
-  components: {
-    Search
-  },
-  directives: {
-    can
-  },
-  setup () {
-    const {
-      selectedDate,
-      getDailyReport,
-      showCalendar,
-      isDownloading,
-      maxDate,
-      toggleCalendar
-    } = useDailyReport()
-    return {
-      selectedDate,
-      getDailyReport,
-      showCalendar,
-      isDownloading,
-      maxDate,
-      toggleCalendar
-    }
-  }
-})
-export default class DailyReport extends Vue {}
+const {
+  selectedDate,
+  getDailyReport,
+  showCalendar,
+  isDownloading,
+  maxDate,
+  toggleCalendar
+} = useDailyReport()
+
 </script>
 <style lang="scss" scoped>
 .view-heade {

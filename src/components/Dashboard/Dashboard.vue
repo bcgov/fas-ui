@@ -3,10 +3,10 @@
     <v-row>
       <v-col>
         <header class="view-header flex-column mb-0">
-          <div class="d-flex justify-space-between" :class="{'flex-column': isXs}">
+          <div class="d-flex justify-space-between" :class="{'flex-column': xs}">
             <div>
               <h1 class="view-header__title">FAS Staff Dashboard</h1>
-              <p  :class="{'mb-16': isXs}">
+              <p  :class="{'mb-16': xs}">
                 {{ t('dashboardSubText') }}
               </p>
             </div>
@@ -15,7 +15,7 @@
           </div>
         </header>
         <div>
-          <Search />
+          <!-- <Search /> -->
         </div>
       </v-col>
     </v-row>
@@ -27,10 +27,11 @@ import { computed, inject } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Search from '@/components/Dashboard/Search.vue'
 import DailyReport from '@/components/Dashboard/DailyReport.vue'
+import { useDisplay } from 'vuetify'
+
+const { xs } = useDisplay()
 
 const { t } = useI18n()
-const vuetify = inject('vuetify') as any // Inject the Vuetify instance
-const isXs = computed(() => vuetify.breakpoint.xs)
 </script>
 <style lang="scss" scoped>
 .view-heade {
