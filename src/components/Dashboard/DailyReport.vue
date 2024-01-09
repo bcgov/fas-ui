@@ -63,8 +63,9 @@
 </template>
 
 <script setup lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
+// TODO - Not sure if this is needed
 import Search from '@/components/Dashboard/Search.vue'
+// TODO can might need to be changed to { can }
 import can from '@/directives/can'
 import { useDailyReport } from '@/composables/Dashboard'
 

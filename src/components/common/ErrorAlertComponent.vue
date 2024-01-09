@@ -4,15 +4,17 @@
   </v-expand-transition>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 
-@Component({
+withDefaults(defineProps<{
+  message: string
+  type: string
+  icon: string
+  dismissible: boolean
+}>(), {
+  message: '',
+  type: 'error',
+  icon: 'mdi-alert-circle-outline',
+  dismissible: false
 })
-export default class ErrorAlertComponent extends Vue {
-  @Prop({ default: '' }) message: string
-  @Prop({ default: 'error' }) type: string
-  @Prop({ default: 'mdi-alert-circle-outline' }) icon: string
-  @Prop({ default: false }) dismissible: boolean
-}
 </script>

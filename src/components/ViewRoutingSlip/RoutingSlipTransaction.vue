@@ -101,68 +101,31 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import AddManualTransactionDetails from './AddManualTransactionDetails.vue'
 import TransactionDataTable from './TransactionDataTable.vue'
 import can from '@/directives/can'
-import { SlipStatus } from '@/util/constants'
 import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
 
-@Component({
-  components: {
-    TransactionDataTable,
-    AddManualTransactionDetails
-  },
-  directives: {
-    can
-  },
-  setup () {
-    const {
-      formRoutingSlipManualTransactions,
-      showAddManualTransaction,
-      manualTransactionsList,
-      isRoutingSlipAChild,
-      isRoutingSlipVoid,
-      isLoading,
-      showManualTransaction,
-      addManualTransactionRow,
-      addManualTransactions,
-      isLastChild,
-      isValid,
-      removeManualTransactionRow,
-      updateManualTransactionDetails,
-      hideManualTransaction,
-      availableAmountForManualTransaction,
-      status,
-      routingSlip
+const {
+  formRoutingSlipManualTransactions,
+  showAddManualTransaction,
+  manualTransactionsList,
+  isRoutingSlipAChild,
+  isRoutingSlipVoid,
+  isLoading,
+  showManualTransaction,
+  addManualTransactionRow,
+  addManualTransactions,
+  isLastChild,
+  removeManualTransactionRow,
+  updateManualTransactionDetails,
+  hideManualTransaction,
+  status,
+  routingSlip
+} = useRoutingSlipTransaction()
 
-    } = useRoutingSlipTransaction()
-    return {
-      formRoutingSlipManualTransactions,
-      showAddManualTransaction,
-      manualTransactionsList,
-      isRoutingSlipAChild,
-      isRoutingSlipVoid,
-      isLoading,
-      showManualTransaction,
-      addManualTransactionRow,
-      addManualTransactions,
-      isLastChild,
-      isValid,
-      removeManualTransactionRow,
-      updateManualTransactionDetails,
-      hideManualTransaction,
-      availableAmountForManualTransaction,
-      status,
-      routingSlip,
-      SlipStatus
-    }
-  }
-})
-export default class RoutingSlipTransaction extends Vue {
-  public getIndexedTag (tag, index): string {
-    return `${tag}-${index}`
-  }
+const getIndexedTag = (tag, index) => {
+  return `${tag}-${index}`
 }
 </script>

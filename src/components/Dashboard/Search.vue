@@ -443,7 +443,6 @@ const {
   remainingAmount,
   chequeReceiptNumber,
   searchRoutingSlipResult,
-  applyDateFilter,
   searchNow,
   debouncedSearch,
   canShowColumn,
@@ -459,7 +458,7 @@ const {
   navigateTo,
   fasUrl,
   initiator
-} = useSearch()
+} = useSearch(props)
 
 const colors = computed(() => commonUtil.statusListColor)
 const appendCurrencySymbol = computed(() => commonUtil.appendCurrencySymbol)

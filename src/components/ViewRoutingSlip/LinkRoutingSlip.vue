@@ -89,54 +89,24 @@
     </v-card>
   </div>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
-import commonUtil from '@/util/common-util'
-import { SlipStatus } from '@/util/constants'
+<script setup lang="ts">
 import { useLinkRoutingSlip } from '@/composables/ViewRoutingSlip'
+// TODO - might need to be fixed.
 import can from '@/directives/can'
 import LinkedRoutingSlipDetails from '@/components/ViewRoutingSlip/LinkedRoutingSlipDetails.vue'
 import RoutingSlipAutoComplete from '@/components/ViewRoutingSlip/RoutingSlipAutoComplete.vue'
-@Component({
-  components: {
-    LinkedRoutingSlipDetails,
-    RoutingSlipAutoComplete
-  },
-  directives: {
-    can
-  },
-  setup () {
-    const {
-      showSearch,
-      toggleSearch,
-      isRoutingSlipLinked,
-      isRoutingSlipAChild,
-      isRoutingSlipVoid,
-      isLoading,
-      invoiceCount,
-      childRoutingSlipDetails,
-      parentRoutingSlipDetails,
-      routingSlip
-    } = useLinkRoutingSlip()
 
-    return {
-      SlipStatus,
-      showSearch,
-      toggleSearch,
-      isRoutingSlipLinked,
-      isRoutingSlipAChild,
-      isRoutingSlipVoid,
-      isLoading,
-      invoiceCount,
-      childRoutingSlipDetails,
-      parentRoutingSlipDetails,
-      routingSlip
-    }
-  }
-})
-export default class LinkRoutingSlip extends Vue {
-  public formatDisplayDate = commonUtil.formatDisplayDate
-}
+const {
+  showSearch,
+  toggleSearch,
+  isRoutingSlipLinked,
+  isRoutingSlipAChild,
+  isRoutingSlipVoid,
+  invoiceCount,
+  childRoutingSlipDetails,
+  parentRoutingSlipDetails,
+  routingSlip
+} = useLinkRoutingSlip()
 </script>
 
 <style lang="scss" scoped>

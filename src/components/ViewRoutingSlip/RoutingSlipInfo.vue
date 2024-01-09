@@ -60,14 +60,14 @@
 
             <v-expand-transition>
               <template v-if="showAddress && addMoreDetails">
-                <refund-request-form
+                <RefundRequestForm
                   ref="refundRequestForm"
                   :inputRefundRequestDetails="refundRequestDetails"
                   :isEditing="showAddressEditMode"
                   @update:refundRequestDetails="refundRequestDetails = $event"
                   :isApprovalFlow="isApprovalFlow"
                 >
-                </refund-request-form>
+                </RefundRequestForm>
               </template>
             </v-expand-transition>
 
@@ -134,77 +134,40 @@
 
   </div>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator'
+<script setup lang="ts">
 import commonUtil from '@/util/common-util'
 import { useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
 import ModalDialog from '@/components/common/ModalDialog.vue'
 import StatusMenu from '@/components/common/StatusMenu.vue'
-
 import RefundRequestForm from '@/components/ViewRoutingSlip/RefundRequestForm.vue'
+// TODO fix this.
 import can from '@/directives/can'
 
-@Component({
-  components: {
-    RefundRequestForm,
-    StatusMenu,
-    ModalDialog
-  },
-  directives: {
-    can
-  },
-  setup (props) {
-    const {
-      routingSlipDetails,
-      addMoreDetails,
-      currentStatus,
-      updateStatus,
-      getStatusLabel,
-      isRoutingSlipAChild,
-      statusChange,
-      showAddress,
-      refundRequestForm,
-      refundRequestDetails,
-      errorMessage,
-      showAddressEditMode,
-      isApprovalFlow,
-      cancelOrReject,
-      isEditable,
-      allowedStatusList,
-      modalDialogRef,
-      modalText,
-      isLoading,
-      closeErrorDialog
-    } = useRoutingSlipInfo(props)
+const {
+  routingSlipDetails,
+  addMoreDetails,
+  currentStatus,
+  updateStatus,
+  getStatusLabel,
+  statusChange,
+  showAddress,
+  refundRequestForm,
+  refundRequestDetails,
+  errorMessage,
+  showAddressEditMode,
+  isApprovalFlow,
+  cancelOrReject,
+  isEditable,
+  allowedStatusList,
+  modalDialogRef,
+  modalText,
+  isLoading,
+  closeErrorDialog
+} = useRoutingSlipInfo()
 
-    return {
-      routingSlipDetails,
-      addMoreDetails,
-      currentStatus,
-      updateStatus,
-      getStatusLabel,
-      isRoutingSlipAChild,
-      statusChange,
-      showAddress,
-      refundRequestForm,
-      refundRequestDetails,
-      errorMessage,
-      showAddressEditMode,
-      isApprovalFlow,
-      cancelOrReject,
-      isEditable,
-      allowedStatusList,
-      modalDialogRef,
-      modalText,
-      isLoading,
-      closeErrorDialog
-    }
-  }
-})
-export default class RoutingSlipInfo extends Vue {
-  public colors = commonUtil.statusListColor
-  public formatDisplayDate = commonUtil.formatDisplayDate
-}
+// TODO fix these, shouldn't need to be const
+const colors = commonUtil.statusListColor
+const formatDisplayDate = commonUtil.formatDisplayDate
 </script>
 
 <style lang="scss" scoped>
