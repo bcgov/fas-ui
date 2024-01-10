@@ -51,8 +51,8 @@
                   :headers="headerSearch"
                   :items="searchRoutingSlipResult"
                   item-key="name"
-                  class="elevation-1"
-                  sort-by="routingSlipNumber"
+                  headerProps="elevation-1"
+                  :sort-by="['routingSlipNumber']"
                   hide-default-header
                   hide-default-footer
                   fixed-header
@@ -73,7 +73,7 @@
                       "
                     ></div>
                   </template>
-                  <template v-slot:header="{}">
+                  <template v-slot:header="{ }">
                     <thead class="v-data-table-header">
                       <tr class="header-row-1">
                         <th
@@ -463,6 +463,7 @@ const {
 const colors = computed(() => commonUtil.statusListColor)
 const appendCurrencySymbol = computed(() => commonUtil.appendCurrencySymbol)
 const formatDisplayDate = computed(() => commonUtil.formatDisplayDate)
+console.log(headerSearch)
 
 </script>
 

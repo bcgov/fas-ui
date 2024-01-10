@@ -40,7 +40,7 @@
           ></v-date-picker>
         </v-card-text>
 
-        <!-- <v-card-actions class="pt-0 pb-3">
+        <v-card-actions class="pt-0 pb-3">
           <v-spacer></v-spacer>
           <v-btn
             color="primary"
@@ -56,7 +56,7 @@
           <v-btn text @click="toggleCalendar(false)" data-test="btn-cancel">
             Cancel
           </v-btn>
-        </v-card-actions> -->
+        </v-card-actions>
       </v-card>
     </v-menu>
   </div>

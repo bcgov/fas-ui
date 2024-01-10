@@ -15,7 +15,7 @@
           </div>
         </header>
         <div>
-          <!-- <Search /> -->
+          <Search />
         </div>
       </v-col>
     </v-row>
@@ -23,7 +23,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Search from '@/components/Dashboard/Search.vue'
 import DailyReport from '@/components/Dashboard/DailyReport.vue'
