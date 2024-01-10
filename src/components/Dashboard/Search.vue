@@ -14,7 +14,6 @@
           v-can:fas_create.hide
           class="font-weight-bold"
           size="large"
-          dark
           color="primary"
           @click="addRoutingSlip"
         >
@@ -36,7 +35,6 @@
       >
         <v-btn
           size="x-large"
-          dark
           variant="outlined"
           color="primary"
           :href="fasUrl"
