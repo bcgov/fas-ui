@@ -140,8 +140,6 @@ import { useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
 import ModalDialog from '@/components/common/ModalDialog.vue'
 import StatusMenu from '@/components/common/StatusMenu.vue'
 import RefundRequestForm from '@/components/ViewRoutingSlip/RefundRequestForm.vue'
-// TODO fix this.
-import can from '@/directives/can'
 
 const {
   routingSlipDetails,
@@ -165,7 +163,6 @@ const {
   closeErrorDialog
 } = useRoutingSlipInfo()
 
-// TODO fix these, shouldn't need to be const
 const colors = commonUtil.statusListColor
 const formatDisplayDate = commonUtil.formatDisplayDate
 </script>

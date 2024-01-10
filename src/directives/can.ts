@@ -1,20 +1,9 @@
-import { DirectiveBinding } from 'vue/types/options'
-import { DirectiveOptions } from 'vue'
 import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
-import { VNode } from 'vue/types'
+import { DirectiveBinding, VNode } from 'vue'
 
 interface CustomHTMLElement extends HTMLElement {
   disabled: boolean
   readOnly: boolean
-}
-
-const can: DirectiveOptions = {
-  inserted (el, binding, node) {
-    canAccess(binding, el, node)
-  },
-  componentUpdated (el, binding, node) {
-    canAccess(binding, el, node)
-  }
 }
 
 function canAccess (binding: DirectiveBinding, el: HTMLElement, node: VNode) {
@@ -51,21 +40,28 @@ function commentNode (el: HTMLElement, vnode: VNode) {
     value: () => undefined
   })
 
-  vnode.text = ' '
-  vnode.elm = comment
-  vnode.isComment = true
-  vnode.tag = undefined
+  vnode.el.text = ' '
+  vnode.el.elm = comment
+  vnode.el.isComment = true
+  vnode.el.tag = undefined
 
-  vnode.data = vnode.data || {}
-  vnode.data.directives = undefined
+  vnode.el.data = vnode.el.data || {}
+  vnode.el.data.directives = undefined
 
-  if (vnode.componentInstance) {
-    // @ts-ignore
-    vnode.componentInstance.$el = comment
+  if (vnode.el.componentInstance) {
+    vnode.el.componentInstance = comment
   }
 
   if (el.parentNode) {
     el.parentNode.replaceChild(comment, el)
   }
 }
-export default can
+
+export const can = {
+  mounted (el, binding, node) {
+    canAccess(binding, el, node)
+  },
+  updated (el, binding, node) {
+    canAccess(binding, el, node)
+  }
+}

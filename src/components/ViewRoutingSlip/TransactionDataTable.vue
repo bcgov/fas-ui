@@ -91,7 +91,6 @@ const {
   disableCancelButton,
   isAlreadyCancelled
 } = useTransactionDataTable()
-// TODO fix export for this so we don't need const
 const formatDisplayDate = commonUtil.formatDisplayDate
 const appendCurrencySymbol = commonUtil.appendCurrencySymbol
 </script>

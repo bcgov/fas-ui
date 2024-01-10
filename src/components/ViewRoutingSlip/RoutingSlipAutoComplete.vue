@@ -75,7 +75,6 @@
   </transition-group>
 </template>
 <script setup lang="ts">
-// TODO should fix this below, so we don't need to put it to const
 import commonUtil from '@/util/common-util'
 import { useRoutingSlipAutoComplete } from '@/composables/ViewRoutingSlip'
 
@@ -94,7 +93,6 @@ const {
   delayedSearch
 } = useRoutingSlipAutoComplete(emits)
 
-// TODO should fix this below, so we don't need to put it to const
 const formatDisplayDate = commonUtil.formatDisplayDate
 const appendCurrencySymbol = commonUtil.appendCurrencySymbol
 </script>

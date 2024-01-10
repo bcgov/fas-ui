@@ -91,8 +91,7 @@
 </template>
 <script setup lang="ts">
 import { useLinkRoutingSlip } from '@/composables/ViewRoutingSlip'
-// TODO - might need to be fixed.
-import can from '@/directives/can'
+import { can as vCan } from '@/directives/can'
 import LinkedRoutingSlipDetails from '@/components/ViewRoutingSlip/LinkedRoutingSlipDetails.vue'
 import RoutingSlipAutoComplete from '@/components/ViewRoutingSlip/RoutingSlipAutoComplete.vue'
 

@@ -104,7 +104,7 @@
 <script setup lang="ts">
 import AddManualTransactionDetails from './AddManualTransactionDetails.vue'
 import TransactionDataTable from './TransactionDataTable.vue'
-import can from '@/directives/can'
+import { can as vCan } from '@/directives/can'
 import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
 
 const {

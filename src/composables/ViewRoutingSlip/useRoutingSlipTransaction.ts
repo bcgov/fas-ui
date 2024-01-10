@@ -47,7 +47,6 @@ export default function useRoutingSlipTransaction () {
         try {
           await saveManualTransactions(transactions)
         } catch (err) {
-          // TODO error handling
           error = true
           // eslint-disable-next-line no-console
           console.log('error', err)

@@ -136,8 +136,7 @@
 import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
 import ReviewRoutingSlipCashPayment from '@/components/ReviewRoutingSlip/ReviewRoutingSlipCashPayment.vue'
 import ReviewRoutingSlipChequePayment from '@/components/ReviewRoutingSlip/ReviewRoutingSlipChequePayment.vue'
-// TODO might need to fix below
-import can from '@/directives/can'
+import { can as vCan } from '@/directives/can'
 import { PaymentMethods } from '@/util/constants'
 
 const {
