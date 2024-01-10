@@ -1,8 +1,6 @@
 import { accountInfoMock, cashPaymentMock, chequePaymentMock, routingSlipDetailsMock } from '../../test-data/mock-routing-slip'
-import { createLocalVue, mount } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-
 import { ReviewRoutingSlip } from '@/components/ReviewRoutingSlip'
+import Vuetify from 'vuetify'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('ReviewRoutingSlip.vue', () => {

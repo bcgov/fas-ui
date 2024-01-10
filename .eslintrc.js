@@ -48,7 +48,7 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: true, variables: true }],
     'no-unused-expressions': 'off',
     '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
-    'vue/multi-word-component-names': ['error', { ignores: ['Dashboard'] }]
+    'vue/multi-word-component-names': ['error', { ignores: ['Dashboard', 'Unauthorized', 'Search'] }]
   },
   overrides: [
     {

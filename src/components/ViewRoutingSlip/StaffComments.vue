@@ -5,9 +5,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import ConfigHelper from '@/util/config-helper'
 import { StaffComments } from '@bcrs-shared-components/staff-comments'
 import axios from '@/util/http-util'
-import ConfigHelper from '@/util/config-helper'
 import { computed } from 'vue'
 
 const props = defineProps<{

@@ -1,10 +1,10 @@
+import { GetFeeRequestParams, Payment } from '@/models/Payment'
+import { PatchActions, SlipStatus } from '@/util/constants'
 import { AxiosResponse } from 'axios'
 import CommonUtils from '@/util/common-util'
 import ConfigHelper from '@/util/config-helper'
-import { GetFeeRequestParams, Payment } from '@/models/Payment'
 import { LinkRoutingSlipPrams } from '@/models/RoutingSlip'
 import axios from '@/util/http-util'
-import { CreateRoutingSlipStatus, PatchActions, SlipStatus } from '@/util/constants'
 
 export default class RoutingSlip {
   public static async getRoutingSlip (

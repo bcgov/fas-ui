@@ -171,11 +171,11 @@
   </div>
 </template>
 <script setup lang="ts">
+import ModalDialog from '@/components/common/ModalDialog.vue'
+import RefundRequestForm from '@/components/ViewRoutingSlip/RefundRequestForm.vue'
+import StatusMenu from '@/components/common/StatusMenu.vue'
 import commonUtil from '@/util/common-util'
 import { useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
-import ModalDialog from '@/components/common/ModalDialog.vue'
-import StatusMenu from '@/components/common/StatusMenu.vue'
-import RefundRequestForm from '@/components/ViewRoutingSlip/RefundRequestForm.vue'
 
 const {
   routingSlipDetails,

@@ -1,7 +1,7 @@
-import { ref } from 'vue'
 import { Code } from '@/models/Code'
 import CodesService from '@/services/codes.service'
 import { SlipStatus } from '@/util/constants'
+import { ref } from 'vue'
 
 const routingSlipStatusList = ref<Code[]>([])
 

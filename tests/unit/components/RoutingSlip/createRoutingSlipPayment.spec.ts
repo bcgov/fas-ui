@@ -31,7 +31,6 @@ describe('CreateRoutingSlipPayment.vue', () => {
   })
 
   it('change payment between cash and cheque', async () => {
-    const stub = vi.fn().mockReturnValue(true)
     const wrapper: any = mount(CreateRoutingSlipPayment, {
       localVue,
       vuetify,

@@ -1,8 +1,8 @@
 import { computed, ref } from 'vue'
 
 import CommonUtils from '@/util/common-util'
-import moment from 'moment'
 import { CreateRoutingSlipStatus } from '@/util/constants'
+import moment from 'moment'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component

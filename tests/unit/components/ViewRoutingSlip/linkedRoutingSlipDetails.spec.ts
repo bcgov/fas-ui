@@ -9,9 +9,6 @@ describe('LinkedRoutingSlipDetails.vue', () => {
 
   const vuetify = new Vuetify({})
   const router = new VueRouter()
-  const MyStub = {
-    template: '<div />'
-  }
 
   beforeEach(() => {
     vi.resetModules()

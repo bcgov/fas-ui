@@ -1,8 +1,6 @@
 
-import ViewRoutingSlip from '@/views/ViewRoutingSlip.vue'
 import { PaymentInformation, RoutingSlipInfo } from '@/components/ViewRoutingSlip'
-
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import ViewRoutingSlip from '@/views/ViewRoutingSlip.vue'
 import Vuetify from 'vuetify'
 
 describe('ViewRoutingSlip.vue', () => {

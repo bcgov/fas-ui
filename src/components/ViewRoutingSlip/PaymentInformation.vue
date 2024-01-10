@@ -180,11 +180,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
+import { PaymentMethods } from '@/util/constants'
 import ReviewRoutingSlipCashPayment from '@/components/ReviewRoutingSlip/ReviewRoutingSlipCashPayment.vue'
 import ReviewRoutingSlipChequePayment from '@/components/ReviewRoutingSlip/ReviewRoutingSlipChequePayment.vue'
+import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
 import { can as vCan } from '@/directives/can'
-import { PaymentMethods } from '@/util/constants'
 
 const {
   routingSlip,

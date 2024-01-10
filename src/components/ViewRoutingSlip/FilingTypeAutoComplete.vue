@@ -34,8 +34,8 @@
   </transition-group>
 </template>
 <script setup lang="ts">
-import { useFilingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
 import { FilingType } from '@/models/Payment'
+import { useFilingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
 
 const props = defineProps<{
   value: FilingType

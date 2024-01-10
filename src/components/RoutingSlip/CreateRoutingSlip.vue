@@ -139,8 +139,8 @@
 import CreateRoutingSlipDetails from '@/components/RoutingSlip/CreateRoutingSlipDetails.vue'
 import CreateRoutingSlipPayment from '@/components/RoutingSlip/CreateRoutingSlipPayment.vue'
 import ModalDialog from '@/components/common/ModalDialog.vue'
-import { useCreateRoutingSlip } from '@/composables/RoutingSlip'
 import ReviewRoutingSlip from '@/components/ReviewRoutingSlip/ReviewRoutingSlip.vue'
+import { useCreateRoutingSlip } from '@/composables/RoutingSlip'
 
 const {
   createRoutingSlipDetailsRef,

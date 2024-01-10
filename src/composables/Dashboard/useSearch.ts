@@ -1,12 +1,11 @@
 import { computed, onMounted, reactive, ref, toRefs } from 'vue'
-
+import { useRoute, useRouter } from 'vue-router'
 import CommonUtils from '@/util/common-util'
 import ConfigHelper from '@/util/config-helper'
 import debounce from '@/util/debounce'
 import { useLoader } from '@/composables/common/useLoader'
-import { useStatusList } from '@/composables/common/useStatusList'
 import { useRoutingSlip } from '../useRoutingSlip'
-import { useRoute, useRouter } from 'vue-router'
+import { useStatusList } from '@/composables/common/useStatusList'
 
 export function useSearch (props) {
   const {

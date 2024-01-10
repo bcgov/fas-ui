@@ -1,6 +1,6 @@
+import { useRoute, useRouter } from 'vue-router'
 import CommonUtils from '@/util/common-util'
 import { useRoutingSlip } from '../useRoutingSlip'
-import { useRoute, useRouter } from 'vue-router'
 
 export function useDashboard () {
   const router = useRouter()

@@ -1,7 +1,6 @@
-import { createLocalVue, mount } from '@vue/test-utils'
 import { filingType, manualTransactionDetails as manualTransactionDetailsMock } from '../../test-data/mock-routing-slip'
-import RoutingSlipService from '@/services/routingSlip.services'
 import AddManualTransactionDetails from '@/components/ViewRoutingSlip/AddManualTransactionDetails.vue'
+import RoutingSlipService from '@/services/routingSlip.services'
 import Vuetify from 'vuetify'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
 

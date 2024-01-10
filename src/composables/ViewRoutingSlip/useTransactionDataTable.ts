@@ -84,7 +84,8 @@ export default function useTransactionDataTable () {
       })
       invoiceDisplayObject.description = description
       // we need invoice number of completed transaction only
-      invoiceDisplayObject.invoiceNumber = invoice?.references?.find((reference: Reference) => reference?.statusCode === InvoiceStatus.COMPLETED)?.invoiceNumber
+      invoiceDisplayObject.invoiceNumber = invoice?.references?.find(
+        (reference: Reference) => reference?.statusCode === InvoiceStatus.COMPLETED)?.invoiceNumber
       invoiceDisplayObject.id = invoice.id
       invoiceDisplayObject.total = invoice?.total
       invoiceDisplayObject.createdName = invoice?.createdName || invoice?.createdBy
@@ -132,7 +133,8 @@ export default function useTransactionDataTable () {
 
   // disable cancel button in invoice rows if routing slip has any of these statuses
   const disableCancelButton = computed(() => {
-    return [SlipStatus.NSF, SlipStatus.REFUNDAUTHORIZED, SlipStatus.REFUNDCOMPLETED, SlipStatus.REFUNDREQUEST, SlipStatus.VOID, SlipStatus.CORRECTION].includes(routingSlip.value.status as SlipStatus)
+    return [SlipStatus.NSF, SlipStatus.REFUNDAUTHORIZED, SlipStatus.REFUNDCOMPLETED, SlipStatus.REFUNDREQUEST,
+      SlipStatus.VOID, SlipStatus.CORRECTION].includes(routingSlip.value.status as SlipStatus)
   })
 
   function isAlreadyCancelled (currentStatus) {

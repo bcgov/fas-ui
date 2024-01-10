@@ -28,10 +28,10 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-import Search from '@/components/Dashboard/Search.vue'
 import DailyReport from '@/components/Dashboard/DailyReport.vue'
+import Search from '@/components/Dashboard/Search.vue'
 import { useDisplay } from 'vuetify'
+import { useI18n } from 'vue-i18n'
 
 const { xs } = useDisplay()
 

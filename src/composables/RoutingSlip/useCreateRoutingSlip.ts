@@ -1,10 +1,9 @@
 import { computed, reactive, ref } from 'vue'
-
+import { useRoute, useRouter } from 'vue-router'
 import CommonUtils from '@/util/common-util'
 import { Payment } from '@/models/Payment'
 import { useI18n } from 'vue-i18n'
 import { useRoutingSlip } from '../useRoutingSlip'
-import { useRoute, useRouter } from 'vue-router'
 
 // Composable function to inject Props, options and values to CreateRoutingSlip component
 // CreateRoutingSlip component holds two behaviors - create routing slip & review routing slip modes

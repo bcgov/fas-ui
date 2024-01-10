@@ -1,8 +1,7 @@
-import { shallowMount } from '@vue/test-utils'
-import StaffCommentsComp from '@/components/ViewRoutingSlip/StaffComments.vue'
 
 import { StaffComments } from '@bcrs-shared-components/staff-comments'
-import Vue from 'vue'
+import StaffCommentsComp from '@/components/ViewRoutingSlip/StaffComments.vue'
+import { shallowMount } from '@vue/test-utils'
 
 describe('StaffCommentsComp.vue', () => {
   beforeEach(() => {

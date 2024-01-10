@@ -1,12 +1,10 @@
-import { Wrapper, createLocalVue, mount, shallowMount } from '@vue/test-utils'
 import StatusList from '@/components/common/StatusList.vue'
 import Vuetify from 'vuetify'
-
+import axios from '@/util/http-util'
 import { routingSlipStatusListMock } from '../../test-data/mock-code'
+import sinon from 'sinon'
 import { useCodes } from '@/composables/useCodes'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
-import sinon from 'sinon'
-import axios from '@/util/http-util'
 
 const { routingSlipStatusList } = useCodes()
 

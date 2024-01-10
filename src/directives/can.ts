@@ -1,5 +1,5 @@
-import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
 import { DirectiveBinding, VNode } from 'vue'
+import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
 
 interface CustomHTMLElement extends HTMLElement {
   disabled: boolean

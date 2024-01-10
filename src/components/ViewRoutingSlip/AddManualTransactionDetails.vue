@@ -111,9 +111,9 @@
   </v-row>
 </template>
 <script setup lang="ts">
-import { useAddManualTransactionDetails } from '@/composables/ViewRoutingSlip'
 import FilingTypeAutoComplete from '@/components/ViewRoutingSlip/FilingTypeAutoComplete.vue'
 import { ManualTransactionDetails } from '@/models/RoutingSlip'
+import { useAddManualTransactionDetails } from '@/composables/ViewRoutingSlip'
 
 const props = defineProps<{
   index: number

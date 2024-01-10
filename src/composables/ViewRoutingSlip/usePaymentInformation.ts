@@ -1,11 +1,10 @@
-import { computed, ref } from 'vue'
-
-import { PaymentMethods, SlipStatus } from '@/util/constants'
 import { AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload, RoutingSlip } from '@/models/RoutingSlip'
-import commonUtil from '@/util/common-util'
-import { useRoutingSlip } from '../useRoutingSlip'
+import { PaymentMethods, SlipStatus } from '@/util/constants'
+import { computed, ref } from 'vue'
 import { Payment } from '@/models/Payment'
+import commonUtil from '@/util/common-util'
 import { useRoute } from 'vue-router'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 const routingSlipBeforeEdit = ref<RoutingSlip>({})
 
@@ -83,20 +82,13 @@ export default function usePaymentInformation () {
   })
 
   const isRoutingSlipChildPaidInUsd = computed(() => {
-    return linkedRoutingSlips.value && linkedRoutingSlips.value.children.length > 0 && linkedRoutingSlips.value.children[0].totalUsd && linkedRoutingSlips.value.children[0].totalUsd > 0
+    return linkedRoutingSlips.value && linkedRoutingSlips.value.children.length > 0 &&
+      linkedRoutingSlips.value.children[0].totalUsd && linkedRoutingSlips.value.children[0].totalUsd > 0
   })
 
   const hasPaymentChanges = computed(() => {
     return !commonUtil.isDeepEqual(routingSlip.value, routingSlipBeforeEdit.value)
   })
-
-  async function adjustRoutingSlipHandler () {
-    const paymentRequest: Payment[] = filterUnchangedChequeReceiptNumbersFromPayment()
-    await adjustRoutingSlip(paymentRequest)
-    adjustRoutingSlipStatus()
-    const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value.number }
-    await getRoutingSlip(getRoutingSlipRequestPayload)
-  }
 
   const filterUnchangedChequeReceiptNumbersFromPayment = () => {
     const paymentRequest: Payment[] = routingSlip.value.payments
@@ -106,6 +98,14 @@ export default function usePaymentInformation () {
       }
     })
     return paymentRequest
+  }
+
+  async function adjustRoutingSlipHandler () {
+    const paymentRequest: Payment[] = filterUnchangedChequeReceiptNumbersFromPayment()
+    await adjustRoutingSlip(paymentRequest)
+    adjustRoutingSlipStatus()
+    const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value.number }
+    await getRoutingSlip(getRoutingSlipRequestPayload)
   }
 
   function adjustRoutingSlipStatus () {

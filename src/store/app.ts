@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia'
 import { reactive, toRefs } from 'vue'
+import { defineStore } from 'pinia'
 
 // This store is the main store for the application
 /*

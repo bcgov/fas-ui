@@ -1,5 +1,5 @@
-import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
 import { createRouter, createWebHistory } from 'vue-router'
+import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
 import { SessionStorageKeys } from '@/util/constants'
 import routes from './routes'
 

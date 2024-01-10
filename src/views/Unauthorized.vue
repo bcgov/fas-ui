@@ -21,7 +21,6 @@
           <v-btn
             id="contact-btn"
             size="large"
-            link
             color="primary"
             class="ml-1"
             href="mailto:SBC_ITOperationsSupport@gov.bc.ca?subject=FAS Support"

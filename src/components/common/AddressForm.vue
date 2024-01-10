@@ -11,12 +11,12 @@
 </template>
 
 <script setup lang="ts">
-import { useAddressForm } from '@/composables/common'
-import { Address } from '@/models/Address'
-// TODO put base address back.
-// import BaseAddress from '@bcrs-shared-components/base-address/BaseAddress.vue'
 import 'sbc-common-components/public/css/addresscomplete-2.30.min.css'
 import 'sbc-common-components/public/js/addresscomplete-2.30.min.js'
+import { Address } from '@/models/Address'
+import { useAddressForm } from '@/composables/common'
+// TODO put base address back.
+// import BaseAddress from '@bcrs-shared-components/base-address/BaseAddress.vue'
 
 const props = defineProps<{
   editing: boolean

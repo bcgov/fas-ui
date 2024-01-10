@@ -3,9 +3,9 @@
 </template>
 
 <script setup lang="ts">
-import SbcSignin from 'sbc-common-components/src/components/SbcSignin.vue'
-import ConfigHelper from '@/util/config-helper'
 import { useRoute, useRouter } from 'vue-router'
+import ConfigHelper from '@/util/config-helper'
+import SbcSignin from 'sbc-common-components/src/components/SbcSignin.vue'
 
 /** Called when Keycloak session is ready (ie, the user is authenticated). */
 const onSessionReady = async () => {

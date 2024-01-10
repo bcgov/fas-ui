@@ -1,5 +1,5 @@
-import { Dashboard } from '@/components/Dashboard'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { Dashboard } from '@/components/Dashboard'
 import Vuetify from 'vuetify'
 
 describe('Dashboard.vue', () => {

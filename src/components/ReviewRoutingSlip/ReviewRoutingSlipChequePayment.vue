@@ -64,8 +64,8 @@
 <script setup lang="ts">
 import { Payment } from '@/models/Payment'
 import commonUtil from '@/util/common-util'
-import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
 import { defineProps } from 'vue'
+import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
 
 defineProps<{
   chequePayment: Payment[],

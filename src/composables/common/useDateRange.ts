@@ -159,7 +159,7 @@ export function useDateRange (props, emits) {
     }
   }
 
-  function dateClick (date) {
+  function dateClick () {
     pickerDate.value = ''
     // ideally it should find using DATEFILTER_CODES.CUSTOMRANGE, but since its static and date click is often, better give the index as it is
     dateFilterSelectedIndex.value = 4 // 4 = Custom Range

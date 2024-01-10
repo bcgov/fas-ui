@@ -1,6 +1,5 @@
-import { Address, BaseAddressModel } from '@/models/Address'
 import { computed, ref, toRefs, watch } from 'vue'
-
+import { Address } from '@/models/Address'
 import CommonUtils from '@/util/common-util'
 import { RefundRequestDetails } from '@/models/RoutingSlip'
 import { addressSchema } from '@/schema'
@@ -44,7 +43,8 @@ export default function useRefundRequestForm (props, emits) {
 
   // watch input elements name and address, and if anything changes, bubble up the values back to parent;
   watch([name, address, chequeAdvice], () => {
-    const refundRequestDetails: RefundRequestDetails = { name: name.value, mailingAddress: address.value, chequeAdvice: chequeAdvice.value } as RefundRequestDetails
+    const refundRequestDetails: RefundRequestDetails =
+      { name: name.value, mailingAddress: address.value, chequeAdvice: chequeAdvice.value } as RefundRequestDetails
     emits('update:refundRequestDetails', refundRequestDetails)
   })
 

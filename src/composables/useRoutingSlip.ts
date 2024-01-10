@@ -1,9 +1,13 @@
-import { computed, ref } from 'vue'
-import RoutingSlipService from '@/services/routingSlip.services'
-import { AccountInfo, AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload, LinkedRoutingSlips, RoutingSlip, RoutingSlipDetails } from '@/models/RoutingSlip'
+import
+{
+  AccountInfo, AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload,
+  LinkedRoutingSlips, RoutingSlip, RoutingSlipDetails
+} from '@/models/RoutingSlip'
 import { ApiErrors, CreateRoutingSlipStatus, SlipStatus, headerSearchTitle as headerSearchTitleConstant } from '@/util/constants'
-import CommonUtils from '@/util/common-util'
 import { BusinessInfo, GetFeeRequestParams, Payment, TransactionParams } from '@/models/Payment'
+import { computed, ref } from 'vue'
+import CommonUtils from '@/util/common-util'
+import RoutingSlipService from '@/services/routingSlip.services'
 
 const headerSearchTitle = ref(headerSearchTitleConstant)
 const searchRoutingSlipResult = ref<RoutingSlip[]>([])
@@ -40,7 +44,8 @@ export const useRoutingSlip = () => {
     return !!routingSlip.value?.parentNumber
   })
 
-  // if routingslip has parentNumber then it is a child Else, check if there are any children in linkedroutingslips for it.(in this case, it is a parent)
+  // if routingslip has parentNumber then it is a child
+  // Else, check if there are any children in linkedroutingslips for it.(in this case, it is a parent)
   const isRoutingSlipLinked = computed<boolean>(() => {
     return (
       isRoutingSlipAChild.value || linkedRoutingSlips.value?.children.length > 0

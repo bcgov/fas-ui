@@ -141,10 +141,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useLinkRoutingSlip } from '@/composables/ViewRoutingSlip'
-import { can as vCan } from '@/directives/can'
 import LinkedRoutingSlipDetails from '@/components/ViewRoutingSlip/LinkedRoutingSlipDetails.vue'
 import RoutingSlipAutoComplete from '@/components/ViewRoutingSlip/RoutingSlipAutoComplete.vue'
+import { useLinkRoutingSlip } from '@/composables/ViewRoutingSlip'
+import { can as vCan } from '@/directives/can'
 
 const {
   showSearch,

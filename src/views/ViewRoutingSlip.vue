@@ -4,14 +4,12 @@
       <v-row>
         <v-col cols="12">
           <header class="d-flex flex-column mb-0">
-            <template>
-              <h1 class="view-header__title pt-4">
-                View Routing Slip: {{ slipId }}
-              </h1>
-              <p>
-                {{ $t('reviewRoutingSlipText') }}
-              </p>
-            </template>
+            <h1 class="view-header__title pt-4">
+              View Routing Slip: {{ slipId }}
+            </h1>
+            <p>
+              {{ $t('reviewRoutingSlipText') }}
+            </p>
           </header>
         </v-col>
         <v-col

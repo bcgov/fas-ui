@@ -1,12 +1,11 @@
-import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
-
+import { mount, shallowMount } from '@vue/test-utils'
 import CommonUtils from '@/util/common-util'
+import ConfigHelper from '@/util/config-helper'
 import { RoutingSlipInfo } from '@/components/ViewRoutingSlip'
 import { SlipStatus } from '@/util/constants'
+import StatusMenu from '@/components/common/StatusMenu.vue'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
-import StatusMenu from '@/components/common/StatusMenu.vue'
-import ConfigHelper from '@/util/config-helper'
 import initialize from '@/plugins/i18n'
 
 describe('RoutingSlipInfo.vue', () => {

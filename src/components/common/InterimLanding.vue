@@ -25,7 +25,6 @@
           <v-btn
             v-if="showHomePageBtn"
             size="large"
-            link
             color="primary"
             data-test="btn-home"
             @click="goHome()"

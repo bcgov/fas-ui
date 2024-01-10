@@ -109,11 +109,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useTransactionDataTable } from '@/composables/ViewRoutingSlip'
-import commonUtil from '@/util/common-util'
 import ModalDialog from '@/components/common/ModalDialog.vue'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { InvoiceStatus } from '@/util/constants'
+import commonUtil from '@/util/common-util'
+import { useTransactionDataTable } from '@/composables/ViewRoutingSlip'
 
 const {
   invoiceDisplay,

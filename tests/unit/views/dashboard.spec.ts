@@ -1,6 +1,6 @@
-import { shallowMount } from '@vue/test-utils'
-import DashboardView from '@/views/Dashboard.vue'
 import { Dashboard } from '@/components/Dashboard'
+import DashboardView from '@/views/Dashboard.vue'
+import { shallowMount } from '@vue/test-utils'
 
 describe('DashboardView.vue', () => {
   it('Should have Dashboard component', () => {

@@ -1,10 +1,10 @@
 import Vue from 'vue'
+import VueI18n from 'vue-i18n'
 import VueRouter from 'vue-router'
 import VueTheMask from 'vue-the-mask'
-import VueI18n from 'vue-i18n'
-import { can as vCan } from '@/directives/can'
 import Vuetify from 'vuetify'
 import { config } from '@vue/test-utils'
+import { can as vCan } from '@/directives/can'
 import { vi } from 'vitest'
 
 Vue.use(VueTheMask)

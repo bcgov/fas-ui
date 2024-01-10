@@ -72,10 +72,8 @@
 </template>
 
 <script setup lang="ts">
-// TODO - Not sure if this is needed
-import Search from '@/components/Dashboard/Search.vue'
-import { can as vCan } from '@/directives/can'
 import { useDailyReport } from '@/composables/Dashboard'
+import { can as vCan } from '@/directives/can'
 
 const {
   selectedDate,

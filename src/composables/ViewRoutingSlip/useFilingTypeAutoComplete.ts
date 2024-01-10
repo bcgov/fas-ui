@@ -1,8 +1,8 @@
 import { computed, ref, toRefs } from 'vue'
 
 import { FilingType } from '@/models/Payment'
-import debounce from '@/util/debounce'
 import RoutingSlipService from '@/services/routingSlip.services'
+import debounce from '@/util/debounce'
 
 // Composable function to inject Props, options and values to useFIlingTypeAutoComplete component
 export default function useFilingTypeAutoComplete (props, emits) {

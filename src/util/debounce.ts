@@ -8,6 +8,7 @@ function debounce (func, wait = 300, immediate = false) {
 
   // to avoid this type error define this with type any, arg for rest arguments
   return function (this: any, ...args) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const context = this
 
     const later = function () {

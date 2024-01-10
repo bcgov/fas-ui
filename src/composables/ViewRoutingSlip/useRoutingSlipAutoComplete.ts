@@ -1,8 +1,7 @@
-import { ref } from 'vue'
-
 import CommonUtils from '@/util/common-util'
 import { GetRoutingSlipRequestPayload } from '@/models/RoutingSlip'
 import debounce from '@/util/debounce'
+import { ref } from 'vue'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to useRoutingSlipInfo component

@@ -1,11 +1,9 @@
-import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-
+import ConfigHelper from '@/util/config-helper'
 import { Search } from '@/components/Dashboard'
-import { useRoutingSlip } from '@/composables/useRoutingSlip'
+import Vuetify from 'vuetify'
 import { headerSearch } from '../../test-data/mock-search-headers'
 import { routingSlipMock } from '../../test-data/mock-routing-slip'
-import ConfigHelper, * as f from '@/util/config-helper'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('Search.vue', () => {
   const localVue = createLocalVue()

@@ -1,5 +1,3 @@
-import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
-
 import { CreateRoutingSlip } from '@/components/RoutingSlip'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
