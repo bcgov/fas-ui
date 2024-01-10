@@ -1,58 +1,61 @@
 <template>
   <div class="parent-container">
-    <v-row class="d-flex justify-between" v-for="(payment, i) in chequePayment" :key="i">
+    <v-row
+      v-for="(payment, i) in chequePayment"
+      :key="i"
+      class="d-flex justify-between"
+    >
       <v-col :cols="isAmountPaidInUsd ? 3 : 4">
         <v-text-field
-        filled
-        :disabled="!isEditable || isALinkedChild"
-        label="Cheque Number"
-        persistent-hint
-        hide-details
-        :value="payment.chequeReceiptNumber"
-        :data-test="getIndexedTag('txt-cheque-receipt-number', i)"
-        @input="e => adjustRoutingSlipChequeNumber(e, i)"
-        >
-        </v-text-field>
+          variant="filled"
+          :disabled="!isEditable || isALinkedChild"
+          label="Cheque Number"
+          persistent-hint
+          hide-details
+          :model-value="payment.chequeReceiptNumber"
+          :data-test="getIndexedTag('txt-cheque-receipt-number', i)"
+          @update:model-value="e => adjustRoutingSlipChequeNumber(e, i)"
+        />
       </v-col>
       <v-col :cols="isAmountPaidInUsd ? 3 : 4">
         <v-text-field
-        filled
-        disabled
-        label="Cheque Date"
-        persistent-hint
-        hide-details
-        :value="payment.paymentDate ? formatDisplayDate(payment.paymentDate.split('T')[0], 'MMMM DD, YYYY') : '-'"
-        :data-test="getIndexedTag('txt-cheque-date', i)"
-        >
-        </v-text-field>
+          variant="filled"
+          disabled
+          label="Cheque Date"
+          persistent-hint
+          hide-details
+          :model-value="payment.paymentDate ? formatDisplayDate(payment.paymentDate.split('T')[0], 'MMMM DD, YYYY') : '-'"
+          :data-test="getIndexedTag('txt-cheque-date', i)"
+        />
       </v-col>
       <v-col :cols="isAmountPaidInUsd ? 3 : 4">
         <v-text-field
-        filled
-        :disabled="!isEditable || isALinkedChild"
-        label="Amount(CAD$)"
-        persistent-hint
-        hide-details
-        :value="payment.paidAmount"
-        type="number"
-        :data-test="getIndexedTag('txt-paid-amount', i)"
-        @input="e => adjustRoutingSlipAmount(e, false, i)"
-        >
-        </v-text-field>
+          variant="filled"
+          :disabled="!isEditable || isALinkedChild"
+          label="Amount(CAD$)"
+          persistent-hint
+          hide-details
+          :model-value="payment.paidAmount"
+          type="number"
+          :data-test="getIndexedTag('txt-paid-amount', i)"
+          @update:model-value="e => adjustRoutingSlipAmount(e, false, i)"
+        />
       </v-col>
-      <v-col cols="3" v-if="isAmountPaidInUsd">
+      <v-col
+        v-if="isAmountPaidInUsd"
+        cols="3"
+      >
         <v-text-field
-        filled
-        :disabled="!isEditable || isALinkedChild"
-        label="Amount(USD$)"
-        persistent-hint
-        hide-details
-        :value="payment.paidUsdAmount"
-        type="number"
-        :data-test="getIndexedTag('txt-paid-amount', i)"
-        @input="e => adjustRoutingSlipAmount(e, true, i)"
-        >
-        </v-text-field>
+          variant="filled"
+          :disabled="!isEditable || isALinkedChild"
+          label="Amount(USD$)"
+          persistent-hint
+          hide-details
+          :model-value="payment.paidUsdAmount"
+          type="number"
+          :data-test="getIndexedTag('txt-paid-amount', i)"
+          @update:model-value="e => adjustRoutingSlipAmount(e, true, i)"
+        />
       </v-col>
     </v-row>
   </div>

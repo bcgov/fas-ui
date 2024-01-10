@@ -8,10 +8,6 @@ describe('CreateRoutingSlipDetails.vue', () => {
 
   const vuetify = new Vuetify({})
   let store
-  const MyStub = {
-    template: '<div />'
-  }
-
   beforeEach(() => {
     vi.resetModules()
     vi.clearAllMocks()

@@ -6,53 +6,55 @@
     offset-y
     min-width="auto"
   >
-    <template v-slot:activator="{ on: { click } }">
+    <template #activator="{ on: { click } }">
       <!-- UI control that is displayed clicking on which menu is displayed -->
       <v-text-field
         v-model="dateRangeSelectedDisplay"
         append-icon="mdi-calendar-range"
         readonly
         v-bind="$attrs"
-        @click="click"
-        filled
+        variant="filled"
         data-test="input-date-picker"
+        @click="click"
         @click:append="click"
       >
-
-      <v-icon slot="append" color="primary" >
+        <v-icon
+          slot="append"
+          color="primary"
+        >
           mdi-calendar-range
-       </v-icon>
-
-       </v-text-field>
+        </v-icon>
+      </v-text-field>
     </template>
     <!-- the menu consists of list of buttons on left and date picker on right -->
     <v-card class="date-range-container d-flex">
       <div
         class="date-range-options d-flex flex-column justify-space-between flex-grow-0 pb-6 pt-3"
       >
-        <v-list dense class="py-0">
+        <v-list
+          density="compact"
+          class="py-0"
+        >
           <v-list-item-group
             v-model="dateFilterSelectedIndex"
             color="primary"
             @change="dateFilterChange"
           >
             <v-list-item
-              class="py-2 px-6"
               v-for="(filterRange, i) in dateFilterRanges"
               :key="i"
+              class="py-2 px-6"
             >
-              <v-list-item-content>
-                <v-list-item-title
-                  class="font-weight-bold px-1"
-                  v-text="filterRange.label"
-                ></v-list-item-title>
-              </v-list-item-content>
+              <v-list-item-title
+                class="font-weight-bold px-1"
+                v-text="filterRange.label"
+              />
             </v-list-item>
           </v-list-item-group>
         </v-list>
         <div class="date-filter-btns px-6 mt-4 d-flex flex-end">
           <v-btn
-            large
+            size="large"
             color="primary"
             class="font-weight-bold flex-grow-1 apply-btn"
             :disabled="!isApplyFilterBtnValid"
@@ -61,8 +63,8 @@
             Apply
           </v-btn>
           <v-btn
-            large
-            outlined
+            size="large"
+            variant="outlined"
             color="primary"
             class="flex-grow-1 ml-2 cancel-btn"
             @click="cancelDateFilter()"
@@ -75,21 +77,21 @@
         <div
           class="date-range-label py-6 mx-6 mb-3"
           v-html="showDateRangeSelected"
-        ></div>
+        />
         <v-date-picker
+          v-model="dateRangeSelected"
           color="primary"
           width="400"
           class="text-center"
-          v-model="dateRangeSelected"
           no-title
           range
           v-bind="$attrs"
-          v-on="$listeners"
           :picker-date="pickerDate"
-          @click:date="dateClick"
           data-test="date-date-picker"
           hide-details="auto"
-        ></v-date-picker>
+          v-on="$listeners"
+          @click:date="dateClick"
+        />
       </div>
     </v-card>
   </v-menu>

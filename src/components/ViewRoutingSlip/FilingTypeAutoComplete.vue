@@ -1,14 +1,16 @@
 <template>
   <transition-group name="slide-fade">
-    <div class="d-flex" key="action">
+    <div
+      key="action"
+      class="d-flex"
+    >
       <v-autocomplete
-        filled
         v-model="filingType"
+        variant="filled"
         :items="autoCompleteFilingTypes"
         :loading="isLoading"
-        :search-input.sync="search"
-        @keyup="delayedSearch"
-        :item-text="itemText"
+        :search.sync="search"
+        :item-title="itemText"
         :item-value="itemText"
         placeholder="Filing Type Name"
         return-object
@@ -16,15 +18,15 @@
         :hide-no-data="hideNoData"
         v-bind="$attrs"
         data-test="input-filing-type"
+        @keyup="delayedSearch"
       >
         <!-- hide-no-data -->
-        <template v-slot:item="{ item }">
+        <template #item="{ item }">
           <div class="filing-details">
             <span>{{ item.filingTypeCode.description }}</span>
             <span>
               <span>-</span>
-              {{ item.corpTypeCode.description }}</span
-            >
+              {{ item.corpTypeCode.description }}</span>
           </div>
         </template>
       </v-autocomplete>

@@ -1,4 +1,4 @@
-import { ref, computed, toRefs } from 'vue'
+import { computed, ref, toRefs } from 'vue'
 
 export function useDatePicker (props, emits) {
   // using `toRefs` to create a Reactive Reference to the `user` property of props

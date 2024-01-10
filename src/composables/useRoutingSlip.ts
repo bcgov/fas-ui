@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import RoutingSlipService from '@/services/routingSlip.services'
 import { AccountInfo, AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload, LinkedRoutingSlips, RoutingSlip, RoutingSlipDetails } from '@/models/RoutingSlip'
-import { ApiErrors, CreateRoutingSlipStatus, headerSearchTitle as headerSearchTitleConstant, SlipStatus } from '@/util/constants'
+import { ApiErrors, CreateRoutingSlipStatus, SlipStatus, headerSearchTitle as headerSearchTitleConstant } from '@/util/constants'
 import CommonUtils from '@/util/common-util'
 import { BusinessInfo, GetFeeRequestParams, Payment, TransactionParams } from '@/models/Payment'
 

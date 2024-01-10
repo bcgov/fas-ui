@@ -1,6 +1,13 @@
 <template>
-  <v-row dense class="mr-8" v-if="manualTransactionDetails">
-    <v-col cols="12" class="pb-0">
+  <v-row
+    v-if="manualTransactionDetails"
+    dense
+    class="mr-8"
+  >
+    <v-col
+      cols="12"
+      class="pb-0"
+    >
       <!-- calling @input rather than @keyup because @keyup used by the compoennt already !-->
       <filing-type-auto-complete
         v-model="manualTransactionDetails.filingType"
@@ -9,77 +16,93 @@
         @input="delayedCalculateTotal()"
       />
     </v-col>
-    <v-col cols="2" class="pb-0">
+    <v-col
+      cols="2"
+      class="pb-0"
+    >
       <v-text-field
-        filled
+        v-model="manualTransactionDetails.quantity"
+        variant="filled"
         label="Quantity"
         persistent-hint
         :data-test="getIndexedTag('txt-quantity', index)"
         required
         :rules="quantityRules"
-        v-model="manualTransactionDetails.quantity"
         type="number"
-        @input="delayedCalculateTotal()"
-      >
-      </v-text-field>
+        @update:model-value="delayedCalculateTotal()"
+      />
     </v-col>
-    <v-col cols="5" class="pb-0">
+    <v-col
+      cols="5"
+      class="pb-0"
+    >
       <v-text-field
-        filled
+        v-model.trim="manualTransactionDetails.referenceNumber"
+        variant="filled"
         label="Incorporation/Reference Number (optional)"
         persistent-hint
         :rules="referenceNumberRules"
         :data-test="getIndexedTag('txt-incorporation', index)"
-        v-model.trim="manualTransactionDetails.referenceNumber"
-        @input="emitManualTransactionDetails()"
-      >
-      </v-text-field>
+        @update:model-value="emitManualTransactionDetails()"
+      />
     </v-col>
-    <v-col cols="5" class="amount pb-0" :key="manualTransactionDetails.total">
+    <v-col
+      :key="manualTransactionDetails.total"
+      cols="5"
+      class="amount pb-0"
+    >
       <v-text-field
-        filled
+        :key="manualTransactionDetails.availableAmountForManualTransaction"
+        v-model="totalFormatted"
+        variant="filled"
         :error-messages="errorMessage"
         readonly
-        :key="manualTransactionDetails.availableAmountForManualTransaction"
         label="$ Amount"
         persistent-hint
         :data-test="getIndexedTag('txt-amount', index)"
-        v-model="totalFormatted"
-      >
-      </v-text-field>
+      />
       <div class="close-icon">
         <v-btn
+          v-if="index > 0"
           icon
           class="mt-3 ml-1"
-          @click="removeManualTransactionRowEventHandler(index)"
-          v-if="index > 0"
           :data-test="getIndexedTag('btn-remove', index)"
+          @click="removeManualTransactionRowEventHandler(index)"
         >
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </div>
     </v-col>
-    <v-col cols="2" class="pt-0">
+    <v-col
+      cols="2"
+      class="pt-0"
+    >
       <v-checkbox
+        v-model="manualTransactionDetails.priority"
         class="ma-0"
         label="Priority Fee"
-        v-model="manualTransactionDetails.priority"
         hide-details
         :data-test="getIndexedTag('check-priority', index)"
-        @change="calculateTotal()"
-      ></v-checkbox>
+        @update:model-value="calculateTotal()"
+      />
     </v-col>
-    <v-col cols="10" class="pt-0">
+    <v-col
+      cols="10"
+      class="pt-0"
+    >
       <v-checkbox
+        v-model="manualTransactionDetails.futureEffective"
         class="ma-0"
         label="Future Effective Filing Fee"
-        v-model="manualTransactionDetails.futureEffective"
         hide-details
         :data-test="getIndexedTag('check-future-effective', index)"
-        @change="calculateTotal()"
-      ></v-checkbox>
+        @update:model-value="calculateTotal()"
+      />
     </v-col>
-    <v-col cols="12" v-if="manualTransactionDetails.quantity > 1">
+    <v-col
+      v-if="manualTransactionDetails.quantity > 1"
+      cols="12"
+    >
       <p class="mb-0">
         <v-icon>mdi-information-outline</v-icon>
         <span class="pl-1 text-color">{{ $t('addManualTransactionQuantityInfoText') }}</span>

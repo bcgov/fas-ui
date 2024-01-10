@@ -1,23 +1,38 @@
 <template>
-  <v-menu  bottom
-            left
-            offset-y
+  <v-menu
+    v-if="routingAllowedSlipStatus.length > 0"
 
-             v-if="routingAllowedSlipStatus.length > 0">
-    <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary"  v-bind="attrs" v-on="on">
-        <v-icon  size="15" class="mr-2">mdi-pencil</v-icon> Edit Status
+    location="bottom left"
+
+    offset-y
+  >
+    <template #activator="{ props }">
+      <v-btn
+        color="primary"
+        v-bind="props"
+      >
+        <v-icon
+          size="15"
+          class="mr-2"
+        >
+          mdi-pencil
+        </v-icon> Edit Status
       </v-btn>
     </template>
 
-    <v-list dense>
+    <v-list density="compact">
       <template v-for="(item, i) in routingAllowedSlipStatus">
-        <v-list-item v-if="item.label !== ''" :key="i" class="menu-list" @click="setStatus(item)" >
-          <v-list-item-content>
-          <v-list-item-title>{{
-            item.label
-          }}</v-list-item-title>
-          </v-list-item-content>
+        <v-list-item
+          v-if="item.label !== ''"
+          :key="i"
+          class="menu-list"
+          @click="setStatus(item)"
+        >
+          <v-list-item-title>
+            {{
+              item.label
+            }}
+          </v-list-item-title>
         </v-list-item>
       </template>
     </v-list>

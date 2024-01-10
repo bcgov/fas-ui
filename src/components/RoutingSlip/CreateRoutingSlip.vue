@@ -6,64 +6,91 @@
           <!-- Back Navigation -->
           <div class="py-0">
             <v-btn
-            text
-            large
-            data-test="btn-back"
-            @click="cancel"
-            color="primary"
-            class="pl-0">
-              <v-icon color="primary" class="mr-1">mdi-arrow-left</v-icon>
+              variant="text"
+              size="large"
+              data-test="btn-back"
+              color="primary"
+              class="pl-0"
+              @click="cancel"
+            >
+              <v-icon
+                color="primary"
+                class="mr-1"
+              >
+                mdi-arrow-left
+              </v-icon>
               <span>Back to Dashboard</span>
             </v-btn>
           </div>
-          <h1 class="view-header__title pt-3" data-test="title">Add Routing Slip</h1>
+          <h1
+            class="view-header__title pt-3"
+            data-test="title"
+          >
+            Add Routing Slip
+          </h1>
         </header>
         <div class="header-bg-color d-flex align-center py-5 mb-0 mt-10">
-          <v-icon color="primary" class="ml-8">
+          <v-icon
+            color="primary"
+            class="ml-8"
+          >
             mdi-clipboard-text
           </v-icon>
-          <h4 class="ml-2 mb-0 font-weight-bold">{{ isReviewMode ? "Review New Routing Slip" : "Add New Routing Slip" }}</h4>
+          <h4 class="ml-2 mb-0 font-weight-bold">
+            {{ isReviewMode ? "Review New Routing Slip" : "Add New Routing Slip" }}
+          </h4>
         </div>
         <v-card class="my-0">
-          <div v-if="isReviewMode" data-test="reviewRoutingSlip">
-            <review-routing-slip/>
+          <div
+            v-if="isReviewMode"
+            data-test="reviewRoutingSlip"
+          >
+            <review-routing-slip />
           </div>
-          <div v-else data-test="createRoutingSlip">
+          <div
+            v-else
+            data-test="createRoutingSlip"
+          >
             <create-routing-slip-details ref="createRoutingSlipDetailsRef" />
             <create-routing-slip-payment ref="createRoutingSlipPaymentRef" />
           </div>
-          <v-divider></v-divider>
+          <v-divider />
           <v-card-actions>
-            <v-col cols="12" class="d-inline-flex justify-end pl-3 pr-6 mt-3">
+            <v-col
+              cols="12"
+              class="d-inline-flex justify-end pl-3 pr-6 mt-3"
+            >
               <v-btn
-                large
-                outlined
+                v-if="isReviewMode"
+                size="large"
+                variant="outlined"
                 color="primary"
-                @click="backToEdit"
                 class="pl-4 pr-5"
                 data-test="btn-back-to-edit"
-                v-if="isReviewMode"
+                @click="backToEdit"
               >
-                <v-icon class="ma-0">mdi-chevron-left</v-icon>
+                <v-icon class="ma-0">
+                  mdi-chevron-left
+                </v-icon>
                 <span>Back to Edit</span>
               </v-btn>
-              <v-spacer></v-spacer>
+              <v-spacer />
               <v-btn
-                large
+                size="large"
                 color="primary"
-                @click="createandReviewButtonEventHandler"
                 class="px-6 mr-3 font-weight-bold"
                 data-test="btn-create-routing-slip"
+                @click="createandReviewButtonEventHandler"
               >
                 <span>{{ createRoutingSlipLabel }}</span>
               </v-btn>
               <v-btn
-                large
-                outlined
+                size="large"
+                variant="outlined"
                 class="px-10 font-weight-bold"
                 color="primary"
-                @click="cancel"
                 data-test="btn-cancel-create-routing-slip"
+                @click="cancel"
               >
                 <span>Cancel</span>
               </v-btn>
@@ -83,9 +110,27 @@
       :icon="modalDialogDetails.modalDialogIcon"
       :iconColor="isModalDialogInfo ? 'primary' : 'error'"
     >
-      <template v-slot:actions>
-        <v-btn large color="primary" @click="modalDialogClose()" data-test="dialog-ok-button" class="font-weight-bold btn-actions">{{ modalDialogDetails.modalDialogOkText }}</v-btn>
-        <v-btn large color="primary" outlined @click="modalDialogCancel()" data-test="dialog-ok-button" class="ml-3 btn-actions" v-show="!isModalDialogInfo" >{{ modalDialogDetails.modalDialogCancelText }}</v-btn>
+      <template #actions>
+        <v-btn
+          size="large"
+          color="primary"
+          data-test="dialog-ok-button"
+          class="font-weight-bold btn-actions"
+          @click="modalDialogClose()"
+        >
+          {{ modalDialogDetails.modalDialogOkText }}
+        </v-btn>
+        <v-btn
+          v-show="!isModalDialogInfo"
+          size="large"
+          color="primary"
+          variant="outlined"
+          data-test="dialog-ok-button"
+          class="ml-3 btn-actions"
+          @click="modalDialogCancel()"
+        >
+          {{ modalDialogDetails.modalDialogCancelText }}
+        </v-btn>
       </template>
     </ModalDialog>
   </v-container>

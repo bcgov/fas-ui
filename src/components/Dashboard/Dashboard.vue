@@ -3,10 +3,15 @@
     <v-row>
       <v-col>
         <header class="view-header flex-column mb-0">
-          <div class="d-flex justify-space-between" :class="{'flex-column': xs}">
+          <div
+            class="d-flex justify-space-between"
+            :class="{'flex-column': xs}"
+          >
             <div>
-              <h1 class="view-header__title">FAS Staff Dashboard</h1>
-              <p  :class="{'mb-16': xs}">
+              <h1 class="view-header__title">
+                FAS Staff Dashboard
+              </h1>
+              <p :class="{'mb-16': xs}">
                 {{ t('dashboardSubText') }}
               </p>
             </div>

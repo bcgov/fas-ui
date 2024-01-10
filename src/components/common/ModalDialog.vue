@@ -1,40 +1,64 @@
 <template>
   <v-dialog
+    v-model="isOpen"
     :persistent="isPersistent"
     :fullscreen="fullscreenOnMobile"
     :scrollable="isScrollable"
     :content-class="dialogClass"
     :max-width="maxWidth"
-    v-model="isOpen"
-    @keydown.esc="cancel">
+    @keydown.esc="cancel"
+  >
     <v-card class="px-10 pt-10 pb-8">
-      <v-card-title data-test="dialog-header" class="pt-0 pb-5">
-        <slot v-if="showIcon" name="icon" >
-          <v-icon large :color="iconColor" class="mt-0">{{ icon }}</v-icon>
+      <v-card-title
+        data-test="dialog-header"
+        class="pt-0 pb-5"
+      >
+        <slot
+          v-if="showIcon"
+          name="icon"
+        >
+          <v-icon
+            size="large"
+            :color="iconColor"
+            class="mt-0"
+          >
+            {{ icon }}
+          </v-icon>
         </slot>
         <span data-test="dialog-title">
           <slot name="title">{{ title }}</slot>
         </span>
         <span v-if="showCloseIcon">
-           <v-btn
+          <v-btn
             icon
-           @click="close()"
-           class="font-weight-bold"
-           data-test="icon-dialog-close"
-            >
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
+            class="font-weight-bold"
+            data-test="icon-dialog-close"
+            @click="close()"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
 
         </span>
       </v-card-title>
       <v-card-text>
         <slot name="text">
-          <div v-html="text" class="px-8 pb-2" data-test="dialog-text"></div>
+          <div
+            class="px-8 pb-2"
+            data-test="dialog-text"
+            v-html="text"
+          />
         </slot>
       </v-card-text>
-        <v-card-actions v-if="showActions">
+      <v-card-actions v-if="showActions">
         <slot name="actions">
-          <v-btn large color="success" @click="close()" data-test="dialog-ok-button">OK</v-btn>
+          <v-btn
+            size="large"
+            color="success"
+            data-test="dialog-ok-button"
+            @click="close()"
+          >
+            OK
+          </v-btn>
         </slot>
       </v-card-actions>
     </v-card>

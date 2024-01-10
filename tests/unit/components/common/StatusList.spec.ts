@@ -1,4 +1,4 @@
-import { createLocalVue, mount, shallowMount, Wrapper } from '@vue/test-utils'
+import { Wrapper, createLocalVue, mount, shallowMount } from '@vue/test-utils'
 import StatusList from '@/components/common/StatusList.vue'
 import Vuetify from 'vuetify'
 

@@ -14,7 +14,7 @@ export default class CommonUtils {
     return date ? moment(date).format(format || 'MMM DD, YYYY') : ''
   }
 
-  static requiredFieldRule (errorMessage: string = 'This field is required') {
+  static requiredFieldRule (errorMessage = 'This field is required') {
     return [v => !!v || errorMessage]
   }
 
@@ -37,7 +37,7 @@ export default class CommonUtils {
   }
 
   // blob convert to downloadable file
-  static fileDownload (data: any, fileName: string, fileType: string = 'text/plain', action:string = 'download') {
+  static fileDownload (data: any, fileName: string, fileType = 'text/plain', action = 'download') {
     const blob = new Blob([data], { type: fileType })
     if (typeof window.navigator.msSaveBlob !== 'undefined') {
       // IE workaround for "HTML7007: One or more blob URLs were
@@ -76,7 +76,7 @@ export default class CommonUtils {
     }
   }
 
-  static statusListColor (status: string, textColor: boolean = true) {
+  static statusListColor (status: string, textColor = true) {
     let color = ''
     switch (status) {
       case SlipStatus.ACTIVE:
