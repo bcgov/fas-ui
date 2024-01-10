@@ -8,12 +8,12 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 
 withDefaults(defineProps<{
-  size: number
-  width: number
-  color: string
+  size?: number
+  width?: number
+  color?: string
 }>(), {
   size: 50,
   width: 5,

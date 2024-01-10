@@ -3,6 +3,8 @@ import { useRoutingSlip } from '../useRoutingSlip'
 import { useRoute, useRouter } from 'vue-router'
 
 export function useDashboard () {
+  const router = useRouter()
+  const route = useRoute()
   const { resetRoutingSlipDetails } = useRoutingSlip()
   const appendQueryParamsIfNeeded = CommonUtils.appendQueryParamsIfNeeded
 
@@ -11,8 +13,6 @@ export function useDashboard () {
     resetRoutingSlipDetails()
     // navigate now
     // Check if we had come from Staff dashboard
-    const router = useRouter()
-    const route = useRoute()
     router.push(appendQueryParamsIfNeeded('/create-routing-slip', route))
   }
 

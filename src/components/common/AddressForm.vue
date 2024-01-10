@@ -10,7 +10,7 @@
   <div>address</div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { useAddressForm } from '@/composables/common'
 import { Address } from '@/models/Address'
 // TODO put base address back.

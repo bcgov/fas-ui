@@ -3,7 +3,7 @@
   :close-on-content-click="false"
   offset-y
   data-test="menu-search-column-filter">
-    <template v-slot:activator="{ on: { click } }">
+    <template v-slot:activator="{ props: { click } }">
       <v-text-field
         label="Columns to Show"
         readonly
@@ -17,20 +17,18 @@
       </v-text-field>
     </template>
     <v-list nav dense v-bind="$attrs">
-      <v-list-item-group>
-        <v-list-item
+      <v-list-item
+        class="ma-0"
+        v-for="(item, i) in selectedHeaderSearchList.filter(header => !header.hideInSearchColumnFilter)"
+        :key="i"
+      >
+        <v-checkbox
           class="ma-0"
-          v-for="(item, i) in selectedHeaderSearchList.filter(header => !header.hideInSearchColumnFilter)"
-          :key="i"
-        >
-          <v-checkbox
-            class="ma-0"
-            v-model="item.display"
-            :label="item.text"
-            hide-details
-          ></v-checkbox>
-        </v-list-item>
-      </v-list-item-group>
+          v-model="item.display"
+          :label="item.text"
+          hide-details
+        ></v-checkbox>
+      </v-list-item>
     </v-list>
   </v-menu>
 </template>
@@ -40,15 +38,15 @@ import { useSearchColumnFilterComponent } from '@/composables/common'
 
 const props = withDefaults(
   defineProps<{
-    value: any
+    modelValue: any
   }>(),
   {
-    value: []
+    modelValue: []
   }
 )
 
 const emits = defineEmits<{
-  input: [value: any]
+  input: [modelValue: any]
 }>()
 
 const { selectedHeaderSearchList } = useSearchColumnFilterComponent(

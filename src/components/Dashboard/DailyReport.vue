@@ -7,14 +7,14 @@
       offset-y
       z-index="1"
     >
-      <template v-slot:activator="{ on }">
+      <template v-slot:activator="{ props }">
         <v-btn
+          v-bind="props"
           class="font-weight-bold"
           large
           dark
           color="primary"
           v-can:fas_reports.hide
-          v-on="on"
           data-test="btn-daily-report"
         >
           Daily Report
@@ -33,8 +33,6 @@
         <v-card-text class="mx-4">
           <v-date-picker
             v-model="selectedDate"
-            v-bind="$attrs"
-            v-on="$listeners"
             data-test="date-date-picker"
             elevation="5"
             :max="maxDate"

@@ -51,8 +51,8 @@
                   :headers="headerSearch"
                   :items="searchRoutingSlipResult"
                   item-key="name"
-                  class="elevation-1"
-                  sort-by="routingSlipNumber"
+                  headerProps="elevation-1"
+                  :sort-by="['routingSlipNumber']"
                   hide-default-header
                   hide-default-footer
                   fixed-header
@@ -73,7 +73,7 @@
                       "
                     ></div>
                   </template>
-                  <template v-slot:header="{}">
+                  <template v-slot:header="{ }">
                     <thead class="v-data-table-header">
                       <tr class="header-row-1">
                         <th
@@ -423,9 +423,13 @@ import { useDashboard } from '@/composables/Dashboard'
 import commonUtil from '@/util/common-util'
 import { PaymentMethods } from '@/util/constants'
 
-const props = defineProps({
-  isLibraryMode: Boolean
+// Define props
+const props = withDefaults(defineProps<{
+  isLibraryMode?: boolean
+}>(), {
+  isLibraryMode: false
 })
+
 const { addRoutingSlip } = useDashboard() // Adjust based on actual usage
 const {
   headerSearch,
@@ -459,6 +463,7 @@ const {
 const colors = computed(() => commonUtil.statusListColor)
 const appendCurrencySymbol = computed(() => commonUtil.appendCurrencySymbol)
 const formatDisplayDate = computed(() => commonUtil.formatDisplayDate)
+console.log(headerSearch)
 
 </script>
 
