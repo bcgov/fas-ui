@@ -1,7 +1,9 @@
 <template>
   <div>
     <header class="d-flex flex-column">
-      <h3 data-test="title">Routing Slip Information</h3>
+      <h3 data-test="title">
+        Routing Slip Information
+      </h3>
     </header>
     <v-card class="pl-5 py-2 mt-5 pr-5">
       <v-card-text>
@@ -17,14 +19,14 @@
                 </div>
 
                 <div v-if="isEditable">
-                <status-menu
+                  <status-menu
                     v-model="currentStatus"
-                    @update:statusChange="statusChange"
                     :error-messages="errorMessage"
                     :isApprovalFlow="isApprovalFlow"
                     :allowedStatusList="allowedStatusList"
                     data-test="btn-edit"
-                  ></status-menu>
+                    @update:statusChange="statusChange"
+                  />
                 </div>
               </v-col>
             </v-row>
@@ -43,18 +45,17 @@
                 }}
               </v-col>
             </v-row>
-            <v-row >
+            <v-row>
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 Status
               </v-col>
               <v-col class="col-6 col-sm-9">
                 <span
-                :key="routingSlipDetails.status"
+                  :key="routingSlipDetails.status"
                   :class="colors(routingSlipDetails.status)"
                   class="slip-status "
                   data-test="label-status"
-                  >{{ getStatusLabel(routingSlipDetails.status) }}</span
-                >
+                >{{ getStatusLabel(routingSlipDetails.status) }}</span>
               </v-col>
             </v-row>
 
@@ -64,10 +65,9 @@
                   ref="refundRequestForm"
                   :inputRefundRequestDetails="refundRequestDetails"
                   :isEditing="showAddressEditMode"
-                  @update:refundRequestDetails="refundRequestDetails = $event"
                   :isApprovalFlow="isApprovalFlow"
-                >
-                </RefundRequestForm>
+                  @update:refundRequestDetails="refundRequestDetails = $event"
+                />
               </template>
             </v-expand-transition>
 
@@ -76,11 +76,11 @@
                 Entity Number
               </v-col>
               <v-col
-                class="col-6 col-sm-9"
                 v-if="
                   routingSlipDetails.paymentAccount &&
                     routingSlipDetails.paymentAccount.accountName
                 "
+                class="col-6 col-sm-9"
               >
                 {{ routingSlipDetails.paymentAccount.accountName }}
               </v-col>
@@ -88,24 +88,27 @@
           </v-col>
         </v-row>
       </v-card-text>
-      <v-card-actions class="pr-4 justify-end pa-3 pb-5" v-if="addMoreDetails">
+      <v-card-actions
+        v-if="addMoreDetails"
+        class="pr-4 justify-end pa-3 pb-5"
+      >
         <v-btn
-          large
+          size="large"
           color="primary"
-          @click="updateStatus()"
           class="px-8 font-weight-bold"
           data-test="btn-edit-routing-done"
           :loading="isLoading"
+          @click="updateStatus()"
         >
-          <span>{{isApprovalFlow ? 'Authorize' :  'Done'}}</span>
+          <span>{{ isApprovalFlow ? 'Authorize' : 'Done' }}</span>
         </v-btn>
         <v-btn
-          large
-          outlined
+          size="large"
+          variant="outlined"
           class="px-7"
           color="primary"
-          @click="cancelOrReject()"
           data-test="btn-edit-routing-cancel"
+          @click="cancelOrReject()"
         >
           <span>Cancel</span>
         </v-btn>
@@ -120,18 +123,51 @@
       :icon="modalText.icon"
       iconColor="error"
     >
-    <template v-slot:text>
-        <p class="mb-0 px-6" v-html="modalText.subText"></p>
+      <template #text>
+        <p
+          class="mb-0 px-6"
+          v-html="modalText.subText"
+        />
       </template>
-      <template v-slot:actions v-if="modalText.isError">
-        <v-btn large color="primary" @click="closeErrorDialog()" data-test="dialog-ok-button" class="px-5 font-weight-bold btn-actions">Ok</v-btn>
+      <template
+        v-if="modalText.isError"
+        #actions
+      >
+        <v-btn
+          size="large"
+          color="primary"
+          data-test="dialog-ok-button"
+          class="px-5 font-weight-bold btn-actions"
+          @click="closeErrorDialog()"
+        >
+          Ok
+        </v-btn>
       </template>
-      <template v-slot:actions v-else>
-        <v-btn large color="primary" @click="updateStatus()" data-test="dialog-ok-button" class="px-5 font-weight-bold btn-actions">{{modalText.confirmBtnText}}</v-btn>
-        <v-btn large color="primary" outlined @click="cancelOrReject()" data-test="dialog-ok-button" class="ml-3 btn-actions"  >Cancel</v-btn>
+      <template
+        v-else
+        #actions
+      >
+        <v-btn
+          size="large"
+          color="primary"
+          data-test="dialog-ok-button"
+          class="px-5 font-weight-bold btn-actions"
+          @click="updateStatus()"
+        >
+          {{ modalText.confirmBtnText }}
+        </v-btn>
+        <v-btn
+          size="large"
+          color="primary"
+          variant="outlined"
+          data-test="dialog-ok-button"
+          class="ml-3 btn-actions"
+          @click="cancelOrReject()"
+        >
+          Cancel
+        </v-btn>
       </template>
     </ModalDialog>
-
   </div>
 </template>
 <script setup lang="ts">

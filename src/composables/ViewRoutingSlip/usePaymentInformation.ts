@@ -44,7 +44,7 @@ export default function usePaymentInformation () {
     return [SlipStatus.ACTIVE, SlipStatus.COMPLETE, SlipStatus.CORRECTION].includes(routingSlip.value.status as SlipStatus)
   })
 
-  function adjustRoutingSlipChequeNumber (num: string, paymentIndex: number = 0) {
+  function adjustRoutingSlipChequeNumber (num: string, paymentIndex = 0) {
     const chequeNumToChange: AdjustRoutingSlipChequePrams = {
       chequeNum: num,
       paymentIndex: paymentIndex
@@ -52,7 +52,7 @@ export default function usePaymentInformation () {
     updateRoutingSlipChequeNumber(chequeNumToChange)
   }
 
-  function adjustRoutingSlipAmount (num: number, isUsdChange: boolean, paymentIndex: number = 0) {
+  function adjustRoutingSlipAmount (num: number, isUsdChange: boolean, paymentIndex = 0) {
     const amountToChange: AdjustRoutingSlipAmountPrams = {
       amount: Number(num),
       paymentIndex: paymentIndex,

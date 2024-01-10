@@ -9,7 +9,7 @@ import { CreateRoutingSlipStatus, PatchActions, SlipStatus } from '@/util/consta
 export default class RoutingSlip {
   public static async getRoutingSlip (
     routingNumber: string,
-    showGlobalLoader: boolean = false
+    showGlobalLoader = false
   ): Promise<AxiosResponse> {
     return axios.get(
       `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingNumber}`,
@@ -19,7 +19,7 @@ export default class RoutingSlip {
 
   public static async createRoutingSlip (
     routingSlipRequest: RoutingSlip,
-    showGlobalLoader: boolean = false
+    showGlobalLoader = false
   ): Promise<AxiosResponse> {
     return axios.post(
       `${ConfigHelper.getFasAPIURL()}/routing-slips`,
@@ -64,7 +64,7 @@ export default class RoutingSlip {
 
   public static async getSearchRoutingSlip (
     searchParams: RoutingSlip,
-    showGlobalLoader: boolean = false
+    showGlobalLoader = false
   ): Promise<AxiosResponse> {
     return axios.post(
       `${ConfigHelper.getFasAPIURL()}/routing-slips/queries`,
@@ -75,7 +75,7 @@ export default class RoutingSlip {
 
   public static async saveLinkRoutingSlip (
     LinkRoutingSlip: LinkRoutingSlipPrams,
-    showGlobalLoader: boolean = false
+    showGlobalLoader = false
   ): Promise<AxiosResponse> {
     return axios.post(
       `${ConfigHelper.getFasAPIURL()}/routing-slips/links`,
@@ -86,7 +86,7 @@ export default class RoutingSlip {
 
   public static async getLinkedRoutingSlips (
     routingSlipNumber: string,
-    showGlobalLoader: boolean = false
+    showGlobalLoader = false
   ): Promise<AxiosResponse> {
     return axios.get(
       `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}/links`,
@@ -96,8 +96,8 @@ export default class RoutingSlip {
 
   public static async getDailyReport (
     selectedDate: string,
-    type: string = 'application/pdf',
-    showGlobalLoader: boolean = false
+    type = 'application/pdf',
+    showGlobalLoader = false
   ): Promise<AxiosResponse> {
     const headers = {
       Accept: type
@@ -115,7 +115,7 @@ export default class RoutingSlip {
 
   public static async getSearchFilingType (
     searchParams: string,
-    showGlobalLoader: boolean = false
+    showGlobalLoader = false
   ): Promise<AxiosResponse> {
     return axios.get(
       `${ConfigHelper.getPayAPIURL()}/fees/schedules?description=${searchParams}`,
@@ -125,7 +125,7 @@ export default class RoutingSlip {
 
   public static async getFeeByCorpTypeAndFilingType (
     getFeeRequestParams: GetFeeRequestParams,
-    showGlobalLoader: boolean = false
+    showGlobalLoader = false
   ): Promise<AxiosResponse> {
     const requestParams = CommonUtils.createQueryParams(getFeeRequestParams.requestParams)
     return axios.get(
@@ -136,7 +136,7 @@ export default class RoutingSlip {
 
   public static async saveManualTransactions (
     transactions: any,
-    showGlobalLoader: boolean = false
+    showGlobalLoader = false
   ): Promise<AxiosResponse> {
     return axios.post(
       `${ConfigHelper.getPayAPIURL()}/payment-requests`,
@@ -148,7 +148,7 @@ export default class RoutingSlip {
 
   public static async cancelRoutingSlipInvoice (
     invoiceId: number,
-    showGlobalLoader: boolean = false
+    showGlobalLoader = false
   ): Promise<AxiosResponse> {
     return axios.post(
       `${ConfigHelper.getPayAPIURL()}/payment-requests/${invoiceId}/refunds`,

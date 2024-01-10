@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <create-routing-slip/>
+    <create-routing-slip />
   </div>
 </template>
 

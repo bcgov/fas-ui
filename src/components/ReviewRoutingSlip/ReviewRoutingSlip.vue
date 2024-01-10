@@ -1,7 +1,18 @@
 <template>
   <v-container class="view-container pl-9">
-    <review-routing-slip-details class="mb-10" data-test="review-routing-slip-details" :routingSlipDetails="routingSlipDetails" :accountInfo="accountInfo"/>
-    <review-routing-slip-payment data-test="review-routing-slip-payment" :isPaymentMethodCheque="isPaymentMethodCheque" :cashPayment="cashPayment" :chequePayment="chequePayment" :isAmountPaidInUsd="isAmountPaidInUsd"/>
+    <review-routing-slip-details
+      class="mb-10"
+      data-test="review-routing-slip-details"
+      :routingSlipDetails="routingSlipDetails"
+      :accountInfo="accountInfo"
+    />
+    <review-routing-slip-payment
+      data-test="review-routing-slip-payment"
+      :isPaymentMethodCheque="isPaymentMethodCheque"
+      :cashPayment="cashPayment"
+      :chequePayment="chequePayment"
+      :isAmountPaidInUsd="isAmountPaidInUsd"
+    />
   </v-container>
 </template>
 <script setup lang="ts">

@@ -6,15 +6,14 @@
       </v-col>
       <v-col class="col-9 pb-0">
         <v-text-field
-        filled
-        label="Name of Person or Organization"
-        persistent-hint
-        v-model.trim="name"
-        data-test="txtName"
-        :rules="nameRules"
-        v-if="canEdit"
-        >
-        </v-text-field>
+          v-if="canEdit"
+          v-model.trim="name"
+          variant="filled"
+          label="Name of Person or Organization"
+          persistent-hint
+          data-test="txtName"
+          :rules="nameRules"
+        />
         <span v-else>{{ name }}</span>
         <AddressForm
           ref="addressForm"
@@ -23,26 +22,27 @@
           :address="address"
           @update:address="address=$event"
           @valid="addressValidity"
-        >
-        </AddressForm>
+        />
       </v-col>
-      <v-col class="col-3 font-weight-bold"
-        :class="canEdit ? 'pt-0' : ''">
+      <v-col
+        class="col-3 font-weight-bold"
+        :class="canEdit ? 'pt-0' : ''"
+      >
         Cheque Advice
       </v-col>
       <v-col
         class="col-9"
-        :class="canEdit ? 'pt-0' : ''">
+        :class="canEdit ? 'pt-0' : ''"
+      >
         <v-text-field
-        filled
-        label="Additional Information"
-        persistent-hint
-        v-model.trim="chequeAdvice"
-        data-test="txtChequeAdvice"
-        :rules="chequeAdviceRules"
-        v-if="isEditing"
-        >
-        </v-text-field>
+          v-if="isEditing"
+          v-model.trim="chequeAdvice"
+          variant="filled"
+          label="Additional Information"
+          persistent-hint
+          data-test="txtChequeAdvice"
+          :rules="chequeAdviceRules"
+        />
         <span v-else>{{ chequeAdvice }}</span>
       </v-col>
     </v-row>

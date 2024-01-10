@@ -3,22 +3,38 @@
     <v-col class="col-3 font-weight-bold">
       Payment Information
     </v-col>
-    <v-col class="col-9" data-test="payment-info">
+    <v-col
+      class="col-9"
+      data-test="payment-info"
+    >
       {{ isPaymentMethodCheque ? "Cheque" : "Cash" }}
     </v-col>
-  <v-col cols="10">
-    <!--- cheque children if payment is cheque, else cash child --->
-    <review-routing-slip-cheque-payment data-test="review-routing-slip-cheque-payment" v-if="isPaymentMethodCheque" :chequePayment="chequePayment" :isAmountPaidInUsd="isAmountPaidInUsd"/>
-    <review-routing-slip-cash-payment data-test="review-routing-slip-cash-payment" v-else :cashPayment="cashPayment" :isAmountPaidInUsd="isAmountPaidInUsd"/>
-  </v-col>
-  <template v-if="isPaymentMethodCheque">
-    <v-col class="col-3 font-weight-bold">
-      Total Amount
+    <v-col cols="10">
+      <!--- cheque children if payment is cheque, else cash child --->
+      <review-routing-slip-cheque-payment
+        v-if="isPaymentMethodCheque"
+        data-test="review-routing-slip-cheque-payment"
+        :chequePayment="chequePayment"
+        :isAmountPaidInUsd="isAmountPaidInUsd"
+      />
+      <review-routing-slip-cash-payment
+        v-else
+        data-test="review-routing-slip-cash-payment"
+        :cashPayment="cashPayment"
+        :isAmountPaidInUsd="isAmountPaidInUsd"
+      />
     </v-col>
-    <v-col class="col-9" data-test="total">
-      {{ appendCurrencySymbol(totalAmount.toFixed(2)) }}
-    </v-col>
-  </template>
+    <template v-if="isPaymentMethodCheque">
+      <v-col class="col-3 font-weight-bold">
+        Total Amount
+      </v-col>
+      <v-col
+        class="col-9"
+        data-test="total"
+      >
+        {{ appendCurrencySymbol(totalAmount.toFixed(2)) }}
+      </v-col>
+    </template>
   </v-row>
 </template>
 <script setup lang="ts">

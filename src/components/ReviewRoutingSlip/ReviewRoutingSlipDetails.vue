@@ -3,13 +3,19 @@
     <v-col class="col-3 font-weight-bold">
       Routing Slip - Unique ID
     </v-col>
-    <v-col class="col-9" data-test="txt-routing-slip-number">
+    <v-col
+      class="col-9"
+      data-test="txt-routing-slip-number"
+    >
       {{ routingSlipDetails.number }}
     </v-col>
     <v-col class="col-3 font-weight-bold">
       Date
     </v-col>
-    <v-col class="col-9" data-test="txt-routing-slip-date">
+    <v-col
+      class="col-9"
+      data-test="txt-routing-slip-date"
+    >
       {{ routingSlipDetails.routingSlipDate ?
         formatDisplayDate(
           routingSlipDetails.routingSlipDate,
@@ -20,7 +26,10 @@
     <v-col class="col-3 font-weight-bold">
       Entity Number
     </v-col>
-    <v-col class="col-9" data-test="txt-routing-slip-name">
+    <v-col
+      class="col-9"
+      data-test="txt-routing-slip-name"
+    >
       {{ accountInfo && accountInfo.accountName ? accountInfo.accountName : '-' }}
     </v-col>
   </v-row>

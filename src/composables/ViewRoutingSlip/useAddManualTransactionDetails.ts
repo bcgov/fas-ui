@@ -35,7 +35,7 @@ export default function useAddManualTransactionDetails (props, emits) {
   // Calculate total fee from pay-api service, triggered if its dependent values are changed
   async function calculateTotal () {
     try {
-      if (manualTransactionDetails && manualTransactionDetails.value.filingType && manualTransactionDetails.value.quantity) {
+      if (manualTransactionDetails.value && manualTransactionDetails.value.filingType && manualTransactionDetails.value.quantity) {
         const getFeeRequestParams: GetFeeRequestParams = {
           corpTypeCode: manualTransactionDetails.value.filingType.corpTypeCode.code,
           filingTypeCode: manualTransactionDetails.value.filingType.filingTypeCode.code,

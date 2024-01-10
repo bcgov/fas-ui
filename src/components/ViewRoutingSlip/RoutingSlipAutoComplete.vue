@@ -1,24 +1,30 @@
 <template>
   <transition-group name="slide-fade">
-    <p key="text" v-html="$t('linkRSSearchInfo')"></p>
-    <div class="d-flex" key="action">
+    <p
+      key="text"
+      v-html="$t('linkRSSearchInfo')"
+    />
+    <div
+      key="action"
+      class="d-flex"
+    >
       <v-autocomplete
-        filled
         v-model="number"
+        variant="filled"
         :items="autoCompleteRoutingSlips"
         :loading="isLoading"
-        :search-input.sync="search"
-        @keyup="delayedSearch"
+        :search.sync="search"
         :hide-no-data="hideNoData"
-        item-text="number"
+        item-title="number"
         item-value="number"
         placeholder="Search by routing slip - Unique ID"
         return-object
         :rules="numberRules"
         :error-messages="errorMessage"
         append-icon=""
+        @keyup="delayedSearch"
       >
-        <template v-slot:no-data>
+        <template #no-data>
           <v-list-item>
             <v-list-item-title>
               <div class="mb-1 font-weight-bold">
@@ -31,29 +37,27 @@
           </v-list-item>
         </template>
 
-        <template v-slot:item="{ item }">
+        <template #item="{ item }">
           <div class="rs-details">
             <span class="font-weight-bold">{{ item.number }}</span>
             <span>
               <span>-</span>
               {{
                 formatDisplayDate(item.routingSlipDate, 'MMM DD, YYYY')
-              }}</span
-            >
+              }}</span>
             <span>
               <span>-</span> Current Balance:
               {{
                 item.remainingAmount
                   ? appendCurrencySymbol(item.remainingAmount.toFixed(2))
                   : '$0.00'
-              }}</span
-            >
+              }}</span>
           </div>
         </template>
       </v-autocomplete>
 
       <v-btn
-        large
+        size="large"
         color="primary"
         data-test="btn-link-rs"
         class="px-6 mx-2 font-weight-bold"
@@ -62,12 +66,12 @@
         <span class="font">Link </span>
       </v-btn>
       <v-btn
-        large
-        outlined
+        size="large"
+        variant="outlined"
         class="px-6 font-weight-bold"
         color="primary"
-        @click="toggleSearch()"
         data-test="btn-cancel-link"
+        @click="toggleSearch()"
       >
         <span>Cancel</span>
       </v-btn>

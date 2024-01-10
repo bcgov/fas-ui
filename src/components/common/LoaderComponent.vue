@@ -1,8 +1,16 @@
 <template>
   <v-container>
     <v-fade-transition>
-      <div class="loading-container" data-test="div-loading-container">
-        <v-progress-circular :size="size" :width="width" :color="color" indeterminate/>
+      <div
+        class="loading-container"
+        data-test="div-loading-container"
+      >
+        <v-progress-circular
+          :size="size"
+          :width="width"
+          :color="color"
+          indeterminate
+        />
       </div>
     </v-fade-transition>
   </v-container>

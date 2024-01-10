@@ -1,7 +1,9 @@
 <template>
   <div>
     <header class="d-flex flex-column mb-0">
-      <h3 data-test="title">Linking Routing Slip</h3>
+      <h3 data-test="title">
+        Linking Routing Slip
+      </h3>
       <p>{{ $t('linkRoutingSlipSubText') }}</p>
     </header>
     <v-card class="pl-5 py-2 small-text-input">
@@ -16,50 +18,97 @@
               )
             }}
           </v-col>
-          <v-col cols="12" class="pb-0" v-if="!isRoutingSlipAChild">
+          <v-col
+            v-if="!isRoutingSlipAChild"
+            cols="12"
+            class="pb-0"
+          >
             <linked-routing-slip-details
-              data-test="linked-routing-slip-details"
               v-for="(routinSlip, i) in childRoutingSlipDetails"
+              :key="routinSlip.number"
+              data-test="linked-routing-slip-details"
               :siNumber="i + 1"
               :createdDate="routinSlip.createdOn"
               :routingSlipNumber="routinSlip.number"
-              :key="routinSlip.number"
               :parentRoutingSlipNumber="routingSlip.number"
             />
           </v-col>
-          <v-col cols="12" v-if="isRoutingSlipAChild" class="pb-0">
+          <v-col
+            v-if="isRoutingSlipAChild"
+            cols="12"
+            class="pb-0"
+          >
             <linked-routing-slip-details
               :createdDate="parentRoutingSlipDetails.createdOn"
               :routingSlipNumber="parentRoutingSlipDetails.number"
             />
           </v-col>
-          <v-col cols="12" class="pl-0" v-if="isRoutingSlipAChild">
+          <v-col
+            v-if="isRoutingSlipAChild"
+            cols="12"
+            class="pl-0"
+          >
             <div class="linked-rs-info">
-              <h4 class="mb-3">Linked routing slip</h4>
-              <p v-html="$t('linkedRSChildInfo')"></p>
+              <h4 class="mb-3">
+                Linked routing slip
+              </h4>
+              <p v-html="$t('linkedRSChildInfo')" />
             </div>
           </v-col>
         </v-row>
         <template v-if="!isRoutingSlipLinked">
-          <v-row no-gutters v-if="invoiceCount > 0 " data-test="invoice-exist-error-msg">
-            <v-icon class="align-start">mdi-information-outline</v-icon>
+          <v-row
+            v-if="invoiceCount > 0 "
+            no-gutters
+            data-test="invoice-exist-error-msg"
+          >
+            <v-icon class="align-start">
+              mdi-information-outline
+            </v-icon>
             <p class="mb-0 ml-2">
-              <span class="text-color" v-if="isRoutingSlipVoid" v-html="$t('cantLinkBecauseVoidedMsg')"></span>
-              <span class="text-color" v-else v-html="$t('cantLinkSinceInvoicesExistMsg')"></span>
+              <span
+                v-if="isRoutingSlipVoid"
+                class="text-color"
+                v-html="$t('cantLinkBecauseVoidedMsg')"
+              />
+              <span
+                v-else
+                class="text-color"
+                v-html="$t('cantLinkSinceInvoicesExistMsg')"
+              />
             </p>
           </v-row>
-          <v-row no-gutters v-else>
-            <v-col cols="12" sm="10">
+          <v-row
+            v-else
+            no-gutters
+          >
+            <v-col
+              cols="12"
+              sm="10"
+            >
               <v-row data-test="search-link-header">
-               <v-col class="col-6 col-sm-8 font-weight-bold mt-1" v-if="isRoutingSlipVoid">
-                  {{$t('cantLinkBecauseVoidedMsg')}}
+                <v-col
+                  v-if="isRoutingSlipVoid"
+                  class="col-6 col-sm-8 font-weight-bold mt-1"
+                >
+                  {{ $t('cantLinkBecauseVoidedMsg') }}
                 </v-col>
-                <v-col v-else class="col-6 col-sm-8 font-weight-bold mt-1">
+                <v-col
+                  v-else
+                  class="col-6 col-sm-8 font-weight-bold mt-1"
+                >
                   This routing slip has no linked routing slips
                 </v-col>
 
-                <v-col cols="6" sm="8" v-if="showSearch">
-                  <div class="d-flex" key="action">
+                <v-col
+                  v-if="showSearch"
+                  cols="6"
+                  sm="8"
+                >
+                  <div
+                    key="action"
+                    class="d-flex"
+                  >
                     <RoutingSlipAutoComplete
                       data-test="routing-slip-auto-complete"
                       @toggleSearch="toggleSearch()"
@@ -71,15 +120,17 @@
 
             <v-col class="col-1 col-sm-2 d-flex justify-end pr-5">
               <v-btn
-                large
+                v-can:fas_edit.hide
+                v-can:fas_link.hide
+                size="large"
                 color="primary"
                 data-test="btn-add-link-rs"
-                v-can:fas_edit.hide
                 :disabled="showSearch || isRoutingSlipVoid"
                 @click="toggleSearch()"
-                v-can:fas_link.hide
               >
-                <v-icon class="mr-1">mdi-plus</v-icon>
+                <v-icon class="mr-1">
+                  mdi-plus
+                </v-icon>
                 <span class="font">Link Routing Slip</span>
               </v-btn>
             </v-col>

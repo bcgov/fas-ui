@@ -1,21 +1,36 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col cols="12" lg="8" class="text-center">
-        <v-icon size="48" :color="iconColor" class="mb-6">{{ icon }}</v-icon>
-        <h1 class="mb-5">{{ summary }}</h1>
+      <v-col
+        cols="12"
+        lg="8"
+        class="text-center"
+      >
+        <v-icon
+          size="48"
+          :color="iconColor"
+          class="mb-6"
+        >
+          {{ icon }}
+        </v-icon>
+        <h1 class="mb-5">
+          {{ summary }}
+        </h1>
         <p class="mb-9">
-          <slot name="description">{{ description }}</slot>
+          <slot name="description">
+            {{ description }}
+          </slot>
         </p>
         <slot name="actions">
           <v-btn
-            large
+            v-if="showHomePageBtn"
+            size="large"
             link
             color="primary"
-            @click="goHome()"
             data-test="btn-home"
-            v-if="showHomePageBtn"
-            >{{ $t('homeBtnLabel') }}
+            @click="goHome()"
+          >
+            {{ $t('homeBtnLabel') }}
           </v-btn>
         </slot>
       </v-col>

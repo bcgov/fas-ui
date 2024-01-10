@@ -1,48 +1,46 @@
 <template>
   <v-app id="app">
     <div
-      class="header-group"
       ref="headerGroup"
+      class="header-group"
     >
       <!-- loader  -->
       <sbc-loader :show="showLoading" />
       <!-- common header -->
-        <sbc-header
-          class="flex-column"
-          :key="refreshKey"
-          :inAuth="false"
-          :show-product-selector="false"
-          :redirectUrlLoginFail="logoutUrl"
-          :redirect-on-logout="logoutUrl"
-          :showActions="true"
-        >
-        </sbc-header>
+      <sbc-header
+        :key="refreshKey"
+        class="flex-column"
+        :inAuth="false"
+        :show-product-selector="false"
+        :redirectUrlLoginFail="logoutUrl"
+        :redirect-on-logout="logoutUrl"
+        :showActions="true"
+      />
       <bread-crumb />
       <!-- error alert -->
       <error-alert-component
-      :message="$t('errorAlertMessage')"
-      v-if="hasCallFailed"
-      ></error-alert-component>
-
+        v-if="hasCallFailed"
+        :message="$t('errorAlertMessage')"
+      />
     </div>
     <!-- body content -->
     <div class="app-body">
       <!-- using v-show instead of v-if to persist state -->
-      <loader-component v-show="isThereActiveCalls"></loader-component>
+      <loader-component v-show="isThereActiveCalls" />
       <router-view v-show="!isThereActiveCalls" />
     </div>
-    <sbc-footer></sbc-footer>
+    <sbc-footer />
   </v-app>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import ErrorAlertComponent from '@/components/common/ErrorAlertComponent.vue'
 import LoaderComponent from '@/components/common/LoaderComponent.vue'
 import SbcFooter from 'sbc-common-components/src/components/SbcFooter.vue'
 import SbcHeader from 'sbc-common-components/src/components/SbcHeader.vue'
 import SbcLoader from 'sbc-common-components/src/components/SbcLoader.vue'
 import BreadCrumb from '@/components/common/BreadCrumb.vue'
-import { useLoader, useErrorAlert } from './composables/common'
+import { useErrorAlert, useLoader } from './composables/common'
 import { useAppStore } from '@/store/app'
 
 const headerGroup = ref(null)

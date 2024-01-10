@@ -1,44 +1,47 @@
 <template>
-  <v-row class="d-flex justify-between" v-if="cashPayment">
+  <v-row
+    v-if="cashPayment"
+    class="d-flex justify-between"
+  >
     <v-col :cols="isAmountPaidInUsd ? 4: 6">
       <v-text-field
-      filled
-      disabled
-      label="Receipt Number"
-      persistent-hint
-      hide-details
-      :value="cashPayment.chequeReceiptNumber"
-      data-test="txt-receipt-number"
-      >
-      </v-text-field>
+        variant="filled"
+        disabled
+        label="Receipt Number"
+        persistent-hint
+        hide-details
+        :model-value="cashPayment.chequeReceiptNumber"
+        data-test="txt-receipt-number"
+      />
     </v-col>
     <v-col :cols="isAmountPaidInUsd > 0 ? 4: 6">
       <v-text-field
-      filled
-      :disabled="!isEditable || isALinkedChild"
-      label="Amount(CAD$)"
-      persistent-hint
-      hide-details
-      :value="cashPayment.paidAmount"
-      type="number"
-      data-test="txt-paid-amount"
-      @input="e => adjustRoutingSlipAmount(e, false)"
-      >
-      </v-text-field>
+        variant="filled"
+        :disabled="!isEditable || isALinkedChild"
+        label="Amount(CAD$)"
+        persistent-hint
+        hide-details
+        :model-value="cashPayment.paidAmount"
+        type="number"
+        data-test="txt-paid-amount"
+        @update:model-value="e => adjustRoutingSlipAmount(e, false)"
+      />
     </v-col>
-    <v-col cols="4" v-if="isAmountPaidInUsd">
+    <v-col
+      v-if="isAmountPaidInUsd"
+      cols="4"
+    >
       <v-text-field
-      filled
-      :disabled="!isEditable || isALinkedChild"
-      label="Amount(USD$)"
-      persistent-hint
-      hide-details
-      :value="cashPayment.paidUsdAmount"
-      type="number"
-      data-test="txt-paid-amount"
-      @input="e => adjustRoutingSlipAmount(e, true)"
-      >
-      </v-text-field>
+        variant="filled"
+        :disabled="!isEditable || isALinkedChild"
+        label="Amount(USD$)"
+        persistent-hint
+        hide-details
+        :model-value="cashPayment.paidUsdAmount"
+        type="number"
+        data-test="txt-paid-amount"
+        @update:model-value="e => adjustRoutingSlipAmount(e, true)"
+      />
     </v-col>
   </v-row>
 </template>

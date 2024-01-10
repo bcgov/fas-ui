@@ -1,8 +1,10 @@
 <template>
   <div class="mb-4">
-    <span class="font-weight-bold" v-if="siNumber !== ''">
-      {{ siNumber }}. </span
+    <span
+      v-if="siNumber !== ''"
+      class="font-weight-bold"
     >
+      {{ siNumber }}. </span>
     <router-link
       :to="navigateTo()"
       class="font-weight-bold"
@@ -11,10 +13,12 @@
     </router-link>
     <span>
       - Routing slip created date:
-      <span data-test="text-created-date" class="font-weight-bold">{{
+      <span
+        data-test="text-created-date"
+        class="font-weight-bold"
+      >{{
         formatDisplayDate(createdDate)
-      }}</span></span
-    >
+      }}</span></span>
   </div>
 </template>
 <script setup lang="ts">

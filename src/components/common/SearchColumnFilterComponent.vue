@@ -1,33 +1,37 @@
 <template>
   <v-menu
-  :close-on-content-click="false"
-  offset-y
-  data-test="menu-search-column-filter">
-    <template v-slot:activator="{ props: { click } }">
+    :close-on-content-click="false"
+    offset-y
+    data-test="menu-search-column-filter"
+  >
+    <template #activator="{ props: { click } }">
       <v-text-field
         label="Columns to Show"
         readonly
         v-bind="$attrs"
-        @click="click"
-        filled
+        variant="filled"
         class="column-filter"
         append-icon="mdi-menu-down"
+        @click="click"
         @click:append="click"
-      >
-      </v-text-field>
+      />
     </template>
-    <v-list nav dense v-bind="$attrs">
+    <v-list
+      nav
+      density="compact"
+      v-bind="$attrs"
+    >
       <v-list-item
-        class="ma-0"
         v-for="(item, i) in selectedHeaderSearchList.filter(header => !header.hideInSearchColumnFilter)"
         :key="i"
+        class="ma-0"
       >
         <v-checkbox
-          class="ma-0"
           v-model="item.display"
+          class="ma-0"
           :label="item.text"
           hide-details
-        ></v-checkbox>
+        />
       </v-list-item>
     </v-list>
   </v-menu>
