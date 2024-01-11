@@ -1,10 +1,10 @@
 <template>
   <v-row class="mb-3">
-    <v-col class="col-3 font-weight-bold">
+    <v-col class="v-col-3 font-weight-bold">
       Payment Information
     </v-col>
     <v-col
-      class="col-9"
+      class="v-col-9"
       data-test="payment-info"
     >
       {{ isPaymentMethodCheque ? "Cheque" : "Cash" }}
@@ -25,11 +25,11 @@
       />
     </v-col>
     <template v-if="isPaymentMethodCheque">
-      <v-col class="col-3 font-weight-bold">
+      <v-col class="v-col-3 font-weight-bold">
         Total Amount
       </v-col>
       <v-col
-        class="col-9"
+        class="v-col-9"
         data-test="total"
       >
         {{ appendCurrencySymbol(totalAmount.toFixed(2)) }}

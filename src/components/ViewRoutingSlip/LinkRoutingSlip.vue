@@ -9,7 +9,7 @@
     <v-card class="pl-5 py-2 small-text-input">
       <v-card-text>
         <v-row v-if="isRoutingSlipLinked">
-          <v-col class="col-6 col-sm-8 font-weight-bold">
+          <v-col class="v-col-6 v-col-sm-8 font-weight-bold">
             {{
               $t(
                 isRoutingSlipAChild
@@ -89,13 +89,13 @@
               <v-row data-test="search-link-header">
                 <v-col
                   v-if="isRoutingSlipVoid"
-                  class="col-6 col-sm-8 font-weight-bold mt-1"
+                  class="v-col-6 v-col-sm-8 font-weight-bold mt-1"
                 >
                   {{ $t('cantLinkBecauseVoidedMsg') }}
                 </v-col>
                 <v-col
                   v-else
-                  class="col-6 col-sm-8 font-weight-bold mt-1"
+                  class="v-col-6 v-col-sm-8 font-weight-bold mt-1"
                 >
                   This routing slip has no linked routing slips
                 </v-col>
@@ -118,7 +118,7 @@
               </v-row>
             </v-col>
 
-            <v-col class="col-1 col-sm-2 d-flex justify-end pr-5">
+            <v-col class="v-col-1 v-col-sm-2 d-flex justify-end pr-5">
               <v-btn
                 v-can:fas_edit.hide
                 v-can:fas_link.hide

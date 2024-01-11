@@ -13,14 +13,14 @@
     <v-card class="pl-5 py-2 mt-5 pr-5">
       <v-card-text>
         <v-row no-gutters>
-          <v-col class="col-12 col-sm-12 ">
+          <v-col class="v-col-12 v-col-sm-12 ">
             <v-row no-gutters>
-              <v-col class="col-6 col-sm-3 font-weight-bold">
+              <v-col class="v-col-6 v-col-sm-3 font-weight-bold">
                 Total Amount Received
               </v-col>
               <v-col
                 v-if="routingSlip"
-                class="col-6 col-sm-9 status-list"
+                class="v-col-6 v-col-sm-9 status-list"
                 data-test="total"
               >
                 {{ totalAmount }}
@@ -32,7 +32,7 @@
               no-gutters
               class="mb-2"
             >
-              <v-col class="col-6 col-sm-3 font-weight-bold">
+              <v-col class="v-col-6 v-col-sm-3 font-weight-bold">
                 <v-btn
                   variant="text"
                   data-test="btn-view-payment-information"
@@ -162,12 +162,12 @@
             </v-row>
 
             <v-row no-gutters>
-              <v-col class="col-6 col-sm-3 font-weight-bold">
+              <v-col class="v-col-6 v-col-sm-3 font-weight-bold">
                 Current Balance
               </v-col>
               <v-col
                 v-if="routingSlip"
-                class="col-6 col-sm-9 font-weight-bold"
+                class="v-col-6 v-col-sm-9 font-weight-bold"
                 data-test="remaining-amount"
               >
                 {{ remainingAmount }}
