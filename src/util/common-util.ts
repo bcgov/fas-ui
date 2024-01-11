@@ -97,7 +97,7 @@ export default class CommonUtils {
         break
     }
 
-    return textColor ? `${color}--text` : color
+    return textColor ? `text-${color}` : color
   }
 
   static appendCurrencySymbol (currency: number | string) {
