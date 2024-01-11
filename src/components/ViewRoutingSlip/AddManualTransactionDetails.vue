@@ -64,13 +64,13 @@
       <div class="close-icon">
         <v-btn
           v-if="index > 0"
-          icon
+          icon="mdi-close"
           class="mt-3 ml-1"
+          variant="text"
+          size="small"
           :data-test="getIndexedTag('btn-remove', index)"
           @click="removeManualTransactionRowEventHandler(index)"
-        >
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
+        />
       </div>
     </v-col>
     <v-col
