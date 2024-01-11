@@ -54,7 +54,7 @@ defineProps<{
   cashPayment: Payment,
   isAmountPaidInUsd: boolean,
   isEditable: boolean,
-  isALinkedChild: boolean
+  isALinkedChild?: boolean
 }>()
 
 const {

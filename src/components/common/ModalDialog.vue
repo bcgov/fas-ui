@@ -71,14 +71,14 @@ import { useModalDialog } from '@/composables/common'
 withDefaults(defineProps<{
   title: string
   text: string
-  showIcon: boolean
-  showActions: boolean
-  isPersistent: boolean
-  fullscreenOnMobile: boolean
-  isScrollable: boolean
+  showIcon?: boolean
+  showActions?: boolean
+  isPersistent?: boolean
+  fullscreenOnMobile?: boolean
+  isScrollable?: boolean
   dialogClass: string
   maxWidth: string
-  showCloseIcon: boolean
+  showCloseIcon?: boolean
   icon: string
   iconColor: string
 }>(), {
