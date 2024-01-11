@@ -116,12 +116,12 @@
                           :key="'find-header-' + i"
                           :scope="i"
                           :class="[
-                            header.value !== '' ? 'text-start' : 'text-end',
+                            header.key !== '' ? 'text-start' : 'text-end',
                             header.className && `header-${header.className}`
                           ]"
                           class="font-weight-bold"
                         >
-                          {{ header.text }}
+                          {{ header.title }}
                         </th>
                       </tr>
 
@@ -509,7 +509,8 @@ const {
 const colors = computed(() => commonUtil.statusListColor)
 const appendCurrencySymbol = computed(() => commonUtil.appendCurrencySymbol)
 const formatDisplayDate = computed(() => commonUtil.formatDisplayDate)
-console.log(headerSearch)
+
+console.log(displayedHeaderSearch)
 
 </script>
 

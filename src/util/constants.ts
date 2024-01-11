@@ -103,80 +103,80 @@ export const AXIOS_ERROR_ALERT_TIME_OUT = 5000
 export const headerSearchTitle =
 [
   {
-    text: 'Routing Slip Number',
+    title: 'Routing Slip Number',
     align: 'start',
-    value: 'routingSlipNumber',
+    key: 'routingSlipNumber',
     display: true,
     className: 'routing-slip'
   },
   {
-    text: 'Receipt Number',
+    title: 'Receipt Number',
     align: 'start',
     sortable: false,
-    value: 'receiptNumber',
+    key: 'receiptNumber',
     display: true,
     className: 'receiptNumber'
   },
   {
-    text: 'Entity Number',
+    title: 'Entity Number',
     align: 'start',
-    value: 'accountName',
+    key: 'accountName',
     sortable: false,
     display: false,
     className: 'accountName'
   },
   {
-    text: 'Created By',
+    title: 'Created By',
     align: 'start',
-    value: 'createdName',
+    key: 'createdName',
     sortable: false,
     display: false,
     className: 'createdName'
   },
   {
-    text: 'Date',
+    title: 'Date',
     align: 'start',
     sortable: false,
-    value: 'date',
+    key: 'date',
     display: true,
     className: 'date'
   },
   {
-    text: 'Status',
+    title: 'Status',
     align: 'start',
     sortable: false,
-    value: 'status',
+    key: 'status',
     display: true,
     className: 'status'
   },
   {
-    text: 'Reference Number',
+    title: 'Reference Number',
     align: 'start',
-    value: 'businessIdentifier',
+    key: 'businessIdentifier',
     sortable: false,
     display: true,
     className: 'businessIdentifier'
   },
   {
-    text: 'Cheque Number',
+    title: 'Cheque Number',
     align: 'start',
-    value: 'chequeReceiptNumber',
+    key: 'chequeReceiptNumber',
     sortable: false,
     display: false,
     className: 'cheque-receipt-number'
   },
   {
-    text: 'Balance',
+    title: 'Balance',
     align: 'right',
-    value: 'remainingAmount',
+    key: 'remainingAmount',
     sortable: false,
     display: true,
     className: 'remainingAmount'
   },
   {
-    text: 'Actions',
+    title: 'Actions',
     align: 'start',
-    value: '',
+    key: '',
     sortable: false,
     display: true,
     hideInSearchColumnFilter: true,
