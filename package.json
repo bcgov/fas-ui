@@ -40,7 +40,7 @@
     "vue-facing-decorator": "^3.0.3",
     "vue-i18n": "^9.8.0",
     "vue-plugin-helper-decorator": "0.0.12",
-    "vue-router": "^4.0.3",
+    "vue-router": "^4.2.5",
     "vue-sanitize-directive": "^0.2.1",
     "vue-the-mask": "^0.11.1",
     "vuelidate": "^0.7.6",

@@ -1,12 +1,18 @@
 <template>
   <div class="staff-comment">
-    <!-- TODO UNCOMMENT THIS -->
-    <!-- <StaffComments  :url="url" :axios="axios" :businessId="routingSlipNumber" :key="routingSlipNumber" maxLength="2000"/> -->
+    <!-- <StaffComments
+      v-if="false"
+      :key="routingSlipNumber"
+      :url="url"
+      :axios="axios"
+      :businessId="routingSlipNumber"
+      maxLength="2000"
+    /> -->
   </div>
 </template>
 <script setup lang="ts">
 import ConfigHelper from '@/util/config-helper'
-import { StaffComments } from '@bcrs-shared-components/staff-comments'
+// import { StaffComments } from '@bcrs-shared-components/staff-comments'
 import axios from '@/util/http-util'
 import { computed } from 'vue'
 

@@ -29,7 +29,7 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/view-routing-slip/:slipId?',
+    path: '/view-routing-slip/:slipId',
     name: 'view-routing-slip',
     component: ViewRoutingSlip,
     props: true,
@@ -39,7 +39,7 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/view-routing-slip/:parentSlipId/:slipId?',
+    path: '/view-routing-slip/:parentSlipId/:slipId',
     name: 'view-routing-slip-child',
     component: ViewRoutingSlip,
     props: true,

@@ -19,6 +19,7 @@
         {{ `(${invoiceCount})` }}
       </p>
     </div>
+    <!-- todo fix
     <v-data-table
       :headers="headerTranscations"
       :items="invoiceDisplay"
@@ -71,6 +72,7 @@
         </template>
       </template>
     </v-data-table>
+    -->
     <!-- Confirmation Dialog - to be displayed after clicking cancel on a transaction -->
     <ModalDialog
       ref="modalDialogRef"

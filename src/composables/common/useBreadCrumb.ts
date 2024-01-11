@@ -30,7 +30,6 @@ export function useBreadCrumb () {
         return generateBreadcrumbForViewRoutingSlip(route)
       case 'view-routing-slip-child':
         return generateBreadcrumbForViewChildRoutingSlip(route)
-      // We can add breadcrumbs for future components here
     }
   }
 

@@ -6,7 +6,7 @@
     :scrollable="isScrollable"
     :content-class="dialogClass"
     :max-width="maxWidth"
-    @keydown.esc="cancel"
+    @keydown.esc="close"
   >
     <v-card class="px-10 pt-10 pb-8">
       <v-card-title
