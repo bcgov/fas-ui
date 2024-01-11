@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex justify-start">
     <v-col cols="2">
-      <p class="text-center font-weight-bold mt-4">
+      <p class="text-center font-weight-bold mt-4 mb-4">
         Payment Information
       </p>
     </v-col>

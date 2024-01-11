@@ -7,7 +7,7 @@
             <h1 class="view-header__title pt-4">
               View Routing Slip: {{ slipId }}
             </h1>
-            <p>
+            <p class="mb-4">
               {{ $t('reviewRoutingSlipText') }}
             </p>
           </header>

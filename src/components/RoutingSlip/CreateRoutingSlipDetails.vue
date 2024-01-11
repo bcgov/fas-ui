@@ -3,7 +3,7 @@
     <v-col cols="2">
       <p
         data-test="title"
-        class="text-center font-weight-bold mt-4"
+        class="text-center font-weight-bold mt-4 mb-4"
       >
         Routing slip
       </p>

@@ -1,10 +1,7 @@
 <template>
   <v-menu
     v-if="routingAllowedSlipStatus.length > 0"
-
     location="bottom left"
-
-    offset-y
   >
     <template #activator="{ props }">
       <v-btn
@@ -40,10 +37,6 @@
 </template>
 
 <script setup lang="ts">
-/** component for status menu.
- * example
- * <status-menu v-model="currentStatus" label="Status"></status-menu>
- */
 import { useStatusMenu } from '@/composables/common'
 
 const props = withDefaults(

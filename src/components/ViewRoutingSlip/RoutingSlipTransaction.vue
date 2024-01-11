@@ -6,7 +6,7 @@
           <h3 data-test="title">
             Routing Slip Transaction
           </h3>
-          <p>
+          <p class="mb-4">
             {{ $t('routingSlipTransactionSubText') }}
           </p>
         </div>
@@ -31,7 +31,7 @@
           <v-col cols="2">
             <p
               data-test="title"
-              class="text-center font-weight-bold mt-2 pr-10"
+              class="text-center font-weight-bold mt-2 pr-10 mb-4"
             >
               Add Manual Transaction
             </p>

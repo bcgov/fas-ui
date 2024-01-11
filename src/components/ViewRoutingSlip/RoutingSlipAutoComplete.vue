@@ -1,6 +1,7 @@
 <template>
   <transition-group name="slide-fade">
     <p
+      class="mb-4"
       key="text"
       v-html="$t('linkRSSearchInfo')"
     />
@@ -30,7 +31,7 @@
               <div class="mb-1 font-weight-bold">
                 No matching routing slips found
               </div>
-              <p>
+              <p class="mb-4">
                 Try searching with a different routing slip unique ID
               </p>
             </v-list-item-title>
