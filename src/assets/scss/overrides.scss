@@ -31,7 +31,7 @@
 }
 
 // v-dialog
-.v-dialog > .v-card > .v-card__title {
+.v-dialog > .v-card > .v-card-title {
   padding: 1.5rem;
   letter-spacing: -0.03rem;
   font-size: 1.5rem;
@@ -53,21 +53,21 @@
 
 // v-card
 // Add space between elements in case we use a close button
-.v-card__title {
+.v-card-title {
   justify-content: space-between;
 }
 
-// Increase the default font-size the default size of v-card__text
-.v-card__text {
+// Increase the default font-size the default size of v-card-text
+.v-card-text {
   line-height: 1.5;
   font-size: 1rem;
 }
 
-.v-card__actions {
+.v-card-actions {
   padding: 1.5rem;
 }
 
-.theme--light.v-card > .v-card__text {
+.theme--light.v-card > .v-card-text {
   color: $gray9;
 }
 

@@ -106,7 +106,7 @@ const {
   // Notify Dialog Variant
   // Vertical stacked title container (icon w/ text)
   // Center-aligned text throughout
-  .notify-dialog .v-card__title {
+  .notify-dialog .v-card-title {
     flex-direction: column;
 
     ::v-deep i {
@@ -115,11 +115,11 @@ const {
     }
   }
 
-  .notify-dialog .v-card__text {
+  .notify-dialog .v-card-text {
     text-align: center;
   }
 
-  .notify-dialog .v-card__actions {
+  .notify-dialog .v-card-actions {
     justify-content: center;
     padding: 1.5rem;
   }
