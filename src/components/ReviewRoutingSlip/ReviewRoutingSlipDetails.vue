@@ -1,19 +1,19 @@
 <template>
   <v-row v-if="routingSlipDetails">
-    <v-col class="col-3 font-weight-bold">
+    <v-col class="v-col-3 font-weight-bold">
       Routing Slip - Unique ID
     </v-col>
     <v-col
-      class="col-9"
+      class="v-col-9"
       data-test="txt-routing-slip-number"
     >
       {{ routingSlipDetails.number }}
     </v-col>
-    <v-col class="col-3 font-weight-bold">
+    <v-col class="v-col-3 font-weight-bold">
       Date
     </v-col>
     <v-col
-      class="col-9"
+      class="v-col-9"
       data-test="txt-routing-slip-date"
     >
       {{ routingSlipDetails.routingSlipDate ?
@@ -23,11 +23,11 @@
         ) : '-'
       }}
     </v-col>
-    <v-col class="col-3 font-weight-bold">
+    <v-col class="v-col-3 font-weight-bold">
       Entity Number
     </v-col>
     <v-col
-      class="col-9"
+      class="v-col-9"
       data-test="txt-routing-slip-name"
     >
       {{ accountInfo && accountInfo.accountName ? accountInfo.accountName : '-' }}

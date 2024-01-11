@@ -8,12 +8,12 @@
     <v-card class="pl-5 py-2 mt-5 pr-5">
       <v-card-text>
         <v-row no-gutters>
-          <v-col class="col-12 col-sm-12 ">
+          <v-col class="v-col-12 v-col-sm-12 ">
             <v-row>
-              <v-col class="col-6 col-sm-3 font-weight-bold">
+              <v-col class="v-col-6 v-col-sm-3 font-weight-bold">
                 Routing Slip - Unique ID
               </v-col>
-              <v-col class="col-6 col-sm-9 d-flex justify-space-between">
+              <v-col class="v-col-6 v-col-sm-9 d-flex justify-space-between">
                 <div>
                   {{ routingSlipDetails.number }}
                 </div>
@@ -32,11 +32,11 @@
             </v-row>
 
             <v-row>
-              <v-col class="col-6 col-sm-3 font-weight-bold">
+              <v-col class="v-col-6 v-col-sm-3 font-weight-bold">
                 Date
               </v-col>
 
-              <v-col class="col-6 col-sm-9">
+              <v-col class="v-col-6 v-col-sm-9">
                 {{
                   formatDisplayDate(
                     routingSlipDetails.routingSlipDate,
@@ -46,10 +46,10 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col class="col-6 col-sm-3 font-weight-bold">
+              <v-col class="v-col-6 v-col-sm-3 font-weight-bold">
                 Status
               </v-col>
-              <v-col class="col-6 col-sm-9">
+              <v-col class="v-col-6 v-col-sm-9">
                 <span
                   :key="routingSlipDetails.status"
                   :class="colors(routingSlipDetails.status)"
@@ -72,7 +72,7 @@
             </v-expand-transition>
 
             <v-row>
-              <v-col class="col-6 col-sm-3 font-weight-bold">
+              <v-col class="v-col-6 v-col-sm-3 font-weight-bold">
                 Entity Number
               </v-col>
               <v-col
@@ -80,7 +80,7 @@
                   routingSlipDetails.paymentAccount &&
                     routingSlipDetails.paymentAccount.accountName
                 "
-                class="col-6 col-sm-9"
+                class="v-col-6 v-col-sm-9"
               >
                 {{ routingSlipDetails.paymentAccount.accountName }}
               </v-col>

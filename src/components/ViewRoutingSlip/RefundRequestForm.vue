@@ -1,10 +1,10 @@
 <template>
   <v-form ref="refundRequestForm">
     <v-row>
-      <v-col class="col-3 font-weight-bold pb-0">
+      <v-col class="v-col-3 font-weight-bold pb-0">
         {{ 'Name of Person or Organization & Address' }}
       </v-col>
-      <v-col class="col-9 pb-0">
+      <v-col class="v-col-9 pb-0">
         <v-text-field
           v-if="canEdit"
           v-model.trim="name"
@@ -25,13 +25,13 @@
         />
       </v-col>
       <v-col
-        class="col-3 font-weight-bold"
+        class="v-col-3 font-weight-bold"
         :class="canEdit ? 'pt-0' : ''"
       >
         Cheque Advice
       </v-col>
       <v-col
-        class="col-9"
+        class="v-col-9"
         :class="canEdit ? 'pt-0' : ''"
       >
         <v-text-field
