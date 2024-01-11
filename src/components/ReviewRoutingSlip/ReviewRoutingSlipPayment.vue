@@ -48,7 +48,7 @@ const props = defineProps<{
   isPaymentMethodCheque: boolean,
   cashPayment: Payment,
   chequePayment: Payment[],
-  isAmountPaidInUsd: boolean
+  isAmountPaidInUsd?: boolean
 }>()
 
 const appendCurrencySymbol = commonUtil.appendCurrencySymbol

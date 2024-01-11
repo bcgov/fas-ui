@@ -70,7 +70,7 @@ import { useModalDialog } from '@/composables/common'
 
 withDefaults(defineProps<{
   title: string
-  text: string
+  text?: string
   showIcon?: boolean
   showActions?: boolean
   isPersistent?: boolean

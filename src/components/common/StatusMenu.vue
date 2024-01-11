@@ -38,7 +38,7 @@ import { useStatusMenu } from '@/composables/common'
 
 const props = withDefaults(
   defineProps<{
-    value: string
+    value?: string
     allowedStatusList: any
     isApprovalFlow: boolean
   }>(),
