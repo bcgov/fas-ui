@@ -1,39 +1,36 @@
 <template>
-  <v-menu
-    v-if="routingAllowedSlipStatus.length > 0"
-    location="bottom left"
+  <v-btn
+    color="primary"
   >
-    <template #activator="{ props }">
-      <v-btn
-        color="primary"
-        v-bind="props"
-      >
-        <v-icon
-          size="15"
-          class="mr-2"
-        >
-          mdi-pencil
-        </v-icon> Edit Status
-      </v-btn>
-    </template>
-
-    <v-list density="compact">
-      <template v-for="(item, i) in routingAllowedSlipStatus">
-        <v-list-item
-          v-if="item.label !== ''"
-          :key="i"
-          class="menu-list"
-          @click="setStatus(item)"
-        >
-          <v-list-item-title>
-            {{
-              item.label
-            }}
-          </v-list-item-title>
-        </v-list-item>
-      </template>
-    </v-list>
-  </v-menu>
+    <v-icon
+      size="15"
+      class="mr-2"
+    >
+      mdi-pencil
+    </v-icon> Edit Status
+    <v-menu
+      v-if="routingAllowedSlipStatus.length > 0"
+      transition="slide-y-transition"
+      activator="parent"
+    >
+      <v-list density="compact">
+        <template v-for="(item, i) in routingAllowedSlipStatus">
+          <v-list-item
+            v-if="item.label !== ''"
+            :key="i"
+            class="menu-list"
+            @click="setStatus(item)"
+          >
+            <v-list-item-title>
+              {{
+                item.label
+              }}
+            </v-list-item-title>
+          </v-list-item>
+        </template>
+      </v-list>
+    </v-menu>
+  </v-btn>
 </template>
 
 <script setup lang="ts">
