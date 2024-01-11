@@ -3,7 +3,6 @@
     v-model="showDateModal"
     :close-on-content-click="false"
     transition="scale-transition"
-    offset-y
     min-width="auto"
   >
     <template #activator="{ on: { click } }">
@@ -24,7 +23,6 @@
       v-bind="$attrs"
       data-test="date-date-picker"
       @input="closeAfterSelection()"
-      v-on="$listeners"
     />
   </v-menu>
 </template>

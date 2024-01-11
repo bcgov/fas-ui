@@ -8,7 +8,6 @@
     return-object
     data-test="select-status"
     v-bind="$attrs"
-    v-on="$listeners"
   />
 </template>
 

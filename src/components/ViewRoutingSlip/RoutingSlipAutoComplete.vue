@@ -1,8 +1,8 @@
 <template>
   <transition-group name="slide-fade">
     <p
-      class="mb-4"
       key="text"
+      class="mb-4"
       v-html="$t('linkRSSearchInfo')"
     />
     <div
