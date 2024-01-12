@@ -109,7 +109,6 @@
                 >
                   <div
                     key="action"
-                    class="d-flex"
                   >
                     <RoutingSlipAutoComplete
                       data-test="routing-slip-auto-complete"

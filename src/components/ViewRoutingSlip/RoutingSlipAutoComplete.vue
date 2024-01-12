@@ -14,8 +14,6 @@
         variant="filled"
         :items="autoCompleteRoutingSlips"
         :loading="isLoading"
-        :search.sync="search"
-        :hide-no-data="hideNoData"
         item-title="number"
         item-value="number"
         placeholder="Search by routing slip - Unique ID"
@@ -24,6 +22,7 @@
         :error-messages="errorMessage"
         append-icon=""
         @keyup="delayedSearch"
+        @update:search="search = $event"
       >
         <template #no-data>
           <v-list-item>
@@ -40,17 +39,17 @@
 
         <template #item="{ item }">
           <div class="rs-details">
-            <span class="font-weight-bold">{{ item.number }}</span>
+            <span class="font-weight-bold">{{ item.raw.number }}</span>
             <span>
               <span>-</span>
               {{
-                formatDisplayDate(item.routingSlipDate, 'MMM DD, YYYY')
+                formatDisplayDate(item.raw.routingSlipDate, 'MMM DD, YYYY')
               }}</span>
             <span>
               <span>-</span> Current Balance:
               {{
-                item.remainingAmount
-                  ? appendCurrencySymbol(item.remainingAmount.toFixed(2))
+                item.raw.remainingAmount
+                  ? appendCurrencySymbol(item.raw.remainingAmount.toFixed(2))
                   : '$0.00'
               }}</span>
           </div>
@@ -94,7 +93,6 @@ const {
   autoCompleteRoutingSlips,
   isLoading,
   search,
-  hideNoData,
   delayedSearch
 } = useRoutingSlipAutoComplete(emits)
 

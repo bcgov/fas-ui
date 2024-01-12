@@ -10,7 +10,7 @@ import moment from 'moment'
 
 export default class CommonUtils {
   // Formatting date in the desired format for displaying in the template
-  static formatDisplayDate (date: Date, format?: string) {
+  static formatDisplayDate (date: Date | string, format?: string) {
     return date ? moment(date).format(format || 'MMM DD, YYYY') : ''
   }
 

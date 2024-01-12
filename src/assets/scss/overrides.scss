@@ -113,6 +113,10 @@ input:-webkit-autofill:active {
   margin-right: 1rem;
 }
 
+.v-list--one-line {
+  padding: 16px;
+}
+
 // Radio Buttons
 .v-radio {
   align-self: flex-start;
@@ -138,10 +142,16 @@ input:-webkit-autofill:active {
     top: 10px !important;
     // font-weight: normal;
   }
-  .v-text-field .v-input__control .v-input__slot {
+  .v-text-field .v-input__control .v-field__input {
     min-height: auto !important;
     height: 42px !important;
+    padding-top: 0px;
+    padding-bottom: 0px;
   }
+}
+
+.v-autocomplete__menu-icon {
+  display: none;
 }
 // FAS UI overrides for vuetify to match BC gov standards
 .v-theme--light {
@@ -171,3 +181,4 @@ input:-webkit-autofill:active {
     }
   }
 }
+
