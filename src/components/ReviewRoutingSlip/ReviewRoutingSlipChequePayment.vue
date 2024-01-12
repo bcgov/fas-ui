@@ -69,7 +69,7 @@ import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
 
 defineProps<{
   chequePayment: Payment[],
-  isAmountPaidInUsd: boolean,
+  isAmountPaidInUsd: number,
   isEditable: boolean,
   isALinkedChild?: boolean
 }>()

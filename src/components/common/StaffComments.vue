@@ -141,7 +141,7 @@ const props = withDefaults(defineProps<{
   axios: any,
   businessId: string
   url: string // pass URL if need to override
-  offset: number
+  offset?: number
   maxLength: number
 }>(), {
   axios: null,
