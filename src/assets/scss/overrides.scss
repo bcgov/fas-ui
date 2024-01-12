@@ -1,7 +1,7 @@
 // Vuetify Overrides
 @import 'theme.scss';
 
-// Input error message
+// Vue 3- Input error message
 .v-input__details {
   letter-spacing: normal;
 }
@@ -144,15 +144,22 @@ input:-webkit-autofill:active {
   }
 }
 // FAS UI overrides for vuetify to match BC gov standards
-.theme--light {
-  .v-input--is-disabled,
-  .v-input--is-disabled input,
-  .v-input--is-disabled textarea {
+.v-theme--light {
+  .v-input--disabled,
+  .v-input--disabled input,
+  .v-input--disabled textarea {
     color: $gray9 !important;
     opacity: 0.9;
   }
-  .v-label--is-disabled {
+  .v-field--disabled {
+    opacity: 0.9;
+  }
+  .v-label--disabled {
     color: $gray9 !important;
+  }
+
+  .v-breadcrumbs-item--disabled {
+    opacity: 1;
   }
 
   // .v-data-table
