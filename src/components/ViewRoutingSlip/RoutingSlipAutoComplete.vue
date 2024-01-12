@@ -37,22 +37,29 @@
           </v-list-item>
         </template>
 
-        <template #item="{ item }">
-          <div class="rs-details">
-            <span class="font-weight-bold">{{ item.raw.number }}</span>
-            <span>
-              <span>-</span>
-              {{
-                formatDisplayDate(item.raw.routingSlipDate, 'MMM DD, YYYY')
-              }}</span>
-            <span>
-              <span>-</span> Current Balance:
-              {{
-                item.raw.remainingAmount
-                  ? appendCurrencySymbol(item.raw.remainingAmount.toFixed(2))
-                  : '$0.00'
-              }}</span>
-          </div>
+        <template #item="{ props, item }">
+          <v-list-item
+            v-bind="props"
+            title=""
+          >
+            <div
+              class="rs-details"
+            >
+              <span class="font-weight-bold">{{ item.raw.number }}</span>
+              <span>
+                <span>-</span>
+                {{
+                  formatDisplayDate(item.raw.routingSlipDate, 'MMM DD, YYYY')
+                }}</span>
+              <span>
+                <span>-</span> Current Balance:
+                {{
+                  item.raw.remainingAmount
+                    ? appendCurrencySymbol(item.raw.remainingAmount.toFixed(2))
+                    : '$0.00'
+                }}</span>
+            </div>
+          </v-list-item>
         </template>
       </v-autocomplete>
 

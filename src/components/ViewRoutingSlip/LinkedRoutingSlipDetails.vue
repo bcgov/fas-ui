@@ -25,12 +25,18 @@
 import commonUtil from '@/util/common-util'
 import { useLinkedRoutingSlipDetails } from '@/composables/ViewRoutingSlip'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   siNumber: string
   routingSlipNumber: string
   createdDate: Date | string
   parentRoutingSlipNumber: string
-}>()
+}>(),
+{
+  siNumber: '',
+  routingSlipNumber: '',
+  createdDate: '',
+  parentRoutingSlipNumber: null
+})
 
 const { navigateTo } = useLinkedRoutingSlipDetails(props)
 
