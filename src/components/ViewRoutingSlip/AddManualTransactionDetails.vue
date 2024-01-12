@@ -119,10 +119,12 @@ const props = defineProps<{
   index: number
   manualTransaction: ManualTransactionDetails
 }>()
+
 const emits = defineEmits<{
   removeManualTransactionRow: [index: number]
-  updateManualTransactionDetails: [index: number, manualTransactionDetails: ManualTransactionDetails]
+  updateManualTransaction: [index: number, manualTransactionDetails: ManualTransactionDetails]
 }>()
+
 const {
   manualTransactionDetails,
   requiredFieldRule,
