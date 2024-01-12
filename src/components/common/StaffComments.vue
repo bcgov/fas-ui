@@ -152,7 +152,7 @@ const state = reactive({
   isSaving: false, /** Whether a comment is being saved. */
   charsRemaining: computed<number>(() => { /** The number of chars remaining in the new comment. */
     const length = state.comment ? state.comment.length : 0 // comment may be null
-    return (state.maxLength - length)
+    return (props.maxLength - length)
   }),
   numComments: computed<string>(() => { /** The Number of Comments string for this entity. */
     const numComments = state.comments.length
@@ -163,7 +163,7 @@ const state = reactive({
     // include whitespace in maximum length check
     return [
       val => (val && val.trim().length > 0) || 'Enter a comment.',
-      val => (val && val.length <= state.maxLength) || 'Maximum characters reached.'
+      val => (val && val.length <= props.maxLength) || 'Maximum characters reached.'
     ]
   }),
   getUrl: computed<string>(() => { /** get Endpoint URL. */
@@ -171,6 +171,10 @@ const state = reactive({
   })
 })
 
+/* Convert from API format to August 6, 2014, 1:07 PM EDT - Future - Perhaps move this to utilities class
+   or use existing DateMixin (Would require rewriting quite a few of the mixins from Vue2 -> Vue3.)
+   To be discussed with other BCROS team members.
+*/
 const apiToPacificDateTime = (apiDateTime: string): string => {
   if (!apiDateTime) return apiDateTime
   return DateTime.fromISO(apiDateTime).setZone('America/Vancouver').toFormat('fff')

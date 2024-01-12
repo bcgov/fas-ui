@@ -1,6 +1,11 @@
 // Vuetify Overrides
 @import 'theme.scss';
 
+// Input error message
+.v-input__details {
+  letter-spacing: normal;
+}
+
 // Buttons
 .v-btn {
   letter-spacing: 0;
@@ -138,7 +143,7 @@ input:-webkit-autofill:active {
     height: 42px !important;
   }
 }
-// FAS UI overrides for vuetify to match BC gov standerds
+// FAS UI overrides for vuetify to match BC gov standards
 .theme--light {
   .v-input--is-disabled,
   .v-input--is-disabled input,
