@@ -6,24 +6,21 @@
     offset-y
     min-width="auto"
   >
-    <template #activator="{ on: { click } }">
+    <template #activator="{ props }">
       <!-- UI control that is displayed clicking on which menu is displayed -->
       <v-text-field
         v-model="dateRangeSelectedDisplay"
         append-icon="mdi-calendar-range"
         readonly
-        v-bind="$attrs"
+        v-bind="props"
         variant="filled"
         data-test="input-date-picker"
-        @click="click"
-        @click:append="click"
       >
-        <v-icon
-          slot="append"
-          color="primary"
-        >
-          mdi-calendar-range
-        </v-icon>
+        <template #append>
+          <v-icon color="primary">
+            mdi-calendar-range
+          </v-icon>
+        </template>
       </v-text-field>
     </template>
     <!-- the menu consists of list of buttons on left and date picker on right -->
@@ -35,22 +32,22 @@
           density="compact"
           class="py-0"
         >
-          <v-list-item-group
+          <!-- <v-list-item-group
             v-model="dateFilterSelectedIndex"
             color="primary"
             @change="dateFilterChange"
+          > -->
+          <v-list-item
+            v-for="(filterRange, i) in dateFilterRanges"
+            :key="i"
+            class="py-2 px-6"
           >
-            <v-list-item
-              v-for="(filterRange, i) in dateFilterRanges"
-              :key="i"
-              class="py-2 px-6"
-            >
-              <v-list-item-title
-                class="font-weight-bold px-1"
-                v-text="filterRange.label"
-              />
-            </v-list-item>
-          </v-list-item-group>
+            <v-list-item-title
+              class="font-weight-bold px-1"
+              v-text="filterRange.label"
+            />
+          </v-list-item>
+          <!-- </v-list-item-group> -->
         </v-list>
         <div class="date-filter-btns px-6 mt-4 d-flex flex-end">
           <v-btn
@@ -102,20 +99,15 @@
 import { useDateRange } from '@/composables/common'
 
 const props = defineProps<{
-  value: string[]
-  label: {
-    type: string
-    default: 'Select Date Range'
-  }
+  modelValue: string[]
+  label: string
 }>()
 
 const emits = defineEmits<{
-  input: [value: string[]],
-  applied: [value: Date[]]
 }>()
 
 const {
-  dateFilterRanges,
+  // dateFilterRanges,
   dateRangeSelected,
   dateFilterSelectedIndex,
   dateRangeSelectedDisplay,
@@ -131,42 +123,42 @@ const {
 </script>
 
 <style lang="scss" scoped>
-.date-filter-container {
-  .date-range-list {
-    border-right: 1px solid #999;
-    padding-right: 0;
+  .date-filter-container {
+    .date-range-list {
+      border-right: 1px solid #999;
+      padding-right: 0;
+    }
   }
-}
 
-.date-range-options {
-  width: 15rem;
-  border-radius: 0 !important;
-  border-right: 1px solid var(--v-grey-lighten1);
-}
-
-.date-range-label {
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--v-grey-lighten1);
-}
-
-.date-picker-disable {
-  .v-date-picker-table {
-    pointer-events: none;
+  .date-range-options {
+    width: 15rem;
+    border-radius: 0 !important;
+    border-right: 1px solid var(--v-grey-lighten1);
   }
-}
 
-.date-range-label strong {
-  margin-right: 0.25rem;
-}
-
-.date-range-calendars {
-  .v-picker.v-card {
-    box-shadow: none !important;
+  .date-range-label {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--v-grey-lighten1);
   }
-}
-.date-range-btn {
-  min-height: 57px !important;
-}
+
+  .date-picker-disable {
+    .v-date-picker-table {
+      pointer-events: none;
+    }
+  }
+
+  .date-range-label strong {
+    margin-right: 0.25rem;
+  }
+
+  .date-range-calendars {
+    .v-picker.v-card {
+      box-shadow: none !important;
+    }
+  }
+  .date-range-btn {
+    min-height: 57px !important;
+  }
 </style>
 
 <style lang="scss">

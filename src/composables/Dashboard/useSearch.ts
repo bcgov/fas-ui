@@ -50,9 +50,7 @@ export function useSearch (props) {
   })
 
   function canShowColumn (columnName) {
-    console.log('......')
     return displayedHeaderSearch.value.find(header => {
-      console.log(header, columnName)
       return header.key === columnName
     })
   }
