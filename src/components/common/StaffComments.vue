@@ -126,9 +126,16 @@
 </template>
 
 <script setup lang="ts">
-import { CommentIF, FormIF } from '@bcrs-shared-components/interfaces'
 import { computed, onBeforeMount, reactive, ref } from 'vue'
+import { CommentIF } from '@bcrs-shared-components/interfaces'
 import { DateTime } from 'luxon'
+
+// Future - Vue3 - update bcrs-shared-components - form-interface.ts
+export interface FormIF extends HTMLFormElement {
+  reset(): void
+  resetValidation(): void
+  validate(): Promise<Array<string>>
+}
 
 const props = withDefaults(defineProps<{
   axios: any,
@@ -218,7 +225,7 @@ onBeforeMount(async () => {
 /** Saves the new comment to the API. */
 const save = async (): Promise<void> => {
   // don't save if invalid
-  if (!textarea.value.validate()) return
+  if ((await textarea.value.validate()).length) return
 
   // prevent double saving
   if (state.isSaving) return
