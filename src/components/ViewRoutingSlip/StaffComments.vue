@@ -1,21 +1,17 @@
 <template>
   <div class="staff-comment">
-  <!---
     <StaffComments
-      v-if="false"
       :key="routingSlipNumber"
       :url="url"
       :axios="axios"
       :businessId="routingSlipNumber"
-      maxLength="2000"
+      :maxLength="2000"
     />
-    Disable until we get Vue3
-    --->
   </div>
 </template>
 <script setup lang="ts">
 import ConfigHelper from '@/util/config-helper'
-// import { StaffComments } from '@bcrs-shared-components/staff-comments'
+import StaffComments from '@/components/common/StaffComments.vue'
 import axios from '@/util/http-util'
 import { computed } from 'vue'
 
