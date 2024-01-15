@@ -114,6 +114,7 @@
         <v-btn
           size="large"
           color="primary"
+          variant="flat"
           data-test="dialog-ok-button"
           class="font-weight-bold btn-actions"
           @click="modalDialogClose()"

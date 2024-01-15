@@ -88,6 +88,7 @@
         <v-btn
           size="large"
           color="primary"
+          variant="flat"
           data-test="dialog-ok-button"
           :loading="isLoading"
           class="font-weight-bold btn-actions"

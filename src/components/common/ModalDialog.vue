@@ -98,8 +98,15 @@ withDefaults(defineProps<{
 
 const {
   isOpen,
-  close
+  close,
+  open
 } = useModalDialog()
+
+defineExpose({
+  open,
+  close,
+  isOpen
+})
 </script>
 
 <style lang="scss" scoped>

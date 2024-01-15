@@ -26,10 +26,10 @@ import commonUtil from '@/util/common-util'
 import { useLinkedRoutingSlipDetails } from '@/composables/ViewRoutingSlip'
 
 const props = withDefaults(defineProps<{
-  siNumber: string
+  siNumber?: string
   routingSlipNumber: string
   createdDate: Date | string
-  parentRoutingSlipNumber: string
+  parentRoutingSlipNumber?: string
 }>(),
 {
   siNumber: '',
