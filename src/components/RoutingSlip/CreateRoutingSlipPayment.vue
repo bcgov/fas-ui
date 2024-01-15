@@ -68,4 +68,14 @@ const {
   createRoutingSlipChequePaymentRef,
   createRoutingSlipCashPaymentRef
 } = useCreateRoutingSlipPayment()
+
+// TODO move to composable
+const isValid = async () => {
+  if (isPaymentCheque.value) await createRoutingSlipChequePaymentRef.value.isValid()
+  if (!isPaymentCheque.value) await createRoutingSlipCashPaymentRef.value.isValid()
+}
+
+defineExpose({
+  isValid
+})
 </script>

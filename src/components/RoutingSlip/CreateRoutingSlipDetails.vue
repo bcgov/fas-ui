@@ -75,6 +75,13 @@ const {
   checkRoutingNumberAvailable,
   errorMessage
 } = useCreateRoutingSlipDetails()
+
+// TODO move to composable
+const isValid = async () => (await createRoutingSlipDetailsForm.value.validate()).length === 0
+
+defineExpose({
+  isValid
+})
 </script>
 <style lang="scss" scoped>
 @import '$assets/scss/theme.scss';

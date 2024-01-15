@@ -1,6 +1,6 @@
 <template>
   <v-form ref="createRoutingSlipChequePaymentForm">
-    <v-row class="d-flex pa-0 ma-0 justify-between">
+    <v-row class="d-flex pa-0 ma-0 justify-between mb-8">
       <v-col
         cols="12"
         class="pa-0"
@@ -146,6 +146,13 @@ const {
   addCheque,
   removeCheque
 } = useCreateRoutingSlipChequePayment()
+
+// TODO move to composable
+const isValid = async () => (await createRoutingSlipChequePaymentForm.value.validate()).length === 0
+
+defineExpose({
+  isValid
+})
 </script>
 <style lang="scss" scoped>
   .textNumber input[type='number'] {

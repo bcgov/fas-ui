@@ -43,11 +43,11 @@ export function useCreateRoutingSlip () {
 
   const appendQueryParamsIfNeeded = CommonUtils.appendQueryParamsIfNeeded
 
-  function isValid (): boolean {
+  async function isValid (): Promise<boolean> {
     // We would want to trigger validate() of all the children
-    let isChildrenValid = createRoutingSlipDetailsRef.value?.isValid()
+    let isChildrenValid = await createRoutingSlipDetailsRef.value?.isValid()
     isChildrenValid =
-      createRoutingSlipPaymentRef.value?.isValid() && isChildrenValid
+      (await createRoutingSlipPaymentRef.value?.isValid()) && isChildrenValid
     return isChildrenValid
   }
 
@@ -57,9 +57,9 @@ export function useCreateRoutingSlip () {
   }
 
   // when "Review and Create" button is clicked in create mode, we toggle the review
-  function reviewAndCreate (): void {
+  async function reviewAndCreate (): Promise<void> {
     // set to review mode value
-    if (isValid()) {
+    if (await isValid()) {
       // check if isAmountToUsd flag is set to true, so then set paymentUsdAmount fields to 0
       if (!isAmountPaidInUsd.value) {
         if (isPaymentMethodCheque.value) {

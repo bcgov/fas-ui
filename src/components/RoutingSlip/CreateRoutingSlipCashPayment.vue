@@ -76,6 +76,13 @@ const {
   isTheAmountPaidInUsd,
   getColumnWidth
 } = useCreateRoutingSlipCashPayment()
+
+// TODO move to composable
+const isValid = async () => (await createRoutingSlipCashPaymentForm.value.validate()).length === 0
+
+defineExpose({
+  isValid
+})
 </script>
 <style lang="scss" scoped>
   .textNumber input[type='number'] {

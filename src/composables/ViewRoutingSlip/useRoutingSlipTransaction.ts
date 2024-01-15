@@ -40,7 +40,7 @@ export default function useRoutingSlipTransaction () {
       status.value = 'cantAddTransactions'
       return
     }
-    if (isValid()) {
+    if (await isValid()) {
       // show loader
       toggleLoading()
       for (const transactions of manualTransactionsList.value) {
