@@ -6,12 +6,13 @@
     :scrollable="isScrollable"
     :content-class="dialogClass"
     :max-width="maxWidth"
+    :max-height="55"
     @keydown.esc="close"
   >
     <v-card class="px-10 pt-10 pb-8">
       <v-card-title
         data-test="dialog-header"
-        class="pt-0 pb-5"
+        class="pt-0 pb-5 d-flex"
       >
         <slot
           v-if="showIcon"
@@ -115,7 +116,7 @@ defineExpose({
   // Center-aligned text throughout
   .notify-dialog .v-card-title {
     flex-direction: column;
-
+    align-items: center;
     ::v-deep i {
       margin-top: 1rem;
       margin-bottom: 1rem;
@@ -124,10 +125,11 @@ defineExpose({
 
   .notify-dialog .v-card-text {
     text-align: center;
+    letter-spacing: .0071428571em !important;
   }
 
   .notify-dialog .v-card-actions {
     justify-content: center;
-    padding: 1.5rem;
+    padding: 8px 16px;
   }
 </style>
