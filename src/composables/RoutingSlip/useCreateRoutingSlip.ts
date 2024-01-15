@@ -8,6 +8,8 @@ import { useRoutingSlip } from '../useRoutingSlip'
 // Composable function to inject Props, options and values to CreateRoutingSlip component
 // CreateRoutingSlip component holds two behaviors - create routing slip & review routing slip modes
 export function useCreateRoutingSlip () {
+  const router = useRouter()
+  const route = useRoute()
   const {
     cashPayment,
     chequePayment,
@@ -98,8 +100,7 @@ export function useCreateRoutingSlip () {
         await createRoutingSlip()
         // on success redirect to view
         // Check if we had come from Staff dashboard
-        const router = useRouter()
-        const route = useRoute()
+
         router.push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipDetails.value.number}`, route))
       }
     } catch (error: any) {
@@ -127,8 +128,6 @@ export function useCreateRoutingSlip () {
 
   function modalDialogClose () {
     modalDialogRef.value.close()
-    const router = useRouter()
-    const route = useRoute()
     router.push(appendQueryParamsIfNeeded('/home', route))
   }
 

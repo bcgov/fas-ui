@@ -69,6 +69,8 @@
           <v-btn
             v-if="index>0"
             icon
+            variant="text"
+            color="grey"
             class="mt-3 ml-1"
             :data-test="getIndexedTag('removeChecque', index)"
             @click="removeCheque(index)"

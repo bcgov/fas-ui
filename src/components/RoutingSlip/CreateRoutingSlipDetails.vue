@@ -19,7 +19,7 @@
         <v-row class="d-flex pa-0 ma-0 justify-between">
           <v-col
             cols="12"
-            class="py-0"
+            class="py-0 mb-4"
           >
             <v-text-field
               v-model.trim="number"

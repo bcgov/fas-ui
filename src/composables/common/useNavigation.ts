@@ -1,12 +1,11 @@
 import { useRouter } from 'vue-router'
 
 export function useNavigation () {
+  const router = useRouter()
   function goHome () {
-    const router = useRouter()
     router.push('/')
   }
   function gotoPage (page: string) {
-    const router = useRouter()
     router.push(page)
   }
 

@@ -78,6 +78,7 @@
               <v-btn
                 size="large"
                 color="primary"
+                variant="flat"
                 class="px-6 mr-3 font-weight-bold"
                 data-test="btn-create-routing-slip"
                 @click="createandReviewButtonEventHandler"

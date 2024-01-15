@@ -8,6 +8,8 @@ import { useRoutingSlip } from '../useRoutingSlip'
 import { useStatusList } from '@/composables/common/useStatusList'
 
 export function useSearch (props) {
+  const router = useRouter()
+  const route = useRoute()
   const {
     headerSearchTitle,
     resetSearchParams,
@@ -257,8 +259,7 @@ export function useSearch (props) {
       // Eg of a typical breadcrumb flow = Staff Dashboard -> View Routing Slip: test -> View Routing Slip: testchild
       window.location.href = `${ConfigHelper.getFasWebUrl()}view-routing-slip/${routingSlipNumber}?viewFromAuth=true`
     } else {
-      const router = useRouter()
-      const route = useRoute()
+
       router.push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipNumber}`, route))
     }
   }

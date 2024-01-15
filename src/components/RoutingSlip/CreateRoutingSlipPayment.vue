@@ -17,9 +17,12 @@
           class="align-start mt-0 ml-2"
         >
           <v-row class="d-inline-flex">
-            <v-col>
+            <v-col
+              cols="2"
+            >
               <v-radio
-                :key="true"
+                :key="0"
+                color="primary"
                 label="Cheque"
                 :value="true"
                 data-test="radio-cheque"
@@ -27,7 +30,8 @@
             </v-col>
             <v-col>
               <v-radio
-                :key="false"
+                :key="1"
+                color="primary"
                 label="Cash"
                 :value="false"
                 data-test="radio-cash"
