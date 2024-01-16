@@ -14,7 +14,8 @@
           v-model="isPaymentCheque"
           inline
           mandatory
-          class="align-start mt-0 ml-2"
+          hide-details
+          class="align-start mt-0 ml-2 mb-2"
         >
           <v-row class="d-inline-flex">
             <v-col
