@@ -67,14 +67,9 @@ import { useCreateRoutingSlipPayment } from '@/composables/RoutingSlip'
 const {
   isPaymentCheque,
   createRoutingSlipChequePaymentRef,
-  createRoutingSlipCashPaymentRef
+  createRoutingSlipCashPaymentRef,
+  isValid
 } = useCreateRoutingSlipPayment()
-
-// TODO move to composable
-const isValid = async () => {
-  if (isPaymentCheque.value) await createRoutingSlipChequePaymentRef.value.isValid()
-  if (!isPaymentCheque.value) await createRoutingSlipCashPaymentRef.value.isValid()
-}
 
 defineExpose({
   isValid

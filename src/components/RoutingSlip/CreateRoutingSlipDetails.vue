@@ -73,11 +73,9 @@ const {
   routingSlipDateRules,
   entityNumberRules,
   checkRoutingNumberAvailable,
-  errorMessage
+  errorMessage,
+  isValid
 } = useCreateRoutingSlipDetails()
-
-// TODO move to composable
-const isValid = async () => (await createRoutingSlipDetailsForm.value.validate()).length === 0
 
 defineExpose({
   isValid

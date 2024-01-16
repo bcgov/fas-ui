@@ -144,11 +144,9 @@ const {
   getColumnWidth,
   getIndexedTag,
   addCheque,
-  removeCheque
+  removeCheque,
+  isValid
 } = useCreateRoutingSlipChequePayment()
-
-// TODO move to composable
-const isValid = async () => (await createRoutingSlipChequePaymentForm.value.validate()).length === 0
 
 defineExpose({
   isValid

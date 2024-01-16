@@ -80,8 +80,8 @@ export function useCreateRoutingSlipCashPayment () {
     return isTheAmountPaidInUsd.value ? 4 : 6
   })
 
-  function isValid (): boolean {
-    return createRoutingSlipCashPaymentForm.value?.validate()
+  async function isValid (): Promise<boolean> {
+    return (await createRoutingSlipCashPaymentForm.value.validate()).length === 0
   }
 
   return {
