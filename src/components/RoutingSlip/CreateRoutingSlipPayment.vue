@@ -18,7 +18,7 @@
         >
           <v-row class="d-inline-flex">
             <v-col
-              cols="2"
+              cols="auto"
             >
               <v-radio
                 :key="0"
