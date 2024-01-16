@@ -8,7 +8,7 @@
         <div
           v-for="(cheque, index) in chequeList"
           :key="index"
-          class="d-flex"
+          class="d-flex mb-4"
         >
           <v-col
             :cols="getColumnWidth"
