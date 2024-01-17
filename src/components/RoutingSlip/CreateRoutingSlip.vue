@@ -107,7 +107,6 @@
       :text="modalDialogDetails.modalDialogText"
       dialog-class="notify-dialog"
       max-width="679"
-      max-height="310"
       :icon="modalDialogDetails.modalDialogIcon"
       :iconColor="isModalDialogInfo ? 'primary' : 'error'"
     >

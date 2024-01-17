@@ -6,7 +6,6 @@
     :scrollable="isScrollable"
     :content-class="dialogClass"
     :max-width="maxWidth"
-    :max-height="55"
     @keydown.esc="close"
   >
     <v-card class="px-10 pt-10 pb-8">
@@ -121,6 +120,10 @@ defineExpose({
       margin-top: 1rem;
       margin-bottom: 1rem;
     }
+  }
+
+  .v-dialog>.v-overlay__content {
+    max-height: unset !important;
   }
 
   .notify-dialog .v-card-text {

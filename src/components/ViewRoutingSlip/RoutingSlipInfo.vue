@@ -119,7 +119,6 @@
       :title="modalText.title"
       dialog-class="notify-dialog"
       max-width="680"
-      max-height="310"
       :icon="modalText.icon"
       iconColor="error"
     >
