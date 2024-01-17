@@ -1,56 +1,50 @@
 <template>
   <v-menu
-    v-model="showDateModal"
-    :close-on-content-click="false"
+    v-model="showDateMenu"
+    :close-on-content-click="true"
     transition="scale-transition"
     min-width="auto"
   >
-    <template #activator="{ on: { click } }">
+    <template #activator="{ props: activatorProps }">
       <v-text-field
-        v-model="selectedDate"
+        v-model="showDateField"
         :label="label"
         append-icon="mdi-calendar"
         readonly
-        v-bind="$attrs"
         variant="filled"
+        v-bind="activatorProps"
         data-test="input-date-picker"
-        @click="click"
-        @click:append="click"
       />
     </template>
     <v-date-picker
-      v-model="selectedDate"
-      v-bind="$attrs"
+      v-model="dateValue"
+      :persist="false"
+      color="primary"
       data-test="date-date-picker"
-      @input="closeAfterSelection()"
     />
   </v-menu>
 </template>
 
 <script setup lang="ts">
-/** component for date picker.
- * this is just a wrapper for vuetify date picker
- * can use all attributs from vuetify
- * pass persist if no no need close calendar after click
- *
- * example
- * <date-picker v-model="selectedDate" persist></date-picker></v-col>
- */
-
 import { useDatePicker } from '@/composables/common'
 
-const props = defineProps<{
-  value: string
-  label: {
-    type: string
-    default: 'Select Date'
-  },
-  persist: boolean
-}>()
+const props = withDefaults(defineProps<{
+  modelValue?: Date
+  label?: string
+  persist?: boolean,
+}>(),
+{
+  modelValue: '2021-01-01',
+  label: 'Select Date'
+})
 
 const emits = defineEmits<{
-  input: [value: string]
+  'update:modelValue': [value: string]
 }>()
 
-const { selectedDate, showDateModal, closeAfterSelection } = useDatePicker(props, emits)
+const {
+  dateValue,
+  showDateMenu,
+  showDateField
+} = useDatePicker(props, emits)
 </script>
