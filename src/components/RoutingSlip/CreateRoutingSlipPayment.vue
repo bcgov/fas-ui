@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex justify-start">
     <v-col cols="2">
-      <p class="text-center font-weight-bold mt-4">
+      <p class="text-center font-weight-bold mt-4 mb-4">
         Payment Information
       </p>
     </v-col>
@@ -14,12 +14,16 @@
           v-model="isPaymentCheque"
           inline
           mandatory
-          class="align-start mt-0 ml-2"
+          hide-details
+          class="align-start mt-0 ml-2 mb-2"
         >
           <v-row class="d-inline-flex">
-            <v-col>
+            <v-col
+              cols="auto"
+            >
               <v-radio
-                :key="true"
+                :key="0"
+                color="primary"
                 label="Cheque"
                 :value="true"
                 data-test="radio-cheque"
@@ -27,7 +31,8 @@
             </v-col>
             <v-col>
               <v-radio
-                :key="false"
+                :key="1"
+                color="primary"
                 label="Cash"
                 :value="false"
                 data-test="radio-cash"
@@ -62,6 +67,11 @@ import { useCreateRoutingSlipPayment } from '@/composables/RoutingSlip'
 const {
   isPaymentCheque,
   createRoutingSlipChequePaymentRef,
-  createRoutingSlipCashPaymentRef
+  createRoutingSlipCashPaymentRef,
+  isValid
 } = useCreateRoutingSlipPayment()
+
+defineExpose({
+  isValid
+})
 </script>

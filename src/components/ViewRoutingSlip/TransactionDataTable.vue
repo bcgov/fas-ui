@@ -19,17 +19,15 @@
         {{ `(${invoiceCount})` }}
       </p>
     </div>
-    <!-- todo fix
     <v-data-table
       :headers="headerTranscations"
       :items="invoiceDisplay"
       class="elevation-1 fas-transactions"
-      hide-default-footer
-      disable-pagination
+      :hide-default-footer="true"
     >
-      <template #[`header.createdOn`]="{ header }">
+      <template #[`header.createdOn`]="{ column }">
         <div class="pl-4">
-          {{ header.text }}
+          {{ column.title }}
         </div>
       </template>
       <template #[`item.createdOn`]="{ item }">
@@ -71,8 +69,9 @@
           </v-btn>
         </template>
       </template>
+      <!-- hide pagination -->
+      <template #bottom />
     </v-data-table>
-    -->
     <!-- Confirmation Dialog - to be displayed after clicking cancel on a transaction -->
     <ModalDialog
       ref="modalDialogRef"
@@ -89,6 +88,7 @@
         <v-btn
           size="large"
           color="primary"
+          variant="flat"
           data-test="dialog-ok-button"
           :loading="isLoading"
           class="font-weight-bold btn-actions"
@@ -142,4 +142,5 @@ const appendCurrencySymbol = commonUtil.appendCurrencySymbol
       padding: 20px 15px !important;
     }
   }
+
 </style>

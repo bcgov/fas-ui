@@ -1,6 +1,11 @@
 // Vuetify Overrides
 @import 'theme.scss';
 
+// Vue 3- Input error message
+.v-input__details {
+  letter-spacing: normal;
+}
+
 // Buttons
 .v-btn {
   letter-spacing: 0;
@@ -30,8 +35,7 @@
   font-size: 0.8125rem;
 }
 
-// v-dialog
-.v-dialog > .v-card > .v-card-title {
+.notify-dialog > .v-card > .v-card-title {
   padding: 1.5rem;
   letter-spacing: -0.03rem;
   font-size: 1.5rem;
@@ -59,7 +63,7 @@
 
 // Increase the default font-size the default size of v-card-text
 .v-card-text {
-  line-height: 1.5;
+  line-height: 1.5 !important;
   font-size: 1rem;
 }
 
@@ -108,6 +112,10 @@ input:-webkit-autofill:active {
   margin-right: 1rem;
 }
 
+.v-list--one-line {
+  padding: 16px;
+}
+
 // Radio Buttons
 .v-radio {
   align-self: flex-start;
@@ -133,21 +141,34 @@ input:-webkit-autofill:active {
     top: 10px !important;
     // font-weight: normal;
   }
-  .v-text-field .v-input__control .v-input__slot {
+  .v-text-field .v-input__control .v-field__input {
     min-height: auto !important;
     height: 42px !important;
+    padding-top: 0px;
+    padding-bottom: 0px;
   }
 }
-// FAS UI overrides for vuetify to match BC gov standerds
-.theme--light {
-  .v-input--is-disabled,
-  .v-input--is-disabled input,
-  .v-input--is-disabled textarea {
+
+.v-autocomplete__menu-icon {
+  display: none;
+}
+// FAS UI overrides for vuetify to match BC gov standards
+.v-theme--light {
+  .v-input--disabled,
+  .v-input--disabled input,
+  .v-input--disabled textarea {
     color: $gray9 !important;
     opacity: 0.9;
   }
-  .v-label--is-disabled {
+  .v-field--disabled {
+    opacity: 0.9;
+  }
+  .v-label--disabled {
     color: $gray9 !important;
+  }
+
+  .v-breadcrumbs-item--disabled {
+    opacity: 1;
   }
 
   // .v-data-table
@@ -159,3 +180,4 @@ input:-webkit-autofill:active {
     }
   }
 }
+

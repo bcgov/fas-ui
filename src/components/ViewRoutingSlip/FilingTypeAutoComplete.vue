@@ -9,7 +9,6 @@
         variant="filled"
         :items="autoCompleteFilingTypes"
         :loading="isLoading"
-        :search.sync="search"
         :item-title="itemText"
         :item-value="itemText"
         placeholder="Filing Type Name"
@@ -19,15 +18,20 @@
         v-bind="$attrs"
         data-test="input-filing-type"
         @keyup="delayedSearch"
+        @update:search="search = $event"
       >
-        <!-- hide-no-data -->
-        <template #item="{ item }">
-          <div class="filing-details">
-            <span>{{ item.filingTypeCode.description }}</span>
-            <span>
-              <span>-</span>
-              {{ item.corpTypeCode.description }}</span>
-          </div>
+        <template #item="{ props: activatorProps, item }">
+          <v-list-item
+            v-bind="activatorProps"
+            title=""
+          >
+            <div class="filing-details">
+              <span>{{ item.raw.filingTypeCode.description }}</span>
+              <span>
+                <span>-</span>
+                {{ item.raw.corpTypeCode.description }}</span>
+            </div>
+          </v-list-item>
         </template>
       </v-autocomplete>
     </div>

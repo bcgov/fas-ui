@@ -4,7 +4,9 @@
       <h3 data-test="title">
         Linking Routing Slip
       </h3>
-      <p>{{ $t('linkRoutingSlipSubText') }}</p>
+      <p class="mb-4">
+        {{ $t('linkRoutingSlipSubText') }}
+      </p>
     </header>
     <v-card class="pl-5 py-2 small-text-input">
       <v-card-text>
@@ -107,7 +109,6 @@
                 >
                   <div
                     key="action"
-                    class="d-flex"
                   >
                     <RoutingSlipAutoComplete
                       data-test="routing-slip-auto-complete"

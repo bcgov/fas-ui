@@ -8,6 +8,8 @@ import { useRoutingSlip } from '../useRoutingSlip'
 // Composable function to inject Props, options and values to CreateRoutingSlip component
 // CreateRoutingSlip component holds two behaviors - create routing slip & review routing slip modes
 export function useCreateRoutingSlip () {
+  const router = useRouter()
+  const route = useRoute()
   const {
     cashPayment,
     chequePayment,
@@ -41,11 +43,11 @@ export function useCreateRoutingSlip () {
 
   const appendQueryParamsIfNeeded = CommonUtils.appendQueryParamsIfNeeded
 
-  function isValid (): boolean {
+  async function isValid (): Promise<boolean> {
     // We would want to trigger validate() of all the children
-    let isChildrenValid = createRoutingSlipDetailsRef.value?.isValid()
+    let isChildrenValid = await createRoutingSlipDetailsRef.value?.isValid()
     isChildrenValid =
-      createRoutingSlipPaymentRef.value?.isValid() && isChildrenValid
+      (await createRoutingSlipPaymentRef.value?.isValid()) && isChildrenValid
     return isChildrenValid
   }
 
@@ -55,9 +57,9 @@ export function useCreateRoutingSlip () {
   }
 
   // when "Review and Create" button is clicked in create mode, we toggle the review
-  function reviewAndCreate (): void {
+  async function reviewAndCreate (): Promise<void> {
     // set to review mode value
-    if (isValid()) {
+    if (await isValid()) {
       // check if isAmountToUsd flag is set to true, so then set paymentUsdAmount fields to 0
       if (!isAmountPaidInUsd.value) {
         if (isPaymentMethodCheque.value) {
@@ -98,8 +100,7 @@ export function useCreateRoutingSlip () {
         await createRoutingSlip()
         // on success redirect to view
         // Check if we had come from Staff dashboard
-        const router = useRouter()
-        const route = useRoute()
+
         router.push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipDetails.value.number}`, route))
       }
     } catch (error: any) {
@@ -127,8 +128,6 @@ export function useCreateRoutingSlip () {
 
   function modalDialogClose () {
     modalDialogRef.value.close()
-    const router = useRouter()
-    const route = useRoute()
     router.push(appendQueryParamsIfNeeded('/home', route))
   }
 

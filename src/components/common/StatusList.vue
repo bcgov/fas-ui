@@ -1,15 +1,14 @@
 <template>
-  <div>
-    <v-select
-      v-model="currentStatus"
-      :items="routingSlipStatusList"
-      variant="filled"
-      item-title="description"
-      item-value="code"
-      return-object
-      data-test="select-status"
-    />
-  </div>
+  <v-select
+    v-model="currentStatus"
+    :items="routingSlipStatusList"
+    variant="filled"
+    item-title="description"
+    item-value="code"
+    return-object
+    data-test="select-status"
+    v-bind="$attrs"
+  />
 </template>
 
 <script setup lang="ts">

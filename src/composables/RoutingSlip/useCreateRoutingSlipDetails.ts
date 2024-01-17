@@ -71,9 +71,8 @@ export function useCreateRoutingSlipDetails () {
     'An Entity Number is required'
   )
 
-  function isValid (): boolean {
-    // Current version of Vuetify returns validate() as true even if :error-message is not null on v-text-field
-    return createRoutingSlipDetailsForm.value?.validate() && errorMessage.value?.length === 0
+  async function isValid (): Promise<boolean> {
+    return (await createRoutingSlipDetailsForm.value.validate()).length === 0
   }
 
   async function checkRoutingNumberAvailable () {

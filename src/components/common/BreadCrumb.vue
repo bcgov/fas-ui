@@ -7,12 +7,16 @@
       <v-btn
         v-if="items.length > 1"
         icon
+        variant="text"
         class="font-weight-bold"
         data-test="btn-back"
-        size="x-large"
+        size="large"
         @click="goBack"
       >
-        <v-icon class="white-color ">
+        <v-icon
+          size="large"
+          class="white-color"
+        >
           mdi-arrow-left-circle
         </v-icon>
       </v-btn>
@@ -60,6 +64,7 @@ const { items, goBack } = useBreadCrumb()
 
 <style lang="scss" scoped>
 @import '$assets/scss/theme.scss';
+
   .background-color {
     background-color: $app-dk-blue;
   }
@@ -84,5 +89,9 @@ const { items, goBack } = useBreadCrumb()
       margin-bottom: 0 !important;
     }
 
+  }
+
+  .v-divider {
+    opacity: 1;
   }
 </style>

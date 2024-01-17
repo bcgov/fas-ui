@@ -20,8 +20,9 @@ export function useCreateRoutingSlipPayment () {
     }
   })
 
-  function isValid (): boolean {
-    return isPaymentCheque.value === true ? createRoutingSlipChequePaymentRef.value?.isValid() : createRoutingSlipCashPaymentRef.value?.isValid()
+  async function isValid (): Promise<boolean> {
+    if (isPaymentCheque.value) return await createRoutingSlipChequePaymentRef.value.isValid()
+    return await createRoutingSlipCashPaymentRef.value.isValid()
   }
 
   return {

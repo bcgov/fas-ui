@@ -5,7 +5,7 @@
         <h3 data-test="title">
           Payment Information
         </h3>
-        <p>
+        <p class="mb-4">
           {{ $t('paymentInformationSubText') }}
         </p>
       </div>
@@ -104,7 +104,7 @@
                       class="d-flex flex-column"
                     >
                       <div class="d-flex mt-6 mb-3">
-                        <p class="ma-0">
+                        <p class="ma-0 mb-4">
                           Linked with:
                         </p>
                         <router-link :to="navigateTo(routingSlip.number, child.number)">

@@ -3,7 +3,7 @@
     <v-col cols="2">
       <p
         data-test="title"
-        class="text-center font-weight-bold mt-4"
+        class="text-center font-weight-bold mt-4 mb-4"
       >
         Routing slip
       </p>
@@ -19,7 +19,7 @@
         <v-row class="d-flex pa-0 ma-0 justify-between">
           <v-col
             cols="12"
-            class="py-0"
+            class="py-0 mb-4"
           >
             <v-text-field
               v-model.trim="number"
@@ -73,8 +73,13 @@ const {
   routingSlipDateRules,
   entityNumberRules,
   checkRoutingNumberAvailable,
-  errorMessage
+  errorMessage,
+  isValid
 } = useCreateRoutingSlipDetails()
+
+defineExpose({
+  isValid
+})
 </script>
 <style lang="scss" scoped>
 @import '$assets/scss/theme.scss';

@@ -3,8 +3,7 @@
     <v-menu
       v-model="showCalendar"
       :close-on-content-click="false"
-      :nudge-left="200"
-      offset-y
+      :offset="200"
       z-index="1"
     >
       <template #activator="{ props }">
@@ -13,7 +12,6 @@
           v-bind="props"
           class="font-weight-bold"
           size="large"
-          dark
           color="primary"
           data-test="btn-daily-report"
         >

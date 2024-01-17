@@ -74,8 +74,13 @@ const {
   paidAmountRules,
   paidUsdAmountRules,
   isTheAmountPaidInUsd,
-  getColumnWidth
+  getColumnWidth,
+  isValid
 } = useCreateRoutingSlipCashPayment()
+
+defineExpose({
+  isValid
+})
 </script>
 <style lang="scss" scoped>
   .textNumber input[type='number'] {

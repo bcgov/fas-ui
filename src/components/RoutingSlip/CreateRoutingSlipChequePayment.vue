@@ -1,6 +1,6 @@
 <template>
   <v-form ref="createRoutingSlipChequePaymentForm">
-    <v-row class="d-flex pa-0 ma-0 justify-between">
+    <v-row class="d-flex pa-0 ma-0 justify-between mb-4">
       <v-col
         cols="12"
         class="pa-0"
@@ -8,7 +8,7 @@
         <div
           v-for="(cheque, index) in chequeList"
           :key="index"
-          class="d-flex"
+          class="d-flex mb-4"
         >
           <v-col
             :cols="getColumnWidth"
@@ -69,6 +69,8 @@
           <v-btn
             v-if="index>0"
             icon
+            variant="text"
+            color="grey"
             class="mt-3 ml-1"
             :data-test="getIndexedTag('removeChecque', index)"
             @click="removeCheque(index)"
@@ -142,8 +144,13 @@ const {
   getColumnWidth,
   getIndexedTag,
   addCheque,
-  removeCheque
+  removeCheque,
+  isValid
 } = useCreateRoutingSlipChequePayment()
+
+defineExpose({
+  isValid
+})
 </script>
 <style lang="scss" scoped>
   .textNumber input[type='number'] {

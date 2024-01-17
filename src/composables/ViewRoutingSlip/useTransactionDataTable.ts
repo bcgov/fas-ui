@@ -12,37 +12,37 @@ export default function useTransactionDataTable () {
   const invoiceDisplay = ref<InvoiceDisplay[]>([])
   const headerTranscations = [
     {
-      text: 'Date',
+      title: 'Date',
       align: 'start',
       sortable: false,
       value: 'createdOn'
     },
     {
-      text: 'Invoice #',
+      title: 'Invoice #',
       align: 'start',
       sortable: false,
       value: 'invoiceNumber'
     },
     {
-      text: 'Transaction Amount',
+      title: 'Transaction Amount',
       align: 'end',
       sortable: false,
       value: 'total'
     },
     {
-      text: 'Description',
+      title: 'Description',
       align: 'start',
       value: 'description',
       sortable: false
     },
     {
-      text: 'Initiator',
+      title: 'Initiator',
       align: 'start',
       value: 'createdName',
       sortable: false
     },
     {
-      text: 'Actions',
+      title: 'Actions',
       align: 'end',
       value: 'actions',
       sortable: false

@@ -11,7 +11,7 @@
     <v-card class="px-10 pt-10 pb-8">
       <v-card-title
         data-test="dialog-header"
-        class="pt-0 pb-5"
+        class="pt-0 pb-5 d-flex"
       >
         <slot
           v-if="showIcon"
@@ -70,15 +70,15 @@ import { useModalDialog } from '@/composables/common'
 
 withDefaults(defineProps<{
   title: string
-  text: string
-  showIcon: boolean
-  showActions: boolean
-  isPersistent: boolean
-  fullscreenOnMobile: boolean
-  isScrollable: boolean
+  text?: string
+  showIcon?: boolean
+  showActions?: boolean
+  isPersistent?: boolean
+  fullscreenOnMobile?: boolean
+  isScrollable?: boolean
   dialogClass: string
   maxWidth: string
-  showCloseIcon: boolean
+  showCloseIcon?: boolean
   icon: string
   iconColor: string
 }>(), {
@@ -98,8 +98,15 @@ withDefaults(defineProps<{
 
 const {
   isOpen,
-  close
+  close,
+  open
 } = useModalDialog()
+
+defineExpose({
+  open,
+  close,
+  isOpen
+})
 </script>
 
 <style lang="scss" scoped>
@@ -108,19 +115,20 @@ const {
   // Center-aligned text throughout
   .notify-dialog .v-card-title {
     flex-direction: column;
-
+    align-items: center;
     ::v-deep i {
       margin-top: 1rem;
       margin-bottom: 1rem;
     }
   }
-
-  .notify-dialog .v-card-text {
+  .v-dialog .v-card-text {
     text-align: center;
+    letter-spacing: .0071428571em !important;
+    padding-top: 0px !important;
   }
 
   .notify-dialog .v-card-actions {
     justify-content: center;
-    padding: 1.5rem;
+    padding: 8px 16px;
   }
 </style>

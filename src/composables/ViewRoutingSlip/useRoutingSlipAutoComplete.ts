@@ -18,7 +18,7 @@ export default function useLinkRoutingSlip (emits) {
   const isLoading = ref<boolean>(false)
   const hideNoData = ref<boolean>(false)
 
-  const number = ref('')
+  const number = ref(null)
   const search = ref('')
 
   function toggleSearch () {
@@ -50,8 +50,7 @@ export default function useLinkRoutingSlip (emits) {
 
   async function saveLinkedRoutingSlip () {
     let linkingErrors = ''
-
-    const response = await saveLinkRoutingSlip(search.value)
+    const response = await saveLinkRoutingSlip(number.value.number)
     if (response?.error) {
       // setting error message
       linkingErrors = response?.details?.detail ? response.details.detail : ''

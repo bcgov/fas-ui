@@ -1,6 +1,5 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils'
-
 import { CreateRoutingSlipDetails } from '@/components/RoutingSlip'
+import { shallowMount } from '@vue/test-utils'
 
 describe('CreateRoutingSlipDetails.vue', () => {
   let store

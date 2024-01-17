@@ -1,35 +1,23 @@
+// TODO still WIP - Travis Semple
 import { computed, ref, toRefs } from 'vue'
-
+import { DateTime } from 'luxon'
 export function useDatePicker (props, emits) {
-  // using `toRefs` to create a Reactive Reference to the `user` property of props
-  const { value, persist } = toRefs(props)
-
-  const showDateModal = ref(false)
-
-  // using same v-model value for getting value and update parent on change
-  const selectedDate = computed({
-    get: () => {
-      return value.value
-    },
-    set: (modalValue: Date) => {
-      emits('input', modalValue)
-    }
+  const { modelValue } = toRefs(props)
+  const showDateField = computed(() => {
+    if (modelValue.value instanceof Date) return DateTime.fromJSDate(modelValue.value).setZone('America/Vancouver').toFormat('yyyy-MM-dd')
+    return DateTime.fromFormat(modelValue.value, 'yyyy-MM-dd').setZone('America/Vancouver').toJSDate()
   })
-
-  function toggleDatePicker () {
-    showDateModal.value = !showDateModal.value
-  }
-
-  function closeAfterSelection () {
-    // if persist pass as prop no need close on click
-    if (persist.value === false) {
-      toggleDatePicker()
-    }
-  }
-
+  const dateValue = computed({
+    get: () => {
+      if (modelValue.value instanceof Date) return modelValue.value
+      return DateTime.fromFormat(modelValue.value, 'yyyy-MM-dd').setZone('America/Vancouver').toJSDate()
+    },
+    set: (val) => emits('update:modelValue', val)
+  })
+  const showDateMenu = ref(false)
   return {
-    selectedDate,
-    showDateModal,
-    closeAfterSelection
+    dateValue,
+    showDateMenu,
+    showDateField
   }
 }

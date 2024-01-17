@@ -1,7 +1,6 @@
 <template>
   <v-menu
     :close-on-content-click="false"
-    offset-y
     data-test="menu-search-column-filter"
   >
     <template #activator="{ props }">

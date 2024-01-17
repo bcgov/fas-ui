@@ -78,6 +78,7 @@
               <v-btn
                 size="large"
                 color="primary"
+                variant="flat"
                 class="px-6 mr-3 font-weight-bold"
                 data-test="btn-create-routing-slip"
                 @click="createandReviewButtonEventHandler"
@@ -106,7 +107,6 @@
       :text="modalDialogDetails.modalDialogText"
       dialog-class="notify-dialog"
       max-width="679"
-      max-height="310"
       :icon="modalDialogDetails.modalDialogIcon"
       :iconColor="isModalDialogInfo ? 'primary' : 'error'"
     >
@@ -114,6 +114,7 @@
         <v-btn
           size="large"
           color="primary"
+          variant="flat"
           data-test="dialog-ok-button"
           class="font-weight-bold btn-actions"
           @click="modalDialogClose()"
