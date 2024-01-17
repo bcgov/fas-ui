@@ -121,14 +121,10 @@ defineExpose({
       margin-bottom: 1rem;
     }
   }
-
-  .v-dialog>.v-overlay__content {
-    max-height: unset !important;
-  }
-
-  .notify-dialog .v-card-text {
+  .v-dialog .v-card-text {
     text-align: center;
     letter-spacing: .0071428571em !important;
+    padding-top: 0px !important;
   }
 
   .notify-dialog .v-card-actions {

@@ -124,7 +124,7 @@
     >
       <template #text>
         <p
-          class="mb-0 px-6"
+          class="mb-2 px-6"
           v-html="modalText.subText"
         />
       </template>
@@ -135,6 +135,7 @@
         <v-btn
           size="large"
           color="primary"
+          variant="flat"
           data-test="dialog-ok-button"
           class="px-5 font-weight-bold btn-actions"
           @click="closeErrorDialog()"
@@ -149,6 +150,7 @@
         <v-btn
           size="large"
           color="primary"
+          variant="flat"
           data-test="dialog-ok-button"
           class="px-5 font-weight-bold btn-actions"
           @click="updateStatus()"
