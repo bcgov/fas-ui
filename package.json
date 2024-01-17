@@ -19,8 +19,8 @@
     "build:lib": "vite build --mode lib"
   },
   "dependencies": {
-    "@bcrs-shared-components/base-address": "^2.0.3",
-    "@bcrs-shared-components/enums": "^1.0.51",
+    "@bcrs-shared-components/base-address": "^3.0.1",
+    "@bcrs-shared-components/enums": "^2.0.0",
     "@bcrs-shared-components/interfaces": "^1.0.76",
     "@bcrs-shared-components/mixins": "^1.1.21",
     "axios": "^1.6.5",
