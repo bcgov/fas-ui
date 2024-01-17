@@ -18,7 +18,7 @@ export function useDateRange (props, emits) {
     }
   })
   // to keep track of old value on cancel rest to this value default value will props passed
-  const oldSelectedRange = ref(modalValue.value)
+  const oldSelectedRange = ref(modalValue)
 
   const dateRangeSelectedDisplay = computed(() => {
     return dateRangeSelected.value.join(' - ')

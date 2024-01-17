@@ -6,12 +6,12 @@ import { useCodes } from '../useCodes'
 export function useStatusMenu (props, emits) {
   const { getRoutingSlipStatusList, routingSlipStatusList } = useCodes()
   // default value set blank incase if we didnt pass props
-  const { value = ref(''), allowedStatusList = ref([]) } = toRefs(props)
+  const { modalValue = ref(''), allowedStatusList = ref([]) } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change
   const currentStatus = computed({
     get: () => {
-      return value.value || ''
+      return modalValue.value || ''
     },
     set: (modalValue: Code) => {
       emits('input', modalValue.code)

@@ -4,16 +4,16 @@ import { useCodes } from '../useCodes'
 
 export function useStatusList (props, emits) {
   const { getRoutingSlipStatusList, routingSlipStatusList } = useCodes()
-  // default value set blank incase if we didnt pass props
-  const { value = ref('') } = toRefs(props)
+  // default modalValue set blank incase if we didnt pass props
+  const { modalValue = ref('') } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change
   const currentStatus = computed({
     get: () => {
-      return value.value || ''
+      return modalValue.value || ''
     },
     set: (modalValue: Code) => {
-      emits('input', modalValue.code)
+      emits('update:model-value', modalValue)
     }
   })
 
@@ -29,7 +29,7 @@ export function useStatusList (props, emits) {
    * @param {string} code
    * @returns {string} description - label
    */
-  function statusLabel (code: string) {
+  function statusLabel(code: string) {
     const codeArray = selectedStatusObject(code)
     return codeArray[0]?.description || ''
   }

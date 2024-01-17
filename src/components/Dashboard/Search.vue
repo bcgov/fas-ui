@@ -24,7 +24,7 @@
           >
             mdi-plus
           </v-icon>
-          Add New Routing Slip
+          Add New Routing Slip <span>... {{ searchParamsExist }}</span>
         </v-btn>
       </v-col>
       <v-col
@@ -192,14 +192,15 @@
                         v-if="canShowColumn('date')"
                         scope="date"
                       >
-                        <!-- <date-range-filter
+                        <date-range-filter
+                          id="date"
                           v-model="dateFilter"
                           class="text-input-style "
                           hide-details="auto"
                           placeholder="Date"
                           label="placeholder"
-                          @applied="searchNow()"
-                        /> -->
+                          @update:model-value="searchNow()"
+                        />
                       </th>
                       <th
                         v-if="canShowColumn('status')"
@@ -207,11 +208,12 @@
                       >
                         <div class="mt-0">
                           <status-list
-                            v-model="status"
+                            id="status"
+                            v-model.trim="status"
                             class="text-input-style "
                             hide-details="auto"
                             :placeholder="!status ? 'Status' : ''"
-                            @change="searchNow()"
+                            @update:model-value="searchNow()"
                           />
                         </div>
                       </th>
@@ -285,7 +287,7 @@
                         v-if="!isLoading"
                         class="rs-search-result"
                       >
-                        <td v-if="canShowColumn('routingSlipNumber', item.key)">
+                        <td v-if="canShowColumn('routingSlipNumber')">
                           {{ item.number ? item.number : '-' }}
                         </td>
                         <td v-if="canShowColumn('receiptNumber')">
@@ -315,14 +317,15 @@
                           }}
                         </td>
                         <td v-if="canShowColumn('status')">
-                          <span
+                          <!-- <span
                             :class="colors(item.status)"
                             data-test="label-status"
                           >{{
                             getStatusLabel(item.status)
                               ? getStatusLabel(item.status)
                               : '-'
-                          }}</span>
+                          }}</span> -->
+                          {{ item.status }}
                         </td>
                         <td v-if="canShowColumn('businessIdentifier')">
                           <span
@@ -465,7 +468,6 @@ import { computed } from 'vue'
 import { useDashboard } from '@/composables/Dashboard'
 import { useSearch } from '@/composables/Dashboard/useSearch'
 
-// Define props
 const props = withDefaults(defineProps<{
   isLibraryMode?: boolean
 }>(), {

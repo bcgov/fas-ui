@@ -9,18 +9,18 @@
     <template #activator="{ props }">
       <!-- UI control that is displayed clicking on which menu is displayed -->
       <v-text-field
-        v-model="dateRangeSelectedDisplay"
-        append-icon="mdi-calendar-range"
+        append-inner-icon="mdi-calendar-range"
         readonly
         v-bind="props"
+        @click:append-inner="props"
         variant="filled"
         data-test="input-date-picker"
       >
-        <template #append>
+        <!-- <template #append>
           <v-icon color="primary">
             mdi-calendar-range
           </v-icon>
-        </template>
+        </template> -->
       </v-text-field>
     </template>
     <!-- the menu consists of list of buttons on left and date picker on right -->
@@ -75,7 +75,7 @@
           class="date-range-label py-6 mx-6 mb-3"
           v-html="showDateRangeSelected"
         />
-        <v-date-picker
+        <!-- <v-date-picker
           v-model="dateRangeSelected"
           color="primary"
           width="400"
@@ -88,7 +88,7 @@
           hide-details="auto"
           v-on="$listeners"
           @click:date="dateClick"
-        />
+        /> -->
       </div>
     </v-card>
   </v-menu>
@@ -98,27 +98,30 @@
 // this is just took from auth-web
 import { useDateRange } from '@/composables/common'
 
-const props = defineProps<{
-  modelValue: string[]
+const props = withDefaults(defineProps<{
+  modelValue: any
   label: string
-}>()
+}>(), {
+  modelValue: [],
+  label: 'Select Date Range'
+})
 
 const emits = defineEmits<{
 }>()
 
 const {
   // dateFilterRanges,
-  dateRangeSelected,
-  dateFilterSelectedIndex,
-  dateRangeSelectedDisplay,
-  showDateFilter,
-  pickerDate,
-  dateFilterChange,
-  isApplyFilterBtnValid,
-  dateClick,
-  applyDateFilter,
-  showDateRangeSelected,
-  cancelDateFilter
+  // dateRangeSelected,
+  // dateFilterSelectedIndex,
+  // dateRangeSelectedDisplay,
+  // showDateFilter,
+  // pickerDate,
+  // dateFilterChange,
+  // isApplyFilterBtnValid,
+  // dateClick,
+  // applyDateFilter,
+  // showDateRangeSelected,
+  // cancelDateFilter
 } = useDateRange(props, emits)
 </script>
 

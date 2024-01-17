@@ -210,6 +210,7 @@ export const useRoutingSlip = () => {
     // // build the RoutingSlip Request JSON object that needs to be sent.
 
     let params = { ...searchRoutingSlipParams.value }
+
     // filtering and removing all non set values
     params = CommonUtils.cleanObject(params)
 
