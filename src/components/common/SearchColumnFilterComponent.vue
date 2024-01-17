@@ -3,16 +3,15 @@
     :close-on-content-click="false"
     data-test="menu-search-column-filter"
   >
-    <template #activator="{ props: { click } }">
+    <template #activator="{ props }">
       <v-text-field
         label="Columns to Show"
         readonly
-        v-bind="$attrs"
+        v-bind="props"
         variant="filled"
         class="column-filter"
-        append-icon="mdi-menu-down"
-        @click="click"
-        @click:append="click"
+        append-inner-icon="mdi-menu-down"
+        @click:append-inner="props"
       />
     </template>
     <v-list
@@ -28,7 +27,7 @@
         <v-checkbox
           v-model="item.display"
           class="ma-0"
-          :label="item.text"
+          :label="item.title"
           hide-details
         />
       </v-list-item>
@@ -37,6 +36,7 @@
 </template>
 
 <script setup lang="ts">
+import { defineEmits, defineProps } from 'vue'
 import { useSearchColumnFilterComponent } from '@/composables/common'
 
 const props = withDefaults(
@@ -56,6 +56,7 @@ const { selectedHeaderSearchList } = useSearchColumnFilterComponent(
   props,
   emits
 )
+
 </script>
 <style lang="scss">
   .column-filter > .v-input__control,

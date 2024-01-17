@@ -6,19 +6,19 @@ import moment from 'moment'
 
 export const DATEFILTER_CODES = DateFilterCodes
 export function useDateRange (props, emits) {
-  const { value } = toRefs(props)
+  const { modalValue } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change
   const dateRangeSelected = computed({
     get: () => {
-      return value.value
+      return modalValue.value
     },
     set: (modalValue: Date[]) => {
       emits('input', modalValue)
     }
   })
   // to keep track of old value on cancel rest to this value default value will props passed
-  const oldSelectedRange = ref(value.value)
+  const oldSelectedRange = ref(modalValue)
 
   const dateRangeSelectedDisplay = computed(() => {
     return dateRangeSelected.value.join(' - ')

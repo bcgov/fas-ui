@@ -24,7 +24,7 @@
           >
             mdi-plus
           </v-icon>
-          Add New Routing Slip
+          Add New Routing Slip <span>... {{ searchParamsExist }}</span>
         </v-btn>
       </v-col>
       <v-col
@@ -83,7 +83,7 @@
             >
               <transition name="slide-fade">
                 <v-data-table
-                  :headers="headerSearch"
+                  :headers="displayedHeaderSearch"
                   :items="searchRoutingSlipResult"
                   item-key="name"
                   headerProps="elevation-1"
@@ -108,180 +108,179 @@
                       "
                     />
                   </template>
-                  <template #header="{ }">
-                    <thead class="v-data-table-header">
-                      <tr class="header-row-1">
+                  <template #headers="{ columns }">
+                    <tr class="header-row-1">
+                      <template
+                        v-for="(header, i) in columns"
+                        :key="header+'row-1'"
+                      >
                         <th
-                          v-for="(header, i) in displayedHeaderSearch"
-                          :key="'find-header-' + i"
-                          :scope="i"
                           :class="[
-                            header.value !== '' ? 'text-start' : 'text-end',
+                            header.key !== '' ? 'text-start' : 'text-end',
                             header.className && `header-${header.className}`
                           ]"
                           class="font-weight-bold"
                         >
-                          {{ header.text }}
+                          {{ header.title }}
                         </th>
-                      </tr>
+                      </template>
+                    </tr>
+                    <tr class="header-row-2 mt-2 px-2">
+                      <th
+                        v-if="canShowColumn('routingSlipNumber')"
+                        scope="routingSlipNumber"
+                      >
+                        <v-text-field
+                          id="routingSlipNumber"
+                          v-model.trim="routingSlipNumber"
+                          autocomplete="off"
+                          class="text-input-style "
+                          variant="filled"
+                          placeholder="Routing Slip Number"
+                          density="compact"
+                          hide-details="auto"
+                          @update:model-value="debouncedSearch()"
+                        />
+                      </th>
 
-                      <tr class="header-row-2 mt-2 px-2">
-                        <th
-                          v-if="canShowColumn('routingSlipNumber')"
-                          scope="routingSlipNumber"
-                        >
-                          <!-- canShowColumn {{canShowColumn('routingSlipNumber')}} -->
-                          <v-text-field
-                            id="routingSlipNumber"
-                            v-model.trim="routingSlipNumber"
-                            autocomplete="off"
-                            class="text-input-style "
-                            variant="filled"
-                            placeholder="Routing Slip Number"
-                            density="compact"
-                            hide-details="auto"
-                            @update:model-value="debouncedSearch()"
-                          />
-                        </th>
-
-                        <th
-                          v-if="canShowColumn('receiptNumber')"
-                          scope="receiptNumber"
-                        >
-                          <v-text-field
-                            id="receiptNumber"
-                            v-model.trim="receiptNumber"
-                            autocomplete="off"
-                            class="text-input-style "
-                            variant="filled"
-                            placeholder="Receipt Number"
-                            hide-details="auto"
-                            @update:model-value="debouncedSearch()"
-                          />
-                        </th>
-                        <th
-                          v-if="canShowColumn('accountName')"
-                          scope="accountName"
-                        >
-                          <v-text-field
-                            id="accountName"
-                            v-model.trim="accountName"
-                            autocomplete="off"
-                            class="text-input-style "
-                            variant="filled"
-                            placeholder="Entity Number"
-                            hide-details="auto"
-                            @update:model-value="debouncedSearch()"
-                          />
-                        </th>
-                        <th
-                          v-if="canShowColumn('createdName')"
-                          scope="createdName"
-                        >
-                          <v-text-field
-                            id="createdName"
-                            v-model.trim="initiator"
-                            autocomplete="off"
-                            class="text-input-style "
-                            variant="filled"
-                            placeholder="Created By"
-                            hide-details="auto"
-                            @update:model-value="debouncedSearch()"
-                          />
-                        </th>
-                        <th
-                          v-if="canShowColumn('date')"
-                          scope="date"
-                        >
-                          <date-range-filter
-                            v-model="dateFilter"
+                      <th
+                        v-if="canShowColumn('receiptNumber')"
+                        scope="receiptNumber"
+                      >
+                        <v-text-field
+                          id="receiptNumber"
+                          v-model.trim="receiptNumber"
+                          autocomplete="off"
+                          class="text-input-style "
+                          variant="filled"
+                          placeholder="Receipt Number"
+                          hide-details="auto"
+                          @update:model-value="debouncedSearch()"
+                        />
+                      </th>
+                      <th
+                        v-if="canShowColumn('accountName')"
+                        scope="accountName"
+                      >
+                        <v-text-field
+                          id="accountName"
+                          v-model.trim="accountName"
+                          autocomplete="off"
+                          class="text-input-style "
+                          variant="filled"
+                          placeholder="Entity Number"
+                          hide-details="auto"
+                          @update:model-value="debouncedSearch()"
+                        />
+                      </th>
+                      <th
+                        v-if="canShowColumn('createdName')"
+                        scope="createdName"
+                      >
+                        <v-text-field
+                          id="createdName"
+                          v-model.trim="initiator"
+                          autocomplete="off"
+                          class="text-input-style "
+                          variant="filled"
+                          placeholder="Created By"
+                          hide-details="auto"
+                          @update:model-value="debouncedSearch()"
+                        />
+                      </th>
+                      <th
+                        v-if="canShowColumn('date')"
+                        scope="date"
+                      >
+                        <date-range-filter
+                          id="date"
+                          v-model="dateFilter"
+                          class="text-input-style "
+                          hide-details="auto"
+                          placeholder="Date"
+                          label="placeholder"
+                          @update:model-value="searchNow()"
+                        />
+                      </th>
+                      <th
+                        v-if="canShowColumn('status')"
+                        scope="status"
+                      >
+                        <div class="mt-0">
+                          <status-list
+                            id="status"
+                            v-model.trim="status"
                             class="text-input-style "
                             hide-details="auto"
-                            placeholder="Date"
-                            @applied="searchNow()"
+                            :placeholder="!status ? 'Status' : ''"
+                            @update:model-value="searchNow()"
                           />
-                        </th>
-                        <th
-                          v-if="canShowColumn('status')"
-                          scope="status"
+                        </div>
+                      </th>
+                      <th
+                        v-if="canShowColumn('businessIdentifier')"
+                        scope="businessIdentifier"
+                      >
+                        <v-text-field
+                          id="businessIdentifier"
+                          v-model.trim="businessIdentifier"
+                          autocomplete="off"
+                          class="text-input-style "
+                          variant="filled"
+                          placeholder="Reference Numbers"
+                          hide-details="auto"
+                          @update:model-value="debouncedSearch()"
+                        />
+                      </th>
+                      <th
+                        v-if="canShowColumn('chequeReceiptNumber')"
+                        scope="chequeReceiptNumber"
+                      >
+                        <v-text-field
+                          id="chequeReceiptNumber"
+                          v-model.trim="chequeReceiptNumber"
+                          autocomplete="off"
+                          class="text-input-style "
+                          variant="filled"
+                          placeholder="Cheque Number"
+                          hide-details="auto"
+                          @update:model-value="debouncedSearch()"
+                        />
+                      </th>
+                      <th
+                        v-if="canShowColumn('remainingAmount')"
+                        scope="remainingAmount1"
+                      >
+                        <v-text-field
+                          id="remainingAmount1"
+                          v-model.trim="remainingAmount"
+                          autocomplete="off"
+                          class="text-input-style "
+                          variant="filled"
+                          placeholder="Balance"
+                          hide-details="auto"
+                          @update:model-value="debouncedSearch()"
+                        />
+                      </th>
+                      <th>
+                        <v-btn
+                          v-if="!searchParamsExist"
+                          variant="outlined"
+                          color="primary"
+                          class="action-btn clear-filter-button"
+                          @click="clearFilter"
                         >
-                          <div class="mt-0">
-                            <!-- Placeholder work around, until we upgrade Vuetify in sbc-auth -->
-                            <status-list
-                              v-model="status"
-                              class="text-input-style "
-                              hide-details="auto"
-                              :placeholder="!status ? 'Status' : ''"
-                              @change="searchNow()"
-                            />
-                          </div>
-                        </th>
-                        <th
-                          v-if="canShowColumn('businessIdentifier')"
-                          scope="businessIdentifier"
-                        >
-                          <v-text-field
-                            id="businessIdentifier"
-                            v-model.trim="businessIdentifier"
-                            autocomplete="off"
-                            class="text-input-style "
-                            variant="filled"
-                            placeholder="Reference Numbers"
-                            hide-details="auto"
-                            @update:model-value="debouncedSearch()"
-                          />
-                        </th>
-                        <th
-                          v-if="canShowColumn('chequeReceiptNumber')"
-                          scope="chequeReceiptNumber"
-                        >
-                          <v-text-field
-                            id="chequeReceiptNumber"
-                            v-model.trim="chequeReceiptNumber"
-                            autocomplete="off"
-                            class="text-input-style "
-                            variant="filled"
-                            placeholder="Cheque Number"
-                            hide-details="auto"
-                            @update:model-value="debouncedSearch()"
-                          />
-                        </th>
-                        <th
-                          v-if="canShowColumn('remainingAmount')"
-                          scope="remainingAmount"
-                        >
-                          <v-text-field
-                            id="remainingAmount"
-                            v-model.trim="remainingAmount"
-                            autocomplete="off"
-                            class="text-input-style "
-                            variant="filled"
-                            placeholder="Balance"
-                            hide-details="auto"
-                            @update:model-value="debouncedSearch()"
-                          />
-                        </th>
-                        <th>
-                          <v-btn
-                            v-if="!searchParamsExist"
-                            variant="outlined"
-                            color="primary"
-                            class="action-btn clear-filter-button"
-                            @click="clearFilter"
-                          >
-                            <span class="clear-filter cursor-pointer">
-                              Clear Filters
-                              <v-icon
-                                size="small"
-                                color="primary"
-                              >mdi-close</v-icon>
-                            </span>
-                          </v-btn>
-                        </th>
-                      </tr>
-                    </thead>
+                          <span class="clear-filter cursor-pointer">
+                            Clear Filters
+                            <v-icon
+                              size="small"
+                              color="primary"
+                            >mdi-close</v-icon>
+                          </span>
+                        </v-btn>
+                      </th>
+                    </tr>
                   </template>
-
                   <template #item="{ item }">
                     <transition name="slide-fade">
                       <tr
@@ -292,7 +291,6 @@
                           {{ item.number ? item.number : '-' }}
                         </td>
                         <td v-if="canShowColumn('receiptNumber')">
-                          <!-- if cash show number else - -->
                           {{
                             item.paymentAccount &&
                               item.paymentAccount.paymentMethod === 'CASH'
@@ -319,14 +317,15 @@
                           }}
                         </td>
                         <td v-if="canShowColumn('status')">
-                          <span
+                          <!-- <span
                             :class="colors(item.status)"
                             data-test="label-status"
                           >{{
                             getStatusLabel(item.status)
                               ? getStatusLabel(item.status)
                               : '-'
-                          }}</span>
+                          }}</span> -->
+                          {{ item.status }}
                         </td>
                         <td v-if="canShowColumn('businessIdentifier')">
                           <span
@@ -469,7 +468,6 @@ import { computed } from 'vue'
 import { useDashboard } from '@/composables/Dashboard'
 import { useSearch } from '@/composables/Dashboard/useSearch'
 
-// Define props
 const props = withDefaults(defineProps<{
   isLibraryMode?: boolean
 }>(), {
@@ -509,7 +507,6 @@ const {
 const colors = computed(() => commonUtil.statusListColor)
 const appendCurrencySymbol = computed(() => commonUtil.appendCurrencySymbol)
 const formatDisplayDate = computed(() => commonUtil.formatDisplayDate)
-console.log(headerSearch)
 
 </script>
 

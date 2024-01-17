@@ -11,7 +11,7 @@ describe('Search.vue', () => {
   const { headerSearchTitle, routingSlip } = useRoutingSlip()
   beforeEach(() => {
     routingSlip.value = routingSlipMock
-    headerSearchTitle.value = headerSearch
+    headerSearchTitle.key = headerSearch
 
     vi.resetModules()
     vi.clearAllMocks()

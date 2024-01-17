@@ -6,12 +6,12 @@ that are present in a parent data-table and tracks display property to true/fals
 import { computed, toRefs } from 'vue'
 
 export function useSearchColumnFilterComponent (props, emits) {
-  const { value } = toRefs(props)
+  const { modelValue } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change
   const selectedHeaderSearchList = computed({
     get: () => {
-      return value.value
+      return modelValue.value
     },
     set: (modalValue: any[]) => {
       emits('input', modalValue)

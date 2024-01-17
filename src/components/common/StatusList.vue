@@ -16,14 +16,15 @@
  * example
  * <status-list v-model="currentStatus" label="Status"></status-list>
  */
-
 import { useStatusList } from '@/composables/common'
 
-const props = defineProps<{ value: string }>()
+const props = defineProps<{ modelValue: any }>()
 
 const emits = defineEmits<{
-  input: [value: string]
+  input: [modelValue: any]
+  'update:model-value': [modelValue: any]
 }>()
 
 const { routingSlipStatusList, currentStatus } = useStatusList(props, emits)
+
 </script>
