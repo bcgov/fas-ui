@@ -165,7 +165,8 @@ const state = reactive({
     const numComments = state.comments.length
     return (numComments === 1 ? '1 Comment' : `${numComments} Comments`)
   }),
-  rules: computed<Array<(v) => boolean | string>>(() => { /** Array of validations rules for the textarea. */
+  // eslint-disable-next-line no-extra-parens
+  rules: computed<Array<(v) => (boolean | string)>>(() => { /** Array of validations rules for the textarea. */
     // exclude whitespace in minimum length check
     // include whitespace in maximum length check
     return [

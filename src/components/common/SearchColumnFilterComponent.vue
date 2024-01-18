@@ -3,15 +3,15 @@
     :close-on-content-click="false"
     data-test="menu-search-column-filter"
   >
-    <template #activator="{ props }">
+    <template #activator="{ props: activatorProps }">
       <v-text-field
         label="Columns to Show"
         readonly
-        v-bind="props"
+        v-bind="activatorProps"
         variant="filled"
         class="column-filter"
         append-inner-icon="mdi-menu-down"
-        @click:append-inner="props"
+        @click:append-inner="activatorProps"
       />
     </template>
     <v-list

@@ -259,7 +259,6 @@ export function useSearch (props) {
       // Eg of a typical breadcrumb flow = Staff Dashboard -> View Routing Slip: test -> View Routing Slip: testchild
       window.location.href = `${ConfigHelper.getFasWebUrl()}view-routing-slip/${routingSlipNumber}?viewFromAuth=true`
     } else {
-
       router.push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipNumber}`, route))
     }
   }
