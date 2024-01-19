@@ -6,7 +6,7 @@ export function useDatePicker (props, emits) {
   const showDateField = computed(() => {
     if (modelValue.value === '') return null
     const dateObject = (modelValue.value instanceof Date)
-      ? DateTime.fromJSDate(modelValue.value) : DateTime.fromFormat(modelValue.value, 'yyyy-LL-dd')
+      ? DateTime.fromJSDate(modelValue.value) : DateTime.fromISO(modelValue.value)
     return dateObject.setZone('America/Vancouver').toFormat('yyyy-LL-dd')
   })
   // Wired up to datepicker.
