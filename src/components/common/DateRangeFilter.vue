@@ -1,28 +1,21 @@
 <template>
-  <v-menu
+  <!-- <v-menu
     v-model="showDateFilter"
     :close-on-content-click="false"
     transition="scale-transition"
     min-width="auto"
   >
     <template #activator="{ props }">
-      <!-- UI control that is displayed clicking on which menu is displayed -->
       <v-text-field
+        v-model="dateRangeSelectedDisplay"
         append-inner-icon="mdi-calendar-range"
         readonly
         v-bind="props"
-        @click:append-inner="props"
         variant="filled"
         data-test="input-date-picker"
-      >
-        <!-- <template #append>
-          <v-icon color="primary">
-            mdi-calendar-range
-          </v-icon>
-        </template> -->
-      </v-text-field>
+        class="primary-icon"
+      />
     </template>
-    <!-- the menu consists of list of buttons on left and date picker on right -->
     <v-card class="date-range-container d-flex">
       <div
         class="date-range-options d-flex flex-column justify-space-between flex-grow-0 pb-6 pt-3"
@@ -31,22 +24,19 @@
           density="compact"
           class="py-0"
         >
-          <!-- <v-list-item-group
-            v-model="dateFilterSelectedIndex"
-            color="primary"
-            @change="dateFilterChange"
-          > -->
           <v-list-item
             v-for="(filterRange, i) in dateFilterRanges"
             :key="i"
             class="py-2 px-6"
+            :value="filterRange"
+            @click="dateFilterChange(i)"
           >
             <v-list-item-title
+              v-model="dateFilterSelectedIndex"
               class="font-weight-bold px-1"
               v-text="filterRange.label"
             />
           </v-list-item>
-          <!-- </v-list-item-group> -->
         </v-list>
         <div class="date-filter-btns px-6 mt-4 d-flex flex-end">
           <v-btn
@@ -74,26 +64,22 @@
           class="date-range-label py-6 mx-6 mb-3"
           v-html="showDateRangeSelected"
         />
-        <!-- <v-date-picker
-          v-model="dateRangeSelected"
-          color="primary"
-          width="400"
-          class="text-center"
-          no-title
-          range
-          v-bind="$attrs"
-          :picker-date="pickerDate"
-          data-test="date-date-picker"
-          hide-details="auto"
-          @click:date="dateClick"
-        /> -->
       </div>
     </v-card>
-  </v-menu>
+  </v-menu> -->
+  <!-- <date-range-picker
+    date-range={
+    startDate:
+    null,
+    endDate:
+    null
+    }
+  /> -->
 </template>
 
 <script setup lang="ts">
 // this is just took from auth-web
+// import DateRangePicker from 'vue3-daterange-picker'
 import { useDateRange } from '@/composables/common'
 
 const props = withDefaults(defineProps<{
@@ -103,23 +89,23 @@ const props = withDefaults(defineProps<{
   modelValue: [],
   label: 'Select Date Range'
 })
-
 const emits = defineEmits<{
 }>()
 
 const {
-  // dateFilterRanges,
-  // dateRangeSelected,
-  // dateFilterSelectedIndex,
-  // dateRangeSelectedDisplay,
-  // showDateFilter,
-  // pickerDate,
-  // dateFilterChange,
-  // isApplyFilterBtnValid,
-  // dateClick,
-  // applyDateFilter,
-  // showDateRangeSelected,
-  // cancelDateFilter
+  dateFilterRanges,
+  dateRangeSelected,
+  dateFilterSelectedIndex,
+  dateRangeSelectedDisplay,
+  showDateFilter,
+  pickerDate,
+  pickerMonthYear,
+  dateFilterChange,
+  isApplyFilterBtnValid,
+  dateClick,
+  applyDateFilter,
+  showDateRangeSelected,
+  cancelDateFilter
 } = useDateRange(props, emits)
 </script>
 
@@ -163,7 +149,13 @@ const {
 </style>
 
 <style lang="scss">
-.v-icon.v-icon.v-icon--link {
-  cursor: pointer !important;
-}
+  .v-icon.v-icon.v-icon--link {
+    cursor: pointer !important;
+  }
+  .primary-icon .v-icon {
+    color: #1669bb
+  }
+  .hide-title > div:first-child {
+    display: none;
+  }
 </style>

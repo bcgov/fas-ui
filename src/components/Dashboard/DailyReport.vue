@@ -4,7 +4,6 @@
       v-model="showCalendar"
       :close-on-content-click="false"
       :offset="200"
-      z-index="1"
     >
       <template #activator="{ props }">
         <v-btn
@@ -26,7 +25,7 @@
         </v-btn>
       </template>
 
-      <v-card>
+      <v-card z-index="1">
         <v-card-title
           class=" text-body-1 font-weight-bold ml-3"
           data-test="title-daily-report"

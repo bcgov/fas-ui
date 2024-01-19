@@ -24,7 +24,7 @@
           >
             mdi-plus
           </v-icon>
-          Add New Routing Slip <span>... {{ searchParamsExist }}</span>
+          Add New Routing Slip
         </v-btn>
       </v-col>
       <v-col
@@ -154,6 +154,7 @@
                           class="text-input-style "
                           variant="filled"
                           placeholder="Receipt Number"
+                          density="compact"
                           hide-details="auto"
                           @update:model-value="debouncedSearch()"
                         />
@@ -169,6 +170,7 @@
                           class="text-input-style "
                           variant="filled"
                           placeholder="Entity Number"
+                          density="compact"
                           hide-details="auto"
                           @update:model-value="debouncedSearch()"
                         />
@@ -184,6 +186,7 @@
                           class="text-input-style "
                           variant="filled"
                           placeholder="Created By"
+                          density="compact"
                           hide-details="auto"
                           @update:model-value="debouncedSearch()"
                         />
@@ -212,6 +215,7 @@
                             v-model.trim="status"
                             class="text-input-style "
                             hide-details="auto"
+                            density="compact"
                             :placeholder="!status ? 'Status' : ''"
                             @update:model-value="searchNow()"
                           />
@@ -228,6 +232,7 @@
                           class="text-input-style "
                           variant="filled"
                           placeholder="Reference Numbers"
+                          density="compact"
                           hide-details="auto"
                           @update:model-value="debouncedSearch()"
                         />
@@ -243,6 +248,7 @@
                           class="text-input-style "
                           variant="filled"
                           placeholder="Cheque Number"
+                          density="compact"
                           hide-details="auto"
                           @update:model-value="debouncedSearch()"
                         />
@@ -258,6 +264,7 @@
                           class="text-input-style "
                           variant="filled"
                           placeholder="Balance"
+                          density="compact"
                           hide-details="auto"
                           @update:model-value="debouncedSearch()"
                         />
@@ -317,15 +324,14 @@
                           }}
                         </td>
                         <td v-if="canShowColumn('status')">
-                          <!-- <span
+                          <span
                             :class="colors(item.status)"
                             data-test="label-status"
                           >{{
                             getStatusLabel(item.status)
                               ? getStatusLabel(item.status)
                               : '-'
-                          }}</span> -->
-                          {{ item.status }}
+                          }}</span>
                         </td>
                         <td v-if="canShowColumn('businessIdentifier')">
                           <span
