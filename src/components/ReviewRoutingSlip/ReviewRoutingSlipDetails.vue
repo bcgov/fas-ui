@@ -19,7 +19,7 @@
       {{ routingSlipDetails.routingSlipDate ?
         formatDisplayDate(
           routingSlipDetails.routingSlipDate,
-          'MMMM DD, YYYY'
+          'DDD'
         ) : '-'
       }}
     </v-col>
@@ -36,12 +36,10 @@
 </template>
 <script setup lang="ts">
 import { AccountInfo, RoutingSlipDetails } from '@/models/RoutingSlip'
-import commonUtil from '@/util/common-util'
+import { formatDisplayDate } from '@/util'
 
 defineProps<{
   routingSlipDetails: RoutingSlipDetails,
   accountInfo: AccountInfo
 }>()
-
-const formatDisplayDate = commonUtil.formatDisplayDate
 </script>

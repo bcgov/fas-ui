@@ -24,7 +24,7 @@
           label="Cheque Date"
           persistent-hint
           hide-details
-          :model-value="payment.paymentDate ? formatDisplayDate(payment.paymentDate.split('T')[0], 'MMMM DD, YYYY') : '-'"
+          :model-value="payment.paymentDate ? formatDisplayDate(payment.paymentDate.split('T')[0], 'DDD') : '-'"
           :data-test="getIndexedTag('txt-cheque-date', i)"
         />
       </v-col>
@@ -63,8 +63,8 @@
 
 <script setup lang="ts">
 import { Payment } from '@/models/Payment'
-import commonUtil from '@/util/common-util'
 import { defineProps } from 'vue'
+import { formatDisplayDate } from '@/util'
 import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
 
 defineProps<{
@@ -75,6 +75,5 @@ defineProps<{
 }>()
 
 const { adjustRoutingSlipChequeNumber, adjustRoutingSlipAmount } = usePaymentInformation()
-const formatDisplayDate = commonUtil.formatDisplayDate
 const getIndexedTag = (tag, index) => `${tag}-${index}`
 </script>

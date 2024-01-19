@@ -82,6 +82,7 @@
         class="ma-0"
         label="Priority Fee"
         hide-details
+        color="primary"
         :data-test="getIndexedTag('check-priority', index)"
         @update:model-value="calculateTotal()"
       />
@@ -95,6 +96,7 @@
         class="ma-0"
         label="Future Effective Filing Fee"
         hide-details
+        color="primary"
         :data-test="getIndexedTag('check-future-effective', index)"
         @update:model-value="calculateTotal()"
       />

@@ -29,12 +29,11 @@
 import { useDatePicker } from '@/composables/common'
 
 const props = withDefaults(defineProps<{
-  modelValue?: Date
+  modelValue?: Date | string
   label?: string
-  persist?: boolean,
 }>(),
 {
-  modelValue: '2021-01-01',
+  modelValue: null,
   label: 'Select Date'
 })
 

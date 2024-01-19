@@ -110,6 +110,7 @@
           label="Funds received in USD"
           hide-details
           class="ma-0"
+          color="primary"
         />
       </v-col>
     </v-row>
