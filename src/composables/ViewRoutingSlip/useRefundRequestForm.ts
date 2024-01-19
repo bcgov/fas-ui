@@ -1,15 +1,15 @@
 import { computed, ref, toRefs, watch } from 'vue'
 import { Address } from '@/models/Address'
 import CommonUtils from '@/util/common-util'
+import { DefaultSchema } from '@bcrs-shared-components/base-address/resources'
 import { RefundRequestDetails } from '@/models/RoutingSlip'
-import { addressSchema } from '@/schema'
 
 // Composable function to inject Props, options and values to RefundRequestForm component
 export default function useRefundRequestForm (props, emits) {
   // using `toRefs` to create a Reactive Reference to the `slipId` property of props
   const { inputRefundRequestDetails, isApprovalFlow, isEditing } = toRefs(props)
 
-  const baseAddressSchema = ref<any>(addressSchema)
+  const baseAddressSchema = ref<any>(DefaultSchema)
   const isAddressValid = ref<boolean>(false)
 
   const refundRequestForm = ref<HTMLFormElement>()
