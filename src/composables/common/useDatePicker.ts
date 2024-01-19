@@ -14,7 +14,7 @@ export function useDatePicker (props, emits) {
     get: () => {
       if (modelValue.value === '') return null
       const dateObject = (modelValue.value instanceof Date)
-        ? DateTime.fromJSDate(modelValue.value) : DateTime.fromFormat(modelValue.value, 'yyyy-LL-dd')
+        ? DateTime.fromJSDate(modelValue.value) : DateTime.fromISO(modelValue.value)
       return dateObject.setZone('America/Vancouver').toJSDate()
     },
     set: (val) => emits('update:modelValue', val)
