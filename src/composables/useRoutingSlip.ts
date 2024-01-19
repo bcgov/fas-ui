@@ -219,11 +219,11 @@ export const useRoutingSlip = () => {
       params.dateFilter = {
         startDate: CommonUtils.formatDisplayDate(
           params.dateFilter[0],
-          'YYYY-MM-DD'
+          'yyyy-LL-dd'
         ),
         endDate: CommonUtils.formatDisplayDate(
           params.dateFilter[1],
-          'YYYY-MM-DD'
+          'yyyy-LL-dd'
         )
       }
     }
@@ -296,7 +296,7 @@ export const useRoutingSlip = () => {
   const getDailyReportByDate = async (selectedDate, type) => {
     const formatedDate = CommonUtils.formatDisplayDate(
       selectedDate,
-      'YYYY-MM-DD'
+      'yyyy-LL-dd'
     )
     try {
       return await RoutingSlipService.getDailyReport(formatedDate, type, false)
