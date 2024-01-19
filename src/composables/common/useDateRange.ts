@@ -1,4 +1,4 @@
-import { computed, reactive, ref, toRefs } from 'vue'
+import { computed, nextTick, reactive, ref, toRefs, watch } from 'vue'
 
 import CommonUtils from '@/util/common-util'
 import { DateFilterCodes } from '@/util/constants'
@@ -6,17 +6,18 @@ import moment from 'moment'
 
 export const DATEFILTER_CODES = DateFilterCodes
 export function useDateRange (props, emits) {
-  const { modalValue } = toRefs(props)
+  const { modalValue = ref([]) } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change
   const dateRangeSelected = computed({
     get: () => {
-      return modalValue.value
+      return modalValue.value || []
     },
     set: (modalValue: Date[]) => {
       emits('input', modalValue)
     }
   })
+
   // to keep track of old value on cancel rest to this value default value will props passed
   const oldSelectedRange = ref(modalValue)
 
@@ -51,6 +52,15 @@ export function useDateRange (props, emits) {
   const dateFilterSelected: any = ref({})
   const showDateFilter = ref(false)
   const pickerDate = ref('')
+
+  const pickerMonthYear = computed(() => {
+    if (pickerDate.value) {
+      const [year, month] = pickerDate.value.split('-').map(Number)
+      return { month, year }
+    }
+    // Default to current month and year if pickerDate is not set
+    return { month: new Date().getMonth() + 1, year: new Date().getFullYear() }
+  })
 
   // apply filter button enable only if the date ranges are selected and start date <= end date
   const isApplyFilterBtnValid = computed(() => {
@@ -187,6 +197,7 @@ export function useDateRange (props, emits) {
     dateFilterSelected,
     showDateFilter,
     pickerDate,
+    pickerMonthYear,
     dateFilterChange,
     isApplyFilterBtnValid,
     dateClick,
