@@ -188,7 +188,8 @@ export default class CommonUtils {
       SlipStatus.REFUNDCOMPLETED,
       SlipStatus.REFUNDAUTHORIZED,
       SlipStatus.NSF,
-      SlipStatus.LINKED
+      SlipStatus.LINKED,
+      SlipStatus.VOID
     ].includes(status)
   }
 

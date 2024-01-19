@@ -29,7 +29,7 @@ export function useStatusList (props, emits) {
    * @param {string} code
    * @returns {string} description - label
    */
-  function statusLabel(code: string) {
+  function statusLabel (code: string) {
     const codeArray = selectedStatusObject(code)
     return codeArray[0]?.description || ''
   }

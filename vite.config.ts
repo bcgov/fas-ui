@@ -65,6 +65,7 @@ export default defineConfig(({ mode }) => {
     ],
     resolve: {
       alias: {
+        '@/components/base-address/factories': path.resolve(__dirname, './node_modules/@bcrs-shared-components/base-address/factories/index.ts'),
         '@': path.resolve(__dirname, './src'),
         '~': path.resolve(__dirname, './node_modules'),
         $assets: path.resolve(__dirname, './src/assets'),
