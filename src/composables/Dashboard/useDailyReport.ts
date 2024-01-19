@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 import CommonUtils from '@/util/common-util'
-import moment from 'moment'
+import { DateTime } from 'luxon'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 export function useDailyReport () {
@@ -40,8 +40,8 @@ export function useDailyReport () {
 
   const maxDate = computed(() => {
     // enable date till yesterday
-    const yesterday = moment().subtract(1, 'day')
-    return yesterday.toISOString()
+    const yesterday = DateTime.now().minus({ days: 1 })
+    return yesterday.toUTC().toISO()
   })
 
   function toggleCalendar (value) {

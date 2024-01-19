@@ -48,6 +48,7 @@
     "vuetify": "^3.4.8"
   },
   "devDependencies": {
+    "@types/luxon": "^3.4.1",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
     "@vitejs/plugin-vue": "^5.0.0",
