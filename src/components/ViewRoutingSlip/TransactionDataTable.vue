@@ -111,8 +111,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import { appendCurrencySymbol, formatDisplayDate } from '@/util'
 import ModalDialog from '@/components/common/ModalDialog.vue'
-import commonUtil from '@/util/common-util'
 import { useTransactionDataTable } from '@/composables/ViewRoutingSlip'
 
 const {
@@ -129,8 +129,6 @@ const {
   disableCancelButton,
   isAlreadyCancelled
 } = useTransactionDataTable()
-const formatDisplayDate = commonUtil.formatDisplayDate
-const appendCurrencySymbol = commonUtil.appendCurrencySymbol
 </script>
 <style lang="scss" scoped>
 @import '$assets/scss/theme.scss';
