@@ -1,18 +1,28 @@
 <template>
   <v-expand-transition>
-    <v-alert data-test="alert-error-alert" tile :type="type" :icon="icon" :dismissible="dismissible">{{ message }}</v-alert>
+    <v-alert
+      data-test="alert-error-alert"
+      rounded="0"
+      :type="type"
+      :icon="icon"
+      :closable="dismissible"
+    >
+      {{ message }}
+    </v-alert>
   </v-expand-transition>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+<script setup lang="ts">
 
-@Component({
+withDefaults(defineProps<{
+  message: string
+  type: string
+  icon: string
+  dismissible: boolean
+}>(), {
+  message: '',
+  type: 'error',
+  icon: 'mdi-alert-circle-outline',
+  dismissible: false
 })
-export default class ErrorAlertComponent extends Vue {
-  @Prop({ default: '' }) message: string
-  @Prop({ default: 'error' }) type: string
-  @Prop({ default: 'mdi-alert-circle-outline' }) icon: string
-  @Prop({ default: false }) dismissible: boolean
-}
 </script>

@@ -1,4 +1,4 @@
-import { toRefs, watch } from '@vue/composition-api'
+import { toRefs, watch } from 'vue'
 
 import { GetRoutingSlipRequestPayload } from '@/models/RoutingSlip'
 import { useRoutingSlip } from '../useRoutingSlip'

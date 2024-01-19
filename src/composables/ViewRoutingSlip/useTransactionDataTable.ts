@@ -1,48 +1,48 @@
 import { Invoice, InvoiceDisplay, LineItem, Reference } from '@/models/Invoice'
 import { InvoiceStatus, SlipStatus } from '@/util/constants'
-import { computed, reactive, ref, watch } from '@vue/composition-api'
+import { computed, reactive, ref, watch } from 'vue'
 
 import { GetRoutingSlipRequestPayload } from '@/models/RoutingSlip'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to TransactionDataTable component
-export default function useTransactionDataTable (props) {
+export default function useTransactionDataTable () {
   const { cancelRoutingSlipInvoice, getRoutingSlip, invoiceCount, routingSlip } = useRoutingSlip()
   // ref and i/p variables
   const invoiceDisplay = ref<InvoiceDisplay[]>([])
   const headerTranscations = [
     {
-      text: 'Date',
+      title: 'Date',
       align: 'start',
       sortable: false,
       value: 'createdOn'
     },
     {
-      text: 'Invoice #',
+      title: 'Invoice #',
       align: 'start',
       sortable: false,
       value: 'invoiceNumber'
     },
     {
-      text: 'Transaction Amount',
+      title: 'Transaction Amount',
       align: 'end',
       sortable: false,
       value: 'total'
     },
     {
-      text: 'Description',
+      title: 'Description',
       align: 'start',
       value: 'description',
       sortable: false
     },
     {
-      text: 'Initiator',
+      title: 'Initiator',
       align: 'start',
       value: 'createdName',
       sortable: false
     },
     {
-      text: 'Actions',
+      title: 'Actions',
       align: 'end',
       value: 'actions',
       sortable: false
@@ -84,7 +84,8 @@ export default function useTransactionDataTable (props) {
       })
       invoiceDisplayObject.description = description
       // we need invoice number of completed transaction only
-      invoiceDisplayObject.invoiceNumber = invoice?.references?.find((reference: Reference) => reference?.statusCode === InvoiceStatus.COMPLETED)?.invoiceNumber
+      invoiceDisplayObject.invoiceNumber = invoice?.references?.find(
+        (reference: Reference) => reference?.statusCode === InvoiceStatus.COMPLETED)?.invoiceNumber
       invoiceDisplayObject.id = invoice.id
       invoiceDisplayObject.total = invoice?.total
       invoiceDisplayObject.createdName = invoice?.createdName || invoice?.createdBy
@@ -132,7 +133,8 @@ export default function useTransactionDataTable (props) {
 
   // disable cancel button in invoice rows if routing slip has any of these statuses
   const disableCancelButton = computed(() => {
-    return [SlipStatus.NSF, SlipStatus.REFUNDAUTHORIZED, SlipStatus.REFUNDCOMPLETED, SlipStatus.REFUNDREQUEST, SlipStatus.VOID, SlipStatus.CORRECTION].includes(routingSlip.value.status as SlipStatus)
+    return [SlipStatus.NSF, SlipStatus.REFUNDAUTHORIZED, SlipStatus.REFUNDCOMPLETED, SlipStatus.REFUNDREQUEST,
+      SlipStatus.VOID, SlipStatus.CORRECTION].includes(routingSlip.value.status as SlipStatus)
   })
 
   function isAlreadyCancelled (currentStatus) {

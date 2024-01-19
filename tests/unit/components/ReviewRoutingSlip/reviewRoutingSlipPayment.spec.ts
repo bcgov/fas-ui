@@ -11,16 +11,6 @@ describe('ReviewRoutingSlipPayment.vue', () => {
   beforeEach(() => {
     vi.resetModules()
     vi.clearAllMocks()
-    const routingSlipModule = {
-      namespaced: true,
-      state: {
-        routingSlipDetails: {}
-      },
-      actions: {
-        createRoutingSlip: vi.fn(),
-        resetRoutingSlipDetails: vi.fn()
-      }
-    }
   })
 
   it('renders component', async () => {

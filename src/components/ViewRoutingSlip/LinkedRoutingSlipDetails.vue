@@ -1,8 +1,10 @@
 <template>
   <div class="mb-4">
-    <span class="font-weight-bold" v-if="siNumber !== ''">
-      {{ siNumber }}. </span
+    <span
+      v-if="siNumber !== ''"
+      class="font-weight-bold"
     >
+      {{ siNumber }}. </span>
     <router-link
       :to="navigateTo()"
       class="font-weight-bold"
@@ -11,36 +13,32 @@
     </router-link>
     <span>
       - Routing slip created date:
-      <span data-test="text-created-date" class="font-weight-bold">{{
+      <span
+        data-test="text-created-date"
+        class="font-weight-bold"
+      >{{
         formatDisplayDate(createdDate)
-      }}</span></span
-    >
+      }}</span></span>
   </div>
 </template>
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import commonUtil from '@/util/common-util'
+<script setup lang="ts">
+import { formatDisplayDate } from '@/util'
 import { useLinkedRoutingSlipDetails } from '@/composables/ViewRoutingSlip'
 
-@Component({
-  setup (props, context) {
-    const {
-      navigateTo
-    } = useLinkedRoutingSlipDetails(props, context)
-    return {
-      navigateTo
-    }
-  }
+const props = withDefaults(defineProps<{
+  siNumber?: string
+  routingSlipNumber: string
+  createdDate: Date | string
+  parentRoutingSlipNumber?: string
+}>(),
+{
+  siNumber: '',
+  routingSlipNumber: '',
+  createdDate: '',
+  parentRoutingSlipNumber: null
 })
-export default class LinkedRoutingSlipDetails extends Vue {
-  @Prop({ default: '' }) private siNumber: string
-  @Prop({ default: '' }) private routingSlipNumber: string
-  @Prop({ default: '' }) private createdDate: Date | string
-  @Prop({ default: undefined }) private parentRoutingSlipNumber: string
 
-  public colors = commonUtil.statusListColor
-  public formatDisplayDate = commonUtil.formatDisplayDate
-}
+const { navigateTo } = useLinkedRoutingSlipDetails(props)
 </script>
 
 <style lang="scss" scoped>

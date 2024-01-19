@@ -348,7 +348,12 @@ export const address: Address = {
 }
 
 export const baseAddress: BaseAddressModel = {
-  addressCity: 'Victoria', addressCountry: 'CA', postalCode: 'V9B 6A2', addressRegion: 'BC', streetAddress: '799 McCallum Rd', streetAddressAdditional: ''
+  addressCity: 'Victoria',
+  addressCountry: 'CA',
+  postalCode: 'V9B 6A2',
+  addressRegion: 'BC',
+  streetAddress: '799 McCallum Rd',
+  streetAddressAdditional: ''
 }
 
 export const refundRequestDetails: RefundRequestDetails = {

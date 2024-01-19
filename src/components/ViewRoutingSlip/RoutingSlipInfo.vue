@@ -1,86 +1,86 @@
 <template>
   <div>
     <header class="d-flex flex-column">
-      <h3 data-test="title">Routing Slip Information</h3>
+      <h3 data-test="title">
+        Routing Slip Information
+      </h3>
     </header>
     <v-card class="pl-5 py-2 mt-5 pr-5">
       <v-card-text>
         <v-row no-gutters>
-          <v-col class="col-12 col-sm-12 ">
+          <v-col class="v-col-12 v-col-sm-12 ">
             <v-row>
-              <v-col class="col-6 col-sm-3 font-weight-bold">
+              <v-col class="v-col-6 v-col-sm-3 font-weight-bold">
                 Routing Slip - Unique ID
               </v-col>
-              <v-col class="col-6 col-sm-9 d-flex justify-space-between">
+              <v-col class="v-col-6 v-col-sm-9 d-flex justify-space-between">
                 <div>
                   {{ routingSlipDetails.number }}
                 </div>
 
                 <div v-if="isEditable">
-                <status-menu
+                  <status-menu
                     v-model="currentStatus"
-                    @update:statusChange="statusChange"
                     :error-messages="errorMessage"
                     :isApprovalFlow="isApprovalFlow"
                     :allowedStatusList="allowedStatusList"
                     data-test="btn-edit"
-                  ></status-menu>
+                    @update:statusChange="statusChange"
+                  />
                 </div>
               </v-col>
             </v-row>
 
             <v-row>
-              <v-col class="col-6 col-sm-3 font-weight-bold">
+              <v-col class="v-col-6 v-col-sm-3 font-weight-bold">
                 Date
               </v-col>
 
-              <v-col class="col-6 col-sm-9">
+              <v-col class="v-col-6 v-col-sm-9">
                 {{
                   formatDisplayDate(
                     routingSlipDetails.routingSlipDate,
-                    'MMM DD, YYYY'
+                    'LLL dd, yyyy'
                   )
                 }}
               </v-col>
             </v-row>
-            <v-row >
-              <v-col class="col-6 col-sm-3 font-weight-bold">
+            <v-row>
+              <v-col class="v-col-6 v-col-sm-3 font-weight-bold">
                 Status
               </v-col>
-              <v-col class="col-6 col-sm-9">
+              <v-col class="v-col-6 v-col-sm-9">
                 <span
-                :key="routingSlipDetails.status"
-                  :class="colors(routingSlipDetails.status)"
+                  :key="routingSlipDetails.status"
+                  :class="statusListColor(routingSlipDetails.status)"
                   class="slip-status "
                   data-test="label-status"
-                  >{{ getStatusLabel(routingSlipDetails.status) }}</span
-                >
+                >{{ getStatusLabel(routingSlipDetails.status) }}</span>
               </v-col>
             </v-row>
 
             <v-expand-transition>
               <template v-if="showAddress && addMoreDetails">
-                <refund-request-form
+                <RefundRequestForm
                   ref="refundRequestForm"
                   :inputRefundRequestDetails="refundRequestDetails"
                   :isEditing="showAddressEditMode"
-                  @update:refundRequestDetails="refundRequestDetails = $event"
                   :isApprovalFlow="isApprovalFlow"
-                >
-                </refund-request-form>
+                  @update:refundRequestDetails="refundRequestDetails = $event"
+                />
               </template>
             </v-expand-transition>
 
             <v-row>
-              <v-col class="col-6 col-sm-3 font-weight-bold">
+              <v-col class="v-col-6 v-col-sm-3 font-weight-bold">
                 Entity Number
               </v-col>
               <v-col
-                class="col-6 col-sm-9"
                 v-if="
                   routingSlipDetails.paymentAccount &&
                     routingSlipDetails.paymentAccount.accountName
                 "
+                class="v-col-6 v-col-sm-9"
               >
                 {{ routingSlipDetails.paymentAccount.accountName }}
               </v-col>
@@ -88,24 +88,27 @@
           </v-col>
         </v-row>
       </v-card-text>
-      <v-card-actions class="pr-4 justify-end pa-3 pb-5" v-if="addMoreDetails">
+      <v-card-actions
+        v-if="addMoreDetails"
+        class="pr-4 justify-end pa-3 pb-5"
+      >
         <v-btn
-          large
+          size="large"
           color="primary"
-          @click="updateStatus()"
           class="px-8 font-weight-bold"
           data-test="btn-edit-routing-done"
           :loading="isLoading"
+          @click="updateStatus()"
         >
-          <span>{{isApprovalFlow ? 'Authorize' :  'Done'}}</span>
+          <span>{{ isApprovalFlow ? 'Authorize' : 'Done' }}</span>
         </v-btn>
         <v-btn
-          large
-          outlined
+          size="large"
+          variant="outlined"
           class="px-7"
           color="primary"
-          @click="cancelOrReject()"
           data-test="btn-edit-routing-cancel"
+          @click="cancelOrReject()"
         >
           <span>Cancel</span>
         </v-btn>
@@ -116,95 +119,86 @@
       :title="modalText.title"
       dialog-class="notify-dialog"
       max-width="680"
-      max-height="310"
       :icon="modalText.icon"
       iconColor="error"
     >
-    <template v-slot:text>
-        <p class="mb-0 px-6" v-html="modalText.subText"></p>
+      <template #text>
+        <p
+          class="mb-2 px-6"
+          v-html="modalText.subText"
+        />
       </template>
-      <template v-slot:actions v-if="modalText.isError">
-        <v-btn large color="primary" @click="closeErrorDialog()" data-test="dialog-ok-button" class="px-5 font-weight-bold btn-actions">Ok</v-btn>
+      <template
+        v-if="modalText.isError"
+        #actions
+      >
+        <v-btn
+          size="large"
+          color="primary"
+          variant="flat"
+          data-test="dialog-ok-button"
+          class="px-5 font-weight-bold btn-actions"
+          @click="closeErrorDialog()"
+        >
+          Ok
+        </v-btn>
       </template>
-      <template v-slot:actions v-else>
-        <v-btn large color="primary" @click="updateStatus()" data-test="dialog-ok-button" class="px-5 font-weight-bold btn-actions">{{modalText.confirmBtnText}}</v-btn>
-        <v-btn large color="primary" outlined @click="cancelOrReject()" data-test="dialog-ok-button" class="ml-3 btn-actions"  >Cancel</v-btn>
+      <template
+        v-else
+        #actions
+      >
+        <v-btn
+          size="large"
+          color="primary"
+          variant="flat"
+          data-test="dialog-ok-button"
+          class="px-5 font-weight-bold btn-actions"
+          @click="updateStatus()"
+        >
+          {{ modalText.confirmBtnText }}
+        </v-btn>
+        <v-btn
+          size="large"
+          color="primary"
+          variant="outlined"
+          data-test="dialog-ok-button"
+          class="ml-3 btn-actions"
+          @click="cancelOrReject()"
+        >
+          Cancel
+        </v-btn>
       </template>
     </ModalDialog>
-
   </div>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import commonUtil from '@/util/common-util'
-import { useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
+<script setup lang="ts">
+import { formatDisplayDate, statusListColor } from '@/util'
 import ModalDialog from '@/components/common/ModalDialog.vue'
-import StatusMenu from '@/components/common/StatusMenu.vue'
-
 import RefundRequestForm from '@/components/ViewRoutingSlip/RefundRequestForm.vue'
-import can from '@/directives/can'
+import StatusMenu from '@/components/common/StatusMenu.vue'
+import { useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
 
-@Component({
-  components: {
-    RefundRequestForm,
-    StatusMenu,
-    ModalDialog
-  },
-  directives: {
-    can
-  },
-  setup (props) {
-    const {
-      routingSlipDetails,
-      addMoreDetails,
-      currentStatus,
-      updateStatus,
-      getStatusLabel,
-      isRoutingSlipAChild,
-      statusChange,
-      showAddress,
-      refundRequestForm,
-      refundRequestDetails,
-      errorMessage,
-      showAddressEditMode,
-      isApprovalFlow,
-      cancelOrReject,
-      isEditable,
-      allowedStatusList,
-      modalDialogRef,
-      modalText,
-      isLoading,
-      closeErrorDialog
-    } = useRoutingSlipInfo(props)
-
-    return {
-      routingSlipDetails,
-      addMoreDetails,
-      currentStatus,
-      updateStatus,
-      getStatusLabel,
-      isRoutingSlipAChild,
-      statusChange,
-      showAddress,
-      refundRequestForm,
-      refundRequestDetails,
-      errorMessage,
-      showAddressEditMode,
-      isApprovalFlow,
-      cancelOrReject,
-      isEditable,
-      allowedStatusList,
-      modalDialogRef,
-      modalText,
-      isLoading,
-      closeErrorDialog
-    }
-  }
-})
-export default class RoutingSlipInfo extends Vue {
-  public colors = commonUtil.statusListColor
-  public formatDisplayDate = commonUtil.formatDisplayDate
-}
+const {
+  routingSlipDetails,
+  addMoreDetails,
+  currentStatus,
+  updateStatus,
+  getStatusLabel,
+  statusChange,
+  showAddress,
+  refundRequestForm,
+  refundRequestDetails,
+  errorMessage,
+  showAddressEditMode,
+  isApprovalFlow,
+  cancelOrReject,
+  isEditable,
+  allowedStatusList,
+  modalDialogRef,
+  modalText,
+  isLoading,
+  closeErrorDialog
+} = useRoutingSlipInfo()
 </script>
 
 <style lang="scss" scoped>

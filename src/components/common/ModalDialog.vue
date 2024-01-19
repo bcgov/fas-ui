@@ -1,99 +1,134 @@
 <template>
   <v-dialog
+    v-model="isOpen"
     :persistent="isPersistent"
     :fullscreen="fullscreenOnMobile"
     :scrollable="isScrollable"
     :content-class="dialogClass"
     :max-width="maxWidth"
-    v-model="isOpen"
-    @keydown.esc="cancel">
+    @keydown.esc="close"
+  >
     <v-card class="px-10 pt-10 pb-8">
-      <v-card-title data-test="dialog-header" class="pt-0 pb-5">
-        <slot v-if="showIcon" name="icon" >
-          <v-icon large :color="iconColor" class="mt-0">{{ icon }}</v-icon>
+      <v-card-title
+        data-test="dialog-header"
+        class="pt-0 pb-5 d-flex"
+      >
+        <slot
+          v-if="showIcon"
+          name="icon"
+        >
+          <v-icon
+            size="large"
+            :color="iconColor"
+            class="mt-0"
+          >
+            {{ icon }}
+          </v-icon>
         </slot>
         <span data-test="dialog-title">
           <slot name="title">{{ title }}</slot>
         </span>
         <span v-if="showCloseIcon">
-           <v-btn
+          <v-btn
             icon
-           @click="close()"
-           class="font-weight-bold"
-           data-test="icon-dialog-close"
-            >
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
+            class="font-weight-bold"
+            data-test="icon-dialog-close"
+            @click="close()"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
 
         </span>
       </v-card-title>
       <v-card-text>
         <slot name="text">
-          <div v-html="text" class="px-8 pb-2" data-test="dialog-text"></div>
+          <div
+            class="px-8 pb-2"
+            data-test="dialog-text"
+            v-html="text"
+          />
         </slot>
       </v-card-text>
-        <v-card-actions v-if="showActions">
+      <v-card-actions v-if="showActions">
         <slot name="actions">
-          <v-btn large color="success" @click="close()" data-test="dialog-ok-button">OK</v-btn>
+          <v-btn
+            size="large"
+            color="success"
+            data-test="dialog-ok-button"
+            @click="close()"
+          >
+            OK
+          </v-btn>
         </slot>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+<script setup lang="ts">
 import { useModalDialog } from '@/composables/common'
 
-@Component({
-  setup () {
-    const {
-      isOpen,
-      open,
-      close
-    } = useModalDialog()
-    return {
-      isOpen,
-      open,
-      close
-    }
-  }
+withDefaults(defineProps<{
+  title: string
+  text?: string
+  showIcon?: boolean
+  showActions?: boolean
+  isPersistent?: boolean
+  fullscreenOnMobile?: boolean
+  isScrollable?: boolean
+  dialogClass: string
+  maxWidth: string
+  showCloseIcon?: boolean
+  icon: string
+  iconColor: string
+}>(), {
+  title: '',
+  text: '',
+  showIcon: true,
+  showActions: true,
+  isPersistent: false,
+  fullscreenOnMobile: false,
+  isScrollable: false,
+  dialogClass: '',
+  maxWidth: '',
+  showCloseIcon: false,
+  icon: 'mdi-check',
+  iconColor: 'primary'
 })
-export default class InterimLanding extends Vue {
-  @Prop({ default: '' }) private title: string
-  @Prop({ default: '' }) private text: string
-  @Prop({ default: true }) private showIcon: boolean
-  @Prop({ default: true }) private showActions: boolean
-  @Prop({ default: false }) private isPersistent: boolean
-  @Prop({ default: false }) private fullscreenOnMobile: boolean
-  @Prop({ default: false }) private isScrollable: boolean
-  @Prop({ default: '' }) private dialogClass: string
-  @Prop({ default: '' }) private maxWidth: string
-  @Prop({ default: false }) private showCloseIcon: boolean
-  @Prop({ default: 'mdi-check' }) private icon: string
-  @Prop({ default: 'primary' }) private iconColor: string
-}
+
+const {
+  isOpen,
+  close,
+  open
+} = useModalDialog()
+
+defineExpose({
+  open,
+  close,
+  isOpen
+})
 </script>
 
 <style lang="scss" scoped>
   // Notify Dialog Variant
   // Vertical stacked title container (icon w/ text)
   // Center-aligned text throughout
-  .notify-dialog .v-card__title {
+  .notify-dialog .v-card-title {
     flex-direction: column;
-
+    align-items: center;
     ::v-deep i {
       margin-top: 1rem;
       margin-bottom: 1rem;
     }
   }
-
-  .notify-dialog .v-card__text {
+  .v-dialog .v-card-text {
     text-align: center;
+    letter-spacing: .0071428571em !important;
+    padding-top: 0px !important;
   }
 
-  .notify-dialog .v-card__actions {
+  .notify-dialog .v-card-actions {
     justify-content: center;
-    padding: 1.5rem;
+    padding: 8px 16px;
   }
 </style>

@@ -1,55 +1,60 @@
 <template>
-  <v-menu  bottom
-            left
-            offset-y
-
-             v-if="routingAllowedSlipStatus.length > 0">
-    <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary"  v-bind="attrs" v-on="on">
-        <v-icon  size="15" class="mr-2">mdi-pencil</v-icon> Edit Status
-      </v-btn>
-    </template>
-
-    <v-list dense>
-      <template v-for="(item, i) in routingAllowedSlipStatus">
-        <v-list-item v-if="item.label !== ''" :key="i" class="menu-list" @click="setStatus(item)" >
-          <v-list-item-content>
-          <v-list-item-title>{{
-            item.label
-          }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </template>
-    </v-list>
-  </v-menu>
+  <v-btn
+    color="primary"
+  >
+    <v-icon
+      size="15"
+      class="mr-2"
+    >
+      mdi-pencil
+    </v-icon> Edit Status
+    <v-menu
+      v-if="routingAllowedSlipStatus.length > 0"
+      transition="slide-y-transition"
+      activator="parent"
+    >
+      <v-list density="compact">
+        <template v-for="(item, i) in routingAllowedSlipStatus">
+          <v-list-item
+            v-if="item.label !== ''"
+            :key="i"
+            class="menu-list"
+            @click="setStatus(item)"
+          >
+            <v-list-item-title>
+              {{
+                item.label
+              }}
+            </v-list-item-title>
+          </v-list-item>
+        </template>
+      </v-list>
+    </v-menu>
+  </v-btn>
 </template>
 
-<script lang="ts">
-/** component for status menu.
- * example
- * <status-menu v-model="currentStatus" label="Status"></status-menu>
- */
-
-import { Component, Prop } from 'vue-property-decorator'
-import Vue from 'vue'
+<script setup lang="ts">
 import { useStatusMenu } from '@/composables/common'
 
-@Component({
-  setup (props, context) {
-    const { routingAllowedSlipStatus, currentStatus, setStatus } =
-      useStatusMenu(props, context)
-    return {
-      routingAllowedSlipStatus,
-      currentStatus,
-      setStatus
-    }
+const props = withDefaults(
+  defineProps<{
+    value?: string
+    allowedStatusList: any
+    isApprovalFlow: boolean
+  }>(),
+  {
+    value: '',
+    allowedStatusList: [],
+    isApprovalFlow: false
   }
-})
-export default class StatusMenu extends Vue {
-  @Prop() value: string
-  @Prop() allowedStatusList: []
-  @Prop({ default: false }) isApprovalFlow: boolean
-}
+)
+
+const emits = defineEmits<{
+  input: [value: string]
+  'update:statusChange': [value: string]
+}>()
+
+const { routingAllowedSlipStatus, setStatus } = useStatusMenu(props, emits)
 </script>
 <style lang="scss" scoped>
 .menu-list{

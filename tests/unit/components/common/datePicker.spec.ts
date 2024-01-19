@@ -1,5 +1,5 @@
-import { shallowMount } from '@vue/test-utils'
 import DatePicker from '@/components//common/DatePicker.vue'
+import { shallowMount } from '@vue/test-utils'
 
 describe('DatePicker.vue', () => {
   it('renders date pricker', () => {

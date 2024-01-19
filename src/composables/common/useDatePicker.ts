@@ -1,35 +1,28 @@
-import { ref, computed, toRefs } from '@vue/composition-api'
-
-export function useDatePicker (props, context) {
-  // using `toRefs` to create a Reactive Reference to the `user` property of props
-  const { value, persist } = toRefs(props)
-
-  const showDateModal = ref(false)
-
-  // using same v-model value for getting value and update parent on change
-  const selectedDate = computed({
-    get: () => {
-      return value.value
-    },
-    set: (modalValue: Date) => {
-      context.emit('input', modalValue)
-    }
+import { computed, ref, toRefs } from 'vue'
+import { DateTime } from 'luxon'
+export function useDatePicker (props, emits) {
+  const { modelValue } = toRefs(props)
+  // Wired up to input.
+  const showDateField = computed(() => {
+    if (modelValue.value === '') return null
+    const dateObject = (modelValue.value instanceof Date)
+      ? DateTime.fromJSDate(modelValue.value) : DateTime.fromISO(modelValue.value)
+    return dateObject.setZone('America/Vancouver').toFormat('yyyy-LL-dd')
   })
-
-  function toggleDatePicker () {
-    showDateModal.value = !showDateModal.value
-  }
-
-  function closeAfterSelection () {
-    // if persist pass as prop no need close on click
-    if (persist.value === false) {
-      toggleDatePicker()
-    }
-  }
-
+  // Wired up to datepicker.
+  const dateValue = computed({
+    get: () => {
+      if (modelValue.value === '') return null
+      const dateObject = (modelValue.value instanceof Date)
+        ? DateTime.fromJSDate(modelValue.value) : DateTime.fromISO(modelValue.value)
+      return dateObject.setZone('America/Vancouver').toJSDate()
+    },
+    set: (val) => emits('update:modelValue', val)
+  })
+  const showDateMenu = ref(false)
   return {
-    selectedDate,
-    showDateModal,
-    closeAfterSelection
+    dateValue,
+    showDateMenu,
+    showDateField
   }
 }

@@ -1,55 +1,76 @@
 <template>
   <div>
     <div class="header-bg-color d-flex align-center py-5 mb-0 mt-3">
-      <v-icon color="primary" class="ml-8">
-          mdi-view-list
+      <v-icon
+        color="primary"
+        class="ml-8"
+      >
+        mdi-view-list
       </v-icon>
-      <p class="ml-2 mb-0 font-weight-bold" data-test="title">Transactions</p><p class="mb-0 pl-1" v-if="invoiceCount">{{ `(${invoiceCount})` }}</p>
+      <p
+        class="ml-2 mb-0 font-weight-bold"
+        data-test="title"
+      >
+        Transactions
+      </p><p
+        v-if="invoiceCount"
+        class="mb-0 pl-1"
+      >
+        {{ `(${invoiceCount})` }}
+      </p>
     </div>
     <v-data-table
-    :headers="headerTranscations"
-    :items="invoiceDisplay"
-    class="elevation-1 fas-transactions"
-    hide-default-footer
-    disable-pagination
+      :headers="headerTranscations"
+      :items="invoiceDisplay"
+      class="elevation-1 fas-transactions"
+      :hide-default-footer="true"
     >
-      <template v-slot:[`header.createdOn`]="{ header }">
-      <div class="pl-4">
-        {{ header.text }}
-      </div>
+      <template #[`header.createdOn`]="{ column }">
+        <div class="pl-4">
+          {{ column.title }}
+        </div>
       </template>
-      <template v-slot:[`item.createdOn`]="{ item }">
-      <div class="font-weight-bold pl-4">
-        {{  formatDisplayDate(item.createdOn, 'MMMM DD, YYYY') }}
-      </div>
-    </template>
-    <template v-slot:[`item.total`]="{ item }">
-      <div class="font-weight-bold">
-        {{ appendCurrencySymbol(item.total.toFixed(2)) }}
-      </div>
-    </template>
-    <template v-slot:[`item.description`]="{ item }">
-      <div v-for="description of item.description" :key="description">
-        <p class="font-weight-bold mb-0">
-        {{ description }}
-        </p>
-      </div>
-    </template>
-    <template v-slot:[`item.actions`]="{ item, index }">
-      <span v-if="isAlreadyCancelled(item.statusCode)" :data-test="getIndexedTag('text-cancel', index)" class="error--text font-weight-bold"> Cancelled </span>
-      <template v-else>
-        <v-btn
-          outlined
-          color="primary"
-          v-can:fas_refund.hide
-          :data-test="getIndexedTag('btn-invoice-cancel', index)"
-          @click="cancel(item.id)"
-          :disabled="disableCancelButton"
+      <template #[`item.createdOn`]="{ item }">
+        <div class="font-weight-bold pl-4">
+          {{ formatDisplayDate(item.createdOn, 'DDD') }}
+        </div>
+      </template>
+      <template #[`item.total`]="{ item }">
+        <div class="font-weight-bold">
+          {{ appendCurrencySymbol(item.total.toFixed(2)) }}
+        </div>
+      </template>
+      <template #[`item.description`]="{ item }">
+        <div
+          v-for="description of item.description"
+          :key="description"
         >
-          Cancel
-        </v-btn>
+          <p class="font-weight-bold mb-0">
+            {{ description }}
+          </p>
+        </div>
       </template>
-    </template>
+      <template #[`item.actions`]="{ item, index }">
+        <span
+          v-if="isAlreadyCancelled(item.statusCode)"
+          :data-test="getIndexedTag('text-cancel', index)"
+          class="text-error font-weight-bold"
+        > Cancelled </span>
+        <template v-else>
+          <v-btn
+            v-can:fas_refund.hide
+            variant="outlined"
+            color="primary"
+            :data-test="getIndexedTag('btn-invoice-cancel', index)"
+            :disabled="disableCancelButton"
+            @click="cancel(item.id)"
+          >
+            Cancel
+          </v-btn>
+        </template>
+      </template>
+      <!-- hide pagination -->
+      <template #bottom />
     </v-data-table>
     <!-- Confirmation Dialog - to be displayed after clicking cancel on a transaction -->
     <ModalDialog
@@ -63,63 +84,51 @@
       :icon="modalDialogDetails.modalDialogIcon"
       :iconColor="modalDialogDetails.modalDialogIconColor"
     >
-      <template v-slot:actions>
-        <v-btn large color="primary" @click="modalDialogConfirm" data-test="dialog-ok-button" :loading="isLoading" class="font-weight-bold btn-actions">{{ modalDialogDetails.modalDialogOkText }}</v-btn>
-        <v-btn large color="primary" outlined @click="modalDialogClose" data-test="dialog-cancel-button" class="ml-3 btn-actions">{{ modalDialogDetails.modalDialogCancelText }}</v-btn>
+      <template #actions>
+        <v-btn
+          size="large"
+          color="primary"
+          variant="flat"
+          data-test="dialog-ok-button"
+          :loading="isLoading"
+          class="font-weight-bold btn-actions"
+          @click="modalDialogConfirm"
+        >
+          {{ modalDialogDetails.modalDialogOkText }}
+        </v-btn>
+        <v-btn
+          size="large"
+          color="primary"
+          variant="outlined"
+          data-test="dialog-cancel-button"
+          class="ml-3 btn-actions"
+          @click="modalDialogClose"
+        >
+          {{ modalDialogDetails.modalDialogCancelText }}
+        </v-btn>
       </template>
     </ModalDialog>
   </div>
 </template>
-<script lang="ts">
-import { useTransactionDataTable } from '@/composables/ViewRoutingSlip'
-import commonUtil from '@/util/common-util'
+<script setup lang="ts">
+import { appendCurrencySymbol, formatDisplayDate } from '@/util'
 import ModalDialog from '@/components/common/ModalDialog.vue'
-import { Component, Vue } from 'vue-property-decorator'
-import { InvoiceStatus } from '@/util/constants'
+import { useTransactionDataTable } from '@/composables/ViewRoutingSlip'
 
-@Component({
-  components: {
-    ModalDialog
-  },
-  setup (props) {
-    const {
-      invoiceDisplay,
-      headerTranscations,
-      invoiceCount,
-      transformInvoices,
-      modalDialogRef,
-      modalDialogDetails,
-      isLoading,
-      cancel,
-      modalDialogConfirm,
-      modalDialogClose,
-      getIndexedTag,
-      disableCancelButton,
-      isAlreadyCancelled
-    } = useTransactionDataTable(props)
-    return {
-      invoiceDisplay,
-      headerTranscations,
-      invoiceCount,
-      transformInvoices,
-      modalDialogRef,
-      modalDialogDetails,
-      isLoading,
-      cancel,
-      modalDialogConfirm,
-      modalDialogClose,
-      getIndexedTag,
-      disableCancelButton,
-      isAlreadyCancelled
-    }
-  }
-})
-export default class TransactionDataTable extends Vue {
-  public formatDisplayDate = commonUtil.formatDisplayDate
-  public appendCurrencySymbol = commonUtil.appendCurrencySymbol
-  public InvoiceStatus = InvoiceStatus
-}
-
+const {
+  invoiceDisplay,
+  headerTranscations,
+  invoiceCount,
+  modalDialogRef,
+  modalDialogDetails,
+  isLoading,
+  cancel,
+  modalDialogConfirm,
+  modalDialogClose,
+  getIndexedTag,
+  disableCancelButton,
+  isAlreadyCancelled
+} = useTransactionDataTable()
 </script>
 <style lang="scss" scoped>
 @import '$assets/scss/theme.scss';
@@ -131,4 +140,5 @@ export default class TransactionDataTable extends Vue {
       padding: 20px 15px !important;
     }
   }
+
 </style>

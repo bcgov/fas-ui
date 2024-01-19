@@ -1,4 +1,4 @@
-import { computed, ref } from '@vue/composition-api'
+import { computed, ref } from 'vue'
 
 import CommonUtils from '@/util/common-util'
 import { PaymentMethods } from '@/util/constants'
@@ -80,8 +80,9 @@ export function useCreateRoutingSlipCashPayment () {
     return isTheAmountPaidInUsd.value ? 4 : 6
   })
 
-  function isValid (): boolean {
-    return createRoutingSlipCashPaymentForm.value?.validate()
+  async function isValid (): Promise<boolean> {
+    const validate = await createRoutingSlipCashPaymentForm.value.validate()
+    return validate.valid && validate.errors.length === 0
   }
 
   return {

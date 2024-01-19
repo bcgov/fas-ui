@@ -3,59 +3,63 @@
     <v-menu
       v-model="showCalendar"
       :close-on-content-click="false"
-      :nudge-left="200"
-      offset-y
-      z-index="1"
+      :offset="200"
     >
-      <template v-slot:activator="{ on }">
+      <template #activator="{ props }">
         <v-btn
-          class="font-weight-bold"
-          large
-          dark
-          color="primary"
           v-can:fas_reports.hide
-          v-on="on"
+          v-bind="props"
+          class="font-weight-bold"
+          size="large"
+          color="primary"
           data-test="btn-daily-report"
         >
           Daily Report
-          <v-icon dark small class="ml-2 font-weight-bold">
+          <v-icon
+            dark
+            size="small"
+            class="ml-2 font-weight-bold"
+          >
             mdi-calendar
           </v-icon>
         </v-btn>
       </template>
 
-      <v-card>
+      <v-card z-index="1">
         <v-card-title
-          class=" body-1 font-weight-bold ml-3"
+          class=" text-body-1 font-weight-bold ml-3"
           data-test="title-daily-report"
-          >Select Daily Report Date:</v-card-title
         >
+          Select Daily Report Date:
+        </v-card-title>
         <v-card-text class="mx-4">
           <v-date-picker
             v-model="selectedDate"
-            v-bind="$attrs"
-            v-on="$listeners"
             data-test="date-date-picker"
             elevation="5"
             :max="maxDate"
             color="primary"
-          ></v-date-picker>
+          />
         </v-card-text>
 
         <v-card-actions class="pt-0 pb-3">
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn
             color="primary"
             class="font-weight-bold"
-            text
-            @click="getDailyReport"
+            variant="text"
             :loading="isDownloading"
             data-test="btn-download-report"
             :disabled="selectedDate == ''"
+            @click="getDailyReport"
           >
             Download Report
           </v-btn>
-          <v-btn text @click="toggleCalendar(false)" data-test="btn-cancel">
+          <v-btn
+            variant="text"
+            data-test="btn-cancel"
+            @click="toggleCalendar(false)"
+          >
             Cancel
           </v-btn>
         </v-card-actions>
@@ -64,39 +68,19 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import Search from '@/components/Dashboard/Search.vue'
-import can from '@/directives/can'
+<script setup lang="ts">
 import { useDailyReport } from '@/composables/Dashboard'
+import { can as vCan } from '@/directives/can'
 
-@Component({
-  components: {
-    Search
-  },
-  directives: {
-    can
-  },
-  setup () {
-    const {
-      selectedDate,
-      getDailyReport,
-      showCalendar,
-      isDownloading,
-      maxDate,
-      toggleCalendar
-    } = useDailyReport()
-    return {
-      selectedDate,
-      getDailyReport,
-      showCalendar,
-      isDownloading,
-      maxDate,
-      toggleCalendar
-    }
-  }
-})
-export default class DailyReport extends Vue {}
+const {
+  selectedDate,
+  getDailyReport,
+  showCalendar,
+  isDownloading,
+  maxDate,
+  toggleCalendar
+} = useDailyReport()
+
 </script>
 <style lang="scss" scoped>
 .view-heade {

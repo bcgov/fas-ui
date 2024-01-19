@@ -1,4 +1,4 @@
-import { computed, ref } from '@vue/composition-api'
+import { computed, ref } from 'vue'
 
 const hasCallFailed = ref<boolean>(false)
 const activeCalls = ref<number>(0)

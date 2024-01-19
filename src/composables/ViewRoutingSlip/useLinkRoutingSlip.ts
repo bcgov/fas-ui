@@ -1,4 +1,4 @@
-import { computed, ref } from '@vue/composition-api'
+import { computed, ref } from 'vue'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to useRoutingSlipInfo component

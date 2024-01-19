@@ -4,17 +4,20 @@
 
 import { Address, BaseAddressModel } from '@/models/Address'
 import { Role, SlipStatus } from '@/util/constants'
-
+import { DateTime } from 'luxon'
 import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
-import moment from 'moment'
 
 export default class CommonUtils {
   // Formatting date in the desired format for displaying in the template
-  static formatDisplayDate (date: Date, format?: string) {
-    return date ? moment(date).format(format || 'MMM DD, YYYY') : ''
+  static formatDisplayDate (date: Date | string, format?: string) {
+    if (!date) {
+      return ''
+    }
+    const dateObject = (date instanceof Date) ? DateTime.fromJSDate(date) : DateTime.fromISO(date)
+    return dateObject.toFormat(format || 'LLL dd, yyyy')
   }
 
-  static requiredFieldRule (errorMessage: string = 'This field is required') {
+  static requiredFieldRule (errorMessage = 'This field is required') {
     return [v => !!v || errorMessage]
   }
 
@@ -37,7 +40,7 @@ export default class CommonUtils {
   }
 
   // blob convert to downloadable file
-  static fileDownload (data: any, fileName: string, fileType: string = 'text/plain', action:string = 'download') {
+  static fileDownload (data: any, fileName: string, fileType = 'text/plain', action = 'download') {
     const blob = new Blob([data], { type: fileType })
     if (typeof window.navigator.msSaveBlob !== 'undefined') {
       // IE workaround for "HTML7007: One or more blob URLs were
@@ -76,7 +79,7 @@ export default class CommonUtils {
     }
   }
 
-  static statusListColor (status: string, textColor: boolean = true) {
+  static statusListColor (status: string, textColor = true) {
     let color = ''
     switch (status) {
       case SlipStatus.ACTIVE:
@@ -97,7 +100,7 @@ export default class CommonUtils {
         break
     }
 
-    return textColor ? `${color}--text` : color
+    return textColor ? `text-${color}` : color
   }
 
   static appendCurrencySymbol (currency: number | string) {
@@ -188,7 +191,8 @@ export default class CommonUtils {
       SlipStatus.REFUNDCOMPLETED,
       SlipStatus.REFUNDAUTHORIZED,
       SlipStatus.NSF,
-      SlipStatus.LINKED
+      SlipStatus.LINKED,
+      SlipStatus.VOID
     ].includes(status)
   }
 

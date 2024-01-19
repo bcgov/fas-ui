@@ -3,11 +3,16 @@
     <v-row>
       <v-col>
         <header class="view-header flex-column mb-0">
-          <div class="d-flex justify-space-between" :class="{'flex-column': $vuetify.breakpoint.xs}">
+          <div
+            class="d-flex justify-space-between"
+            :class="{'flex-column': xs}"
+          >
             <div>
-              <h1 class="view-header__title">FAS Staff Dashboard</h1>
-              <p  :class="{'mb-16': !$vuetify.breakpoint.xs}">
-                {{ $t('dashboardSubText') }}
+              <h1 class="view-header__title">
+                FAS Staff Dashboard
+              </h1>
+              <p :class="{'mb-16': xs}">
+                {{ t('dashboardSubText') }}
               </p>
             </div>
 
@@ -22,23 +27,15 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import Search from '@/components/Dashboard/Search.vue'
+<script setup lang="ts">
 import DailyReport from '@/components/Dashboard/DailyReport.vue'
+import Search from '@/components/Dashboard/Search.vue'
+import { useDisplay } from 'vuetify'
+import { useI18n } from 'vue-i18n'
 
-import can from '@/directives/can'
+const { xs } = useDisplay()
 
-@Component({
-  components: {
-    Search,
-    DailyReport
-  },
-  directives: {
-    can
-  }
-})
-export default class Dashboard extends Vue {}
+const { t } = useI18n()
 </script>
 <style lang="scss" scoped>
 .view-heade {

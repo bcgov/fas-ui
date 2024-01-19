@@ -1,14 +1,15 @@
 <template>
   <transition-group name="slide-fade">
-    <div class="d-flex" key="action">
+    <div
+      key="action"
+      class="d-flex"
+    >
       <v-autocomplete
-        filled
         v-model="filingType"
+        variant="filled"
         :items="autoCompleteFilingTypes"
         :loading="isLoading"
-        :search-input.sync="search"
-        @keyup="delayedSearch"
-        :item-text="itemText"
+        :item-title="itemText"
         :item-value="itemText"
         placeholder="Filing Type Name"
         return-object
@@ -16,52 +17,47 @@
         :hide-no-data="hideNoData"
         v-bind="$attrs"
         data-test="input-filing-type"
+        @keyup="delayedSearch"
+        @update:search="search = $event"
       >
-        <!-- hide-no-data -->
-        <template v-slot:item="{ item }">
-          <div class="filing-details">
-            <span>{{ item.filingTypeCode.description }}</span>
-            <span>
-              <span>-</span>
-              {{ item.corpTypeCode.description }}</span
-            >
-          </div>
+        <template #item="{ props: activatorProps, item }">
+          <v-list-item
+            v-bind="activatorProps"
+            title=""
+          >
+            <div class="filing-details">
+              <span>{{ item.raw.filingTypeCode.description }}</span>
+              <span>
+                <span>-</span>
+                {{ item.raw.corpTypeCode.description }}</span>
+            </div>
+          </v-list-item>
         </template>
       </v-autocomplete>
     </div>
   </transition-group>
 </template>
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import { useFilingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
+<script setup lang="ts">
 import { FilingType } from '@/models/Payment'
+import { useFilingTypeAutoComplete } from '@/composables/ViewRoutingSlip'
 
-@Component({
-  setup (props, context) {
-    const {
-      filingType,
-      autoCompleteFilingTypes,
-      isLoading,
-      search,
-      delayedSearch,
-      itemText,
-      hideNoData
-    } = useFilingTypeAutoComplete(props, context)
+const props = defineProps<{
+  value: FilingType
+}>()
 
-    return {
-      filingType,
-      autoCompleteFilingTypes,
-      isLoading,
-      search,
-      delayedSearch,
-      itemText,
-      hideNoData
-    }
-  }
-})
-export default class FIlingTypeAutoComplete extends Vue {
-  @Prop({ default: () => null }) value: FilingType
-}
+const emits = defineEmits<{
+  input: [value: FilingType]
+}>()
+
+const {
+  filingType,
+  autoCompleteFilingTypes,
+  isLoading,
+  search,
+  delayedSearch,
+  itemText,
+  hideNoData
+} = useFilingTypeAutoComplete(props, emits)
 </script>
 
 <style lang="scss" scoped>

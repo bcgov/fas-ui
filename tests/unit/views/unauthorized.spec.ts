@@ -1,5 +1,5 @@
-import { shallowMount } from '@vue/test-utils'
 import Unauthorized from '@/views/Unauthorized.vue'
+import { shallowMount } from '@vue/test-utils'
 
 describe('Unauthorized.vue', () => {
   let vm: any

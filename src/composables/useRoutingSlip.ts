@@ -1,9 +1,13 @@
-import { computed, ref } from '@vue/composition-api'
-import RoutingSlipService from '@/services/routingSlip.services'
-import { AccountInfo, AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload, LinkedRoutingSlips, RoutingSlip, RoutingSlipDetails } from '@/models/RoutingSlip'
-import { ApiErrors, CreateRoutingSlipStatus, headerSearchTitle as headerSearchTitleConstant, SlipStatus } from '@/util/constants'
-import CommonUtils from '@/util/common-util'
+import
+{
+  AccountInfo, AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload,
+  LinkedRoutingSlips, RoutingSlip, RoutingSlipDetails
+} from '@/models/RoutingSlip'
+import { ApiErrors, CreateRoutingSlipStatus, SlipStatus, headerSearchTitle as headerSearchTitleConstant } from '@/util/constants'
 import { BusinessInfo, GetFeeRequestParams, Payment, TransactionParams } from '@/models/Payment'
+import { computed, ref } from 'vue'
+import CommonUtils from '@/util/common-util'
+import RoutingSlipService from '@/services/routingSlip.services'
 
 const headerSearchTitle = ref(headerSearchTitleConstant)
 const searchRoutingSlipResult = ref<RoutingSlip[]>([])
@@ -40,7 +44,8 @@ export const useRoutingSlip = () => {
     return !!routingSlip.value?.parentNumber
   })
 
-  // if routingslip has parentNumber then it is a child Else, check if there are any children in linkedroutingslips for it.(in this case, it is a parent)
+  // if routingslip has parentNumber then it is a child
+  // Else, check if there are any children in linkedroutingslips for it.(in this case, it is a parent)
   const isRoutingSlipLinked = computed<boolean>(() => {
     return (
       isRoutingSlipAChild.value || linkedRoutingSlips.value?.children.length > 0
@@ -49,6 +54,10 @@ export const useRoutingSlip = () => {
 
   const isRoutingSlipVoid = computed<boolean>(() => {
     return routingSlip.value?.status === SlipStatus.VOID
+  })
+
+  const isRoutingSlipCorrection = computed<boolean>(() => {
+    return routingSlip.value?.status === SlipStatus.CORRECTION
   })
 
   const updateRoutingSlipChequeNumber = (chequeNumToChange: AdjustRoutingSlipChequePrams) => {
@@ -205,6 +214,7 @@ export const useRoutingSlip = () => {
     // // build the RoutingSlip Request JSON object that needs to be sent.
 
     let params = { ...searchRoutingSlipParams.value }
+
     // filtering and removing all non set values
     params = CommonUtils.cleanObject(params)
 
@@ -213,11 +223,11 @@ export const useRoutingSlip = () => {
       params.dateFilter = {
         startDate: CommonUtils.formatDisplayDate(
           params.dateFilter[0],
-          'YYYY-MM-DD'
+          'yyyy-LL-dd'
         ),
         endDate: CommonUtils.formatDisplayDate(
           params.dateFilter[1],
-          'YYYY-MM-DD'
+          'yyyy-LL-dd'
         )
       }
     }
@@ -290,7 +300,7 @@ export const useRoutingSlip = () => {
   const getDailyReportByDate = async (selectedDate, type) => {
     const formatedDate = CommonUtils.formatDisplayDate(
       selectedDate,
-      'YYYY-MM-DD'
+      'yyyy-LL-dd'
     )
     try {
       return await RoutingSlipService.getDailyReport(formatedDate, type, false)
@@ -393,6 +403,7 @@ export const useRoutingSlip = () => {
     isRoutingSlipAChild,
     isRoutingSlipLinked,
     isRoutingSlipVoid,
+    isRoutingSlipCorrection,
     updateRoutingSlipChequeNumber,
     updateRoutingSlipAmount,
     createRoutingSlip,

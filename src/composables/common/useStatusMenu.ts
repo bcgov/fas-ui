@@ -1,20 +1,20 @@
+import { computed, onMounted, ref, toRefs } from 'vue'
 import { Code } from '@/models/Code'
 import { SlipStatusLabel } from '@/util/constants'
-import { ref, computed, toRefs, onMounted } from '@vue/composition-api'
 import { useCodes } from '../useCodes'
 
-export function useStatusMenu (props, context) {
+export function useStatusMenu (props, emits) {
   const { getRoutingSlipStatusList, routingSlipStatusList } = useCodes()
   // default value set blank incase if we didnt pass props
-  const { value = ref(''), allowedStatusList = ref([]), isApprovalFlow = ref(false) } = toRefs(props)
+  const { modalValue = ref(''), allowedStatusList = ref([]) } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change
   const currentStatus = computed({
     get: () => {
-      return value.value || ''
+      return modalValue.value || ''
     },
     set: (modalValue: Code) => {
-      context.emit('input', modalValue.code)
+      emits('input', modalValue.code)
     }
   })
 
@@ -70,7 +70,7 @@ export function useStatusMenu (props, context) {
   }
 
   function setStatus (status) {
-    context.emit('update:statusChange', status)
+    emits('update:statusChange', status)
   }
   return {
     routingSlipStatus,

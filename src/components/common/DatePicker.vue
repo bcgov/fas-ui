@@ -1,64 +1,49 @@
 <template>
   <v-menu
-    v-model="showDateModal"
-    :close-on-content-click="false"
+    v-model="showDateMenu"
+    :close-on-content-click="true"
     transition="scale-transition"
-    offset-y
     min-width="auto"
   >
-    <template v-slot:activator="{ on: { click } }">
+    <template #activator="{ props: activatorProps }">
       <v-text-field
-        v-model="selectedDate"
+        v-model="showDateField"
         :label="label"
         append-icon="mdi-calendar"
         readonly
-        v-bind="$attrs"
-        @click="click"
-        filled
+        variant="filled"
+        v-bind="activatorProps"
         data-test="input-date-picker"
-        @click:append="click"
-      ></v-text-field>
+      />
     </template>
     <v-date-picker
-      v-model="selectedDate"
-      v-bind="$attrs"
-      @input="closeAfterSelection()"
-      v-on="$listeners"
+      v-model="dateValue"
+      :persist="false"
+      color="primary"
       data-test="date-date-picker"
-    ></v-date-picker>
+    />
   </v-menu>
 </template>
 
-<script lang="ts">
-/** component for date picker.
- * this is just a wrapper for vuetify date picker
- * can use all attributs from vuetify
- * pass persist if no no need close calendar after click
- *
- * example
- * <date-picker v-model="selectedDate" persist></date-picker></v-col>
- */
-
-import { Component, Prop } from 'vue-property-decorator'
-import Vue from 'vue'
+<script setup lang="ts">
 import { useDatePicker } from '@/composables/common'
 
-@Component({
-  setup (props, context) {
-    const { selectedDate, showDateModal, closeAfterSelection } = useDatePicker(
-      props,
-      context
-    )
-    return {
-      selectedDate,
-      showDateModal,
-      closeAfterSelection
-    }
-  }
+const props = withDefaults(defineProps<{
+  modelValue?: Date | string
+  label?: string
+}>(),
+{
+  modelValue: null,
+  label: 'Select Date'
 })
-export default class DatePicker extends Vue {
-  @Prop() value: string
-  @Prop({ default: 'Select Date' }) label: string
-  @Prop({ default: false }) persist: boolean
-}
+
+const emits = defineEmits<{
+  'update:modelValue': [value: string]
+}>()
+
+const {
+  dateValue,
+  showDateMenu,
+  showDateField
+} = useDatePicker(props, emits)
 </script>

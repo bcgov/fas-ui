@@ -1,17 +1,8 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils'
-
 import { CreateRoutingSlipDetails } from '@/components/RoutingSlip'
-import Vuetify from 'vuetify'
+import { shallowMount } from '@vue/test-utils'
 
 describe('CreateRoutingSlipDetails.vue', () => {
-  const localVue = createLocalVue()
-
-  const vuetify = new Vuetify({})
   let store
-  const MyStub = {
-    template: '<div />'
-  }
-
   beforeEach(() => {
     vi.resetModules()
     vi.clearAllMocks()

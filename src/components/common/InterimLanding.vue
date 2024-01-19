@@ -1,21 +1,35 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col cols="12" lg="8" class="text-center">
-        <v-icon size="48" :color="iconColor" class="mb-6">{{ icon }}</v-icon>
-        <h1 class="mb-5">{{ summary }}</h1>
+      <v-col
+        cols="12"
+        lg="8"
+        class="text-center"
+      >
+        <v-icon
+          size="48"
+          :color="iconColor"
+          class="mb-6"
+        >
+          {{ icon }}
+        </v-icon>
+        <h1 class="mb-5">
+          {{ summary }}
+        </h1>
         <p class="mb-9">
-          <slot name="description">{{ description }}</slot>
+          <slot name="description">
+            {{ description }}
+          </slot>
         </p>
         <slot name="actions">
           <v-btn
-            large
-            link
-            color="primary"
-            @click="goHome()"
-            data-test="btn-home"
             v-if="showHomePageBtn"
-            >{{ $t('homeBtnLabel') }}
+            size="large"
+            color="primary"
+            data-test="btn-home"
+            @click="goHome()"
+          >
+            {{ $t('homeBtnLabel') }}
           </v-btn>
         </slot>
       </v-col>
@@ -23,25 +37,24 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+<script setup lang="ts">
 import { useNavigation } from '@/composables/common'
 
-@Component({
-  setup (props, context) {
-    const { goHome } = useNavigation(props, context)
-    return {
-      goHome
-    }
-  }
+const { goHome } = useNavigation()
+
+withDefaults(defineProps<{
+  summary: string
+  description: string
+  icon: string
+  iconColor: string
+  showHomePageBtn: boolean
+}>(), {
+  summary: '',
+  description: '',
+  icon: 'mdi-information-outline',
+  iconColor: 'primary',
+  showHomePageBtn: true
 })
-export default class InterimLanding extends Vue {
-  @Prop({ default: '' }) private summary: string
-  @Prop({ default: '' }) private description: string
-  @Prop({ default: 'mdi-information-outline' }) private icon: string
-  @Prop({ default: 'primary' }) private iconColor: string
-  @Prop({ default: true }) private showHomePageBtn: boolean
-}
 </script>
 
 <style lang="scss" scoped>

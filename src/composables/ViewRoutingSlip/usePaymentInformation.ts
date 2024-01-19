@@ -1,15 +1,15 @@
-import { computed, ref } from '@vue/composition-api'
-
-import { PaymentMethods, SlipStatus } from '@/util/constants'
 import { AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload, RoutingSlip } from '@/models/RoutingSlip'
-import commonUtil from '@/util/common-util'
-import { useRoutingSlip } from '../useRoutingSlip'
+import { PaymentMethods, SlipStatus } from '@/util/constants'
+import { computed, ref } from 'vue'
 import { Payment } from '@/models/Payment'
+import commonUtil from '@/util/common-util'
+import { useRoute } from 'vue-router'
+import { useRoutingSlip } from '../useRoutingSlip'
 
 const routingSlipBeforeEdit = ref<RoutingSlip>({})
 
 // Composable function to inject Props, options and values to PaymentInformation component
-export default function usePaymentInformation (_, context) {
+export default function usePaymentInformation () {
   const {
     adjustRoutingSlip,
     getRoutingSlip,
@@ -43,7 +43,7 @@ export default function usePaymentInformation (_, context) {
     return [SlipStatus.ACTIVE, SlipStatus.COMPLETE, SlipStatus.CORRECTION].includes(routingSlip.value.status as SlipStatus)
   })
 
-  function adjustRoutingSlipChequeNumber (num: string, paymentIndex: number = 0) {
+  function adjustRoutingSlipChequeNumber (num: string, paymentIndex = 0) {
     const chequeNumToChange: AdjustRoutingSlipChequePrams = {
       chequeNum: num,
       paymentIndex: paymentIndex
@@ -51,7 +51,7 @@ export default function usePaymentInformation (_, context) {
     updateRoutingSlipChequeNumber(chequeNumToChange)
   }
 
-  function adjustRoutingSlipAmount (num: number, isUsdChange: boolean, paymentIndex: number = 0) {
+  function adjustRoutingSlipAmount (num: number, isUsdChange: boolean, paymentIndex = 0) {
     const amountToChange: AdjustRoutingSlipAmountPrams = {
       amount: Number(num),
       paymentIndex: paymentIndex,
@@ -82,20 +82,13 @@ export default function usePaymentInformation (_, context) {
   })
 
   const isRoutingSlipChildPaidInUsd = computed(() => {
-    return linkedRoutingSlips.value && linkedRoutingSlips.value.children.length > 0 && linkedRoutingSlips.value.children[0].totalUsd && linkedRoutingSlips.value.children[0].totalUsd > 0
+    return linkedRoutingSlips.value && linkedRoutingSlips.value.children.length > 0 &&
+      linkedRoutingSlips.value.children[0].totalUsd && linkedRoutingSlips.value.children[0].totalUsd > 0
   })
 
   const hasPaymentChanges = computed(() => {
     return !commonUtil.isDeepEqual(routingSlip.value, routingSlipBeforeEdit.value)
   })
-
-  async function adjustRoutingSlipHandler () {
-    const paymentRequest: Payment[] = filterUnchangedChequeReceiptNumbersFromPayment()
-    await adjustRoutingSlip(paymentRequest)
-    adjustRoutingSlipStatus()
-    const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value.number }
-    await getRoutingSlip(getRoutingSlipRequestPayload)
-  }
 
   const filterUnchangedChequeReceiptNumbersFromPayment = () => {
     const paymentRequest: Payment[] = routingSlip.value.payments
@@ -105,6 +98,14 @@ export default function usePaymentInformation (_, context) {
       }
     })
     return paymentRequest
+  }
+
+  async function adjustRoutingSlipHandler () {
+    const paymentRequest: Payment[] = filterUnchangedChequeReceiptNumbersFromPayment()
+    await adjustRoutingSlip(paymentRequest)
+    adjustRoutingSlipStatus()
+    const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value.number }
+    await getRoutingSlip(getRoutingSlipRequestPayload)
   }
 
   function adjustRoutingSlipStatus () {
@@ -133,8 +134,7 @@ export default function usePaymentInformation (_, context) {
   const appendQueryParamsIfNeeded = commonUtil.appendQueryParamsIfNeeded
 
   function navigateTo (routingSlipNumber: number, childNumber: number): string {
-    const route = context.root.$route
-    return appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipNumber}/${childNumber}`, route)
+    return appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipNumber}/${childNumber}`, useRoute())
   }
 
   return {

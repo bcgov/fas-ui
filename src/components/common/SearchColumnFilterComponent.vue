@@ -1,59 +1,62 @@
 <template>
   <v-menu
-  :close-on-content-click="false"
-  offset-y
-  data-test="menu-search-column-filter">
-    <template v-slot:activator="{ on: { click } }">
+    :close-on-content-click="false"
+    data-test="menu-search-column-filter"
+  >
+    <template #activator="{ props: activatorProps }">
       <v-text-field
         label="Columns to Show"
         readonly
-        v-bind="$attrs"
-        @click="click"
-        filled
+        v-bind="activatorProps"
+        variant="filled"
         class="column-filter"
-        append-icon="mdi-menu-down"
-        @click:append="click"
-      >
-      </v-text-field>
+        append-inner-icon="mdi-menu-down"
+        @click:append-inner="activatorProps"
+      />
     </template>
-    <v-list nav dense v-bind="$attrs">
-      <v-list-item-group>
-        <v-list-item
+    <v-list
+      nav
+      density="compact"
+      v-bind="$attrs"
+    >
+      <v-list-item
+        v-for="(item, i) in selectedHeaderSearchList.filter(header => !header.hideInSearchColumnFilter)"
+        :key="i"
+        class="ma-0"
+      >
+        <v-checkbox
+          v-model="item.display"
           class="ma-0"
-          v-for="(item, i) in selectedHeaderSearchList.filter(header => !header.hideInSearchColumnFilter)"
-          :key="i"
-        >
-          <v-checkbox
-            class="ma-0"
-            v-model="item.display"
-            :label="item.text"
-            hide-details
-          ></v-checkbox>
-        </v-list-item>
-      </v-list-item-group>
+          :label="item.title"
+          hide-details
+        />
+      </v-list-item>
     </v-list>
   </v-menu>
 </template>
 
-<script lang="ts">
-import { Component, Prop } from 'vue-property-decorator'
-import Vue from 'vue'
+<script setup lang="ts">
+import { defineEmits, defineProps } from 'vue'
 import { useSearchColumnFilterComponent } from '@/composables/common'
 
-@Component({
-  setup (props, context) {
-    const { selectedHeaderSearchList } = useSearchColumnFilterComponent(
-      props,
-      context
-    )
-    return {
-      selectedHeaderSearchList
-    }
+const props = withDefaults(
+  defineProps<{
+    modelValue: any
+  }>(),
+  {
+    modelValue: []
   }
-})
-export default class SearchColumnFilterComponent extends Vue {
-  @Prop({ default: () => [] }) value: any[]
-}
+)
+
+const emits = defineEmits<{
+  input: [modelValue: any]
+}>()
+
+const { selectedHeaderSearchList } = useSearchColumnFilterComponent(
+  props,
+  emits
+)
+
 </script>
 <style lang="scss">
   .column-filter > .v-input__control,

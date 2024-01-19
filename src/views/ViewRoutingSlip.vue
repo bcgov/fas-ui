@@ -4,27 +4,42 @@
       <v-row>
         <v-col cols="12">
           <header class="d-flex flex-column mb-0">
-            <template>
-              <h1 class="view-header__title pt-4">View Routing Slip: {{ slipId }}</h1>
-              <p>
-                {{ $t('reviewRoutingSlipText') }}
-              </p>
-            </template>
+            <h1 class="view-header__title pt-4">
+              View Routing Slip: {{ slipId }}
+            </h1>
+            <p class="mb-4">
+              {{ $t('reviewRoutingSlipText') }}
+            </p>
           </header>
         </v-col>
-        <v-col cols="12" class="mb-1 py-0 pl-0">
+        <v-col
+          cols="12"
+          class="mb-1 py-0 pl-0"
+        >
           <staff-comments :routingSlipNumber="slipId" />
         </v-col>
-        <v-col cols="12" class="mb-5">
+        <v-col
+          cols="12"
+          class="mb-5"
+        >
           <routing-slip-info />
         </v-col>
-        <v-col cols="12" class="my-5">
+        <v-col
+          cols="12"
+          class="my-5"
+        >
           <payment-information />
         </v-col>
-        <v-col cols="12" class="my-5">
+        <v-col
+          cols="12"
+          class="my-5"
+        >
           <link-routing-slip />
         </v-col>
-        <v-col cols="12" class="my-5">
+        <v-col
+          cols="12"
+          class="my-5"
+        >
           <routing-slip-transaction />
         </v-col>
       </v-row>
@@ -32,29 +47,17 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+<script setup lang="ts">
 import {
-  RoutingSlipInfo,
+  LinkRoutingSlip,
   PaymentInformation,
-  RoutingSlipTransaction,
-  LinkRoutingSlip, StaffComments
+  RoutingSlipInfo,
+  RoutingSlipTransaction, StaffComments
 } from '@/components/ViewRoutingSlip'
 import { useViewRoutingSlip } from '@/composables/ViewRoutingSlip'
 
-@Component({
-  components: {
-    RoutingSlipInfo,
-    PaymentInformation,
-    RoutingSlipTransaction,
-    LinkRoutingSlip,
-    StaffComments
-  },
-  setup (props) {
-    useViewRoutingSlip(props)
-  }
-})
-export default class ViewRoutingSlip extends Vue {
-  @Prop() slipId: string
-}
+const props = defineProps<{
+  slipId: string
+}>()
+useViewRoutingSlip(props)
 </script>

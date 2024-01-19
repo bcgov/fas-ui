@@ -1,4 +1,4 @@
-import { computed, onMounted, ref, toRefs, watch } from '@vue/composition-api'
+import { computed, onMounted, ref, toRefs, watch } from 'vue'
 
 import CommonUtils from '@/util/common-util'
 import { GetFeeRequestParams } from '@/models/Payment'
@@ -7,7 +7,7 @@ import debounce from '@/util/debounce'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to AddManualTransactionDetails component
-export default function useAddManualTransactionDetails (props, context) {
+export default function useAddManualTransactionDetails (props, emits) {
   const { getFeeByCorpTypeAndFilingType } = useRoutingSlip()
   const { manualTransaction, index } = toRefs(props)
 
@@ -35,7 +35,7 @@ export default function useAddManualTransactionDetails (props, context) {
   // Calculate total fee from pay-api service, triggered if its dependent values are changed
   async function calculateTotal () {
     try {
-      if (manualTransactionDetails && manualTransactionDetails.value.filingType && manualTransactionDetails.value.quantity) {
+      if (manualTransactionDetails.value && manualTransactionDetails.value.filingType && manualTransactionDetails.value.quantity) {
         const getFeeRequestParams: GetFeeRequestParams = {
           corpTypeCode: manualTransactionDetails.value.filingType.corpTypeCode.code,
           filingTypeCode: manualTransactionDetails.value.filingType.filingTypeCode.code,
@@ -65,12 +65,12 @@ export default function useAddManualTransactionDetails (props, context) {
 
   // Emit this remove row event, that is consumed in parent and slice the v-model array of parent
   function removeManualTransactionRowEventHandler () {
-    context.emit('removeManualTransactionRow', index.value)
+    emits('removeManualTransactionRow', index.value)
   }
 
   // Emits the updated manual transaction detail event to the parent
   function emitManualTransactionDetails () {
-    context.emit('updateManualTransaction', { transaction: manualTransactionDetails.value, index: index.value })
+    emits('updateManualTransaction', { transaction: manualTransactionDetails.value, index: index.value })
   }
 
   function getIndexedTag (tag, index): string {

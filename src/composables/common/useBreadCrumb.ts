@@ -1,16 +1,20 @@
+import { useRoute, useRouter } from 'vue-router'
 import { BreadcrumbItem } from '@/models/BreadcrumbItem'
 import CommonUtils from '@/util/common-util'
 import ConfigHelper from '@/util/config-helper'
-import { computed } from '@vue/composition-api'
+import { computed } from 'vue'
 
 /*
 Composable function for BreadCrumb component that is displayed at top of the screen.
 Currently, displayed in Dashboard and ViewRoutingslip views
 */
-export function useBreadCrumb (_, context) {
+export function useBreadCrumb () {
+  const route = useRoute()
+  const router = useRouter()
+
   const items = computed(() => {
-    if (context.root.$route && context.root.$route.name) {
-      return generateBreadcrumbItems(context.root.$route)
+    if (route && route.name) {
+      return generateBreadcrumbItems(route)
     }
     return []
   })
@@ -26,7 +30,6 @@ export function useBreadCrumb (_, context) {
         return generateBreadcrumbForViewRoutingSlip(route)
       case 'view-routing-slip-child':
         return generateBreadcrumbForViewChildRoutingSlip(route)
-      // We can add breadcrumbs for future components here
     }
   }
 
@@ -113,7 +116,7 @@ export function useBreadCrumb (_, context) {
     if (penUltimateBreadcrumbItem.href) {
       window.location.href = penUltimateBreadcrumbItem.href
     } else {
-      context.root.$router.push(penUltimateBreadcrumbItem.to)
+      router.push(penUltimateBreadcrumbItem.to)
     }
   }
   return {

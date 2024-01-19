@@ -1,12 +1,11 @@
-import { ref } from '@vue/composition-api'
-
 import CommonUtils from '@/util/common-util'
 import { GetRoutingSlipRequestPayload } from '@/models/RoutingSlip'
 import debounce from '@/util/debounce'
+import { ref } from 'vue'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to useRoutingSlipInfo component
-export default function useLinkRoutingSlip (_, context) {
+export default function useLinkRoutingSlip (emits) {
   const {
     autoCompleteRoutingSlips,
     getAutoCompleteRoutingSlips,
@@ -19,11 +18,11 @@ export default function useLinkRoutingSlip (_, context) {
   const isLoading = ref<boolean>(false)
   const hideNoData = ref<boolean>(false)
 
-  const number = ref('')
+  const number = ref(null)
   const search = ref('')
 
   function toggleSearch () {
-    context.emit('toggleSearch')
+    emits('toggleSearch')
   }
 
   function searchRS () {
@@ -51,8 +50,7 @@ export default function useLinkRoutingSlip (_, context) {
 
   async function saveLinkedRoutingSlip () {
     let linkingErrors = ''
-
-    const response = await saveLinkRoutingSlip(search.value)
+    const response = await saveLinkRoutingSlip(number.value.number)
     if (response?.error) {
       // setting error message
       linkingErrors = response?.details?.detail ? response.details.detail : ''

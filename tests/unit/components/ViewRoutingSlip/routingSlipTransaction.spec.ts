@@ -89,7 +89,8 @@ describe('RoutingSlipTransaction.vue', () => {
     await wrapper.vm.addManualTransactionRow()
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.manualTransactionsList.length).toBe(3)
-    expect(wrapper.vm.manualTransactionsList[2].availableAmountForManualTransaction).toBe(routingSlipMock.remainingAmount - (usedAmount1 + usedAmount2))
+    expect(wrapper.vm.manualTransactionsList[2].availableAmountForManualTransaction)
+      .toBe(routingSlipMock.remainingAmount - (usedAmount1 + usedAmount2))
   })
 
   it('manual transactions assert saveManualTransactionsSpy is invoked', async () => {

@@ -3,20 +3,24 @@
     <header class="d-flex flex-column mb-4">
       <div>
         <div>
-          <h3 data-test="title">Routing Slip Transaction</h3>
-          <p>
+          <h3 data-test="title">
+            Routing Slip Transaction
+          </h3>
+          <p class="mb-4">
             {{ $t('routingSlipTransactionSubText') }}
           </p>
         </div>
         <v-btn
-          large
+          v-if="!isRoutingSlipAChild && !isRoutingSlipVoid && !isRoutingSlipCorrection"
+          v-can:fas_transaction.hide
+          size="large"
           color="primary"
           data-test="btn-add-transaction"
-          v-can:fas_transaction.hide
           @click="showManualTransaction"
-          v-if="!isRoutingSlipAChild && !isRoutingSlipVoid"
         >
-          <v-icon class="mr-1">mdi-plus</v-icon>
+          <v-icon class="mr-1">
+            mdi-plus
+          </v-icon>
           <span class="font">Add Transaction Manually</span>
         </v-btn>
       </div>
@@ -25,64 +29,93 @@
       <v-container>
         <v-row>
           <v-col cols="2">
-            <p data-test="title" class="text-center font-weight-bold mt-2 pr-10">Add Manual Transaction</p>
+            <p
+              data-test="title"
+              class="text-center font-weight-bold mt-2 pr-10 mb-4"
+            >
+              Add Manual Transaction
+            </p>
           </v-col>
-          <v-col cols="10" class="pl-0">
-              <v-form
+          <v-col
+            cols="10"
+            class="pl-0"
+          >
+            <v-form
               id="formRoutingSlipManualTransactions"
               ref="formRoutingSlipManualTransactions"
               data-test="form-routing-slip-manual-transactions"
               class="mt-2"
+            >
+              <div
+                v-for="(transaction, index) in manualTransactionsList"
+                :key="transaction.key"
               >
-                <div v-for="(transaction, index) in manualTransactionsList" :key="transaction.key">
-                  <AddManualTransactionDetails
-                  :index = index
+                <AddManualTransactionDetails
+                  :index="index"
                   :manualTransaction="transaction"
+                  :data-test="getIndexedTag('add-manual-transaction-details', index)"
                   @updateManualTransaction="updateManualTransactionDetails($event)"
                   @removeManualTransactionRow="removeManualTransactionRow($event)"
-                  :data-test="getIndexedTag('add-manual-transaction-details', index)"/>
-                  <v-row dense class="mr-8">
-                    <v-col cols="12">
-                      <v-divider class="mt-4 mb-4" v-if="isLastChild(index)" />
-                    </v-col>
-                  </v-row>
-                </div>
-              </v-form>
+                />
+                <v-row
+                  dense
+                  class="mr-8"
+                >
+                  <v-col cols="12">
+                    <v-divider
+                      v-if="isLastChild(index)"
+                      class="mt-4 mb-4"
+                    />
+                  </v-col>
+                </v-row>
+              </div>
+            </v-form>
             <v-row v-if="status">
               <v-col cols="12">
                 <p class="mb-0">
-                  <span class="pl-1 red--text">{{ $t(status) }}</span>
+                  <span class="pl-1 text-red">{{ $t(status) }}</span>
                 </p>
               </v-col>
             </v-row>
-              <v-row dense class="mr-8">
-                <v-col cols="6">
-                  <v-btn
-                    large
-                  text
+            <v-row
+              dense
+              class="mr-8"
+            >
+              <v-col cols="6">
+                <v-btn
+                  size="large"
+                  variant="text"
                   color="primary"
                   class="px-0"
                   data-test="btn-add-transaction"
                   @click="addManualTransactionRow"
                 >
-                  <v-icon dense color="primary">mdi-plus-box</v-icon>
+                  <v-icon
+                    size="small"
+                    color="primary"
+                  >
+                    mdi-plus-box
+                  </v-icon>
                   <span>Add another transaction</span>
                 </v-btn>
               </v-col>
-              <v-col cols="6" class="d-inline-flex justify-end">
+              <v-col
+                cols="6"
+                class="d-inline-flex justify-end"
+              >
                 <v-btn
-                  large
+                  size="large"
                   color="primary"
                   class="px-10"
                   data-test="btn-add-transaction"
-                  @click="addManualTransactions"
                   :loading="isLoading"
+                  @click="addManualTransactions"
                 >
                   <span>Add Transaction</span>
                 </v-btn>
                 <v-btn
-                  large
-                  outlined
+                  size="large"
+                  variant="outlined"
                   color="primary"
                   class="ml-3"
                   data-test="btn-cancel"
@@ -96,73 +129,40 @@
         </v-row>
       </v-container>
     </v-card>
-    <div class="d-flex flex-column" v-if="routingSlip && routingSlip.number">
+    <div
+      v-if="routingSlip && routingSlip.number"
+      class="d-flex flex-column"
+    >
       <transaction-data-table :key="routingSlip.number" />
     </div>
   </div>
 </template>
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script setup lang="ts">
 import AddManualTransactionDetails from './AddManualTransactionDetails.vue'
 import TransactionDataTable from './TransactionDataTable.vue'
-import can from '@/directives/can'
-import { SlipStatus } from '@/util/constants'
 import { useRoutingSlipTransaction } from '@/composables/ViewRoutingSlip'
+import { can as vCan } from '@/directives/can'
 
-@Component({
-  components: {
-    TransactionDataTable,
-    AddManualTransactionDetails
-  },
-  directives: {
-    can
-  },
-  setup () {
-    const {
-      formRoutingSlipManualTransactions,
-      showAddManualTransaction,
-      manualTransactionsList,
-      isRoutingSlipAChild,
-      isRoutingSlipVoid,
-      isLoading,
-      showManualTransaction,
-      addManualTransactionRow,
-      addManualTransactions,
-      isLastChild,
-      isValid,
-      removeManualTransactionRow,
-      updateManualTransactionDetails,
-      hideManualTransaction,
-      availableAmountForManualTransaction,
-      status,
-      routingSlip
+const {
+  formRoutingSlipManualTransactions,
+  showAddManualTransaction,
+  manualTransactionsList,
+  isRoutingSlipAChild,
+  isRoutingSlipVoid,
+  isRoutingSlipCorrection,
+  isLoading,
+  showManualTransaction,
+  addManualTransactionRow,
+  addManualTransactions,
+  isLastChild,
+  removeManualTransactionRow,
+  updateManualTransactionDetails,
+  hideManualTransaction,
+  status,
+  routingSlip
+} = useRoutingSlipTransaction()
 
-    } = useRoutingSlipTransaction()
-    return {
-      formRoutingSlipManualTransactions,
-      showAddManualTransaction,
-      manualTransactionsList,
-      isRoutingSlipAChild,
-      isRoutingSlipVoid,
-      isLoading,
-      showManualTransaction,
-      addManualTransactionRow,
-      addManualTransactions,
-      isLastChild,
-      isValid,
-      removeManualTransactionRow,
-      updateManualTransactionDetails,
-      hideManualTransaction,
-      availableAmountForManualTransaction,
-      status,
-      routingSlip,
-      SlipStatus
-    }
-  }
-})
-export default class RoutingSlipTransaction extends Vue {
-  public getIndexedTag (tag, index): string {
-    return `${tag}-${index}`
-  }
+const getIndexedTag = (tag, index) => {
+  return `${tag}-${index}`
 }
 </script>

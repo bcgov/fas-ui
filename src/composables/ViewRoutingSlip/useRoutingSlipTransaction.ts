@@ -1,5 +1,5 @@
 import { GetRoutingSlipRequestPayload, ManualTransactionDetails } from '@/models/RoutingSlip'
-import { ref } from '@vue/composition-api'
+import { ref } from 'vue'
 
 import { useLoader } from '@/composables/common/useLoader'
 import { useRoutingSlip } from '../useRoutingSlip'
@@ -10,6 +10,7 @@ export default function useRoutingSlipTransaction () {
     getRoutingSlip,
     isRoutingSlipAChild,
     isRoutingSlipVoid,
+    isRoutingSlipCorrection,
     routingSlip,
     saveManualTransactions
   } = useRoutingSlip()
@@ -40,14 +41,13 @@ export default function useRoutingSlipTransaction () {
       status.value = 'cantAddTransactions'
       return
     }
-    if (isValid()) {
+    if (await isValid()) {
       // show loader
       toggleLoading()
       for (const transactions of manualTransactionsList.value) {
         try {
           await saveManualTransactions(transactions)
         } catch (err) {
-          // TODO error handling
           error = true
           // eslint-disable-next-line no-console
           console.log('error', err)
@@ -153,7 +153,8 @@ export default function useRoutingSlipTransaction () {
     for (let i = 1; i <= manualTransactionsList.value.length - 1; i++) {
       // if previous record has no total, then the available amount is carried over to the next record
       if (manualTransactionsList.value[i - 1].total > 0) {
-        manualTransactionsList.value[i].availableAmountForManualTransaction = routingSlip.value.remainingAmount - manualTransactionsList.value[i - 1].total
+        manualTransactionsList.value[i].availableAmountForManualTransaction =
+          routingSlip.value.remainingAmount - manualTransactionsList.value[i - 1].total
       } else {
         manualTransactionsList.value[i].availableAmountForManualTransaction = manualTransactionsList.value[i - 1].availableAmountForManualTransaction
       }
@@ -171,6 +172,7 @@ export default function useRoutingSlipTransaction () {
     manualTransactionsList,
     isRoutingSlipAChild,
     isRoutingSlipVoid,
+    isRoutingSlipCorrection,
     isLoading,
     showManualTransaction,
     addManualTransactionRow,

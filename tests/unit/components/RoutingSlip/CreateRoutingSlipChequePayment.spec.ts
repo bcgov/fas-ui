@@ -3,13 +3,12 @@ import CreateRoutingSlipChequePayment from '@/components/RoutingSlip/CreateRouti
 
 import Vuetify from 'vuetify'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
-import VueCompositionAPI from '@vue/composition-api'
 
 describe('CreateRoutingSlipChequePayment.vue', () => {
   const { chequePayment } = useRoutingSlip()
   const localVue = createLocalVue()
   localVue.use(Vuetify)
-  localVue.use(VueCompositionAPI)
+  // localVue.use(VueCompositionAPI)
   const vuetify = new Vuetify({})
   const chequePaymentMock = [{ chequeReceiptNumber: '1234', paymentDate: '', paidAmount: 20 }]
   beforeEach(() => {

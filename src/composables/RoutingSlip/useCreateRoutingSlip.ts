@@ -1,13 +1,15 @@
-import { computed, reactive, ref } from '@vue/composition-api'
-
+import { computed, reactive, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import CommonUtils from '@/util/common-util'
 import { Payment } from '@/models/Payment'
-import { useI18n } from 'vue-i18n-composable'
+import { useI18n } from 'vue-i18n'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to CreateRoutingSlip component
 // CreateRoutingSlip component holds two behaviors - create routing slip & review routing slip modes
-export function useCreateRoutingSlip (_, context) {
+export function useCreateRoutingSlip () {
+  const router = useRouter()
+  const route = useRoute()
   const {
     cashPayment,
     chequePayment,
@@ -41,11 +43,11 @@ export function useCreateRoutingSlip (_, context) {
 
   const appendQueryParamsIfNeeded = CommonUtils.appendQueryParamsIfNeeded
 
-  function isValid (): boolean {
+  async function isValid (): Promise<boolean> {
     // We would want to trigger validate() of all the children
-    let isChildrenValid = createRoutingSlipDetailsRef.value?.isValid()
+    let isChildrenValid = await createRoutingSlipDetailsRef.value?.isValid()
     isChildrenValid =
-      createRoutingSlipPaymentRef.value?.isValid() && isChildrenValid
+      (await createRoutingSlipPaymentRef.value?.isValid()) && isChildrenValid
     return isChildrenValid
   }
 
@@ -55,9 +57,9 @@ export function useCreateRoutingSlip (_, context) {
   }
 
   // when "Review and Create" button is clicked in create mode, we toggle the review
-  function reviewAndCreate (): void {
+  async function reviewAndCreate (): Promise<void> {
     // set to review mode value
-    if (isValid()) {
+    if (await isValid()) {
       // check if isAmountToUsd flag is set to true, so then set paymentUsdAmount fields to 0
       if (!isAmountPaidInUsd.value) {
         if (isPaymentMethodCheque.value) {
@@ -81,7 +83,7 @@ export function useCreateRoutingSlip (_, context) {
     toggleReviewMode(false)
   }
 
-  function createandReviewButtonEventHandler (): void {
+  function createAndReviewButtonEventHandler (): void {
     if (isReviewMode.value) {
       create()
     } else {
@@ -98,7 +100,8 @@ export function useCreateRoutingSlip (_, context) {
         await createRoutingSlip()
         // on success redirect to view
         // Check if we had come from Staff dashboard
-        context.root.$router.push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipDetails.value.number}`, context.root.$route))
+
+        router.push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipDetails.value.number}`, route))
       }
     } catch (error: any) {
       // eslint-disable-next-line no-console
@@ -125,7 +128,7 @@ export function useCreateRoutingSlip (_, context) {
 
   function modalDialogClose () {
     modalDialogRef.value.close()
-    context.root.$router.push(appendQueryParamsIfNeeded('/home', context.root.$route))
+    router.push(appendQueryParamsIfNeeded('/home', route))
   }
 
   return {
@@ -141,7 +144,7 @@ export function useCreateRoutingSlip (_, context) {
     modalDialogCancel,
     modalDialogClose,
     isValid,
-    createandReviewButtonEventHandler,
+    createAndReviewButtonEventHandler,
     backToEdit
   }
 }

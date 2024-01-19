@@ -1,5 +1,5 @@
+import { reactive, toRefs } from 'vue'
 import { defineStore } from 'pinia'
-import { reactive, toRefs } from '@vue/composition-api'
 
 // This store is the main store for the application
 /*
@@ -21,9 +21,9 @@ headache in the long term. Depending on the circumstances, there are various alt
 
 export const useAppStore = defineStore('app', () => {
   const state = reactive({
-    errorMessage: '', // Unused for now
-    refreshKey: 0, // Unused for now
-    loading: true // Unused for now
+    errorMessage: '',
+    refreshKey: 0,
+    loading: true
   })
 
   function dismissError () {

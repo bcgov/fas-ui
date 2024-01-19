@@ -1,5 +1,5 @@
-import { shallowMount } from '@vue/test-utils'
 import ModalDialog from '@/components//common/ModalDialog.vue'
+import { shallowMount } from '@vue/test-utils'
 
 describe('ModalDialog.vue', () => {
   const title = 'test'

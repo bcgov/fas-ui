@@ -1,58 +1,46 @@
 <template>
-  <v-menu
+  <!-- <v-menu
     v-model="showDateFilter"
     :close-on-content-click="false"
     transition="scale-transition"
-    offset-y
     min-width="auto"
   >
-    <template v-slot:activator="{ on: { click } }">
-      <!-- UI control that is displayed clicking on which menu is displayed -->
+    <template #activator="{ props }">
       <v-text-field
         v-model="dateRangeSelectedDisplay"
-        append-icon="mdi-calendar-range"
+        append-inner-icon="mdi-calendar-range"
         readonly
-        v-bind="$attrs"
-        @click="click"
-        filled
+        v-bind="props"
+        variant="filled"
         data-test="input-date-picker"
-        @click:append="click"
-      >
-
-      <v-icon slot="append" color="primary" >
-          mdi-calendar-range
-       </v-icon>
-
-       </v-text-field>
+        class="primary-icon"
+      />
     </template>
-    <!-- the menu consists of list of buttons on left and date picker on right -->
     <v-card class="date-range-container d-flex">
       <div
         class="date-range-options d-flex flex-column justify-space-between flex-grow-0 pb-6 pt-3"
       >
-        <v-list dense class="py-0">
-          <v-list-item-group
-            v-model="dateFilterSelectedIndex"
-            color="primary"
-            @change="dateFilterChange"
+        <v-list
+          density="compact"
+          class="py-0"
+        >
+          <v-list-item
+            v-for="(filterRange, i) in dateFilterRanges"
+            :key="i"
+            class="py-2 px-6"
+            :value="filterRange"
+            @click="dateFilterChange(i)"
           >
-            <v-list-item
-              class="py-2 px-6"
-              v-for="(filterRange, i) in dateFilterRanges"
-              :key="i"
-            >
-              <v-list-item-content>
-                <v-list-item-title
-                  class="font-weight-bold px-1"
-                  v-text="filterRange.label"
-                ></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
+            <v-list-item-title
+              v-model="dateFilterSelectedIndex"
+              class="font-weight-bold px-1"
+              v-text="filterRange.label"
+            />
+          </v-list-item>
         </v-list>
         <div class="date-filter-btns px-6 mt-4 d-flex flex-end">
           <v-btn
-            large
+            size="large"
             color="primary"
             class="font-weight-bold flex-grow-1 apply-btn"
             :disabled="!isApplyFilterBtnValid"
@@ -61,8 +49,8 @@
             Apply
           </v-btn>
           <v-btn
-            large
-            outlined
+            size="large"
+            variant="outlined"
             color="primary"
             class="flex-grow-1 ml-2 cancel-btn"
             @click="cancelDateFilter()"
@@ -75,113 +63,99 @@
         <div
           class="date-range-label py-6 mx-6 mb-3"
           v-html="showDateRangeSelected"
-        ></div>
-        <v-date-picker
-          color="primary"
-          width="400"
-          class="text-center"
-          v-model="dateRangeSelected"
-          no-title
-          range
-          v-bind="$attrs"
-          v-on="$listeners"
-          :picker-date="pickerDate"
-          @click:date="dateClick"
-          data-test="date-date-picker"
-          hide-details="auto"
-        ></v-date-picker>
+        />
       </div>
     </v-card>
-  </v-menu>
+  </v-menu> -->
+  <!-- <date-range-picker
+    date-range={
+    startDate:
+    null,
+    endDate:
+    null
+    }
+  /> -->
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 // this is just took from auth-web
-import { Component, Prop } from 'vue-property-decorator'
-import Vue from 'vue'
+// import DateRangePicker from 'vue3-daterange-picker'
 import { useDateRange } from '@/composables/common'
 
-@Component({
-  setup (props, context) {
-    const {
-      dateFilterRanges,
-      dateRangeSelected,
-      dateFilterSelectedIndex,
-      dateRangeSelectedDisplay,
-      dateFilterSelected,
-      showDateFilter,
-      pickerDate,
-      dateFilterChange,
-      isApplyFilterBtnValid,
-      dateClick,
-      applyDateFilter,
-      showDateRangeSelected,
-      cancelDateFilter
-    } = useDateRange(props, context)
-    return {
-      dateFilterRanges,
-      dateRangeSelected,
-      dateFilterSelectedIndex,
-      dateRangeSelectedDisplay,
-      dateFilterSelected,
-      showDateFilter,
-      pickerDate,
-      dateFilterChange,
-      isApplyFilterBtnValid,
-      dateClick,
-      applyDateFilter,
-      showDateRangeSelected,
-      cancelDateFilter
-    }
-  }
+const props = withDefaults(defineProps<{
+  modelValue: any
+  label: string
+}>(), {
+  modelValue: [],
+  label: 'Select Date Range'
 })
-export default class DateRangeFilter extends Vue {
-  @Prop({ default: () => [] }) value: string[]
-  @Prop({ default: 'Select Date Range' }) label: string
-}
+const emits = defineEmits<{
+}>()
+
+const {
+  dateFilterRanges,
+  dateRangeSelected,
+  dateFilterSelectedIndex,
+  dateRangeSelectedDisplay,
+  showDateFilter,
+  pickerDate,
+  pickerMonthYear,
+  dateFilterChange,
+  isApplyFilterBtnValid,
+  dateClick,
+  applyDateFilter,
+  showDateRangeSelected,
+  cancelDateFilter
+} = useDateRange(props, emits)
 </script>
 
 <style lang="scss" scoped>
-.date-filter-container {
-  .date-range-list {
-    border-right: 1px solid #999;
-    padding-right: 0;
+  .date-filter-container {
+    .date-range-list {
+      border-right: 1px solid #999;
+      padding-right: 0;
+    }
   }
-}
 
-.date-range-options {
-  width: 15rem;
-  border-radius: 0 !important;
-  border-right: 1px solid var(--v-grey-lighten1);
-}
-
-.date-range-label {
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--v-grey-lighten1);
-}
-
-.date-picker-disable {
-  .v-date-picker-table {
-    pointer-events: none;
+  .date-range-options {
+    width: 15rem;
+    border-radius: 0 !important;
+    border-right: 1px solid var(--v-grey-lighten1);
   }
-}
 
-.date-range-label strong {
-  margin-right: 0.25rem;
-}
-
-.date-range-calendars {
-  .v-picker.v-card {
-    box-shadow: none !important;
+  .date-range-label {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--v-grey-lighten1);
   }
-}
-.date-range-btn {
-  min-height: 57px !important;
-}
+
+  .date-picker-disable {
+    .v-date-picker-table {
+      pointer-events: none;
+    }
+  }
+
+  .date-range-label strong {
+    margin-right: 0.25rem;
+  }
+
+  .date-range-calendars {
+    .v-picker.v-card {
+      box-shadow: none !important;
+    }
+  }
+  .date-range-btn {
+    min-height: 57px !important;
+  }
 </style>
 
 <style lang="scss">
-.v-icon.v-icon.v-icon--link {
-  cursor: pointer !important;
-}
+  .v-icon.v-icon.v-icon--link {
+    cursor: pointer !important;
+  }
+  .primary-icon .v-icon {
+    color: #1669bb
+  }
+  .hide-title > div:first-child {
+    display: none;
+  }
 </style>

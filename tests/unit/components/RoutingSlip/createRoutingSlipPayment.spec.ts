@@ -1,4 +1,4 @@
-import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 
 import { CreateRoutingSlipPayment } from '@/components/RoutingSlip'
 import Vuetify from 'vuetify'
@@ -31,7 +31,6 @@ describe('CreateRoutingSlipPayment.vue', () => {
   })
 
   it('change payment between cash and cheque', async () => {
-    const stub = vi.fn().mockReturnValue(true)
     const wrapper: any = mount(CreateRoutingSlipPayment, {
       localVue,
       vuetify,

@@ -1,8 +1,8 @@
-import { computed, ref } from '@vue/composition-api'
+import { computed, ref } from 'vue'
 
 import CommonUtils from '@/util/common-util'
-import moment from 'moment'
 import { CreateRoutingSlipStatus } from '@/util/constants'
+import { DateTime } from 'luxon'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
@@ -40,7 +40,7 @@ export function useCreateRoutingSlipDetails () {
 
   // Initialize with current date.
   if (routingSlipDate.value === undefined) {
-    routingSlipDate.value = moment().format('YYYY-MM-DD')
+    routingSlipDate.value = DateTime.now().toFormat('yyyy-LL-dd')
   }
 
   const accountName = computed({
@@ -71,9 +71,9 @@ export function useCreateRoutingSlipDetails () {
     'An Entity Number is required'
   )
 
-  function isValid (): boolean {
-    // Current version of Vuetify returns validate() as true even if :error-message is not null on v-text-field
-    return createRoutingSlipDetailsForm.value?.validate() && errorMessage.value?.length === 0
+  async function isValid (): Promise<boolean> {
+    const validate = await createRoutingSlipDetailsForm.value.validate()
+    return validate.valid && validate.errors.length === 0
   }
 
   async function checkRoutingNumberAvailable () {

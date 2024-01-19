@@ -5,7 +5,7 @@ While, isLoading can be used inside an individual component - <loader-component 
 <load>
 */
 
-import { ref } from '@vue/composition-api'
+import { ref } from 'vue'
 import { useIndicators } from '../useIndicators'
 
 export function useLoader () {

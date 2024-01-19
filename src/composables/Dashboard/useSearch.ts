@@ -1,13 +1,15 @@
-import { computed, onMounted, reactive, ref, toRefs } from '@vue/composition-api'
-
+import { computed, onMounted, reactive, ref, toRefs } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import CommonUtils from '@/util/common-util'
 import ConfigHelper from '@/util/config-helper'
 import debounce from '@/util/debounce'
 import { useLoader } from '@/composables/common/useLoader'
-import { useStatusList } from '@/composables/common/useStatusList'
 import { useRoutingSlip } from '../useRoutingSlip'
+import { useStatusList } from '@/composables/common/useStatusList'
 
-export function useSearch (props, context) {
+export function useSearch (props) {
+  const router = useRouter()
+  const route = useRoute()
   const {
     headerSearchTitle,
     resetSearchParams,
@@ -51,7 +53,7 @@ export function useSearch (props, context) {
 
   function canShowColumn (columnName) {
     return displayedHeaderSearch.value.find(header => {
-      return header.value === columnName
+      return header.key === columnName
     })
   }
 
@@ -257,7 +259,7 @@ export function useSearch (props, context) {
       // Eg of a typical breadcrumb flow = Staff Dashboard -> View Routing Slip: test -> View Routing Slip: testchild
       window.location.href = `${ConfigHelper.getFasWebUrl()}view-routing-slip/${routingSlipNumber}?viewFromAuth=true`
     } else {
-      context.root.$router.push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipNumber}`, context.root.$route))
+      router.push(appendQueryParamsIfNeeded(`/view-routing-slip/${routingSlipNumber}`, route))
     }
   }
 
