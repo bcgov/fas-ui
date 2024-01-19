@@ -11,7 +11,6 @@
         variant="filled"
         class="column-filter"
         append-inner-icon="mdi-menu-down"
-        @click:append-inner="props"
       />
     </template>
     <v-list
