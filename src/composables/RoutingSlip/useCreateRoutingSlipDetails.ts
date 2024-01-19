@@ -2,7 +2,7 @@ import { computed, ref } from 'vue'
 
 import CommonUtils from '@/util/common-util'
 import { CreateRoutingSlipStatus } from '@/util/constants'
-import moment from 'moment'
+import { DateTime } from 'luxon'
 import { useRoutingSlip } from '../useRoutingSlip'
 
 // Composable function to inject Props, options and values to CreateRoutingSlipDetails component
@@ -40,7 +40,7 @@ export function useCreateRoutingSlipDetails () {
 
   // Initialize with current date.
   if (routingSlipDate.value === undefined) {
-    routingSlipDate.value = moment().format('YYYY-MM-DD')
+    routingSlipDate.value = DateTime.now().toFormat('yyyy-LL-dd')
   }
 
   const accountName = computed({
