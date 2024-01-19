@@ -72,7 +72,8 @@ export function useCreateRoutingSlipDetails () {
   )
 
   async function isValid (): Promise<boolean> {
-    return (await createRoutingSlipDetailsForm.value.validate()).length === 0
+    const validate = await createRoutingSlipDetailsForm.value.validate()
+    return validate.valid && validate.errors.length === 0
   }
 
   async function checkRoutingNumberAvailable () {

@@ -83,7 +83,7 @@ export function useCreateRoutingSlip () {
     toggleReviewMode(false)
   }
 
-  function createandReviewButtonEventHandler (): void {
+  function createAndReviewButtonEventHandler (): void {
     if (isReviewMode.value) {
       create()
     } else {
@@ -144,7 +144,7 @@ export function useCreateRoutingSlip () {
     modalDialogCancel,
     modalDialogClose,
     isValid,
-    createandReviewButtonEventHandler,
+    createAndReviewButtonEventHandler,
     backToEdit
   }
 }

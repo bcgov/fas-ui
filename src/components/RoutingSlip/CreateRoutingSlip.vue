@@ -81,7 +81,7 @@
                 variant="flat"
                 class="px-6 mr-3 font-weight-bold"
                 data-test="btn-create-routing-slip"
-                @click="createandReviewButtonEventHandler"
+                @click="createAndReviewButtonEventHandler"
               >
                 <span>{{ createRoutingSlipLabel }}</span>
               </v-btn>
@@ -154,7 +154,7 @@ const {
   cancel,
   modalDialogCancel,
   modalDialogClose,
-  createandReviewButtonEventHandler,
+  createAndReviewButtonEventHandler,
   backToEdit
 } = useCreateRoutingSlip()
 </script>

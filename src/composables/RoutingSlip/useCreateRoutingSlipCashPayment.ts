@@ -81,7 +81,8 @@ export function useCreateRoutingSlipCashPayment () {
   })
 
   async function isValid (): Promise<boolean> {
-    return (await createRoutingSlipCashPaymentForm.value.validate()).length === 0
+    const validate = await createRoutingSlipCashPaymentForm.value.validate()
+    return validate.valid && validate.errors.length === 0
   }
 
   return {

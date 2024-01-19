@@ -47,7 +47,7 @@ describe('CreateRoutingSlip.vue', () => {
         displaySuccessNotification: MyStub
       },
       mocks: {
-        createandReviewButtonEventHandler: stub
+        createAndReviewButtonEventHandler: stub
       }
     })
     expect(wrapper.find('[data-test="btn-create-routing-slip"]').exists()).toBeTruthy()

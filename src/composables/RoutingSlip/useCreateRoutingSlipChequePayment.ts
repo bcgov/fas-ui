@@ -79,7 +79,8 @@ export function useCreateRoutingSlipChequePayment () {
   // For UI Cheque list - end
 
   async function isValid (): Promise<boolean> {
-    return (await createRoutingSlipChequePaymentForm.value.validate()).length === 0
+    const validate = await createRoutingSlipChequePaymentForm.value.validate()
+    return validate.valid && validate.errors.length === 0
   }
 
   const getColumnWidth = computed(() => {
