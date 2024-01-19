@@ -13,11 +13,8 @@ export default class CommonUtils {
     if (!date) {
       return ''
     }
-    if (date instanceof Date) {
-      return DateTime.fromJSDate(date).toFormat(format || 'LLL dd, yyyy')
-    } else {
-      return DateTime.fromFormat(date, 'yyyy-LL-dd').toFormat(format || 'LLL dd, yyyy')
-    }
+    const dateObject = (date instanceof Date) ? DateTime.fromJSDate(date) : DateTime.fromFormat(date, 'yyyy-LL-dd')
+    return dateObject.toFormat(format || 'LLL dd, yyyy')
   }
 
   static requiredFieldRule (errorMessage = 'This field is required') {
