@@ -318,7 +318,7 @@
                             item.routingSlipDate
                               ? formatDisplayDate(
                                 item.routingSlipDate,
-                                'MMMM DD, YYYY'
+                                'DDD'
                               )
                               : '-'
                           }}

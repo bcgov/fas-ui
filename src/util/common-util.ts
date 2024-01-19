@@ -4,14 +4,20 @@
 
 import { Address, BaseAddressModel } from '@/models/Address'
 import { Role, SlipStatus } from '@/util/constants'
-
+import { DateTime } from 'luxon'
 import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
-import moment from 'moment'
 
 export default class CommonUtils {
   // Formatting date in the desired format for displaying in the template
   static formatDisplayDate (date: Date | string, format?: string) {
-    return date ? moment(date).format(format || 'MMM DD, YYYY') : ''
+    if (!date) {
+      return ''
+    }
+    if (date instanceof Date) {
+      return DateTime.fromJSDate(date).toFormat(format || 'LLL dd, yyyy')
+    } else {
+      return DateTime.fromFormat(date, 'yyyy-LL-dd').toFormat(format || 'LLL dd, yyyy')
+    }
   }
 
   static requiredFieldRule (errorMessage = 'This field is required') {

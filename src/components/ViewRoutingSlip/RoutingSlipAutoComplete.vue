@@ -49,7 +49,7 @@
               <span>
                 <span>-</span>
                 {{
-                  formatDisplayDate(item.raw.routingSlipDate, 'MMM DD, YYYY')
+                  formatDisplayDate(item.raw.routingSlipDate, 'LLL dd, yyyy')
                 }}</span>
               <span>
                 <span>-</span> Current Balance:

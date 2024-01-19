@@ -32,7 +32,7 @@
       </template>
       <template #[`item.createdOn`]="{ item }">
         <div class="font-weight-bold pl-4">
-          {{ formatDisplayDate(item.createdOn, 'MMMM DD, YYYY') }}
+          {{ formatDisplayDate(item.createdOn, 'DDD') }}
         </div>
       </template>
       <template #[`item.total`]="{ item }">
