@@ -325,7 +325,7 @@
                         </td>
                         <td v-if="canShowColumn('status')">
                           <span
-                            :class="colors(item.status)"
+                            :class="statusListColor(item.status)"
                             data-test="label-status"
                           >{{
                             getStatusLabel(item.status)
@@ -465,12 +465,11 @@
   </div>
 </template>
 <script setup lang="ts">
+import { appendCurrencySymbol, formatDisplayDate, statusListColor } from '@/util'
 import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
 import { PaymentMethods } from '@/util/constants'
 import SearchColumnFilterComponent from '@/components/common/SearchColumnFilterComponent.vue'
 import StatusList from '@/components/common/StatusList.vue'
-import commonUtil from '@/util/common-util'
-import { computed } from 'vue'
 import { useDashboard } from '@/composables/Dashboard'
 import { useSearch } from '@/composables/Dashboard/useSearch'
 
@@ -509,11 +508,6 @@ const {
   fasUrl,
   initiator
 } = useSearch(props)
-
-const colors = computed(() => commonUtil.statusListColor)
-const appendCurrencySymbol = computed(() => commonUtil.appendCurrencySymbol)
-const formatDisplayDate = computed(() => commonUtil.formatDisplayDate)
-
 </script>
 
 <style lang="scss">

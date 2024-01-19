@@ -22,7 +22,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import commonUtil from '@/util/common-util'
+import { formatDisplayDate } from '@/util'
 import { useLinkedRoutingSlipDetails } from '@/composables/ViewRoutingSlip'
 
 const props = withDefaults(defineProps<{
@@ -39,8 +39,6 @@ const props = withDefaults(defineProps<{
 })
 
 const { navigateTo } = useLinkedRoutingSlipDetails(props)
-
-const formatDisplayDate = commonUtil.formatDisplayDate
 </script>
 
 <style lang="scss" scoped>

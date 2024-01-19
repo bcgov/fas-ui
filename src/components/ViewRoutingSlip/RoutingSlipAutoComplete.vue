@@ -86,7 +86,7 @@
   </transition-group>
 </template>
 <script setup lang="ts">
-import commonUtil from '@/util/common-util'
+import { appendCurrencySymbol, formatDisplayDate } from '@/util'
 import { useRoutingSlipAutoComplete } from '@/composables/ViewRoutingSlip'
 
 const emits = defineEmits(['toggleSearch'])
@@ -102,9 +102,6 @@ const {
   search,
   delayedSearch
 } = useRoutingSlipAutoComplete(emits)
-
-const formatDisplayDate = commonUtil.formatDisplayDate
-const appendCurrencySymbol = commonUtil.appendCurrencySymbol
 </script>
 
 <style lang="scss" scoped>

@@ -52,7 +52,7 @@
               <v-col class="v-col-6 v-col-sm-9">
                 <span
                   :key="routingSlipDetails.status"
-                  :class="colors(routingSlipDetails.status)"
+                  :class="statusListColor(routingSlipDetails.status)"
                   class="slip-status "
                   data-test="label-status"
                 >{{ getStatusLabel(routingSlipDetails.status) }}</span>
@@ -172,10 +172,10 @@
   </div>
 </template>
 <script setup lang="ts">
+import { formatDisplayDate, statusListColor } from '@/util'
 import ModalDialog from '@/components/common/ModalDialog.vue'
 import RefundRequestForm from '@/components/ViewRoutingSlip/RefundRequestForm.vue'
 import StatusMenu from '@/components/common/StatusMenu.vue'
-import commonUtil from '@/util/common-util'
 import { useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
 
 const {
@@ -199,9 +199,6 @@ const {
   isLoading,
   closeErrorDialog
 } = useRoutingSlipInfo()
-
-const colors = commonUtil.statusListColor
-const formatDisplayDate = commonUtil.formatDisplayDate
 </script>
 
 <style lang="scss" scoped>
