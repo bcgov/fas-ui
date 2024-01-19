@@ -112,6 +112,7 @@ export function useDateRange (props, emits) {
   })
 
   function formatDatePickerDate (dateObj) {
+    // TODO TEST
     return dateObj.toFormat('yyyy-LL-dd')
   }
 
@@ -120,12 +121,14 @@ export function useDateRange (props, emits) {
       dateFilterSelected.value = dateFilterRanges[val]
       switch (dateFilterSelected.value.code) {
         case DATEFILTER_CODES.TODAY:
+          // TODO TEST:
           // eslint-disable-next-line no-case-declarations
           const today = formatDatePickerDate(DateTime.now())
           dateRangeSelected.value = [today, today]
           pickerDate.value = today.slice(0, -3)
           break
         case DATEFILTER_CODES.YESTERDAY:
+          // TODO TEST:
           // eslint-disable-next-line no-case-declarations
           const yesterday = formatDatePickerDate(DateTime.now().minus({ days: 1 }))
           dateRangeSelected.value = [yesterday, yesterday]
@@ -134,14 +137,14 @@ export function useDateRange (props, emits) {
         case DATEFILTER_CODES.LASTWEEK:
           // Week should start from  Monday and Ends on Sunday
           // eslint-disable-next-line no-case-declarations
-          // TODO COMPARE:
+          // TODO COMPARE Luxon vs Moment
           const weekStartDate = moment()
             .subtract(1, 'weeks')
             .startOf('isoWeek')
           const weekStartDateLuxon = DateTime.now().minus({ weeks: 1 }).startOf('week')
           const weekStart = formatDatePickerDate(weekStartDate)
           // eslint-disable-next-line no-case-declarations
-          // TODO COMPARE:
+          // TODO COMPARE Luxon vs Moment
           const weekEndDate = moment()
             .subtract(1, 'weeks')
             .endOf('isoWeek')
@@ -152,14 +155,14 @@ export function useDateRange (props, emits) {
           break
         case DATEFILTER_CODES.LASTMONTH:
           // eslint-disable-next-line no-case-declarations
-          // TODO COMPARE:
+          // TODO COMPARE Luxon vs Moment
           const monthStartDate = moment()
             .subtract(1, 'months')
             .startOf('month')
           const monthStartDateLuxon = DateTime.now().minus({ months: 1 }).startOf('month')
           const monthStart = formatDatePickerDate(monthStartDate)
           // eslint-disable-next-line no-case-declarations
-          // TODO COMPARE:
+          // TODO COMPARE Luxon vs Moment
           const monthEndDate = moment()
             .subtract(1, 'months')
             .endOf('month')
