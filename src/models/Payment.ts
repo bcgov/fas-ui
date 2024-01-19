@@ -3,7 +3,7 @@ export interface Payment {
   id?: number
   chequeReceiptNumber?: string
   paymentMethod?: string
-  paymentDate?: string
+  paymentDate?: Date | string
   paidAmount?: number
   createdBy?: string
   isRoutingSlip?: boolean

@@ -1,9 +1,9 @@
 import { GetFeeRequestParams, Payment } from '@/models/Payment'
+import { LinkRoutingSlipPrams, RoutingSlip as RoutingSlipModel } from '@/models/RoutingSlip'
 import { PatchActions, SlipStatus } from '@/util/constants'
 import { AxiosResponse } from 'axios'
 import CommonUtils from '@/util/common-util'
 import ConfigHelper from '@/util/config-helper'
-import { LinkRoutingSlipPrams } from '@/models/RoutingSlip'
 import axios from '@/util/http-util'
 
 export default class RoutingSlip {
@@ -18,7 +18,7 @@ export default class RoutingSlip {
   }
 
   public static async createRoutingSlip (
-    routingSlipRequest: RoutingSlip,
+    routingSlipRequest: RoutingSlipModel,
     showGlobalLoader = false
   ): Promise<AxiosResponse> {
     return axios.post(

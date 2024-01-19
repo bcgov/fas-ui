@@ -1,6 +1,7 @@
 import { computed, onMounted, ref, watch } from 'vue'
 
 import CommonUtils from '@/util/common-util'
+import { DateTime } from 'luxon'
 import { Payment } from '@/models/Payment'
 import { PaymentMethods } from '@/util/constants'
 import { useRoutingSlip } from '../useRoutingSlip'
@@ -13,8 +14,12 @@ export function useCreateRoutingSlipChequePayment () {
 
   // watch any changes and update to store
   watch(chequeList, () => {
-    // to avoid vuex array, send clone copy of object
-    chequePayment.value = (JSON.parse(JSON.stringify(chequeList.value)))
+    chequePayment.value = chequeList.value
+    chequePayment.value.forEach((payment: Payment) => {
+      if (payment.paymentDate instanceof Date) {
+        payment.paymentDate = DateTime.fromJSDate(payment.paymentDate).toFormat('yyyy-LL-dd')
+      }
+    })
   }, { deep: true })
 
   // Input field rules
