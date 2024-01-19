@@ -56,6 +56,10 @@ export const useRoutingSlip = () => {
     return routingSlip.value?.status === SlipStatus.VOID
   })
 
+  const isRoutingSlipCorrection = computed<boolean>(() => {
+    return routingSlip.value?.status === SlipStatus.CORRECTION
+  })
+
   const updateRoutingSlipChequeNumber = (chequeNumToChange: AdjustRoutingSlipChequePrams) => {
     const payments = routingSlip.value.payments.map((payment: Payment, i: number) => {
       if (chequeNumToChange.paymentIndex === i) {
@@ -399,6 +403,7 @@ export const useRoutingSlip = () => {
     isRoutingSlipAChild,
     isRoutingSlipLinked,
     isRoutingSlipVoid,
+    isRoutingSlipCorrection,
     updateRoutingSlipChequeNumber,
     updateRoutingSlipAmount,
     createRoutingSlip,

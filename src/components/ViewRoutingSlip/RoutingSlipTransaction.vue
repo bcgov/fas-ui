@@ -11,7 +11,7 @@
           </p>
         </div>
         <v-btn
-          v-if="!isRoutingSlipAChild && !isRoutingSlipVoid"
+          v-if="!isRoutingSlipAChild && !isRoutingSlipVoid && !isRoutingSlipCorrection"
           v-can:fas_transaction.hide
           size="large"
           color="primary"
@@ -149,6 +149,7 @@ const {
   manualTransactionsList,
   isRoutingSlipAChild,
   isRoutingSlipVoid,
+  isRoutingSlipCorrection,
   isLoading,
   showManualTransaction,
   addManualTransactionRow,

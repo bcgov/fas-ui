@@ -10,6 +10,7 @@ export default function useRoutingSlipTransaction () {
     getRoutingSlip,
     isRoutingSlipAChild,
     isRoutingSlipVoid,
+    isRoutingSlipCorrection,
     routingSlip,
     saveManualTransactions
   } = useRoutingSlip()
@@ -171,6 +172,7 @@ export default function useRoutingSlipTransaction () {
     manualTransactionsList,
     isRoutingSlipAChild,
     isRoutingSlipVoid,
+    isRoutingSlipCorrection,
     isLoading,
     showManualTransaction,
     addManualTransactionRow,

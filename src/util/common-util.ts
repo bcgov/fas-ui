@@ -13,7 +13,7 @@ export default class CommonUtils {
     if (!date) {
       return ''
     }
-    const dateObject = (date instanceof Date) ? DateTime.fromJSDate(date) : DateTime.fromFormat(date, 'yyyy-LL-dd')
+    const dateObject = (date instanceof Date) ? DateTime.fromJSDate(date) : DateTime.fromISO(date)
     return dateObject.toFormat(format || 'LLL dd, yyyy')
   }
 
