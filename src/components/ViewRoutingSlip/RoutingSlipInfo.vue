@@ -40,7 +40,7 @@
                 {{
                   formatDisplayDate(
                     routingSlipDetails.routingSlipDate,
-                    'MMM DD, YYYY'
+                    'LLL dd, yyyy'
                   )
                 }}
               </v-col>
