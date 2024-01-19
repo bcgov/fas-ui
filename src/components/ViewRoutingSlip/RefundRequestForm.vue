@@ -9,6 +9,7 @@
           v-if="canEdit"
           v-model.trim="name"
           variant="filled"
+          class="mb-4"
           label="Name of Person or Organization"
           persistent-hint
           data-test="txtName"
