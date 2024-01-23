@@ -95,6 +95,7 @@
                   :loading="isLoading"
                   disable-pagination
                   :mobile-breakpoint="0"
+                  :items-per-page="0"
                 >
                   <template #no-data>
                     <div
@@ -455,6 +456,7 @@
                       </tr>
                     </transition>
                   </template>
+                  <template #bottom />
                 </v-data-table>
               </transition>
             </v-col>
