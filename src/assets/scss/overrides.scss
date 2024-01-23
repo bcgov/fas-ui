@@ -180,7 +180,7 @@ input:-webkit-autofill:active {
   }
 }
 
-// Shrink down v-select.
+// Shrink down v-select (Search column selector).
 .v-input--density-default {
   --v-input-control-height: 24px;
 }
@@ -191,4 +191,9 @@ input:-webkit-autofill:active {
 
 .v-selection-control > .v-label {
   margin-left: 8px;
+}
+
+// Fix v-select dropdown menu
+.v-list {
+  padding: 8px 0px 8px 0px;
 }
