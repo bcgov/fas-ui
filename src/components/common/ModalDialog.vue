@@ -116,7 +116,7 @@ defineExpose({
   .notify-dialog .v-card-title {
     flex-direction: column;
     align-items: center;
-    ::v-deep i {
+    :deep(i) {
       margin-top: 1rem;
       margin-bottom: 1rem;
     }

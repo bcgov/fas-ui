@@ -63,7 +63,6 @@
 
 <script setup lang="ts">
 import { Payment } from '@/models/Payment'
-import { defineProps } from 'vue'
 import { formatDisplayDate } from '@/util'
 import { usePaymentInformation } from '@/composables/ViewRoutingSlip'
 

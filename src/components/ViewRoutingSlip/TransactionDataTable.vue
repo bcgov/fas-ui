@@ -136,7 +136,7 @@ const {
     background-color: $BCgovBlue0;
   }
   .v-data-table {
-    ::v-deep .v-data-table__wrapper>table>tbody>tr>td {
+    :deep(.v-data-table__wrapper>table>tbody>tr>td) {
       padding: 20px 15px !important;
     }
   }
