@@ -202,7 +202,7 @@
                           hide-details="auto"
                           placeholder="Date"
                           label="placeholder"
-                          @update:model-value="searchNow()"
+                          @applied="searchNow()"
                         />
                       </th>
                       <th
