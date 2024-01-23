@@ -91,8 +91,10 @@
     }
   }
 
-  .v-text-field--placeholder input::placeholder{
+   input::placeholder{
     color: #495057!important;
+    font-size: 0.875rem !important;
+    opacity: 1 !important;
   }
 
   .v-text-field--outlined > .v-input__control > .v-input__slot {
