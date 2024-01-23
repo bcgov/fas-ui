@@ -173,7 +173,7 @@ input:-webkit-autofill:active {
 
   .v-data-table {
     color: $gray7;
-    > .v-data-table__wrapper > table > thead > tr > th {
+    > .v-table__wrapper > table > thead > tr > th {
       color: $gray9;
       font-size: 14px;
     }

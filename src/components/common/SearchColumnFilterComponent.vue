@@ -27,6 +27,7 @@
         <v-checkbox
           v-model="item.display"
           class="ma-0"
+          color="primary"
           :label="item.title"
           hide-details
         />
