@@ -39,7 +39,6 @@ export function useDateRange (props, emits) {
 
   // Watchers for startDate and endDate
   watch(startDate, (newStartDate) => {
-    console.log(newStartDate)
     if (newStartDate !== dateRangeSelected.value[0]) {
       const newRange = [newStartDate, endDate.value || null]
       modalValue.value = newRange
@@ -54,22 +53,6 @@ export function useDateRange (props, emits) {
       emits('input', newRange)
     }
   })
-
-  function updateStartDate (date) {
-    if (date) {
-      const newRange = [date, dateRangeSelected.value[1] || null]
-      modalValue.value = newRange
-      emits('input', newRange)
-    }
-  }
-
-  function updateEndDate (date) {
-    if (date) {
-      const newRange = [dateRangeSelected.value[0] || null, date]
-      modalValue.value = newRange
-      emits('input', newRange)
-    }
-  }
 
   // to keep track of old value on cancel rest to this value default value will props passed
   const oldSelectedRange = ref(modalValue)
@@ -246,7 +229,8 @@ export function useDateRange (props, emits) {
     }
   }
 
-  function dateClick () {
+  function dateClick() {
+    console.log('dateClick')
     pickerDate.value = ''
     // ideally it should find using DATEFILTER_CODES.CUSTOMRANGE, but since its static and date click is often, better give the index as it is
     dateFilterSelectedIndex.value = 4 // 4 = Custom Range
@@ -284,8 +268,6 @@ export function useDateRange (props, emits) {
     startDate,
     endDate,
     today,
-    datePickerKey,
-    updateStartDate,
-    updateEndDate
+    datePickerKey
   }
 }

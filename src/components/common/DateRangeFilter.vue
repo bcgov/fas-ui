@@ -81,22 +81,22 @@
           <v-col cols="6">
             <v-date-picker
               :key="'start' + datePickerKey"
-              @input="updateStartDate"
               :max="endDate ? endDate : today"
-              @click:date="dateClick"
               color="primary"
               title="select start date"
+              v-model="startDate"
+              @click="dateClick"
             />
           </v-col>
           <v-col cols="6">
             <v-date-picker
               :key="'end' + datePickerKey"
-              @input="updateEndDate"
-              @click:date="dateClick"
               color="primary"
               title="select end date"
               :min="startDate ? startDate : null"
               :max="today"
+              v-model="endDate"
+              @click="dateClick"
             />
           </v-col>
         </v-row>
@@ -136,9 +136,7 @@ const {
   startDate,
   endDate,
   today,
-  datePickerKey,
-  updateStartDate,
-  updateEndDate
+  datePickerKey
 } = useDateRange(props, emits)
 </script>
 
