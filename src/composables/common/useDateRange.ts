@@ -1,13 +1,13 @@
-import { computed, reactive, ref, toRefs } from 'vue'
+import { computed, reactive, ref, toRefs, watch } from 'vue'
 
 import CommonUtils from '@/util/common-util'
 import { DateFilterCodes } from '@/util/constants'
-import moment from 'moment'
 import { DateTime } from 'luxon'
 
 export const DATEFILTER_CODES = DateFilterCodes
 export function useDateRange (props, emits) {
   const { modalValue = ref([]) } = toRefs(props)
+  const datePickerKey = ref(0)
 
   // using same v-model value for getting value and update parent on change
   const dateRangeSelected = computed({
@@ -19,8 +19,61 @@ export function useDateRange (props, emits) {
     }
   })
 
+  const startDate = computed({
+    get: () => dateRangeSelected.value[0],
+    set: (value) => {
+      const newRange = [value, dateRangeSelected.value[1] || null]
+      modalValue.value = newRange
+      emits('input', newRange)
+    }
+  })
+
+  const endDate = computed({
+    get: () => dateRangeSelected.value[1],
+    set: (value) => {
+      const newRange = [dateRangeSelected.value[0] || null, value]
+      modalValue.value = newRange
+      emits('input', newRange)
+    }
+  })
+
+  // Watchers for startDate and endDate
+  watch(startDate, (newStartDate) => {
+    console.log(newStartDate)
+    if (newStartDate !== dateRangeSelected.value[0]) {
+      const newRange = [newStartDate, endDate.value || null]
+      modalValue.value = newRange
+      emits('input', newRange)
+    }
+  })
+
+  watch(endDate, (newEndDate) => {
+    if (newEndDate !== dateRangeSelected.value[1]) {
+      const newRange = [startDate.value || null, newEndDate]
+      modalValue.value = newRange
+      emits('input', newRange)
+    }
+  })
+
+  function updateStartDate (date) {
+    if (date) {
+      const newRange = [date, dateRangeSelected.value[1] || null]
+      modalValue.value = newRange
+      emits('input', newRange)
+    }
+  }
+
+  function updateEndDate (date) {
+    if (date) {
+      const newRange = [dateRangeSelected.value[0] || null, date]
+      modalValue.value = newRange
+      emits('input', newRange)
+    }
+  }
+
   // to keep track of old value on cancel rest to this value default value will props passed
   const oldSelectedRange = ref(modalValue)
+  const today = DateTime.now().toJSDate()
 
   const dateRangeSelectedDisplay = computed(() => {
     return dateRangeSelected.value.join(' - ')
@@ -113,67 +166,83 @@ export function useDateRange (props, emits) {
 
   function formatDatePickerDate (dateObj) {
     // TODO TEST
-    return dateObj.toFormat('yyyy-LL-dd')
+    // Check if dateObj is a JavaScript Date object
+    if (dateObj instanceof Date) {
+    // Convert JavaScript Date to Luxon DateTime
+      const dateTime = DateTime.fromJSDate(dateObj)
+      return dateTime.toFormat('yyyy-LL-dd')
+    } else if (dateObj instanceof DateTime) {
+    // If it's already a Luxon DateTime, format it directly
+      return dateObj.toFormat('yyyy-LL-dd')
+    }
   }
 
   function dateFilterChange (val) {
     if (val > -1) {
       dateFilterSelected.value = dateFilterRanges[val]
+      let newRange
       switch (dateFilterSelected.value.code) {
         case DATEFILTER_CODES.TODAY:
           // TODO TEST:
-          // eslint-disable-next-line no-case-declarations
-          const today = formatDatePickerDate(DateTime.now())
-          dateRangeSelected.value = [today, today]
-          pickerDate.value = today.slice(0, -3)
+          // eslint-disable-next-line no-case-declaration
+          // dateRangeSelected.value = [today, today]
+          newRange = [today, today]
+          pickerDate.value = formatDatePickerDate(today)
           break
         case DATEFILTER_CODES.YESTERDAY:
           // TODO TEST:
           // eslint-disable-next-line no-case-declarations
           const yesterday = formatDatePickerDate(DateTime.now().minus({ days: 1 }))
-          dateRangeSelected.value = [yesterday, yesterday]
+          // dateRangeSelected.value = [yesterday, yesterday]
+          newRange = [yesterday, yesterday]
           pickerDate.value = yesterday.slice(0, -3)
           break
         case DATEFILTER_CODES.LASTWEEK:
           // Week should start from  Monday and Ends on Sunday
           // eslint-disable-next-line no-case-declarations
           // TODO COMPARE Luxon vs Moment
-          const weekStartDate = moment()
-            .subtract(1, 'weeks')
-            .startOf('isoWeek')
-          const weekStartDateLuxon = DateTime.now().minus({ weeks: 1 }).startOf('week')
+          // const weekStartDate = moment()
+          //   .subtract(1, 'weeks')
+          //   .startOf('isoWeek')
+          const weekStartDate = DateTime.now().minus({ weeks: 1 }).startOf('week')
           const weekStart = formatDatePickerDate(weekStartDate)
           // eslint-disable-next-line no-case-declarations
           // TODO COMPARE Luxon vs Moment
-          const weekEndDate = moment()
-            .subtract(1, 'weeks')
-            .endOf('isoWeek')
-          const weekEndDateLuxon = DateTime.now().minus({ weeks: 1 }).endOf('week')
+          // const weekEndDate = moment()
+          //   .subtract(1, 'weeks')
+          //   .endOf('isoWeek')
+          const weekEndDate = DateTime.now().minus({ weeks: 1 }).endOf('week')
           const weekEnd = formatDatePickerDate(weekEndDate)
-          dateRangeSelected.value = [weekStart, weekEnd]
+          // dateRangeSelected.value = [weekStart, weekEnd]
+          newRange = [weekStart, weekEnd]
           pickerDate.value = weekStart.slice(0, -3)
           break
         case DATEFILTER_CODES.LASTMONTH:
           // eslint-disable-next-line no-case-declarations
           // TODO COMPARE Luxon vs Moment
-          const monthStartDate = moment()
-            .subtract(1, 'months')
-            .startOf('month')
-          const monthStartDateLuxon = DateTime.now().minus({ months: 1 }).startOf('month')
+          // const monthStartDate = moment()
+          //   .subtract(1, 'months')
+          //   .startOf('month')
+          const monthStartDate = DateTime.now().minus({ months: 1 }).startOf('month')
           const monthStart = formatDatePickerDate(monthStartDate)
           // eslint-disable-next-line no-case-declarations
           // TODO COMPARE Luxon vs Moment
-          const monthEndDate = moment()
-            .subtract(1, 'months')
-            .endOf('month')
-          const monthEndDateLuxon = DateTime.now().minus({ months: 1 }).endOf('month')
+          // const monthEndDate = moment()
+          //   .subtract(1, 'months')
+          //   .endOf('month')
+          const monthEndDate = DateTime.now().minus({ months: 1 }).endOf('month')
           const monthEnd = formatDatePickerDate(monthEndDate)
-          dateRangeSelected.value = [monthStart, monthEnd]
+          // dateRangeSelected.value = [monthStart, monthEnd]
+          newRange = [monthStart, monthEnd]
           pickerDate.value = monthStart.slice(0, -3)
           break
         case DATEFILTER_CODES.CUSTOMRANGE:
           pickerDate.value = ''
+          newRange = []
       }
+      // Update modalValue to trigger reactivity
+      modalValue.value = newRange
+      emits('input', newRange)
     }
   }
 
@@ -211,6 +280,12 @@ export function useDateRange (props, emits) {
     dateClick,
     applyDateFilter,
     showDateRangeSelected,
-    cancelDateFilter
+    cancelDateFilter,
+    startDate,
+    endDate,
+    today,
+    datePickerKey,
+    updateStartDate,
+    updateEndDate
   }
 }

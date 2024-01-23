@@ -1,5 +1,5 @@
 <template>
-  <!-- <v-menu
+  <v-menu
     v-model="showDateFilter"
     :close-on-content-click="false"
     transition="scale-transition"
@@ -59,27 +59,54 @@
           </v-btn>
         </div>
       </div>
-      <div class="date-range-calendars pb-6">
+      <div class="date-range-calendars pb-6 custom-picker">
         <div
           class="date-range-label py-6 mx-6 mb-3"
           v-html="showDateRangeSelected"
         />
+        <!-- <v-date-picker
+          v-model="dateRangeSelected"
+          color="primary"
+          width="400"
+          class="text-center"
+          no-title
+          v-bind="$attrs"
+          :picker-date="pickerDate"
+          data-test="date-date-picker"
+          hide-details="auto"
+          v-on="$listeners"
+          @click:date="dateClick"
+        /> -->
+        <v-row>
+          <v-col cols="6">
+            <v-date-picker
+              :key="'start' + datePickerKey"
+              @input="updateStartDate"
+              :max="endDate ? endDate : today"
+              @click:date="dateClick"
+              color="primary"
+              title="select start date"
+            />
+          </v-col>
+          <v-col cols="6">
+            <v-date-picker
+              :key="'end' + datePickerKey"
+              @input="updateEndDate"
+              @click:date="dateClick"
+              color="primary"
+              title="select end date"
+              :min="startDate ? startDate : null"
+              :max="today"
+            />
+          </v-col>
+        </v-row>
       </div>
     </v-card>
-  </v-menu> -->
-  <!-- <date-range-picker
-    date-range={
-    startDate:
-    null,
-    endDate:
-    null
-    }
-  /> -->
+  </v-menu>
 </template>
 
 <script setup lang="ts">
 // this is just took from auth-web
-// import DateRangePicker from 'vue3-daterange-picker'
 import { useDateRange } from '@/composables/common'
 
 const props = withDefaults(defineProps<{
@@ -105,7 +132,13 @@ const {
   dateClick,
   applyDateFilter,
   showDateRangeSelected,
-  cancelDateFilter
+  cancelDateFilter,
+  startDate,
+  endDate,
+  today,
+  datePickerKey,
+  updateStartDate,
+  updateEndDate
 } = useDateRange(props, emits)
 </script>
 
@@ -155,7 +188,7 @@ const {
   .primary-icon .v-icon {
     color: #1669bb
   }
-  .hide-title > div:first-child {
+  .custom-picker .v-date-picker-header__content{
     display: none;
   }
 </style>
