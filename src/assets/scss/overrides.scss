@@ -180,3 +180,15 @@ input:-webkit-autofill:active {
   }
 }
 
+// Shrink down v-select.
+.v-input--density-default {
+  --v-input-control-height: 24px;
+}
+
+.v-selection-control--density-default {
+  --v-selection-control-size: 24px;
+}
+
+.v-selection-control > .v-label {
+  margin-left: 8px;
+}
