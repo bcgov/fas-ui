@@ -1,19 +1,18 @@
-import { computed, onMounted, ref, toRefs } from 'vue'
+import { computed, onMounted, toRefs } from 'vue'
 import { Code } from '@/models/Code'
 import { useCodes } from '../useCodes'
 
 export function useStatusList (props, emits) {
+  const { modelValue } = toRefs(props)
   const { getRoutingSlipStatusList, routingSlipStatusList } = useCodes()
-  // default modalValue set blank incase if we didnt pass props
-  const { modalValue = ref('') } = toRefs(props)
 
   // using same v-model value for getting value and update parent on change
   const currentStatus = computed({
     get: () => {
-      return modalValue.value || ''
+      return modelValue.value
     },
-    set: (modalValue: Code) => {
-      emits('update:model-value', modalValue)
+    set: (value: Code) => {
+      emits('update:modelValue', value)
     }
   })
 

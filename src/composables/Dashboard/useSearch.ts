@@ -86,7 +86,7 @@ export function useSearch (props) {
 
   const status: any = computed({
     get: () => {
-      return searchRoutingSlipParams.value.status || ''
+      return searchRoutingSlipParams.value.status || null
     },
     set: (modalValue: any) => {
       searchRoutingSlipParams.value = {

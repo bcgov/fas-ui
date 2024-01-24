@@ -5,6 +5,7 @@
     variant="filled"
     item-title="description"
     item-value="code"
+    placeholder="Status"
     return-object
     data-test="select-status"
     v-bind="$attrs"
@@ -12,19 +13,16 @@
 </template>
 
 <script setup lang="ts">
-/** component for status list.
- * example
- * <status-list v-model="currentStatus" label="Status"></status-list>
- */
+import { Code } from '@/models/Code'
 import { useStatusList } from '@/composables/common'
 
-const props = defineProps<{ modelValue: any }>()
+const props = withDefaults(defineProps<{ modelValue: Code }>(), {
+  modelValue: null
+})
 
 const emits = defineEmits<{
-  input: [modelValue: any]
-  'update:model-value': [modelValue: any]
+  'update:modelValue': [value: any]
 }>()
 
 const { routingSlipStatusList, currentStatus } = useStatusList(props, emits)
-
 </script>
