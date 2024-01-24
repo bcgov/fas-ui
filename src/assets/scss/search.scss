@@ -125,6 +125,21 @@
       height: 40px !important;
     }
 
+    .date-range-text-field {
+      .v-field__input {
+        padding-top: 8px;
+        padding-bottom: 8px;
+      }
+
+      .v-input__details {
+        display: none !important;
+      }
+
+      .v-field__field {
+        max-height: 40px !important;
+      }
+    }
+
     .v-text-field--filled .v-label,
     .v-text-field--full-width .v-label {
       top: 10px !important;

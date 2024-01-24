@@ -13,7 +13,7 @@
         v-bind="props"
         variant="filled"
         data-test="input-date-picker"
-        class="primary-icon"
+        class="primary-icon date-range-text-field"
       />
     </template>
     <v-card class="date-range-container d-flex">
