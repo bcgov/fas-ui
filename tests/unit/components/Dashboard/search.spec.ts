@@ -1,13 +1,11 @@
 import ConfigHelper from '@/util/config-helper'
 import { Search } from '@/components/Dashboard'
-import Vuetify from 'vuetify'
 import { headerSearch } from '../../test-data/mock-search-headers'
 import { routingSlipMock } from '../../test-data/mock-routing-slip'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
+import { mount, shallowMount } from '@vue/test-utils'
 
 describe('Search.vue', () => {
-  const localVue = createLocalVue()
-  const vuetify = new Vuetify({})
   const { headerSearchTitle, routingSlip } = useRoutingSlip()
   beforeEach(() => {
     routingSlip.value = routingSlipMock
@@ -20,8 +18,6 @@ describe('Search.vue', () => {
     vi.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
     vi.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
     const wrapper = shallowMount(Search, {
-      localVue,
-      vuetify,
       directives: {
         can () { /* stub */ }
       }
@@ -37,8 +33,6 @@ describe('Search.vue', () => {
       template: '<div />'
     }
     const wrapper: any = mount(Search, {
-      localVue,
-      vuetify,
       stubs: {
         DateRangeFilter: MyStub,
         SearchColumnFilterComponent: MyStub,

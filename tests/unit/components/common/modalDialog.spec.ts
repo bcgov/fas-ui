@@ -6,7 +6,7 @@ describe('ModalDialog.vue', () => {
   const text = 'test text'
   it('renders Modal with title', () => {
     const wrapper = shallowMount(ModalDialog, {
-      propsData: {
+      props: {
         title
       }
     })
@@ -17,7 +17,7 @@ describe('ModalDialog.vue', () => {
 
   it(' Modal Should have close icon when props pass', () => {
     const wrapper = shallowMount(ModalDialog, {
-      propsData: {
+      props: {
         title,
         showCloseIcon: true
       }
@@ -30,7 +30,7 @@ describe('ModalDialog.vue', () => {
 
   it(' Modal Should have show all values pass as props', () => {
     const wrapper = shallowMount(ModalDialog, {
-      propsData: {
+      props: {
         title,
         text,
         showActions: true,

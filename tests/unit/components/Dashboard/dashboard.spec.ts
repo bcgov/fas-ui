@@ -1,18 +1,12 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import { Dashboard } from '@/components/Dashboard'
-import Vuetify from 'vuetify'
 
 describe('Dashboard.vue', () => {
-  const localVue = createLocalVue()
-  const vuetify = new Vuetify({})
-
   vi.resetModules()
   vi.clearAllMocks()
 
   it('renders props.msg when passed', async () => {
     const wrapper = shallowMount(Dashboard, {
-      localVue,
-      vuetify,
       mocks: {
         $vuetify: vi.fn()
       }

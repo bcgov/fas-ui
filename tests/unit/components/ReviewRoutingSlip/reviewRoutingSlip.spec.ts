@@ -2,10 +2,11 @@ import { accountInfoMock, cashPaymentMock, chequePaymentMock, routingSlipDetails
 import { ReviewRoutingSlip } from '@/components/ReviewRoutingSlip'
 import Vuetify from 'vuetify'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
+import { mount } from '@vue/test-utils'
 
 describe('ReviewRoutingSlip.vue', () => {
-  const localVue = createLocalVue()
-  const vuetify = new Vuetify({})
+  
+
   const MyStub = {
     template: '<div />'
   }
@@ -24,8 +25,7 @@ describe('ReviewRoutingSlip.vue', () => {
 
   it('renders component', async () => {
     const wrapper: any = mount(ReviewRoutingSlip, {
-      localVue,
-      vuetify,
+
       stubs: {
         ReviewRoutingSlipDetails: MyStub,
         ReviewRoutingSlipPayment: MyStub

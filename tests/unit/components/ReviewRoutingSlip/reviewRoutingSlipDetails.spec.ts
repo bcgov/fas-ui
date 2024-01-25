@@ -1,14 +1,9 @@
 import { accountInfoMock, routingSlipDetailsMock } from '../../test-data/mock-routing-slip'
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 
 import { ReviewRoutingSlipDetails } from '@/components/ReviewRoutingSlip'
-import Vuetify from 'vuetify'
 
 describe('ReviewRoutingSlipDetails.vue', () => {
-  const localVue = createLocalVue()
-
-  const vuetify = new Vuetify({})
-
   beforeEach(() => {
     vi.resetModules()
     vi.clearAllMocks()
@@ -16,9 +11,8 @@ describe('ReviewRoutingSlipDetails.vue', () => {
 
   it('renders component', async () => {
     const wrapper: any = mount(ReviewRoutingSlipDetails, {
-      localVue,
-      vuetify,
-      propsData: {
+
+      props: {
         routingSlipDetails: routingSlipDetailsMock,
         accountInfo: accountInfoMock
       }

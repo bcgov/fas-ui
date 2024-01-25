@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { routingSlipMock, routingSlipRefundRequested, routingSlipWithCancelledInvoice } from '../../test-data/mock-routing-slip'
 
 import { InvoiceDisplay } from '@/models/Invoice'
@@ -8,8 +8,7 @@ import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('TransactionDataTable.vue', () => {
   const { routingSlip } = useRoutingSlip()
-  const localVue = createLocalVue()
-  const vuetify = new Vuetify({})
+
 
   beforeEach(() => {
     routingSlip.value = routingSlipMock
@@ -19,8 +18,7 @@ describe('TransactionDataTable.vue', () => {
 
   it('renders component', () => {
     const wrapper = mount(TransactionDataTable, {
-      localVue,
-      vuetify,
+
       directives: {
         can () { /* stub */ }
       }
@@ -30,8 +28,7 @@ describe('TransactionDataTable.vue', () => {
 
   it('transforms invoice data to display', async () => {
     const wrapper: any = mount(TransactionDataTable, {
-      localVue,
-      vuetify,
+
       directives: {
         can () { /* stub */ }
       }
@@ -58,8 +55,7 @@ describe('TransactionDataTable.vue', () => {
     const stubConfirm = vi.fn()
     const stubCancel = vi.fn()
     const wrapper: any = mount(TransactionDataTable, {
-      localVue,
-      vuetify,
+
       mocks: {
         modalDialogConfirm: stubConfirm,
         modalDialogClose: stubCancel
@@ -86,8 +82,7 @@ describe('TransactionDataTable.vue', () => {
     const stubConfirm = vi.fn()
     const stubCancel = vi.fn()
     const wrapper: any = mount(TransactionDataTable, {
-      localVue,
-      vuetify,
+
       mocks: {
         modalDialogConfirm: stubConfirm,
         modalDialogClose: stubCancel

@@ -10,8 +10,7 @@ import initialize from '@/plugins/i18n'
 
 describe('RoutingSlipInfo.vue', () => {
   const i18n = initialize(Vue)
-  const localVue = createLocalVue()
-  const vuetify = new Vuetify({})
+
   const MyStub = {
     template: '<div />'
   }
@@ -27,8 +26,7 @@ describe('RoutingSlipInfo.vue', () => {
     vi.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
     vi.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
     const wrapper = shallowMount(RoutingSlipInfo, {
-      localVue,
-      vuetify,
+
       i18n,
       directives: {
         can () { /* stub */ }
@@ -48,8 +46,7 @@ describe('RoutingSlipInfo.vue', () => {
     vi.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
     vi.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
     const wrapper = shallowMount(RoutingSlipInfo, {
-      localVue,
-      vuetify,
+
       i18n,
       directives: {
         can () { /* stub */ }
@@ -66,8 +63,7 @@ describe('RoutingSlipInfo.vue', () => {
     vi.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
     vi.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
     const wrapper: any = mount(RoutingSlipInfo, {
-      localVue,
-      vuetify,
+
       i18n,
       directives: {
         can () { /* stub */ }

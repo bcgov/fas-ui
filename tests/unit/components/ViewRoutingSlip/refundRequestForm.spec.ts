@@ -1,14 +1,10 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 
 import { RefundRequestForm } from '@/components/ViewRoutingSlip'
-import Vuetify from 'vuetify'
 
 import { refundRequestDetails } from '../../test-data/mock-routing-slip'
 
 describe('RefundRequestForm.vue', () => {
-  const localVue = createLocalVue()
-
-  const vuetify = new Vuetify({})
   const MyStub = {
     template: '<div />'
   }
@@ -20,12 +16,10 @@ describe('RefundRequestForm.vue', () => {
 
   it('renders component', () => {
     const wrapper: any = mount(RefundRequestForm, {
-      localVue,
-      vuetify,
       stubs: {
         AddressForm: MyStub
       },
-      propsData: {
+      props: {
         isEditing: true,
         inputRefundRequestDetails: refundRequestDetails
       }

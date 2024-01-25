@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 
 import { ReviewRoutingSlipChequePayment } from '@/components/ReviewRoutingSlip'
 import Vuetify from 'vuetify'
@@ -6,9 +6,6 @@ import Vuetify from 'vuetify'
 import { chequePaymentMock } from '../../test-data/mock-routing-slip'
 
 describe('ReviewRoutingSlipChequePayment.vue', () => {
-  const localVue = createLocalVue()
-  localVue.use(Vuetify)
-  // localVue.use(VueCompositionAPI)
   beforeEach(() => {
     vi.resetModules()
     vi.clearAllMocks()
@@ -16,8 +13,7 @@ describe('ReviewRoutingSlipChequePayment.vue', () => {
 
   it('renders component', () => {
     const wrapper: any = mount(ReviewRoutingSlipChequePayment, {
-      localVue,
-      propsData: {
+      props: {
         chequePayment: chequePaymentMock
       }
     })

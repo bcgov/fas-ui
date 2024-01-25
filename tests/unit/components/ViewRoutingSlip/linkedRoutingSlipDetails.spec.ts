@@ -1,14 +1,14 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 
 import { LinkedRoutingSlipDetails } from '@/components/ViewRoutingSlip'
 import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
 
 describe('LinkedRoutingSlipDetails.vue', () => {
-  const localVue = createLocalVue()
+  
 
-  const vuetify = new Vuetify({})
-  const router = new VueRouter()
+
+  let router
 
   beforeEach(() => {
     vi.resetModules()
@@ -17,10 +17,9 @@ describe('LinkedRoutingSlipDetails.vue', () => {
 
   it('renders component', () => {
     const wrapper: any = mount(LinkedRoutingSlipDetails, {
-      localVue,
-      router,
-      vuetify,
-      propsData: {
+      
+      router
+       props: {
         siNumber: 'TestSiNumber',
         routingSlipNumber: '123TEST',
         createdDate: new Date('07/30/2021')
