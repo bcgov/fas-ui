@@ -14,7 +14,7 @@ describe('StaffCommentsComp.vue', () => {
   })
   it('Should have StaffComments component', () => {
     const wrapper = shallowMount(StaffCommentsComp, {
-      propsData: {
+       props: {
         routingSlipNumber: '123'
       }
     })

@@ -1,13 +1,13 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 
 import { CreateRoutingSlipPayment } from '@/components/RoutingSlip'
 import Vuetify from 'vuetify'
 
 describe('CreateRoutingSlipPayment.vue', () => {
-  const localVue = createLocalVue()
+  
 
-  localVue.use(Vuetify)
-  const vuetify = new Vuetify({})
+
+
   const MyStub = {
     template: '<div />'
   }
@@ -19,8 +19,7 @@ describe('CreateRoutingSlipPayment.vue', () => {
 
   it('renders component', () => {
     const wrapper = mount(CreateRoutingSlipPayment, {
-      localVue,
-      vuetify,
+
       stubs: {
         CreateRoutingSlipChequePayment: MyStub,
         CreateRoutingSlipCashPayment: MyStub
@@ -32,8 +31,7 @@ describe('CreateRoutingSlipPayment.vue', () => {
 
   it('change payment between cash and cheque', async () => {
     const wrapper: any = mount(CreateRoutingSlipPayment, {
-      localVue,
-      vuetify,
+
       stubs: {
         CreateRoutingSlipChequePayment: MyStub,
         CreateRoutingSlipCashPayment: MyStub

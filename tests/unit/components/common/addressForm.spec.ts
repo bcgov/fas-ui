@@ -1,29 +1,27 @@
 import { address, baseAddress } from '../../test-data/mock-routing-slip'
-import { createLocalVue, mount } from '@vue/test-utils'
-
 import AddressForm from '@/components/common/AddressForm.vue'
-import VueRouter from 'vue-router'
-import Vuetify from 'vuetify'
+import { mount } from '@vue/test-utils'
 import { addressSchema } from '@/schema'
 import routes from '@/router/routes'
+import { createRouter, createWebHistory } from 'vue-router'
 
 describe('AddressForm.vue', () => {
-  const localVue = createLocalVue()
-  const vuetify = new Vuetify({})
   const MyStub = {
     template: '<div />'
   }
+  let router
   beforeEach(() => {
+    router = createRouter({
+      history: createWebHistory(),
+      routes
+    })
     vi.resetModules()
     vi.clearAllMocks()
   })
   it('renders component', async () => {
-    const router = new VueRouter({ routes })
     const wrapper: any = mount(AddressForm, {
-      localVue,
       router,
-      vuetify,
-      propsData: {
+      props: {
         schema: addressSchema,
         address,
         editing: true

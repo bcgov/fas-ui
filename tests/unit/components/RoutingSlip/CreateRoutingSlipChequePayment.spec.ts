@@ -1,4 +1,4 @@
-import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
+import { mount, shallowMount } from '@vue/test-utils'
 import CreateRoutingSlipChequePayment from '@/components/RoutingSlip/CreateRoutingSlipChequePayment.vue'
 
 import Vuetify from 'vuetify'
@@ -6,10 +6,10 @@ import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('CreateRoutingSlipChequePayment.vue', () => {
   const { chequePayment } = useRoutingSlip()
-  const localVue = createLocalVue()
-  localVue.use(Vuetify)
-  // localVue.use(VueCompositionAPI)
-  const vuetify = new Vuetify({})
+  
+
+
+
   const chequePaymentMock = [{ chequeReceiptNumber: '1234', paymentDate: '', paidAmount: 20 }]
   beforeEach(() => {
     chequePayment.value = chequePaymentMock
@@ -32,10 +32,7 @@ describe('CreateRoutingSlipChequePayment.vue', () => {
   })
 
   it('On click of add button it should add one row of input', async () => {
-    const wrapper:any = mount(CreateRoutingSlipChequePayment, {
-      localVue,
-      vuetify
-    })
+    const wrapper:any = mount(CreateRoutingSlipChequePayment)
     await wrapper.vm.$nextTick()
     // spying on method
     const addCheque = vi.spyOn(wrapper.vm, 'addCheque')
@@ -48,10 +45,7 @@ describe('CreateRoutingSlipChequePayment.vue', () => {
   })
 
   it('On  click of remove button it should remove one row of input', async () => {
-    const wrapper:any = mount(CreateRoutingSlipChequePayment, {
-      localVue,
-      vuetify
-    })
+    const wrapper:any = mount(CreateRoutingSlipChequePayment)
     await wrapper.vm.$nextTick()
     // spying on method
     const addCheque = vi.spyOn(wrapper.vm, 'addCheque')

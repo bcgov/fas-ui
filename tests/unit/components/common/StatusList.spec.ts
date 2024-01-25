@@ -1,21 +1,19 @@
 import StatusList from '@/components/common/StatusList.vue'
-import Vuetify from 'vuetify'
 import axios from '@/util/http-util'
 import { routingSlipStatusListMock } from '../../test-data/mock-code'
 import sinon from 'sinon'
 import { useCodes } from '@/composables/useCodes'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
+import { mount } from '@vue/test-utils'
 
 const { routingSlipStatusList } = useCodes()
+vi.mock('@/util/http-util')
 
 describe('StatusList.vue', () => {
-  let wrapper: Wrapper<StatusList, Element>
   let sandbox
   let get
+  let wrapper
 
-  const localVue = createLocalVue()
-
-  const vuetify = new Vuetify({})
   beforeEach(async () => {
     routingSlipStatusList.value = []
     vi.spyOn(useRoutingSlip(), 'getFeeByCorpTypeAndFilingType').mockResolvedValue(0)
@@ -27,10 +25,8 @@ describe('StatusList.vue', () => {
 
     // Render the StatusList component
     wrapper = mount(StatusList, {
-      localVue,
-      vuetify,
-      propsData: {
-        value: 'ACTIVE'
+       props: {
+        modelValue: 'ACTIVE'
       }
     })
 
@@ -51,7 +47,7 @@ describe('StatusList.vue', () => {
   it('removes Refund Rejected option', async () => {
     expect(get.getCall(0)).not.toBeNull()
     // Get all of the descriptions from the rendered status list
-    const descriptions = wrapper.vm.$data.routingSlipStatusList.map(status => status.description)
+    const descriptions = wrapper.vm.routingSlipStatusList.map(status => status.description)
 
     // Check if the "Refund Rejected" option is not in the status list
     expect(descriptions).toContain('Active')

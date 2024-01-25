@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { linkedRoutingSlipsWithChildren, routingSlipMock } from '../../test-data/mock-routing-slip'
 import { LinkRoutingSlip } from '@/components/ViewRoutingSlip'
 import VueRouter from 'vue-router'
@@ -7,9 +7,8 @@ import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('LinkRoutingSlip.vue', () => {
   const { linkedRoutingSlips, routingSlip } = useRoutingSlip()
-  const localVue = createLocalVue()
-  const vuetify = new Vuetify({})
-  const router = new VueRouter()
+
+  let router
   const MyStub = {
     template: '<div />'
   }
@@ -21,9 +20,8 @@ describe('LinkRoutingSlip.vue', () => {
 
   it('renders non linked display', async () => {
     const wrapper: any = mount(LinkRoutingSlip, {
-      localVue,
+
       router,
-      vuetify,
       stubs: {
         LinkedRoutingSlipDetails: MyStub,
         RoutingSlipAutoComplete: MyStub
@@ -86,9 +84,7 @@ describe('LinkRoutingSlip.vue', () => {
     const msg = 'Invoices exist.so cant link'
     const $t = () => msg
     const wrapper: any = mount(LinkRoutingSlip, {
-      localVue,
       router,
-      vuetify,
       stubs: {
         LinkedRoutingSlipDetails: MyStub,
         RoutingSlipAutoComplete: MyStub

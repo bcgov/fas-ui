@@ -1,12 +1,11 @@
 import { mount, shallowMount } from '@vue/test-utils'
 
 import CreateRoutingSlipCashPayment from '@/components/RoutingSlip/CreateRoutingSlipCashPayment.vue'
-import Vuetify from 'vuetify'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('CreateRoutingSlipCashPayment.vue', () => {
   let store
-  const vuetify = new Vuetify({})
+
   const { cashPayment } = useRoutingSlip()
   beforeEach(() => {
     cashPayment.value = { chequeReceiptNumber: '1234', paidAmount: 20 }
@@ -25,9 +24,7 @@ describe('CreateRoutingSlipCashPayment.vue', () => {
   })
 
   it('Should have Receipt Number input field and inital value from store', () => {
-    const wrapper = mount(CreateRoutingSlipCashPayment, {
-      vuetify
-    })
+    const wrapper = mount(CreateRoutingSlipCashPayment)
 
     const reciptNumber: any = wrapper.find('[data-test="txtReceiptNumber"]')
     const txtPaidAmount: any = wrapper.find('[data-test="txtPaidAmount"]')
@@ -37,8 +34,7 @@ describe('CreateRoutingSlipCashPayment.vue', () => {
 
   it('Should update Receipt Number on change', () => {
     const wrapper = mount(CreateRoutingSlipCashPayment, {
-      store,
-      vuetify
+      store
     })
 
     const reciptNumber: any = wrapper.find('[data-test="txtReceiptNumber"]')

@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 
 import { RoutingSlipTransaction } from '@/components/ViewRoutingSlip'
 import Vuetify from 'vuetify'
@@ -8,9 +8,9 @@ import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('RoutingSlipTransaction.vue', () => {
   const { routingSlip } = useRoutingSlip()
-  const localVue = createLocalVue()
+  
 
-  const vuetify = new Vuetify({})
+
   const MyStub = {
     template: '<div />'
   }
@@ -22,8 +22,7 @@ describe('RoutingSlipTransaction.vue', () => {
 
   it('renders component', () => {
     const wrapper: any = mount(RoutingSlipTransaction, {
-      localVue,
-      vuetify,
+
       stubs: {
         TransactionDataTable: MyStub,
         AddManualTransactionDetails: MyStub
@@ -37,8 +36,7 @@ describe('RoutingSlipTransaction.vue', () => {
 
   it('manual transactions list behavior', async () => {
     const wrapper: any = mount(RoutingSlipTransaction, {
-      localVue,
-      vuetify,
+
       stubs: {
         TransactionDataTable: MyStub,
         AddManualTransactionDetails: MyStub
@@ -60,8 +58,7 @@ describe('RoutingSlipTransaction.vue', () => {
 
   async function getWrapper (usedAmount:number) {
     const wrapper: any = mount(RoutingSlipTransaction, {
-      localVue,
-      vuetify,
+
       stubs: {
         TransactionDataTable: MyStub,
         AddManualTransactionDetails: MyStub

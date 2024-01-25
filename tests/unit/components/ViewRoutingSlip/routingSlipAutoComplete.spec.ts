@@ -1,12 +1,12 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 
 import { RoutingSlipAutoComplete } from '@/components/ViewRoutingSlip'
 import Vuetify from 'vuetify'
 
 describe('RoutingSlipAutoComplete.vue', () => {
-  const localVue = createLocalVue()
+  
 
-  const vuetify = new Vuetify({})
+
   const MyStub = {
     template: '<div />'
   }
@@ -18,8 +18,7 @@ describe('RoutingSlipAutoComplete.vue', () => {
 
   it('renders component', () => {
     const wrapper: any = mount(RoutingSlipAutoComplete, {
-      localVue,
-      vuetify,
+
       stubs: {
         ReviewRoutingSlipDetails: MyStub,
         ReviewRoutingSlipPayment: MyStub
@@ -32,8 +31,7 @@ describe('RoutingSlipAutoComplete.vue', () => {
   it('UI behaviour', async () => {
     const stub = vi.fn()
     const wrapper: any = mount(RoutingSlipAutoComplete, {
-      localVue,
-      vuetify,
+
       stubs: {
         ReviewRoutingSlipDetails: MyStub,
         ReviewRoutingSlipPayment: MyStub

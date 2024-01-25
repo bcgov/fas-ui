@@ -1,10 +1,10 @@
 import { DailyReport } from '@/components/Dashboard'
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 
 describe('DailyReport.vue', () => {
   it('renders props.msg when passed', () => {
-    const wrapper = shallowMount(DailyReport, {
-      propsData: {
+    const wrapper = mount(DailyReport, {
+      props: {
         showCalendar: false
       },
       directives: {

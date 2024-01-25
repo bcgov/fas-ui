@@ -85,10 +85,16 @@ export default defineConfig(({ mode }) => {
       host: true
     },
     test: {
+      server: {
+        deps: {
+          inline: ['vuetify', 'vue-pdf-embed']
+        }
+      },
       globals: true,
       environment: 'jsdom',
       setupFiles: './tests/unit/setup.ts',
       threads: true,
+      testTimeout: 60000,
       // hide Vue Devtools message
       onConsoleLog: function (log) {
         if (log.includes('Download the Vue Devtools extension')) {

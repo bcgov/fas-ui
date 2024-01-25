@@ -6,8 +6,7 @@ import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('addManualTransactionDetails.vue', () => {
   const { autoCompleteRoutingSlips } = useRoutingSlip()
-  const localVue = createLocalVue()
-  const vuetify = new Vuetify({})
+
   beforeEach(() => {
     autoCompleteRoutingSlips.value = filingType
     vi.resetModules()
@@ -17,8 +16,8 @@ describe('addManualTransactionDetails.vue', () => {
   it('renders component', async () => {
     const wrapper: any = mount(AddManualTransactionDetails, {
       vuetify,
-      localVue,
-      propsData: {
+      
+       props: {
         index: 0,
         manualTransaction: manualTransactionDetailsMock
       }
@@ -38,8 +37,8 @@ describe('addManualTransactionDetails.vue', () => {
     const stub = vi.fn()
     const wrapper: any = mount(AddManualTransactionDetails, {
       vuetify,
-      localVue,
-      propsData: {
+      
+       props: {
         index: 1,
         manualTransaction: manualTransactionDetailsMock
       },
@@ -65,8 +64,8 @@ describe('addManualTransactionDetails.vue', () => {
   it('calculate total', async () => {
     const wrapper: any = mount(AddManualTransactionDetails, {
       vuetify,
-      localVue,
-      propsData: {
+      
+       props: {
         index: 0,
         manualTransaction: manualTransactionDetailsMock
       }

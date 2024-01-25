@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { linkedRoutingSlipsWithChequeChildren, linkedRoutingSlipsWithChildren, routingSlipMock } from '../../test-data/mock-routing-slip'
 
 import { PaymentInformation } from '@/components/ViewRoutingSlip'
@@ -8,9 +8,8 @@ import Vuetify from 'vuetify'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
 
 describe('PaymentInformation.vue', () => {
-  const localVue = createLocalVue()
-  const vuetify = new Vuetify({})
-  const router = new VueRouter()
+
+  let router
   const MyStub = {
     template: '<div />'
   }
@@ -26,8 +25,7 @@ describe('PaymentInformation.vue', () => {
 
   it('renders component', () => {
     const wrapper = mount(PaymentInformation, {
-      localVue,
-      vuetify,
+
       router,
       stubs: {
         ReviewRoutingSlipCashPayment: MyStub,
@@ -42,8 +40,7 @@ describe('PaymentInformation.vue', () => {
   })
   it('populates correct value', async () => {
     const wrapper: any = mount(PaymentInformation, {
-      localVue,
-      vuetify,
+
       router,
       stubs: {
         ReviewRoutingSlipCashPayment: MyStub,
@@ -60,8 +57,7 @@ describe('PaymentInformation.vue', () => {
 
   it('renders cheque component properly', async () => {
     const wrapper: any = mount(PaymentInformation, {
-      localVue,
-      vuetify,
+
       router,
       stubs: {
         ReviewRoutingSlipCashPayment: MyStub,
@@ -93,8 +89,7 @@ describe('PaymentInformation.vue', () => {
     }
 
     const wrapper: any = mount(PaymentInformation, {
-      localVue,
-      vuetify,
+
       router,
       stubs: {
         ReviewRoutingSlipCashPayment: MyStub,
@@ -115,8 +110,7 @@ describe('PaymentInformation.vue', () => {
 
   it('renders linked cash routing slip payment info properly', async () => {
     const wrapper: any = mount(PaymentInformation, {
-      localVue,
-      vuetify,
+
       router,
       stubs: {
         ReviewRoutingSlipCashPayment: MyStub,
@@ -145,8 +139,7 @@ describe('PaymentInformation.vue', () => {
     linkedRoutingSlips.value = linkedRoutingSlipsWithChequeChildren
 
     const wrapper: any = mount(PaymentInformation, {
-      localVue,
-      vuetify,
+
       router,
       stubs: {
         ReviewRoutingSlipCashPayment: MyStub,

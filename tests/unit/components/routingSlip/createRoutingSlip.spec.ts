@@ -1,12 +1,7 @@
 import { CreateRoutingSlip } from '@/components/RoutingSlip'
-import Vue from 'vue'
-import Vuetify from 'vuetify'
-import initialize from '@/plugins/i18n'
+import { mount } from '@vue/test-utils'
 
 describe('CreateRoutingSlip.vue', () => {
-  const i18n = initialize(Vue)
-  const vuetify = new Vuetify({})
-
   let store
   const MyStub = {
     template: '<div />'
@@ -19,8 +14,6 @@ describe('CreateRoutingSlip.vue', () => {
 
   it('renders component', () => {
     const wrapper = mount(CreateRoutingSlip, {
-      vuetify,
-      i18n,
       stubs: {
         CreateRoutingSlipPayment: MyStub,
         CreateRoutingSlipDetails: MyStub,
@@ -39,8 +32,6 @@ describe('CreateRoutingSlip.vue', () => {
     const stub = vi.fn().mockReturnValue(true)
     const wrapper: any = mount(CreateRoutingSlip, {
       store,
-      vuetify,
-      i18n,
       stubs: {
         CreateRoutingSlipPayment: MyStub,
         CreateRoutingSlipDetails: MyStub,
@@ -60,8 +51,6 @@ describe('CreateRoutingSlip.vue', () => {
     const stub = vi.fn().mockReturnValue(true)
     const wrapper: any = mount(CreateRoutingSlip, {
       store,
-      vuetify,
-      i18n,
       stubs: {
         CreateRoutingSlipPayment: MyStub,
         CreateRoutingSlipDetails: MyStub,

@@ -1,32 +1,36 @@
-import { createLocalVue, mount } from '@vue/test-utils'
-
+import { createRouter, createWebHistory } from 'vue-router'
 import BreadCrumb from '@/components/common/BreadCrumb.vue'
-import VueRouter from 'vue-router'
-import Vuetify from 'vuetify'
+import { mount } from '@vue/test-utils'
 import routes from '@/router/routes'
 
 vi.mock('@/util/config-helper', () => ({
   default: {
     getAuthWebUrl () {
-      return 'test' // set some default value
+      return 'test'
     }
   }
 }))
 
 describe('BreadCrumb.vue', () => {
-  const localVue = createLocalVue()
-  const vuetify = new Vuetify({})
+  let router
+
   beforeEach(() => {
+    router = createRouter({
+      history: createWebHistory(),
+      routes
+    })
+
     vi.resetModules()
     vi.clearAllMocks()
   })
+
   it('renders component', async () => {
-    const router = new VueRouter({ routes })
-    const wrapper: any = mount(BreadCrumb, {
-      localVue,
-      router,
-      vuetify
+    const wrapper = mount(BreadCrumb, {
+      global: {
+        plugins: [router]
+      }
     })
+
     expect(wrapper.findComponent(BreadCrumb).exists()).toBe(true)
   })
 })
