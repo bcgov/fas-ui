@@ -33,11 +33,12 @@
 // expect.extend(matchers)
 
 import { createPinia, setActivePinia } from 'pinia'
+import { can } from '@/directives/can'
 import { config } from '@vue/test-utils'
 import { createI18n } from 'vue-i18n'
 import { createVuetify } from 'vuetify'
 import enLocals from '@/locales/en.json'
-import { can } from '@/directives/can'
+
 import { vi } from 'vitest'
 
 function initializeI18n () {
