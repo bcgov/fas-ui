@@ -66,7 +66,7 @@
                   :inputRefundRequestDetails="refundRequestDetails"
                   :isEditing="showAddressEditMode"
                   :isApprovalFlow="isApprovalFlow"
-                  @update:refundRequestDetails="refundRequestDetails = $event"
+                  @update-refund-request-details="refundRequestDetails = $event"
                 />
               </template>
             </v-expand-transition>
@@ -97,6 +97,7 @@
           color="primary"
           class="px-8 font-weight-bold"
           data-test="btn-edit-routing-done"
+          variant="flat"
           :loading="isLoading"
           @click="updateStatus()"
         >
@@ -199,6 +200,10 @@ const {
   isLoading,
   closeErrorDialog
 } = useRoutingSlipInfo()
+
+defineExpose({
+  refundRequestForm
+})
 </script>
 
 <style lang="scss" scoped>
