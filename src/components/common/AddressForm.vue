@@ -14,7 +14,7 @@ import 'sbc-common-components/public/css/addresscomplete-2.30.min.css'
 import 'sbc-common-components/public/js/addresscomplete-2.30.min.js'
 import { ref, toRef } from 'vue'
 import { AddressIF } from '@bcrs-shared-components/interfaces'
-import BaseAddress from '@/components/common/BaseAddress.vue'
+import BaseAddress from '@bcrs-shared-components/base-address/BaseAddress.vue'
 
 const props = withDefaults(defineProps<{
   editing: boolean

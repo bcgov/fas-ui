@@ -19,7 +19,7 @@
     "build:lib": "vite build --mode lib"
   },
   "dependencies": {
-    "@bcrs-shared-components/base-address": "^3.0.3",
+    "@bcrs-shared-components/base-address": "3.0.5",
     "@bcrs-shared-components/enums": "^2.0.0",
     "@bcrs-shared-components/interfaces": "^2.0.0",
     "@bcrs-shared-components/mixins": "^2.0.0",
@@ -42,7 +42,6 @@
     "vue-sanitize-directive": "^0.2.1",
     "vue-the-mask": "^0.11.1",
     "vuelidate": "^0.7.6",
-    "vuelidate-property-decorators": "^1.0.28",
     "vuetify": "3.4.11"
   },
   "devDependencies": {
