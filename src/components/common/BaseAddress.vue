@@ -56,11 +56,11 @@
             :label="countryLabel"
             :rules="[...schemaLocal.country]"
           >
-            <template #item="{item, props}">
+            <template #item="{item, props: autoCompleteProps}">
               <v-divider v-if="item.raw.divider" />
               <v-list-item
                 v-else
-                v-bind="props"
+                v-bind="autoCompleteProps"
               />
             </template>
           </v-autocomplete>
@@ -128,11 +128,11 @@
             :name="Math.random().toString()"
             :rules="[...schemaLocal.region]"
           >
-            <template #item="{item, props}">
+            <template #item="{item, props: autoCompleteProps}">
               <v-divider v-if="item.raw.divider" />
               <v-list-item
                 v-else
-                v-bind="props"
+                v-bind="autoCompleteProps"
               />
             </template>
           </v-autocomplete>
@@ -174,155 +174,145 @@
   </div>
 </template>
 
-<script lang="ts">
-// TODO move to BCRS shared, convert to script setup
-import { defineComponent, onMounted, toRef, watch } from 'vue'
+<script setup lang="ts">
+import { AddressIF, SchemaIF } from '@bcrs-shared-components/interfaces'
+import { Ref, onMounted, toRef, watch } from 'vue'
 import {
   baseRules,
+  spaceRules,
   useAddress,
   useAddressComplete,
-  useCountryRegions,
-  useCountriesProvinces,
   useBaseValidations,
-  spaceRules
+  useCountriesProvinces,
+  useCountryRegions
 } from '@bcrs-shared-components/base-address/factories'
-import { AddressIF, SchemaIF } from '@bcrs-shared-components/interfaces'
 import { AddressValidationRules } from '@bcrs-shared-components/enums'
 
-export default defineComponent({
-  name: 'BaseAddress',
-  props: {
-    value: {
-      type: Object as () => AddressIF,
-      default: () => ({
-        streetAddress: '',
-        streetAddressAdditional: '',
-        addressCity: '',
-        addressRegion: '',
-        postalCode: '',
-        addressCountry: null,
-        deliveryInstructions: ''
-      })
-    },
-    /* used for readonly mode vs edit mode */
-    editing: {
-      type: Boolean,
-      default: false
-    },
-    /* contains validation for each field */
-    schema: {
-      type: Object as () => SchemaIF,
-      default: null
-    },
-    /* triggers all current form validation errors */
-    triggerErrors: {
-      type: Boolean,
-      default: false
-    },
-    /* Hides the persistent hint field on Address Input */
-    hideAddressHint: {
-      type: Boolean,
-      default: false
-    },
-    /* Hides Delivery Address field (e.g. for Unit Notes) */
-    hideDeliveryAddress: {
-      type: Boolean,
-      default: false
-    }
-  },
-  emits: ['valid', 'update-address'],
-  setup (props, { emit }) {
-    // eslint-disable-next-line vue/no-setup-props-destructure
-    const localSchema = { ...props.schema }
-    const {
-      addressLocal,
-      country,
-      schemaLocal,
-      isSchemaRequired,
-      labels
-    } = useAddress(toRef(props.value), localSchema)
+const props = withDefaults(defineProps<{
+  value: AddressIF
+  editing: boolean
+  schema: SchemaIF
+  triggerErrors: boolean
+  hideAddressHint: boolean
+  hideDeliveryAddress: boolean
+}>(), {
+  value: () => ({
+    streetAddress: '',
+    streetAddressAdditional: '',
+    addressCity: '',
+    addressRegion: '',
+    postalCode: '',
+    addressCountry: null,
+    deliveryInstructions: ''
+  }),
+  /* used for readonly mode vs edit mode */
+  editing: false,
+  /* contains validation for each field */
+  schema: null,
+  /* triggers all current form validation errors */
+  triggerErrors: false,
+  /* Hides the persistent hint field on Address Input */
+  hideAddressHint: false,
+  /* Hides Delivery Address field (e.g. for Unit Notes) */
+  hideDeliveryAddress: false
+})
 
-    const origPostalCodeRules = localSchema.postalCode
-    const origRegionRules = localSchema.region
+const emits = defineEmits<{
+  'update-address': [address: AddressIF]
+  valid: [valid: boolean]
+}>()
 
-    const { addressForm, resetValidation, validate } = useBaseValidations()
+// eslint-disable-next-line vue/no-setup-props-destructure
+const localSchema = { ...props.schema }
+const {
+  addressLocal,
+  country,
+  schemaLocal,
+  labels
+} = useAddress(toRef(props.value) as Ref<AddressIF>, localSchema)
 
-    const { enableAddressComplete, uniqueIds } = useAddressComplete(addressLocal)
+const origPostalCodeRules = localSchema.postalCode
+const origRegionRules = localSchema.region
 
-    const countryProvincesHelpers = useCountriesProvinces()
+const { addressForm, resetValidation, validate } = useBaseValidations()
 
-    const countryChangeHandler = (val: string, oldVal: string) => {
-      // do not trigger any changes if it is view only (summary instance)
-      if (!props.editing) return
+const { enableAddressComplete, uniqueIds } = useAddressComplete(addressLocal)
 
-      if (val === 'CA') {
-        localSchema.postalCode = origPostalCodeRules.concat([baseRules.postalCode])
-        localSchema.region = origRegionRules
-      } else if (val === 'US') {
-        localSchema.postalCode = origPostalCodeRules.concat([baseRules.zipCode])
-        localSchema.region = origRegionRules
-      } else {
-        localSchema.postalCode = origPostalCodeRules.concat([baseRules[AddressValidationRules.MAX_LENGTH](15)])
-        localSchema.region = [baseRules[AddressValidationRules.MAX_LENGTH](2), ...spaceRules]
-      }
-      // reset other address fields (check is for loading an existing address)
-      if (oldVal) {
-        addressLocal.value.streetAddress = ''
-        addressLocal.value.streetAddressAdditional = ''
-        addressLocal.value.addressCity = ''
-        addressLocal.value.addressRegion = ''
-        addressLocal.value.postalCode = ''
-      }
-      // wait for schema update and validate the form
-      setTimeout(() => {
-        props.triggerErrors ? validate() : resetValidation()
-      }, 5)
-    }
+const countryProvincesHelpers = useCountriesProvinces()
 
-    onMounted(() => {
-      countryChangeHandler(addressLocal.value.addressCountry, null)
-    })
+const countryChangeHandler = (val: string, oldVal: string) => {
+  // do not trigger any changes if it is view only (summary instance)
+  if (!props.editing) return
 
-    watch(() => addressLocal.value, (val) => {
-      let valid = true
-      /** checks each field against the schema rules to see if the address is valid or not
-       * NOTE: we don't want it to trigger error msgs yet which is why this does not call validate()
-      */
-      for (const key in val) {
-        for (const index in schemaLocal.value[key]) {
-          if (schemaLocal.value[key][index](val[key]) !== true) {
-            valid = false
-            break
-          }
-        }
-        if (!valid) break
-      }
-      emit('valid', valid)
-      emit('update-address', val)
-    }, { immediate: true, deep: true })
-
-    watch(() => country.value, (val, oldVal) => {
-      countryChangeHandler(val, oldVal)
-    })
-
-    watch(() => props.triggerErrors, () => {
-      validate()
-    })
-
-    return {
-      addressForm,
-      addressLocal,
-      country,
-      ...countryProvincesHelpers,
-      enableAddressComplete,
-      isSchemaRequired,
-      ...labels,
-      schemaLocal,
-      useCountryRegions,
-      ...uniqueIds,
-      validate
-    }
+  if (val === 'CA') {
+    localSchema.postalCode = origPostalCodeRules.concat([baseRules.postalCode])
+    localSchema.region = origRegionRules
+  } else if (val === 'US') {
+    localSchema.postalCode = origPostalCodeRules.concat([baseRules.zipCode])
+    localSchema.region = origRegionRules
+  } else {
+    localSchema.postalCode = origPostalCodeRules.concat([baseRules[AddressValidationRules.MAX_LENGTH](15)])
+    localSchema.region = [baseRules[AddressValidationRules.MAX_LENGTH](2), ...spaceRules]
   }
+  // reset other address fields (check is for loading an existing address)
+  if (oldVal) {
+    addressLocal.value.streetAddress = ''
+    addressLocal.value.streetAddressAdditional = ''
+    addressLocal.value.addressCity = ''
+    addressLocal.value.addressRegion = ''
+    addressLocal.value.postalCode = ''
+  }
+  // wait for schema update and validate the form
+  setTimeout(() => {
+    props.triggerErrors ? validate() : resetValidation()
+  }, 5)
+}
+
+onMounted(() => {
+  countryChangeHandler(addressLocal.value.addressCountry, null)
+})
+
+watch(() => addressLocal.value, (val) => {
+  let valid = true
+  /** checks each field against the schema rules to see if the address is valid or not
+   * NOTE: we don't want it to trigger error msgs yet which is why this does not call validate()
+  */
+  for (const key in val) {
+    for (const index in schemaLocal.value[key]) {
+      if (schemaLocal.value[key][index](val[key]) !== true) {
+        valid = false
+        break
+      }
+    }
+    if (!valid) break
+  }
+  emits('valid', valid)
+  emits('update-address', val)
+}, { immediate: true, deep: true })
+
+watch(() => country.value, (val, oldVal) => {
+  countryChangeHandler(val, oldVal)
+})
+
+watch(() => props.triggerErrors, () => {
+  validate()
+})
+
+const { getCountries, getCountryName, getCountryRegions } = countryProvincesHelpers
+const {
+  countryLabel,
+  streetLabel,
+  streetAdditionalLabel,
+  cityLabel,
+  regionLabel,
+  postalCodeLabel,
+  deliveryInstructionsLabel
+} = labels
+const { streetId, countryId } = uniqueIds
+
+defineExpose({
+  addressForm,
+  validate
 })
 </script>
 
