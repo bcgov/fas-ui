@@ -263,6 +263,11 @@ export function useSearch (props) {
     }
   }
 
+  function handleDateFilterApplied (newDateRange) {
+    dateFilter.value = newDateRange
+    searchNow()
+  }
+
   return {
     headerSearch,
     displayedHeaderSearch,
@@ -290,6 +295,7 @@ export function useSearch (props) {
     isLoading,
     navigateTo,
     fasUrl,
-    initiator
+    initiator,
+    handleDateFilterApplied
   }
 }

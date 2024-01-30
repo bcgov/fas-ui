@@ -86,7 +86,6 @@
                   :headers="displayedHeaderSearch"
                   :items="searchRoutingSlipResult"
                   item-key="name"
-                  headerProps="elevation-1"
                   :sort-by="['routingSlipNumber']"
                   hide-default-header
                   hide-default-footer
@@ -199,11 +198,12 @@
                         <date-range-filter
                           id="date"
                           v-model="dateFilter"
-                          class="text-input-style "
+                          class="text-input-style"
                           hide-details="auto"
                           placeholder="Date"
-                          label="placeholder"
-                          @applied="searchNow()"
+                          label="Date"
+                          density="compact"
+                          @applied="handleDateFilterApplied"
                         />
                       </th>
                       <th
@@ -213,7 +213,7 @@
                         <div class="mt-0">
                           <status-list
                             id="status"
-                            v-model.trim="status"
+                            v-model="status"
                             class="text-input-style "
                             hide-details="auto"
                             density="compact"
@@ -508,7 +508,8 @@ const {
   isLoading,
   navigateTo,
   fasUrl,
-  initiator
+  initiator,
+  handleDateFilterApplied
 } = useSearch(props)
 </script>
 
