@@ -42,7 +42,8 @@
     "vue-sanitize-directive": "^0.2.1",
     "vue-the-mask": "^0.11.1",
     "vuelidate": "^0.7.6",
-    "vuetify": "3.4.11"
+    "vuelidate-property-decorators": "^1.0.28",
+    "vuetify": "^3.5.1"
   },
   "devDependencies": {
     "@types/luxon": "^3.4.1",

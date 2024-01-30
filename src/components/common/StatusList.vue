@@ -16,7 +16,7 @@
 import { Code } from '@/models/Code'
 import { useStatusList } from '@/composables/common'
 
-const props = withDefaults(defineProps<{ modelValue: Code }>(), {
+const props = withDefaults(defineProps<{ modelValue: Code | null }>(), {
   modelValue: null
 })
 

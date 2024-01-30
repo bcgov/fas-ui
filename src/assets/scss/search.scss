@@ -125,10 +125,15 @@
       height: 40px !important;
     }
 
+    .v-field {
+      font-size: 14px;
+    }
+
     .date-range-text-field {
       .v-field__input {
-        padding-top: 8px;
-        padding-bottom: 8px;
+        padding-top: 0px;
+        font-size: 14px;
+        opacity: 1;
       }
 
       .v-input__details {

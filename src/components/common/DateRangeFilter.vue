@@ -8,12 +8,13 @@
     <template #activator="{ props }">
       <v-text-field
         v-model="dateRangeSelectedDisplay"
-        append-inner-icon="mdi-calendar-range"
+        appendInnerIcon="mdi-calendar-range"
         readonly
         v-bind="props"
         variant="filled"
         data-test="input-date-picker"
         class="primary-icon date-range-text-field"
+        placeholder="Date"
       />
     </template>
     <v-card class="date-range-container d-flex">
@@ -64,38 +65,26 @@
           class="date-range-label py-6 mx-6 mb-3"
           v-html="showDateRangeSelected"
         />
-        <!-- <v-date-picker
-          v-model="dateRangeSelected"
-          color="primary"
-          width="400"
-          class="text-center"
-          no-title
-          v-bind="$attrs"
-          :picker-date="pickerDate"
-          data-test="date-date-picker"
-          hide-details="auto"
-          v-on="$listeners"
-          @click:date="dateClick"
-        /> -->
         <v-row>
           <v-col cols="6">
             <v-date-picker
               :key="'start' + datePickerKey"
-              :max="endDate ? endDate : today"
+              v-model="startDate"
+              :min="startDate ? startDate : null"
+              :max="endDate ? endDate : null"
               color="primary"
               title="select start date"
-              v-model="startDate"
               @click="dateClick"
             />
           </v-col>
           <v-col cols="6">
             <v-date-picker
               :key="'end' + datePickerKey"
+              v-model="endDate"
               color="primary"
               title="select end date"
               :min="startDate ? startDate : null"
-              :max="today"
-              v-model="endDate"
+              :max="endDate ? endDate : null"
               @click="dateClick"
             />
           </v-col>
@@ -106,7 +95,6 @@
 </template>
 
 <script setup lang="ts">
-// this is just took from auth-web
 import { useDateRange } from '@/composables/common'
 
 const props = withDefaults(defineProps<{
@@ -117,16 +105,14 @@ const props = withDefaults(defineProps<{
   label: 'Select Date Range'
 })
 const emits = defineEmits<{
+  'applied': [modelValue: any]
 }>()
 
 const {
   dateFilterRanges,
-  dateRangeSelected,
   dateFilterSelectedIndex,
   dateRangeSelectedDisplay,
   showDateFilter,
-  pickerDate,
-  pickerMonthYear,
   dateFilterChange,
   isApplyFilterBtnValid,
   dateClick,
@@ -135,7 +121,6 @@ const {
   cancelDateFilter,
   startDate,
   endDate,
-  today,
   datePickerKey
 } = useDateRange(props, emits)
 </script>
@@ -184,7 +169,8 @@ const {
     cursor: pointer !important;
   }
   .primary-icon .v-icon {
-    color: #1669bb
+    color: rgb(var(--v-theme-primary)) !important;
+    z-index: 100;
   }
   .custom-picker .v-date-picker-header__content{
     display: none;
