@@ -1,49 +1,79 @@
 <template>
-  <!-- <base-address
+  <BaseAddress
     ref="baseAddress"
     :editing="editing"
     :schema="schema"
-    :address="inputaddress"
-    @update:address="emitUpdateAddress"
+    :value="address"
+    @update-address="emitUpdateAddress"
     @valid="emitAddressValidity"
-  /> -->
-  <div>address</div>
+  />
 </template>
 
 <script setup lang="ts">
 import 'sbc-common-components/public/css/addresscomplete-2.30.min.css'
 import 'sbc-common-components/public/js/addresscomplete-2.30.min.js'
-import { Address } from '@/models/Address'
-import { useAddressForm } from '@/composables/common'
-// TODO put base address back.
-// import BaseAddress from '@bcrs-shared-components/base-address/BaseAddress.vue'
+import { ref, toRef } from 'vue'
+import { AddressIF } from '@bcrs-shared-components/interfaces'
+import BaseAddress from '@bcrs-shared-components/base-address/BaseAddress.vue'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   editing: boolean
-  address: Address
+  address: AddressIF
   schema: any
-}>()
+}>(), {
+  editing: true,
+  address: null,
+  schema: {}
+})
 
 const emits = defineEmits<{
-  'update:address': [address: Address]
+  'update-address': [address: AddressIF]
   valid: [valid: boolean]
 }>()
 
-// TODO use these.
 const {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  inputaddress,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  address,
   baseAddress,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   emitUpdateAddress,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   emitAddressValidity,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   triggerValidate
 } = useAddressForm(props, emits)
+
+function useAddressForm (props, emits) {
+  const { address } = toRef(props.address)
+  const baseAddress = ref<HTMLFormElement>()
+
+  function emitUpdateAddress (address: AddressIF): void {
+    emits('update-address', address)
+  }
+
+  function emitAddressValidity (isValid: boolean): void {
+    emits('valid', isValid)
+  }
+
+  function triggerValidate (): boolean {
+    // validate form fields and show error message for address component from sbc-common-component
+    return baseAddress.value?.$refs?.addressForm.validate()
+  }
+
+  return {
+    address,
+    baseAddress,
+    emitUpdateAddress,
+    emitAddressValidity,
+    triggerValidate
+  }
+}
+
+defineExpose({
+  triggerValidate
+})
 </script>
 
 <style lang="scss" scoped>
 @import '$assets/scss/theme.scss';
+
+:deep(.v-input) {
+  margin-bottom: 16px;
+}
 </style>
