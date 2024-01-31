@@ -27,13 +27,12 @@ export function useDateRange (props, emits) {
   })
 
   const dateRangeSelectedDisplay = computed(() => {
-    console.log(dateRangeSelected.value[0])
     if (Array.isArray(dateRangeSelected.value) && dateRangeSelected.value.length > 0 && dateRangeSelected.value[0] !== null) {
       return dateRangeSelected.value
         .map(date => CommonUtils.formatDisplayDate(date, 'yyyy-LL-dd'))
         .join(' - ')
     } else {
-      return 'Date'
+      return ''
     }
   })
 
@@ -150,8 +149,8 @@ export function useDateRange (props, emits) {
       }
 
       // Ensure startDate and endDate are Date objects, to prevent throwing comparing.getDate is not a function
-      startDate.value = newRange[0] instanceof Date ? newRange[0] : new Date(newRange[0])
-      endDate.value = newRange[1] instanceof Date ? newRange[1] : new Date(newRange[1])
+      startDate.value = (newRange[0] instanceof Date) ? DateTime.fromJSDate(newRange[0]).toJSDate() : null
+      endDate.value = (newRange[1] instanceof Date) ? DateTime.fromJSDate(newRange[1]).toJSDate() : null
       dateRangeSelected.value = [startDate.value, endDate.value]
     }
   }

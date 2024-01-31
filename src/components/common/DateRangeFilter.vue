@@ -70,8 +70,8 @@
             <v-date-picker
               :key="'start' + datePickerKey"
               v-model="startDate"
-              :min="startDate ? startDate : null"
-              :max="endDate ? endDate : null"
+              :min="startDate || null"
+              :max="endDate || null"
               color="primary"
               title="select start date"
               @click="dateClick"
@@ -83,8 +83,8 @@
               v-model="endDate"
               color="primary"
               title="select end date"
-              :min="startDate ? startDate : null"
-              :max="endDate ? endDate : null"
+              :min="startDate || null"
+              :max="endDate || null"
               @click="dateClick"
             />
           </v-col>
