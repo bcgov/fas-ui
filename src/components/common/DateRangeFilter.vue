@@ -69,7 +69,10 @@
           v-model="dateRangeSelected"
           multiple="range"
           color="primary"
-          title="select date range"
+          width="400"
+          class="text-center custom-picker"
+          data-test="date-date-picker"
+          hide-details="auto"
         />
       </div>
     </v-card>
@@ -151,7 +154,7 @@ const {
     color: rgb(var(--v-theme-primary)) !important;
     z-index: 100;
   }
-  .custom-picker .v-date-picker-header__content{
+  .custom-picker .bg-primary{
     display: none;
   }
 </style>
