@@ -65,30 +65,12 @@
           class="date-range-label py-6 mx-6 mb-3"
           v-html="showDateRangeSelected"
         />
-        <v-row>
-          <v-col cols="6">
-            <v-date-picker
-              :key="'start' + datePickerKey"
-              v-model="startDate"
-              :min="startDate || null"
-              :max="endDate || null"
-              color="primary"
-              title="select start date"
-              @click="dateClick"
-            />
-          </v-col>
-          <v-col cols="6">
-            <v-date-picker
-              :key="'end' + datePickerKey"
-              v-model="endDate"
-              color="primary"
-              title="select end date"
-              :min="startDate || null"
-              :max="endDate || null"
-              @click="dateClick"
-            />
-          </v-col>
-        </v-row>
+        <v-date-picker
+          v-model="dateRangeSelected"
+          multiple="range"
+          color="primary"
+          title="select date range"
+        />
       </div>
     </v-card>
   </v-menu>
@@ -115,13 +97,10 @@ const {
   showDateFilter,
   dateFilterChange,
   isApplyFilterBtnValid,
-  dateClick,
   applyDateFilter,
   showDateRangeSelected,
   cancelDateFilter,
-  startDate,
-  endDate,
-  datePickerKey
+  dateRangeSelected
 } = useDateRange(props, emits)
 </script>
 
