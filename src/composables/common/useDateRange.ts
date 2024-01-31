@@ -17,6 +17,7 @@ export function useDateRange (props, emits) {
         .join(' - ')
     } else {
       return ''
+      return ''
     }
   })
 
