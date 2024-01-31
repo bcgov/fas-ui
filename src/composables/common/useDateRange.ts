@@ -1,30 +1,14 @@
+import { DateTime, Interval } from 'luxon'
 import { computed, reactive, ref, toRefs, watch } from 'vue'
-
 import CommonUtils from '@/util/common-util'
 import { DateFilterCodes } from '@/util/constants'
-import { DateTime } from 'luxon'
 
 export const DATEFILTER_CODES = DateFilterCodes
 export function useDateRange (props, emits) {
   const { modalValue = ref([]) } = toRefs(props)
-  const datePickerKey = ref(0)
-  const dateRangeSelected = ref(modalValue.value || null)
-  const startDate = ref(dateRangeSelected.value[0] || null)
-  const endDate = ref(dateRangeSelected.value[1] || null)
+  const dateRangeSelected = ref([])
   const oldSelectedRange = ref(modalValue)
   const today = DateTime.now().toJSDate()
-
-  watch(startDate, (newStartDate) => {
-    if (newStartDate !== dateRangeSelected.value[0]) {
-      dateRangeSelected.value = [newStartDate, endDate.value]
-    }
-  })
-
-  watch(endDate, (newEndDate) => {
-    if (newEndDate !== dateRangeSelected.value[1]) {
-      dateRangeSelected.value = [startDate.value, newEndDate]
-    }
-  })
 
   const dateRangeSelectedDisplay = computed(() => {
     if (Array.isArray(dateRangeSelected.value) && dateRangeSelected.value.length > 0 && dateRangeSelected.value[0] !== null) {
@@ -32,6 +16,7 @@ export function useDateRange (props, emits) {
         .map(date => CommonUtils.formatDisplayDate(date, 'yyyy-LL-dd'))
         .join(' - ')
     } else {
+      return ''
       return ''
     }
   })
@@ -124,35 +109,41 @@ export function useDateRange (props, emits) {
   function dateFilterChange (val) {
     if (val > -1) {
       dateFilterSelected.value = dateFilterRanges[val]
-      let newRange
       switch (dateFilterSelected.value.code) {
         case DATEFILTER_CODES.TODAY:
-          newRange = [today, today]
+          dateRangeSelected.value = [today, today]
           break
         case DATEFILTER_CODES.YESTERDAY:
           const yesterday = DateTime.now().minus({ days: 1 })
-          newRange = [yesterday.toJSDate(), yesterday.toJSDate()]
+          dateRangeSelected.value = getDateRangeArray(yesterday.toJSDate(), yesterday.toJSDate())
           break
         case DATEFILTER_CODES.LASTWEEK:
           const weekStartDate = DateTime.now().minus({ weeks: 1 }).startOf('week')
           const weekEndDate = DateTime.now().minus({ weeks: 1 }).endOf('week')
-          newRange = [weekStartDate.toJSDate(), weekEndDate.toJSDate()]
+          dateRangeSelected.value = getDateRangeArray(weekStartDate.toJSDate(), weekEndDate.toJSDate())
           break
         case DATEFILTER_CODES.LASTMONTH:
           const monthStartDate = DateTime.now().minus({ months: 1 }).startOf('month')
           const monthEndDate = DateTime.now().minus({ months: 1 }).endOf('month')
-          newRange = [monthStartDate.toJSDate(), monthEndDate.toJSDate()]
+          dateRangeSelected.value = getDateRangeArray(monthStartDate.toJSDate(), monthEndDate.toJSDate())
           break
         case DATEFILTER_CODES.CUSTOMRANGE:
-          newRange = []
+          dateRangeSelected.value = []
           break
       }
-
-      // Ensure startDate and endDate are Date objects, to prevent throwing comparing.getDate is not a function
-      startDate.value = (newRange[0] instanceof Date) ? DateTime.fromJSDate(newRange[0]).toJSDate() : null
-      endDate.value = (newRange[1] instanceof Date) ? DateTime.fromJSDate(newRange[1]).toJSDate() : null
-      dateRangeSelected.value = [startDate.value, endDate.value]
     }
+  }
+
+  function getDateRangeArray (startDate, endDate) {
+    const start = DateTime.fromJSDate(startDate).startOf('day')
+    const end = DateTime.fromJSDate(endDate).endOf('day')
+
+    const interval = Interval.fromDateTimes(start, end)
+
+    const dateArray = Array.from(interval.splitBy({ days: 1 }))
+      .map(dateTime => dateTime.start.toJSDate())
+
+    return dateArray
   }
 
   function dateClick () {
@@ -163,15 +154,22 @@ export function useDateRange (props, emits) {
   }
 
   function applyDateFilter () {
-    // emit applied event so that we can hook to any @change event in parent. By default, v-model with parent variable is in sync all the time
-    if (dateRangeSelected.value !== null) {
-      emits('applied', dateRangeSelected.value)
-      // updating old value on appy click
-      oldSelectedRange.value = dateRangeSelected.value
+    if (dateRangeSelected.value && dateRangeSelected.value.length > 0) {
+      const firstDate = dateRangeSelected.value[0]
+      const lastDate = dateRangeSelected.value[dateRangeSelected.value.length - 1]
+
+      emits('applied', [firstDate, lastDate])
+
+      oldSelectedRange.value = [firstDate, lastDate]
+    } else {
+      emits('applied', [])
+      oldSelectedRange.value = []
     }
 
+    // Close the date filter UI
     showDateFilter.value = false
   }
+
   function cancelDateFilter () {
     //  on cancel we need to rest to previous value, which we stored in oldSelectedRange
     dateRangeSelected.value = oldSelectedRange.value
@@ -180,12 +178,7 @@ export function useDateRange (props, emits) {
 
   watch(() => props.modelValue, (newValue) => {
     if (!newValue || newValue.length === 0) {
-      // Reset internal state of date-range-filter
-      // For example:
-      startDate.value = null
-      endDate.value = null
       dateRangeSelected.value = []
-      // ... any other internal state related to the selected date
     }
   })
 
@@ -204,9 +197,6 @@ export function useDateRange (props, emits) {
     applyDateFilter,
     showDateRangeSelected,
     cancelDateFilter,
-    startDate,
-    endDate,
-    today,
-    datePickerKey
+    today
   }
 }
