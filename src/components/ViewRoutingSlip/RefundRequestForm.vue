@@ -26,21 +26,25 @@
         >
         </address-form>
       </v-col>
-      <v-col class="col-3 font-weight-bold"
-        :class="canEdit ? 'pt-0' : ''">
+      <v-col
+        class="col-3 font-weight-bold"
+        :class="canEdit ? 'pt-0' : ''"
+        v-if="isEditing || (!isEditing && chequeAdvice)"
+      >
         Cheque Advice
       </v-col>
       <v-col
         class="col-9"
         :class="canEdit ? 'pt-0' : ''">
         <v-text-field
-        filled
-        label="Additional Information"
-        persistent-hint
-        v-model.trim="chequeAdvice"
-        data-test="txtChequeAdvice"
-        :rules="chequeAdviceRules"
-        v-if="isEditing"
+          filled
+          label="Additional Information"
+          persistent-hint
+          v-model.trim="chequeAdvice"
+          data-test="txtChequeAdvice"
+          :rules="chequeAdviceRules"
+          placeholder="There is a 40 character limit. Include what the refund is for."
+          v-if="isEditing"
         >
         </v-text-field>
         <span v-else>{{ chequeAdvice }}</span>

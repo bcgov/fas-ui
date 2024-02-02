@@ -77,9 +77,9 @@ export default function useRoutingSlipInfo (props) {
 
   const showAddress = computed(() => {
     return (
-      (isRefundProcess(currentStatus?.value) && canRequestRefund.value) ||
-        false
-    )
+      isRefundProcess(currentStatus?.value) ||
+      currentStatus?.value?.code === SlipStatus.ACTIVE
+    ) && refundRequestDetails.value
   })
 
   const showAddressEditMode = computed(() => {
@@ -142,6 +142,7 @@ export default function useRoutingSlipInfo (props) {
 
   function cancelOrReject () {
     // rest status and set close addMoreDetails on cancel click
+    isAddressEditable.value = false
     if (isApprovalFlow.value || isRefundProcess(currentStatus.value)) {
       resettoOldStatus()
     } else if (showConfirmationModal(currentStatus.value)) {
