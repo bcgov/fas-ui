@@ -2,7 +2,7 @@
   <v-form ref="refundRequestForm">
     <v-row>
       <v-col class="col-3 font-weight-bold pb-0">
-        {{ 'Name of Person or Organization & Address' }} {{ address }}
+        {{ 'Name of Person or Organization & Address' }}
       </v-col>
       <v-col class="col-9 pb-0">
         <v-text-field
