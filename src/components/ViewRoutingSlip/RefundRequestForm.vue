@@ -2,7 +2,7 @@
   <v-form ref="refundRequestForm">
     <v-row>
       <v-col class="col-3 font-weight-bold pb-0">
-        {{ 'Name of Person or Organization & Address' }}
+        {{ 'Name of Person or Organization & Address' }} {{ address }}
       </v-col>
       <v-col class="col-9 pb-0">
         <v-text-field
@@ -16,7 +16,7 @@
         >
         </v-text-field>
         <span v-else>{{ name }}</span>
-        <address-form
+        <AddressForm
           ref="addressForm"
           :editing="canEdit"
           :schema="baseAddressSchema"
@@ -24,12 +24,12 @@
           @update:address="address=$event"
           @valid="addressValidity"
         >
-        </address-form>
+        </AddressForm>
       </v-col>
       <v-col
         class="col-3 font-weight-bold"
         :class="canEdit ? 'pt-0' : ''"
-        v-if="isEditing || (!isEditing && chequeAdvice)"
+        v-if="isEditing || chequeAdvice"
       >
         Cheque Advice
       </v-col>
@@ -43,7 +43,8 @@
           v-model.trim="chequeAdvice"
           data-test="txtChequeAdvice"
           :rules="chequeAdviceRules"
-          placeholder="There is a 40 character limit. Include what the refund is for."
+          maxLength=40
+          placeholder="There is a 40 character limit. Include the entity name, entity number and what the refund is for."
           v-if="isEditing"
         >
         </v-text-field>

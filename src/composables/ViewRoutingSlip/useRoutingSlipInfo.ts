@@ -79,7 +79,7 @@ export default function useRoutingSlipInfo (props) {
     return (
       isRefundProcess(currentStatus?.value) ||
       currentStatus?.value?.code === SlipStatus.ACTIVE
-    ) && refundRequestDetails.value
+    )
   })
 
   const showAddressEditMode = computed(() => {
