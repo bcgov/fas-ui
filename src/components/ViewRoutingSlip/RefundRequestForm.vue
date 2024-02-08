@@ -1,7 +1,10 @@
 <template>
   <v-form ref="refundRequestForm">
     <v-row>
-      <v-col class="col-3 font-weight-bold pb-0">
+      <v-col
+        class="col-3 font-weight-bold pb-0"
+        v-if="isEditing || name"
+      >
         {{ 'Name of Person or Organization & Address' }}
       </v-col>
       <v-col class="col-9 pb-0">
