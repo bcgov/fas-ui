@@ -35,6 +35,7 @@ export interface RoutingSlip {
   createdOn?: string
   total?: number
   remainingAmount?: number
+  refundAmount?: number
   invoices?: Invoice[]
   status?: string
   createdName?:string,

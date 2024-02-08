@@ -57,10 +57,18 @@
                 >
               </v-col>
             </v-row>
+            <v-row v-if="routingSlipDetails.refundAmount">
+              <v-col class="col-6 col-sm-3 font-weight-bold">
+                Refund Amount
+              </v-col>
+              <v-col class="col-6 col-sm-9">
+                {{ routingSlipDetails.refundAmount }}
+              </v-col>
+            </v-row>
 
             <v-expand-transition>
               <template v-if="showAddress">
-                <refund-request-form
+                <RefundRequestForm
                   ref="refundRequestForm"
                   :inputRefundRequestDetails="refundRequestDetails"
                   :isEditing="showAddressEditMode"
@@ -68,7 +76,7 @@
                   :isApprovalFlow="isApprovalFlow"
                   :routingSlipDetails="routingSlipDetails"
                 >
-                </refund-request-form>
+                </RefundRequestForm>
               </template>
             </v-expand-transition>
 
