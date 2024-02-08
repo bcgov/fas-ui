@@ -38,12 +38,18 @@ export default defineConfig(({ mode }) => {
         fileName: (format) => `lib.${format}.min.js`
       } : undefined,
       terserOptions: {
+        keep_classnames: true,
+        keep_fnames: true,
         format: {
           semicolons: false
         }
       },
       rollupOptions: {
         external: (request) => {
+          // If library, use externals, otherwise the Vue/ composition-api instance in Auth-web will have issues.
+          if (isLibBuild && (/^@vue\/composition-api$/.test(request) || /^vue$/.test(request))) {
+            return true
+          }
           return false
         }
       },
