@@ -38,6 +38,8 @@ export default defineConfig(({ mode }) => {
         fileName: (format) => `lib.${format}.min.js`
       } : undefined,
       terserOptions: {
+        keep_classnames: true,
+        keep_fnames: true,
         format: {
           semicolons: false
         }
