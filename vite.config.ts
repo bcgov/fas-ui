@@ -44,10 +44,6 @@ export default defineConfig(({ mode }) => {
       },
       rollupOptions: {
         external: (request) => {
-          // If library, use externals, otherwise the Vue/ composition-api instance in Auth-web will have issues.
-          if (isLibBuild && (/^@vue\/composition-api$/.test(request) || /^vue$/.test(request))) {
-            return true
-          }
           return false
         }
       },
