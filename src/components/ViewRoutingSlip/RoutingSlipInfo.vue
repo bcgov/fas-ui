@@ -57,12 +57,12 @@
                 >
               </v-col>
             </v-row>
-            <v-row v-if="routingSlipDetails.refundAmount">
+            <v-row v-if="showRefundAmount">
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 Refund Amount
               </v-col>
               <v-col class="col-6 col-sm-9">
-                {{ routingSlipDetails.refundAmount }}
+                {{ routingSlipDetails.refundAmount || routingSlipDetails.remainingAmount }}
               </v-col>
             </v-row>
 
@@ -172,6 +172,7 @@ import can from '@/directives/can'
       isRoutingSlipAChild,
       statusChange,
       showAddress,
+      showRefundAmount,
       refundRequestForm,
       refundRequestDetails,
       errorMessage,
@@ -195,6 +196,7 @@ import can from '@/directives/can'
       isRoutingSlipAChild,
       statusChange,
       showAddress,
+      showRefundAmount,
       refundRequestForm,
       refundRequestDetails,
       errorMessage,

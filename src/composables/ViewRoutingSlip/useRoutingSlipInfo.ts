@@ -82,6 +82,12 @@ export default function useRoutingSlipInfo (props) {
     )
   })
 
+  const showRefundAmount = computed(() => {
+    return (
+      isRefundProcess(currentStatus?.value)
+    )
+  })
+
   const showAddressEditMode = computed(() => {
     // need show address as editable also as view
     return isAddressEditable.value
@@ -274,6 +280,7 @@ export default function useRoutingSlipInfo (props) {
     isRoutingSlipAChild,
     statusChange,
     showAddress,
+    showRefundAmount,
     refundRequestForm,
     refundRequestDetails,
     errorMessage,
