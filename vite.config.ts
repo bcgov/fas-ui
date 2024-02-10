@@ -32,7 +32,6 @@ export default defineConfig(({ mode }) => {
       'import.meta.env.ABOUT_TEXT': generateAboutText(aboutText1, aboutText2)
     },
     envPrefix: 'VUE_APP_', // Need to remove this after fixing vaults. Use import.meta.env with VUE_APP.
-
     build: {
       sourcemap: true,
       lib: isLibBuild ? {
