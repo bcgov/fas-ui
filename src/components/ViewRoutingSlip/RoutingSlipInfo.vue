@@ -57,17 +57,26 @@
                 >
               </v-col>
             </v-row>
+            <v-row v-if="showRefundAmount">
+              <v-col class="col-6 col-sm-3 font-weight-bold">
+                Refund Amount
+              </v-col>
+              <v-col class="col-6 col-sm-9">
+                {{ routingSlipDetails.refundAmount || routingSlipDetails.remainingAmount }}
+              </v-col>
+            </v-row>
 
             <v-expand-transition>
-              <template v-if="showAddress && addMoreDetails">
-                <refund-request-form
+              <template v-if="showAddress">
+                <RefundRequestForm
                   ref="refundRequestForm"
                   :inputRefundRequestDetails="refundRequestDetails"
                   :isEditing="showAddressEditMode"
                   @update:refundRequestDetails="refundRequestDetails = $event"
                   :isApprovalFlow="isApprovalFlow"
+                  :routingSlipDetails="routingSlipDetails"
                 >
-                </refund-request-form>
+                </RefundRequestForm>
               </template>
             </v-expand-transition>
 
@@ -163,6 +172,7 @@ import can from '@/directives/can'
       isRoutingSlipAChild,
       statusChange,
       showAddress,
+      showRefundAmount,
       refundRequestForm,
       refundRequestDetails,
       errorMessage,
@@ -186,6 +196,7 @@ import can from '@/directives/can'
       isRoutingSlipAChild,
       statusChange,
       showAddress,
+      showRefundAmount,
       refundRequestForm,
       refundRequestDetails,
       errorMessage,
