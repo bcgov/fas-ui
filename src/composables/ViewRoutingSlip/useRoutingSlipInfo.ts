@@ -38,8 +38,11 @@ export default function useRoutingSlipInfo (props) {
   })
 
   const refundAmount = computed(() => {
-    const amount = routingSlipDetails.value.refundAmount ?? routingSlipDetails.value.remainingAmount
-    return amount ? CommonUtils.appendCurrencySymbol(amount.toFixed(2)) : '$0.00'
+    const amount = (routingSlipDetails.value.refundAmount !== null && routingSlipDetails.value.refundAmount > 0)
+      ? routingSlipDetails.value.refundAmount
+      : routingSlipDetails.value.remainingAmount
+
+    return amount > 0 ? CommonUtils.appendCurrencySymbol(amount.toFixed(2)) : null
   })
 
   const { t } = useI18n()
@@ -89,7 +92,7 @@ export default function useRoutingSlipInfo (props) {
 
   const showRefundAmount = computed(() => {
     return (
-      isRefundProcess(currentStatus?.value)
+      isRefundProcess(currentStatus?.value) && refundAmount
     )
   })
 
