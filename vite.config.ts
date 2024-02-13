@@ -1,5 +1,7 @@
 import EnvironmentPlugin from 'vite-plugin-environment'
+import { buildSync } from 'esbuild'
 import { defineConfig } from 'vite'
+import { join } from 'node:path'
 import fs from 'fs'
 import path from 'path'
 import pluginRewriteAll from 'vite-plugin-rewrite-all'
@@ -82,7 +84,19 @@ export default defineConfig(({ mode }) => {
         BUILD: 'web' // Fix for Vuelidate, allows process.env with Vite.
       }),
       postcssNesting,
-      pluginRewriteAll()
+      pluginRewriteAll(),
+      {
+        apply: 'build',
+        enforce: 'post',
+        transformIndexHtml () {
+          buildSync({
+            minify: true,
+            bundle: true,
+            entryPoints: [join(process.cwd(), 'service-worker.js')],
+            outfile: join(process.cwd(), 'lib', 'service-worker.js')
+          })
+        }
+      }
     ],
     resolve: {
       alias: {
