@@ -37,6 +37,11 @@ export default function useRoutingSlipInfo (props) {
     return routingSlip.value || {}
   })
 
+  const refundAmount = computed(() => {
+    const amount = routingSlipDetails.value.refundAmount ?? routingSlipDetails.value.remainingAmount
+    return amount ? CommonUtils.appendCurrencySymbol(amount.toFixed(2)) : '$0.00'
+  })
+
   const { t } = useI18n()
 
   const modalText = computed(() => {
@@ -281,6 +286,7 @@ export default function useRoutingSlipInfo (props) {
     statusChange,
     showAddress,
     showRefundAmount,
+    refundAmount,
     refundRequestForm,
     refundRequestDetails,
     errorMessage,

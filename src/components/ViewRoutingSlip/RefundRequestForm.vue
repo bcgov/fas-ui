@@ -3,7 +3,7 @@
     <v-row>
       <v-col
         class="col-3 font-weight-bold pb-0"
-        v-if="isEditing || name"
+        v-if="isEditing || name || address"
       >
         {{ 'Name of Person or Organization & Address' }}
       </v-col>
