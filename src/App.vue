@@ -31,7 +31,7 @@
       <loader-component v-show="isThereActiveCalls"></loader-component>
       <router-view v-show="!isThereActiveCalls" />
     </div>
-    <sbc-footer></sbc-footer>
+    <sbc-footer :aboutText="aboutText" />
   </v-app>
 </template>
 <script lang="ts">
@@ -47,6 +47,7 @@ import SbcLoader from 'sbc-common-components/src/components/SbcLoader.vue'
 import { useLoader, useErrorAlert } from './composables/common'
 
 import BreadCrumb from '@/components/common/BreadCrumb.vue'
+import { computed } from '@vue/composition-api'
 
 @Component({
   components: {
@@ -65,18 +66,22 @@ import BreadCrumb from '@/components/common/BreadCrumb.vue'
     /* if hasCallFailed is true, then we display the error alert component. */
     const { hasCallFailed } = useErrorAlert()
 
+    const aboutText = computed<string>(() => {
+      return import.meta.env.ABOUT_TEXT
+    })
+
     return {
       hasCallFailed,
-      isThereActiveCalls
-
+      isThereActiveCalls,
+      aboutText
     }
   }
 })
 export default class App extends Vue {
-  private showLoading = true
-  private logoutUrl = ''
+  showLoading = true
+  logoutUrl = ''
 
-  private async mounted (): Promise<void> {
+  async mounted (): Promise<void> {
     this.showLoading = false
   }
 }

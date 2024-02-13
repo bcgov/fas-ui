@@ -1,5 +1,7 @@
 import EnvironmentPlugin from 'vite-plugin-environment'
+import { buildSync } from 'esbuild'
 import { defineConfig } from 'vite'
+import { join } from 'node:path'
 import fs from 'fs'
 import path from 'path'
 import pluginRewriteAll from 'vite-plugin-rewrite-all'
@@ -13,12 +15,16 @@ const sbcName = JSON.parse(packageJson).sbcName
 const sbcVersion = JSON.parse(packageJson).dependencies['sbc-common-components']
 const aboutText1 = (appName && appVersion) ? `${appName} v${appVersion}` : ''
 const aboutText2 = (sbcName && sbcVersion) ? `${sbcName} v${sbcVersion}` : ''
-
 const generateAboutText = (aboutText1, aboutText2) => {
-  return (aboutText1 && aboutText2) ? `"${aboutText1}<br>${aboutText2}"`
-    : aboutText1 ? `"${aboutText1}"`
-      : aboutText2 ? `"${aboutText2}"`
-        : '""' // Ensure a string is always returned
+  if (aboutText1 && aboutText2) {
+    return `"${aboutText1}<br>${aboutText2}"`
+  } else if (aboutText1) {
+    return `"${aboutText1}"`
+  } else if (aboutText2) {
+    return `"${aboutText2}"`
+  } else {
+    return ''
+  }
 }
 
 export default defineConfig(({ mode }) => {
@@ -28,7 +34,6 @@ export default defineConfig(({ mode }) => {
       'import.meta.env.ABOUT_TEXT': generateAboutText(aboutText1, aboutText2)
     },
     envPrefix: 'VUE_APP_', // Need to remove this after fixing vaults. Use import.meta.env with VUE_APP.
-
     build: {
       sourcemap: true,
       lib: isLibBuild ? {
@@ -79,7 +84,19 @@ export default defineConfig(({ mode }) => {
         BUILD: 'web' // Fix for Vuelidate, allows process.env with Vite.
       }),
       postcssNesting,
-      pluginRewriteAll()
+      pluginRewriteAll(),
+      {
+        apply: 'build',
+        enforce: 'post',
+        transformIndexHtml () {
+          buildSync({
+            minify: true,
+            bundle: true,
+            entryPoints: [join(process.cwd(), 'service-worker.js')],
+            outfile: join(process.cwd(), 'lib', 'service-worker.js')
+          })
+        }
+      }
     ],
     resolve: {
       alias: {
