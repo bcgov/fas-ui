@@ -165,7 +165,8 @@ export default class CommonUtils {
       SlipStatus.REFUNDREQUEST,
       SlipStatus.REFUNDAUTHORIZED,
       SlipStatus.REFUNDCOMPLETED,
-      SlipStatus.REFUNDREJECTED
+      SlipStatus.REFUNDREJECTED,
+      SlipStatus.REFUNDUPLOADED
     ].includes(status)
   }
 
