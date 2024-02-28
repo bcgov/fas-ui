@@ -2,10 +2,11 @@
   <v-form ref="refundRequestForm">
     <v-row>
       <v-col
+        data-test="rsDetail"
         class="col-3 font-weight-bold pb-0"
-        v-if="isEditing || name || address"
+        v-if="isEditing || name || isAddressNotEmpty"
       >
-        {{ 'Name of Person or Organization & Address' }}
+        {{ 'Name of Person or Organization & Address' }} name: {{ name }} address: {{ isAddressNotEmpty }}
       </v-col>
       <v-col class="col-9 pb-0">
         <v-text-field
@@ -77,6 +78,7 @@ import { RefundRequestDetails } from '@/models/RoutingSlip'
       address,
       addressForm,
       addressValidity,
+      isAddressNotEmpty,
       isValid,
       canEdit
     } = useRefundRequestForm(props, context)
@@ -91,6 +93,7 @@ import { RefundRequestDetails } from '@/models/RoutingSlip'
       address,
       addressForm,
       addressValidity,
+      isAddressNotEmpty,
       isValid,
       canEdit
     }
