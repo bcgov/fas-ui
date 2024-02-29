@@ -62,7 +62,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { useRefundRequestForm } from '@/composables/ViewRoutingSlip'
 import AddressForm from '@/components/common/AddressForm.vue'
 import { RefundRequestDetails } from '@/models/RoutingSlip'
-import { address } from 'tests/unit/test-data/mock-routing-slip'
 
 @Component({
   components: {

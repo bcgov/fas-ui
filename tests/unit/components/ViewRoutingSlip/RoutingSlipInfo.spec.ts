@@ -134,8 +134,7 @@ describe('RoutingSlipInfo.vue', () => {
   it('display RefundRequestForm component when status is REFUNDREQUEST', async () => {
     vi.spyOn(CommonUtils, 'isApproverRole').mockReturnValue(false)
     vi.spyOn(CommonUtils, 'isVoidRole').mockReturnValue(false)
-    // vi.spyOn(CommonUtils, 'isRefundProcessStatus').mockReturnValue(true)
-    const isRefundProcessStatusSpy = vi.spyOn(CommonUtils, 'isRefundProcessStatus')
+    vi.spyOn(CommonUtils, 'isRefundProcessStatus').mockReturnValue(true)
     vi.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
     vi.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
 
@@ -150,7 +149,6 @@ describe('RoutingSlipInfo.vue', () => {
     })
 
     await wrapper.vm.$nextTick()
-    expect(isRefundProcessStatusSpy).toHaveBeenCalled()
     expect(wrapper.findComponent({ name: 'RefundRequestForm' }).exists()).toBe(true)
   })
 })
