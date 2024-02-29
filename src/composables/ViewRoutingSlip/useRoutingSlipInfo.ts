@@ -84,10 +84,7 @@ export default function useRoutingSlipInfo (props) {
   })
 
   const showAddress = computed(() => {
-    return (
-      isRefundProcess(currentStatus?.value) ||
-      currentStatus?.value?.code === SlipStatus.ACTIVE
-    )
+    return !!isRefundProcess(currentStatus?.value) || !!showAddressEditMode.value
   })
 
   const showRefundAmount = computed(() => {
@@ -100,6 +97,7 @@ export default function useRoutingSlipInfo (props) {
     // need show address as editable also as view
     return isAddressEditable.value
   })
+
   const allowedStatusList = computed(() => {
     // get allowed status from API and add here
     let allowedStatuses = routingSlipDetails.value?.allowedStatuses || []
@@ -236,6 +234,12 @@ export default function useRoutingSlipInfo (props) {
   function isRefundProcess (status) {
     return CommonUtils.isRefundProcessStatus(status?.code)
   }
+
+  const isRefundState = computed(() => {
+    return (
+      isRefundProcess(currentStatus?.value) && refundAmount
+    )
+  })
 
   function isNSFProcess (status) {
     return status?.code === SlipStatus.NSF

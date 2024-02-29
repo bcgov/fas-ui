@@ -91,4 +91,66 @@ describe('RoutingSlipInfo.vue', () => {
     // expect(wrapper.findComponent(StatusMenu).exists()).toBeTruthy()
     // expect(wrapper.vm.showAddressEditMode).toBeTruthy()
   })
+
+  it('should have refundRequestForm component', async () => {
+    vi.spyOn(CommonUtils, 'isApproverRole').mockReturnValue(false)
+    vi.spyOn(CommonUtils, 'isVoidRole').mockReturnValue(false)
+    vi.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
+    vi.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
+    const wrapper = shallowMount(RoutingSlipInfo, {
+      localVue,
+      vuetify,
+      i18n,
+      directives: {
+        can () { /* stub */ }
+      }
+    })
+
+    expect(wrapper.find('[data-test="label-status"]').exists()).toBeTruthy()
+    expect(wrapper.findComponent(StatusMenu).exists()).toBeTruthy()
+  })
+
+  it('hides RefundRequestForm component when status is not refund process', async () => {
+    vi.spyOn(CommonUtils, 'isApproverRole').mockReturnValue(false)
+    vi.spyOn(CommonUtils, 'isVoidRole').mockReturnValue(false)
+    vi.spyOn(CommonUtils, 'isRefundProcessStatus').mockReturnValue(false)
+    vi.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
+    vi.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
+
+    const wrapper: any = mount(RoutingSlipInfo, {
+      localVue,
+      vuetify,
+      i18n,
+      directives: {
+        can () { /* stub */ }
+      },
+      mocks: { i18n }
+    })
+
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findComponent({ name: 'RefundRequestForm' }).exists()).toBe(false)
+  })
+
+  it('display RefundRequestForm component when status is REFUNDREQUEST', async () => {
+    vi.spyOn(CommonUtils, 'isApproverRole').mockReturnValue(false)
+    vi.spyOn(CommonUtils, 'isVoidRole').mockReturnValue(false)
+    // vi.spyOn(CommonUtils, 'isRefundProcessStatus').mockReturnValue(true)
+    const isRefundProcessStatusSpy = vi.spyOn(CommonUtils, 'isRefundProcessStatus')
+    vi.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
+    vi.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
+
+    const wrapper: any = mount(RoutingSlipInfo, {
+      localVue,
+      vuetify,
+      i18n,
+      directives: {
+        can () { /* stub */ }
+      },
+      mocks: { i18n }
+    })
+
+    await wrapper.vm.$nextTick()
+    expect(isRefundProcessStatusSpy).toHaveBeenCalled()
+    expect(wrapper.findComponent({ name: 'RefundRequestForm' }).exists()).toBe(true)
+  })
 })

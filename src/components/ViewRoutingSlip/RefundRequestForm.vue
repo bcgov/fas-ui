@@ -4,9 +4,9 @@
       <v-col
         data-test="rsDetail"
         class="col-3 font-weight-bold pb-0"
-        v-if="isEditing || name || isAddressNotEmpty"
+        v-if="canEdit || name || address"
       >
-        {{ 'Name of Person or Organization & Address' }} name: {{ name }} address: {{ isAddressNotEmpty }}
+        {{ 'Name of Person or Organization & Address' }}
       </v-col>
       <v-col class="col-9 pb-0">
         <v-text-field
@@ -62,6 +62,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { useRefundRequestForm } from '@/composables/ViewRoutingSlip'
 import AddressForm from '@/components/common/AddressForm.vue'
 import { RefundRequestDetails } from '@/models/RoutingSlip'
+import { address } from 'tests/unit/test-data/mock-routing-slip'
 
 @Component({
   components: {
@@ -78,7 +79,6 @@ import { RefundRequestDetails } from '@/models/RoutingSlip'
       address,
       addressForm,
       addressValidity,
-      isAddressNotEmpty,
       isValid,
       canEdit
     } = useRefundRequestForm(props, context)
@@ -93,7 +93,6 @@ import { RefundRequestDetails } from '@/models/RoutingSlip'
       address,
       addressForm,
       addressValidity,
-      isAddressNotEmpty,
       isValid,
       canEdit
     }

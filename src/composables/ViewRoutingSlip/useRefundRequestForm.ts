@@ -28,13 +28,6 @@ export default function useRefundRequestForm (props, context) {
     return !isApprovalFlow.value && isEditing.value
   })
 
-  const isAddressNotEmpty = computed(() => {
-    // Destructure the expected properties from the address object
-    const { street, city, region, postalCode, country } = address.value || {}
-    // Check if any of the properties have a meaningful value
-    return [street, city, region, postalCode, country].some(value => value !== undefined && value !== '')
-  })
-
   function addressValidity (isValid: boolean): void {
     isAddressValid.value = isValid
   }
@@ -75,7 +68,6 @@ export default function useRefundRequestForm (props, context) {
     address,
     addressForm,
     addressValidity,
-    isAddressNotEmpty,
     isValid,
     canEdit
   }
