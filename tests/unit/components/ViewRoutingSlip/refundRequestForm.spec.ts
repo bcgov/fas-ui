@@ -18,7 +18,7 @@ describe('RefundRequestForm.vue', () => {
     vi.clearAllMocks()
   })
 
-  it('renders component', () => {
+  it('renders component', async () => {
     const wrapper: any = mount(RefundRequestForm, {
       localVue,
       vuetify,
@@ -30,6 +30,7 @@ describe('RefundRequestForm.vue', () => {
         inputRefundRequestDetails: refundRequestDetails
       }
     })
+    await wrapper.vm.$nextTick()
     expect(wrapper.find('[data-test="txtName"]').exists()).toBeTruthy()
     expect(wrapper.vm.name).toBe(refundRequestDetails.name)
     expect(wrapper.vm.address).toStrictEqual(refundRequestDetails.mailingAddress)

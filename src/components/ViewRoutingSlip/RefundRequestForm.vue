@@ -2,8 +2,9 @@
   <v-form ref="refundRequestForm">
     <v-row>
       <v-col
+        data-test="rsDetail"
         class="col-3 font-weight-bold pb-0"
-        v-if="isEditing || name || address"
+        v-if="canEdit || name || address"
       >
         {{ 'Name of Person or Organization & Address' }}
       </v-col>
