@@ -8,6 +8,7 @@ import Vuetify from 'vuetify'
 import StatusMenu from '@/components/common/StatusMenu.vue'
 import ConfigHelper from '@/util/config-helper'
 import initialize from '@/plugins/i18n'
+import Vuelidate from 'vuelidate'
 
 describe('RoutingSlipInfo.vue', () => {
   const i18n = initialize(Vue)
@@ -18,6 +19,7 @@ describe('RoutingSlipInfo.vue', () => {
   }
 
   beforeEach(() => {
+    localVue.use(Vuelidate)
     vi.resetModules()
     vi.clearAllMocks()
   })
