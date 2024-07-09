@@ -1,13 +1,13 @@
 <template>
-<v-app id="app">
+  <v-app id="app">
     <div
       class="header-group"
       ref="headerGroup"
     >
       <!-- loader  -->
-      <sbc-loader :show="showLoading" />
+      <SbcLoader :show="showLoading" />
       <!-- common header -->
-        <sbc-header
+      <SbcHeader
         class="flex-column"
         :key="$store.state.refreshKey"
         :inAuth="false"
@@ -16,40 +16,35 @@
         :redirect-on-logout="logoutUrl"
         :showActions="true"
       >
-      </sbc-header>
-      <bread-crumb />
+      </SbcHeader>
+      <BreadCrumb />
       <!-- error alert -->
-      <error-alert-component
-      :message="$t('errorAlertMessage')"
-      v-if="hasCallFailed"
-      ></error-alert-component>
+      <ErrorAlertComponent
+        :message="$t('errorAlertMessage')"
+        v-if="hasCallFailed"
+      ></ErrorAlertComponent>
 
     </div>
     <!-- body content -->
     <div class="app-body">
       <!-- using v-show instead of v-if to persist state -->
-      <loader-component v-show="isThereActiveCalls"></loader-component>
+      <LoaderComponent v-show="isThereActiveCalls"></LoaderComponent>
       <router-view v-show="!isThereActiveCalls" />
     </div>
-    <sbc-footer :aboutText="aboutText" />
+    <SbcFooter :aboutText="aboutText" />
   </v-app>
 </template>
 <script lang="ts">
-import Vue from 'vue'
-import { Component } from 'vue-property-decorator'
-
+import { defineComponent, ref, computed, onMounted } from '@vue/composition-api'
 import ErrorAlertComponent from '@/components/common/ErrorAlertComponent.vue'
 import LoaderComponent from '@/components/common/LoaderComponent.vue'
-
 import SbcFooter from 'sbc-common-components/src/components/SbcFooter.vue'
 import SbcHeader from 'sbc-common-components/src/components/SbcHeader.vue'
 import SbcLoader from 'sbc-common-components/src/components/SbcLoader.vue'
 import { useLoader, useErrorAlert } from './composables/common'
-
 import BreadCrumb from '@/components/common/BreadCrumb.vue'
-import { computed } from '@vue/composition-api'
 
-@Component({
+export default defineComponent({
   components: {
     SbcHeader,
     SbcFooter,
@@ -59,39 +54,34 @@ import { computed } from '@vue/composition-api'
     BreadCrumb
   },
   setup () {
-    /* Getter will return number of axios calls that are in progress with request.config.globalloading set to true
-    This value is used to toggle between showing route and loading progress components
-    if there are active calls, loading component is rendered else router-view */
     const { isThereActiveCalls } = useLoader()
-    /* if hasCallFailed is true, then we display the error alert component. */
     const { hasCallFailed } = useErrorAlert()
-
     const aboutText = computed<string>(() => {
       return import.meta.env.ABOUT_TEXT
+    })
+    const showLoading = ref(true)
+    const logoutUrl = ref('')
+
+    onMounted(() => {
+      showLoading.value = false
     })
 
     return {
       hasCallFailed,
       isThereActiveCalls,
-      aboutText
+      aboutText,
+      showLoading,
+      logoutUrl
     }
   }
 })
-export default class App extends Vue {
-  showLoading = true
-  logoutUrl = ''
-
-  async mounted (): Promise<void> {
-    this.showLoading = false
-  }
-}
 </script>
 
 <style lang="scss">
   .app-container {
     display: flex;
     flex-flow: column nowrap;
-    min-height: 100vh
+    min-height: 100vh;
   }
 
   .header-group {
@@ -106,7 +96,8 @@ export default class App extends Vue {
     flex: 1 1 auto;
     position: relative;
   }
-  .sbc-header{
-    height: 70px
+
+  .sbc-header {
+    height: 70px;
   }
 </style>
