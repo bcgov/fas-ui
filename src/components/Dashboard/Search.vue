@@ -29,8 +29,8 @@
         </v-btn>
       </v-col>
       <v-col sm="2" cols="12">
-        <search-column-filter-component v-model="headerSearch" hide-details>
-        </search-column-filter-component>
+        <SearchColumnFilterComponent v-model="headerSearch" hide-details>
+        </SearchColumnFilterComponent>
       </v-col>
     </v-row>
     <v-row class="mt-0">
@@ -155,14 +155,14 @@
                           />
                         </th>
                         <th scope="date" v-if="canShowColumn('date')">
-                          <date-range-filter
+                          <DateRangeFilter
                             class="text-input-style "
                             v-model="dateFilter"
                             @applied="searchNow()"
                             hide-details="auto"
                             placeholder="Date"
                           >
-                          </date-range-filter>
+                          </DateRangeFilter>
                         </th>
                         <th scope="status" v-if="canShowColumn('status')">
                           <div class="mt-0">
@@ -404,6 +404,14 @@
                       </tr>
                     </transition>
                   </template>
+
+                  <template #[`body.append`]>
+                    <tr v-if="!reachedEnd">
+                      <td :colspan="displayedHeaderSearch.length">
+                        <TableObserver @intersect="getNext()" />
+                      </td>
+                    </tr>
+                  </template>
                 </v-data-table>
               </transition>
             </v-col>
@@ -416,18 +424,24 @@
 
 <script lang="ts">
 import '@/shims-vue-composition-api'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { defineComponent } from '@vue/composition-api'
 import { useSearch } from '@/composables/Dashboard/useSearch'
 import DateRangeFilter from '@/components/common/DateRangeFilter.vue'
 import SearchColumnFilterComponent from '@/components/common/SearchColumnFilterComponent.vue'
 import statusListComponent from '@/components/common/StatusList.vue'
-
+import TableObserver from '@/components/common/TableObserver.vue'
 import commonUtil from '@/util/common-util'
 import { useDashboard } from '@/composables/Dashboard'
 import can from '@/directives/can'
 import { PaymentMethods } from '@/util/constants'
 
-@Component({
+export default defineComponent({
+  props: {
+    isLibraryMode: {
+      type: Boolean,
+      default: false
+    }
+  },
   setup (props, context) {
     const { addRoutingSlip } = useDashboard(props, context)
     const {
@@ -457,8 +471,15 @@ import { PaymentMethods } from '@/util/constants'
       isLoading,
       navigateTo,
       fasUrl,
-      initiator
+      initiator,
+      reachedEnd,
+      getNext
     } = useSearch(props, context)
+
+    const colors = commonUtil.statusListColor
+    const appendCurrencySymbol = commonUtil.appendCurrencySymbol
+    const formatDisplayDate = commonUtil.formatDisplayDate
+
     return {
       headerSearch,
       displayedHeaderSearch,
@@ -487,27 +508,25 @@ import { PaymentMethods } from '@/util/constants'
       isLoading,
       navigateTo,
       fasUrl,
-      initiator
+      initiator,
+      reachedEnd,
+      getNext,
+      colors,
+      appendCurrencySymbol,
+      formatDisplayDate,
+      PaymentMethods
     }
   },
   components: {
     DateRangeFilter,
     SearchColumnFilterComponent,
-    statusList: statusListComponent
+    statusList: statusListComponent,
+    TableObserver
   },
   directives: {
     can
   }
 })
-export default class Search extends Vue {
-  public colors = commonUtil.statusListColor
-  public appendCurrencySymbol = commonUtil.appendCurrencySymbol
-  public formatDisplayDate = commonUtil.formatDisplayDate
-
-  PaymentMethods = PaymentMethods
-
-  @Prop({ default: () => false }) isLibraryMode: boolean
-}
 </script>
 
 <style lang="scss">

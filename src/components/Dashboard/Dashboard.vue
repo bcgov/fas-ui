@@ -6,7 +6,7 @@
           <div class="d-flex justify-space-between" :class="{'flex-column': $vuetify.breakpoint.xs}">
             <div>
               <h1 class="view-header__title">FAS Staff Dashboard</h1>
-              <p  :class="{'mb-16': !$vuetify.breakpoint.xs}">
+              <p :class="{'mb-16': !$vuetify.breakpoint.xs}">
                 {{ $t('dashboardSubText') }}
               </p>
             </div>
@@ -23,13 +23,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { defineComponent } from '@vue/composition-api'
 import Search from '@/components/Dashboard/Search.vue'
 import DailyReport from '@/components/Dashboard/DailyReport.vue'
-
 import can from '@/directives/can'
 
-@Component({
+export default defineComponent({
   components: {
     Search,
     DailyReport
@@ -38,10 +37,10 @@ import can from '@/directives/can'
     can
   }
 })
-export default class Dashboard extends Vue {}
 </script>
+
 <style lang="scss" scoped>
-.view-heade {
-  flex-direction: colum;
-}
+  .view-header {
+    flex-direction: column;
+  }
 </style>

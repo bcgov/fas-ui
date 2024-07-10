@@ -14,7 +14,9 @@ export function useSearch (props, context) {
     searchParamsExist,
     searchRoutingSlip,
     searchRoutingSlipParams,
-    searchRoutingSlipResult
+    searchRoutingSlipResult,
+    infiniteScrollCallback,
+    defaultParams
   } = useRoutingSlip()
   const { isLibraryMode } = toRefs(props)
   // Adding openFromAuth=true queryparams so that we can build breadcrumbs
@@ -28,6 +30,7 @@ export function useSearch (props, context) {
   const showExpandedCheque = ref([])
   // to make sure not updating result on keyup
   const searchParamsChanged = ref(false)
+  const reachedEnd = ref(false)
 
   const headerSearch: any = computed({
     get: () => {
@@ -63,6 +66,7 @@ export function useSearch (props, context) {
     set: (modalValue: any) => {
       searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
+        ...defaultParams,
         routingSlipNumber: modalValue
       }
       searchParamsChanged.value = true
@@ -76,6 +80,7 @@ export function useSearch (props, context) {
     set: (modalValue: any) => {
       searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
+        ...defaultParams,
         receiptNumber: modalValue
       }
       searchParamsChanged.value = true
@@ -89,6 +94,7 @@ export function useSearch (props, context) {
     set: (modalValue: any) => {
       searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
+        ...defaultParams,
         status: modalValue
       }
       searchParamsChanged.value = true
@@ -102,6 +108,7 @@ export function useSearch (props, context) {
     set: (modalValue: any) => {
       searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
+        ...defaultParams,
         businessIdentifier: modalValue
       }
       searchParamsChanged.value = true
@@ -115,6 +122,7 @@ export function useSearch (props, context) {
     set: (modalValue: any) => {
       searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
+        ...defaultParams,
         accountName: modalValue
       }
       searchParamsChanged.value = true
@@ -128,6 +136,7 @@ export function useSearch (props, context) {
     set: (modalValue: any) => {
       searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
+        ...defaultParams,
         initiator: modalValue
       }
       searchParamsChanged.value = true
@@ -141,6 +150,7 @@ export function useSearch (props, context) {
     set: (modalValue: any) => {
       searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
+        ...defaultParams,
         remainingAmount: modalValue
       }
       searchParamsChanged.value = true
@@ -154,6 +164,7 @@ export function useSearch (props, context) {
     set: (modalValue: any) => {
       searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
+        ...defaultParams,
         dateFilter: modalValue
       }
       searchParamsChanged.value = true
@@ -167,6 +178,7 @@ export function useSearch (props, context) {
     set: (modalValue: any) => {
       searchRoutingSlipParams.value = {
         ...searchRoutingSlipParams.value,
+        ...defaultParams,
         chequeReceiptNumber: modalValue
       }
       searchParamsChanged.value = true
@@ -202,8 +214,12 @@ export function useSearch (props, context) {
     return statusLabel(code)
   }
 
-  function clearFilter () {
+  async function clearFilter () {
+    toggleLoading()
     resetSearchParams()
+    await searchRoutingSlip()
+    searchParamsChanged.value = false
+    toggleLoading()
   }
 
   function toggleFolio (id: number) {
@@ -261,6 +277,11 @@ export function useSearch (props, context) {
     }
   }
 
+  const getNext = debounce(async () => {
+    if (isLoading.value) return
+    reachedEnd.value = await infiniteScrollCallback()
+  }, 100) // Adjust the wait time as needed
+
   return {
     headerSearch,
     displayedHeaderSearch,
@@ -288,6 +309,8 @@ export function useSearch (props, context) {
     isLoading,
     navigateTo,
     fasUrl,
-    initiator
+    initiator,
+    reachedEnd,
+    getNext
   }
 }
