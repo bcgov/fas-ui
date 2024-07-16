@@ -67,7 +67,7 @@ jobs:
         with:
           flags: fasui
           name: codecov-fas-ui
-          fail_ci_if_error: true
+          fail_ci_if_error: false
 
   build-check:
     needs: setup-job

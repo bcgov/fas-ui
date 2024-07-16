@@ -105,6 +105,9 @@ export default class CommonUtils {
   }
 
   static cleanObject (obj) {
+    if (obj.remainingAmount) {
+      obj.remainingAmount = obj.remainingAmount.replace(/[^0-9.]/g, '')
+    }
     return Object.keys(obj)
       .filter((k) => obj[k] !== '' && obj[k] !== null)
       .reduce((a, k) => ({ ...a, [k]: obj[k] }), {})
