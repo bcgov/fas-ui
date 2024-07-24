@@ -58,18 +58,25 @@ export function useSearch (props, context) {
     })
   }
 
+  function updateSearchFilter (updates: any) {
+    searchRoutingSlipParams.value = {
+      ...searchRoutingSlipParams.value,
+      ...defaultParams,
+      ...updates
+    }
+    searchParamsChanged.value = true
+    reachedEnd.value = false
+  }
+
   // using same v-model value for getting value and update parent on change
   const routingSlipNumber: any = computed({
     get: () => {
       return searchRoutingSlipParams.value.routingSlipNumber || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
-        ...defaultParams,
+      updateSearchFilter({
         routingSlipNumber: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -78,12 +85,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.receiptNumber || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
-        ...defaultParams,
+      updateSearchFilter({
         receiptNumber: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -92,12 +96,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.status || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
-        ...defaultParams,
+      updateSearchFilter({
         status: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -106,12 +107,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.businessIdentifier || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
-        ...defaultParams,
+      updateSearchFilter({
         businessIdentifier: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -120,12 +118,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value?.accountName || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
-        ...defaultParams,
+      updateSearchFilter({
         accountName: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -134,12 +129,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.initiator || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
-        ...defaultParams,
+      updateSearchFilter({
         initiator: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -148,12 +140,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.remainingAmount || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
-        ...defaultParams,
+      updateSearchFilter({
         remainingAmount: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -162,12 +151,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.dateFilter || []
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
-        ...defaultParams,
+      updateSearchFilter({
         dateFilter: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -176,12 +162,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.chequeReceiptNumber || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
-        ...defaultParams,
+      updateSearchFilter({
         chequeReceiptNumber: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
