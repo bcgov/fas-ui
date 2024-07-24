@@ -58,7 +58,7 @@ export function useSearch (props, context) {
     })
   }
 
-  function updateSearchFilter(updates: any) {
+  function updateSearchFilter (updates: any) {
     searchRoutingSlipParams.value = {
       ...searchRoutingSlipParams.value,
       ...defaultParams,
