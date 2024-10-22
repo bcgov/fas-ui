@@ -1,6 +1,6 @@
 <template>
   <v-select
-    :items="routingSlipStatusList"
+    :items="statusList"
     v-model="currentStatus"
     filled
     item-text="description"
@@ -13,25 +13,37 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from '@vue/composition-api'
+import { useStatusList } from '@/composables/common'
+import { RoutingSlipRefundStatus } from '@/util/constants'
+
 /** component for status list.
  * example
  * <status-list v-model="currentStatus" label="Status"></status-list>
  */
 
-import { Component, Prop } from 'vue-property-decorator'
-import Vue from 'vue'
-import { useStatusList } from '@/composables/common'
-
-@Component({
+export default defineComponent({
+  name: 'StatusList',
+  props: {
+    value: {
+      type: String,
+      required: false
+    },
+    column: {
+      type: String,
+      required: false
+    }
+  },
   setup (props, context) {
     const { routingSlipStatusList, currentStatus } = useStatusList(props, context)
+
+    const statusList = props.column === 'status' ? routingSlipStatusList : RoutingSlipRefundStatus.map(({ code }) => code)
+
     return {
-      routingSlipStatusList,
+      statusList,
       currentStatus
     }
   }
 })
-export default class StatusList extends Vue {
-  @Prop() value: string
-}
+
 </script>

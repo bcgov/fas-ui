@@ -42,7 +42,8 @@ export interface RoutingSlip {
   parentNumber?:string,
   refunds?:Refund[],
   totalUsd?: number
-  allowedStatuses?: string[]
+  allowedStatuses?: string[],
+  refundStatus?: string
 }
 // Class for storing values in CreateRoutingSlipDetails component
 export interface RoutingSlipDetails {

@@ -168,11 +168,24 @@
                           <div class="mt-0">
                           <!-- Placeholder work around, until we upgrade Vuetify in sbc-auth -->
                             <status-list
+                              column="status"
                               class="text-input-style "
                               v-model="status"
                               @change="searchNow()"
                               hide-details="auto"
                               :placeholder="!status ? 'Status' : ''"
+                            ></status-list>
+                          </div>
+                        </th>
+                        <th scope="refundStatus" v-if="canShowColumn('refundStatus')">
+                          <div class="mt-0">
+                            <status-list
+                              column="refundStatus"
+                              class="text-input-style "
+                              v-model="refundStatus"
+                              @change="searchNow()"
+                              hide-details="auto"
+                              :placeholder="!refundStatus ? 'Refund Status' : ''"
                             ></status-list>
                           </div>
                         </th>
@@ -278,6 +291,23 @@
                                 : '-'
                             }}</span
                           >
+                        </td>
+                        <td v-if="canShowColumn('refundStatus')">
+                          <span
+                            v-if="item.refundStatus !== RoutingSlipRefundStatus.find(status => status.code === 'CHEQUE_UNDELIVERABLE').code"
+                            data-test="label-refund-status"
+                          >
+                            {{ item.refundStatus ? getRefundStatusText(item.refundStatus) : '-' }}
+                          </span>
+                          <v-chip
+                            v-else
+                            small
+                            label
+                            class="item-chip"
+                            color="error"
+                          >
+                            {{ getRefundStatusText(item.refundStatus) }}
+                          </v-chip>
                         </td>
                         <td v-if="canShowColumn('businessIdentifier')">
                           <span
@@ -433,7 +463,7 @@ import TableObserver from '@/components/common/TableObserver.vue'
 import commonUtil from '@/util/common-util'
 import { useDashboard } from '@/composables/Dashboard'
 import can from '@/directives/can'
-import { PaymentMethods } from '@/util/constants'
+import { PaymentMethods, RoutingSlipRefundStatus } from '@/util/constants'
 
 export default defineComponent({
   props: {
@@ -448,6 +478,7 @@ export default defineComponent({
       headerSearch,
       displayedHeaderSearch,
       status,
+      refundStatus,
       routingSlipNumber,
       receiptNumber,
       dateFilter,
@@ -473,7 +504,8 @@ export default defineComponent({
       fasUrl,
       initiator,
       reachedEnd,
-      getNext
+      getNext,
+      getRefundStatusText
     } = useSearch(props, context)
 
     const colors = commonUtil.statusListColor
@@ -484,6 +516,7 @@ export default defineComponent({
       headerSearch,
       displayedHeaderSearch,
       status,
+      refundStatus,
       routingSlipNumber,
       receiptNumber,
       dateFilter,
@@ -514,7 +547,9 @@ export default defineComponent({
       colors,
       appendCurrencySymbol,
       formatDisplayDate,
-      PaymentMethods
+      PaymentMethods,
+      RoutingSlipRefundStatus,
+      getRefundStatusText
     }
   },
   components: {

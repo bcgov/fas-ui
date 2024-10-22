@@ -132,7 +132,7 @@ export default function useTransactionDataTable (props) {
 
   // disable cancel button in invoice rows if routing slip has any of these statuses
   const disableCancelButton = computed(() => {
-    return [SlipStatus.NSF, SlipStatus.REFUNDAUTHORIZED, SlipStatus.REFUNDCOMPLETED, SlipStatus.REFUNDREQUEST, SlipStatus.VOID, SlipStatus.CORRECTION].includes(routingSlip.value.status as SlipStatus)
+    return [SlipStatus.NSF, SlipStatus.REFUNDAUTHORIZED, SlipStatus.REFUNDPROCESSED, SlipStatus.REFUNDREQUEST, SlipStatus.VOID, SlipStatus.CORRECTION].includes(routingSlip.value.status as SlipStatus)
   })
 
   function isAlreadyCancelled (currentStatus) {

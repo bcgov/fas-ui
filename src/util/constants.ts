@@ -36,7 +36,7 @@ export enum SlipStatus {
   LINKED = 'LINKED',
   REFUNDREQUEST = 'REFUND_REQUESTED',
   REFUNDAUTHORIZED = 'REFUND_AUTHORIZED',
-  REFUNDCOMPLETED = 'REFUND_COMPLETED',
+  REFUNDPROCESSED = 'REFUND_PROCESSED',
   REFUNDUPLOADED = 'REFUND_UPLOADED',
   REFUNDREJECTED = 'REFUND_REJECTED',
   CANCEL_REFUND_REQUEST = 'CANCEL_REFUND_REQUEST',
@@ -151,6 +151,14 @@ export const headerSearchTitle =
     className: 'status'
   },
   {
+    text: 'Refund Status',
+    align: 'start',
+    sortable: false,
+    value: 'refundStatus',
+    display: true,
+    className: 'refundStatus'
+  },
+  {
     text: 'Reference Number',
     align: 'start',
     value: 'businessIdentifier',
@@ -182,5 +190,20 @@ export const headerSearchTitle =
     display: true,
     hideInSearchColumnFilter: true,
     className: 'action'
+  }
+]
+
+export const RoutingSlipRefundStatus = [
+  {
+    code: 'PROCESSING',
+    text: 'PROCESSING'
+  },
+  {
+    code: 'PROCESSED',
+    text: 'PROCESSED'
+  },
+  {
+    code: 'CHEQUE_UNDELIVERABLE',
+    text: 'CHEQUE UNDELIVERABLE'
   }
 ]

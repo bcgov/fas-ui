@@ -52,6 +52,24 @@ export default class RoutingSlip {
     )
   }
 
+  public static async updateRoutingSlipRefundStatus (
+    code: string,
+    routingSlipNumber: string
+  ): Promise<AxiosResponse> {
+    return axios.patch(
+      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}?action=updateRefundStatus`,
+      { refund_status: code }
+    )
+  }
+
+  public static async updateRoutingSlipComments (
+    comments: any,
+    slipNumber: string
+  ): Promise<AxiosResponse> {
+    const url = `${ConfigHelper.getFasAPIURL()}/routing-slips/${slipNumber}/comments`
+    return axios.post(url, comments)
+  }
+
   public static async updateRoutingSlipRefund (
     details: string,
     routingSlipNumber: string
