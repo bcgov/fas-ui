@@ -24,7 +24,7 @@
       <v-col
         data-test="rsDetail"
         class="col-3 font-weight-bold pb-0"
-        v-if="canEdit || address"
+        v-if="showAddress"
       >
         {{ 'Address' }}
       </v-col>
@@ -128,6 +128,7 @@ import { useRoutingSlip } from '@/composables/useRoutingSlip'
 import { useSearch } from '@/composables/Dashboard/useSearch'
 
 export default defineComponent({
+  name: 'RefundRequestForm',
   components: {
     AddressForm
   },
@@ -176,10 +177,11 @@ export default defineComponent({
         const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlipOperations.routingSlip.value?.number }
         await routingSlipOperations.getRoutingSlip(getRoutingSlipRequestPayload)
       }
+      context.emit('commentsUpdated')
     }
 
     return {
-      ...toRefs(state), // Convert all reactive properties to refs
+      ...toRefs(state),
       currentRefundStatusLabel,
       filteredStatuses,
       expendStatus,

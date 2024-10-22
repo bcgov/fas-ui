@@ -75,6 +75,7 @@
                   @update:refundRequestDetails="refundRequestDetails = $event"
                   :isApprovalFlow="isApprovalFlow"
                   :routingSlipDetails="routingSlipDetails"
+                  @commentsUpdated="$emit('commentsUpdated')"
                 >
                 </RefundRequestForm>
               </template>
