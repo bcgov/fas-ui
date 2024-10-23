@@ -5,9 +5,14 @@ import { ApiErrors, CreateRoutingSlipStatus, headerSearchTitle as headerSearchTi
 import CommonUtils from '@/util/common-util'
 import { BusinessInfo, GetFeeRequestParams, Payment, TransactionParams } from '@/models/Payment'
 
+const defaultParams = {
+  page: 1,
+  limit: 50,
+  total: Infinity
+}
 const headerSearchTitle = ref(headerSearchTitleConstant)
 const searchRoutingSlipResult = ref<RoutingSlip[]>([])
-const searchRoutingSlipParams = ref<any>({})
+const searchRoutingSlipParams = ref<any>(defaultParams)
 
 const routingSlip = ref<RoutingSlip>({})
 const linkedRoutingSlips = ref<LinkedRoutingSlips>(undefined)
@@ -197,11 +202,11 @@ export const useRoutingSlip = () => {
   }
 
   const resetSearchParams = (): void => {
-    searchRoutingSlipParams.value = {}
+    searchRoutingSlipParams.value = defaultParams
     searchRoutingSlipResult.value = []
   }
 
-  const searchRoutingSlip = async () => {
+  const searchRoutingSlip = async (appendToResults = false) => {
     // // build the RoutingSlip Request JSON object that needs to be sent.
 
     let params = { ...searchRoutingSlipParams.value }
@@ -226,9 +231,6 @@ export const useRoutingSlip = () => {
     if (params.status) {
       params.status = params.status.code
     }
-    // for time being setting limit to avoid overloading
-    params.page = 1
-    params.limit = 50
 
     if (Object.keys(params).length > 0) {
       // need to reset result of there is no search params
@@ -236,7 +238,19 @@ export const useRoutingSlip = () => {
         params
       )
       if (response && response.data && response.status === 200) {
-        searchRoutingSlipResult.value = response.data?.items
+        searchRoutingSlipParams.value = {
+          ...searchRoutingSlipParams.value,
+          total: response.data?.total || 0
+        }
+        if (appendToResults) {
+          searchRoutingSlipResult.value = [
+            ...searchRoutingSlipResult.value,
+            ...response.data?.items
+          ]
+        } else {
+          searchRoutingSlipResult.value = response.data?.items
+        }
+
         return
       }
     }
@@ -375,6 +389,17 @@ export const useRoutingSlip = () => {
     return await RoutingSlipService.cancelRoutingSlipInvoice(invoiceId)
   }
 
+  async function infiniteScrollCallback () {
+    const params = { ...searchRoutingSlipParams.value }
+    if (params.total !== Infinity && params.total < params.limit) return true
+    searchRoutingSlipParams.value = {
+      ...searchRoutingSlipParams.value,
+      page: searchRoutingSlipParams.value.page ? searchRoutingSlipParams.value.page + 1 : 1
+    }
+    await searchRoutingSlip(true)
+    return false
+  }
+
   return {
     headerSearchTitle,
     searchRoutingSlipResult,
@@ -393,6 +418,7 @@ export const useRoutingSlip = () => {
     isRoutingSlipAChild,
     isRoutingSlipLinked,
     isRoutingSlipVoid,
+    defaultParams,
     updateRoutingSlipChequeNumber,
     updateRoutingSlipAmount,
     createRoutingSlip,
@@ -409,6 +435,7 @@ export const useRoutingSlip = () => {
     getAutoCompleteRoutingSlips,
     getFeeByCorpTypeAndFilingType,
     saveManualTransactions,
-    cancelRoutingSlipInvoice
+    cancelRoutingSlipInvoice,
+    infiniteScrollCallback
   }
 }

@@ -14,7 +14,9 @@ export function useSearch (props, context) {
     searchParamsExist,
     searchRoutingSlip,
     searchRoutingSlipParams,
-    searchRoutingSlipResult
+    searchRoutingSlipResult,
+    infiniteScrollCallback,
+    defaultParams
   } = useRoutingSlip()
   const { isLibraryMode } = toRefs(props)
   // Adding openFromAuth=true queryparams so that we can build breadcrumbs
@@ -28,6 +30,7 @@ export function useSearch (props, context) {
   const showExpandedCheque = ref([])
   // to make sure not updating result on keyup
   const searchParamsChanged = ref(false)
+  const reachedEnd = ref(false)
 
   const headerSearch: any = computed({
     get: () => {
@@ -55,17 +58,25 @@ export function useSearch (props, context) {
     })
   }
 
+  function updateSearchFilter (updates: any) {
+    searchRoutingSlipParams.value = {
+      ...searchRoutingSlipParams.value,
+      ...defaultParams,
+      ...updates
+    }
+    searchParamsChanged.value = true
+    reachedEnd.value = false
+  }
+
   // using same v-model value for getting value and update parent on change
   const routingSlipNumber: any = computed({
     get: () => {
       return searchRoutingSlipParams.value.routingSlipNumber || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
+      updateSearchFilter({
         routingSlipNumber: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -74,11 +85,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.receiptNumber || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
+      updateSearchFilter({
         receiptNumber: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -87,11 +96,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.status || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
+      updateSearchFilter({
         status: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -100,11 +107,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.businessIdentifier || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
+      updateSearchFilter({
         businessIdentifier: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -113,11 +118,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value?.accountName || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
+      updateSearchFilter({
         accountName: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -126,11 +129,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.initiator || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
+      updateSearchFilter({
         initiator: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -139,11 +140,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.remainingAmount || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
+      updateSearchFilter({
         remainingAmount: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -152,11 +151,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.dateFilter || []
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
+      updateSearchFilter({
         dateFilter: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -165,11 +162,9 @@ export function useSearch (props, context) {
       return searchRoutingSlipParams.value.chequeReceiptNumber || ''
     },
     set: (modalValue: any) => {
-      searchRoutingSlipParams.value = {
-        ...searchRoutingSlipParams.value,
+      updateSearchFilter({
         chequeReceiptNumber: modalValue
-      }
-      searchParamsChanged.value = true
+      })
     }
   })
 
@@ -202,8 +197,12 @@ export function useSearch (props, context) {
     return statusLabel(code)
   }
 
-  function clearFilter () {
+  async function clearFilter () {
+    toggleLoading()
     resetSearchParams()
+    await searchRoutingSlip()
+    searchParamsChanged.value = false
+    toggleLoading()
   }
 
   function toggleFolio (id: number) {
@@ -261,6 +260,11 @@ export function useSearch (props, context) {
     }
   }
 
+  const getNext = debounce(async () => {
+    if (isLoading.value) return
+    reachedEnd.value = await infiniteScrollCallback()
+  }, 100) // Adjust the wait time as needed
+
   return {
     headerSearch,
     displayedHeaderSearch,
@@ -288,6 +292,8 @@ export function useSearch (props, context) {
     isLoading,
     navigateTo,
     fasUrl,
-    initiator
+    initiator,
+    reachedEnd,
+    getNext
   }
 }
