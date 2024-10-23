@@ -31,7 +31,7 @@ export default function useFilingTypeAutoComplete (props, context) {
       if (search.value.length > 2) {
         const response = await RoutingSlipService.getSearchFilingType(search.value)
         if (response && response.data && response.status === 200) {
-          autoCompleteFilingTypes.value = response.data?.items.filter(item => item?.filingTypeCode?.code !== 'NSF')
+          autoCompleteFilingTypes.value = response.data?.items
         } else {
           autoCompleteFilingTypes.value = []
         }
