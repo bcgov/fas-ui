@@ -36,7 +36,7 @@ export default defineComponent({
   name: 'StatusMenu',
   props: {
     value: {
-      type: String,
+      type: Object,
       required: false
     },
     allowedStatusList: {

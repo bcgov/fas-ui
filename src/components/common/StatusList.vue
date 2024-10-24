@@ -40,6 +40,7 @@ export default defineComponent({
     const statusList = props.column === 'status' ? routingSlipStatusList : RoutingSlipRefundStatus.map(({ code }) => code)
 
     return {
+      routingSlipStatusList,
       statusList,
       currentStatus
     }

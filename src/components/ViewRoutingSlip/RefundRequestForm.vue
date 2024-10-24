@@ -56,15 +56,15 @@
           small
           label
           class="item-chip"
-          :color="currentRefundStatus === RoutingSlipRefundStatus.find(status => status.code === 'CHEQUE_UNDELIVERABLE').code ? 'error' : 'default'"
+          :color="currentRefundStatus === RoutingSlipRefundCodes.CHEQUE_UNDELIVERABLE ? 'error' : 'default'"
         >
-          {{ getRefundStatusText(currentRefundStatus) }}
+          {{ currentRefundStatusLabel }}
         </v-chip>
         <v-menu
           close-on-content-click
           offset-y
           v-model="isExpanded"
-          v-if="!canEdit"
+          v-if="!canEdit && currentRefundStatusLabel !== RoutingSlipRefundCodes.PROCESSING"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -80,7 +80,11 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item v-for="status in RoutingSlipRefundStatus" :key="status.code" @click="updateRefundStatus(status.code)">
+            <v-list-item
+                v-for="status in RoutingSlipRefundStatus.filter(s => s.code !== currentRefundStatus && s.display)"
+                :key="status.code"
+                @click="updateRefundStatus(status.code)"
+              >
               <v-list-item-title>{{ status.text }}</v-list-item-title>
             </v-list-item>
           </v-list>
@@ -114,11 +118,11 @@
   </v-form>
 </template>
 <script lang="ts">
-import { defineComponent, ref, toRefs } from '@vue/composition-api'
+import { computed, defineComponent, ref } from '@vue/composition-api'
 import { useRefundRequestForm, useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
 import AddressForm from '@/components/common/AddressForm.vue'
-import { RefundRequestDetails } from '@/models/RoutingSlip'
-import { RoutingSlipRefundStatus } from '@/util/constants'
+import { GetRoutingSlipRequestPayload, RefundRequestDetails } from '@/models/RoutingSlip'
+import { RoutingSlipRefundCodes, RoutingSlipRefundStatus } from '@/util/constants'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
 import { useSearch } from '@/composables/Dashboard/useSearch'
 
@@ -155,12 +159,13 @@ export default defineComponent({
       canEdit
     } = useRefundRequestForm(props, context)
 
-    const { getRefundStatusText, getStatusFromRefundStatus } = useSearch(props, context)
+    const { getRefundStatusText } = useSearch(props, context)
 
     const { routingSlipDetails } = useRoutingSlipInfo(props)
-    const { updateRoutingSlipRefundStatus, updateRoutingSlipStatus, updateRoutingSlipComments } = useRoutingSlip()
+    const { updateRoutingSlipRefundStatus, updateRoutingSlipComments, getRoutingSlip, routingSlip } = useRoutingSlip()
 
     const currentRefundStatus = ref(routingSlipDetails.value?.refundStatus)
+    const currentRefundStatusLabel = computed(() => getRefundStatusText(currentRefundStatus.value))
 
     const isExpanded = ref(false)
 
@@ -170,17 +175,16 @@ export default defineComponent({
 
     async function updateRefundStatus (status: string) {
       await updateRoutingSlipRefundStatus(status)
-      const statusDetails = {
-        status: getStatusFromRefundStatus(status)
-      }
-      await updateRoutingSlipStatus(statusDetails)
-      const comment = `Refund status updated from ${getRefundStatusText(currentRefundStatus.value)} to ${getRefundStatusText(status)}`
+      const comment = `Refund status updated from ${getRefundStatusText(currentRefundStatus?.value)} to ${getRefundStatusText(status)}`
       await updateRoutingSlipComments(comment)
       currentRefundStatus.value = status
+      if (routingSlip.value?.number) {
+        const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value?.number }
+        await getRoutingSlip(getRoutingSlipRequestPayload)
+      }
     }
 
     return {
-      ...toRefs(props),
       baseAddressSchema,
       refundRequestForm,
       nameRules,
@@ -198,7 +202,9 @@ export default defineComponent({
       isExpanded,
       RoutingSlipRefundStatus,
       getRefundStatusText,
-      updateRoutingSlipComments
+      updateRoutingSlipComments,
+      currentRefundStatusLabel,
+      RoutingSlipRefundCodes
     }
   }
 })

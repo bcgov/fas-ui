@@ -196,14 +196,22 @@ export const headerSearchTitle =
 export const RoutingSlipRefundStatus = [
   {
     code: 'PROCESSING',
-    text: 'PROCESSING'
+    text: 'PROCESSING',
+    display: false
   },
   {
     code: 'PROCESSED',
-    text: 'PROCESSED'
+    text: 'PROCESSED',
+    display: true
   },
   {
     code: 'CHEQUE_UNDELIVERABLE',
-    text: 'CHEQUE UNDELIVERABLE'
+    text: 'CHEQUE UNDELIVERABLE',
+    display: true
   }
 ]
+
+export const RoutingSlipRefundCodes = RoutingSlipRefundStatus.reduce((acc, status) => {
+  acc[status.code] = status.code
+  return acc
+}, {} as { [key: string]: string })
