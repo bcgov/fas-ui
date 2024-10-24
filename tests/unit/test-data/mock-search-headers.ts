@@ -55,6 +55,14 @@ export const headerSearch = [
     className: 'folioNumber'
   },
   {
+    text: 'Refund Status',
+    align: 'start',
+    sortable: false,
+    value: 'refundStatus',
+    display: true,
+    className: 'refundStatus'
+  },
+  {
     text: 'Cheque Number',
     align: 'start',
     value: 'chequeReceiptNumber',

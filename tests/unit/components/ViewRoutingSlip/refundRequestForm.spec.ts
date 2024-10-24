@@ -1,11 +1,16 @@
 import { createLocalVue, mount } from '@vue/test-utils'
 
 import { RefundRequestForm } from '@/components/ViewRoutingSlip'
+import Vue from 'vue'
 import Vuetify from 'vuetify'
+import initialize from '@/plugins/i18n'
 
 import { refundRequestDetails } from '../../test-data/mock-routing-slip'
+import { RoutingSlipRefundCodes, RoutingSlipRefundStatus } from '@/util/constants'
+import CommonUtils from '@/util/common-util'
 
 describe('RefundRequestForm.vue', () => {
+  const i18n = initialize(Vue)
   const localVue = createLocalVue()
 
   const vuetify = new Vuetify({})
@@ -19,15 +24,25 @@ describe('RefundRequestForm.vue', () => {
   })
 
   it('renders component', async () => {
+    vi.spyOn(CommonUtils, 'isApproverRole').mockReturnValue(true)
     const wrapper: any = mount(RefundRequestForm, {
       localVue,
       vuetify,
+      i18n,
       stubs: {
         AddressForm: MyStub
       },
       propsData: {
         isEditing: true,
         inputRefundRequestDetails: refundRequestDetails
+      },
+      mocks: {
+        RoutingSlipRefundCodes,
+        RoutingSlipRefundStatus
+      },
+      provide: {
+        RoutingSlipRefundCodes,
+        RoutingSlipRefundStatus
       }
     })
     await wrapper.vm.$nextTick()

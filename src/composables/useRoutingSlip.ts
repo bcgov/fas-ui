@@ -175,6 +175,34 @@ export const useRoutingSlip = () => {
     }
   }
 
+  const updateRoutingSlipRefundStatus = async (status: any) => {
+    const slipNumber = routingSlip.value.number
+    try {
+      const responseData = await RoutingSlipService.updateRoutingSlipRefundStatus(status, slipNumber)
+      return responseData
+    } catch (error) {
+      console.error('Error updating refund status:', error)
+      return error?.response
+    }
+  }
+
+  const updateRoutingSlipComments = async (text: any) => {
+    const slipNumber = routingSlip.value.number
+    const data = {
+      comment: {
+        businessId: slipNumber,
+        comment: text
+      }
+    }
+    try {
+      const responseData = await RoutingSlipService.updateRoutingSlipComments(data, slipNumber)
+      return responseData
+    } catch (error) {
+      console.error('Error updating routing slip comments:', error)
+      return error?.response
+    }
+  }
+
   const adjustRoutingSlip = async (payments: Payment[]): Promise<RoutingSlip> => {
     // build the RoutingSlip Request JSON object that needs to be sent.
     const slipNumber = routingSlip.value.number
@@ -425,6 +453,7 @@ export const useRoutingSlip = () => {
     checkRoutingNumber,
     getRoutingSlip,
     updateRoutingSlipStatus,
+    updateRoutingSlipRefundStatus,
     adjustRoutingSlip,
     resetRoutingSlipDetails,
     resetSearchParams,
@@ -436,6 +465,7 @@ export const useRoutingSlip = () => {
     getFeeByCorpTypeAndFilingType,
     saveManualTransactions,
     cancelRoutingSlipInvoice,
-    infiniteScrollCallback
+    infiniteScrollCallback,
+    updateRoutingSlipComments
   }
 }
