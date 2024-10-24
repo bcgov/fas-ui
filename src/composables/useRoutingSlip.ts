@@ -175,25 +175,18 @@ export const useRoutingSlip = () => {
     }
   }
 
-  const updateRoutingSlipRefundStatus = async (
-    status: any
-  ) => {
+  const updateRoutingSlipRefundStatus = async (status: any) => {
     const slipNumber = routingSlip.value.number
     try {
-      const response = await RoutingSlipService.updateRoutingSlipRefundStatus(status, slipNumber)
-      if (response?.data && (response.status === 200 || response.status === 202)) {
-        return response
-      }
+      const responseData = await RoutingSlipService.updateRoutingSlipRefundStatus(status, slipNumber)
+      return responseData
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('error ', error.response)
+      console.error('Error updating refund status:', error)
       return error?.response
     }
   }
 
-  const updateRoutingSlipComments = async (
-    text: any
-  ) => {
+  const updateRoutingSlipComments = async (text: any) => {
     const slipNumber = routingSlip.value.number
     const data = {
       comment: {
@@ -202,13 +195,10 @@ export const useRoutingSlip = () => {
       }
     }
     try {
-      const response = await RoutingSlipService.updateRoutingSlipComments(data, slipNumber)
-      if (response?.data && (response.status === 200 || response.status === 202)) {
-        return response
-      }
+      const responseData = await RoutingSlipService.updateRoutingSlipComments(data, slipNumber)
+      return responseData
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('error ', error.response)
+      console.error('Error updating routing slip comments:', error)
       return error?.response
     }
   }

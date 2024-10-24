@@ -56,18 +56,38 @@ export default class RoutingSlip {
     code: string,
     routingSlipNumber: string
   ): Promise<AxiosResponse> {
-    return axios.patch(
-      `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}?action=updateRefundStatus`,
-      { refund_status: code }
-    )
+    try {
+      const response = await axios.patch(
+        `${ConfigHelper.getFasAPIURL()}/routing-slips/${routingSlipNumber}?action=updateRefundStatus`,
+        { refund_status: code }
+      )
+      if (response?.data) {
+        return response.data
+      }
+      return null
+    } catch (error) {
+      console.error('Routing slip refund status update failed', error)
+      throw error
+    }
   }
 
   public static async updateRoutingSlipComments (
-    comments: any,
+    data: any,
     slipNumber: string
   ): Promise<AxiosResponse> {
-    const url = `${ConfigHelper.getFasAPIURL()}/routing-slips/${slipNumber}/comments`
-    return axios.post(url, comments)
+    try {
+      const response = await axios.post(
+        `${ConfigHelper.getFasAPIURL()}/routing-slips/${slipNumber}/comments`,
+        data
+      )
+      if (response?.data) {
+        return response.data
+      }
+      return null
+    } catch (error) {
+      console.error('Failed to update routing slip comments', error)
+      throw error
+    }
   }
 
   public static async updateRoutingSlipRefund (

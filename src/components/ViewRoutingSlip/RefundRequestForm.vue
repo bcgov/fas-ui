@@ -81,8 +81,9 @@
           </template>
           <v-list>
             <v-list-item
-                v-for="status in RoutingSlipRefundStatus.filter(s => s.code !== currentRefundStatus && s.display)"
+                v-for="status in filteredStatuses"
                 :key="status.code"
+                class="menu-list"
                 @click="updateRefundStatus(status.code)"
               >
               <v-list-item-title>{{ status.text }}</v-list-item-title>
@@ -118,7 +119,7 @@
   </v-form>
 </template>
 <script lang="ts">
-import { computed, defineComponent, ref } from '@vue/composition-api'
+import { computed, defineComponent, reactive, toRefs } from '@vue/composition-api'
 import { useRefundRequestForm, useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
 import AddressForm from '@/components/common/AddressForm.vue'
 import { GetRoutingSlipRequestPayload, RefundRequestDetails } from '@/models/RoutingSlip'
@@ -145,73 +146,57 @@ export default defineComponent({
     }
   },
   setup (props, context) {
-    const {
-      baseAddressSchema,
-      refundRequestForm,
-      nameRules,
-      chequeAdviceRules,
-      name,
-      chequeAdvice,
-      address,
-      addressForm,
-      addressValidity,
-      isValid,
-      canEdit
-    } = useRefundRequestForm(props, context)
+    const refundRequestFormState = useRefundRequestForm(props, context)
+    const searchState = useSearch(props, context)
+    const routingSlipState = useRoutingSlipInfo(props)
+    const routingSlipOperations = useRoutingSlip()
 
-    const { getRefundStatusText } = useSearch(props, context)
+    const state = reactive({
+      currentRefundStatus: routingSlipState.routingSlipDetails.value?.refundStatus,
+      isExpanded: false,
+      ...refundRequestFormState
+    })
 
-    const { routingSlipDetails } = useRoutingSlipInfo(props)
-    const { updateRoutingSlipRefundStatus, updateRoutingSlipComments, getRoutingSlip, routingSlip } = useRoutingSlip()
-
-    const currentRefundStatus = ref(routingSlipDetails.value?.refundStatus)
-    const currentRefundStatusLabel = computed(() => getRefundStatusText(currentRefundStatus.value))
-
-    const isExpanded = ref(false)
+    const currentRefundStatusLabel = computed(() => searchState.getRefundStatusText(state.currentRefundStatus))
 
     const expendStatus = () => {
-      isExpanded.value = !isExpanded.value
+      state.isExpanded = !state.isExpanded
     }
 
+    const filteredStatuses = computed(() =>
+      RoutingSlipRefundStatus.filter(s => s.code !== state.currentRefundStatus && s.display)
+    )
+
     async function updateRefundStatus (status: string) {
-      await updateRoutingSlipRefundStatus(status)
-      const comment = `Refund status updated from ${getRefundStatusText(currentRefundStatus?.value)} to ${getRefundStatusText(status)}`
-      await updateRoutingSlipComments(comment)
-      currentRefundStatus.value = status
-      if (routingSlip.value?.number) {
-        const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlip.value?.number }
-        await getRoutingSlip(getRoutingSlipRequestPayload)
+      await routingSlipOperations.updateRoutingSlipRefundStatus(status)
+      const comment = `Refund status updated from ${searchState.getRefundStatusText(state.currentRefundStatus)} to ${searchState.getRefundStatusText(status)}`
+      await routingSlipOperations.updateRoutingSlipComments(comment)
+      state.currentRefundStatus = status
+      if (routingSlipOperations.routingSlip.value?.number) {
+        const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlipOperations.routingSlip.value?.number }
+        await routingSlipOperations.getRoutingSlip(getRoutingSlipRequestPayload)
       }
     }
 
     return {
-      baseAddressSchema,
-      refundRequestForm,
-      nameRules,
-      chequeAdviceRules,
-      currentRefundStatus,
-      name,
-      chequeAdvice,
-      address,
-      addressForm,
-      addressValidity,
-      isValid,
-      canEdit,
-      updateRefundStatus,
-      expendStatus,
-      isExpanded,
-      RoutingSlipRefundStatus,
-      getRefundStatusText,
-      updateRoutingSlipComments,
+      ...toRefs(state), // Convert all reactive properties to refs
       currentRefundStatusLabel,
+      filteredStatuses,
+      expendStatus,
+      updateRefundStatus,
+      RoutingSlipRefundStatus,
       RoutingSlipRefundCodes
     }
   }
+
 })
 </script>
 
 <style lang="scss" scoped>
 .hover-btn:before {
   background-color: transparent !important;
+}
+.menu-list {
+  font-size: 10px;
 }
 </style>
