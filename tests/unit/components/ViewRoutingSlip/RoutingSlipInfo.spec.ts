@@ -157,7 +157,6 @@ describe('RoutingSlipInfo.vue', () => {
     })
 
     await wrapper.vm.$nextTick()
-    console.log(wrapper.html())
     expect(wrapper.findComponent({ name: 'RefundRequestForm' }).exists()).toBe(true)
   })
 })
