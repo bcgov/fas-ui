@@ -4,9 +4,9 @@
       <v-col
         data-test="rsDetail"
         class="col-3 font-weight-bold pb-0"
-        v-if="canEdit || name || address"
+        v-if="canEdit || name"
       >
-        {{ 'Name of Person or Organization & Address' }}
+        {{ 'Client Name' }}
       </v-col>
       <v-col class="col-9 pb-0">
         <v-text-field
@@ -20,6 +20,15 @@
         >
         </v-text-field>
         <span v-else>{{ name }}</span>
+      </v-col>
+      <v-col
+        data-test="rsDetail"
+        class="col-3 font-weight-bold pb-0"
+        v-if="canEdit || address"
+      >
+        {{ 'Address' }}
+      </v-col>
+      <v-col class="col-9 pb-0">
         <AddressForm
           ref="addressForm"
           :editing="canEdit"
@@ -29,6 +38,58 @@
           @valid="addressValidity"
         >
         </AddressForm>
+      </v-col>
+      <v-col class="col-12">
+      <v-divider v-if="!canEdit" class="mb-1 mt-2" />
+      </v-col>
+      <v-col
+        class="col-3 font-weight-bold pt-0 pb-0"
+        v-if="!canEdit"
+      >
+        Refund Status
+      </v-col>
+      <v-col
+        class="col-9 pt-0"
+        v-if="!canEdit"
+      >
+        <v-chip
+          small
+          label
+          class="item-chip"
+          :color="currentRefundStatus === RoutingSlipRefundCodes.CHEQUE_UNDELIVERABLE ? 'error' : 'default'"
+        >
+          {{ currentRefundStatusLabel }}
+        </v-chip>
+        <v-menu
+          close-on-content-click
+          offset-y
+          v-model="isExpanded"
+          v-if="!canEdit && currentRefundStatusLabel !== RoutingSlipRefundCodes.PROCESSING"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              text
+              v-bind="attrs"
+              v-on="on"
+              small
+              class="hover-btn ml-2"
+              @click="expendStatus"
+            >
+              Update Status
+              <v-icon dense>{{ isExpanded ? 'mdi-menu-up' : 'mdi-menu-down' }}</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+                v-for="status in filteredStatuses"
+                :key="status.code"
+                class="menu-list"
+                @click="updateRefundStatus(status.code)"
+              >
+              <v-list-item-title>{{ status.text }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-col>
       <v-col
         class="col-3 font-weight-bold"
@@ -58,48 +119,84 @@
   </v-form>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import { useRefundRequestForm } from '@/composables/ViewRoutingSlip'
+import { computed, defineComponent, reactive, toRefs } from '@vue/composition-api'
+import { useRefundRequestForm, useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
 import AddressForm from '@/components/common/AddressForm.vue'
-import { RefundRequestDetails } from '@/models/RoutingSlip'
+import { GetRoutingSlipRequestPayload, RefundRequestDetails } from '@/models/RoutingSlip'
+import { RoutingSlipRefundCodes, RoutingSlipRefundStatus } from '@/util/constants'
+import { useRoutingSlip } from '@/composables/useRoutingSlip'
+import { useSearch } from '@/composables/Dashboard/useSearch'
 
-@Component({
+export default defineComponent({
   components: {
     AddressForm
   },
+  props: {
+    inputRefundRequestDetails: {
+      type: Object as () => RefundRequestDetails,
+      default: () => null
+    },
+    isEditing: {
+      type: Boolean,
+      default: false
+    },
+    isApprovalFlow: {
+      type: Boolean,
+      default: false
+    }
+  },
   setup (props, context) {
-    const {
-      baseAddressSchema,
-      refundRequestForm,
-      nameRules,
-      chequeAdviceRules,
-      name,
-      chequeAdvice,
-      address,
-      addressForm,
-      addressValidity,
-      isValid,
-      canEdit
-    } = useRefundRequestForm(props, context)
+    const refundRequestFormState = useRefundRequestForm(props, context)
+    const searchState = useSearch(props, context)
+    const routingSlipState = useRoutingSlipInfo(props)
+    const routingSlipOperations = useRoutingSlip()
+
+    const state = reactive({
+      currentRefundStatus: routingSlipState.routingSlipDetails.value?.refundStatus,
+      isExpanded: false,
+      ...refundRequestFormState
+    })
+
+    const currentRefundStatusLabel = computed(() => searchState.getRefundStatusText(state.currentRefundStatus))
+
+    const expendStatus = () => {
+      state.isExpanded = !state.isExpanded
+    }
+
+    const filteredStatuses = computed(() =>
+      RoutingSlipRefundStatus.filter(s => s.code !== state.currentRefundStatus && s.display)
+    )
+
+    async function updateRefundStatus (status: string) {
+      await routingSlipOperations.updateRoutingSlipRefundStatus(status)
+      const comment = `Refund status updated from ${searchState.getRefundStatusText(state.currentRefundStatus)} to ${searchState.getRefundStatusText(status)}`
+      await routingSlipOperations.updateRoutingSlipComments(comment)
+      state.currentRefundStatus = status
+      if (routingSlipOperations.routingSlip.value?.number) {
+        const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlipOperations.routingSlip.value?.number }
+        await routingSlipOperations.getRoutingSlip(getRoutingSlipRequestPayload)
+      }
+    }
 
     return {
-      baseAddressSchema,
-      refundRequestForm,
-      nameRules,
-      chequeAdviceRules,
-      name,
-      chequeAdvice,
-      address,
-      addressForm,
-      addressValidity,
-      isValid,
-      canEdit
+      ...toRefs(state), // Convert all reactive properties to refs
+      currentRefundStatusLabel,
+      filteredStatuses,
+      expendStatus,
+      updateRefundStatus,
+      RoutingSlipRefundStatus,
+      RoutingSlipRefundCodes
     }
   }
+
 })
-export default class RefundRequestForm extends Vue {
-  @Prop({ default: () => null }) inputRefundRequestDetails: RefundRequestDetails
-  @Prop({ default: () => false }) isEditing: boolean
-  @Prop({ default: () => false }) isApprovalFlow: boolean
-}
 </script>
+
+<style lang="scss" scoped>
+.hover-btn:before {
+  background-color: transparent !important;
+}
+.menu-list {
+  font-size: 10px;
+}
+</style>

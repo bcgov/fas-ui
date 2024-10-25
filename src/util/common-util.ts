@@ -81,7 +81,7 @@ export default class CommonUtils {
     switch (status) {
       case SlipStatus.ACTIVE:
       case SlipStatus.COMPLETE:
-      case SlipStatus.REFUNDCOMPLETED:
+      case SlipStatus.REFUNDPROCESSED:
       case SlipStatus.WRITEOFFCOMPLETED:
         color = 'success'
         break
@@ -167,7 +167,7 @@ export default class CommonUtils {
     return [
       SlipStatus.REFUNDREQUEST,
       SlipStatus.REFUNDAUTHORIZED,
-      SlipStatus.REFUNDCOMPLETED,
+      SlipStatus.REFUNDPROCESSED,
       SlipStatus.REFUNDREJECTED,
       SlipStatus.REFUNDUPLOADED
     ].includes(status)
@@ -189,7 +189,7 @@ export default class CommonUtils {
    */
   static isEditEnabledBystatus (status) {
     return ![
-      SlipStatus.REFUNDCOMPLETED,
+      SlipStatus.REFUNDPROCESSED,
       SlipStatus.REFUNDAUTHORIZED,
       SlipStatus.NSF,
       SlipStatus.LINKED
