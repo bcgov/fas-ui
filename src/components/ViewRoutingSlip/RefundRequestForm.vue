@@ -81,7 +81,7 @@
             </v-btn>
           </template>
           <v-list
-           class="status-list"
+           class="status-list m-0 p-0"
           >
             <v-list-item
                 v-for="status in filteredStatuses"
@@ -162,15 +162,13 @@ export default defineComponent({
     })
 
     const currentRefundStatusLabel = computed(() => {
-      const refundInProgress = [SlipStatus.REFUNDAUTHORIZED, SlipStatus.REFUNDREQUEST, SlipStatus.REFUNDUPLOADED].includes(state.currentStatus as SlipStatus)
-      const refundComplete = [SlipStatus.REFUNDPROCESSED].includes(state.currentStatus as SlipStatus)
-      if (refundInProgress) {
-        return RoutingSlipRefundCodes.PROCESSING
-      } else if (refundComplete) {
-        return searchState.getRefundStatusText(state.currentRefundStatus)
-      } else {
-        return null
+      const statusMap = {
+        [SlipStatus.REFUNDAUTHORIZED]: RoutingSlipRefundCodes.PROCESSING,
+        [SlipStatus.REFUNDREQUEST]: RoutingSlipRefundCodes.PROCESSING,
+        [SlipStatus.REFUNDUPLOADED]: RoutingSlipRefundCodes.PROCESSING,
+        [SlipStatus.REFUNDPROCESSED]: searchState.getRefundStatusText(state.currentRefundStatus)
       }
+      return statusMap[state.currentStatus] || null
     })
 
     const expendStatus = () => {
@@ -215,12 +213,6 @@ export default defineComponent({
 
 .hover-btn:before {
   background-color: transparent !important;
-}
-
-.status-list {
-  margin: 0 !important;
-  padding: 0 !important;
-  min-width: auto !important;
 }
 
 .status-list .v-list-item__title {
