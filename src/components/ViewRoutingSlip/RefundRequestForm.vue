@@ -73,17 +73,19 @@
               v-on="on"
               small
               class="hover-btn ml-2"
+              color="primary"
               @click="expendStatus"
             >
               Update Status
               <v-icon dense>{{ isExpanded ? 'mdi-menu-up' : 'mdi-menu-down' }}</v-icon>
             </v-btn>
           </template>
-          <v-list>
+          <v-list
+           class="status-list"
+          >
             <v-list-item
                 v-for="status in filteredStatuses"
                 :key="status.code"
-                class="menu-list"
                 @click="updateRefundStatus(status.code)"
               >
               <v-list-item-title>{{ status.text }}</v-list-item-title>
@@ -195,10 +197,24 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.hover-btn {
+  font-size: 16px !important;
+  text-transform: none;
+}
+
 .hover-btn:before {
   background-color: transparent !important;
 }
-.menu-list {
-  font-size: 10px;
+
+.status-list {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-width: auto !important;
+}
+
+.status-list .v-list-item__title {
+  color: #1669BB !important;
+  font-size: 16px !important;
+  padding: 8px 16px !important;
 }
 </style>
