@@ -24,7 +24,7 @@
       <v-col
         data-test="rsDetail"
         class="col-3 font-weight-bold pb-0"
-        v-if="canEdit || address"
+        v-if="showAddress"
       >
         {{ 'Address' }}
       </v-col>
@@ -64,7 +64,7 @@
           close-on-content-click
           offset-y
           v-model="isExpanded"
-          v-if="!canEdit && currentRefundStatusLabel !== RoutingSlipRefundCodes.PROCESSING"
+          v-if="!canEdit && currentRefundStatusLabel && currentRefundStatusLabel !== RoutingSlipRefundCodes.PROCESSING"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -73,17 +73,19 @@
               v-on="on"
               small
               class="hover-btn ml-2"
+              color="primary"
               @click="expendStatus"
             >
               Update Status
               <v-icon dense>{{ isExpanded ? 'mdi-menu-up' : 'mdi-menu-down' }}</v-icon>
             </v-btn>
           </template>
-          <v-list>
+          <v-list
+           class="status-list m-0 p-0"
+          >
             <v-list-item
                 v-for="status in filteredStatuses"
                 :key="status.code"
-                class="menu-list"
                 @click="updateRefundStatus(status.code)"
               >
               <v-list-item-title>{{ status.text }}</v-list-item-title>
@@ -123,11 +125,12 @@ import { computed, defineComponent, reactive, toRefs } from '@vue/composition-ap
 import { useRefundRequestForm, useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
 import AddressForm from '@/components/common/AddressForm.vue'
 import { GetRoutingSlipRequestPayload, RefundRequestDetails } from '@/models/RoutingSlip'
-import { RoutingSlipRefundCodes, RoutingSlipRefundStatus } from '@/util/constants'
+import { RoutingSlipRefundCodes, RoutingSlipRefundStatus, SlipStatus } from '@/util/constants'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
 import { useSearch } from '@/composables/Dashboard/useSearch'
 
 export default defineComponent({
+  name: 'RefundRequestForm',
   components: {
     AddressForm
   },
@@ -153,11 +156,20 @@ export default defineComponent({
 
     const state = reactive({
       currentRefundStatus: routingSlipState.routingSlipDetails.value?.refundStatus,
+      currentStatus: routingSlipState.routingSlipDetails.value?.status,
       isExpanded: false,
       ...refundRequestFormState
     })
 
-    const currentRefundStatusLabel = computed(() => searchState.getRefundStatusText(state.currentRefundStatus))
+    const currentRefundStatusLabel = computed(() => {
+      const statusMap = {
+        [SlipStatus.REFUNDAUTHORIZED]: RoutingSlipRefundCodes.PROCESSING,
+        [SlipStatus.REFUNDREQUEST]: RoutingSlipRefundCodes.PROCESSING,
+        [SlipStatus.REFUNDUPLOADED]: RoutingSlipRefundCodes.PROCESSING,
+        [SlipStatus.REFUNDPROCESSED]: searchState.getRefundStatusText(state.currentRefundStatus)
+      }
+      return statusMap[state.currentStatus] || null
+    })
 
     const expendStatus = () => {
       state.isExpanded = !state.isExpanded
@@ -171,6 +183,7 @@ export default defineComponent({
       await routingSlipOperations.updateRoutingSlipRefundStatus(status)
       const comment = `Refund status updated from ${searchState.getRefundStatusText(state.currentRefundStatus)} to ${searchState.getRefundStatusText(status)}`
       await routingSlipOperations.updateRoutingSlipComments(comment)
+      context.emit('commentsUpdated')
       state.currentRefundStatus = status
       if (routingSlipOperations.routingSlip.value?.number) {
         const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlipOperations.routingSlip.value?.number }
@@ -179,7 +192,7 @@ export default defineComponent({
     }
 
     return {
-      ...toRefs(state), // Convert all reactive properties to refs
+      ...toRefs(state),
       currentRefundStatusLabel,
       filteredStatuses,
       expendStatus,
@@ -193,10 +206,18 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.hover-btn {
+  font-size: 16px !important;
+  text-transform: none;
+}
+
 .hover-btn:before {
   background-color: transparent !important;
 }
-.menu-list {
-  font-size: 10px;
+
+.status-list .v-list-item__title {
+  color: #1669BB !important;
+  font-size: 16px !important;
+  padding: 8px 16px !important;
 }
 </style>

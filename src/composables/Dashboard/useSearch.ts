@@ -277,9 +277,9 @@ export function useSearch (props, context) {
     reachedEnd.value = await infiniteScrollCallback()
   }, 100) // Adjust the wait time as needed
 
-  function getRefundStatusText (statusCode: string): string {
-    const status = RoutingSlipRefundStatus.find(item => item.code === statusCode)
-    return status.text ? status.text : RoutingSlipRefundCodes.PROCESSING
+  function getRefundStatusText (statusCode: string | undefined): string {
+    const refundStatus = RoutingSlipRefundStatus.find(item => item.code === statusCode)?.text || RoutingSlipRefundCodes.PROCESSING
+    return refundStatus
   }
 
   function getStatusFromRefundStatus (statusCode: string): SlipStatus {
