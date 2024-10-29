@@ -278,8 +278,8 @@ export function useSearch (props, context) {
   }, 100) // Adjust the wait time as needed
 
   function getRefundStatusText (statusCode: string | undefined): string {
-    const status = RoutingSlipRefundStatus.find(item => item.code === statusCode)
-    return status ? status.text : RoutingSlipRefundCodes.PROCESSING
+    const refundStatus = RoutingSlipRefundStatus.find(item => item.code === statusCode)
+    return refundStatus.text ? refundStatus.text : RoutingSlipRefundCodes.PROCESSING
   }
 
   function getStatusFromRefundStatus (statusCode: string): SlipStatus {

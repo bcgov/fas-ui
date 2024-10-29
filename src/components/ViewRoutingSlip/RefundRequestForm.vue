@@ -64,7 +64,7 @@
           close-on-content-click
           offset-y
           v-model="isExpanded"
-          v-if="!canEdit && currentRefundStatusLabel !== RoutingSlipRefundCodes.PROCESSING"
+          v-if="!canEdit && currentRefundStatusLabel && currentRefundStatusLabel !== RoutingSlipRefundCodes.PROCESSING"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -125,7 +125,7 @@ import { computed, defineComponent, reactive, toRefs } from '@vue/composition-ap
 import { useRefundRequestForm, useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
 import AddressForm from '@/components/common/AddressForm.vue'
 import { GetRoutingSlipRequestPayload, RefundRequestDetails } from '@/models/RoutingSlip'
-import { RoutingSlipRefundCodes, RoutingSlipRefundStatus } from '@/util/constants'
+import { RoutingSlipRefundCodes, RoutingSlipRefundStatus, SlipStatus } from '@/util/constants'
 import { useRoutingSlip } from '@/composables/useRoutingSlip'
 import { useSearch } from '@/composables/Dashboard/useSearch'
 
@@ -156,11 +156,22 @@ export default defineComponent({
 
     const state = reactive({
       currentRefundStatus: routingSlipState.routingSlipDetails.value?.refundStatus,
+      currentStatus: routingSlipState.routingSlipDetails.value?.status,
       isExpanded: false,
       ...refundRequestFormState
     })
 
-    const currentRefundStatusLabel = computed(() => searchState.getRefundStatusText(state.currentRefundStatus))
+    const currentRefundStatusLabel = computed(() => {
+      const refundInProgress = [SlipStatus.REFUNDAUTHORIZED, SlipStatus.REFUNDREQUEST, SlipStatus.REFUNDUPLOADED].includes(state.currentStatus as SlipStatus)
+      const refundComplete = [SlipStatus.REFUNDPROCESSED].includes(state.currentStatus as SlipStatus)
+      if (refundInProgress) {
+        return RoutingSlipRefundCodes.PROCESSING
+      } else if (refundComplete) {
+        return searchState.getRefundStatusText(state.currentRefundStatus)
+      } else {
+        return null
+      }
+    })
 
     const expendStatus = () => {
       state.isExpanded = !state.isExpanded
@@ -174,12 +185,12 @@ export default defineComponent({
       await routingSlipOperations.updateRoutingSlipRefundStatus(status)
       const comment = `Refund status updated from ${searchState.getRefundStatusText(state.currentRefundStatus)} to ${searchState.getRefundStatusText(status)}`
       await routingSlipOperations.updateRoutingSlipComments(comment)
+      context.emit('commentsUpdated')
       state.currentRefundStatus = status
       if (routingSlipOperations.routingSlip.value?.number) {
         const getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload = { routingSlipNumber: routingSlipOperations.routingSlip.value?.number }
         await routingSlipOperations.getRoutingSlip(getRoutingSlipRequestPayload)
       }
-      context.emit('commentsUpdated')
     }
 
     return {

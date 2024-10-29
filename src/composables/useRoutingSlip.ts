@@ -126,6 +126,7 @@ export const useRoutingSlip = () => {
 
   const getRoutingSlip = async (getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload) => {
     try {
+      routingSlip.value = null
       const response = await RoutingSlipService.getRoutingSlip(
         getRoutingSlipRequestPayload.routingSlipNumber,
         getRoutingSlipRequestPayload?.showGlobalLoader
