@@ -52,7 +52,7 @@ export interface RoutingSlipDetails {
 }
 
 export interface RoutingSlipAddress {
-  name?: string
+  contactName?: string
   mailingAddress?: Address
 }
 

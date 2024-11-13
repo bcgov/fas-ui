@@ -13,7 +13,7 @@
               req
               persistent-hint
               data-test="txtAmount"
-              v-model="name"
+              v-model="contactName"
               :rules="entityNameRules"
             >
             </v-text-field>

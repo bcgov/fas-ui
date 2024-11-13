@@ -20,14 +20,14 @@ export function useCreateRoutingSlipAddress () {
 
   const errorMessage = ref<string>('')
 
-  const name = computed({
+  const contactName = computed({
     get: () => {
-      return routingSlipAddress.value?.name || ''
+      return routingSlipAddress.value?.contactName || ''
     },
     set: (modalValue: string) => {
       routingSlipAddress.value = {
         ...routingSlipAddress.value,
-        name: modalValue
+        contactName: modalValue
       }
     }
   })
@@ -49,7 +49,7 @@ export function useCreateRoutingSlipAddress () {
     address,
     baseAddressSchema,
     createRoutingSlipAddressForm,
-    name,
+    contactName,
     entityNameRules,
     routingSlipAddress,
     errorMessage,

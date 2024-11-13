@@ -4,7 +4,7 @@
       Name of Person or Organization & Address
     </v-col>
     <v-col>
-      <p>{{ routingSlipAddress.name }}</p>
+      <p>{{ routingSlipAddress.contactName }}</p>
       <AddressForm
         ref="addressForm"
         :editing="false"

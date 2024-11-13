@@ -101,7 +101,7 @@
                 Name of Person or Organization & Address
               </v-col>
               <v-col class="col-6 col-sm-9">
-                <p>{{ routingSlipDetails.name }}</p>
+                <p>{{ routingSlipDetails.contactName }}</p>
                 <AddressForm
                   ref="addressForm"
                   :editing="false"

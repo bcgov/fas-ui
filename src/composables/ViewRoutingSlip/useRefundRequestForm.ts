@@ -25,7 +25,7 @@ export default function useRefundRequestForm (props, context) {
   const address = ref<Address>({})
   const chequeAdvice = ref<string>('')
 
-  name.value = routingSlipDetails.value?.name || ''
+  name.value = routingSlipDetails.value?.contactName || ''
   address.value = routingSlipDetails.value?.mailingAddress || {}
 
   const canEdit = computed(() => {
