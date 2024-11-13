@@ -95,6 +95,23 @@
                 {{ routingSlipDetails.paymentAccount.accountName }}
               </v-col>
             </v-row>
+
+            <v-row v-if="!showAddressEditMode && routingSlipDetails.mailingAddress">
+              <v-col class="col-6 col-sm-3 font-weight-bold">
+                Name of Person or Organization & Address
+              </v-col>
+              <v-col class="col-6 col-sm-9">
+                <p>{{ routingSlipDetails.contactName }}</p>
+                <AddressForm
+                  ref="addressForm"
+                  :editing="false"
+                  :schema="baseAddressSchema"
+                  :address="routingSlipDetails.mailingAddress"
+                >
+                </AddressForm>
+              </v-col>
+            </v-row>
+
           </v-col>
         </v-row>
       </v-card-text>
@@ -150,6 +167,7 @@ import commonUtil from '@/util/common-util'
 import { useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
 import ModalDialog from '@/components/common/ModalDialog.vue'
 import StatusMenu from '@/components/common/StatusMenu.vue'
+import AddressForm from '@/components/common/AddressForm.vue'
 
 import RefundRequestForm from '@/components/ViewRoutingSlip/RefundRequestForm.vue'
 import can from '@/directives/can'
@@ -158,7 +176,8 @@ import can from '@/directives/can'
   components: {
     RefundRequestForm,
     StatusMenu,
-    ModalDialog
+    ModalDialog,
+    AddressForm
   },
   directives: {
     can
@@ -186,7 +205,8 @@ import can from '@/directives/can'
       modalDialogRef,
       modalText,
       isLoading,
-      closeErrorDialog
+      closeErrorDialog,
+      baseAddressSchema
     } = useRoutingSlipInfo(props)
 
     return {
@@ -211,7 +231,8 @@ import can from '@/directives/can'
       modalDialogRef,
       modalText,
       isLoading,
-      closeErrorDialog
+      closeErrorDialog,
+      baseAddressSchema
     }
   }
 })

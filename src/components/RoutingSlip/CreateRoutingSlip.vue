@@ -31,6 +31,7 @@
           <div v-else data-test="createRoutingSlip">
             <create-routing-slip-details ref="createRoutingSlipDetailsRef" />
             <create-routing-slip-payment ref="createRoutingSlipPaymentRef" />
+            <create-routing-slip-address ref="createRoutingSlipAddressRef" />
           </div>
           <v-divider></v-divider>
           <v-card-actions>
@@ -94,6 +95,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import CreateRoutingSlipDetails from '@/components/RoutingSlip/CreateRoutingSlipDetails.vue'
 import CreateRoutingSlipPayment from '@/components/RoutingSlip/CreateRoutingSlipPayment.vue'
+import CreateRoutingSlipAddress from '@/components/RoutingSlip/CreateRoutingSlipAddress.vue'
 import ModalDialog from '@/components/common/ModalDialog.vue'
 import { useCreateRoutingSlip } from '@/composables/RoutingSlip'
 import ReviewRoutingSlip from '@/components/ReviewRoutingSlip/ReviewRoutingSlip.vue'
@@ -102,6 +104,7 @@ import ReviewRoutingSlip from '@/components/ReviewRoutingSlip/ReviewRoutingSlip.
   components: {
     CreateRoutingSlipPayment,
     CreateRoutingSlipDetails,
+    CreateRoutingSlipAddress,
     ModalDialog,
     ReviewRoutingSlip
   },
@@ -110,6 +113,7 @@ import ReviewRoutingSlip from '@/components/ReviewRoutingSlip/ReviewRoutingSlip.
       createRoutingSlipForm,
       createRoutingSlipDetailsRef,
       createRoutingSlipPaymentRef,
+      createRoutingSlipAddressRef,
       modalDialogRef,
       modalDialogDetails,
       isModalDialogInfo,
@@ -126,6 +130,7 @@ import ReviewRoutingSlip from '@/components/ReviewRoutingSlip/ReviewRoutingSlip.
       createRoutingSlipForm,
       createRoutingSlipDetailsRef,
       createRoutingSlipPaymentRef,
+      createRoutingSlipAddressRef,
       modalDialogRef,
       modalDialogDetails,
       isModalDialogInfo,

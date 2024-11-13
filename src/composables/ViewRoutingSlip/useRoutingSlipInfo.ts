@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n-composable'
 import { ApiError } from '@/models/ApiError'
 import { useCodes } from '../useCodes'
 import { useRoutingSlip } from '../useRoutingSlip'
+import { addressSchema } from '@/schema'
 
 // Composable function to inject Props, options and values to useRoutingSlipInfo component
 export default function useRoutingSlipInfo (props) {
@@ -20,6 +21,7 @@ export default function useRoutingSlipInfo (props) {
   const currentStatus = ref<Code>(null)
   const errorMessage = ref<string>('')
   const apiError = ref<ApiError>(null)
+  const baseAddressSchema = ref<any>(addressSchema)
 
   const modalDialogRef = ref<HTMLFormElement>()
 
@@ -305,6 +307,7 @@ export default function useRoutingSlipInfo (props) {
     modalDialogRef,
     modalText,
     isLoading,
-    closeErrorDialog
+    closeErrorDialog,
+    baseAddressSchema
   }
 }

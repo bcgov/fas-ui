@@ -26,6 +26,7 @@ describe('CreateRoutingSlip.vue', () => {
       stubs: {
         CreateRoutingSlipPayment: MyStub,
         CreateRoutingSlipDetails: MyStub,
+        CreateRoutingSlipAddress: MyStub,
         ModalDialog: MyStub
       },
       mocks: {
@@ -46,6 +47,7 @@ describe('CreateRoutingSlip.vue', () => {
       stubs: {
         CreateRoutingSlipPayment: MyStub,
         CreateRoutingSlipDetails: MyStub,
+        CreateRoutingSlipAddress: MyStub,
         displaySuccessNotification: MyStub
       },
       mocks: {
@@ -67,6 +69,7 @@ describe('CreateRoutingSlip.vue', () => {
       stubs: {
         CreateRoutingSlipPayment: MyStub,
         CreateRoutingSlipDetails: MyStub,
+        CreateRoutingSlipAddress: MyStub,
         displaySuccessNotification: MyStub
       },
       mocks: {

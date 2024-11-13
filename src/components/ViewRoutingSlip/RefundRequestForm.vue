@@ -6,7 +6,7 @@
         class="col-3 font-weight-bold pb-0"
         v-if="canEdit || name"
       >
-        {{ 'Client Name' }}
+        Client Name
       </v-col>
       <v-col class="col-9 pb-0">
         <v-text-field
@@ -26,7 +26,7 @@
         class="col-3 font-weight-bold pb-0"
         v-if="showAddress"
       >
-        {{ 'Address' }}
+        Name of Person or Organization & Address
       </v-col>
       <v-col class="col-9 pb-0">
         <AddressForm
@@ -34,8 +34,6 @@
           :editing="canEdit"
           :schema="baseAddressSchema"
           :address="address"
-          @update:address="address=$event"
-          @valid="addressValidity"
         >
         </AddressForm>
       </v-col>
@@ -151,12 +149,12 @@ export default defineComponent({
   setup (props, context) {
     const refundRequestFormState = useRefundRequestForm(props, context)
     const searchState = useSearch(props, context)
-    const routingSlipState = useRoutingSlipInfo(props)
+    const { routingSlipDetails } = useRoutingSlipInfo(props)
     const routingSlipOperations = useRoutingSlip()
 
     const state = reactive({
-      currentRefundStatus: routingSlipState.routingSlipDetails.value?.refundStatus,
-      currentStatus: routingSlipState.routingSlipDetails.value?.status,
+      currentRefundStatus: routingSlipDetails.value?.refundStatus,
+      currentStatus: routingSlipDetails.value?.status,
       isExpanded: false,
       ...refundRequestFormState
     })
