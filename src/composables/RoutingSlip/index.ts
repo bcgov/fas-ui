@@ -3,3 +3,4 @@ export { useCreateRoutingSlipCashPayment } from './useCreateRoutingSlipCashPayme
 export { useCreateRoutingSlipChequePayment } from './useCreateRoutingSlipChequePayment'
 export { useCreateRoutingSlipDetails } from './useCreateRoutingSlipDetails'
 export { useCreateRoutingSlipPayment } from './useCreateRoutingSlipPayment'
+export { useCreateRoutingSlipAddress } from './useCreateRoutingSlipAddress'

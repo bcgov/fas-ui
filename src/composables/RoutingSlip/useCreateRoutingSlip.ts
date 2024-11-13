@@ -14,11 +14,13 @@ export function useCreateRoutingSlip (_, context) {
     createRoutingSlip,
     isAmountPaidInUsd,
     isPaymentMethodCheque,
-    routingSlipDetails
+    routingSlipDetails,
+    routingSlipAddress
   } = useRoutingSlip()
   const createRoutingSlipForm = ref<HTMLFormElement>()
   const createRoutingSlipDetailsRef = ref<HTMLFormElement>()
   const createRoutingSlipPaymentRef = ref<HTMLFormElement>()
+  const createRoutingSlipAddressRef = ref<HTMLFormElement>()
   const modalDialogRef = ref<HTMLFormElement>()
 
   // modal dialog props and events
@@ -44,8 +46,8 @@ export function useCreateRoutingSlip (_, context) {
   function isValid (): boolean {
     // We would want to trigger validate() of all the children
     let isChildrenValid = createRoutingSlipDetailsRef.value?.isValid()
-    isChildrenValid =
-      createRoutingSlipPaymentRef.value?.isValid() && isChildrenValid
+    isChildrenValid = createRoutingSlipPaymentRef.value?.isValid() && isChildrenValid
+    isChildrenValid = createRoutingSlipAddressRef.value?.isValid() && isChildrenValid
     return isChildrenValid
   }
 
@@ -132,6 +134,7 @@ export function useCreateRoutingSlip (_, context) {
     createRoutingSlipForm,
     createRoutingSlipDetailsRef,
     createRoutingSlipPaymentRef,
+    createRoutingSlipAddressRef,
     modalDialogRef,
     modalDialogDetails,
     isModalDialogInfo,

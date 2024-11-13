@@ -1,7 +1,12 @@
 import { computed, ref } from '@vue/composition-api'
 import RoutingSlipService from '@/services/routingSlip.services'
-import { AccountInfo, AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload, LinkedRoutingSlips, RoutingSlip, RoutingSlipDetails } from '@/models/RoutingSlip'
-import { ApiErrors, CreateRoutingSlipStatus, headerSearchTitle as headerSearchTitleConstant, SlipStatus } from '@/util/constants'
+import {
+  AccountInfo, AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload,
+  LinkedRoutingSlips, RoutingSlip, RoutingSlipDetails, RoutingSlipAddress
+} from '@/models/RoutingSlip'
+import {
+  ApiErrors, CreateRoutingSlipStatus, headerSearchTitle as headerSearchTitleConstant, SlipStatus
+} from '@/util/constants'
 import CommonUtils from '@/util/common-util'
 import { BusinessInfo, GetFeeRequestParams, Payment, TransactionParams } from '@/models/Payment'
 
@@ -17,6 +22,7 @@ const searchRoutingSlipParams = ref<any>(defaultParams)
 const routingSlip = ref<RoutingSlip>({})
 const linkedRoutingSlips = ref<LinkedRoutingSlips>(undefined)
 const routingSlipDetails = ref<RoutingSlipDetails>({})
+const routingSlipAddress = ref<RoutingSlipAddress>({})
 const accountInfo = ref<AccountInfo>({})
 const chequePayment = ref<Payment[]>([])
 const cashPayment = ref<Payment>({})
@@ -84,7 +90,7 @@ export const useRoutingSlip = () => {
   const createRoutingSlip = async () => {
     // build the RoutingSlip Request JSON object that needs to be sent.
     let routingSlipRequest: RoutingSlip = {}
-    routingSlipRequest = { ...routingSlipDetails.value }
+    routingSlipRequest = { ...routingSlipDetails.value, ...routingSlipAddress.value }
     routingSlipRequest.paymentAccount = accountInfo.value
 
     // By design, a routing slip can only have one payment method - CASH or CHEQUE.
@@ -436,6 +442,7 @@ export const useRoutingSlip = () => {
     routingSlip,
     linkedRoutingSlips,
     routingSlipDetails,
+    routingSlipAddress,
     accountInfo,
     chequePayment,
     cashPayment,

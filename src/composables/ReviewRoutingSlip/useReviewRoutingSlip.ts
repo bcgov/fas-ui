@@ -8,10 +8,12 @@ export function useReviewRoutingSlip () {
     chequePayment,
     isAmountPaidInUsd,
     isPaymentMethodCheque,
-    routingSlipDetails
+    routingSlipDetails,
+    routingSlipAddress
   } = useRoutingSlip()
   return {
     routingSlipDetails,
+    routingSlipAddress,
     chequePayment,
     accountInfo,
     cashPayment,
