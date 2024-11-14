@@ -1,0 +1,32 @@
+name: FAS-UI GCP CD
+
+on:
+  push:
+    branches:
+      - main
+      - feature*
+      - hotfix*
+    paths:
+      - "src/**"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Deploy To"
+        required: true
+        type: choice
+        options:
+        - dev
+        - test
+        - sandbox
+        - prod
+
+jobs:
+  account-ui-cd:
+    uses: bcgov/bcregistry-sre/.github/workflows/frontend-cd.yaml@main
+    with:
+      target: ${{ inputs.target }}
+      app_name: "fas-ui"
+      working_directory: "."
+    secrets:
+      WORKLOAD_IDENTIFY_POOLS_PROVIDER: ${{ secrets.WORKLOAD_IDENTIFY_POOLS_PROVIDER }}
+      GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
