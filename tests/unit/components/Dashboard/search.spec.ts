@@ -56,6 +56,7 @@ describe('Search.vue', () => {
     expect(wrapper.vm.canShowColumn('receiptNumber')).toBeTruthy()
     expect(wrapper.vm.canShowColumn('date')).toBeTruthy()
     expect(wrapper.vm.canShowColumn('status')).toBeTruthy()
+    expect(wrapper.vm.canShowColumn('refundStatus')).toBeTruthy()
     expect(wrapper.vm.canShowColumn('folioNumber')).toBeTruthy()
 
     expect(wrapper.vm.canShowColumn('remainingAmount')).toBeTruthy()

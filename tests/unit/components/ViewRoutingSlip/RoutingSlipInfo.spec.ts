@@ -139,15 +139,21 @@ describe('RoutingSlipInfo.vue', () => {
     vi.spyOn(CommonUtils, 'isRefundProcessStatus').mockReturnValue(true)
     vi.spyOn(ConfigHelper, 'getFasWebUrl').mockReturnValue('test')
     vi.spyOn(ConfigHelper, 'getPayAPIURL').mockReturnValue('https://pay-api-dev.apps.silver.devops.gov.bc.ca/api/v1')
+    const RefundRequestFormStub = {
+      name: 'RefundRequestForm',
+      template: '<div class="refund-request-form-stub"></div>'
+    }
 
-    const wrapper: any = mount(RoutingSlipInfo, {
+    const wrapper = mount(RoutingSlipInfo, {
       localVue,
       vuetify,
       i18n,
+      stubs: {
+        RefundRequestForm: RefundRequestFormStub
+      },
       directives: {
         can () { /* stub */ }
-      },
-      mocks: { i18n }
+      }
     })
 
     await wrapper.vm.$nextTick()

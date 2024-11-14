@@ -3,12 +3,14 @@ import { computed, ref, toRefs, watch } from '@vue/composition-api'
 
 import CommonUtils from '@/util/common-util'
 import { RefundRequestDetails } from '@/models/RoutingSlip'
+import { useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
 import { addressSchema } from '@/schema'
 
 // Composable function to inject Props, options and values to RefundRequestForm component
 export default function useRefundRequestForm (props, context) {
   // using `toRefs` to create a Reactive Reference to the `slipId` property of props
   const { inputRefundRequestDetails, isApprovalFlow, isEditing } = toRefs(props)
+  const { routingSlipDetails } = useRoutingSlipInfo(props)
 
   const baseAddressSchema = ref<any>(addressSchema)
   const isAddressValid = ref<boolean>(false)
@@ -20,12 +22,19 @@ export default function useRefundRequestForm (props, context) {
   const chequeAdviceRules = CommonUtils.optionalFieldRule('This field should be maximum of 40 characters', 40)
 
   const name = ref<string>('')
-  const address = ref<Address>(undefined)
+  const address = ref<Address>({})
   const chequeAdvice = ref<string>('')
+
+  name.value = routingSlipDetails.value?.contactName || ''
+  address.value = routingSlipDetails.value?.mailingAddress || {}
 
   const canEdit = computed(() => {
     // except "chequeAdvice" , all other field are not editable in approval process
     return !isApprovalFlow.value && isEditing.value
+  })
+
+  const showAddress = computed(() => {
+    return canEdit.value || (address.value && Object.values(address.value).some(value => !!value))
   })
 
   function addressValidity (isValid: boolean): void {
@@ -69,6 +78,7 @@ export default function useRefundRequestForm (props, context) {
     addressForm,
     addressValidity,
     isValid,
-    canEdit
+    canEdit,
+    showAddress
   }
 }

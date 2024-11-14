@@ -1,7 +1,12 @@
 import { computed, ref } from '@vue/composition-api'
 import RoutingSlipService from '@/services/routingSlip.services'
-import { AccountInfo, AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload, LinkedRoutingSlips, RoutingSlip, RoutingSlipDetails } from '@/models/RoutingSlip'
-import { ApiErrors, CreateRoutingSlipStatus, headerSearchTitle as headerSearchTitleConstant, SlipStatus } from '@/util/constants'
+import {
+  AccountInfo, AdjustRoutingSlipAmountPrams, AdjustRoutingSlipChequePrams, GetRoutingSlipRequestPayload,
+  LinkedRoutingSlips, RoutingSlip, RoutingSlipDetails, RoutingSlipAddress
+} from '@/models/RoutingSlip'
+import {
+  ApiErrors, CreateRoutingSlipStatus, headerSearchTitle as headerSearchTitleConstant, SlipStatus
+} from '@/util/constants'
 import CommonUtils from '@/util/common-util'
 import { BusinessInfo, GetFeeRequestParams, Payment, TransactionParams } from '@/models/Payment'
 
@@ -17,6 +22,7 @@ const searchRoutingSlipParams = ref<any>(defaultParams)
 const routingSlip = ref<RoutingSlip>({})
 const linkedRoutingSlips = ref<LinkedRoutingSlips>(undefined)
 const routingSlipDetails = ref<RoutingSlipDetails>({})
+const routingSlipAddress = ref<RoutingSlipAddress>({})
 const accountInfo = ref<AccountInfo>({})
 const chequePayment = ref<Payment[]>([])
 const cashPayment = ref<Payment>({})
@@ -84,7 +90,7 @@ export const useRoutingSlip = () => {
   const createRoutingSlip = async () => {
     // build the RoutingSlip Request JSON object that needs to be sent.
     let routingSlipRequest: RoutingSlip = {}
-    routingSlipRequest = { ...routingSlipDetails.value }
+    routingSlipRequest = { ...routingSlipDetails.value, ...routingSlipAddress.value }
     routingSlipRequest.paymentAccount = accountInfo.value
 
     // By design, a routing slip can only have one payment method - CASH or CHEQUE.
@@ -126,6 +132,7 @@ export const useRoutingSlip = () => {
 
   const getRoutingSlip = async (getRoutingSlipRequestPayload: GetRoutingSlipRequestPayload) => {
     try {
+      routingSlip.value = null
       const response = await RoutingSlipService.getRoutingSlip(
         getRoutingSlipRequestPayload.routingSlipNumber,
         getRoutingSlipRequestPayload?.showGlobalLoader
@@ -171,6 +178,34 @@ export const useRoutingSlip = () => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('error ', error.response)
+      return error?.response
+    }
+  }
+
+  const updateRoutingSlipRefundStatus = async (status: any) => {
+    const slipNumber = routingSlip.value.number
+    try {
+      const responseData = await RoutingSlipService.updateRoutingSlipRefundStatus(status, slipNumber)
+      return responseData
+    } catch (error) {
+      console.error('Error updating refund status:', error)
+      return error?.response
+    }
+  }
+
+  const updateRoutingSlipComments = async (text: any) => {
+    const slipNumber = routingSlip.value.number
+    const data = {
+      comment: {
+        businessId: slipNumber,
+        comment: text
+      }
+    }
+    try {
+      const responseData = await RoutingSlipService.updateRoutingSlipComments(data, slipNumber)
+      return responseData
+    } catch (error) {
+      console.error('Error updating routing slip comments:', error)
       return error?.response
     }
   }
@@ -407,6 +442,7 @@ export const useRoutingSlip = () => {
     routingSlip,
     linkedRoutingSlips,
     routingSlipDetails,
+    routingSlipAddress,
     accountInfo,
     chequePayment,
     cashPayment,
@@ -425,6 +461,7 @@ export const useRoutingSlip = () => {
     checkRoutingNumber,
     getRoutingSlip,
     updateRoutingSlipStatus,
+    updateRoutingSlipRefundStatus,
     adjustRoutingSlip,
     resetRoutingSlipDetails,
     resetSearchParams,
@@ -436,6 +473,7 @@ export const useRoutingSlip = () => {
     getFeeByCorpTypeAndFilingType,
     saveManualTransactions,
     cancelRoutingSlipInvoice,
-    infiniteScrollCallback
+    infiniteScrollCallback,
+    updateRoutingSlipComments
   }
 }

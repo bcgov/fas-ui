@@ -13,19 +13,19 @@
           </header>
         </v-col>
         <v-col cols="12" class="mb-1 py-0 pl-0">
-          <staff-comments :routingSlipNumber="slipId" />
+          <StaffComments :routingSlipNumber="slipId" :key="commentsKey" />
         </v-col>
         <v-col cols="12" class="mb-5">
-          <routing-slip-info />
+          <RoutingSlipInfo  @commentsUpdated="refreshComments" />
         </v-col>
         <v-col cols="12" class="my-5">
-          <payment-information />
+          <PaymentInformation />
         </v-col>
         <v-col cols="12" class="my-5">
-          <link-routing-slip />
+          <LinkRoutingSlip />
         </v-col>
         <v-col cols="12" class="my-5">
-          <routing-slip-transaction />
+          <RoutingSlipTransaction />
         </v-col>
       </v-row>
     </v-container>
@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { defineComponent, ref } from '@vue/composition-api'
 import {
   RoutingSlipInfo,
   PaymentInformation,
@@ -42,7 +42,8 @@ import {
 } from '@/components/ViewRoutingSlip'
 import { useViewRoutingSlip } from '@/composables/ViewRoutingSlip'
 
-@Component({
+export default defineComponent({
+  name: 'ViewRoutingSlip',
   components: {
     RoutingSlipInfo,
     PaymentInformation,
@@ -50,11 +51,23 @@ import { useViewRoutingSlip } from '@/composables/ViewRoutingSlip'
     LinkRoutingSlip,
     StaffComments
   },
+  props: {
+    slipId: {
+      type: String,
+      required: true
+    }
+  },
   setup (props) {
     useViewRoutingSlip(props)
+    // Reactive key for forcing re-render
+    const commentsKey = ref(0)
+    const refreshComments = () => {
+      commentsKey.value += 1
+    }
+    return {
+      commentsKey,
+      refreshComments
+    }
   }
 })
-export default class ViewRoutingSlip extends Vue {
-  @Prop() slipId: string
-}
 </script>
