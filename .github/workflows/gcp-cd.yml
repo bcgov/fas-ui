@@ -21,7 +21,7 @@ on:
         - prod
 
 jobs:
-  account-ui-cd:
+  fas-ui-cd:
     uses: bcgov/bcregistry-sre/.github/workflows/frontend-cd.yaml@main
     with:
       target: ${{ inputs.target }}
