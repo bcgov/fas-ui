@@ -6,8 +6,6 @@ on:
       - main
       - feature*
       - hotfix*
-    paths:
-      - "src/**"
   workflow_dispatch:
     inputs:
       target:
