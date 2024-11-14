@@ -58,7 +58,7 @@ export default defineConfig(({ mode }) => {
           return false
         }
       },
-      outDir: 'lib',
+      outDir: 'dist',
       minify: isLibBuild ? 'terser' : false
     },
     plugins: [
