@@ -13,7 +13,7 @@ import { addressSchema } from '@/schema'
 
 // Composable function to inject Props, options and values to useRoutingSlipInfo component
 export default function useRoutingSlipInfo (props) {
-  const { isRoutingSlipAChild, routingSlip, updateRoutingSlipStatus, routingSlipAddress } = useRoutingSlip()
+  const { isRoutingSlipAChild, routingSlip, updateRoutingSlipStatus } = useRoutingSlip()
   const { routingSlipStatusList } = useCodes()
   const addMoreDetails = ref<boolean>(false)
   const isLoading = ref<boolean>(false)
@@ -309,7 +309,6 @@ export default function useRoutingSlipInfo (props) {
     modalText,
     isLoading,
     closeErrorDialog,
-    baseAddressSchema,
-    routingSlipAddress
+    baseAddressSchema
   }
 }

@@ -9,7 +9,7 @@ import { addressSchema } from '@/schema'
 export default function useRefundRequestForm (props, context) {
   // using `toRefs` to create a Reactive Reference to the `slipId` property of props
   const { inputRefundRequestDetails, isApprovalFlow, isEditing } = toRefs(props)
-  const { routingSlipDetails, routingSlipAddress } = useRoutingSlipInfo(props)
+  const { routingSlipDetails } = useRoutingSlipInfo(props)
 
   const baseAddressSchema = ref<any>(addressSchema)
   const isAddressValid = ref<boolean>(false)
@@ -88,7 +88,6 @@ export default function useRefundRequestForm (props, context) {
     isValid,
     canEdit,
     showAddress,
-    updateAddress,
-    routingSlipAddress
+    updateAddress
   }
 }
