@@ -24,9 +24,6 @@ export default function useRefundRequestForm (props, context) {
   const address = ref<Address>({})
   const chequeAdvice = ref<string>('')
 
-  name.value = routingSlipDetails.value?.contactName || ''
-  address.value = routingSlipDetails.value?.mailingAddress || {}
-
   const canEdit = computed(() => {
     // except "chequeAdvice" , all other field are not editable in approval process
     return !isApprovalFlow.value && isEditing.value
