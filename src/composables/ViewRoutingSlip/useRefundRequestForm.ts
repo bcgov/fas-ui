@@ -1,6 +1,5 @@
-import { Address, BaseAddressModel } from '@/models/Address'
+import { Address } from '@/models/Address'
 import { computed, ref, toRefs, watch } from '@vue/composition-api'
-
 import CommonUtils from '@/util/common-util'
 import { RefundRequestDetails } from '@/models/RoutingSlip'
 import { useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
@@ -10,7 +9,7 @@ import { addressSchema } from '@/schema'
 export default function useRefundRequestForm (props, context) {
   // using `toRefs` to create a Reactive Reference to the `slipId` property of props
   const { inputRefundRequestDetails, isApprovalFlow, isEditing } = toRefs(props)
-  const { routingSlipDetails } = useRoutingSlipInfo(props)
+  const { routingSlipDetails, routingSlipAddress } = useRoutingSlipInfo(props)
 
   const baseAddressSchema = ref<any>(addressSchema)
   const isAddressValid = ref<boolean>(false)
@@ -39,6 +38,10 @@ export default function useRefundRequestForm (props, context) {
 
   function addressValidity (isValid: boolean): void {
     isAddressValid.value = isValid
+  }
+
+  const updateAddress = (address: Address) => {
+    routingSlipAddress.value.mailingAddress = address
   }
 
   function isValid (): boolean {
@@ -84,6 +87,8 @@ export default function useRefundRequestForm (props, context) {
     addressValidity,
     isValid,
     canEdit,
-    showAddress
+    showAddress,
+    updateAddress,
+    routingSlipAddress
   }
 }

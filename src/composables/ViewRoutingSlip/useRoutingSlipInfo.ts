@@ -316,6 +316,7 @@ export default function useRoutingSlipInfo (props) {
     modalText,
     isLoading,
     closeErrorDialog,
-    baseAddressSchema
+    baseAddressSchema,
+    routingSlipAddress
   }
 }
