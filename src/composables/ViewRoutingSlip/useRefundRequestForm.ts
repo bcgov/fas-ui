@@ -1,6 +1,5 @@
-import { Address, BaseAddressModel } from '@/models/Address'
+import { Address } from '@/models/Address'
 import { computed, ref, toRefs, watch } from '@vue/composition-api'
-
 import CommonUtils from '@/util/common-util'
 import { RefundRequestDetails } from '@/models/RoutingSlip'
 import { useRoutingSlipInfo } from '@/composables/ViewRoutingSlip'
@@ -25,9 +24,6 @@ export default function useRefundRequestForm (props, context) {
   const address = ref<Address>({})
   const chequeAdvice = ref<string>('')
 
-  name.value = routingSlipDetails.value?.contactName || ''
-  address.value = routingSlipDetails.value?.mailingAddress || {}
-
   const canEdit = computed(() => {
     // except "chequeAdvice" , all other field are not editable in approval process
     return !isApprovalFlow.value && isEditing.value
@@ -41,6 +37,10 @@ export default function useRefundRequestForm (props, context) {
     isAddressValid.value = isValid
   }
 
+  const updateAddress = (updatedAddress: Address) => {
+    address.value = updatedAddress || {}
+  }
+
   function isValid (): boolean {
     // Trigger both the form children validations
     // if the status is refund requested that means it is in approval flow where we need to check for only the chequeAdvice form validation
@@ -50,6 +50,11 @@ export default function useRefundRequestForm (props, context) {
     const nameValidate = refundRequestForm.value?.validate()
     return addressForm.value?.triggerValidate() && nameValidate && isAddressValid.value
   }
+
+  watch(routingSlipDetails, (newDetails) => {
+    name.value = newDetails.contactName || ''
+    address.value = newDetails.mailingAddress || {}
+  }, { immediate: true })
 
   // watch input elements name and address, and if anything changes, bubble up the values back to parent;
   watch([name, address, chequeAdvice], () => {
@@ -79,6 +84,7 @@ export default function useRefundRequestForm (props, context) {
     addressValidity,
     isValid,
     canEdit,
-    showAddress
+    showAddress,
+    updateAddress
   }
 }

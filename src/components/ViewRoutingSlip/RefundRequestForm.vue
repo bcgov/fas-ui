@@ -34,6 +34,8 @@
           :editing="canEdit"
           :schema="baseAddressSchema"
           :address="address"
+          @update:address="updateAddress"
+          @valid="addressValidity"
         >
         </AddressForm>
       </v-col>

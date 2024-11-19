@@ -42,7 +42,7 @@ export function useCreateRoutingSlipAddress () {
 
   function isValid (): boolean {
     // Current version of Vuetify returns validate() as true even if :error-message is not null on v-text-field
-    return createRoutingSlipAddressForm.value?.validate() && errorMessage.value?.length === 0
+    return addressForm.value?.triggerValidate() && createRoutingSlipAddressForm.value?.validate() && errorMessage.value?.length === 0
   }
 
   return {

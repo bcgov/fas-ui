@@ -119,6 +119,14 @@ export default function useRoutingSlipInfo (props) {
       : isEditableStatus
   })
 
+  const routingSlipContactName = computed(() => {
+    return routingSlipDetails.value.refunds?.[0]?.details?.name || routingSlipDetails.value.contactName
+  })
+
+  const routingSlipMailingAddress = computed(() => {
+    return routingSlipDetails.value.refunds?.[0]?.details?.mailingAddress || routingSlipDetails.value.mailingAddress
+  })
+
   // since we have to return different value
   watch(
     [routingSlipDetails, routingSlipStatusList],
@@ -149,6 +157,7 @@ export default function useRoutingSlipInfo (props) {
     },
     { immediate: true, deep: true }
   )
+
   function getStatusObject (status) : Code {
     const statusObject = getSelectedStatusObject(status)
     return statusObject[0] || {}
@@ -308,6 +317,8 @@ export default function useRoutingSlipInfo (props) {
     modalText,
     isLoading,
     closeErrorDialog,
-    baseAddressSchema
+    baseAddressSchema,
+    routingSlipContactName,
+    routingSlipMailingAddress
   }
 }
