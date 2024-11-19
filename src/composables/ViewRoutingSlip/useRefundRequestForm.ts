@@ -51,6 +51,11 @@ export default function useRefundRequestForm (props, context) {
     return addressForm.value?.triggerValidate() && nameValidate && isAddressValid.value
   }
 
+  watch(routingSlipDetails, (newDetails) => {
+    name.value = newDetails.contactName || ''
+    address.value = newDetails.mailingAddress || {}
+  }, { immediate: true })
+
   // watch input elements name and address, and if anything changes, bubble up the values back to parent;
   watch([name, address, chequeAdvice], () => {
     const refundRequestDetails: RefundRequestDetails = { name: name.value, mailingAddress: address.value, chequeAdvice: chequeAdvice.value } as RefundRequestDetails
