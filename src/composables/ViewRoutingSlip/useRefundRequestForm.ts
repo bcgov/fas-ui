@@ -40,8 +40,8 @@ export default function useRefundRequestForm (props, context) {
     isAddressValid.value = isValid
   }
 
-  const updateAddress = (address: Address) => {
-    routingSlipAddress.value.mailingAddress = address
+  const updateAddress = (updatedAddress: Address) => {
+    address.value = updatedAddress || {}
   }
 
   function isValid (): boolean {
