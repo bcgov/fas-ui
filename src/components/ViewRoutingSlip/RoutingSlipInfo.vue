@@ -101,12 +101,12 @@
                 Name of Person or Organization & Address
               </v-col>
               <v-col class="col-6 col-sm-9">
-                <p>{{ routingSlipDetails.refunds?.[0]?.details?.name || routingSlipDetails.contactName }}</p>
+                <p>{{ routingSlipContactName }}</p>
                 <AddressForm
                   ref="addressForm"
                   :editing="false"
                   :schema="baseAddressSchema"
-                  :address="routingSlipDetails.refunds?.[0]?.details?.mailingAddress || routingSlipDetails.mailingAddress"
+                  :address="routingSlipMailingAddress"
                 >
                 </AddressForm>
               </v-col>
@@ -206,7 +206,9 @@ import can from '@/directives/can'
       modalText,
       isLoading,
       closeErrorDialog,
-      baseAddressSchema
+      baseAddressSchema,
+      routingSlipContactName,
+      routingSlipMailingAddress
     } = useRoutingSlipInfo(props)
 
     return {
@@ -232,7 +234,9 @@ import can from '@/directives/can'
       modalText,
       isLoading,
       closeErrorDialog,
-      baseAddressSchema
+      baseAddressSchema,
+      routingSlipContactName,
+      routingSlipMailingAddress
     }
   }
 })
