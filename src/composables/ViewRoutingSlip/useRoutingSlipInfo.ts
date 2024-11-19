@@ -150,13 +150,6 @@ export default function useRoutingSlipInfo (props) {
     { immediate: true, deep: true }
   )
 
-  watch(routingSlip, (newRoutingSlip) => {
-    if (newRoutingSlip) {
-      const details = { mailingAddress: newRoutingSlip.mailingAddress, name: newRoutingSlip.contactName }
-      refundRequestDetails.value = JSON.parse(JSON.stringify(details))
-    }
-  })
-
   function getStatusObject (status) : Code {
     const statusObject = getSelectedStatusObject(status)
     return statusObject[0] || {}

@@ -96,17 +96,17 @@
               </v-col>
             </v-row>
 
-            <v-row v-if="!showAddressEditMode && routingSlipDetails.mailingAddress">
+            <v-row v-if="!showAddressEditMode && routingSlipDetails.mailingAddress && !showAddress">
               <v-col class="col-6 col-sm-3 font-weight-bold">
                 Name of Person or Organization & Address
               </v-col>
               <v-col class="col-6 col-sm-9">
-                <p>{{ routingSlipDetails.contactName }}</p>
+                <p>{{ routingSlipDetails.refunds?.[0]?.details?.name || routingSlipDetails.contactName }}</p>
                 <AddressForm
                   ref="addressForm"
                   :editing="false"
                   :schema="baseAddressSchema"
-                  :address="routingSlipDetails.mailingAddress"
+                  :address="routingSlipDetails.refunds?.[0]?.details?.mailingAddress || routingSlipDetails.mailingAddress"
                 >
                 </AddressForm>
               </v-col>
