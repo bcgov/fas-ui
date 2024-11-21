@@ -234,6 +234,7 @@ export const useRoutingSlip = () => {
     chequePayment.value = undefined
     cashPayment.value = undefined
     isPaymentMethodCheque.value = undefined
+    routingSlipAddress.value = undefined
   }
 
   const resetSearchParams = (): void => {
