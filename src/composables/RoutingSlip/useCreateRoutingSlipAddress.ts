@@ -33,7 +33,7 @@ export function useCreateRoutingSlipAddress () {
   })
 
   const updateAddress = (address: Address) => {
-    if (routingSlipAddress.value) {
+    if (routingSlipAddress?.value) {
       routingSlipAddress.value.mailingAddress = address
     }
   }
