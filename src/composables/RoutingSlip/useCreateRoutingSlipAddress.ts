@@ -33,7 +33,9 @@ export function useCreateRoutingSlipAddress () {
   })
 
   const updateAddress = (address: Address) => {
-    routingSlipAddress.value.mailingAddress = address
+    if (routingSlipAddress.value) {
+      routingSlipAddress.value.mailingAddress = address
+    }
   }
 
   const entityNameRules = CommonUtils.requiredFieldRule(
