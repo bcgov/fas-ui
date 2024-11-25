@@ -1,6 +1,6 @@
 {
   "name": "fas-ui",
-  "version": "1.2.19",
+  "version": "1.2.20",
   "private": true,
   "main": "./lib/lib.umd.min.js",
   "appName": "FAS UI",

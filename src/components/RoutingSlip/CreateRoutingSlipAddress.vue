@@ -9,12 +9,10 @@
           <v-col class="py-0">
             <v-text-field
               filled
-              label="Name of Person or Organization"
-              req
+              label="Name of Person or Organization (Optional)"
               persistent-hint
               data-test="txtAmount"
               v-model="contactName"
-              :rules="entityNameRules"
             >
             </v-text-field>
           </v-col>

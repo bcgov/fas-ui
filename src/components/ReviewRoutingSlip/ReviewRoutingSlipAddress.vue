@@ -1,5 +1,5 @@
 <template>
-  <v-row class="mb-3" v-if="routingSlipAddress.mailingAddress">
+  <v-row class="mb-3" v-if="routingSlipAddress?.mailingAddress">
     <v-col class="col-3 font-weight-bold">
       Name of Person or Organization & Address
     </v-col>
@@ -27,8 +27,7 @@ export default defineComponent({
   },
   props: {
     routingSlipAddress: {
-      type: Object,
-      required: true
+      type: Object
     }
   },
   setup () {
