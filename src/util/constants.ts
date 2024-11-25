@@ -196,17 +196,17 @@ export const headerSearchTitle =
 export const RoutingSlipRefundStatus = [
   {
     code: 'PROCESSING',
-    text: 'PROCESSING',
+    text: 'Processing',
     display: false
   },
   {
     code: 'PROCESSED',
-    text: 'PROCESSED',
+    text: 'Processed',
     display: true
   },
   {
     code: 'CHEQUE_UNDELIVERABLE',
-    text: 'CHEQUE UNDELIVERABLE',
+    text: 'Cheque Undeliverable',
     display: true
   }
 ]
