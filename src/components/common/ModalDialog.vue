@@ -1,40 +1,81 @@
+src/components/common/ModalDialog.vue
 <template>
   <v-dialog
+    v-model="isOpen"
     :persistent="isPersistent"
     :fullscreen="fullscreenOnMobile"
     :scrollable="isScrollable"
     :content-class="dialogClass"
     :max-width="maxWidth"
-    v-model="isOpen"
-    @keydown.esc="cancel">
-    <v-card class="px-10 pt-10 pb-8">
-      <v-card-title data-test="dialog-header" class="pt-0 pb-5">
-        <slot v-if="showIcon" name="icon" >
-          <v-icon large :color="iconColor" class="mt-0">{{ icon }}</v-icon>
+    @keydown.esc="close()"
+    @click:outside="close()"
+  >
+    <v-card>
+      <!-- title -->
+      <v-card-title data-test="dialog-header">
+        <!-- optional check icon -->
+        <slot
+          v-if="showIcon"
+          name="icon"
+        >
+          <v-icon
+            large
+            :color="iconColor" <!-- Use iconColor prop -->
+          >
+            {{ icon }} <!-- Use icon prop -->
+          </v-icon>
         </slot>
-        <span data-test="dialog-title">
+
+        <span
+          :class="{
+            'has-close-button': showCloseIcon,
+            'no-close-button': !showCloseIcon,
+            'modal-dialog-title': true
+          }"
+        >
           <slot name="title">{{ title }}</slot>
         </span>
-        <span v-if="showCloseIcon">
-           <v-btn
-            icon
-           @click="close()"
-           class="font-weight-bold"
-           data-test="icon-dialog-close"
-            >
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
 
-        </span>
+        <!-- optional close button -->
+        <v-btn
+          v-if="showCloseIcon"
+          icon
+          @click="close()"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
       </v-card-title>
+
+      <!-- text -->
       <v-card-text>
         <slot name="text">
-          <div v-html="text" class="px-8 pb-2" data-test="dialog-text"></div>
+          <div
+            class="modal-dialog-text"
+            v-html="text"
+          />
         </slot>
       </v-card-text>
-        <v-card-actions v-if="showActions">
+
+      <!-- actions -->
+      <v-card-actions v-if="showActions">
+        <span
+          v-if="showHelp"
+          id="help-button"
+          class="pl-2 pr-2 mr-auto"
+          @click.stop="openHelp()"
+        >
+          <v-icon>mdi-help-circle-outline</v-icon>
+          Help
+        </span>
         <slot name="actions">
-          <v-btn large color="success" @click="close()" data-test="dialog-ok-button">OK</v-btn>
+          <v-btn
+            large
+            color="success"
+            data-test="dialog-ok-button"
+            @click="close()"
+          >
+            <span>Close</span>
+          </v-btn>
         </slot>
       </v-card-actions>
     </v-card>
@@ -42,40 +83,88 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import { useModalDialog } from '@/composables/common'
+import { defineComponent, ref } from '@vue/composition-api'
 
-@Component({
-  setup () {
-    const {
-      isOpen,
-      open,
-      close
-    } = useModalDialog()
+export default defineComponent({
+  name: 'ModalDialog',
+  props: {
+    title: { type: String, default: '' },
+    text: { type: String, default: '' },
+    showIcon: { type: Boolean, default: true },
+    showActions: { type: Boolean, default: true },
+    showHelp: { type: Boolean, default: false },
+    isPersistent: { type: Boolean, default: false },
+    fullscreenOnMobile: { type: Boolean, default: false },
+    isScrollable: { type: Boolean, default: false },
+    dialogClass: { type: String, default: '' },
+    maxWidth: { type: String, default: '' },
+    showCloseIcon: { type: Boolean, default: false },
+    // Added missing props
+    icon: { type: String, default: 'mdi-check' }, // Default icon
+    iconColor: { type: String, default: 'primary' } // Default icon color
+  },
+  emits: ['open-help', 'close-dialog'],
+  setup (_, { emit }) {
+    const isOpen = ref(false)
+
+    const openHelp = () => {
+      emit('open-help')
+      isOpen.value = false
+    }
+
+    const open = () => {
+      isOpen.value = true
+    }
+    const close = () => {
+      isOpen.value = false
+      emit('close-dialog')
+    }
+
     return {
-      isOpen,
       open,
-      close
+      close,
+      isOpen,
+      openHelp
     }
   }
 })
-export default class InterimLanding extends Vue {
-  @Prop({ default: '' }) private title: string
-  @Prop({ default: '' }) private text: string
-  @Prop({ default: true }) private showIcon: boolean
-  @Prop({ default: true }) private showActions: boolean
-  @Prop({ default: false }) private isPersistent: boolean
-  @Prop({ default: false }) private fullscreenOnMobile: boolean
-  @Prop({ default: false }) private isScrollable: boolean
-  @Prop({ default: '' }) private dialogClass: string
-  @Prop({ default: '' }) private maxWidth: string
-  @Prop({ default: false }) private showCloseIcon: boolean
-  @Prop({ default: 'mdi-check' }) private icon: string
-  @Prop({ default: 'primary' }) private iconColor: string
-}
 </script>
 
 <style lang="scss" scoped>
+@import '$assets/scss/ModalDialog';
+@import '$assets/scss/overrides';
+  #help-button {
+    cursor: pointer;
+    color: var(--v-primary-base) !important;
+    .v-icon {
+      transform: translate(0, -2px) !important;
+      color: var(--v-primary-base) !important;
+    }
+  }
+  .notify-dialog {
+    background: red;
+  }
+  .modal-dialog-title {
+    word-break: break-word;
+    font-size: var(--FONT_SIZE_TITLE);
+    color: var(--COLOR_GRAY9);
+  }
+
+  .no-close-button {
+    text-align: center;
+    width: 100%
+  }
+
+  .has-close-button {
+    text-align: inherit;
+    width: auto;
+  }
+
+  .modal-dialog-text {
+    text-align: center;
+    font-size: var(--FONT_SIZE_TEXT);
+    color: var(--COLOR_GRAY7);
+  }
   // Notify Dialog Variant
   // Vertical stacked title container (icon w/ text)
   // Center-aligned text throughout
@@ -92,8 +181,33 @@ export default class InterimLanding extends Vue {
     text-align: center;
   }
 
+  .v-icon, .mdi-close {
+    color:$app-blue !important;
+  }
+
   .notify-dialog .v-card__actions {
     justify-content: center;
     padding: 1.5rem;
+  }
+  // Info Dialog Variant
+ .info-dialog .v-card__actions {
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  [title] {
+    text-align: center;
+  }
+  .lookup-dialog {
+    .v-card .v-card__text {
+      padding: 16px 40px 0 40px;
+    }
+  }
+  .warning-dialog {
+    .v-card .v-card__text {
+      padding: 16px 40px 0 40px;
+      .modal-dialog-text {
+        text-align: left;
+      }
+    }
   }
 </style>
