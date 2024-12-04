@@ -1,27 +1,3 @@
-export interface GLCode {
-    client: string,
-    createdBy: string,
-    createdName: string,
-    createdOn: Date,
-    distributionCodeId: number,
-    serviceFeeDistributionCodeId: number,
-    endDate?: Date,
-    name: string,
-    projectCode: string,
-    responsibilityCentre: string,
-    serviceLine: number,
-    startDate?: string,
-    stob: string,
-    updatedBy: string,
-    updatedName: string,
-    updatedOn: Date,
-    serviceFee: GLCode
-}
-
-export interface GLCodeResponse {
-    items: GLCode[]
-}
-
 export interface FilingType {
     corpType: string
     fee: string
@@ -32,8 +8,4 @@ export interface FilingType {
     futureEffectiveFee: string
     priorityFee: string
     serviceFee: string
-}
-
-export interface FilingTypeResponse {
-    items: FilingType[]
 }
