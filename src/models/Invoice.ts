@@ -43,6 +43,24 @@ export interface Invoice {
   total?: number
 }
 
+export interface InvoiceList {
+  consInvNumber?: string
+  invoiceNumber: string
+  invoices: Invoice[],
+  paymentMethod: string
+  paymentSystem: string
+  statusCode: string
+  invoiceAmount: number
+  paidAmount: number
+}
+
+export interface InvoiceListResponse {
+  items: InvoiceList[]
+  limit: number
+  page: number
+  total: number
+}
+
 // For displaying transaction data table
 export interface InvoiceDisplay {
   createdOn?: string

@@ -5,8 +5,11 @@ import { Role } from '@/util/constants'
 import { RouteConfig } from 'vue-router'
 import SigninView from '@/views/auth/SigninView.vue'
 import SignoutView from '@/views/auth/SignoutView.vue'
+import ShortNameMappingView from '@/views/eft/ShortNameMappingView.vue'
 import Unauthorized from '@/views/Unauthorized.vue'
 import ViewRoutingSlip from '../views/ViewRoutingSlip.vue'
+import ShortNameDetailsView from '@/components/eft/ShortNameDetailsView.vue'
+import ShortNameRefundView from '@/components/eft/ShortNameRefundView.vue'
 
 const routes: Array<RouteConfig> = [
   { path: '/', name: 'root', redirect: 'home' },
@@ -72,6 +75,58 @@ const routes: Array<RouteConfig> = [
     name: 'unauthorized',
     component: Unauthorized,
     meta: { requiresAuth: false }
+  },
+  {
+    path: '/eft',
+    name: 'manage-shortnames',
+    component: ShortNameMappingView,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: [Role.ManageEft],
+      // breadcrumb:
+      //   [
+      //     StaffDashboardBreadcrumb,
+      //     ShortNameMappingBreadcrumb
+      //   ],
+      showNavBar: true
+    },
+    props: true
+  },
+  {
+    path: '/eft/shortname-details/:shortNameId',
+    name: 'shortnamedetails',
+    component: ShortNameDetailsView,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: [Role.ManageEft],
+      // breadcrumb: [
+      //   StaffDashboardBreadcrumb,
+      //   ShortNameMappingBreadcrumb,
+      //   ShortNameDetailsBreadcrumb
+      // ],
+      showNavBar: true
+    },
+    props: (route) => ({ shortNameId: Number(route.params.shortNameId) })
+  },
+  {
+    path: '/eft/shortname-details/:shortNameId/refund/:eftRefundId?',
+    name: 'shortnamerefund',
+    component: ShortNameRefundView,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: [Role.EftRefund],
+      // breadcrumb: [
+      //   StaffDashboardBreadcrumb,
+      //   ShortNameMappingBreadcrumb,
+      //   ShortNameDetailsBreadcrumb,
+      //   ShortNameRefundBreadcrumb
+      // ],
+      showNavBar: true
+    },
+    props: route => ({
+      shortNameId: Number(route.params.shortNameId),
+      eftRefundId: route.params.eftRefundId ? Number(route.params.eftRefundId) : undefined
+    })
   }
 ]
 
