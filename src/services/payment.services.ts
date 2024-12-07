@@ -154,4 +154,9 @@ export default class PaymentService {
       }
     }
   }
+
+  static getStatementsSummary (accountId: string | number): AxiosPromise<any> {
+    const url = `${ConfigHelper.getPayAPIURL()}/accounts/${accountId}/statements/summary`
+    return axios.get(url)
+  }
 }

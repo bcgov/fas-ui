@@ -37,11 +37,10 @@
 </template>
 
 <script lang="ts">
-import { BaseSelectFilter, BaseTextFilter } from '../resources/base-filters'
 import { PropType, defineComponent, reactive } from '@vue/composition-api'
 import { BaseTableHeaderI } from '../interfaces'
 import debounce from '@/util/debounce'
-import { headerTypes } from '@/resources/table-headers/affiliations-table/headers'
+// import { headerTypes } from '@/resources/table-headers/affiliations-table/headers'
 
 const tempHeader = {
   col: '',
@@ -92,30 +91,6 @@ export default defineComponent({
         props.setSortedItems(props.sortedItems, true)
         return
       }
-
-      state.sortedItems = props.sortedItems.filter((item, i) => {
-        let display = true
-
-        for (let col in props.filters.filterPayload) {
-          const headersArray = props.headers
-          const index = headersArray.findIndex(item => item.col === col)
-
-          const colValue = props.headers[index].customFilter.items[i].text
-          const filterValue = props.filters.filterPayload[col]
-
-          if (headerTypes[col].type === 'select') {
-            display = BaseSelectFilter(colValue, filterValue)
-          } else {
-            display = BaseTextFilter(colValue, filterValue)
-          }
-
-          if (!display) {
-            return display
-          }
-        }
-
-        return display
-      })
 
       if (props.setSortedItems) {
         props.setSortedItems(state.sortedItems, true)

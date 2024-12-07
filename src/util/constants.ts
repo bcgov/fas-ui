@@ -242,6 +242,21 @@ export enum ShortNameResponseStatus {
   EFT_SHORT_NAME_ALREADY_MAPPED = 'EFT_SHORT_NAME_ALREADY_MAPPED'
 }
 
+export enum ConfirmationType {
+  REVERSE_PAYMENT = 'reversePayment',
+  CANCEL_PAYMENT = 'cancelPayment',
+  UNLINK_ACCOUNT = 'unlinkAccount'
+}
+
+export enum LookupStates {
+  INITIAL = 'initial',
+  TYPING = 'typing',
+  SEARCHING = 'searching',
+  SHOW_RESULTS = 'show results',
+  NO_RESULTS = 'no results',
+  SUMMARY = 'summary'
+}
+
 export const AXIOS_ERROR_ALERT_TIME_OUT = 5000
 
 export const headerSearchTitle =

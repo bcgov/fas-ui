@@ -40,6 +40,21 @@
             Edit
           </span>
         </div>
+        <div class="mb-2 overflow-wrap">
+          <span class="font-weight-bold">CAS Supplier Site: </span>
+          {{ shortName.casSupplierSite || 'N/A' }}
+          <span
+            class="pl-4 primary--text cursor-pointer"
+            data-test="btn-edit"
+            @click="openShortNameSupplierSiteDialog()"
+          >
+            <v-icon
+              color="primary"
+              size="20"
+            > mdi-pencil-outline</v-icon>
+            Edit
+          </span>
+        </div>
         <div class="overflow-wrap">
           <span class="font-weight-bold">Email: </span>
           <span class="email">{{ shortName.email || 'N/A' }}</span>
@@ -114,7 +129,6 @@
 import { PropType, computed, defineComponent, onMounted, reactive, toRefs } from '@vue/composition-api'
 import CommonUtils from '@/util/common-util'
 import PaymentService from '@/services/payment.services'
-import { Role } from '@/util/constants'
 import ShortNameAccountLink from '@/components/eft/ShortNameAccountLink.vue'
 import { ShortNameDetails } from '@/models/short-name'
 import ShortNameFinancialDialog from '@/components/eft/ShortNameFinancialDialog.vue'
@@ -122,7 +136,6 @@ import ShortNamePaymentHistory from '@/components/eft/ShortNamePaymentHistory.vu
 import ShortNameRefund from '@/components/eft/ShortNameRefund.vue'
 import ShortNameUtils from '@/util/short-name-util'
 import moment from 'moment'
-// import { useUserStore } from '@/store/'
 
 export default defineComponent({
   name: 'ShortNameMappingView',
@@ -134,9 +147,6 @@ export default defineComponent({
     }
   },
   setup (props) {
-    // const userStore = useUserStore()
-    // const currentUser = computed(() => userStore.currentUser)
-    const currentUser = ''
     const state = reactive({
       shortNameDetails: {} as ShortNameDetails,
       shortName: {},
@@ -146,11 +156,12 @@ export default defineComponent({
       unsettledAmount: '',
       displayRefundAlert: false,
       displayRefund: false,
-      canEFTRefund: computed((): boolean => currentUser.value?.roles?.includes(Role.EftRefund)),
       displayShortNameFinancialDialog: false,
       shortNameFinancialDialogType: '',
       lastRefundId: null
     })
+
+    const canEFTRefund = CommonUtils.canEFTRefund()
 
     onMounted(async () => {
       await loadShortname(props.shortNameId)
@@ -208,6 +219,11 @@ export default defineComponent({
       state.displayShortNameFinancialDialog = true
     }
 
+    function openShortNameSupplierSiteDialog () {
+      state.shortNameFinancialDialogType = 'CAS_SUPPLIER_SITE'
+      state.displayShortNameFinancialDialog = true
+    }
+
     async function onPaymentAction () {
       await loadShortname(props.shortNameId)
       updateState()
@@ -222,7 +238,7 @@ export default defineComponent({
       try {
         const response = await PaymentService.getEFTShortnameSummary(shortnameId)
         if (response?.data) {
-          state.shortNameDetails = response.data['items'][0]
+          state.shortNameDetails = response.data.items[0]
           const eftShortNameResponse = await PaymentService.getEFTShortName(state.shortNameDetails.id)
           state.shortName = eftShortNameResponse.data
         } else {
@@ -242,10 +258,12 @@ export default defineComponent({
       onShortNamePatch,
       openShortNameEmailDialog,
       openShortNameSupplierNumberDialog,
+      openShortNameSupplierSiteDialog,
       formatCurrency: CommonUtils.formatAmount,
       unsettledAmountHeader,
       closeShortNameLinkingDialog,
-      getShortNameTypeDescription: ShortNameUtils.getShortNameTypeDescription
+      getShortNameTypeDescription: ShortNameUtils.getShortNameTypeDescription,
+      canEFTRefund
     }
   }
 })

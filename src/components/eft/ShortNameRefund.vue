@@ -139,8 +139,8 @@
 </template>
 
 <script lang="ts">
-import { EFTRefundType, Role } from '@/util/constants'
-import { Ref, computed, defineComponent, reactive, ref, toRefs, watch } from '@vue/composition-api'
+import { EFTRefundType } from '@/util/constants'
+import { Ref, defineComponent, reactive, ref, toRefs, watch } from '@vue/composition-api'
 import { BaseVDataTable } from '@/components/datatable'
 import CommonUtils from '@/util/common-util'
 import { DEFAULT_DATA_OPTIONS } from '@/components/datatable/resources'
@@ -203,6 +203,12 @@ export default defineComponent({
         hasFilter: false,
         width: '240px',
         value: 'CAS Supplier Number'
+      },
+      {
+        col: 'casSupplierSite',
+        hasFilter: false,
+        width: '240px',
+        value: 'CAS Supplier Site'
       },
       {
         col: 'refundAmount',

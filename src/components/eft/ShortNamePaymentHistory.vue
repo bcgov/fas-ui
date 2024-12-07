@@ -152,9 +152,9 @@
   </div>
 </template>
 <script lang="ts">
-import { Ref, computed, defineComponent, nextTick, reactive, ref, toRefs, watch } from '@vue/composition-api'
+import { Ref, defineComponent, nextTick, reactive, ref, toRefs, watch } from '@vue/composition-api'
 import {
-  Role,
+  ConfirmationType,
   ShortNameHistoryType,
   ShortNameHistoryTypeDescription,
   ShortNamePaymentActions,
@@ -184,9 +184,7 @@ export default defineComponent({
   },
   setup (props, { emit, root }) {
     const dateDisplayFormat = 'MMMM D, YYYY'
-    const enum ConfirmationType {
-      REVERSE_PAYMENT = 'reversePayment',
-    }
+
     const shortNameRefundTypes: string[] = [
       ShortNameHistoryType.SN_REFUND_PENDING_APPROVAL,
       ShortNameHistoryType.SN_REFUND_APPROVED,
@@ -326,7 +324,7 @@ export default defineComponent({
 
     function formatTransactionAmount (item: any) {
       if (item.amount === undefined) return ''
-      let amount = CommonUtils.formatAmount(item.amount)
+      const amount = CommonUtils.formatAmount(item.amount)
 
       switch (item.transactionType) {
         case ShortNameHistoryType.STATEMENT_PAID:
@@ -334,7 +332,7 @@ export default defineComponent({
         case ShortNameHistoryType.SN_REFUND_APPROVED:
           return `-${amount}`
         case ShortNameHistoryType.SN_REFUND_DECLINED:
-          return `-`
+          return '-'
         default:
           return amount
       }

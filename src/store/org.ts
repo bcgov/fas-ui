@@ -35,6 +35,7 @@ export const useOrgStore = defineStore('org', () => {
   return {
     ...toRefs(state),
     getStatementsList,
-    getStatementsSummary
+    getStatementsSummary,
+    refundEFT
   }
 })
