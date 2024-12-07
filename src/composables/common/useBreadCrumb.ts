@@ -26,6 +26,12 @@ export function useBreadCrumb (_, context) {
         return generateBreadcrumbForViewRoutingSlip(route)
       case 'view-routing-slip-child':
         return generateBreadcrumbForViewChildRoutingSlip(route)
+      case 'manage-shortnames':
+        return generateBreadcrumbForManageShortNames(route)
+      case 'shortnamedetails':
+        return generateBreadcrumbForShortNameDetails(route)
+      case 'shortnamerefund':
+        return generateBreadcrumbForShortNameRefund(route)
       // We can add breadcrumbs for future components here
     }
   }
@@ -89,6 +95,68 @@ export function useBreadCrumb (_, context) {
     ]
 
     return appendParentAndFasHomePageItems(items, route)
+  }
+
+  function generateBreadcrumbForManageShortNames (route: any): BreadcrumbItem[] {
+    return [
+      {
+        text: 'Staff Dashboard',
+        disabled: false,
+        href: authWebUrl
+      } as BreadcrumbItem,
+      {
+        text: 'EFT Received Payments',
+        disabled: true,
+        to: appendQueryParamsIfNeeded('/eft', route)
+      } as BreadcrumbItem
+    ]
+  }
+
+  function generateBreadcrumbForShortNameDetails (route: any): BreadcrumbItem[] {
+    const shortNameId = route.params.shortNameId
+    return [
+      {
+        text: 'Staff Dashboard',
+        disabled: false,
+        href: authWebUrl
+      } as BreadcrumbItem,
+      {
+        text: 'EFT Received Payments',
+        disabled: false,
+        to: appendQueryParamsIfNeeded('/eft', route)
+      } as BreadcrumbItem,
+      {
+        text: 'EFT Payment Details',
+        disabled: true,
+        to: appendQueryParamsIfNeeded(`/eft/shortname-details/${shortNameId}`, route)
+      } as BreadcrumbItem
+    ]
+  }
+
+  function generateBreadcrumbForShortNameRefund (route: any): BreadcrumbItem[] {
+    const shortNameId = route.params.shortNameId
+    return [
+      {
+        text: 'FAS Dashboard',
+        disabled: false,
+        to: appendQueryParamsIfNeeded('/home', route)
+      } as BreadcrumbItem,
+      {
+        text: 'EFT Received Payments',
+        disabled: false,
+        to: appendQueryParamsIfNeeded('/eft', route)
+      } as BreadcrumbItem,
+      {
+        text: 'EFT Payment Details',
+        disabled: false,
+        to: appendQueryParamsIfNeeded(`/eft/shortname-details/${shortNameId}`, route)
+      } as BreadcrumbItem,
+      {
+        text: 'Refund Request',
+        disabled: true,
+        to: appendQueryParamsIfNeeded(`/eft/shortname-details/${shortNameId}/refund`, route)
+      } as BreadcrumbItem
+    ]
   }
 
   function appendParentAndFasHomePageItems (items: BreadcrumbItem[], route: any) {
