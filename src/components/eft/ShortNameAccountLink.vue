@@ -216,7 +216,7 @@
 <script lang="ts">
 
 import { Ref, computed, defineComponent, nextTick, reactive, ref, toRefs, watch } from '@vue/composition-api'
-import { ShortNameLinkStatus, ShortNamePaymentActions } from '@/util/constants'
+import { ConfirmationType, ShortNameLinkStatus, ShortNamePaymentActions } from '@/util/constants'
 import { BaseVDataTable } from '@/components/datatable'
 import CommonUtils from '@/util/common-util'
 import { DEFAULT_DATA_OPTIONS } from '@/components/datatable/resources'
@@ -240,10 +240,6 @@ export default defineComponent({
   },
   emits: ['on-link-account', 'on-payment-action'],
   setup (props, { emit }) {
-    const enum ConfirmationType {
-      CANCEL_PAYMENT = 'cancelPayment',
-      UNLINK_ACCOUNT = 'unlinkAccount'
-    }
     const confirmationDialog: Ref<InstanceType<typeof ModalDialog>> = ref(null)
     const headers = [
       {
@@ -305,7 +301,7 @@ export default defineComponent({
     })
 
     async function evaluateLinks () {
-      let pending = state.results.filter(result =>
+      const pending = state.results.filter(result =>
         result.statusCode === ShortNameLinkStatus.PENDING && result.amountOwing > 0
       )
 
@@ -358,7 +354,7 @@ export default defineComponent({
         // eslint-disable-next-line no-console
         console.error('An errored occurred applying payments.', error)
       }
-      this.$emit('on-payment-action')
+      emit('on-payment-action')
       state.loading = false
     }
 

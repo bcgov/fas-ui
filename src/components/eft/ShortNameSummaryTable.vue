@@ -349,7 +349,7 @@ export default defineComponent({
       root.$router?.push({
         name: 'shortnamedetails',
         params: {
-          'shortNameId': state.results[index].id.toString()
+          shortNameId: state.results[index].id.toString()
         }
       })
     }
@@ -358,7 +358,7 @@ export default defineComponent({
       if (!startDate || !endDate) {
         return
       }
-      return `${formatDate(startDate)} - ${formatDate(endDate)}`
+      return `${startDate} - ${endDate}`
     }
 
     async function onLinkAccount (account: any) {

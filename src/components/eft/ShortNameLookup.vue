@@ -109,18 +109,9 @@ import CommonUtils from '@/util/common-util'
 import { EFTShortnameResponse } from '@/models/eft-transaction'
 import { LookupType } from '@/models/business-nr-lookup'
 import PaymentService from '@/services/payment.services'
-import { ShortNameStatus } from '@/util/constants'
+import { LookupStates, ShortNameStatus } from '@/util/constants'
 import _ from 'lodash'
 import { useOrgStore } from '@/store/org'
-
-enum LookupStates {
-  INITIAL = 'initial',
-  TYPING = 'typing',
-  SEARCHING = 'searching',
-  SHOW_RESULTS = 'show results',
-  NO_RESULTS = 'no results',
-  SUMMARY = 'summary'
-}
 
 export default defineComponent({
   name: 'ShortNameLookup',
@@ -201,12 +192,13 @@ export default defineComponent({
         const accountIds = eftAccounts.map((org) => org.accountId)
 
         const eftShortNamesResponse = await PaymentService.getEFTShortNames(
-          { 'filterPayload': { 'accountIdList': accountIds.join(',') },
-            'pageLimit': accountIds.length }
+          {
+            filterPayload: { accountIdList: accountIds.join(',') },
+            pageLimit: accountIds.length
+          }
         )
 
         const eftShortNames = eftShortNamesResponse.data.items
-
         const statementsSummaries = await Promise.all(
           accountIds.map(accountId => getStatementsSummary(accountId))
         )

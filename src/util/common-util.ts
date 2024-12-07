@@ -161,8 +161,13 @@ export default class CommonUtils {
   }
 
   static isEftRefundApprover () {
-    const voidRole:any = [Role.EftRefundApprover]
-    return KeyCloakService.verifyRoles(voidRole, [])
+    const refundApproverRole:any = [Role.EftRefundApprover]
+    return KeyCloakService.verifyRoles(refundApproverRole, [])
+  }
+
+  static canEFTRefund () {
+    const eftRefundRole:any = [Role.EftRefund]
+    return KeyCloakService.verifyRoles(eftRefundRole, [])
   }
 
   /**

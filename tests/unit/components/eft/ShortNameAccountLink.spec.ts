@@ -1,7 +1,7 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { createLocalVue, mount, shallowMount } from '@vue/test-utils'
 import { BaseVDataTable } from '@/components/datatable'
 import CommonUtils from '@/util/common-util'
-import ShortNameAccountLink from '@/components/pay/eft/ShortNameAccountLink.vue'
+import ShortNameAccountLink from '@/components/eft/ShortNameAccountLink.vue'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
@@ -79,7 +79,7 @@ describe('ShortNameAccountLink.vue', () => {
 
   it('is a Vue instance', () => {
     const $t = () => ''
-    wrapper = mount(ShortNameAccountLink, {
+    wrapper = shallowMount(ShortNameAccountLink, {
       localVue,
       vuetify,
       propsData: {
@@ -92,7 +92,7 @@ describe('ShortNameAccountLink.vue', () => {
 
   it('validate shortname is unlinked', () => {
     const $t = () => ''
-    wrapper = mount(ShortNameAccountLink, {
+    wrapper = shallowMount(ShortNameAccountLink, {
       localVue,
       vuetify,
       propsData: {
@@ -106,9 +106,15 @@ describe('ShortNameAccountLink.vue', () => {
   })
 
   it('validate shortname is linked', async () => {
-    // Change the prop value
-    await wrapper.setProps({ shortNameDetails: { id: 1, shortName: 'SHORTNAME' } })
+    wrapper = shallowMount(ShortNameAccountLink, {
+      propsData: {
+        shortNameDetails: { id: 1, shortName: 'SHORTNAME' }
+      },
+      localVue,
+      vuetify
+    })
     await wrapper.vm.$nextTick()
+    const $t = () => ''
 
     expect(wrapper.find('.linked-text').text())
       .toContain('Link a New Account')

@@ -1,7 +1,7 @@
 import { Wrapper, createLocalVue, mount } from '@vue/test-utils'
 
 import CommonUtils from '@/util/common-util'
-import LinkedShortNameTableVue from '@/components/pay/LinkedShortNameTable.vue'
+import LinkedShortNameTableVue from '@/components/eft/LinkedShortNameTable.vue'
 import ShortNameUtils from '@/util/short-name-util'
 import { VueConstructor } from 'vue'
 import Vuetify from 'vuetify'

@@ -20,13 +20,14 @@ src/components/common/ModalDialog.vue
         >
           <v-icon
             large
-            :color="iconColor" <!-- Use iconColor prop -->
+            :color="iconColor"
           >
             {{ icon }} <!-- Use icon prop -->
           </v-icon>
         </slot>
 
         <span
+          data-test="dialog-title"
           :class="{
             'has-close-button': showCloseIcon,
             'no-close-button': !showCloseIcon,
@@ -40,6 +41,7 @@ src/components/common/ModalDialog.vue
         <v-btn
           v-if="showCloseIcon"
           icon
+          data-test="icon-dialog-close"
           @click="close()"
         >
           <v-icon>mdi-close</v-icon>
@@ -50,6 +52,7 @@ src/components/common/ModalDialog.vue
       <v-card-text>
         <slot name="text">
           <div
+            data-test="dialog-text"
             class="modal-dialog-text"
             v-html="text"
           />

@@ -90,6 +90,29 @@
 
               <v-row>
                 <v-col class="col-6 col-sm-3 font-weight-bold">
+                  CAS Supplier Site
+                </v-col>
+                <v-col
+                  v-if="readOnly"
+                  class="pl-0"
+                >
+                  {{ refundDetails.casSupplierSite }}
+                </v-col>
+                <v-text-field
+                  v-else
+                  v-model.trim="casSupplierSite"
+                  hint="This site should be created in CAS before issuing a refund"
+                  filled
+                  label="CAS Supplier Site"
+                  persistent-hint
+                  data-test="casSupplierSite"
+                  :rules="casSupplierSiteRules"
+                  :disabled="isFormDisabled"
+                />
+              </v-row>
+
+              <v-row>
+                <v-col class="col-6 col-sm-3 font-weight-bold">
                   Email
                 </v-col>
                 <v-col
@@ -249,6 +272,7 @@ export default defineComponent({
       refundDetails: {} as EFTRefund,
       refundAmount: undefined,
       casSupplierNum: '',
+      casSupplierSite: '',
       email: '',
       staffComment: '',
       isLoading: false,
@@ -262,6 +286,9 @@ export default defineComponent({
       casSupplierNumRules: [
         v => !!v || 'CAS Supplier Number is required'
       ],
+      casSupplierSiteRules: [
+        v => !!v || 'CAS Supplier Site is required'
+      ],
       emailRules: [
         v => !!v || 'Email is required',
         v => {
@@ -269,13 +296,13 @@ export default defineComponent({
           return pattern.test(v) || 'Valid email is required'
         }
       ],
-      orgStore: useOrgStore(),
       staffCommentRules: [
         v => !!v || 'Reason for Refund is required',
         v => (v.length < 500) || 'Cannot exceed 500 characters'
       ],
       isSubmitted: false
     })
+    const orgStore = useOrgStore()
 
     function isApproved () {
       return state.refundDetails?.status === EFTRefundType.APPROVED
@@ -297,7 +324,7 @@ export default defineComponent({
       try {
         const response = await PaymentService.getEFTShortnameSummary(props.shortNameId)
         if (response?.data) {
-          state.shortNameDetails = response.data['items'][0]
+          state.shortNameDetails = response.data.items[0]
         } else {
           throw new Error('No response from getEFTShortname')
         }
@@ -339,11 +366,12 @@ export default defineComponent({
           shortNameId: state.shortNameDetails.id,
           refundAmount: state.refundAmount,
           casSupplierNum: state.casSupplierNum,
+          casSupplierSite: state.casSupplierSite,
           refundEmail: state.email,
           comment: state.staffComment
         }
         try {
-          await state.orgStore.refundEFT(refundPayload)
+          await orgStore.refundEFT(refundPayload)
           state.isSubmitted = true
           buttonText.value = 'Approved'
           buttonColor.value = 'green'

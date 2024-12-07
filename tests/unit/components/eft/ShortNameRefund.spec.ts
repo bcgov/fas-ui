@@ -14,7 +14,7 @@ Vue.use(Vuetify)
 Vue.use(VueRouter)
 // Selectors
 const { header, headerTitles, itemRow, itemCell } = baseVdataTable
-const headers = ['Initiated By', 'Comment', 'CAS Supplier Number', 'Refund Amount', 'Actions']
+const headers = ['Initiated By', 'Comment', 'CAS Supplier Number', 'CAS Supplier Site', 'Refund Amount', 'Actions']
 
 describe('ShortNameRefund.vue', () => {
   let wrapper
@@ -29,6 +29,7 @@ describe('ShortNameRefund.vue', () => {
       {
         casSupplierNumber: '123456789',
         comment: 'A test',
+        casSupplierSite: '123',
         createdName: 'John Doe',
         createdOn: '2024-10-17 14:51:27.553425',
         disbursementDate: '2024-10-17',
@@ -91,8 +92,9 @@ describe('ShortNameRefund.vue', () => {
     expect(titles.at(0).text()).toBe('Initiated By')
     expect(titles.at(1).text()).toBe('Comment')
     expect(titles.at(2).text()).toBe('CAS Supplier Number')
-    expect(titles.at(3).text()).toBe('Refund Amount')
-    expect(titles.at(4).text()).toBe('Actions')
+    expect(titles.at(3).text()).toBe('CAS Supplier Site')
+    expect(titles.at(4).text()).toBe('Refund Amount')
+    expect(titles.at(5).text()).toBe('Actions')
     // table items
     const itemRows = wrapper.findComponent(BaseVDataTable).findAll(itemRow)
     expect(itemRows.length).toBe(shortNameRefundResponse.length)
@@ -101,11 +103,11 @@ describe('ShortNameRefund.vue', () => {
     expect(row1Cells.at(0).text()).toBe('John Doe')
     expect(row1Cells.at(1).text()).toBe('A test')
     expect(row1Cells.at(2).text()).toBe('123456789')
-    expect(row1Cells.at(3).findAll('span').at(0).text()).toBe('$10.00')
-    expect(row1Cells.at(3).findAll('span').at(1).text()).toBe('View Refund Detail')
-    expect(row1Cells.at(4).findAll('button').exists()).toBe(true)
-    expect(row1Cells.at(4).findAll('button').at(0).text()).toBe('Decline')
-    expect(row1Cells.at(4).findAll('button').at(1).text()).toBe('Approve')
+    expect(row1Cells.at(4).findAll('span').at(0).text()).toBe('$10.00')
+    expect(row1Cells.at(4).findAll('span').at(1).text()).toBe('View Refund Detail')
+    expect(row1Cells.at(5).findAll('button').exists()).toBe(true)
+    expect(row1Cells.at(5).findAll('button').at(0).text()).toBe('Decline')
+    expect(row1Cells.at(5).findAll('button').at(1).text()).toBe('Approve')
     // without roles
     wrapper.destroy()
     wrapper = mountComponent([])
