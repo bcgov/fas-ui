@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <!-- header filter in a seperate component helps improve performance -->
 <template>
   <span>
