@@ -1,7 +1,7 @@
 import { Wrapper, createLocalVue, mount } from '@vue/test-utils'
 import { BaseVDataTable } from '@/components/datatable'
 import CommonUtils from '@/util/common-util'
-import ShortNameSummaryTableVue from '@/components/pay/ShortNameSummaryTable.vue'
+import ShortNameSummaryTableVue from '@/components/eft/ShortNameSummaryTable.vue'
 import ShortNameUtils from '@/util/short-name-util'
 import { VueConstructor } from 'vue'
 import Vuetify from 'vuetify'

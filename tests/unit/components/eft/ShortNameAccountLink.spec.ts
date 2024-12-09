@@ -79,7 +79,7 @@ describe('ShortNameAccountLink.vue', () => {
 
   it('is a Vue instance', () => {
     const $t = () => ''
-    wrapper = shallowMount(ShortNameAccountLink, {
+    wrapper = mount(ShortNameAccountLink, {
       localVue,
       vuetify,
       propsData: {
@@ -92,7 +92,7 @@ describe('ShortNameAccountLink.vue', () => {
 
   it('validate shortname is unlinked', () => {
     const $t = () => ''
-    wrapper = shallowMount(ShortNameAccountLink, {
+    wrapper = mount(ShortNameAccountLink, {
       localVue,
       vuetify,
       propsData: {
@@ -106,15 +106,9 @@ describe('ShortNameAccountLink.vue', () => {
   })
 
   it('validate shortname is linked', async () => {
-    wrapper = shallowMount(ShortNameAccountLink, {
-      propsData: {
-        shortNameDetails: { id: 1, shortName: 'SHORTNAME' }
-      },
-      localVue,
-      vuetify
-    })
+    // Change the prop value
+    await wrapper.setProps({ shortNameDetails: { id: 1, shortName: 'SHORTNAME' } })
     await wrapper.vm.$nextTick()
-    const $t = () => ''
 
     expect(wrapper.find('.linked-text').text())
       .toContain('Link a New Account')

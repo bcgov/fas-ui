@@ -83,11 +83,6 @@ const routes: Array<RouteConfig> = [
     meta: {
       requiresAuth: true,
       allowedRoles: [Role.ManageEft],
-      // breadcrumb:
-      //   [
-      //     StaffDashboardBreadcrumb,
-      //     ShortNameMappingBreadcrumb
-      //   ],
       showNavBar: true
     },
     props: true
@@ -99,11 +94,6 @@ const routes: Array<RouteConfig> = [
     meta: {
       requiresAuth: true,
       allowedRoles: [Role.ManageEft],
-      // breadcrumb: [
-      //   StaffDashboardBreadcrumb,
-      //   ShortNameMappingBreadcrumb,
-      //   ShortNameDetailsBreadcrumb
-      // ],
       showNavBar: true
     },
     props: (route) => ({ shortNameId: Number(route.params.shortNameId) })
@@ -115,12 +105,6 @@ const routes: Array<RouteConfig> = [
     meta: {
       requiresAuth: true,
       allowedRoles: [Role.EftRefund],
-      // breadcrumb: [
-      //   StaffDashboardBreadcrumb,
-      //   ShortNameMappingBreadcrumb,
-      //   ShortNameDetailsBreadcrumb,
-      //   ShortNameRefundBreadcrumb
-      // ],
       showNavBar: true
     },
     props: route => ({
