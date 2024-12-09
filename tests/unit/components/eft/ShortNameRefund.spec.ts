@@ -1,7 +1,7 @@
 import { createLocalVue, mount } from '@vue/test-utils'
 import { BaseVDataTable } from '@/components/datatable'
 import { Role } from '@/util/constants'
-import ShortNameRefund from '@/components/pay/eft/ShortNameRefund.vue'
+import ShortNameRefund from '@/components/eft/ShortNameRefund.vue'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
