@@ -18,16 +18,6 @@ export interface Statement {
   paymentMethods: string[]
 }
 
-export interface Frequencies {
-  frequency: string
-  startDate: string
-}
-
-export interface StatementSettings {
-  currentFrequency?: StatementListItem
-  frequencies: Frequencies[]
-}
-
 export interface StatementsSummary {
   oldestDueDate?: string
   totalDue: number
@@ -46,18 +36,4 @@ export interface StatementListResponse {
   limit: number
   page: number
   total: number
-}
-
-export interface StatementRecipient {
-  authUserId: number
-  email: string
-  firstname: string
-  lastname: string
-  name?: string
-}
-
-export interface StatementNotificationSettings {
-  accountName?: string
-  statementNotificationEnabled: boolean
-  recipients: StatementRecipient[]
 }

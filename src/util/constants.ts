@@ -1,18 +1,18 @@
 export enum SessionStorageKeys {
-  KeyCloakToken='KEYCLOAK_TOKEN',
-  ApiConfigKey='AUTH_API_CONFIG',
-  LaunchDarklyFlags='LD_FLAGS',
-  ExtraProvincialUser='EXTRAPROVINCIAL_USER',
-  SessionSynced='SESSION_SYNCED',
-  AuthApiUrl='AUTH_API_URL',
-  AuthWebUrl='AUTH_WEB_URL',
-  PayApiUrl='PAY_API_URL',
-  StatusApiUrl='STATUS_API_URL',
-  FasWebUrl='FAS_WEB_URL',
-  SiteminderLogoutUrl='SITEMINDER_LOGOUT_URL',
-  ShortNamesTabIndex='Short_Names_Tab_Index',
-  LinkedAccount='Linked_Account',
-  LinkedShortNamesFilter='Linked_Short_Names_Filter'
+  KeyCloakToken = 'KEYCLOAK_TOKEN',
+  ApiConfigKey = 'AUTH_API_CONFIG',
+  LaunchDarklyFlags = 'LD_FLAGS',
+  ExtraProvincialUser = 'EXTRAPROVINCIAL_USER',
+  SessionSynced = 'SESSION_SYNCED',
+  AuthApiUrl = 'AUTH_API_URL',
+  AuthWebUrl = 'AUTH_WEB_URL',
+  PayApiUrl = 'PAY_API_URL',
+  StatusApiUrl = 'STATUS_API_URL',
+  FasWebUrl = 'FAS_WEB_URL',
+  SiteminderLogoutUrl = 'SITEMINDER_LOGOUT_URL',
+  ShortNamesTabIndex = 'Short_Names_Tab_Index',
+  LinkedAccount = 'Linked_Account',
+  LinkedShortNamesFilter = 'Linked_Short_Names_Filter'
 }
 
 export enum DateFilterCodes {
@@ -152,35 +152,6 @@ export enum ShortNameType {
 export enum ShortNameTypeDescription {
   EFT = 'EFT',
   WIRE = 'Wire Transfer'
-}
-
-export enum PaymentTypes {
-  CASH = 'CASH',
-  CHEQUE = 'CHEQUE',
-  CREDIT_CARD = 'CC',
-  BCOL = 'DRAWDOWN',
-  DIRECT_PAY = 'DIRECT_PAY',
-  EFT = 'EFT',
-  INTERNAL = 'INTERNAL',
-  NO_FEE = 'NO_FEE',
-  ONLINE_BANKING = 'ONLINE_BANKING',
-  PAD = 'PAD',
-  EJV = 'EJV',
-  WIRE = 'WIRE',
-  CREDIT = 'CREDIT'
-}
-
-export enum Product {
-  BCA = 'BCA',
-  BUSINESS = 'BUSINESS',
-  BUSINESS_SEARCH = 'BUSINESS_SEARCH',
-  CSO = 'CSO',
-  ESRA = 'ESRA',
-  MHR = 'MHR',
-  PPR = 'PPR',
-  RPPR = 'RPPR',
-  RPT = 'RPT',
-  VS = 'VS'
 }
 
 export enum ShortNameLinkStatus {
