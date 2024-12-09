@@ -7,6 +7,7 @@ import { Role, SlipStatus } from '@/util/constants'
 
 import KeyCloakService from 'sbc-common-components/src/services/keycloak.services'
 import moment from 'moment'
+import 'moment-timezone'
 
 export default class CommonUtils {
   // Formatting date in the desired format for displaying in the template
@@ -159,6 +160,16 @@ export default class CommonUtils {
     return KeyCloakService.verifyRoles(voidRole, [])
   }
 
+  static isEftRefundApprover () {
+    const refundApproverRole:any = [Role.EftRefundApprover]
+    return KeyCloakService.verifyRoles(refundApproverRole, [])
+  }
+
+  static canEFTRefund () {
+    const eftRefundRole:any = [Role.EftRefund]
+    return KeyCloakService.verifyRoles(eftRefundRole, [])
+  }
+
   /**
    * check its in refunc process
    * @param  {string} status
@@ -219,5 +230,40 @@ export default class CommonUtils {
       }
     }
     return true
+  }
+
+  // Format amount for displaying dollar currency
+  static formatAmount (amount: number): string {
+    return amount.toLocaleString('en-CA', {
+      style: 'currency',
+      currency: 'CAD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })
+  }
+
+  static formatUtcToPacificDate (dateStr: string, format: string): string {
+    if (!dateStr) return ''
+    const date = moment.utc(dateStr).toDate()
+    return (date) ? moment(date).tz('America/Vancouver')
+      .format(format) : ''
+  }
+
+  static emailRules (isOptional: boolean = false) {
+    const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    if (isOptional) {
+      return [
+        v => !v || pattern.test(v) || 'Valid email is required'
+      ]
+    } else {
+      return [
+        v => !!v || 'Email address is required',
+        v => pattern.test(v) || 'Valid email is required'
+      ]
+    }
+  }
+
+  static formatAccountDisplayName (item: any) {
+    return `${item?.accountId} ${item?.accountName}`
   }
 }
