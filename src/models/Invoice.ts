@@ -11,6 +11,8 @@ export interface LineItem {
   serviceFees?: number
   statusCode?: string
   total?: number
+  waivedBy?: string
+  waivedFees?: number
 }
 
 export interface Reference {
