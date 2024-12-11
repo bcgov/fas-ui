@@ -9,7 +9,10 @@ export enum SessionStorageKeys {
   PayApiUrl = 'PAY_API_URL',
   StatusApiUrl = 'STATUS_API_URL',
   FasWebUrl = 'FAS_WEB_URL',
-  SiteminderLogoutUrl = 'SITEMINDER_LOGOUT_URL'
+  SiteminderLogoutUrl = 'SITEMINDER_LOGOUT_URL',
+  ShortNamesTabIndex = 'Short_Names_Tab_Index',
+  LinkedAccount = 'Linked_Account',
+  LinkedShortNamesFilter = 'Linked_Short_Names_Filter'
 }
 
 export enum DateFilterCodes {
@@ -75,7 +78,10 @@ export enum Role {
   FAS_REFUND_APPROVER = 'fas_refund_approver',
   FAS_REFUND = 'fas_refund',
   FAS_VOID = 'fas_void',
-  FAS_CORRECTION = 'fas_correction'
+  FAS_CORRECTION = 'fas_correction',
+  ManageEft = 'manage_eft',
+  EftRefund = 'eft_refund',
+  EftRefundApprover = 'eft_refund_approver'
 }
 
 export enum InvoiceStatus {
@@ -97,6 +103,129 @@ export enum CreateRoutingSlipStatus {
 
 export enum PatchActions {
   UPDATE_STATUS = 'updateStatus'
+}
+
+export enum AccountStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  REJECTED = 'REJECTED',
+  PENDING_STAFF_REVIEW = 'PENDING_STAFF_REVIEW',
+  PENDING_ACTIVATION = 'PENDING_ACTIVATION',
+  NSF_SUSPENDED = 'NSF_SUSPENDED',
+  SUSPENDED = 'SUSPENDED',
+  PENDING_INVITE_ACCEPT = 'PENDING_INVITE_ACCEPT'
+}
+
+export enum CfsAccountStatus {
+  PENDING = 'PENDING',
+  PENDING_PAD_ACTIVATION = 'PENDING_PAD_ACTIVATION',
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  FREEZE = 'FREEZE'
+}
+
+export enum ShortNameStatus {
+  LINKED = 'LINKED',
+  UNLINKED = 'UNLINKED',
+  PENDING = 'PENDING'
+}
+
+export enum SuspensionReason {
+  NSF = 'NSF',
+  OVERDUE_EFT = 'Overdue EFT Payments',
+  NSF_SUSPENDED = 'NSF SUSPENDED',
+  SUSPENDED = 'SUSPENDED'
+}
+
+export enum EFTRefundTypeDescription {
+  APPROVED = 'Approved',
+  PENDING_APPROVAL = 'Requested',
+  DECLINED = 'Declined',
+  PENDING_REFUND = 'Pending Refund',
+}
+
+export enum ShortNameType {
+  EFT = 'EFT',
+  WIRE = 'WIRE'
+}
+
+export enum ShortNameTypeDescription {
+  EFT = 'EFT',
+  WIRE = 'Wire Transfer'
+}
+
+export enum ShortNameLinkStatus {
+  PENDING = 'PENDING',
+  LINKED = 'LINKED',
+  INACTIVE = 'INACTIVE'
+}
+
+export enum ShortNameRefundStatus {
+  PENDING_APPROVAL = 'PENDING_APPROVAL'
+}
+
+export enum ShortNameRefundLabel {
+  PENDING_APPROVAL = 'REFUND REQUEST'
+}
+
+export enum ShortNamePaymentActions {
+  APPLY_CREDITS = 'APPLY_CREDITS',
+  CANCEL = 'CANCEL',
+  REVERSE = 'REVERSE'
+}
+
+export enum ShortNameHistoryType {
+  FUNDS_RECEIVED = 'FUNDS_RECEIVED',
+  INVOICE_REFUND = 'INVOICE_REFUND',
+  STATEMENT_PAID = 'STATEMENT_PAID',
+  STATEMENT_REVERSE = 'STATEMENT_REVERSE',
+  SN_REFUND_PENDING_APPROVAL = 'SN_REFUND_PENDING_APPROVAL',
+  SN_REFUND_APPROVED = 'SN_REFUND_APPROVED',
+  SN_REFUND_DECLINED = 'SN_REFUND_DECLINED'
+}
+
+export enum ShortNameHistoryTypeDescription {
+  FUNDS_RECEIVED = 'Funds Received',
+  INVOICE_REFUND = 'Invoice Refund',
+  STATEMENT_PAID = 'Statement Paid',
+  STATEMENT_REVERSE = 'Payment Reversed',
+  SN_REFUND_PENDING_APPROVAL = 'Short Name Refund Request',
+  SN_REFUND_APPROVED = 'Short Name Refund Request',
+  SN_REFUND_DECLINED = 'Short Name Refund Request'
+}
+
+export enum ShortNameReversePaymentErrors {
+  INVALID_STATE = 'EFT_PAYMENT_ACTION_CREDIT_LINK_STATUS_INVALID',
+  UNPAID_STATEMENT = 'EFT_PAYMENT_ACTION_UNPAID_STATEMENT',
+  UNPAID_STATEMENT_INVOICE = 'EFT_PAYMENT_INVOICE_REVERSE_UNEXPECTED_STATUS',
+  EXCEEDS_SIXTY_DAYS = 'EFT_PAYMENT_ACTION_REVERSAL_EXCEEDS_SIXTY_DAYS'
+}
+
+export enum EFTRefundType {
+  APPROVED = 'APPROVED',
+  PENDING_APPROVAL = 'PENDING_APPROVAL',
+  DECLINED = 'DECLINED',
+  COMPLETED = 'COMPLETED',
+  ERRORED = 'ERRORED'
+}
+
+export enum ShortNameResponseStatus {
+  EFT_SHORT_NAME_ALREADY_MAPPED = 'EFT_SHORT_NAME_ALREADY_MAPPED'
+}
+
+export enum ConfirmationType {
+  REVERSE_PAYMENT = 'reversePayment',
+  CANCEL_PAYMENT = 'cancelPayment',
+  UNLINK_ACCOUNT = 'unlinkAccount'
+}
+
+export enum LookupStates {
+  INITIAL = 'initial',
+  TYPING = 'typing',
+  SEARCHING = 'searching',
+  SHOW_RESULTS = 'show results',
+  NO_RESULTS = 'no results',
+  SUMMARY = 'summary'
 }
 
 export const AXIOS_ERROR_ALERT_TIME_OUT = 5000

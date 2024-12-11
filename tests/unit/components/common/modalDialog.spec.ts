@@ -11,11 +11,11 @@ describe('ModalDialog.vue', () => {
       }
     })
 
-    expect(wrapper.find('[data-test="dialog-title"]').exists()).toBeTruthy()
-    expect(wrapper.find('[data-test="dialog-title"]').text()).toBe(title)
+    expect(wrapper.find('[data-test="dialog-header"] .modal-dialog-title').exists()).toBeTruthy()
+    expect(wrapper.find('[data-test="dialog-header"] .modal-dialog-title').text()).toBe(title)
   })
 
-  it(' Modal Should have close icon when props pass', () => {
+  it('Modal Should have close icon when props pass', () => {
     const wrapper = shallowMount(ModalDialog, {
       propsData: {
         title,
@@ -40,6 +40,6 @@ describe('ModalDialog.vue', () => {
 
     expect(wrapper.find('[data-test="dialog-title"]').text()).toBe(title)
     expect(wrapper.find('[data-test="dialog-text"]').text()).toBe(text)
-    expect(wrapper.find('[data-test="dialog-ok-button"]').text()).toBe('OK')
+    expect(wrapper.find('[data-test="dialog-ok-button"]').text()).toBe('Close')
   })
 })
