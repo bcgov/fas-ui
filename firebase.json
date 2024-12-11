@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "bcregistry-fas-dev",
+    "site": "pay-web-dev",
     "public": "dist",
     "ignore": [
       "**/devops/**",
