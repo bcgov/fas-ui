@@ -12,13 +12,14 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build-check": "vite build",
     "preview": "vite preview --port 8080",
     "lint": "eslint . --ext ts,vue",
     "lint:nofix": "eslint . --ext ts,vue --no-fix",
     "lint:fix": "eslint . --ext ts,vue --fix src",
+    "test": "vitest run",
     "test:unit": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "build:lib": "vite build --mode lib"
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@bcrs-shared-components/base-address": "^2.0.3",
