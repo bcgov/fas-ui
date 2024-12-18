@@ -305,7 +305,6 @@ export default defineComponent({
     }
 
     function disableApproveRefund(item) {
-      console.log(currentUser, item)
       return item?.createdBy?.toUpperCase() === currentUser.userName?.toUpperCase()
     }
 
