@@ -53,7 +53,7 @@
         <template #item-slot-actions="{ item, index }">
           <div
             :id="`action-menu-${index}`"
-            class="mx-auto"
+            class="mx-auto d-flex"
           >
             <v-btn
               v-if="isEftRefundApprover"
