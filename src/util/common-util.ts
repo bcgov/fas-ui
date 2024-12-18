@@ -170,7 +170,7 @@ export default class CommonUtils {
     return KeyCloakService.verifyRoles(eftRefundRole, [])
   }
 
-  static getUserInfo() {
+  static getUserInfo () {
     return KeyCloakService.getUserInfo()
   }
 
