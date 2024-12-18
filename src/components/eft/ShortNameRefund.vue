@@ -77,6 +77,7 @@
               color="primary"
               class="open-action-btn pr-4 pl-4"
               :loading="loading"
+              :disabled="disableApproveRefund(item)"
               @click="approveRefund(item)"
             >
               <v-icon
@@ -184,12 +185,13 @@ export default defineComponent({
       currentEftRefund: null
     })
     const isEftRefundApprover = CommonUtils.isEftRefundApprover()
+    const currentUser = CommonUtils.getUserInfo()
     const confirmationDialog: Ref<InstanceType<typeof ModalDialog>> = ref(null)
     const headers = [
       {
         col: 'createdName',
         hasFilter: false,
-        width: '300px',
+        width: '290px',
         value: 'Initiated By'
       },
       {
@@ -213,14 +215,14 @@ export default defineComponent({
       {
         col: 'refundAmount',
         hasFilter: false,
-        width: '260px',
+        width: '240px',
         value: 'Refund Amount'
       },
       {
         col: 'actions',
         hasFilter: false,
         value: 'Actions',
-        width: '300px'
+        width: '340px'
       }
     ]
 
@@ -302,11 +304,17 @@ export default defineComponent({
       })
     }
 
+    function disableApproveRefund(item) {
+      console.log(currentUser, item)
+      return item?.createdBy?.toUpperCase() === currentUser.userName?.toUpperCase()
+    }
+
     return {
       ...toRefs(state),
       state,
       headers,
       confirmationDialog,
+      disableApproveRefund,
       approveRefund,
       declineRefund,
       dialogDecline,
