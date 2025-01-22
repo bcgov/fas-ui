@@ -47,7 +47,7 @@
       </v-tab>
     </v-tabs>
 
-    <v-window v-model="tab">
+    <v-window v-model="tab" class="shortname-summary">
       <v-window-item class="ma-0">
         <v-card
           class="window-item-card"
@@ -183,6 +183,11 @@ export default defineComponent({
   .account-linking-dialog ::v-deep .v-card__actions {
     display: flex;
     background: red!important;
+  }
+
+  // Prevents date picker filter from being cut off when there are no rows
+  .shortname-summary {
+      overflow: visible;
   }
 
 </style>

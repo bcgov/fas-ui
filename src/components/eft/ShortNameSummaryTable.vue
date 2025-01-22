@@ -177,6 +177,7 @@ import { ShortNameSummaryState } from '@/models/short-name'
 import ShortNameUtils from '@/util/short-name-util'
 import _ from 'lodash'
 import { useShortNameTable } from '@/composables/eft/short-name-table-factory'
+import moment from 'moment-timezone'
 
 export default defineComponent({
   name: 'ShortNameSummaryTable',
@@ -188,6 +189,7 @@ export default defineComponent({
   emits: ['on-link-account'],
   setup (props, { emit, root }) {
     const dateDisplayFormat = 'MMMM DD, YYYY'
+    const dateRangeFormat = 'YYYY-MM-DD'
     const datePicker = ref(null)
     const accountLinkingDialog: Ref<InstanceType<typeof ModalDialog>> = ref(null)
     const accountLinkingErrorDialog: Ref<InstanceType<typeof ModalDialog>> = ref(null)
@@ -358,7 +360,9 @@ export default defineComponent({
       if (!startDate || !endDate) {
         return
       }
-      return `${startDate} - ${endDate}`
+      state.startDate = moment(startDate).format(dateRangeFormat)
+      state.endDate = moment(endDate).format(dateRangeFormat)
+      return `${state.startDate} - ${state.endDate}`
     }
 
     async function onLinkAccount (account: any) {
@@ -370,15 +374,28 @@ export default defineComponent({
       state.showDatePicker = false
       state.dateRangeSelected = !!(endDate && startDate)
       if (!state.dateRangeSelected) { endDate = ''; startDate = '' }
-      state.dateRangeText = state.dateRangeSelected ? setDateRangeText(startDate, endDate) : ''
-      state.filters.filterPayload.paymentReceivedStartDate = startDate
-      state.filters.filterPayload.paymentReceivedEndDate = endDate
+      const startDateString = getTimezoneDateString(startDate, 'start')
+      const endDateString = getTimezoneDateString(endDate, 'start')
+      state.dateRangeText = state.dateRangeSelected ? setDateRangeText(startDateString, endDateString) : ''
+      state.filters.filterPayload.paymentReceivedStartDate = startDateString
+      state.filters.filterPayload.paymentReceivedEndDate = endDateString
       ConfigHelper.addToSession(SessionStorageKeys.ShortNamesSummaryFilter, JSON.stringify(state.filters.filterPayload))
-      await loadTableSummaryData()
+      await loadTableSummaryData('page', 1)
     }
 
     async function clickDatePicker () {
       state.showDatePicker = true
+    }
+
+    function getTimezoneDateString(dateString: string, type: string): string {
+      const clientTimezone = moment.tz.guess()
+      if (type === 'start') {
+        return moment.tz(dateString, clientTimezone).startOf('day').toISOString()
+      } else if (type === 'end') {
+        return moment.tz(dateString, clientTimezone).endOf('day').toISOString()
+      } else {
+        return ''
+      }
     }
 
     async function clearFilters () {
@@ -473,9 +490,8 @@ export default defineComponent({
 @import '$assets/scss/ShortnameTables.scss';
 
 #short-name-summaries {
-  border: 1px solid #e9ecef
+  border: 1px solid $gray2;
 }
-
 .new-actions {
   display: flex;
   .v-list {
