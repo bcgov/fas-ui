@@ -375,7 +375,7 @@ export default defineComponent({
       state.dateRangeSelected = !!(endDate && startDate)
       if (!state.dateRangeSelected) { endDate = ''; startDate = '' }
       const startDateString = getTimezoneDateString(startDate, 'start')
-      const endDateString = getTimezoneDateString(endDate, 'start')
+      const endDateString = getTimezoneDateString(endDate, 'end')
       state.dateRangeText = state.dateRangeSelected ? setDateRangeText(startDateString, endDateString) : ''
       state.filters.filterPayload.paymentReceivedStartDate = startDateString
       state.filters.filterPayload.paymentReceivedEndDate = endDateString
