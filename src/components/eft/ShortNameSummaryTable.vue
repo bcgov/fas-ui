@@ -387,7 +387,7 @@ export default defineComponent({
       state.showDatePicker = true
     }
 
-    function getTimezoneDateString(dateString: string, type: string): string {
+    function getTimezoneDateString (dateString: string, type: string): string {
       const clientTimezone = moment.tz.guess()
       if (type === 'start') {
         return moment.tz(dateString, clientTimezone).startOf('day').toISOString()
