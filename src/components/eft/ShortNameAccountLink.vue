@@ -92,10 +92,53 @@
         @update-table-options="options = $event"
       >
         <template #item-slot-linkedAccount="{ item }">
-          <span>{{ formatAccountDisplayName(item) }}</span>
+          <div v-if="item.isParentRow"
+               @click="toggleStatementsView(item)"
+          >
+            <span
+              :class="{'child-statement-row': !item.isParentRow}">
+              <span v-if="item.statementsOwing.length > 1">
+                <v-icon class='expansion-icon mr-2' v-if="isStatementsExpanded(item)">mdi-chevron-up</v-icon>
+                <v-icon class='expansion-icon mr-2' v-else>mdi-chevron-down</v-icon>
+              </span>
+              {{ formatAccountDisplayName(item) }}
+            </span>
+          </div>
+        </template>
+        <template #item-slot-accountBranch="{ item }">
+          <span
+            v-if="item.isParentRow"
+            :class="{'child-statement-row': !item.isParentRow}">
+            {{ item.accountBranch }}
+          </span>
+        </template>
+        <template #item-slot-unpaidStatementIds="{ item }">
+          <span
+            :class="{'child-statement-row': !item.isParentRow}"
+          >{{ item.unpaidStatementIds }}</span>
+          <div
+            v-if="item.isParentRow && item.statementsOwing.length > 1"
+            class="statement-view-link pt-2"
+            @click="toggleStatementsView(item)">
+
+            {{  isStatementsExpanded(item) ? 'View less' : 'View All statements' }}
+          </div>
         </template>
         <template #item-slot-amountOwing="{ item }">
-          <span>{{ formatCurrency(item.amountOwing) }}</span>
+          {{ formatCurrency(item.amountOwing) }}
+          <v-tooltip top
+            v-if="item.showInsufficientFundWarning">
+            <template #activator="{ on }">
+             <span v-on="on"
+               :class="{'child-statement-row': !item.isParentRow}"
+             >
+              <v-icon
+                v-if="item.isParentRow"
+                class='red-warning-icon ml-1'>mdi-information-outline</v-icon>
+            </span>
+            </template>
+           <span v-sanitize="item.insufficientFundMessage"></span>
+          </v-tooltip>
         </template>
         <template #expanded-item="{ item }">
           <tr
@@ -108,7 +151,7 @@
             >
               <span class="expanded-item scheduled-item">
                 <v-icon>mdi-clock-outline</v-icon>
-                {{ formatCurrency(item.amountOwing) }} will be applied to this account today at 5:00 p.m. PST or 6:00 p.m. PDT.
+                {{ formatCurrency(item.pendingPaymentAmountTotal) }} will be applied to this account today at 5:00 p.m. PST or 6:00 p.m. PDT.
               </span>
             </td>
           </tr>
@@ -139,13 +182,15 @@
                 color="primary"
                 min-width="5rem"
                 min-height="2rem"
-                class="open-action-btn"
+                :class="['open-action-btn', { 'single-action-btn': !item.isParentRow }]"
                 :loading="loading"
                 @click="applyPayment(item)"
               >
-                Apply Payments
+                {{ item.isParentRow ? 'Apply All' : 'Apply Payment' }}
               </v-btn>
-              <span class="more-actions">
+              <span class="more-actions"
+                v-if="item.isParentRow"
+              >
                 <v-menu
                   v-model="actionDropdown[index]"
                   :attach="`#action-menu-${index}`"
@@ -180,6 +225,7 @@
             <!-- Unlink Account Button -->
             <template v-else>
               <v-btn
+                v-if="item.isParentRow"
                 small
                 color="primary"
                 min-width="5rem"
@@ -215,7 +261,16 @@
 </template>
 <script lang="ts">
 
-import { Ref, computed, defineComponent, nextTick, reactive, ref, toRefs, watch } from '@vue/composition-api'
+import {
+  Ref,
+  computed,
+  defineComponent,
+  nextTick,
+  reactive,
+  ref,
+  toRefs,
+  watch
+} from '@vue/composition-api'
 import { ConfirmationType, ShortNameLinkStatus, ShortNamePaymentActions } from '@/util/constants'
 import { BaseVDataTable } from '@/components/datatable'
 import CommonUtils from '@/util/common-util'
@@ -255,10 +310,10 @@ export default defineComponent({
         value: 'Branch'
       },
       {
-        col: 'statementId',
+        col: 'unpaidStatementIds',
         hasFilter: false,
         width: '260px',
-        value: 'Latest Statement Number'
+        value: 'Unpaid Statement Number'
       },
       {
         col: 'amountOwing',
@@ -289,16 +344,83 @@ export default defineComponent({
       },
       loading: false,
       options: _.cloneDeep(DEFAULT_DATA_OPTIONS),
-      expanded: []
+      expanded: [],
+      expandedStatements: []
     })
 
     const isLinked = computed<boolean>(() => {
       return state.totalResults > 0 || state.loading
     })
 
-    const accountDisplayText = computed<string>(() => {
-      return `${props.shortNameDetails.accountId} ${props.shortNameDetails.accountName}`
-    })
+    function getUnpaidStatementsString(statementsOwing: []): string {
+      const statementIds = statementsOwing.map(statement => statement.statementId)
+      if (statementIds.length <= 2) {
+        return statementIds.join(', ')
+      } else {
+        return statementIds.slice(0, 2).join(', ') + ',...'
+      }
+    }
+
+    function isStatementsExpanded (item: any): boolean {
+      return state.expandedStatements.indexOf(item.accountId) > -1
+    }
+
+    function toggleStatementsView (item: any): void {
+      const accountIndex = state.expandedStatements.indexOf(item.accountId)
+      if (accountIndex > -1) {
+        state.expandedStatements.splice(accountIndex, 1)
+      } else {
+        state.expandedStatements.push(item.accountId)
+      }
+      processStatements()
+    }
+
+    function evaluateInsufficientFunds(statement) {
+      if (statement.amountOwingTotal > state.eftShortNameSummary.creditsRemaining) {
+        statement.showInsufficientFundWarning = true
+        statement.insufficientFundMessage = 'Insufficient funds to settle all statements.'
+        if (statement.statementsOwing.length > 1 && statement.hasPayableStatement) {
+          statement.insufficientFundMessage += '<br/>Review each statement to settle.'
+        }
+        
+        //console.log('nsf', statement.statementsOwing.length, statement.hasPayableStatement)
+      }
+    }
+
+    async function processStatements () {
+      const statements = []
+      state.results.forEach(statement => {
+        if (statement.isParentRow) {
+          statements.push(statement)
+          statement.pendingPaymentAmountTotal = 0
+          statement.amountOwingTotal = 0
+          statement.statementsOwing.forEach((statementOwing: any) => {
+            const childStatementRow = {
+              hasPendingPayment: statementOwing.pendingPaymentsCount > 0,
+              isParentRow: false,
+              unpaidStatementIds: statementOwing.statementId,
+              shortNameId: statement.shortNameId,
+              amountOwing: statementOwing.amountOwing,
+              pendingPaymentAmount: statementOwing.pendingPaymentsAmount,
+              statementId: statementOwing.statementId,
+              accountId: statement.accountId
+            }
+            statement.pendingPaymentAmountTotal += statementOwing.pendingPaymentsAmount
+            statement.amountOwingTotal += statementOwing.amountOwing
+            if (statementOwing.amountOwing <= state.eftShortNameSummary.creditsRemaining) {
+              statement.hasPayableStatement = true
+            }
+            if (state.expandedStatements.indexOf(statement.accountId) > -1) {
+              statements.push(childStatementRow)
+            }
+          })
+          statement.unpaidStatementIds = getUnpaidStatementsString(statement.statementsOwing)
+          evaluateInsufficientFunds(statement)
+        }
+      })
+      await nextTick()
+      state.results = [...statements]
+    }
 
     async function evaluateLinks () {
       const pending = state.results.filter(result =>
@@ -347,8 +469,10 @@ export default defineComponent({
       try {
         const params = {
           action: ShortNamePaymentActions.APPLY_CREDITS,
-          accountId: item.accountId
+          accountId: item.accountId,
+          statementId: !item.isParentRow ? item.statementId : undefined
         }
+
         await PaymentService.postShortnamePaymentAction(props.shortNameDetails.id, params)
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -383,7 +507,8 @@ export default defineComponent({
       try {
         const params = {
           action: ShortNamePaymentActions.CANCEL,
-          accountId: item.accountId
+          accountId: item.accountId,
+          statementId: !item.isParentRow ? item.statementId : undefined
         }
         await PaymentService.postShortnamePaymentAction(props.shortNameDetails.id, params)
       } catch (error) {
@@ -422,6 +547,11 @@ export default defineComponent({
           /* We use appendToResults for infinite scroll, so we keep the existing results. */
           state.results = response.data.items
           state.totalResults = response.data.items.length
+          state.results = state.results.map(statement => {
+            statement.isParentRow = true
+            return statement
+          })
+          await processStatements()
           await evaluateLinks()
         } else {
           throw new Error('No response from loadShortNameLinks')
@@ -443,7 +573,6 @@ export default defineComponent({
       state,
       headers,
       isLinked,
-      accountDisplayText,
       confirmationDialog,
       openAccountLinkingDialog,
       closeShortNameLinkingDialog,
@@ -456,7 +585,9 @@ export default defineComponent({
       showApplyPayment,
       getEFTShortNameSummaries,
       formatCurrency: CommonUtils.formatAmount,
-      formatAccountDisplayName: CommonUtils.formatAccountDisplayName
+      formatAccountDisplayName: CommonUtils.formatAccountDisplayName,
+      toggleStatementsView,
+      isStatementsExpanded
     }
   }
 })
@@ -540,4 +671,24 @@ export default defineComponent({
     }
   }
 
+  .child-statement-row {
+    font-weight: normal;
+  }
+
+  .statement-view-link {
+    color: $app-blue;
+    font-weight: normal;
+  }
+
+  .expansion-icon {
+    background-color: $app-blue;
+    border-radius: 50%;
+    color: white !important;
+    transform: translateY(-1px);
+  }
+
+  .red-warning-icon {
+    color: $app-red !important;
+    transform: translateY(-1px);
+  }
 </style>
