@@ -379,7 +379,8 @@ export default defineComponent({
     }
 
     function evaluateParentInsufficientFunds(statement) {
-      if (statement.amountOwing > state.eftShortNameSummary.creditsRemaining) {
+      const hasOutstandingStatements = statement.statementsOwing.some(statement => statement.pendingPaymentsCount === 0)
+      if (statement.amountOwing > state.eftShortNameSummary.creditsRemaining && hasOutstandingStatements) {
         statement.hasInsufficientFunds = true
         statement.insufficientFundMessage = 'Insufficient funds to settle all statements.'
         if (statement.hasMultipleStatements && statement.hasPayableStatement) {
