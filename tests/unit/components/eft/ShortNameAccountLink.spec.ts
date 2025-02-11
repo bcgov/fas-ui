@@ -202,17 +202,17 @@ describe('ShortNameAccountLink.vue', () => {
     validateAction(itemRows.at(8), PaymentActions.CANCEL_PAYMENT)
   })
 
-  function validateAction(itemRow, actionText) {
+  function validateAction (itemRow, actionText) {
     expect(itemRow.findAll(itemCell).at(4).text()).toBe(actionText)
   }
 
-  async function initializeProps(wrapper: any, creditsRemaining = 0) {
+  async function initializeProps (wrapper: any, creditsRemaining = 0) {
     await wrapper.setProps({ shortNameDetails: { id: 1, shortName: 'SHORTNAME' } })
     await wrapper.vm.$nextTick()
   }
 
   // Helper functions to validate link data
-  function validateExpectedTableStructure(wrapper: any) {
+  function validateExpectedTableStructure (wrapper: any) {
     expect(wrapper.findComponent(BaseVDataTable).exists()).toBe(true)
     expect(wrapper.findComponent(BaseVDataTable).find(header).exists()).toBe(true)
     expect(wrapper.find('#eft-account-linking-table').exists()).toBe(true)
@@ -226,7 +226,7 @@ describe('ShortNameAccountLink.vue', () => {
     }
   }
 
-  function validateTableData(wrapper: any, validateChildRows: boolean = false) {
+  function validateTableData (wrapper: any, validateChildRows: boolean = false) {
     const itemRows = wrapper.findComponent(BaseVDataTable).findAll(itemRow)
     const totalStatementsOwing = linksResponse.items.reduce((count, item) => count + item.statementsOwing.length, 0)
     const expectedTotalRows = validateChildRows ? totalStatementsOwing : linksResponse.items.length
@@ -248,7 +248,7 @@ describe('ShortNameAccountLink.vue', () => {
     }
   }
 
-  function getSummaryCreditsRemaining(creditsRemaining: number) {
+  function getSummaryCreditsRemaining (creditsRemaining: number) {
     return {
       items: [
         {

@@ -359,7 +359,7 @@ export default defineComponent({
       return state.totalResults > 0 || state.loading
     })
 
-    function getUnpaidStatementsString(statementsOwing: []): string {
+    function getUnpaidStatementsString (statementsOwing: []): string {
       const statementIds = statementsOwing.map(statement => statement.statementId)
       if (statementIds.length <= 2) {
         return statementIds.join(', ')
@@ -382,7 +382,7 @@ export default defineComponent({
       processStatements()
     }
 
-    function evaluateParentInsufficientFunds(statement) {
+    function evaluateParentInsufficientFunds (statement) {
       const hasOutstandingStatements = statement.statementsOwing.some(statement => statement.pendingPaymentsCount === 0)
       statement.insufficientFundMessage = undefined
       if (statement.amountOwing > state.eftShortNameSummary.creditsRemaining && hasOutstandingStatements) {
@@ -493,15 +493,15 @@ export default defineComponent({
       state.confirmObject = undefined
     }
 
-    function showApplyPaymentButton(item): boolean {
+    function showApplyPaymentButton (item): boolean {
       return !item.hasPendingPayment && item.amountOwing > 0
     }
 
-    function showCancelPaymentButton(item): boolean {
+    function showCancelPaymentButton (item): boolean {
       return item.hasPendingPayment && !item.hasMultipleStatements
     }
 
-    function showUnlinkAccountButton(item): boolean {
+    function showUnlinkAccountButton (item): boolean {
       return item.isParentRow && (item.hasInsufficientFunds || item.amountOwing === 0) && !item.hasPendingPayment
     }
 
