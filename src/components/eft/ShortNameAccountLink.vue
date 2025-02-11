@@ -123,8 +123,7 @@
             class="statement-view-link pt-2"
             data-test="multiple-statements-toggle-link"
             @click="toggleStatementsView(item)">
-
-            {{  isStatementsExpanded(item) ? 'View less' : 'View All statements' }}
+            <u>{{ isStatementsExpanded(item) ? 'View less' : 'View All statements' }}</u>
           </div>
         </template>
         <template #item-slot-amountOwing="{ item }">
@@ -168,8 +167,23 @@
             class="new-actions mx-auto"
           >
             <!-- Statement Parent Row Actions -->
+            <!-- Unlink Account Button -->
+            <template v-if="showUnlinkAccountButton(item)">
+              <v-btn
+                v-if="item.isParentRow"
+                small
+                color="primary"
+                min-width="5rem"
+                min-height="2rem"
+                class="open-action-btn single-action-btn"
+                :loading="loading"
+                @click="showConfirmUnlinkAccountModal(item)"
+              >
+                Unlink Account
+              </v-btn>
+            </template>
             <!-- Apply Payments / More actions Unlink Account-->
-            <template v-if="showApplyPaymentButton(item)">
+            <template v-else-if="showApplyPaymentButton(item)">
               <v-btn
                 small
                 color="primary"
@@ -227,21 +241,6 @@
                 @click="showConfirmCancelPaymentModal(item)"
               >
                 Cancel Payment
-              </v-btn>
-            </template>
-            <!-- Unlink Account Button -->
-            <template v-else-if="showUnlinkAccountButton(item)">
-              <v-btn
-                v-if="item.isParentRow"
-                small
-                color="primary"
-                min-width="5rem"
-                min-height="2rem"
-                class="open-action-btn single-action-btn"
-                :loading="loading"
-                @click="showConfirmUnlinkAccountModal(item)"
-              >
-                Unlink Account
               </v-btn>
             </template>
           </div>
@@ -502,7 +501,10 @@ export default defineComponent({
     }
 
     function showUnlinkAccountButton (item): boolean {
-      return item.isParentRow && (item.hasInsufficientFunds || item.amountOwing === 0) && !item.hasPendingPayment
+      if (!item.isParentRow || item.statementsOwing.length > 1 ||
+        item.hasPendingPayment) return false
+
+      return (!item.hasPayableStatement || item.amountOwing === 0)
     }
 
     function showConfirmCancelPaymentModal (item) {
@@ -646,6 +648,9 @@ export default defineComponent({
   }
 
   ::v-deep {
+    .base-table__item-cell {
+      vertical-align: top;
+    }
     .base-table__header__title{
       padding: 16px
     }

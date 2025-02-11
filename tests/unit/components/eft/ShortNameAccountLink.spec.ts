@@ -168,8 +168,21 @@ describe('ShortNameAccountLink.vue', () => {
     expect(spyToggleStatementView).toBeCalledWith(wrapper.vm.results[0])
   })
 
+  it('button state test - single owing - zero funds', async () => {
+    linksResponse = { ...MockEFTLinksData.SINGLE_OWING_BUTTON_STATE_TEST }
+    // Change the prop value
+    await initializeProps(wrapper)
+    await waitForLoading(wrapper)
+
+    const itemRows = wrapper.findComponent(BaseVDataTable).findAll(itemRow)
+    validateAction(itemRows.at(0), PaymentActions.UNLINK_ACCOUNT)
+    validateAction(itemRows.at(1), PaymentActions.CANCEL_PAYMENT)
+    validateAction(itemRows.at(2), PaymentActions.UNLINK_ACCOUNT)
+  })
+
   it('button state test - single owing', async () => {
     linksResponse = { ...MockEFTLinksData.SINGLE_OWING_BUTTON_STATE_TEST }
+    summariesResponse = { ...getSummaryCreditsRemaining(100) }
     // Change the prop value
     await initializeProps(wrapper)
     await waitForLoading(wrapper)
@@ -206,7 +219,7 @@ describe('ShortNameAccountLink.vue', () => {
     expect(itemRow.findAll(itemCell).at(4).text()).toBe(actionText)
   }
 
-  async function initializeProps (wrapper: any, creditsRemaining = 0) {
+  async function initializeProps (wrapper: any) {
     await wrapper.setProps({ shortNameDetails: { id: 1, shortName: 'SHORTNAME' } })
     await wrapper.vm.$nextTick()
   }
