@@ -33,3 +33,13 @@ export function setupIntersectionObserverMock ({
     }
   )
 }
+
+export async function waitForLoading(wrapper: any, timeout = 5000) {
+  const startTime = Date.now()
+  while (wrapper.vm.loading) {
+    if (Date.now() - startTime > timeout) {
+      throw new Error('Timeout waiting for loading to become false')
+    }
+    await new Promise(resolve => setTimeout(resolve, 10))
+  }
+}

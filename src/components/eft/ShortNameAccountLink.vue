@@ -97,7 +97,9 @@
           >
             <span
               :class="{'child-statement-row': !item.isParentRow}">
-              <span v-if="item.statementsOwing.length > 1">
+              <span v-if="item.statementsOwing.length > 1"
+                data-test="multiple-statements-toggle-icon"
+              >
                 <v-icon class='expansion-icon mr-2' v-if="isStatementsExpanded(item)">mdi-chevron-up</v-icon>
                 <v-icon class='expansion-icon mr-2' v-else>mdi-chevron-down</v-icon>
               </span>
@@ -119,6 +121,7 @@
           <div
             v-if="item.isParentRow && item.hasMultipleStatements"
             class="statement-view-link pt-2"
+            data-test="multiple-statements-toggle-link"
             @click="toggleStatementsView(item)">
 
             {{  isStatementsExpanded(item) ? 'View less' : 'View All statements' }}
@@ -134,6 +137,7 @@
              >
               <v-icon
                 v-if="item.isParentRow"
+                data-test="insufficient-funds-icon"
                 class='red-warning-icon ml-1'>mdi-information-outline</v-icon>
             </span>
             </template>
@@ -380,6 +384,7 @@ export default defineComponent({
 
     function evaluateParentInsufficientFunds(statement) {
       const hasOutstandingStatements = statement.statementsOwing.some(statement => statement.pendingPaymentsCount === 0)
+      statement.insufficientFundMessage = undefined
       if (statement.amountOwing > state.eftShortNameSummary.creditsRemaining && hasOutstandingStatements) {
         statement.hasInsufficientFunds = true
         statement.insufficientFundMessage = 'Insufficient funds to settle all statements.'
@@ -497,7 +502,7 @@ export default defineComponent({
     }
 
     function showUnlinkAccountButton(item): boolean {
-      return item.isParentRow && (item.hasInsufficientFunds || item.amountOwing === 0)
+      return item.isParentRow && (item.hasInsufficientFunds || item.amountOwing === 0) && !item.hasPendingPayment
     }
 
     function showConfirmCancelPaymentModal (item) {
@@ -601,7 +606,8 @@ export default defineComponent({
       formatCurrency: CommonUtils.formatAmount,
       formatAccountDisplayName: CommonUtils.formatAccountDisplayName,
       toggleStatementsView,
-      isStatementsExpanded
+      isStatementsExpanded,
+      processStatements
     }
   }
 })
