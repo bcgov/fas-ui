@@ -28,7 +28,7 @@ export interface PayInvoice {
    *  `filingDateTime` when POSTing to /receipts to generate the invoice PDF. */
   createdOn?: string
   paymentDate?: string
-  references?: Array<{ invoiceNumber?: string }>
+  references?: Array<{ invoiceNumber?: string, statusCode?: string }>
   returnUrl?: string
   [key: string]: unknown
 }
