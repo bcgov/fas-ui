@@ -62,10 +62,10 @@ async function download() {
       :title="$t('page.success.cc.title')"
     />
     <SuccessSummaryList :rows="summaryRows" />
-    <div class="mx-auto mt-10 max-w-sm space-y-3">
+    <div class="mx-auto mt-8 max-w-[26rem] space-y-5">
       <UButton
         color="primary"
-        size="lg"
+        size="xl"
         block
         icon="i-mdi-download"
         :label="downloading ? $t('page.success.downloading') : $t('page.success.cc.downloadReceipt')"

@@ -8,7 +8,7 @@ const store = usePaymentLinkStore()
     v-if="store.returnUrl"
     color="primary"
     variant="outline"
-    size="lg"
+    size="xl"
     block
     :label="$t('page.success.return')"
     @click="navigateTo(store.returnUrl, { external: true })"
