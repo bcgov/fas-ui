@@ -16,14 +16,14 @@ const summaryRows = computed(() => [
 </script>
 
 <template>
-  <div class="mx-auto max-w-2xl rounded bg-white px-14 py-10 shadow-sm">
+  <div class="mx-auto max-w-lg rounded bg-white px-10 py-10 shadow-sm">
     <SuccessHeader icon="i-mdi-clock-outline" :title="$t('page.success.eft.title')" />
     <SuccessSummaryList :rows="summaryRows" />
     <p class="mt-4 flex items-start gap-2 text-base text-slate-700">
       <UIcon name="i-mdi-check" class="mt-1 size-5 shrink-0 text-green-700" />
       <span>{{ $t('page.success.eft.body') }}</span>
     </p>
-    <div class="mx-auto mt-8 max-w-sm empty:hidden">
+    <div class="mx-auto mt-6 max-w-xs empty:hidden">
       <SuccessReturnButton />
     </div>
   </div>

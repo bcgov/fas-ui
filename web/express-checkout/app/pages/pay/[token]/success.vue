@@ -40,6 +40,7 @@ const methodKey = computed(() => {
   return 'cc'
 })
 
+const invoiceReference = computed(() => store.invoice?.references?.[0]?.invoiceNumber ?? '')
 const totalFormatted = computed(() => `$${Number(store.invoice?.total ?? 0).toFixed(2)}`)
 const balanceDueFormatted = computed(() => {
   const total = Number(store.invoice?.total ?? 0)
@@ -54,10 +55,13 @@ const balanceDueFormatted = computed(() => {
       v-if="methodKey === 'cc'"
       :invoice-id="store.invoice?.id"
       :invoice-created-on="store.invoice?.createdOn"
+      :payment-date="store.invoice?.paymentDate"
+      :invoice-reference="invoiceReference"
       :amount-formatted="totalFormatted"
     />
     <SuccessPad
       v-else-if="methodKey === 'pad'"
+      :invoice-reference="invoiceReference"
       :amount-formatted="totalFormatted"
     />
     <SuccessEft

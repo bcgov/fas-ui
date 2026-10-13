@@ -11,24 +11,39 @@
 const {
   invoiceId,
   invoiceCreatedOn,
+  paymentDate,
+  invoiceReference,
   amountFormatted
 } = defineProps<{
   invoiceId?: number
   invoiceCreatedOn?: string
+  paymentDate?: string
+  invoiceReference?: string
   amountFormatted: string
 }>()
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const payLink = usePayLink()
 const store = usePaymentLinkStore()
 
 const downloading = ref(false)
 const downloadError = ref<string | null>(null)
 
+const dateFormatted = computed(() => {
+  const date = new Date(paymentDate || invoiceCreatedOn || '')
+  if (Number.isNaN(date.getTime())) { return '' }
+  return date
+    .toLocaleString(locale.value, { dateStyle: 'medium', timeStyle: 'short', timeZone: 'America/Vancouver' })
+    .replace(/\s?([ap])\.m\./i, (_, ap: string) => ` ${ap.toLowerCase()}m`)
+    .replace(/\u202f/g, ' ')
+})
+
 const summaryRows = computed(() => [
+  { label: t('page.success.cc.dateLabel'), value: dateFormatted.value },
   { label: t('page.success.cc.methodLabel'), value: t('page.checkout.method.cc') },
-  { label: t('page.success.cc.amountLabel'), value: amountFormatted, bold: true }
-])
+  { label: t('page.success.cc.amountLabel'), value: amountFormatted, bold: true },
+  { label: t('page.success.invoiceReferenceLabel'), value: invoiceReference ?? '' }
+].filter(row => row.value))
 
 async function download() {
   if (!invoiceId || downloading.value) { return }
@@ -55,14 +70,14 @@ async function download() {
 </script>
 
 <template>
-  <div class="mx-auto max-w-2xl rounded bg-white px-14 py-10 shadow-sm">
+  <div class="mx-auto max-w-lg rounded bg-white px-10 py-10 shadow-sm">
     <SuccessHeader
       icon="i-mdi-check-circle"
       icon-class="text-green-700"
       :title="$t('page.success.cc.title')"
     />
     <SuccessSummaryList :rows="summaryRows" />
-    <div class="mx-auto mt-8 max-w-[26rem] space-y-5">
+    <div class="mx-auto mt-6 max-w-xs space-y-4">
       <UButton
         color="primary"
         size="xl"

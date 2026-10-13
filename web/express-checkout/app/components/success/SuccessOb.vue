@@ -153,7 +153,7 @@ async function payByCreditCard() {
           <p v-if="switchError" class="mt-2 text-sm text-red-700">
             {{ switchError }}
           </p>
-          <div class="mt-6 max-w-sm empty:hidden">
+          <div class="mt-6 max-w-xs empty:hidden">
             <SuccessReturnButton />
           </div>
         </div>
