@@ -1,10 +1,11 @@
 title = "pay-ui gitleaks config"
 
-# Start from gitleaks' maintained default ruleset and layer an allowlist
-# on top for this repo's known false positives, per the Git Hooks RFC:
-# https://github.com/bcgov/connect/discussions/23
+# Shared rules (gitleaks defaults + password rules) come from bcgov/bcregistry-sre,
+# downloaded by lefthook remotes - see lefthook.yml and
+# https://github.com/bcgov/bcregistry-sre/tree/main/git-hooks
+# Only this repo's own false positives go below.
 [extend]
-useDefault = true
+path = ".git/info/lefthook-remotes/bcregistry-sre-main/git-hooks/gitleaks-base.toml"
 
 [allowlist]
 description = "Files that routinely trip default rules with non-secret content"
@@ -13,4 +14,9 @@ paths = [
   '''package-lock\.json''',
   '''poetry\.lock''',
   '''\.gitleaks\.toml''',
+]
+regexes = [
+  # expressions in test-automation/globalSetup.js, values come from env
+  '''^loginType$''',
+  '''^!baseURL\)$''',
 ]
