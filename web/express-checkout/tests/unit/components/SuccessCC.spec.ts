@@ -47,3 +47,21 @@ describe('SuccessCC download', () => {
     expect(downloadReceiptByToken).not.toHaveBeenCalled()
   })
 })
+
+describe('SuccessCC summary', () => {
+  it('shows the date, method, amount and invoice reference', async () => {
+    const wrapper = await mountSuspended(SuccessCC, {
+      props: {
+        invoiceId: 42,
+        paymentDate: '2026-09-09T21:14:00Z',
+        invoiceReference: 'REGT00772933',
+        amountFormatted: '$25.00'
+      }
+    })
+    const text = wrapper.text()
+    expect(text).toContain('Sep 9, 2026, 2:14 pm')
+    expect(text).toContain('Credit Card')
+    expect(text).toContain('$25.00')
+    expect(text).toContain('REGT00772933')
+  })
+})

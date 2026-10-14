@@ -95,10 +95,13 @@ export default {
     success: {
       title: 'Payment Successful',
       downloading: 'Preparing document…',
+      return: 'Return to Previous Site',
+      invoiceReferenceLabel: 'Invoice Reference Number',
       downloadFailed: 'Unable to download the document. Please try again.',
       cc: {
         title: 'Payment Successful',
         body: 'Placeholder text that guides users on how to access their documents.',
+        dateLabel: 'Date',
         methodLabel: 'Payment method',
         amountLabel: 'Amount paid',
         downloadReceipt: 'Download Receipt'
