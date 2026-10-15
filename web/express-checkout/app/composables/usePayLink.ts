@@ -39,10 +39,8 @@ export function usePayLink() {
   }
 
   /**
-   * GET /payment-links/{token} — token-keyed lookup; works for guests and authenticated users.
-   *
-   * $payApi stamps `Authorization: Bearer <token>` on every request, which for a guest is
-   * `Bearer undefined`. So with no session we go around it and send only the app headers.
+   * GET /payment-links/{token} — token-keyed lookup.
+   * Pass `anonymous` for guests: $payApi would send `Bearer undefined`, so skip it.
    */
   async function getInvoiceByToken(token: string, opts: { anonymous?: boolean } = {}): Promise<PayInvoice> {
     if (opts.anonymous) {

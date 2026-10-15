@@ -43,10 +43,8 @@ const resolveError = ref<{ title: string, description: string } | null>(null)
 
 const sessionRouted = ref(false)
 
-// Anonymous visitors: no routing, but surface a dead link up front rather than letting
-// them pick a path (guest pay / sign in) that is going to fail. The lookup is token-keyed,
-// so it needs no session. Only a 4xx other than 401/403 counts — those mean the gateway
-// wants a session, not that the link is dead — and a network blip leaves the picker up.
+// Guests: check the link up front so a dead link doesn't reach the picker.
+// 401/403 mean the gateway wants a session (not a dead link), so those are ignored.
 async function checkLinkForGuest() {
   try {
     await payLink.getInvoiceByToken(token.value, { anonymous: true })
