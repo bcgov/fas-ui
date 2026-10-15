@@ -31,9 +31,7 @@ export function useCcHandoff() {
 
   async function handoff(invoiceId: number): Promise<boolean> {
     if (store.invoice?.paymentMethod !== 'DIRECT_PAY') {
-      const updated = await payLink.changePaymentMethod(invoiceId, 'DIRECT_PAY')
-      store.setInvoice(updated)
-      store.setMethod('DIRECT_PAY')
+      await payLink.changePaymentMethod(invoiceId, 'DIRECT_PAY')
     }
     const txn = await payLink.createTransaction(invoiceId, returnUrls(String(store.token)))
     if (txn?.paySystemUrl) {
