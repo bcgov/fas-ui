@@ -43,9 +43,30 @@ const resolveError = ref<{ title: string, description: string } | null>(null)
 
 const sessionRouted = ref(false)
 
+// Guests: check the link up front so a dead link doesn't reach the picker.
+// 401/403 mean the gateway wants a session (not a dead link), so those are ignored.
+async function checkLinkForGuest() {
+  try {
+    await payLink.getInvoiceByToken(token.value)
+  } catch (err: unknown) {
+    const status = (err as { statusCode?: number }).statusCode
+    if (status && status >= 400 && status !== 401 && status !== 403) {
+      resolveError.value = {
+        title: t('page.error.linkInactive.title'),
+        description: t('page.error.linkInactive.description')
+      }
+    }
+  }
+}
+
 watch(isAuthenticated, async (isAuth) => {
+  if (!token.value) { return }
   // Anonymous visitors stay here and pick a path; only signed-in users get routed on.
-  if (!token.value || !isAuth || sessionRouted.value) { return }
+  if (!isAuth) {
+    await checkLinkForGuest()
+    return
+  }
+  if (sessionRouted.value) { return }
   sessionRouted.value = true
 
   const hasInvoiceForThisToken = store.token === token.value && !!store.invoice
@@ -121,19 +142,17 @@ async function signInWith(idp: ConnectIdpHint) {
 
 <template>
   <section class="mx-auto max-w-2xl px-6 py-16 text-center">
-    <!-- Signed-in users are redirected by onMounted unless an error stops them. -->
-    <template v-if="isAuthenticated">
-      <UAlert
-        v-if="resolveError"
-        color="warning"
-        variant="subtle"
-        :title="resolveError.title"
-        :description="resolveError.description"
-      />
-      <h1
-        v-else
-        class="text-xl font-semibold"
-      >
+    <UAlert
+      v-if="resolveError"
+      color="warning"
+      variant="subtle"
+      :title="resolveError.title"
+      :description="resolveError.description"
+    />
+
+    <!-- Signed-in users are redirected by the watcher unless an error stops them. -->
+    <template v-else-if="isAuthenticated">
+      <h1 class="text-xl font-semibold">
         {{ $t('page.landing.h1') }}
       </h1>
     </template>
