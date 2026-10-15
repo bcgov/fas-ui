@@ -38,21 +38,8 @@ export function usePayLink() {
     )
   }
 
-  /**
-   * GET /payment-links/{token} — token-keyed lookup; works for guests and authenticated users.
-   *
-   * $payApi stamps `Authorization: Bearer <token>` on every request, which for a guest is
-   * `Bearer undefined`. So with no session we go around it and send only the app headers.
-   */
-  async function getInvoiceByToken(token: string, opts: { anonymous?: boolean } = {}): Promise<PayInvoice> {
-    if (opts.anonymous) {
-      const rtc = useRuntimeConfig().public
-      return await $fetch<PayInvoice>(`/payment-links/${token}`, {
-        baseURL: `${rtc.payApiUrl}${rtc.payApiVersion}`,
-        method: 'GET',
-        headers: { 'App-Name': rtc.appName as string, 'X-Apikey': rtc.xApiKey as string }
-      })
-    }
+  /** GET /payment-links/{token} — token-keyed lookup; works for guests (no Account-Id) and authenticated users. */
+  async function getInvoiceByToken(token: string): Promise<PayInvoice> {
     return await ($payApi as ReturnType<typeof $fetch.create>)<PayInvoice>(
       `/payment-links/${token}`,
       { method: 'GET' }
