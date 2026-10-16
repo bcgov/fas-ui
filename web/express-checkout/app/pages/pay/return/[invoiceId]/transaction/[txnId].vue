@@ -44,6 +44,9 @@ onMounted(async () => {
         store.setInvoice(fresh)
       } catch (refreshErr: unknown) {
         console.error('Payment completed but the invoice refresh failed', refreshErr)
+        // handoff() doesn't set DIRECT_PAY before redirecting, so set it here.
+        if (store.invoice) { store.setInvoice({ ...store.invoice, paymentMethod: 'DIRECT_PAY' }) }
+        store.setMethod('DIRECT_PAY')
       }
 
       // Forward to the client system URL captured at transaction creation

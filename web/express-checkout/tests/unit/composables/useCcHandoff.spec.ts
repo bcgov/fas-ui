@@ -47,7 +47,7 @@ describe('useCcHandoff', () => {
     })
   })
 
-  it('patches the invoice to DIRECT_PAY when the current method differs', async () => {
+  it('patches the invoice to DIRECT_PAY but leaves the store alone while redirecting', async () => {
     const store = usePaymentLinkStore()
     store.setToken('tok-123')
     store.setInvoice({ id: 7, paymentMethod: 'ONLINE_BANKING' } as PayInvoice)
@@ -59,8 +59,8 @@ describe('useCcHandoff', () => {
     const result = await handoff(7)
 
     expect(changePaymentMethod).toHaveBeenCalledWith(7, 'DIRECT_PAY')
-    expect(store.invoice?.paymentMethod).toBe('DIRECT_PAY')
-    expect(store.paymentMethod).toBe('DIRECT_PAY')
+    // Updating the store here would flash the card success screen.
+    expect(store.invoice?.paymentMethod).toBe('ONLINE_BANKING')
     expect(result).toBe(true)
   })
 
