@@ -171,7 +171,8 @@ async function signInWith(idp: ConnectIdpHint) {
 
     <!-- Signed-in users are redirected by the watcher unless an error stops them. -->
     <template v-else-if="isAuthenticated">
-      <h1 class="text-xl font-semibold">
+      <ConnectSpinner fullscreen />
+      <h1 class="sr-only">
         {{ $t('page.landing.h1') }}
       </h1>
     </template>
