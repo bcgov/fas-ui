@@ -42,12 +42,21 @@ const submitError = ref<string | null>(null)
 const resolveError = ref<{ title: string, description: string } | null>(null)
 
 const sessionRouted = ref(false)
+// The guest options stay hidden until the link check is done, so a dead link
+// goes straight to its message instead of flashing the picker first.
+const linkChecked = ref(false)
 
 // Guests: check the link up front so a dead link doesn't reach the picker.
 // 401/403 mean the gateway wants a session (not a dead link), so those are ignored.
 async function checkLinkForGuest() {
   try {
-    await payLink.getInvoiceByToken(token.value)
+    const invoice = await payLink.getInvoiceByToken(token.value)
+    if (invoice.statusCode === 'COMPLETED') {
+      resolveError.value = {
+        title: t('page.error.linkInactive.title'),
+        description: t('page.error.linkInactive.description')
+      }
+    }
   } catch (err: unknown) {
     const status = (err as { statusCode?: number }).statusCode
     if (status && status >= 400 && status !== 401 && status !== 403) {
@@ -56,6 +65,8 @@ async function checkLinkForGuest() {
         description: t('page.error.linkInactive.description')
       }
     }
+  } finally {
+    linkChecked.value = true
   }
 }
 
@@ -157,7 +168,7 @@ async function signInWith(idp: ConnectIdpHint) {
       </h1>
     </template>
 
-    <template v-else>
+    <template v-else-if="linkChecked">
       <UAlert
         v-if="submitError"
         class="mb-6 text-left"
