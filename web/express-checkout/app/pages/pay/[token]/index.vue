@@ -51,8 +51,6 @@ function showLinkInactive() {
   }
 }
 
-// pay-api reports a settled (PAID) invoice as COMPLETED — nothing left to pay, so the link
-// is as good as expired.
 function isSettled(inv?: PayInvoice | null): boolean {
   return inv?.statusCode === 'COMPLETED'
 }
