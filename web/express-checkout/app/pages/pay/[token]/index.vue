@@ -89,8 +89,6 @@ watch(isAuthenticated, async (isAuth) => {
 
   const hasInvoiceForThisToken = store.token === token.value && !!store.invoice
 
-  // A paid link is dead for everyone, signed in or not. (A payer who has just paid never
-  // lands here — the return page and checkout go straight to /success.)
   if (hasInvoiceForThisToken && isSettled(store.invoice)) {
     showLinkInactive()
     return
