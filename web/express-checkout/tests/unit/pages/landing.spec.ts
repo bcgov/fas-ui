@@ -36,6 +36,14 @@ describe('landing page — guest link check', () => {
     expect(wrapper.text()).not.toContain(INACTIVE)
   })
 
+  it('shows the inactive alert when the invoice is already COMPLETED (paid)', async () => {
+    getInvoiceByToken.mockResolvedValueOnce({ id: 1, statusCode: 'COMPLETED' })
+
+    const wrapper = await mountLanding()
+
+    expect(wrapper.text()).toContain(INACTIVE)
+  })
+
   it.each([400, 404, 410])('shows the inactive alert on a %i', async (statusCode) => {
     getInvoiceByToken.mockRejectedValueOnce({ statusCode })
 

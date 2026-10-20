@@ -14,6 +14,7 @@
 // Same illustration the layer's own login page uses — shipped by @sbc-connect/nuxt-auth,
 // so there's nothing to vendor into this repo.
 import loginImage from '#auth/public/img/BCReg_Generic_Login_image.jpg'
+import type { PayInvoice } from '~/stores/paymentLink'
 
 const { t } = useI18n()
 const localePath = useLocalePath()
@@ -43,19 +44,34 @@ const resolveError = ref<{ title: string, description: string } | null>(null)
 
 const sessionRouted = ref(false)
 
+function showLinkInactive() {
+  resolveError.value = {
+    title: t('page.error.linkInactive.title'),
+    description: t('page.error.linkInactive.description')
+  }
+}
+
+function isSettled(inv?: PayInvoice | null): boolean {
+  return inv?.statusCode === 'COMPLETED'
+}
+
+// The guest options stay hidden until the link check is done, so a dead link
+// goes straight to its message instead of flashing the picker first.
+const linkChecked = ref(false)
+
 // Guests: check the link up front so a dead link doesn't reach the picker.
 // 401/403 mean the gateway wants a session (not a dead link), so those are ignored.
 async function checkLinkForGuest() {
   try {
-    await payLink.getInvoiceByToken(token.value)
+    const invoice = await payLink.getInvoiceByToken(token.value)
+    if (invoice.statusCode === 'COMPLETED') { showLinkInactive() }
   } catch (err: unknown) {
     const status = (err as { statusCode?: number }).statusCode
     if (status && status >= 400 && status !== 401 && status !== 403) {
-      resolveError.value = {
-        title: t('page.error.linkInactive.title'),
-        description: t('page.error.linkInactive.description')
-      }
+      showLinkInactive()
     }
+  } finally {
+    linkChecked.value = true
   }
 }
 
@@ -70,10 +86,9 @@ watch(isAuthenticated, async (isAuth) => {
   sessionRouted.value = true
 
   const hasInvoiceForThisToken = store.token === token.value && !!store.invoice
-  const isPaid = (store.invoice?.paid ?? 0) >= (store.invoice?.total ?? -1) && (store.invoice?.total ?? 0) > 0
 
-  if (hasInvoiceForThisToken && isPaid) {
-    await navigateTo(localePath(`/pay/${token.value}/success`))
+  if (hasInvoiceForThisToken && isSettled(store.invoice)) {
+    showLinkInactive()
     return
   }
   if (hasInvoiceForThisToken) {
@@ -87,22 +102,22 @@ watch(isAuthenticated, async (isAuth) => {
     store.setReturnUrl(invoice.returnUrl)
     const paymentAccount = invoice.paymentAccount as { accountId?: string } | null | undefined
     const linkedAccountId = paymentAccount?.accountId
+    if (isSettled(invoice)) {
+      showLinkInactive()
+      return
+    }
     if (linkedAccountId) {
       await accountStore.loadUserAccounts(true)
       accountStore.switchCurrentAccount(Number(linkedAccountId))
       store.setInvoice(invoice)
       store.setAccount(Number(linkedAccountId))
-      const paid = (invoice.paid ?? 0) >= (invoice.total ?? -1) && (invoice.total ?? 0) > 0
-      await navigateTo(localePath(`/pay/${token.value}/${paid ? 'success' : 'checkout'}`))
+      await navigateTo(localePath(`/pay/${token.value}/checkout`))
       return
     }
   } catch (err: unknown) {
     const status = (err as { statusCode?: number }).statusCode
     if (status && status >= 400) {
-      resolveError.value = {
-        title: t('page.error.linkInactive.title'),
-        description: t('page.error.linkInactive.description')
-      }
+      showLinkInactive()
       return
     }
     // Non-HTTP error (e.g. network failure) — fall through to the account picker.
@@ -152,12 +167,13 @@ async function signInWith(idp: ConnectIdpHint) {
 
     <!-- Signed-in users are redirected by the watcher unless an error stops them. -->
     <template v-else-if="isAuthenticated">
-      <h1 class="text-xl font-semibold">
+      <ConnectSpinner fullscreen />
+      <h1 class="sr-only">
         {{ $t('page.landing.h1') }}
       </h1>
     </template>
 
-    <template v-else>
+    <template v-else-if="linkChecked">
       <UAlert
         v-if="submitError"
         class="mb-6 text-left"
