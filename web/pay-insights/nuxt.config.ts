@@ -1,5 +1,20 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// Security headers, same as web/pay-ui (previously its firebase.json). Lowercase keys so these
+// merge with Nuxt's built-in route rules. Content-Security-Policy comes from NUXT_CSP_EXTRA
+// at runtime (server/middleware/00.csp.ts).
+const securityHeaders = {
+  'x-frame-options': 'DENY',
+  'x-content-type-options': 'nosniff',
+  'x-xss-protection': '1; mode=block',
+  'cache-control': 'private, no-cache, no-store, must-revalidate',
+  'pragma': 'no-cache',
+  'referrer-policy': 'no-referrer',
+  'strict-transport-security': 'max-age=31536000;'
+}
 
+// Nitro route rules match paths, not extensions, so the long-lived cache is applied per static asset folder
+const longCache = { headers: { 'cache-control': 'public,max-age=31536000' } }
+
+// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // Server-side rendered: login, access checks and warehouse queries all run on
   // the Nuxt server. The browser only gets rendered pages and a session cookie.
@@ -20,7 +35,13 @@ export default defineNuxtConfig({
   ],
 
   routeRules: {
-    '/': { redirect: '/en-CA' }
+    '/**': { headers: securityHeaders },
+    '/': { redirect: '/en-CA' },
+    '/_nuxt/**': longCache,
+    '/_fonts/**': longCache,
+    '/favicon.ico': longCache,
+    // Build manifest must not be cached, so clients pick up new deployments
+    '/_nuxt/builds/**': { headers: { 'cache-control': 'no-cache, no-store, must-revalidate' } }
   },
 
   imports: {
@@ -51,6 +72,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     // Server-only values. Never exposed to the browser.
+    // Full Content-Security-Policy header value (NUXT_CSP_EXTRA), set by server/middleware/00.csp.ts
+    cspExtra: '',
     // Comma-separated Keycloak realm roles allowed to use the app.
     allowedRoles: 'staff',
     // Keycloak client for the server-side login (public client + PKCE).

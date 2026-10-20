@@ -13,8 +13,8 @@
 # limitations under the License.
 
 # Runs as sa-job (same as payment-jobs) so it can read fin-warehouse with PAY_JOBS_DW_IAM_USER.
-# The warehouse is reached through the Cloud SQL Node connector (NUXT_WAREHOUSE_* in vaults.gcp.env);
-# cloudsql-instances is required by the shared service template and matches payment-jobs.
+# The warehouse is reached through the Cloud SQL Node connector (NUXT_WAREHOUSE_* in vaults.gcp.env),
+# so no cloudsql-instances mount is needed (same as web/pay-ui).
 apiVersion: deploy.cloud.google.com/v1
 kind: DeliveryPipeline
 metadata:
@@ -33,7 +33,7 @@ serialPipeline:
       deploy-project-id: "gtksf3-dev"
       service-name: "pay-insights-dev"
       container-name: "pay-insights-dev"
-      cloudsql-instances: "gtksf3-dev:northamerica-northeast1:pay-db-dev"
+      cloudsql-instances: ""
       service-account: "sa-job@gtksf3-dev.iam.gserviceaccount.com"
  - targetId: gtksf3-test
    profiles: [test]
@@ -46,7 +46,7 @@ serialPipeline:
       deploy-project-id: "gtksf3-test"
       service-name: "pay-insights-test"
       container-name: "pay-insights-test"
-      cloudsql-instances: "gtksf3-test:northamerica-northeast1:pay-db-test"
+      cloudsql-instances: ""
       service-account: "sa-job@gtksf3-test.iam.gserviceaccount.com"
  - targetId: gtksf3-prod
    profiles: [prod]
@@ -59,5 +59,5 @@ serialPipeline:
       deploy-project-id: "gtksf3-prod"
       service-name: "pay-insights-prod"
       container-name: "pay-insights-prod"
-      cloudsql-instances: "gtksf3-prod:northamerica-northeast1:pay-db-prod"
+      cloudsql-instances: ""
       service-account: "sa-job@gtksf3-prod.iam.gserviceaccount.com"
