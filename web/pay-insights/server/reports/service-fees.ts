@@ -4,11 +4,11 @@ import { defineReport } from './types'
 export default defineReport({
   id: 'service-fees',
   title: 'Service fees by product',
-  description: 'Service fees collected on paid invoices, by product, for one fiscal year (April 1 to March 31).',
+  description: 'Service fees collected on paid invoices, by product, for a fiscal year or a custom date range.',
   note: 'Includes invoices with status PAID, by payment date in Pacific time. Refunded invoices are not included.',
 
   filters: [
-    { key: 'fiscalYear', type: 'fiscalYear', label: 'Fiscal year' },
+    { key: 'period', type: 'period', label: 'Period' },
     {
       key: 'paymentMethod',
       type: 'select',
@@ -26,8 +26,8 @@ export default defineReport({
       FROM pay.invoices i
       LEFT JOIN pay.corp_types ct ON ct.code = i.corp_type_code
      WHERE i.invoice_status_code = 'PAID'
-       AND i.payment_date >= :fiscalYearStart::timestamp
-       AND i.payment_date <  :fiscalYearEnd::timestamp
+       AND i.payment_date >= :periodStart::timestamp
+       AND i.payment_date <  :periodEnd::timestamp
        AND (:paymentMethod::text IS NULL OR i.payment_method_code = :paymentMethod::text)
      GROUP BY 1, 2
      ORDER BY 4 DESC, 2`,

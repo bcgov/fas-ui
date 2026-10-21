@@ -37,23 +37,60 @@ describe('resolveFilter', () => {
 
   it('provides fiscal year boundaries', () => {
     const fiscalYear: ReportFilter = { key: 'fiscalYear', type: 'fiscalYear', label: 'Fiscal year' }
-    const { sqlValues } = resolveFilter(fiscalYear, '2024', [], today)
+    const { sqlValues } = resolveFilter(fiscalYear, { fiscalYear: '2024' }, [], today)
     expect(sqlValues).toEqual({
       fiscalYear: 2024,
       fiscalYearStart: '2024-04-01 07:00:00',
       fiscalYearEnd: '2025-04-01 07:00:00'
     })
-    expect(() => resolveFilter(fiscalYear, '2030', [], today)).toThrow(ReportInputError)
+    expect(() => resolveFilter(fiscalYear, { fiscalYear: '2030' }, [], today)).toThrow(ReportInputError)
   })
 
   it('only accepts listed select values', () => {
-    expect(resolveFilter(select, 'PAD', options).sqlValues).toEqual({ method: 'PAD' })
-    expect(resolveFilter(select, undefined, options).sqlValues).toEqual({ method: null })
-    expect(() => resolveFilter(select, "PAD' OR 1=1", options)).toThrow(ReportInputError)
+    expect(resolveFilter(select, { method: 'PAD' }, options).sqlValues).toEqual({ method: 'PAD' })
+    expect(resolveFilter(select, {}, options).sqlValues).toEqual({ method: null })
+    expect(() => resolveFilter(select, { method: "PAD' OR 1=1" }, options)).toThrow(ReportInputError)
   })
 
   it('requires a select without an "all" option', () => {
-    expect(() => resolveFilter({ ...select, allLabel: undefined }, undefined, options)).toThrow(ReportInputError)
+    expect(() => resolveFilter({ ...select, allLabel: undefined }, {}, options)).toThrow(ReportInputError)
+  })
+
+  describe('period', () => {
+    const period: ReportFilter = { key: 'period', type: 'period', label: 'Period' }
+
+    it('defaults to the current fiscal year', () => {
+      const { resolved, sqlValues } = resolveFilter(period, {}, [], today)
+      expect(resolved).toMatchObject({ value: 'FY2026', from: '2026-04-01', to: '2027-03-31' })
+      expect(sqlValues).toEqual({ periodStart: '2026-04-01 07:00:00', periodEnd: '2027-04-01 07:00:00' })
+    })
+
+    it('accepts a fiscal year', () => {
+      expect(resolveFilter(period, { period: 'FY2024' }, [], today).sqlValues)
+        .toEqual({ periodStart: '2024-04-01 07:00:00', periodEnd: '2025-04-01 07:00:00' })
+    })
+
+    it('accepts a custom range in Pacific time, end date included', () => {
+      const { sqlValues } = resolveFilter(
+        period, { period: 'custom', periodFrom: '2025-01-15', periodTo: '2025-06-30' }, [], today
+      )
+      // January is standard time (UTC-8), July is daylight time (UTC-7)
+      expect(sqlValues).toEqual({ periodStart: '2025-01-15 08:00:00', periodEnd: '2025-07-01 07:00:00' })
+    })
+
+    it('rejects invalid periods', () => {
+      const invalid = [
+        { period: 'FY2030' },
+        { period: '2024' },
+        { period: 'custom' },
+        { period: 'custom', periodFrom: '2025-06-30', periodTo: '2025-01-01' },
+        { period: 'custom', periodFrom: '2025-02-30', periodTo: '2025-03-01' },
+        { period: 'custom', periodFrom: '2010-01-01', periodTo: '2010-02-01' }
+      ]
+      for (const query of invalid) {
+        expect(() => resolveFilter(period, query, [], today)).toThrow(ReportInputError)
+      }
+    })
   })
 })
 
@@ -93,7 +130,7 @@ describe('report definitions', () => {
       const values: Record<string, unknown> = {}
       for (const filter of report.filters) {
         values[filter.key] = null
-        if (filter.type === 'fiscalYear') {
+        if (filter.type === 'fiscalYear' || filter.type === 'period') {
           values[`${filter.key}Start`] = null
           values[`${filter.key}End`] = null
         }

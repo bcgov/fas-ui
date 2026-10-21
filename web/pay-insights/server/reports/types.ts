@@ -11,6 +11,17 @@ export interface FiscalYearFilter {
   label: string
 }
 
+/**
+ * A fiscal year (quick pick) or a custom date range. Query string: `<key>=FY2025`, or
+ * `<key>=custom&<key>From=2025-05-01&<key>To=2025-06-30` (dates in Pacific time, inclusive).
+ * Provides `:<key>Start` and `:<key>End` to the SQL — UTC timestamps, end exclusive.
+ */
+export interface PeriodFilter {
+  key: string
+  type: 'period'
+  label: string
+}
+
 export interface SelectFilter {
   key: string
   type: 'select'
@@ -21,7 +32,7 @@ export interface SelectFilter {
   allLabel?: string
 }
 
-export type ReportFilter = FiscalYearFilter | SelectFilter
+export type ReportFilter = FiscalYearFilter | PeriodFilter | SelectFilter
 
 export interface ReportColumn {
   /** Column name returned by the SQL */

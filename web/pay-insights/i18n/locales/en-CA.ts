@@ -1,4 +1,10 @@
 export default {
+  // Overrides the nuxt-base default breadcrumb ("Service BC Connect")
+  connect: {
+    breadcrumb: {
+      default: 'PAY Insights'
+    }
+  },
   header: {
     logout: 'Log out'
   },
@@ -10,16 +16,17 @@ export default {
       reports: 'Reports',
       view: 'View report',
       warehouse: {
-        title: 'Data warehouse',
-        connected: 'Connected',
-        failed: 'Unable to reach the data warehouse.',
-        serverTime: 'Server time: {time}'
+        checking: 'Checking data warehouse…',
+        connected: 'Data warehouse connected',
+        unavailable: 'Data warehouse unavailable — reports may not load'
       }
     },
     report: {
       back: 'Back to reports',
       export: 'Export CSV',
       loading: 'Loading report…',
+      from: 'From',
+      to: 'To',
       total: 'Total {label}',
       empty: 'No results for these filters.',
       error: 'Unable to load the report. Please try again later.',
