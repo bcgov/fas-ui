@@ -196,7 +196,10 @@ const exportUrl = computed(() => {
         v-if="data.truncated"
         class="text-sm text-amber-700"
       >
-        {{ $t('page.report.truncated', { count: data.rows.length }) }}
+        {{ $t('page.report.truncated', {
+          count: number.format(data.rows.length),
+          total: number.format(data.totalRows)
+        }) }}
       </p>
       <p
         v-if="data.report.note"

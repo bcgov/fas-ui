@@ -23,7 +23,8 @@ export default {
       total: 'Total {label}',
       empty: 'No results for these filters.',
       error: 'Unable to load the report. Please try again later.',
-      truncated: 'Showing the first {count} rows. Narrow the filters or export to CSV for more.'
+      truncated: 'Showing the first {count} of {total} rows. Totals include all rows. '
+        + 'Narrow the filters or export to CSV for more.'
     }
   }
 }

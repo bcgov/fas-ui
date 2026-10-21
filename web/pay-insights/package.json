@@ -6,7 +6,7 @@
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@11.9.0",
   "license": "BSD-3-Clause",
   "scripts": {
     "build-check": "nuxt build",
@@ -44,14 +44,5 @@
     "typescript": "6.0.3",
     "vitest": "3.2.4",
     "vue-tsc": "3.3.1"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@parcel/watcher",
-      "@sbc-connect/nuxt-base",
-      "@tailwindcss/oxide",
-      "esbuild",
-      "vue-demi"
-    ]
   }
 }

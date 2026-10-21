@@ -6,7 +6,8 @@ import {
   ReportInputError,
   resolveFilter,
   toCsv,
-  toPositionalSql
+  toPositionalSql,
+  totalsSql
 } from '../../../server/utils/reports'
 
 const today = new Date(2026, 9, 15)
@@ -72,6 +73,19 @@ describe('rows, totals and CSV', () => {
   })
 })
 
+describe('totalsSql', () => {
+  it('totals the whole result of the report SQL', () => {
+    expect(totalsSql('SELECT product, fees FROM t WHERE a = :a', columns)).toBe(
+      'SELECT COUNT(*)::int AS "__rowCount", COALESCE(SUM("fees"), 0) AS "fees"\n'
+      + 'FROM (\nSELECT product, fees FROM t WHERE a = :a\n) AS report_rows'
+    )
+  })
+
+  it('rejects unsafe column keys', () => {
+    expect(() => totalsSql('SELECT 1', [{ key: 'x"; DROP', label: 'X', total: true }])).toThrow()
+  })
+})
+
 describe('report definitions', () => {
   it('have unique ids and only use parameters their filters provide', () => {
     expect(new Set(reports.map(report => report.id)).size).toBe(reports.length)
@@ -85,6 +99,7 @@ describe('report definitions', () => {
         }
       }
       expect(() => toPositionalSql(report.sql, values)).not.toThrow()
+      expect(() => toPositionalSql(totalsSql(report.sql, report.columns), values)).not.toThrow()
     }
   })
 })

@@ -38,7 +38,14 @@ async function createPool(): Promise<pg.Pool> {
 
 function getPool(): Promise<pg.Pool> {
   if (!poolPromise) {
-    poolPromise = createPool().catch((error) => {
+    poolPromise = createPool().then((pool) => {
+      // An idle connection can fail (e.g. database restart, network drop). Without a listener,
+      // the 'error' event would crash the whole server; the pool drops the broken connection itself.
+      pool.on('error', (error) => {
+        console.error('[warehouse] idle connection error', error)
+      })
+      return pool
+    }).catch((error) => {
       poolPromise = undefined
       throw error
     })

@@ -1,7 +1,9 @@
 /** Runs a report with the filters from the query string. */
 export default defineEventHandler(async (event) => {
   const report = getReportOrThrow(event)
-  const { filters, rows, truncated } = await runReport(event, report, PAGE_ROW_LIMIT)
+  const { filters, rows, truncated, totals, totalRows } = await runReport(
+    event, report, PAGE_ROW_LIMIT, { withTotals: true }
+  )
 
   return {
     report: {
@@ -12,7 +14,8 @@ export default defineEventHandler(async (event) => {
       columns: report.columns
     },
     filters,
-    totals: columnTotals(rows, report.columns),
+    totals,
+    totalRows,
     rows,
     truncated
   }

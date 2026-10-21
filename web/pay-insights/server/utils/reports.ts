@@ -97,6 +97,20 @@ export function normalizeRows(rows: Record<string, unknown>[], columns: ReportCo
   })
 }
 
+/**
+ * SQL that totals the whole report result (no LIMIT), for when the rows returned are cut off.
+ * Column keys come from report definitions (not user input) and are checked before quoting.
+ */
+export function totalsSql(sql: string, columns: ReportColumn[]): string {
+  const sums = columns.filter(column => column.total).map((column) => {
+    if (!/^[a-z_]\w*$/i.test(column.key)) {
+      throw new Error(`Invalid report column key: ${column.key}`)
+    }
+    return `COALESCE(SUM("${column.key}"), 0) AS "${column.key}"`
+  })
+  return `SELECT ${['COUNT(*)::int AS "__rowCount"', ...sums].join(', ')}\nFROM (\n${sql}\n) AS report_rows`
+}
+
 export function columnTotals(rows: Record<string, unknown>[], columns: ReportColumn[]): Record<string, number> {
   const totals: Record<string, number> = {}
   for (const column of columns.filter(column => column.total)) {
