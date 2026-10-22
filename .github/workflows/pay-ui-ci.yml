@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - feature*
+      - hotfix*
     paths:
       - "web/pay-ui/**"
       - ".github/workflows/pay-ui-ci.yml"
