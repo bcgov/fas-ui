@@ -1,4 +1,4 @@
-name: PAY-UI GCP CD
+name: PAY-UI CD
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - "web/pay-ui/**"
-      - ".github/workflows/gcp-cd.yml"
+      - ".github/workflows/pay-ui-cd.yml"
   workflow_dispatch:
     inputs:
       target:
