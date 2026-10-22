@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+      - feature*
+      - hotfix*
     paths:
       - "web/pay-ui/**"
       - ".github/workflows/pay-ui-cd.yml"
@@ -18,10 +20,17 @@ on:
         - test
         - sandbox
         - prod
-
+      redeploy:
+        description: "Redeploy Application"
+        required: true
+        type: choice
+        options:
+          - "false"
+          - "true"          
+          
 jobs:
   pay-ui-cd:
-    uses: bcgov/bcregistry-sre/.github/workflows/frontend-cd.yaml@main
+    uses: bcgov/bcregistry-sre/.github/workflows/backend-cd.yaml@main
     with:
       target: ${{ inputs.target }}
       app_name: "pay-ui"
