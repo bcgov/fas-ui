@@ -1,5 +1,11 @@
-.env
+node_modules
 .nuxt
 .output
-node_modules
+.data
+.git
+dist
+coverage
 tests
+Dockerfile
+.dockerignore
+.env*
