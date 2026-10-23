@@ -1,5 +1,13 @@
 import type { ReportColumn, ReportFilter } from '../reports/types'
-import { currentFiscalYear, FIRST_FISCAL_YEAR, fiscalYearLabel, fiscalYearRange, parseFiscalYear } from './fiscalYear'
+import { addDays, pacificMidnightAsUtc, parseIsoDate } from './dates'
+import {
+  currentFiscalYear,
+  FIRST_FISCAL_YEAR,
+  fiscalYearDates,
+  fiscalYearLabel,
+  fiscalYearRange,
+  parseFiscalYear
+} from './fiscalYear'
 
 export const PAGE_ROW_LIMIT = 5000
 export const EXPORT_ROW_LIMIT = 100000
@@ -16,6 +24,9 @@ export interface ResolvedFilter {
   value: string | number | null
   options: FilterOption[]
   allLabel?: string
+  /** Period filters: the selected range as inclusive Pacific dates */
+  from?: string
+  to?: string
 }
 
 export class ReportInputError extends Error {}
@@ -40,14 +51,57 @@ export function toPositionalSql(sql: string, values: Record<string, unknown>): {
   return { text, params }
 }
 
+export const CUSTOM_PERIOD = 'custom'
+const FIRST_DATE = `${FIRST_FISCAL_YEAR}-04-01`
+
+function first(value: unknown): unknown {
+  return Array.isArray(value) ? value[0] : value
+}
+
 /** Validates one filter's input against its allowed values and returns the SQL parameters it provides. */
 export function resolveFilter(
   filter: ReportFilter,
-  input: unknown,
+  query: Record<string, unknown>,
   options: FilterOption[],
   today = new Date()
 ): { resolved: ResolvedFilter, sqlValues: Record<string, unknown> } {
-  const raw = Array.isArray(input) ? input[0] : input
+  const raw = first(query[filter.key])
+
+  if (filter.type === 'period') {
+    let from: string | undefined
+    let to: string | undefined
+    let value: string
+
+    if (raw === CUSTOM_PERIOD) {
+      from = parseIsoDate(first(query[`${filter.key}From`]))
+      to = parseIsoDate(first(query[`${filter.key}To`]))
+      if (!from || !to || from > to || from < FIRST_DATE) {
+        throw new ReportInputError(`Invalid ${filter.label}: choose a start and end date, with the start first`)
+      }
+      value = CUSTOM_PERIOD
+    } else {
+      const match = raw === undefined || raw === '' ? undefined : /^FY(\d{4})$/.exec(String(raw))
+      if (raw !== undefined && raw !== '' && !match) {
+        throw new ReportInputError(`Invalid ${filter.label}`)
+      }
+      let year: number
+      try {
+        year = parseFiscalYear(match?.[1], today)
+      } catch {
+        throw new ReportInputError(`Invalid ${filter.label}`)
+      }
+      ({ from, to } = fiscalYearDates(year))
+      value = `FY${year}`
+    }
+
+    return {
+      resolved: { key: filter.key, type: filter.type, label: filter.label, value, options, from, to },
+      sqlValues: {
+        [`${filter.key}Start`]: pacificMidnightAsUtc(from),
+        [`${filter.key}End`]: pacificMidnightAsUtc(addDays(to, 1))
+      }
+    }
+  }
 
   if (filter.type === 'fiscalYear') {
     let year: number
@@ -74,6 +128,13 @@ export function resolveFilter(
     resolved: { key: filter.key, type: filter.type, label: filter.label, value, options, allLabel: filter.allLabel },
     sqlValues: { [filter.key]: value }
   }
+}
+
+export function periodOptions(today = new Date()): FilterOption[] {
+  return [
+    ...fiscalYearOptions(today).map(option => ({ value: `FY${option.value}`, label: `FY ${option.label}` })),
+    { value: CUSTOM_PERIOD, label: 'Custom range' }
+  ]
 }
 
 export function fiscalYearOptions(today = new Date()): FilterOption[] {

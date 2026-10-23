@@ -19,6 +19,11 @@ export function fiscalYearRange(year: number): { start: string, end: string } {
   return { start: `${year}-04-01 07:00:00`, end: `${year + 1}-04-01 07:00:00` }
 }
 
+/** Fiscal year as inclusive Pacific dates, e.g. 2025-04-01 to 2026-03-31. */
+export function fiscalYearDates(year: number): { from: string, to: string } {
+  return { from: `${year}-04-01`, to: `${year + 1}-03-31` }
+}
+
 /** Returns a valid fiscal year from user input, or the current one if missing. Throws on invalid input. */
 export function parseFiscalYear(value: unknown, today = new Date()): number {
   const current = currentFiscalYear(today)

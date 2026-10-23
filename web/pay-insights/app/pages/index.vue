@@ -8,7 +8,18 @@ useHead({
 
 // Runs on the server during page render; the session cookie is forwarded automatically
 const { data: reports } = await useFetch('/api/v1/reports')
-const { data: check, status } = await useFetch('/api/v1/warehouse/check')
+
+// Small status line: checked in the browser after the page loads, so it doesn't slow the page down
+const { status: warehouseStatus, data: warehouse } = useFetch('/api/v1/warehouse/check', { server: false, lazy: true })
+const warehouseState = computed(() => {
+  if (warehouseStatus.value === 'success' && warehouse.value?.serverTime) {
+    return { dot: 'bg-green-600', text: t('page.home.warehouse.connected') }
+  }
+  if (warehouseStatus.value === 'error') {
+    return { dot: 'bg-red-600', text: t('page.home.warehouse.unavailable') }
+  }
+  return { dot: 'bg-gray-400', text: t('page.home.warehouse.checking') }
+})
 </script>
 
 <template>
@@ -19,6 +30,18 @@ const { data: check, status } = await useFetch('/api/v1/warehouse/check')
       </h1>
       <p class="mt-2 text-gray-600">
         {{ $t('page.home.description') }}
+      </p>
+      <p
+        class="mt-2 flex items-center gap-2 text-sm text-gray-600"
+        role="status"
+        data-testid="warehouse-status"
+      >
+        <span
+          class="inline-block size-2 rounded-full"
+          :class="warehouseState.dot"
+          aria-hidden="true"
+        />
+        {{ warehouseState.text }}
       </p>
     </div>
 
@@ -45,25 +68,6 @@ const { data: check, status } = await useFetch('/api/v1/warehouse/check')
           :data-testid="`report-${report.id}-link`"
         />
       </div>
-    </UCard>
-
-    <UCard data-testid="warehouse-check">
-      <h3 class="font-semibold">
-        {{ $t('page.home.warehouse.title') }}
-      </h3>
-      <p
-        v-if="status === 'success' && check?.serverTime"
-        class="text-sm"
-      >
-        {{ $t('page.home.warehouse.connected') }} —
-        {{ $t('page.home.warehouse.serverTime', { time: check.serverTime }) }}
-      </p>
-      <p
-        v-else
-        class="text-sm text-red-600"
-      >
-        {{ $t('page.home.warehouse.failed') }}
-      </p>
     </UCard>
   </section>
 </template>

@@ -39,7 +39,8 @@ Cloud SQL connector uses IAM auth with the service's own identity, so no passwor
 The home page, report page (`/reports/<id>`), filters, totals, table and CSV export
 (`/api/v1/reports/<id>/export.csv`) come from the definition. In the SQL:
 
-- Use named parameters: `:paymentMethod`. A `fiscalYear` filter provides `:fiscalYear`,
-  `:fiscalYearStart` and `:fiscalYearEnd` (UTC, matching how PAY stores dates).
+- Use named parameters: `:paymentMethod`. A `period` filter (fiscal year or custom date range)
+  provides `:<key>Start` and `:<key>End` — UTC timestamps, end exclusive, matching how PAY stores dates.
+  A `fiscalYear` filter provides `:fiscalYear`, `:fiscalYearStart` and `:fiscalYearEnd`.
 - Cast parameters that can be NULL, e.g. `(:paymentMethod::text IS NULL OR ...)`.
 - Aggregate in SQL and don't add `LIMIT`.

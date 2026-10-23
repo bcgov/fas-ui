@@ -11,6 +11,7 @@ interface ReportColumn {
 }
 
 const ALL = '__all__'
+const CUSTOM_PERIOD = 'custom'
 const PAGE_SIZE = 50
 
 const route = useRoute()
@@ -22,11 +23,28 @@ const reportId = String(route.params.id)
 // Filters live in the URL, so a report can be bookmarked or shared
 const query = computed(() => route.query)
 // lazy: navigate straight away and show a loading state while the warehouse query runs
-const { data, status, error } = useFetch(`/api/v1/reports/${reportId}`, { query, lazy: true })
+const { data: latest, status, error } = useFetch(`/api/v1/reports/${reportId}`, { query, lazy: true })
+
+// Keep showing the last good result (and its filters) if a request fails, e.g. an invalid date range
+const lastGood = shallowRef(latest.value)
+watch(latest, (value) => {
+  if (value) {
+    lastGood.value = value
+  }
+})
+const data = computed(() => latest.value ?? lastGood.value)
 const isFirstLoad = computed(() => status.value === 'pending' && !data.value)
 
 useHead({
   title: () => data.value?.report.title ?? 'PAY Insights'
+})
+
+// Breadcrumb: PAY Insights › <report title>, so the header back arrow returns home
+watchEffect(() => {
+  route.meta.breadcrumbs = [
+    { label: 'PAY Insights', to: localePath('/') },
+    { label: data.value?.report.title ?? '' }
+  ]
 })
 
 const currency = new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' })
@@ -45,9 +63,26 @@ function formatValue(value: unknown, format?: ReportColumn['format']): string {
   return String(value)
 }
 
+function setQuery(patch: Record<string, string | undefined>) {
+  router.replace({ query: { ...route.query, ...patch } })
+}
+
 function setFilter(key: string, value: unknown) {
-  const next = { ...route.query, [key]: value === ALL ? undefined : String(value) }
-  router.replace({ query: next })
+  setQuery({ [key]: value === ALL ? undefined : String(value) })
+}
+
+/** Period: picking "Custom range" starts from the dates currently shown; a fiscal year clears them. */
+function setPeriod(filter: { key: string, from?: string, to?: string }, value: unknown) {
+  const custom = value === CUSTOM_PERIOD
+  setQuery({
+    [filter.key]: String(value),
+    [`${filter.key}From`]: custom ? filter.from : undefined,
+    [`${filter.key}To`]: custom ? filter.to : undefined
+  })
+}
+
+function setPeriodDate(key: string, value: string | number) {
+  setQuery({ [key]: String(value) || undefined })
 }
 
 const filters = computed(() => (data.value?.filters ?? []).map(filter => ({
@@ -105,19 +140,54 @@ const exportUrl = computed(() => {
     </div>
 
     <div class="flex flex-wrap items-end gap-4">
-      <UFormField
+      <template
         v-for="filter in filters"
         :key="filter.key"
-        :label="filter.label"
       >
-        <USelect
-          :model-value="filter.model"
-          :items="filter.items"
-          class="w-64"
-          :data-testid="`filter-${filter.key}`"
-          @update:model-value="value => setFilter(filter.key, value)"
-        />
-      </UFormField>
+        <template v-if="filter.type === 'period'">
+          <UFormField :label="filter.label">
+            <USelect
+              :model-value="filter.model"
+              :items="filter.items"
+              class="w-48"
+              :data-testid="`filter-${filter.key}`"
+              @update:model-value="value => setPeriod(filter, value)"
+            />
+          </UFormField>
+          <template v-if="filter.value === CUSTOM_PERIOD">
+            <UFormField :label="$t('page.report.from')">
+              <UInput
+                type="date"
+                :model-value="filter.from"
+                :max="filter.to"
+                :data-testid="`filter-${filter.key}-from`"
+                @change="(event: Event) => setPeriodDate(`${filter.key}From`, (event.target as HTMLInputElement).value)"
+              />
+            </UFormField>
+            <UFormField :label="$t('page.report.to')">
+              <UInput
+                type="date"
+                :model-value="filter.to"
+                :min="filter.from"
+                :data-testid="`filter-${filter.key}-to`"
+                @change="(event: Event) => setPeriodDate(`${filter.key}To`, (event.target as HTMLInputElement).value)"
+              />
+            </UFormField>
+          </template>
+        </template>
+        <UFormField
+          v-else
+          :label="filter.label"
+        >
+          <USelect
+            :model-value="filter.model"
+            :items="filter.items"
+            class="w-64"
+            :data-testid="`filter-${filter.key}`"
+            @update:model-value="value => setFilter(filter.key, value)"
+          />
+        </UFormField>
+      </template>
       <UButton
         :href="exportUrl"
         external

@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const suffix = filters
-    .map(filter => filter.value)
+    .map(filter => filter.value === CUSTOM_PERIOD ? `${filter.from}_${filter.to}` : filter.value)
     .filter(value => value !== null)
     .join('-')
   const filename = `${report.id}${suffix ? `-${suffix}` : ''}.csv`.replace(/[^\w.-]/g, '_')

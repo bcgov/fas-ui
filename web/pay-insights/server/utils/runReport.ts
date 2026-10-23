@@ -25,11 +25,11 @@ export async function runReport(
   let sqlValues: Record<string, unknown> = {}
 
   for (const filter of report.filters) {
-    const options = filter.type === 'fiscalYear'
-      ? fiscalYearOptions()
-      : await warehouseQuery<FilterOption & Record<string, unknown>>(filter.optionsSql)
+    const options = filter.type === 'select'
+      ? await warehouseQuery<FilterOption & Record<string, unknown>>(filter.optionsSql)
+      : filter.type === 'period' ? periodOptions() : fiscalYearOptions()
     try {
-      const result = resolveFilter(filter, query[filter.key], options)
+      const result = resolveFilter(filter, query, options)
       filters.push(result.resolved)
       sqlValues = { ...sqlValues, ...result.sqlValues }
     } catch (error) {
